@@ -1,0 +1,8 @@
+namespace FileRenamer
+{
+    runtimeclass MainWindowViewModel 
+    {
+        MainWindowViewModel();
+        Int32 MyProperty{ get; };
+    }
+}
