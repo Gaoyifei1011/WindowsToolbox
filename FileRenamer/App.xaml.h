@@ -1,19 +1,14 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
 #pragma once
-
 #include "App.xaml.g.h"
+
+#include <Windows.h>
 
 namespace winrt::FileRenamer::implementation
 {
-    struct App : AppT<App>
+    class App : public AppT<App>
     {
+    public:
         App();
-
-        void OnLaunched(Microsoft::UI::Xaml::LaunchActivatedEventArgs const&);
-
-    private:
-        winrt::Microsoft::UI::Xaml::Window window{ nullptr };
+        void Close();
     };
 }
