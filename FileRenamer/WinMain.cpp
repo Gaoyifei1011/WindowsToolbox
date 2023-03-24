@@ -24,14 +24,14 @@ int WINAPI wWinMain(
 		winrt::make<winrt::FileRenamer::implementation::MainPage>();
 
 	HWND WindowHandle = ::CreateWindowExW(
-		WS_EX_CLIENTEDGE,
+		WS_EX_LEFT,
 		L"Mile.Xaml.ContentWindow",
 		L"FileRenamer",
 		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT,
-		0,
-		CW_USEDEFAULT,
-		0,
+		200,
+		200,
+		600,
+		600,
 		nullptr,
 		nullptr,
 		hInstance,
@@ -41,10 +41,13 @@ int WINAPI wWinMain(
 		return -1;
 	}
 
+	//SetWindowLong(WindowHandle, GWL_STYLE, GetWindowLong(WindowHandle, GWL_STYLE) & ~WS_CAPTION);
+	//SetWindowPos(WindowHandle, NULL, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_DRAWFRAME);
 	::ShowWindow(WindowHandle, nShowCmd);
 	::UpdateWindow(WindowHandle);
 
 	MSG Message;
+
 	while (::GetMessageW(&Message, nullptr, 0, 0))
 	{
 		// Workaround for capturing Alt+F4 in applications with XAML Islands.

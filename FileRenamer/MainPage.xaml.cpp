@@ -3,7 +3,7 @@
 #include "MainPage.g.cpp"
 
 using namespace winrt;
-using namespace Windows::UI::Xaml;;
+using namespace Windows::UI::Xaml;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -20,10 +20,5 @@ namespace winrt::FileRenamer::implementation
     void MainPage::MyProperty(int32_t /* value */)
     {
         throw hresult_not_implemented();
-    }
-
-    void MainPage::ClickHandler(IInspectable const&, RoutedEventArgs const&)
-    {
-        Button().Content(box_value(L"Clicked"));
     }
 }

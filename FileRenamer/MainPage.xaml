@@ -6,10 +6,48 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
-        Orientation="Horizontal">
-        <Button x:Name="Button" Click="ClickHandler">Click Me</Button>
+    <StackPanel>
+        <NavigationView
+            Canvas.ZIndex="0"
+            IsBackButtonVisible="Collapsed"
+            IsSettingsVisible="True"
+            PaneDisplayMode="Top">
+
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="File name">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8a5;" Style="{StaticResource SegoeFluentStyle}" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Extended name">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8a6;" Style="{StaticResource SegoeFluentStyle}" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Upper and lower">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8e9;" Style="{StaticResource SegoeFluentStyle}" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="File system property">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE90f;" Style="{StaticResource SegoeFluentStyle}" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="About">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE946;" Style="{StaticResource SegoeFluentStyle}" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+
+            <Frame x:Name="MainFrame">
+                <Frame.ContentTransitions>
+                    <TransitionCollection>
+                        <NavigationThemeTransition />
+                    </TransitionCollection>
+                </Frame.ContentTransitions>
+            </Frame>
+        </NavigationView>
     </StackPanel>
 </Page>
