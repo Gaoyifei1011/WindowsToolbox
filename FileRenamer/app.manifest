@@ -22,9 +22,6 @@
 
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
     <application>
-      <maxversiontested Id="10.0.19041.0"/>
-      <maxversiontested Id="10.0.20348.0"/>
-      <maxversiontested Id="10.0.22000.0"/>
       <!-- 设计此应用程序与其一起工作且已针对此应用程序进行测试的
            Windows 版本的列表。取消评论适当的元素，
            Windows 将自动选择最兼容的环境。 -->
@@ -58,7 +55,7 @@
       <autoElevate xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">False</autoElevate>
       <disableTheming xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">False</disableTheming>
       <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">True/PM</dpiAware>
-      <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitorV2</dpiAwareness>
+      <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitorV2, PerMonitor, System, Unaware</dpiAwareness>
       <disableWindowFiltering xmlns="http://schemas.microsoft.com/SMI/2011/WindowsSettings">True</disableWindowFiltering>
       <printerDriverIsolation xmlns="http://schemas.microsoft.com/SMI/2011/WindowsSettings">True</printerDriverIsolation>
       <highResolutionScrollingAware xmlns="http://schemas.microsoft.com/SMI/2013/WindowsSettings">True</highResolutionScrollingAware>

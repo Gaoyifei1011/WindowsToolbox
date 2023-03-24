@@ -41,6 +41,10 @@
                 </NavigationViewItem>
             </NavigationView.MenuItems>
 
+            <NavigationView.PaneFooter>
+                <HyperlinkButton Click="HyperlinkButton_Click" Content="TestMessageBox" />
+            </NavigationView.PaneFooter>
+
             <Frame x:Name="MainFrame">
                 <Frame.ContentTransitions>
                     <TransitionCollection>

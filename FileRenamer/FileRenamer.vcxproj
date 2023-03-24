@@ -11,7 +11,7 @@
     <MileProjectType>WindowsApplication</MileProjectType>
     <MileProjectEnableVCLTLSupport>true</MileProjectEnableVCLTLSupport>
     <MileProjectEnableCppWinRTSupport>true</MileProjectEnableCppWinRTSupport>
-    <MileProjectUseProjectProperties>false</MileProjectUseProjectProperties>
+    <MileProjectUseProjectProperties>true</MileProjectUseProjectProperties>
     <MileProjectManifestFile>App.manifest</MileProjectManifestFile>
     <MileProjectFileDescription>文件重命名工具</MileProjectFileDescription>
     <MileProjectInternalName>FileRenamer.exe</MileProjectInternalName>
@@ -97,7 +97,8 @@
       <CETCompat Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</CETCompat>
     </Link>
     <ManifestResourceCompile>
-      <ResourceOutputFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(MSBuildProjectDirectory)\App.manifest</ResourceOutputFileName>
+      <ResourceOutputFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ResourceOutputFileName>
     </ManifestResourceCompile>
     <Link>
       <ManifestFile Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" />
@@ -111,6 +112,13 @@
     <ManifestResourceCompile>
       <ResourceOutputFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(MSBuildProjectDirectory)\App.manifest</ResourceOutputFileName>
     </ManifestResourceCompile>
+    <Manifest>
+      <InputResourceManifests Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </InputResourceManifests>
+      <AdditionalManifestFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </AdditionalManifestFiles>
+      <EnableDpiAwareness Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</EnableDpiAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <Link>
@@ -121,7 +129,8 @@
       <ManifestFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     </Link>
     <ManifestResourceCompile>
-      <ResourceOutputFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(MSBuildProjectDirectory)\App.manifest</ResourceOutputFileName>
+      <ResourceOutputFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ResourceOutputFileName>
     </ManifestResourceCompile>
     <ManifestResourceCompile>
       <ResourceOutputFileName Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(MSBuildProjectDirectory)\App.manifest</ResourceOutputFileName>
@@ -129,6 +138,12 @@
     <ManifestResourceCompile>
       <ResourceOutputFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(MSBuildProjectDirectory)\App.manifest</ResourceOutputFileName>
     </ManifestResourceCompile>
+    <Manifest>
+      <InputResourceManifests Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </InputResourceManifests>
+      <AdditionalManifestFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Manifest Include="App.manifest" />
@@ -144,6 +159,7 @@
     </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="WinMain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.xaml.cpp">

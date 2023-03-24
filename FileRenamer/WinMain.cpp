@@ -1,7 +1,11 @@
 #include <Windows.h>
+#include <WinMain.h>
 #include "pch.h"
 #include "App.xaml.h"
 #include "MainPage.xaml.h"
+
+winrt::com_ptr<winrt::FileRenamer::implementation::App> ApplicationRoot;
+HWND WindowHandle;
 
 /// <summary>
 /// 文件重命名工具
@@ -17,21 +21,18 @@ int WINAPI wWinMain(
 
 	winrt::init_apartment(winrt::apartment_type::single_threaded);
 
-	winrt::com_ptr<winrt::FileRenamer::implementation::App> app =
-		winrt::make_self<winrt::FileRenamer::implementation::App>();
+	ApplicationRoot = winrt::make_self<winrt::FileRenamer::implementation::App>();
+	winrt::FileRenamer::MainPage XamlWindowContent = winrt::make<winrt::FileRenamer::implementation::MainPage>();
 
-	winrt::FileRenamer::MainPage XamlWindowContent =
-		winrt::make<winrt::FileRenamer::implementation::MainPage>();
-
-	HWND WindowHandle = ::CreateWindowExW(
+	WindowHandle = ::CreateWindowExW(
 		WS_EX_LEFT,
 		L"Mile.Xaml.ContentWindow",
 		L"FileRenamer",
 		WS_OVERLAPPEDWINDOW,
-		200,
-		200,
-		600,
-		600,
+		CW_USEDEFAULT,
+		0,
+		CW_USEDEFAULT,
+		0,
 		nullptr,
 		nullptr,
 		hInstance,
@@ -41,8 +42,6 @@ int WINAPI wWinMain(
 		return -1;
 	}
 
-	//SetWindowLong(WindowHandle, GWL_STYLE, GetWindowLong(WindowHandle, GWL_STYLE) & ~WS_CAPTION);
-	//SetWindowPos(WindowHandle, NULL, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_DRAWFRAME);
 	::ShowWindow(WindowHandle, nShowCmd);
 	::UpdateWindow(WindowHandle);
 
@@ -67,7 +66,7 @@ int WINAPI wWinMain(
 		::DispatchMessageW(&Message);
 	}
 
-	app->Close();
+	ApplicationRoot->Close();
 
 	return static_cast<int>(Message.wParam);
 }
