@@ -1,31 +1,50 @@
+#pragma once
+
+#include <Mile.Xaml.h>
+
 #include "pch.h"
 #include "App.xaml.h"
 #include "MainPage.xaml.h"
 
-#include <Mile.Xaml.h>
-
 using namespace winrt;
-using namespace Windows::ApplicationModel;
-using namespace Windows::ApplicationModel::Activation;
-using namespace Windows::Foundation;
-using namespace Windows::UI::Xaml;
-using namespace Windows::UI::Xaml::Controls;
-using namespace Windows::UI::Xaml::Navigation;
 using namespace FileRenamer;
 using namespace FileRenamer::implementation;
 
-
-
 namespace winrt::FileRenamer::implementation
 {
-    App::App()
-    {
-        ::MileXamlGlobalInitialize();
-    }
+	App::App()
+	{
+		OutputDebugString(L"Hello App12");
+		MileXamlGlobalInitialize();
+		OutputDebugString(L"Hello App13");
+	}
 
-    void App::Close()
-    {
-        Exit();
-        ::MileXamlGlobalUninitialize();
-    }
+	MileWindow App::MainWindow()
+	{
+		return _mainWindow;
+	}
+
+	/// <summary>
+	/// 启动应用
+	/// </summary>
+	void App::Run(HINSTANCE hInstance, int nShowCmd)
+	{
+		OutputDebugString(L"Hello App3");
+		App::MainWindow().Content(make<MainPage>());
+		OutputDebugString(L"Hello App4");
+		App::MainWindow().Position = { 0,0 };
+		App::MainWindow().Size = { 0,0 };
+		App::MainWindow().InitializeWindow(hInstance);
+		App::MainWindow().Activate(nShowCmd);
+		OutputDebugString(L"Hello App5");
+	}
+
+	/// <summary>
+	/// 关闭应用并释放所有资源
+	/// </summary>
+	void App::CloseApp()
+	{
+		::MileXamlGlobalUninitialize();
+		Exit();
+	}
 }

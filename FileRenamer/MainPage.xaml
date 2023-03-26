@@ -42,7 +42,9 @@
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>
-                <HyperlinkButton Click="HyperlinkButton_Click" Content="TestMessageBox" />
+                <HyperlinkButton
+                    Command="{x:Bind ClickCommand}"
+                    Content="TestMessageBox" />
             </NavigationView.PaneFooter>
 
             <Frame x:Name="MainFrame">

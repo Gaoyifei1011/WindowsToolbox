@@ -1,14 +1,21 @@
 #pragma once
-#include "App.xaml.g.h"
 
 #include <Windows.h>
 
+#include "App.xaml.g.h"
+#include "MileWindow.h"
+
 namespace winrt::FileRenamer::implementation
 {
-    class App : public AppT<App>
-    {
-    public:
-        App();
-        void Close();
-    };
+	class App : public AppT<App>
+	{
+	public:
+		App();
+		MileWindow MainWindow();
+		void Run(HINSTANCE hInstance, int nShowCmd);
+		void CloseApp();
+
+	private:
+		MileWindow _mainWindow;
+	};
 }

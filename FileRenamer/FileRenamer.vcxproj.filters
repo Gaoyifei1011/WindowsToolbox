@@ -11,11 +11,15 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="WinMain.cpp" />
+    <ClCompile Include="Extensions\Command\RelayCommand.cpp" />
+    <ClCompile Include="MileWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="WinMain.h" />
+    <ClInclude Include="Extensions\Command\RelayCommand.h" />
+    <ClInclude Include="MileWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="app.manifest" />

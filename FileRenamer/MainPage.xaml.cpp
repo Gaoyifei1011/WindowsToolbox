@@ -9,6 +9,7 @@
 using namespace std;
 using namespace winrt;
 using namespace Windows::UI::Xaml;
+using namespace Windows::UI::Xaml::Input;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -21,6 +22,14 @@ namespace winrt::FileRenamer::implementation
 		//HICON icon = LoadLocalExeIcon(szFullPath);
 		//::SendMessage(WindowHandle, WM_SETICON, ICON_BIG, (LPARAM)icon);
 		//::SendMessage(WindowHandle, WM_SETICON, ICON_SMALL, (LPARAM)icon);
+
+		_clickCommand = winrt::make<RelayCommand>([this](IInspectable parameter)
+			{
+				TCHAR szFullPath[MAX_PATH];
+				ZeroMemory(szFullPath, MAX_PATH);
+				::GetModuleFileName(NULL, szFullPath, MAX_PATH);
+				MessageBox(WindowHandle, L"测试对话框", szFullPath, MB_OK);
+			});
 	}
 
 	int32_t MainPage::MyProperty()
@@ -39,6 +48,11 @@ namespace winrt::FileRenamer::implementation
 		ZeroMemory(szFullPath, MAX_PATH);
 		::GetModuleFileName(NULL, szFullPath, MAX_PATH);
 		MessageBox(WindowHandle, L"测试对话框", szFullPath, MB_OK);
+	}
+
+	ICommand MainPage::ClickCommand()
+	{
+		return _clickCommand;
 	}
 
 	/// <summary>

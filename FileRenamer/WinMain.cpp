@@ -1,72 +1,30 @@
+#pragma once
+
 #include <Windows.h>
 #include <WinMain.h>
+
 #include "pch.h"
 #include "App.xaml.h"
 #include "MainPage.xaml.h"
 
-winrt::com_ptr<winrt::FileRenamer::implementation::App> ApplicationRoot;
+using namespace winrt;
+using namespace winrt::FileRenamer::implementation;
+
+winrt::com_ptr<App> ApplicationRoot;
 HWND WindowHandle;
 
 /// <summary>
 /// 文件重命名工具
 /// </summary>
-int WINAPI wWinMain(
-	_In_ HINSTANCE hInstance,
-	_In_opt_ HINSTANCE hPrevInstance,
-	_In_ LPWSTR lpCmdLine,
-	_In_ int nShowCmd)
+int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nShowCmd)
 {
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
-
-	winrt::init_apartment(winrt::apartment_type::single_threaded);
-
-	ApplicationRoot = winrt::make_self<winrt::FileRenamer::implementation::App>();
-	winrt::FileRenamer::MainPage XamlWindowContent = winrt::make<winrt::FileRenamer::implementation::MainPage>();
-
-	WindowHandle = ::CreateWindowExW(
-		WS_EX_LEFT,
-		L"Mile.Xaml.ContentWindow",
-		L"FileRenamer",
-		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT,
-		0,
-		CW_USEDEFAULT,
-		0,
-		nullptr,
-		nullptr,
-		hInstance,
-		winrt::get_abi(XamlWindowContent));
-	if (!WindowHandle)
-	{
-		return -1;
-	}
-
-	::ShowWindow(WindowHandle, nShowCmd);
-	::UpdateWindow(WindowHandle);
-
-	MSG Message;
-
-	while (::GetMessageW(&Message, nullptr, 0, 0))
-	{
-		// Workaround for capturing Alt+F4 in applications with XAML Islands.
-		// Reference: https://github.com/microsoft/microsoft-ui-xaml/issues/2408
-		if (Message.message == WM_SYSKEYDOWN && Message.wParam == VK_F4)
-		{
-			::SendMessageW(
-				::GetAncestor(Message.hwnd, GA_ROOT),
-				Message.message,
-				Message.wParam,
-				Message.lParam);
-
-			continue;
-		}
-
-		::TranslateMessage(&Message);
-		::DispatchMessageW(&Message);
-	}
-
-	ApplicationRoot->Close();
-
-	return static_cast<int>(Message.wParam);
+	OutputDebugString(L"Hello App1");
+	winrt::init_apartment(apartment_type::single_threaded);
+	OutputDebugString(L"Hello App2");
+	ApplicationRoot = winrt::make_self<App>();
+	OutputDebugString(L"Hello App11");
+	ApplicationRoot->Run(hInstance, nShowCmd);
+	return 0;
 }
