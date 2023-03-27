@@ -12,10 +12,12 @@ using namespace winrt::Windows::UI::Xaml;
 class MileWindow
 {
 public:
-	MileWindow(string title = "", UIElement content = nullptr, PointInt32 position = { 0,0 }, PointInt32 size = { 0,0 });
+	MileWindow();
 
 	PointInt32 Position;
 	PointInt32 Size;
+	PointInt32 MinWindowSize;
+	PointInt32 MaxWindowSize;
 
 	bool IsWindowCreated();
 
@@ -31,11 +33,13 @@ public:
 	void Activate(int nShowCmd);
 
 private:
-	void IsWindowCreated(bool value);
-	void Handle(HWND value);
-
 	bool _isWindowCreated;
 	string _title;
 	HWND _handle;
 	UIElement _content = nullptr;
+
+	void IsWindowCreated(bool value);
+	void Handle(HWND value);
+	void SetAppIcon();
+	HICON LoadLocalExeIcon(LPCWSTR exeFile);
 };

@@ -123,6 +123,9 @@
   <data name="AppDisplayName" xml:space="preserve">
     <value>FileRenamer</value>
   </data>
+  <data name="AppShortDisplayName" xml:space="preserve">
+    <value>FileRenamer</value>
+  </data>
   <data name="PackageDisplayName" xml:space="preserve">
     <value>FileRenamer</value>
   </data>

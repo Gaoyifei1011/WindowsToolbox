@@ -1,0 +1,9 @@
+namespace FileRenamer
+{
+	runtimeclass LanguageModel
+	{
+		LanguageModel();
+		String DisplayName;
+		String InternalName;
+	}
+}

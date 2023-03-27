@@ -14,14 +14,8 @@ namespace winrt::FileRenamer::implementation
 {
 	App::App()
 	{
-		OutputDebugString(L"Hello App12");
 		MileXamlGlobalInitialize();
-		OutputDebugString(L"Hello App13");
-	}
-
-	MileWindow App::MainWindow()
-	{
-		return _mainWindow;
+		InitializeComponent();
 	}
 
 	/// <summary>
@@ -29,14 +23,13 @@ namespace winrt::FileRenamer::implementation
 	/// </summary>
 	void App::Run(HINSTANCE hInstance, int nShowCmd)
 	{
-		OutputDebugString(L"Hello App3");
-		App::MainWindow().Content(make<MainPage>());
-		OutputDebugString(L"Hello App4");
-		App::MainWindow().Position = { 0,0 };
-		App::MainWindow().Size = { 0,0 };
-		App::MainWindow().InitializeWindow(hInstance);
-		App::MainWindow().Activate(nShowCmd);
-		OutputDebugString(L"Hello App5");
+		App::MainWindow.Content(make<MainPage>());
+		App::MainWindow.Position = { CW_USEDEFAULT,0 };
+		App::MainWindow.Size = { CW_USEDEFAULT,0 };
+		App::MainWindow.MinWindowSize = { 600,768 };
+		App::MainWindow.MaxWindowSize = { 0,0 };
+		App::MainWindow.InitializeWindow(hInstance);
+		App::MainWindow.Activate(nShowCmd);
 	}
 
 	/// <summary>
@@ -44,7 +37,7 @@ namespace winrt::FileRenamer::implementation
 	/// </summary>
 	void App::CloseApp()
 	{
-		::MileXamlGlobalUninitialize();
+		MileXamlGlobalUninitialize();
 		Exit();
 	}
 }

@@ -1,0 +1,10 @@
+namespace FileRenamer
+{
+    [bindable]
+    [default_interface]
+    runtimeclass ThemeModel 
+    {
+        ThemeModel();
+        Int32 MyProperty;
+    }
+}

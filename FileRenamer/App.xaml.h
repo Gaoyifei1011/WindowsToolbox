@@ -11,11 +11,8 @@ namespace winrt::FileRenamer::implementation
 	{
 	public:
 		App();
-		MileWindow MainWindow();
+		MileWindow MainWindow;
 		void Run(HINSTANCE hInstance, int nShowCmd);
 		void CloseApp();
-
-	private:
-		MileWindow _mainWindow;
 	};
 }

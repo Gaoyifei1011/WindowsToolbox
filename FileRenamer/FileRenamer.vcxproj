@@ -153,14 +153,24 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Helpers\Root\DPICalcHelper.h" />
     <ClInclude Include="MainPage.xaml.h">
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="MileWindow.h" />
+    <ClInclude Include="Models\Settings\Appearence\LanguageModel.h">
+      <DependentUpon>Models\Settings\Appearence\LanguageModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Models\Settings\Appearence\ThemeModel.h">
+      <DependentUpon>Models\Settings\Appearence\ThemeModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Extensions\Command\RelayCommand.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Services\Root\ResourceService.h" />
     <ClInclude Include="WinMain.h" />
   </ItemGroup>
   <ItemGroup>
@@ -168,16 +178,26 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="Helpers\Root\DPICalcHelper.cpp" />
     <ClCompile Include="MainPage.xaml.cpp">
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="MileWindow.cpp" />
+    <ClCompile Include="Models\Settings\Appearence\LanguageModel.cpp">
+      <DependentUpon>Models\Settings\Appearence\LanguageModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Models\Settings\Appearence\ThemeModel.cpp">
+      <DependentUpon>Models\Settings\Appearence\ThemeModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="Extensions\Command\RelayCommand.cpp" />
+    <ClCompile Include="Services\Root\ResourceService.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +232,12 @@
     <Midl Include="MainPage.idl">
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="Models\Settings\Appearence\LanguageModel.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="Models\Settings\Appearence\ThemeModel.idl">
+      <SubType>Designer</SubType>
     </Midl>
   </ItemGroup>
   <ItemGroup>

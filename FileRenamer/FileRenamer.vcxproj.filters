@@ -6,6 +6,8 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />
+    <Midl Include="Models\Settings\Appearence\ThemeModel.idl" />
+    <Midl Include="Models\Settings\Appearence\LanguageModel.idl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -13,6 +15,8 @@
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="Extensions\Command\RelayCommand.cpp" />
     <ClCompile Include="MileWindow.cpp" />
+    <ClCompile Include="Helpers\Root\DPICalcHelper.cpp" />
+    <ClCompile Include="Services\Root\ResourceService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -20,6 +24,8 @@
     <ClInclude Include="WinMain.h" />
     <ClInclude Include="Extensions\Command\RelayCommand.h" />
     <ClInclude Include="MileWindow.h" />
+    <ClInclude Include="Helpers\Root\DPICalcHelper.h" />
+    <ClInclude Include="Services\Root\ResourceService.h" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="app.manifest" />

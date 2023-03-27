@@ -5,6 +5,7 @@
 #include <WinUser.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include "WinMain.h"
+#include "resource.h"
 
 using namespace std;
 using namespace winrt;
@@ -20,15 +21,15 @@ namespace winrt::FileRenamer::implementation
 		//ZeroMemory(szFullPath, MAX_PATH);
 		//::GetModuleFileName(NULL, szFullPath, MAX_PATH);
 		//HICON icon = LoadLocalExeIcon(szFullPath);
-		//::SendMessage(WindowHandle, WM_SETICON, ICON_BIG, (LPARAM)icon);
-		//::SendMessage(WindowHandle, WM_SETICON, ICON_SMALL, (LPARAM)icon);
+		//::SendMessage(ApplicationRoot->MainWindow.Handle(), WM_SETICON, ICON_BIG, (LPARAM)icon);
+		//::SendMessage(ApplicationRoot->MainWindow.Handle(), WM_SETICON, ICON_SMALL, (LPARAM)icon);
 
 		_clickCommand = winrt::make<RelayCommand>([this](IInspectable parameter)
 			{
 				TCHAR szFullPath[MAX_PATH];
 				ZeroMemory(szFullPath, MAX_PATH);
 				::GetModuleFileName(NULL, szFullPath, MAX_PATH);
-				MessageBox(WindowHandle, L"测试对话框", szFullPath, MB_OK);
+				MessageBox(ApplicationRoot->MainWindow.Handle(), L"测试对话框", szFullPath, MB_OK);
 			});
 	}
 
@@ -47,7 +48,7 @@ namespace winrt::FileRenamer::implementation
 		TCHAR szFullPath[MAX_PATH];
 		ZeroMemory(szFullPath, MAX_PATH);
 		::GetModuleFileName(NULL, szFullPath, MAX_PATH);
-		MessageBox(WindowHandle, L"测试对话框", szFullPath, MB_OK);
+		MessageBox(ApplicationRoot->MainWindow.Handle(), L"测试对话框", szFullPath, MB_OK);
 	}
 
 	ICommand MainPage::ClickCommand()
@@ -70,7 +71,7 @@ namespace winrt::FileRenamer::implementation
 		UINT* ids = new UINT[iconTotalCount];
 
 		// 成功获取到的图标个数
-		int successCount = PrivateExtractIcons(exeFile, 0, 256, 256, hIcons, ids, iconTotalCount, 0);
+		int successCount = PrivateExtractIcons(exeFile, 0, 16, 16, hIcons, ids, iconTotalCount, 0);
 
 		// FileRenamer.exe 应用程序只有一个图标，返回该应用程序的图标句柄
 		if (successCount >= 1 && hIcons[0] != nullptr)

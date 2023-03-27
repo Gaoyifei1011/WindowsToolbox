@@ -1,4 +1,5 @@
 #pragma once
+
 #include <Windows.h>
 
 #include "pch.h"
@@ -8,4 +9,3 @@
 using namespace winrt::FileRenamer::implementation;
 
 extern winrt::com_ptr<App> ApplicationRoot;
-extern HWND WindowHandle;
