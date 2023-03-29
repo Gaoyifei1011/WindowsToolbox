@@ -6,11 +6,15 @@
 #include "pch.h"
 #include "App.xaml.h"
 #include "MainPage.xaml.h"
+#include "Services/Root/ResourceService.h"
 
 using namespace winrt;
-using namespace winrt::FileRenamer::implementation;
+using namespace winrt::FileRenamer;
 
-winrt::com_ptr<App> ApplicationRoot;
+com_ptr<implementation::App> ApplicationRoot;
+ResourceService AppResourcesService;
+
+void InitializeProgramResources();
 
 /// <summary>
 /// 文件重命名工具
@@ -20,8 +24,22 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
-	winrt::init_apartment(apartment_type::single_threaded);
-	ApplicationRoot = winrt::make_self<App>();
+	InitializeProgramResources();
+
+	init_apartment(apartment_type::single_threaded);
+	ApplicationRoot = make_self<implementation::App>();
 	ApplicationRoot->Run(hInstance, nShowCmd);
 	return 0;
+}
+
+void InitializeProgramResources()
+{
+	LanguageModel defaultLanguage = make<implementation::LanguageModel>();
+	LanguageModel currentLanguage = make<implementation::LanguageModel>();
+
+	defaultLanguage.DisplayName(L"English (United States)");
+	currentLanguage.DisplayName(L"中文（简体）");
+	defaultLanguage.InternalName(L"en-us");
+	currentLanguage.InternalName(L"zh-hans");
+	AppResourcesService.InitializeResource(defaultLanguage, currentLanguage);
 }

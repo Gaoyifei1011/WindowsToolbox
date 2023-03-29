@@ -8,6 +8,7 @@
     <Midl Include="App.idl" />
     <Midl Include="Models\Settings\Appearence\ThemeModel.idl" />
     <Midl Include="Models\Settings\Appearence\LanguageModel.idl" />
+    <Midl Include="ViewModels\Window\MainViewModel.idl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -45,5 +46,9 @@
   <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
     <PRIResource Include="Strings\zh-hans\Resources.resw" />
+    <PRIResource Include="Strings\zh-hans\Window.resw" />
+    <PRIResource Include="Strings\en-us\Window.resw" />
+    <PRIResource Include="Strings\zh-hans\FileName.resw" />
+    <PRIResource Include="Strings\en-us\FileName.resw" />
   </ItemGroup>
 </Project>

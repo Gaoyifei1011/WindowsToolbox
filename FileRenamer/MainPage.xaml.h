@@ -3,26 +3,33 @@
 #include "pch.h"
 #include "MainPage.g.h"
 #include "Extensions/Command/RelayCommand.h"
+#include "ViewModels/Window/MainViewModel.h"
 
 #include <winrt/base.h>
-#include <winrt/Windows.Foundation.h>
-#include <winrt/Windows.UI.Xaml.Input.h>
-#include <winrt/Windows.Foundation.Collections.h>
+
+using namespace winrt;
 
 namespace winrt::FileRenamer::implementation
 {
 	struct MainPage : MainPageT<MainPage>
 	{
 		MainPage();
+		FileRenamer::MainViewModel ViewModel();
 
-		int32_t MyProperty();
-		void MyProperty(int32_t value);
-		ICommand ClickCommand();
-		void HyperlinkButton_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+		hstring FileName();
+		hstring ExtensionName();
+		hstring UpperAndLowerCase();
+		hstring FileProperties();
+		hstring About();
 
 	private:
-		HICON LoadLocalExeIcon(LPCWSTR exeFile);
-		ICommand _clickCommand;
+		FileRenamer::MainViewModel _viewModel;
+
+		hstring _fileName;
+		hstring _extensionName;
+		hstring _upperAndLowerCase;
+		hstring _fileProperties;
+		hstring _about;
 	};
 }
 

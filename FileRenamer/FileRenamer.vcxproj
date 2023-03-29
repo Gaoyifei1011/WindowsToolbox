@@ -171,6 +171,10 @@
     <ClInclude Include="Extensions\Command\RelayCommand.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Services\Root\ResourceService.h" />
+    <ClInclude Include="ViewModels\Window\MainViewModel.h">
+      <DependentUpon>ViewModels\Window\MainViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="WinMain.h" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +202,10 @@
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="Extensions\Command\RelayCommand.cpp" />
     <ClCompile Include="Services\Root\ResourceService.cpp" />
+    <ClCompile Include="ViewModels\Window\MainViewModel.cpp">
+      <DependentUpon>ViewModels\Window\MainViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -239,6 +247,9 @@
     <Midl Include="Models\Settings\Appearence\ThemeModel.idl">
       <SubType>Designer</SubType>
     </Midl>
+    <Midl Include="ViewModels\Window\MainViewModel.idl">
+      <SubType>Designer</SubType>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FileRenamer.rc" />
@@ -250,8 +261,12 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
+    <PRIResource Include="Strings\en-us\FileName.resw" />
     <PRIResource Include="Strings\en-us\Resources.resw" />
+    <PRIResource Include="Strings\en-us\Window.resw" />
+    <PRIResource Include="Strings\zh-hans\FileName.resw" />
     <PRIResource Include="Strings\zh-hans\Resources.resw" />
+    <PRIResource Include="Strings\zh-hans\Window.resw" />
   </ItemGroup>
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution

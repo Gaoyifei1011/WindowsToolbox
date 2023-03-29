@@ -5,7 +5,10 @@
 #include "pch.h"
 #include "App.xaml.h"
 #include "MainPage.xaml.h"
+#include "Services/Root/ResourceService.h"
 
-using namespace winrt::FileRenamer::implementation;
+using namespace winrt;
+using namespace winrt::FileRenamer;
 
-extern winrt::com_ptr<App> ApplicationRoot;
+extern com_ptr<implementation::App> ApplicationRoot;
+extern ResourceService AppResourcesService;

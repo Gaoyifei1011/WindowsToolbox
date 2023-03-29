@@ -1,0 +1,11 @@
+namespace FileRenamer
+{
+    [bindable]
+    [default_interface]
+    runtimeclass MainViewModel 
+    {
+        MainViewModel();
+
+        Windows.UI.Xaml.Input.ICommand ClickCommand{ get; };
+    }
+}

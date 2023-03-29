@@ -3,7 +3,6 @@
 #include <winrt/Windows.ApplicationModel.Resources.Core.h>
 #include <winrt/Windows.Foundation.Collections.h>
 
-#include "winrt/impl/FileRenamer.2.h"
 #include "Models/Settings/Appearence/LanguageModel.h"
 #include "LanguageModel.g.h"
 
@@ -17,32 +16,34 @@ using namespace winrt::Windows::ApplicationModel::Resources::Core;
 class ResourceService
 {
 public:
-	static void InitializeResource(LanguageModel defaultAppLanguage, LanguageModel currentAppLanguage);
-	static hstring GetLocalized(hstring resource);
+	ResourceService();
+
+	void InitializeResource(LanguageModel defaultAppLanguage, LanguageModel currentAppLanguage);
+	hstring GetLocalized(hstring resource);
 
 private:
-	static bool _isInitialized;
-	//static LanguageModel _defaultAppLanguage;
-	//static LanguageModel _currentAppLanguage;
-	//static ResourceContext _defaultResourceContext;
-	//static ResourceContext _currentResourceContext;
-	static ResourceMap _resourceMap;
+	bool _isInitialized;
+	LanguageModel _defaultAppLanguage;
+	LanguageModel _currentAppLanguage;
+	ResourceContext _defaultResourceContext;
+	ResourceContext _currentResourceContext;
+	ResourceMap _resourceMap = (ResourceManager::Current()).MainResourceMap();
 
-	static bool IsInitialized();
-	static void IsInitialized(bool value);
+	bool IsInitialized();
+	void IsInitialized(bool value);
 
-	//static LanguageModel DefaultAppLanguage();
-	//static void DefualtAppLanguage(LanguageModel value);
+	LanguageModel DefaultAppLanguage();
+	void DefaultAppLanguage(LanguageModel value);
 
-	//static LanguageModel CurrentAppLanguage();
-	//static void CurrentAppLanguage(LanguageModel value);
+	LanguageModel CurrentAppLanguage();
+	void CurrentAppLanguage(LanguageModel value);
 
-	//static ResourceContext DefaultResourceContext();
-	//static void DefaultResourceContext(ResourceContext value);
+	ResourceContext DefaultResourceContext();
+	void DefaultResourceContext(ResourceContext value);
 
-	//static ResourceContext CurrentResourceContext();
-	//static void CurrentResourceContext(ResourceContext value);
+	ResourceContext CurrentResourceContext();
+	void CurrentResourceContext(ResourceContext value);
 
-	static ResourceMap ResourceMap();
+	ResourceMap ResourceMap();
 };
 

@@ -3,7 +3,6 @@
 #include <winrt/Windows.ApplicationModel.Resources.Core.h>
 #include <winrt/Windows.Foundation.Collections.h>
 
-#include "winrt/impl/FileRenamer.2.h"
 #include "Models/Settings/Appearence/LanguageModel.h"
 #include "LanguageModel.g.h"
 #include "ResourceService.h"
@@ -12,8 +11,10 @@ using namespace winrt;
 using namespace winrt::FileRenamer;
 using namespace winrt::Windows::ApplicationModel::Resources::Core;
 
-bool ResourceService::_isInitialized = false;
-ResourceMap ResourceService::_resourceMap = (ResourceManager::Current()).MainResourceMap();
+ResourceService::ResourceService()
+{
+	_isInitialized = false;
+}
 
 bool ResourceService::IsInitialized()
 {
@@ -23,42 +24,42 @@ void ResourceService::IsInitialized(bool value)
 {
 	_isInitialized = value;
 }
-//
-//LanguageModel ResourceService::DefaultAppLanguage()
-//{
-//	return _defaultAppLanguage;
-//}
-//void ResourceService::DefualtAppLanguage(LanguageModel value)
-//{
-//	_defaultAppLanguage = value;
-//}
-//
-//LanguageModel ResourceService::CurrentAppLanguage()
-//{
-//	return _currentAppLanguage;
-//}
-//void ResourceService::CurrentAppLanguage(LanguageModel value)
-//{
-//	_currentAppLanguage = value;
-//}
-//
-//ResourceContext ResourceService::DefaultResourceContext()
-//{
-//	return _defaultResourceContext;
-//}
-//void ResourceService::DefaultResourceContext(ResourceContext value)
-//{
-//	_defaultResourceContext = value;
-//}
-//
-//ResourceContext ResourceService::CurrentResourceContext()
-//{
-//	return _currentResourceContext;
-//}
-//void ResourceService::CurrentResourceContext(ResourceContext value)
-//{
-//	_currentResourceContext = value;
-//}
+
+LanguageModel ResourceService::DefaultAppLanguage()
+{
+	return _defaultAppLanguage;
+}
+void ResourceService::DefaultAppLanguage(LanguageModel value)
+{
+	_defaultAppLanguage = value;
+}
+
+LanguageModel ResourceService::CurrentAppLanguage()
+{
+	return _currentAppLanguage;
+}
+void ResourceService::CurrentAppLanguage(LanguageModel value)
+{
+	_currentAppLanguage = value;
+}
+
+ResourceContext ResourceService::DefaultResourceContext()
+{
+	return _defaultResourceContext;
+}
+void ResourceService::DefaultResourceContext(ResourceContext value)
+{
+	_defaultResourceContext = value;
+}
+
+ResourceContext ResourceService::CurrentResourceContext()
+{
+	return _currentResourceContext;
+}
+void ResourceService::CurrentResourceContext(ResourceContext value)
+{
+	_currentResourceContext = value;
+}
 
 ResourceMap ResourceService::ResourceMap()
 {
@@ -72,11 +73,10 @@ ResourceMap ResourceService::ResourceMap()
 /// <param name="currentAppLanguage">µ±«∞”Ô—‘√˚≥∆</param>
 void ResourceService::InitializeResource(LanguageModel defaultAppLanguage, LanguageModel currentAppLanguage)
 {
-	//ResourceService::DefualtAppLanguage(defaultAppLanguage);
-	//ResourceService::CurrentAppLanguage(currentAppLanguage);
-
-	//ResourceService::DefaultResourceContext().QualifierValues().Insert(L"Language", ResourceService::DefaultAppLanguage().InternalName());
-	//ResourceService::CurrentResourceContext().QualifierValues().Insert(L"Language", ResourceService::CurrentAppLanguage().InternalName());
+	ResourceService::DefaultAppLanguage(defaultAppLanguage);
+	ResourceService::CurrentAppLanguage(currentAppLanguage);
+	ResourceService::DefaultResourceContext().QualifierValues().Insert(L"Language", ResourceService::DefaultAppLanguage().InternalName());
+	ResourceService::CurrentResourceContext().QualifierValues().Insert(L"Language", ResourceService::CurrentAppLanguage().InternalName());
 
 	IsInitialized(true);
 }
@@ -88,21 +88,21 @@ hstring ResourceService::GetLocalized(hstring resource)
 {
 	if (ResourceService::IsInitialized())
 	{
-		//try
-		//{
-		//	return ResourceService::ResourceMap().GetValue(resource, CurrentResourceContext()).ValueAsString();
-		//}
-		//catch (const std::exception&)
-		//{
-		//	try
-		//	{
-		//		return ResourceService::ResourceMap().GetValue(resource, DefaultResourceContext()).ValueAsString();
-		//	}
-		//	catch (const std::exception&)
-		//	{
-		//		return resource;
-		//	}
-		//}
+		try
+		{
+			return ResourceService::ResourceMap().GetValue(resource, ResourceService::CurrentResourceContext()).ValueAsString();
+		}
+		catch (const std::exception&)
+		{
+			try
+			{
+				return ResourceService::ResourceMap().GetValue(resource, ResourceService::DefaultResourceContext()).ValueAsString();
+			}
+			catch (const std::exception&)
+			{
+				return resource;
+			}
+		}
 	}
 	else
 	{

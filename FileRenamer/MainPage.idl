@@ -1,10 +1,18 @@
+import "ViewModels\Window\MainViewModel.idl";
+
 namespace FileRenamer
 {
     [default_interface]
     runtimeclass MainPage : Windows.UI.Xaml.Controls.Page
     {
         MainPage();
-        Int32 MyProperty;
-        Windows.UI.Xaml.Input.ICommand ClickCommand{ get; };
+
+        MainViewModel ViewModel{ get; };
+        
+        String FileName{ get; };
+        String ExtensionName{ get; };
+        String UpperAndLowerCase{ get; };
+        String FileProperties{ get; };
+        String About{ get; };
     }
 }

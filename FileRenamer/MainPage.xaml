@@ -14,27 +14,27 @@
             PaneDisplayMode="Top">
 
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="File name">
+                <NavigationViewItem Content="{x:Bind FileName}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8a5;" Style="{StaticResource SegoeFluentStyle}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Extended name">
+                <NavigationViewItem Content="{x:Bind ExtensionName}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8a6;" Style="{StaticResource SegoeFluentStyle}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="Upper and lower">
+                <NavigationViewItem Content="{x:Bind UpperAndLowerCase}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8e9;" Style="{StaticResource SegoeFluentStyle}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="File system property">
+                <NavigationViewItem Content="{x:Bind FileProperties}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE90f;" Style="{StaticResource SegoeFluentStyle}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="About">
+                <NavigationViewItem Content="{x:Bind About}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE946;" Style="{StaticResource SegoeFluentStyle}" />
                     </NavigationViewItem.Icon>
@@ -42,7 +42,7 @@
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>
-                <HyperlinkButton Command="{x:Bind ClickCommand}" Content="TestMessageBox" />
+                <HyperlinkButton Command="{x:Bind ViewModel.ClickCommand}" Content="TestMessageBox" />
             </NavigationView.PaneFooter>
 
             <Frame x:Name="MainFrame">

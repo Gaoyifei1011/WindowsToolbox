@@ -1,86 +1,54 @@
+#pragma once
+
 #include "pch.h"
 #include "MainPage.xaml.h"
 #include "MainPage.g.cpp"
-#include <string>
-#include <WinUser.h>
-#include <winrt/Windows.Foundation.Collections.h>
 #include "WinMain.h"
-#include "resource.h"
 
-using namespace std;
 using namespace winrt;
-using namespace Windows::UI::Xaml;
-using namespace Windows::UI::Xaml::Input;
 
 namespace winrt::FileRenamer::implementation
 {
 	MainPage::MainPage()
 	{
 		InitializeComponent();
-		//TCHAR szFullPath[MAX_PATH];
-		//ZeroMemory(szFullPath, MAX_PATH);
-		//::GetModuleFileName(NULL, szFullPath, MAX_PATH);
-		//HICON icon = LoadLocalExeIcon(szFullPath);
-		//::SendMessage(ApplicationRoot->MainWindow.Handle(), WM_SETICON, ICON_BIG, (LPARAM)icon);
-		//::SendMessage(ApplicationRoot->MainWindow.Handle(), WM_SETICON, ICON_SMALL, (LPARAM)icon);
 
-		_clickCommand = winrt::make<RelayCommand>([this](IInspectable parameter)
-			{
-				TCHAR szFullPath[MAX_PATH];
-				ZeroMemory(szFullPath, MAX_PATH);
-				::GetModuleFileName(NULL, szFullPath, MAX_PATH);
-				MessageBox(ApplicationRoot->MainWindow.Handle(), L"测试对话框", szFullPath, MB_OK);
-			});
+		_viewModel = make<FileRenamer::implementation::MainViewModel>();
+
+		_fileName = AppResourcesService.GetLocalized(L"Window/FileName");
+		_extensionName = AppResourcesService.GetLocalized(L"Window/ExtensionName");
+		_upperAndLowerCase = AppResourcesService.GetLocalized(L"Window/UpperAndLowerCase");
+		_fileProperties = AppResourcesService.GetLocalized(L"Window/FileProperties");
+		_about = AppResourcesService.GetLocalized(L"Window/About");
 	}
 
-	int32_t MainPage::MyProperty()
+	FileRenamer::MainViewModel MainPage::ViewModel()
 	{
-		throw hresult_not_implemented();
+		return _viewModel;
 	}
 
-	void MainPage::MyProperty(int32_t /* value */)
+	hstring MainPage::FileName()
 	{
-		throw hresult_not_implemented();
+		return _fileName;
 	}
 
-	void MainPage::HyperlinkButton_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e)
+	hstring MainPage::ExtensionName()
 	{
-		TCHAR szFullPath[MAX_PATH];
-		ZeroMemory(szFullPath, MAX_PATH);
-		::GetModuleFileName(NULL, szFullPath, MAX_PATH);
-		MessageBox(ApplicationRoot->MainWindow.Handle(), L"测试对话框", szFullPath, MB_OK);
+		return _extensionName;
 	}
 
-	ICommand MainPage::ClickCommand()
+	hstring MainPage::UpperAndLowerCase()
 	{
-		return _clickCommand;
+		return _upperAndLowerCase;
 	}
 
-	/// <summary>
-	/// 从exe应用程序中加载图标文件
-	/// </summary>
-	HICON MainPage::LoadLocalExeIcon(LPCWSTR exeFile)
+	hstring MainPage::FileProperties()
 	{
-		// 选中文件中的图标总数
-		int iconTotalCount = PrivateExtractIcons(exeFile, 0, 0, 0, nullptr, nullptr, 0, 0);
+		return _fileProperties;
+	}
 
-		// 用于接收获取到的图标指针
-		HICON* hIcons = new HICON[iconTotalCount];
-
-		// 对应的图标id
-		UINT* ids = new UINT[iconTotalCount];
-
-		// 成功获取到的图标个数
-		int successCount = PrivateExtractIcons(exeFile, 0, 16, 16, hIcons, ids, iconTotalCount, 0);
-
-		// FileRenamer.exe 应用程序只有一个图标，返回该应用程序的图标句柄
-		if (successCount >= 1 && hIcons[0] != nullptr)
-		{
-			return hIcons[0];
-		}
-		else
-		{
-			return nullptr;
-		}
+	hstring MainPage::About()
+	{
+		return _about;
 	}
 }

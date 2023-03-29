@@ -19,6 +19,7 @@ using namespace winrt::Windows::UI::Xaml::Controls;
 
 WNDPROC MileOldWndProc = 0;
 LRESULT CALLBACK MileNewWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LPCWSTR string2LPCWSTR(std::string str);
 
 MileWindow::MileWindow()
 {
@@ -71,10 +72,12 @@ void MileWindow::Content(UIElement value)
 /// </summary>
 void MileWindow::InitializeWindow(HINSTANCE hInstance)
 {
+	hstring AppTitle = AppResourcesService.GetLocalized(L"Resources/AppDisplayName");
+
 	HWND hwnd = CreateWindowExW(
 		WS_EX_LEFT,
 		L"Mile.Xaml.ContentWindow",
-		L"FileRenamer",
+		string2LPCWSTR(to_string(AppTitle)),
 		WS_OVERLAPPEDWINDOW,
 		MileWindow::Position.X,
 		MileWindow::Position.Y,
@@ -175,7 +178,7 @@ LRESULT CALLBACK MileNewWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 {
 	switch (msg)
 	{
-	// 窗口大小发生更改时的消息
+		// 窗口大小发生更改时的消息
 	case WM_GETMINMAXINFO:
 	{
 		MINMAXINFO* minMaxInfo = (MINMAXINFO*)lParam;
@@ -199,4 +202,17 @@ LRESULT CALLBACK MileNewWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	}
 
 	return CallWindowProc(MileOldWndProc, hwnd, msg, wParam, lParam);
+}
+
+/// <summary>
+/// 标准字符串（std::string）转换LPCWSTR
+/// </summary>
+LPCWSTR string2LPCWSTR(string str)
+{
+	size_t size = str.length();
+	size_t wLen = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, 0);
+	wchar_t* buffer = new wchar_t[wLen + 1];
+	memset(buffer, 0, (static_cast<unsigned long long>(wLen) + 1) * sizeof(wchar_t));
+	MultiByteToWideChar(CP_ACP, 0, str.c_str(), size, (LPWSTR)buffer, wLen);
+	return buffer;
 }
