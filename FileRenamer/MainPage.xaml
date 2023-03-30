@@ -3,49 +3,86 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:FileRenamer"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <StackPanel>
         <NavigationView
+            AlwaysShowHeader="False"
+            BackRequested="{x:Bind ViewModel.OnNavigationViewBackRequested}"
             Canvas.ZIndex="0"
-            IsBackButtonVisible="Collapsed"
+            IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
             IsSettingsVisible="True"
-            PaneDisplayMode="Top">
+            Loaded="{x:Bind ViewModel.OnNavigationViewLoaded}"
+            PaneDisplayMode="Top"
+            SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=OneWay}">
 
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="{x:Bind FileName}">
-                    <NavigationViewItem.Icon>
+                <local:ExtendedNavigationViewItem
+                    Command="{x:Bind ViewModel.NavigationItemCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag}"
+                    Content="{x:Bind FileName}"
+                    Tag="FileName"
+                    ToolTip="{x:Bind FileName}">
+                    <local:ExtendedNavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8a5;" Style="{StaticResource SegoeFluentStyle}" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem Content="{x:Bind ExtensionName}">
-                    <NavigationViewItem.Icon>
+                    </local:ExtendedNavigationViewItem.Icon>
+                </local:ExtendedNavigationViewItem>
+
+                <local:ExtendedNavigationViewItem
+                    Command="{x:Bind ViewModel.NavigationItemCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag}"
+                    Content="{x:Bind ExtensionName}"
+                    Tag="ExtensionName"
+                    ToolTip="{x:Bind ExtensionName}">
+                    <local:ExtendedNavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8a6;" Style="{StaticResource SegoeFluentStyle}" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem Content="{x:Bind UpperAndLowerCase}">
-                    <NavigationViewItem.Icon>
+                    </local:ExtendedNavigationViewItem.Icon>
+                </local:ExtendedNavigationViewItem>
+
+                <local:ExtendedNavigationViewItem
+                    Command="{x:Bind ViewModel.NavigationItemCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag}"
+                    Content="{x:Bind UpperAndLowerCase}"
+                    Tag="UpperAndLowerCase"
+                    ToolTip="{x:Bind UpperAndLowerCase}">
+                    <local:ExtendedNavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8e9;" Style="{StaticResource SegoeFluentStyle}" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem Content="{x:Bind FileProperties}">
-                    <NavigationViewItem.Icon>
+                    </local:ExtendedNavigationViewItem.Icon>
+                </local:ExtendedNavigationViewItem>
+
+                <local:ExtendedNavigationViewItem
+                    Command="{x:Bind ViewModel.NavigationItemCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag}"
+                    Content="{x:Bind FileProperties}"
+                    Tag="FileProperties"
+                    ToolTip="{x:Bind FileProperties}">
+                    <local:ExtendedNavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE90f;" Style="{StaticResource SegoeFluentStyle}" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem Content="{x:Bind About}">
-                    <NavigationViewItem.Icon>
+                    </local:ExtendedNavigationViewItem.Icon>
+                </local:ExtendedNavigationViewItem>
+
+                <local:ExtendedNavigationViewItem
+                    Command="{x:Bind ViewModel.NavigationItemCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag}"
+                    Content="{x:Bind About}"
+                    Tag="About"
+                    ToolTip="{x:Bind About}">
+                    <local:ExtendedNavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE946;" Style="{StaticResource SegoeFluentStyle}" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                    </local:ExtendedNavigationViewItem.Icon>
+                </local:ExtendedNavigationViewItem>
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>
                 <HyperlinkButton Command="{x:Bind ViewModel.ClickCommand}" Content="TestMessageBox" />
             </NavigationView.PaneFooter>
 
-            <Frame x:Name="MainFrame">
+            <Frame
+                x:Name="MainFrame"
+                Navigated="{x:Bind ViewModel.OnFrameNavigated}"
+                NavigationFailed="{x:Bind ViewModel.OnFrameNavgationFailed}">
                 <Frame.ContentTransitions>
                     <TransitionCollection>
                         <NavigationThemeTransition />

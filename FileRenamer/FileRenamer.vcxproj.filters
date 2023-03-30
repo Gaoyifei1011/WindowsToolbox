@@ -3,6 +3,13 @@
   <ItemGroup>
     <Page Include="MainPage.xaml" />
     <Page Include="Styles\FontIcon.xaml" />
+    <Page Include="FileNamePage.xaml" />
+    <Page Include="ExtensionNamePage.xaml" />
+    <Page Include="UpperAndLowerCasePage.xaml" />
+    <Page Include="FilePropertiesPage.xaml" />
+    <Page Include="AboutPage.xaml" />
+    <Page Include="SettingsPage.xaml" />
+    <Page Include="ExtendedNavigationViewItem.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />
@@ -18,6 +25,7 @@
     <ClCompile Include="MileWindow.cpp" />
     <ClCompile Include="Helpers\Root\DPICalcHelper.cpp" />
     <ClCompile Include="Services\Root\ResourceService.cpp" />
+    <ClCompile Include="Helpers\Root\StringFormatHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -27,6 +35,7 @@
     <ClInclude Include="MileWindow.h" />
     <ClInclude Include="Helpers\Root\DPICalcHelper.h" />
     <ClInclude Include="Services\Root\ResourceService.h" />
+    <ClInclude Include="Helpers\Root\StringFormatHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="app.manifest" />

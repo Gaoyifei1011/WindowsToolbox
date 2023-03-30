@@ -13,6 +13,7 @@ using namespace winrt::FileRenamer;
 
 com_ptr<implementation::App> ApplicationRoot;
 ResourceService AppResourcesService;
+StringFormatHelper AppStringFormatHelper;
 
 void InitializeProgramResources();
 

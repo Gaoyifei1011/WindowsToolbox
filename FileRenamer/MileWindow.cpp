@@ -91,7 +91,7 @@ void MileWindow::InitializeWindow(HINSTANCE hInstance)
 	MileWindow::Handle(hwnd);
 	if (MileWindow::Handle() == nullptr)
 	{
-		throw "HelperResources/WindowHandleInitializeFailed";
+		throw AppResourcesService.GetLocalized(L"Resources/WindowHandleInitializeFailed");
 	}
 	else
 	{

@@ -129,4 +129,7 @@
   <data name="PackageDisplayName" xml:space="preserve">
     <value>文件重命名工具</value>
   </data>
+  <data name="WindowHandleInitializeFailed" xml:space="preserve">
+    <value>窗口句柄初始化失败，窗口句柄为空指针</value>
+  </data>
 </root>

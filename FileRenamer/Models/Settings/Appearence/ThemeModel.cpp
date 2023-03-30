@@ -1,8 +1,6 @@
 ﻿#include "pch.h"
 #include "ThemeModel.h"
-#if __has_include("ThemeModel.g.cpp")
 #include "ThemeModel.g.cpp"
-#endif
 
 namespace winrt::FileRenamer::implementation
 {

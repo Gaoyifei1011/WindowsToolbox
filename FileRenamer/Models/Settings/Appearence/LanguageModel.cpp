@@ -1,8 +1,6 @@
 ﻿#include "pch.h"
 #include "LanguageModel.h"
-#if __has_include("LanguageModel.g.cpp")
 #include "LanguageModel.g.cpp"
-#endif
 
 namespace winrt::FileRenamer::implementation
 {

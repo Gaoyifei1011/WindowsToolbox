@@ -1,0 +1,16 @@
+namespace FileRenamer
+{
+    [default_interface]
+    runtimeclass ExtendedNavigationViewItem : Windows.UI.Xaml.Controls.NavigationViewItem
+    {
+        ExtendedNavigationViewItem();
+
+        Windows.UI.Xaml.Input.ICommand Command{ get;set; };
+        Object CommandParameter{ get; set; };
+        String ToolTip{ get; set; };
+        
+        static Windows.UI.Xaml.DependencyProperty CommandProperty{ get; };
+        static Windows.UI.Xaml.DependencyProperty CommandParameterProperty{ get; };
+        static Windows.UI.Xaml.DependencyProperty ToolTipProperty{ get; };
+    }
+}

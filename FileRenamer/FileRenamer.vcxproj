@@ -7,6 +7,7 @@
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
     <CppWinRTOptimized>true</CppWinRTOptimized>
     <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
+    <CppWinRTUsePrefixes>false</CppWinRTUsePrefixes>
     <DefaultLanguage>en-US</DefaultLanguage>
     <MileProjectType>WindowsApplication</MileProjectType>
     <MileProjectEnableVCLTLSupport>true</MileProjectEnableVCLTLSupport>
@@ -90,6 +91,9 @@
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdcpp20</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">stdcpp20</LanguageStandard>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <ManifestFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -144,13 +148,42 @@
       <AdditionalManifestFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </AdditionalManifestFiles>
     </Manifest>
+    <ClCompile>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdcpp20</LanguageStandard>
+    </ClCompile>
+    <ClCompile>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">stdcpp20</LanguageStandard>
+    </ClCompile>
+    <ClCompile>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdcpp20</LanguageStandard>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Manifest Include="App.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AboutPage.h">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="ExtendedNavigationViewItem.h">
+      <DependentUpon>ExtendedNavigationViewItem.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="ExtensionNamePage.h">
+      <DependentUpon>ExtensionNamePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="FileNamePage.h">
+      <DependentUpon>FileNamePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="FilePropertiesPage.h">
+      <DependentUpon>FilePropertiesPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Helpers\Root\DPICalcHelper.h" />
@@ -171,6 +204,15 @@
     <ClInclude Include="Extensions\Command\RelayCommand.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Services\Root\ResourceService.h" />
+    <ClInclude Include="SettingsPage.h">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Helpers\Root\StringFormatHelper.h" />
+    <ClInclude Include="UpperAndLowerCasePage.h">
+      <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="ViewModels\Window\MainViewModel.h">
       <DependentUpon>ViewModels\Window\MainViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -178,8 +220,28 @@
     <ClInclude Include="WinMain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AboutPage.cpp">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="App.xaml.cpp">
       <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="ExtendedNavigationViewItem.cpp">
+      <DependentUpon>ExtendedNavigationViewItem.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="ExtensionNamePage.cpp">
+      <DependentUpon>ExtensionNamePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="FileNamePage.cpp">
+      <DependentUpon>FileNamePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="FilePropertiesPage.cpp">
+      <DependentUpon>FilePropertiesPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Helpers\Root\DPICalcHelper.cpp" />
@@ -202,6 +264,15 @@
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="Extensions\Command\RelayCommand.cpp" />
     <ClCompile Include="Services\Root\ResourceService.cpp" />
+    <ClCompile Include="SettingsPage.cpp">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Helpers\Root\StringFormatHelper.cpp" />
+    <ClCompile Include="UpperAndLowerCasePage.cpp">
+      <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="ViewModels\Window\MainViewModel.cpp">
       <DependentUpon>ViewModels\Window\MainViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -227,14 +298,55 @@
       <SubType>Designer</SubType>
       <FileType>Document</FileType>
     </ApplicationDefinition>
+    <Page Include="AboutPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ExtendedNavigationViewItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ExtensionNamePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FileNamePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FilePropertiesPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SettingsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\FontIcon.xaml" />
+    <Page Include="UpperAndLowerCasePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Midl Include="AboutPage.idl">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="App.idl">
       <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="ExtendedNavigationViewItem.idl">
+      <DependentUpon>ExtendedNavigationViewItem.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="ExtensionNamePage.idl">
+      <DependentUpon>ExtensionNamePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="FileNamePage.idl">
+      <DependentUpon>FileNamePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="FilePropertiesPage.idl">
+      <DependentUpon>FilePropertiesPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="MainPage.idl">
@@ -246,6 +358,14 @@
     </Midl>
     <Midl Include="Models\Settings\Appearence\ThemeModel.idl">
       <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="SettingsPage.idl">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="UpperAndLowerCasePage.idl">
+      <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Midl>
     <Midl Include="ViewModels\Window\MainViewModel.idl">
       <SubType>Designer</SubType>

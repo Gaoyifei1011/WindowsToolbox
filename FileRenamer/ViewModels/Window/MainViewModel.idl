@@ -2,10 +2,18 @@ namespace FileRenamer
 {
     [bindable]
     [default_interface]
-    runtimeclass MainViewModel 
+    runtimeclass MainViewModel : Windows.UI.Xaml.Data.INotifyPropertyChanged
     {
         MainViewModel();
-
+        Boolean IsBackEnabled{ get; set; };
+        Object SelectedItem{ get; set; };
+        
+        Windows.UI.Xaml.Input.ICommand NavigationItemCommand{ get; };
         Windows.UI.Xaml.Input.ICommand ClickCommand{ get; };
+
+        void OnNavigationViewBackRequested(Windows.UI.Xaml.Controls.NavigationView sender, Windows.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args);
+        void OnNavigationViewLoaded(Object sender, Windows.UI.Xaml.RoutedEventArgs args);
+        void OnFrameNavigated(Object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs args);
+        void OnFrameNavgationFailed(Object sender, Windows.UI.Xaml.Navigation.NavigationFailedEventArgs args);
     }
 }
