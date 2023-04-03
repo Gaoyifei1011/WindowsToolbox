@@ -21,6 +21,7 @@ namespace winrt::FileRenamer::implementation
 		hstring UpperAndLowerCase();
 		hstring FileProperties();
 		hstring About();
+		hstring Settings();
 
 	private:
 		FileRenamer::MainViewModel _viewModel;
@@ -30,6 +31,7 @@ namespace winrt::FileRenamer::implementation
 		hstring _upperAndLowerCase;
 		hstring _fileProperties;
 		hstring _about;
+		hstring _settings;
 	};
 }
 

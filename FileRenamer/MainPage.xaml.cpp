@@ -20,6 +20,9 @@ namespace winrt::FileRenamer::implementation
 		_upperAndLowerCase = AppResourcesService.GetLocalized(L"Window/UpperAndLowerCase");
 		_fileProperties = AppResourcesService.GetLocalized(L"Window/FileProperties");
 		_about = AppResourcesService.GetLocalized(L"Window/About");
+		_settings = AppResourcesService.GetLocalized(L"Window/Settings");
+
+		AppNavigationService.NavigationFrame(this->MainFrame());
 	}
 
 	FileRenamer::MainViewModel MainPage::ViewModel()
@@ -50,5 +53,10 @@ namespace winrt::FileRenamer::implementation
 	hstring MainPage::About()
 	{
 		return _about;
+	}
+
+	hstring MainPage::Settings()
+	{
+		return _settings;
 	}
 }

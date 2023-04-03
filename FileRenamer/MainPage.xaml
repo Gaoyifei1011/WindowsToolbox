@@ -7,13 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel>
+    <Grid>
         <NavigationView
             AlwaysShowHeader="False"
             BackRequested="{x:Bind ViewModel.OnNavigationViewBackRequested}"
             Canvas.ZIndex="0"
             IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
-            IsSettingsVisible="True"
+            IsSettingsVisible="False"
             Loaded="{x:Bind ViewModel.OnNavigationViewLoaded}"
             PaneDisplayMode="Top"
             SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=OneWay}">
@@ -73,11 +73,18 @@
                         <FontIcon Glyph="&#xE946;" Style="{StaticResource SegoeFluentStyle}" />
                     </local:ExtendedNavigationViewItem.Icon>
                 </local:ExtendedNavigationViewItem>
-            </NavigationView.MenuItems>
 
-            <NavigationView.PaneFooter>
-                <HyperlinkButton Command="{x:Bind ViewModel.ClickCommand}" Content="TestMessageBox" />
-            </NavigationView.PaneFooter>
+                <local:ExtendedNavigationViewItem
+                    Command="{x:Bind ViewModel.NavigationItemCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag}"
+                    Content="{x:Bind Settings}"
+                    Tag="Settings"
+                    ToolTip="{x:Bind Settings}">
+                    <local:ExtendedNavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE713;" Style="{StaticResource SegoeFluentStyle}" />
+                    </local:ExtendedNavigationViewItem.Icon>
+                </local:ExtendedNavigationViewItem>
+            </NavigationView.MenuItems>
 
             <Frame
                 x:Name="MainFrame"
@@ -90,5 +97,5 @@
                 </Frame.ContentTransitions>
             </Frame>
         </NavigationView>
-    </StackPanel>
+    </Grid>
 </Page>

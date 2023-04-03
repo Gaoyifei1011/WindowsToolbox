@@ -6,7 +6,7 @@ namespace FileRenamer
     {
         MainViewModel();
         Boolean IsBackEnabled{ get; set; };
-        Object SelectedItem{ get; set; };
+        Windows.UI.Xaml.Controls.NavigationViewItem SelectedItem{ get; set; };
         
         Windows.UI.Xaml.Input.ICommand NavigationItemCommand{ get; };
         Windows.UI.Xaml.Input.ICommand ClickCommand{ get; };

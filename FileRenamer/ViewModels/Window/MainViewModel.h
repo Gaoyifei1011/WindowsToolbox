@@ -23,8 +23,8 @@ namespace winrt::FileRenamer::implementation
         bool IsBackEnabled();
         void IsBackEnabled(bool const& value);
 
-        IInspectable SelectedItem();
-        void SelectedItem(IInspectable const& value);
+        NavigationViewItem SelectedItem();
+        void SelectedItem(NavigationViewItem const& value);
 
         ICommand NavigationItemCommand();
         ICommand ClickCommand();
@@ -41,7 +41,7 @@ namespace winrt::FileRenamer::implementation
 
     private:
         bool _isBackEnabled;
-        IInspectable _selectedItem;
+        NavigationViewItem _selectedItem;
 
         ICommand _navigationItemCommand;
         ICommand _clickCommand;

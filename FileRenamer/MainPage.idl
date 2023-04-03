@@ -14,5 +14,6 @@ namespace FileRenamer
         String UpperAndLowerCase{ get; };
         String FileProperties{ get; };
         String About{ get; };
+        String Settings{ get; };
     }
 }

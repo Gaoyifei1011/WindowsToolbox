@@ -19,7 +19,16 @@ namespace winrt::FileRenamer::implementation
 			{
 				if (invokedItemTag != nullptr)
 				{
-					hstring tag = unbox_value<hstring>(invokedItemTag);
+					for (uint32_t index = 0; index < AppNavigationService.NavigationItemList().Size(); index++)
+					{
+						if (AppNavigationService.NavigationItemList().GetAt(index).NavigationTag() == unbox_value<hstring>(invokedItemTag))
+						{
+							if (MainViewModel::SelectedItem() != AppNavigationService.NavigationItemList().GetAt(index).NavigationItem())
+							{
+								AppNavigationService.NavigateTo(AppNavigationService.NavigationItemList().GetAt(index).NavigationPage());
+							}
+						}
+					}
 				}
 			});
 
@@ -45,24 +54,18 @@ namespace winrt::FileRenamer::implementation
 	}
 	void MainViewModel::IsBackEnabled(bool const& value)
 	{
-		if (_isBackEnabled != value)
-		{
-			_isBackEnabled = value;
-			m_propertyChanged(*this, PropertyChangedEventArgs{ L"IsBackEnabled" });
-		}
+		_isBackEnabled = value;
+		m_propertyChanged(*this, PropertyChangedEventArgs{ L"IsBackEnabled" });
 	}
 
-	IInspectable MainViewModel::SelectedItem()
+	NavigationViewItem MainViewModel::SelectedItem()
 	{
 		return _selectedItem;
 	}
-	void MainViewModel::SelectedItem(IInspectable const& value)
+	void MainViewModel::SelectedItem(NavigationViewItem const& value)
 	{
-		if (_selectedItem != value)
-		{
-			_selectedItem = value;
-			m_propertyChanged(*this, PropertyChangedEventArgs{ L"SelectedItem" });
-		}
+		_selectedItem = value;
+		m_propertyChanged(*this, PropertyChangedEventArgs{ L"SelectedItem" });
 	}
 
 	ICommand MainViewModel::ClickCommand()
@@ -94,6 +97,7 @@ namespace winrt::FileRenamer::implementation
 	/// </summary>
 	void MainViewModel::OnNavigationViewBackRequested(NavigationView const& sender, NavigationViewBackRequestedEventArgs const& args)
 	{
+		AppNavigationService.NavigationFrom();
 	}
 
 	/// <summary>
@@ -101,6 +105,30 @@ namespace winrt::FileRenamer::implementation
 	/// </summary>
 	void MainViewModel::OnNavigationViewLoaded(IInspectable const& sender, RoutedEventArgs const& args)
 	{
+		NavigationView navigationView = sender.try_as<NavigationView>();
+		if (navigationView == nullptr)
+		{
+			return;
+		}
+
+		for (uint32_t index = 0; index < navigationView.MenuItems().Size(); index++)
+		{
+			NavigationViewItem navigationViewItem = navigationView.MenuItems().GetAt(index).try_as<NavigationViewItem>();
+			if (navigationViewItem != nullptr)
+			{
+				hstring Tag = unbox_value<hstring>(navigationViewItem.Tag());
+
+				FileRenamer::NavigationModel item = make<FileRenamer::implementation::NavigationModel>();
+				item.NavigationTag(Tag);
+				item.NavigationItem(navigationViewItem);
+				item.NavigationPage(MainViewModel::PageDict().Lookup(Tag));
+				AppNavigationService.NavigationItemList().Append(item);
+			}
+		}
+
+		SelectedItem(AppNavigationService.NavigationItemList().GetAt(0).NavigationItem());
+		AppNavigationService.NavigateTo(xaml_typename<FileNamePage>());
+		IsBackEnabled(AppNavigationService.CanGoBack());
 	}
 
 	/// <summary>
@@ -108,6 +136,15 @@ namespace winrt::FileRenamer::implementation
 	/// </summary>
 	void MainViewModel::OnFrameNavigated(IInspectable const& sender, NavigationEventArgs const& args)
 	{
+		TypeName CurrentPageType = AppNavigationService.GetCurrentPageType();
+		for (uint32_t index = 0; index < AppNavigationService.NavigationItemList().Size(); index++)
+		{
+			if (AppNavigationService.NavigationItemList().GetAt(index).NavigationPage().Name == CurrentPageType.Name)
+			{
+				MainViewModel::SelectedItem(AppNavigationService.NavigationItemList().GetAt(index).NavigationItem());
+			}
+		}
+		IsBackEnabled(AppNavigationService.CanGoBack());
 	}
 
 	/// <summary>

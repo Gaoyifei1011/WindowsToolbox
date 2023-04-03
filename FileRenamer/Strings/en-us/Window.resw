@@ -129,6 +129,9 @@
   <data name="FileProperties" xml:space="preserve">
     <value>File Properties</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="UpperAndLowerCase" xml:space="preserve">
     <value>Upper and Lower Case</value>
   </data>

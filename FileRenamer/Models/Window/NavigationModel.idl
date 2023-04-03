@@ -1,0 +1,10 @@
+namespace FileRenamer
+{
+    runtimeclass NavigationModel 
+    {
+        NavigationModel();
+        String NavigationTag;
+        Windows.UI.Xaml.Controls.NavigationViewItem NavigationItem;
+        Windows.UI.Xaml.Interop.TypeName NavigationPage;
+    }
+}

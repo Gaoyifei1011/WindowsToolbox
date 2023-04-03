@@ -2,17 +2,19 @@
 
 #include <Windows.h>
 #include <WinMain.h>
-
+#include <fstream>
 #include "pch.h"
 #include "App.xaml.h"
 #include "MainPage.xaml.h"
 #include "Services/Root/ResourceService.h"
+#include "Services/Window/NavigationService.h"
 
 using namespace winrt;
 using namespace winrt::FileRenamer;
 
 com_ptr<implementation::App> ApplicationRoot;
 ResourceService AppResourcesService;
+NavigationService AppNavigationService;
 StringFormatHelper AppStringFormatHelper;
 
 void InitializeProgramResources();

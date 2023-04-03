@@ -16,6 +16,7 @@
     <Midl Include="Models\Settings\Appearence\ThemeModel.idl" />
     <Midl Include="Models\Settings\Appearence\LanguageModel.idl" />
     <Midl Include="ViewModels\Window\MainViewModel.idl" />
+    <Midl Include="Models\Window\NavigationModel.idl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -26,6 +27,7 @@
     <ClCompile Include="Helpers\Root\DPICalcHelper.cpp" />
     <ClCompile Include="Services\Root\ResourceService.cpp" />
     <ClCompile Include="Helpers\Root\StringFormatHelper.cpp" />
+    <ClCompile Include="Services\Window\NavigationService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -36,6 +38,7 @@
     <ClInclude Include="Helpers\Root\DPICalcHelper.h" />
     <ClInclude Include="Services\Root\ResourceService.h" />
     <ClInclude Include="Helpers\Root\StringFormatHelper.h" />
+    <ClInclude Include="Services\Window\NavigationService.h" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="app.manifest" />
