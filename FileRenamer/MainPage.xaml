@@ -16,7 +16,8 @@
             IsSettingsVisible="False"
             Loaded="{x:Bind ViewModel.OnNavigationViewLoaded}"
             PaneDisplayMode="Top"
-            SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=OneWay}">
+            SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=OneWay}"
+            Style="{StaticResource NavigationViewStyle}">
 
             <NavigationView.MenuItems>
                 <local:ExtendedNavigationViewItem

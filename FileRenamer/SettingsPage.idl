@@ -1,8 +1,16 @@
+import "ViewModels\Pages\SettingsViewModel.idl";
+
 namespace FileRenamer
 {
     [default_interface]
     runtimeclass SettingsPage : Windows.UI.Xaml.Controls.Page
     {
         SettingsPage();
+
+        SettingsViewModel ViewModel{ get; };
+
+        String Title{ get; };
+        String RestartApp{ get; };
+        String RestartAppToolTip{ get; };
     }
 }

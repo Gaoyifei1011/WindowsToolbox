@@ -9,7 +9,7 @@ using namespace Windows::UI::Xaml;
 
 namespace winrt::FileRenamer::implementation
 {
-	AboutPage::AboutPage() 
+	AboutPage::AboutPage()
 	{
 		InitializeComponent();
 	};

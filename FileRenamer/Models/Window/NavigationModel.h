@@ -11,30 +11,30 @@ using namespace winrt::Windows::UI::Xaml::Interop;
 
 namespace winrt::FileRenamer::implementation
 {
-    struct NavigationModel : NavigationModelT<NavigationModel>
-    {
-    public:
-        NavigationModel();
+	struct NavigationModel : NavigationModelT<NavigationModel>
+	{
+	public:
+		NavigationModel();
 
-        hstring NavigationTag();
-        void NavigationTag(hstring const& value);
+		hstring NavigationTag();
+		void NavigationTag(hstring const& value);
 
-        NavigationViewItem NavigationItem();
-        void NavigationItem(NavigationViewItem const& value);
+		NavigationViewItem NavigationItem();
+		void NavigationItem(NavigationViewItem const& value);
 
-        TypeName NavigationPage();
-        void NavigationPage(TypeName const& value);
+		TypeName NavigationPage();
+		void NavigationPage(TypeName const& value);
 
-    private:
-        hstring _navigationTag;
-        NavigationViewItem _navigationItem;
-        TypeName _navigationPage;
-    };
+	private:
+		hstring _navigationTag;
+		NavigationViewItem _navigationItem;
+		TypeName _navigationPage;
+	};
 }
 
 namespace winrt::FileRenamer::factory_implementation
 {
-    struct NavigationModel : NavigationModelT<NavigationModel, implementation::NavigationModel>
-    {
-    };
+	struct NavigationModel : NavigationModelT<NavigationModel, implementation::NavigationModel>
+	{
+	};
 }

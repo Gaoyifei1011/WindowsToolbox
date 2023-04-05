@@ -11,4 +11,3 @@ public:
 private:
 	static float GetScalingFactor(HWND hwnd);
 };
-

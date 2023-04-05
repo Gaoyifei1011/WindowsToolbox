@@ -4,8 +4,8 @@
 #include <WinMain.h>
 #include <fstream>
 #include "pch.h"
-#include "App.xaml.h"
-#include "MainPage.xaml.h"
+#include "App.h"
+#include "MainPage.h"
 #include "Services/Root/ResourceService.h"
 #include "Services/Window/NavigationService.h"
 

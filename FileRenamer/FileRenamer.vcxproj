@@ -166,8 +166,12 @@
       <DependentUpon>AboutPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="App.xaml.h">
+    <ClInclude Include="App.h">
       <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Expander.h">
+      <DependentUpon>Expander.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="ExtendedNavigationViewItem.h">
@@ -187,7 +191,7 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Helpers\Root\DPICalcHelper.h" />
-    <ClInclude Include="MainPage.xaml.h">
+    <ClInclude Include="MainPage.h">
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
@@ -204,6 +208,10 @@
       <DependentUpon>Models\Window\NavigationModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="RestartContentDialog.h">
+      <DependentUpon>RestartContentDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Services\Window\NavigationService.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Extensions\Command\RelayCommand.h" />
@@ -218,6 +226,10 @@
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="ViewModels\Pages\SettingsViewModel.h">
+      <DependentUpon>ViewModels\Pages\SettingsViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="ViewModels\Window\MainViewModel.h">
       <DependentUpon>ViewModels\Window\MainViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -229,8 +241,12 @@
       <DependentUpon>AboutPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="App.xaml.cpp">
+    <ClCompile Include="App.cpp">
       <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Expander.cpp">
+      <DependentUpon>Expander.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="ExtendedNavigationViewItem.cpp">
@@ -250,7 +266,7 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Helpers\Root\DPICalcHelper.cpp" />
-    <ClCompile Include="MainPage.xaml.cpp">
+    <ClCompile Include="MainPage.cpp">
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
@@ -267,6 +283,10 @@
       <DependentUpon>Models\Window\NavigationModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="RestartContentDialog.cpp">
+      <DependentUpon>RestartContentDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="Services\Window\NavigationService.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -281,6 +301,10 @@
     <ClCompile Include="Helpers\Root\StringFormatHelper.cpp" />
     <ClCompile Include="UpperAndLowerCasePage.cpp">
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="ViewModels\Pages\SettingsViewModel.cpp">
+      <DependentUpon>ViewModels\Pages\SettingsViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="ViewModels\Window\MainViewModel.cpp">
@@ -326,10 +350,22 @@
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="RestartContentDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SettingsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\ContentDialog.xaml">
+      <DeploymentContent>true</DeploymentContent>
+    </Page>
+    <Page Include="Styles\Expander.xaml">
+      <DeploymentContent>true</DeploymentContent>
+    </Page>
     <Page Include="Styles\FontIcon.xaml" />
+    <Page Include="Styles\NavigationView.xaml">
+      <DeploymentContent>true</DeploymentContent>
+    </Page>
     <Page Include="UpperAndLowerCasePage.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -342,6 +378,9 @@
     <Midl Include="App.idl">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="Expander.idl">
+      <SubType>Designer</SubType>
     </Midl>
     <Midl Include="ExtendedNavigationViewItem.idl">
       <DependentUpon>ExtendedNavigationViewItem.xaml</DependentUpon>
@@ -372,6 +411,10 @@
     <Midl Include="Models\Window\NavigationModel.idl">
       <SubType>Designer</SubType>
     </Midl>
+    <Midl Include="RestartContentDialog.idl">
+      <DependentUpon>RestartContentDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="SettingsPage.idl">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -379,6 +422,9 @@
     <Midl Include="UpperAndLowerCasePage.idl">
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="ViewModels\Pages\SettingsViewModel.idl">
+      <SubType>Designer</SubType>
     </Midl>
     <Midl Include="ViewModels\Window\MainViewModel.idl">
       <SubType>Designer</SubType>
@@ -396,9 +442,11 @@
   <ItemGroup>
     <PRIResource Include="Strings\en-us\FileName.resw" />
     <PRIResource Include="Strings\en-us\Resources.resw" />
+    <PRIResource Include="Strings\en-us\Settings.resw" />
     <PRIResource Include="Strings\en-us\Window.resw" />
     <PRIResource Include="Strings\zh-hans\FileName.resw" />
     <PRIResource Include="Strings\zh-hans\Resources.resw" />
+    <PRIResource Include="Strings\zh-hans\Settings.resw" />
     <PRIResource Include="Strings\zh-hans\Window.resw" />
   </ItemGroup>
   <!--

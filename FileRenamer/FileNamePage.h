@@ -4,15 +4,15 @@
 
 namespace winrt::FileRenamer::implementation
 {
-    struct FileNamePage : FileNamePageT<FileNamePage>
-    {
-        FileNamePage();
-    };
+	struct FileNamePage : FileNamePageT<FileNamePage>
+	{
+		FileNamePage();
+	};
 }
 
 namespace winrt::FileRenamer::factory_implementation
 {
-    struct FileNamePage : FileNamePageT<FileNamePage, implementation::FileNamePage>
-    {
-    };
+	struct FileNamePage : FileNamePageT<FileNamePage, implementation::FileNamePage>
+	{
+	};
 }

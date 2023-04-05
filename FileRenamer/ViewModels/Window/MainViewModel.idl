@@ -5,6 +5,7 @@ namespace FileRenamer
     runtimeclass MainViewModel : Windows.UI.Xaml.Data.INotifyPropertyChanged
     {
         MainViewModel();
+
         Boolean IsBackEnabled{ get; set; };
         Windows.UI.Xaml.Controls.NavigationViewItem SelectedItem{ get; set; };
         

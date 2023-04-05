@@ -1,0 +1,11 @@
+namespace FileRenamer
+{
+    [bindable]
+    [default_interface]
+    runtimeclass SettingsViewModel 
+    {
+        SettingsViewModel();
+
+        Windows.UI.Xaml.Input.ICommand RestartCommand{ get; };
+    }
+}

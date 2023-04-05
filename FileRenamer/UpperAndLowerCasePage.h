@@ -4,15 +4,15 @@
 
 namespace winrt::FileRenamer::implementation
 {
-    struct UpperAndLowerCasePage : UpperAndLowerCasePageT<UpperAndLowerCasePage>
-    {
-        UpperAndLowerCasePage();
-    };
+	struct UpperAndLowerCasePage : UpperAndLowerCasePageT<UpperAndLowerCasePage>
+	{
+		UpperAndLowerCasePage();
+	};
 }
 
 namespace winrt::FileRenamer::factory_implementation
 {
-    struct UpperAndLowerCasePage : UpperAndLowerCasePageT<UpperAndLowerCasePage, implementation::UpperAndLowerCasePage>
-    {
-    };
+	struct UpperAndLowerCasePage : UpperAndLowerCasePageT<UpperAndLowerCasePage, implementation::UpperAndLowerCasePage>
+	{
+	};
 }

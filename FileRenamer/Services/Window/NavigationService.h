@@ -26,7 +26,7 @@ public:
 
 	IVector<NavigationModel> NavigationItemList();
 	void NavigationItemList(IVector<NavigationModel> const& value);
-	
+
 	void NavigateTo(TypeName navigationPageType, IInspectable parameter = nullptr);
 	void NavigationFrom();
 	TypeName GetCurrentPageType();

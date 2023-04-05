@@ -9,7 +9,7 @@
 
 #include "Helpers/Root/DPICalcHelper.h"
 #include "MileWindow.h"
-#include "MainPage.xaml.h"
+#include "MainPage.h"
 
 using namespace std;
 using namespace winrt;
@@ -18,6 +18,7 @@ using namespace winrt::Windows::UI::Xaml;
 using namespace winrt::Windows::UI::Xaml::Controls;
 
 WNDPROC MileOldWndProc = 0;
+MileWindow* MileWindow::_current = nullptr;
 LRESULT CALLBACK MileNewWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LPCWSTR string2LPCWSTR(std::string str);
 
@@ -67,6 +68,11 @@ void MileWindow::Content(UIElement value)
 	_content = value;
 }
 
+MileWindow* MileWindow::Current()
+{
+	return _current;
+}
+
 /// <summary>
 /// 初始化应用窗口
 /// </summary>
@@ -109,7 +115,7 @@ void MileWindow::Activate(int nShowCmd)
 	{
 		ShowWindow(MileWindow::Handle(), nShowCmd);
 		UpdateWindow(MileWindow::Handle());
-
+		MileWindow::_current = this;
 		MileWindow::SetAppIcon();
 	}
 

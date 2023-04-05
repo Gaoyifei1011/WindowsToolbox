@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="SettingsPageRoot"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -23,7 +24,34 @@
             <TextBlock
                 Grid.Column="0"
                 FontSize="26"
-                Text="Settings Page" />
+                Text="{x:Bind Title}" />
+
+            <Button
+                Grid.Column="1"
+                Command="{x:Bind ViewModel.RestartCommand}"
+                Content="{x:Bind RestartApp}">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind RestartAppToolTip}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </Button>
         </Grid>
+
+        <ScrollViewer
+            x:Name="SettingsScroll"
+            Grid.Row="1"
+            HorizontalScrollBarVisibility="Disabled"
+            HorizontalScrollMode="Disabled"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Enabled">
+
+            <StackPanel
+                Margin="30,0"
+                Padding="0,0,0,30"
+                Spacing="3" />
+        </ScrollViewer>
     </Grid>
 </Page>

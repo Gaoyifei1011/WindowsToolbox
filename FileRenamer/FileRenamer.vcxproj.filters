@@ -10,6 +10,10 @@
     <Page Include="AboutPage.xaml" />
     <Page Include="SettingsPage.xaml" />
     <Page Include="ExtendedNavigationViewItem.xaml" />
+    <Page Include="Styles\NavigationView.xaml" />
+    <Page Include="Styles\ContentDialog.xaml" />
+    <Page Include="RestartContentDialog.xaml" />
+    <Page Include="Styles\Expander.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />
@@ -17,6 +21,8 @@
     <Midl Include="Models\Settings\Appearence\LanguageModel.idl" />
     <Midl Include="ViewModels\Window\MainViewModel.idl" />
     <Midl Include="Models\Window\NavigationModel.idl" />
+    <Midl Include="ViewModels\Pages\SettingsViewModel.idl" />
+    <Midl Include="Expander.idl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -62,5 +68,7 @@
     <PRIResource Include="Strings\en-us\Window.resw" />
     <PRIResource Include="Strings\zh-hans\FileName.resw" />
     <PRIResource Include="Strings\en-us\FileName.resw" />
+    <PRIResource Include="Strings\en-us\Settings.resw" />
+    <PRIResource Include="Strings\zh-hans\Settings.resw" />
   </ItemGroup>
 </Project>

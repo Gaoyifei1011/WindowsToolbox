@@ -3,8 +3,8 @@
 #include <Mile.Xaml.h>
 
 #include "pch.h"
-#include "App.xaml.h"
-#include "MainPage.xaml.h"
+#include "App.h"
+#include "MainPage.h"
 
 using namespace winrt;
 using namespace FileRenamer;

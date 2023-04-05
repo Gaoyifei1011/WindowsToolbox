@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "MainPage.xaml.h"
+#include "MainPage.h"
 #include "MainPage.g.cpp"
 #include "WinMain.h"
 

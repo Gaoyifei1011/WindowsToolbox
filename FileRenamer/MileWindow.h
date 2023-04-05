@@ -29,6 +29,8 @@ public:
 	UIElement Content();
 	void Content(UIElement value);
 
+	static MileWindow* Current();
+
 	void InitializeWindow(HINSTANCE hInstance);
 	void Activate(int nShowCmd);
 
@@ -37,6 +39,7 @@ private:
 	string _title;
 	HWND _handle;
 	UIElement _content = nullptr;
+	static MileWindow* _current;
 
 	void IsWindowCreated(bool value);
 	void Handle(HWND value);

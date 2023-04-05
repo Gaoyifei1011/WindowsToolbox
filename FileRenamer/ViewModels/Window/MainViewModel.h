@@ -15,46 +15,46 @@ using namespace winrt::Windows::UI::Xaml::Navigation;
 
 namespace winrt::FileRenamer::implementation
 {
-    struct MainViewModel : MainViewModelT<MainViewModel>
-    {
-    public:
-        MainViewModel();
+	struct MainViewModel : MainViewModelT<MainViewModel>
+	{
+	public:
+		MainViewModel();
 
-        bool IsBackEnabled();
-        void IsBackEnabled(bool const& value);
+		bool IsBackEnabled();
+		void IsBackEnabled(bool const& value);
 
-        NavigationViewItem SelectedItem();
-        void SelectedItem(NavigationViewItem const& value);
+		NavigationViewItem SelectedItem();
+		void SelectedItem(NavigationViewItem const& value);
 
-        ICommand NavigationItemCommand();
-        ICommand ClickCommand();
+		ICommand NavigationItemCommand();
+		ICommand ClickCommand();
 
-        Collections::IMap<hstring,TypeName> PageDict();
-        
-        void OnNavigationViewBackRequested(NavigationView const& sender, NavigationViewBackRequestedEventArgs const& args);
-        void OnNavigationViewLoaded(IInspectable const& sender, RoutedEventArgs const& args);
-        void OnFrameNavigated(IInspectable const& sender, NavigationEventArgs const& args);
-        void OnFrameNavgationFailed(IInspectable const& sender, NavigationFailedEventArgs const& args);
+		Collections::IMap<hstring, TypeName> PageDict();
 
-        event_token PropertyChanged(PropertyChangedEventHandler const& value);
-        void PropertyChanged(event_token const& token) noexcept;
+		void OnNavigationViewBackRequested(NavigationView const& sender, NavigationViewBackRequestedEventArgs const& args);
+		void OnNavigationViewLoaded(IInspectable const& sender, RoutedEventArgs const& args);
+		void OnFrameNavigated(IInspectable const& sender, NavigationEventArgs const& args);
+		void OnFrameNavgationFailed(IInspectable const& sender, NavigationFailedEventArgs const& args);
 
-    private:
-        bool _isBackEnabled;
-        NavigationViewItem _selectedItem;
+		event_token PropertyChanged(PropertyChangedEventHandler const& value);
+		void PropertyChanged(event_token const& token) noexcept;
 
-        ICommand _navigationItemCommand;
-        ICommand _clickCommand;
+	private:
+		bool _isBackEnabled;
+		NavigationViewItem _selectedItem;
 
-        Collections::IMap<hstring, TypeName> _pageDict{ single_threaded_map<hstring,TypeName>() };
+		ICommand _navigationItemCommand;
+		ICommand _clickCommand;
 
-        winrt::event<PropertyChangedEventHandler> m_propertyChanged;
-    };
+		Collections::IMap<hstring, TypeName> _pageDict{ single_threaded_map<hstring,TypeName>() };
+
+		winrt::event<PropertyChangedEventHandler> m_propertyChanged;
+	};
 }
 
 namespace winrt::FileRenamer::factory_implementation
 {
-    struct MainViewModel : MainViewModelT<MainViewModel, implementation::MainViewModel>
-    {
-    };
+	struct MainViewModel : MainViewModelT<MainViewModel, implementation::MainViewModel>
+	{
+	};
 }
