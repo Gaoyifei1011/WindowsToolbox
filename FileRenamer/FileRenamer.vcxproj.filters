@@ -12,8 +12,9 @@
     <Page Include="ExtendedNavigationViewItem.xaml" />
     <Page Include="Styles\NavigationView.xaml" />
     <Page Include="Styles\ContentDialog.xaml" />
-    <Page Include="RestartContentDialog.xaml" />
     <Page Include="Styles\Expander.xaml" />
+    <Page Include="Styles\TextBlock.xaml" />
+    <Page Include="RestartAppsDialog.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />
@@ -23,6 +24,7 @@
     <Midl Include="Models\Window\NavigationModel.idl" />
     <Midl Include="ViewModels\Pages\SettingsViewModel.idl" />
     <Midl Include="Expander.idl" />
+    <Midl Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.idl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -70,5 +72,15 @@
     <PRIResource Include="Strings\en-us\FileName.resw" />
     <PRIResource Include="Strings\en-us\Settings.resw" />
     <PRIResource Include="Strings\zh-hans\Settings.resw" />
+    <PRIResource Include="Strings\zh-hans\Dialog.resw" />
+    <PRIResource Include="Strings\en-us\Dialog.resw" />
+    <PRIResource Include="Strings\en-us\ExtensionName.resw" />
+    <PRIResource Include="Strings\zh-hans\ExtensionName.resw" />
+    <PRIResource Include="Strings\zh-hans\UpperAndLowerCase.resw" />
+    <PRIResource Include="Strings\en-us\UpperAndLowerCase.resw" />
+    <PRIResource Include="Strings\en-us\FileProperties.resw" />
+    <PRIResource Include="Strings\zh-hans\FileProperties.resw" />
+    <PRIResource Include="Strings\en-us\About.resw" />
+    <PRIResource Include="Strings\zh-hans\About.resw" />
   </ItemGroup>
 </Project>

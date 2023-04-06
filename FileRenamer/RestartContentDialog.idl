@@ -1,8 +1,0 @@
-namespace FileRenamer
-{
-    [default_interface]
-    runtimeclass RestartContentDialog : Windows.UI.Xaml.Controls.ContentDialog
-    {
-        RestartContentDialog();
-    }
-}

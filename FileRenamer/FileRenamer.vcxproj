@@ -208,8 +208,8 @@
       <DependentUpon>Models\Window\NavigationModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="RestartContentDialog.h">
-      <DependentUpon>RestartContentDialog.xaml</DependentUpon>
+    <ClInclude Include="RestartAppsDialog.h">
+      <DependentUpon>RestartAppsDialog.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Services\Window\NavigationService.h" />
@@ -224,6 +224,10 @@
     <ClInclude Include="Helpers\Root\StringFormatHelper.h" />
     <ClInclude Include="UpperAndLowerCasePage.h">
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.h">
+      <DependentUpon>ViewModels\Dialogs\Settings\RestartAppsViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="ViewModels\Pages\SettingsViewModel.h">
@@ -283,8 +287,8 @@
       <DependentUpon>Models\Window\NavigationModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="RestartContentDialog.cpp">
-      <DependentUpon>RestartContentDialog.xaml</DependentUpon>
+    <ClCompile Include="RestartAppsDialog.cpp">
+      <DependentUpon>RestartAppsDialog.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Services\Window\NavigationService.cpp" />
@@ -301,6 +305,10 @@
     <ClCompile Include="Helpers\Root\StringFormatHelper.cpp" />
     <ClCompile Include="UpperAndLowerCasePage.cpp">
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.cpp">
+      <DependentUpon>ViewModels\Dialogs\Settings\RestartAppsViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="ViewModels\Pages\SettingsViewModel.cpp">
@@ -350,7 +358,7 @@
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="RestartContentDialog.xaml">
+    <Page Include="RestartAppsDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SettingsPage.xaml">
@@ -364,6 +372,9 @@
     </Page>
     <Page Include="Styles\FontIcon.xaml" />
     <Page Include="Styles\NavigationView.xaml">
+      <DeploymentContent>true</DeploymentContent>
+    </Page>
+    <Page Include="Styles\TextBlock.xaml">
       <DeploymentContent>true</DeploymentContent>
     </Page>
     <Page Include="UpperAndLowerCasePage.xaml">
@@ -411,8 +422,8 @@
     <Midl Include="Models\Window\NavigationModel.idl">
       <SubType>Designer</SubType>
     </Midl>
-    <Midl Include="RestartContentDialog.idl">
-      <DependentUpon>RestartContentDialog.xaml</DependentUpon>
+    <Midl Include="RestartAppsDialog.idl">
+      <DependentUpon>RestartAppsDialog.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="SettingsPage.idl">
@@ -422,6 +433,9 @@
     <Midl Include="UpperAndLowerCasePage.idl">
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.idl">
+      <SubType>Designer</SubType>
     </Midl>
     <Midl Include="ViewModels\Pages\SettingsViewModel.idl">
       <SubType>Designer</SubType>
@@ -440,13 +454,23 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
+    <PRIResource Include="Strings\en-us\About.resw" />
+    <PRIResource Include="Strings\en-us\Dialog.resw" />
+    <PRIResource Include="Strings\en-us\ExtensionName.resw" />
     <PRIResource Include="Strings\en-us\FileName.resw" />
+    <PRIResource Include="Strings\en-us\FileProperties.resw" />
     <PRIResource Include="Strings\en-us\Resources.resw" />
     <PRIResource Include="Strings\en-us\Settings.resw" />
+    <PRIResource Include="Strings\en-us\UpperAndLowerCase.resw" />
     <PRIResource Include="Strings\en-us\Window.resw" />
+    <PRIResource Include="Strings\zh-hans\About.resw" />
+    <PRIResource Include="Strings\zh-hans\Dialog.resw" />
+    <PRIResource Include="Strings\zh-hans\ExtensionName.resw" />
     <PRIResource Include="Strings\zh-hans\FileName.resw" />
+    <PRIResource Include="Strings\zh-hans\FileProperties.resw" />
     <PRIResource Include="Strings\zh-hans\Resources.resw" />
     <PRIResource Include="Strings\zh-hans\Settings.resw" />
+    <PRIResource Include="Strings\zh-hans\UpperAndLowerCase.resw" />
     <PRIResource Include="Strings\zh-hans\Window.resw" />
   </ItemGroup>
   <!--

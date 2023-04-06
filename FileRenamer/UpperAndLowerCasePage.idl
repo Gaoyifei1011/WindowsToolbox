@@ -4,5 +4,7 @@ namespace FileRenamer
     runtimeclass UpperAndLowerCasePage : Windows.UI.Xaml.Controls.Page
     {
         UpperAndLowerCasePage();
+
+        String Title{ get; };
     }
 }

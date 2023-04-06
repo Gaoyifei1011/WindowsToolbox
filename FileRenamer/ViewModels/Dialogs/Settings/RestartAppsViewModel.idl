@@ -1,0 +1,12 @@
+namespace FileRenamer
+{
+    [bindable]
+    [default_interface]
+    runtimeclass RestartAppsViewModel 
+    {
+        RestartAppsViewModel();
+        
+        Windows.UI.Xaml.Input.ICommand RestartAppsCommand{ get; };
+        Windows.UI.Xaml.Input.ICommand CloseDialogCommand{ get; };
+    }
+}

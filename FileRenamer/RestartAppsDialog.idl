@@ -1,0 +1,17 @@
+import "ViewModels\Dialogs\Settings\RestartAppsViewModel.idl";
+
+namespace FileRenamer
+{
+    [default_interface]
+    runtimeclass RestartAppsDialog : Windows.UI.Xaml.Controls.ContentDialog
+    {
+        RestartAppsDialog();
+
+        RestartAppsViewModel ViewModel{ get; };
+        
+        String Restart{ get; };
+        String RestartContent{ get; };
+        String OK{ get; };
+        String Cancel{ get; };
+    }
+}

@@ -18,6 +18,7 @@ NavigationService AppNavigationService;
 StringFormatHelper AppStringFormatHelper;
 
 void InitializeProgramResources();
+bool CheckSingleInstance(LPCWSTR pszUniqueName);
 
 /// <summary>
 /// 文件重命名工具
@@ -29,12 +30,23 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 	InitializeProgramResources();
 
-	init_apartment(apartment_type::single_threaded);
-	ApplicationRoot = make_self<implementation::App>();
-	ApplicationRoot->Run(hInstance, nShowCmd);
+	if (CheckSingleInstance(L"Gaoyifei1011.FileRenamer") == false)
+	{
+		//TODO:添加重定向操作步骤
+	}
+	else
+	{
+		init_apartment(apartment_type::single_threaded);
+		ApplicationRoot = make_self<implementation::App>();
+		ApplicationRoot->Run(hInstance, nShowCmd);
+	}
+
 	return 0;
 }
 
+/// <summary>
+/// 加载应用程序所需的资源
+/// </summary>
 void InitializeProgramResources()
 {
 	LanguageModel defaultLanguage = make<implementation::LanguageModel>();
@@ -45,4 +57,32 @@ void InitializeProgramResources()
 	defaultLanguage.InternalName(L"en-us");
 	currentLanguage.InternalName(L"zh-hans");
 	AppResourcesService.InitializeResource(defaultLanguage, currentLanguage);
+}
+
+/// <summary>
+/// 检测应用程序是否已经运行
+/// </summary>
+bool CheckSingleInstance(LPCWSTR pszUniqueName)
+{
+	HANDLE hMutex = CreateEvent(NULL, TRUE, FALSE, pszUniqueName);
+	DWORD dwLstErr = GetLastError();
+	bool bOneInstanceCheck = true;
+
+	if (hMutex)
+	{
+		if (dwLstErr == ERROR_ALREADY_EXISTS)
+		{
+			CloseHandle(hMutex);
+			bOneInstanceCheck = false;
+		}
+	}
+	else
+	{
+		if (dwLstErr == ERROR_ACCESS_DENIED)
+		{
+			bOneInstanceCheck = false;
+		}
+	}
+
+	return bOneInstanceCheck;
 }

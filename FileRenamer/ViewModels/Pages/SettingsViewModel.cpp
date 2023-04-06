@@ -3,7 +3,6 @@
 #include "winrt/Windows.UI.Xaml.Controls.h"
 #include "pch.h"
 #include "MileWindow.h"
-#include "RestartContentDialog.h"
 #include "SettingsViewModel.h"
 #include "SettingsViewModel.g.cpp"
 
@@ -16,11 +15,7 @@ namespace winrt::FileRenamer::implementation
 	{
 		_restartCommand = make<RelayCommand>([this](IInspectable parameter)
 			{
-				FileRenamer::RestartContentDialog dialog;
-				dialog.Title(box_value(L"title"));
-				dialog.Content(box_value(L"content"));
-				dialog.PrimaryButtonText(L"primary");
-				dialog.CloseButtonText(L"close");
+				FileRenamer::RestartAppsDialog dialog;
 				dialog.XamlRoot(MileWindow::Current()->Content().XamlRoot());
 				auto result = dialog.ShowAsync().GetResults();
 			});

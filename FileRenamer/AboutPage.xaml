@@ -23,7 +23,7 @@
             <TextBlock
                 Grid.Column="0"
                 FontSize="26"
-                Text="About Page" />
+                Text="{x:Bind Title}" />
         </Grid>
     </Grid>
 </Page>

@@ -117,7 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Title" xml:space="preserve">
-    <value>File Rename</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Application restart</value>
+  </data>
+  <data name="RestartContent" xml:space="preserve">
+    <value>The app is about to restart, after the restart the app's data will be lost, make sure that your work has been saved in its entirety</value>
   </data>
 </root>

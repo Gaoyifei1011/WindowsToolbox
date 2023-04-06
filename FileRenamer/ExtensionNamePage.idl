@@ -4,5 +4,7 @@ namespace FileRenamer
     runtimeclass ExtensionNamePage : Windows.UI.Xaml.Controls.Page
     {
         ExtensionNamePage();
+
+        String Title{ get; };
     }
 }

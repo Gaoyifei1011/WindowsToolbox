@@ -4,5 +4,7 @@ namespace FileRenamer
     runtimeclass FilePropertiesPage : Windows.UI.Xaml.Controls.Page
     {
         FilePropertiesPage();
+
+        String Title{ get; };
     }
 }
