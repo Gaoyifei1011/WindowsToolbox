@@ -15,6 +15,9 @@ namespace winrt::FileRenamer::implementation
 		FileRenamer::SettingsViewModel ViewModel();
 
 		hstring Title();
+		hstring Appearance();
+		hstring General();
+		hstring Advanced();
 		hstring RestartApp();
 		hstring RestartAppToolTip();
 
@@ -22,6 +25,9 @@ namespace winrt::FileRenamer::implementation
 		FileRenamer::SettingsViewModel _viewModel;
 
 		hstring _title;
+		hstring _appearance;
+		hstring _general;
+		hstring _advanced;
 		hstring _restartApp;
 		hstring _restartAppToolTip;
 	};

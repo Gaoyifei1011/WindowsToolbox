@@ -6,5 +6,21 @@ namespace FileRenamer
         AboutPage();
 
         String Title{ get; };
+        String BriefIntroduction{ get; };
+        String Reference{ get; };
+        String UseInstruction{ get; };
+        String Precaution{ get; };
+        String SettingsHelp{ get; };
+        String Thanks{ get; };
+        String QuickOperation{ get; };
+        String CreateDesktopShortcut{ get; };
+        String CreateDesktopShortcutToolTip{ get; };
+        String PinToStartScreen{ get; };
+        String PinToStartScreenToolTip{ get; };
+        String UpdateAndLicensing{ get; };
+        String ShowReleaseNotes{ get; };
+        String ShowReleaseNotesToolTip{ get; };
+        String ShowLicense{ get; };
+        String ShowLicenseToolTip{ get; };
     }
 }

@@ -117,7 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BriefIntroduction" xml:space="preserve">
+    <value>App brief introduction</value>
+  </data>
+  <data name="CreateDesktopShortcut" xml:space="preserve">
+    <value>Create desktop shortcut</value>
+  </data>
+  <data name="CreateDesktopShortcutToolTip" xml:space="preserve">
+    <value>Create a shortcut to this app on your desktop</value>
+  </data>
+  <data name="PinToStartScreen" xml:space="preserve">
+    <value>Pin to the Start screen</value>
+  </data>
+  <data name="PinToStartScreenToolTip" xml:space="preserve">
+    <value>Pin the app to Start screen</value>
+  </data>
+  <data name="Precaution" xml:space="preserve">
+    <value>Precautions</value>
+  </data>
+  <data name="QuickOperation" xml:space="preserve">
+    <value>Quick operation</value>
+  </data>
+  <data name="Reference" xml:space="preserve">
+    <value>Project references (Sort by alphabetical order)</value>
+  </data>
+  <data name="SettingsHelp" xml:space="preserve">
+    <value>Setting options instructions</value>
+  </data>
+  <data name="ShowLicense" xml:space="preserve">
+    <value>Show License</value>
+  </data>
+  <data name="ShowLicenseToolTip" xml:space="preserve">
+    <value>View the app's license agreement</value>
+  </data>
+  <data name="ShowReleaseNotes" xml:space="preserve">
+    <value>Show release notes</value>
+  </data>
+  <data name="ShowReleaseNotesToolTip" xml:space="preserve">
+    <value>Learn about app-specific updates</value>
+  </data>
+  <data name="Thanks" xml:space="preserve">
+    <value>Thanks (Sort by alphabetical order)</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>About</value>
+  </data>
+  <data name="UpdateAndLicensing" xml:space="preserve">
+    <value>Update and licensing</value>
+  </data>
+  <data name="UseInstruction" xml:space="preserve">
+    <value>Direction for use</value>
   </data>
 </root>

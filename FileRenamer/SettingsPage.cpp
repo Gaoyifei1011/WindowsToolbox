@@ -16,6 +16,9 @@ namespace winrt::FileRenamer::implementation
 		_viewModel = make<FileRenamer::implementation::SettingsViewModel>();
 
 		_title = AppResourcesService.GetLocalized(L"Settings/Title");
+		_appearance = AppResourcesService.GetLocalized(L"Settings/Appearance");
+		_general = AppResourcesService.GetLocalized(L"Settings/General");
+		_advanced = AppResourcesService.GetLocalized(L"Settings/Advanced");
 		_restartApp = AppResourcesService.GetLocalized(L"Settings/RestartApp");
 		_restartAppToolTip = AppResourcesService.GetLocalized(L"Settings/RestartAppToolTip");
 	};
@@ -28,6 +31,21 @@ namespace winrt::FileRenamer::implementation
 	hstring SettingsPage::Title()
 	{
 		return _title;
+	}
+
+	hstring SettingsPage::Appearance()
+	{
+		return _appearance;
+	}
+
+	hstring SettingsPage::General()
+	{
+		return _general;
+	}
+
+	hstring SettingsPage::Advanced()
+	{
+		return _advanced;
 	}
 
 	hstring SettingsPage::RestartApp()

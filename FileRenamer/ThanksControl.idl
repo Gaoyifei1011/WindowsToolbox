@@ -1,0 +1,10 @@
+namespace FileRenamer
+{
+    [default_interface]
+    runtimeclass ThanksControl : Windows.UI.Xaml.Controls.UserControl
+    {
+        ThanksControl();
+        
+        String Thanks{ get; };
+    }
+}

@@ -1,0 +1,10 @@
+namespace FileRenamer
+{
+    [default_interface]
+    runtimeclass ReferenceControl : Windows.UI.Xaml.Controls.UserControl
+    {
+        ReferenceControl();
+        
+        String Reference{ get; };
+    }
+}

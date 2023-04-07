@@ -17,7 +17,7 @@ namespace winrt::FileRenamer::implementation
 			{
 				FileRenamer::RestartAppsDialog dialog;
 				dialog.XamlRoot(MileWindow::Current()->Content().XamlRoot());
-				auto result = dialog.ShowAsync().GetResults();
+				dialog.ShowAsync().GetResults();
 			});
 	};
 

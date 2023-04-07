@@ -1,0 +1,10 @@
+namespace FileRenamer
+{
+    [default_interface]
+    runtimeclass SettingsHelpControl : Windows.UI.Xaml.Controls.UserControl
+    {
+        SettingsHelpControl();
+        
+        String SettingsHelp{ get; };
+    }
+}

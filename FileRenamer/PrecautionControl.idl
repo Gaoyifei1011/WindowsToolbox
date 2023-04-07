@@ -1,0 +1,10 @@
+namespace FileRenamer
+{
+    [default_interface]
+    runtimeclass PrecautionControl : Windows.UI.Xaml.Controls.UserControl
+    {
+        PrecautionControl();
+        
+        String Precaution{ get; };
+    }
+}

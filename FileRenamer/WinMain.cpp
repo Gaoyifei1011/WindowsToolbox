@@ -4,6 +4,7 @@
 #include <WinMain.h>
 #include <fstream>
 #include "pch.h"
+#include <tchar.h>
 #include "App.h"
 #include "MainPage.h"
 #include "Services/Root/ResourceService.h"
@@ -17,8 +18,9 @@ ResourceService AppResourcesService;
 NavigationService AppNavigationService;
 StringFormatHelper AppStringFormatHelper;
 
+void ApplicationStart(HINSTANCE hInstance, int nShowCmd);
 void InitializeProgramResources();
-bool CheckSingleInstance(LPCWSTR pszUniqueName);
+bool IsAppLaunched(LPCWSTR pszUniqueName);
 
 /// <summary>
 /// 文件重命名工具
@@ -26,22 +28,41 @@ bool CheckSingleInstance(LPCWSTR pszUniqueName);
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nShowCmd)
 {
 	UNREFERENCED_PARAMETER(hPrevInstance);
-	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	InitializeProgramResources();
 
-	if (CheckSingleInstance(L"Gaoyifei1011.FileRenamer") == false)
+	// 检测应用是否处于运行状态
+	if (IsAppLaunched(L"Gaoyifei1011.FileRenamer") == true)
 	{
-		//TODO:添加重定向操作步骤
+		// 如果应用程序的启动参数是重启，则直接启动第二个实例，并关闭之前的实例
+		if (_tcscmp(lpCmdLine, L"Restart") == 0)
+		{
+			ApplicationStart(hInstance, nShowCmd);
+		}
+		// 关闭当前实例，并重定向到第一个实例
+		else
+		{
+			// 重定向操作
+			return 0;
+		}
 	}
+	// 没有，运行第一个实例
 	else
 	{
-		init_apartment(apartment_type::single_threaded);
-		ApplicationRoot = make_self<implementation::App>();
-		ApplicationRoot->Run(hInstance, nShowCmd);
+		ApplicationStart(hInstance, nShowCmd);
 	}
 
 	return 0;
+}
+
+/// <summary>
+/// 初始化并启动应用实例
+/// </summary>
+void ApplicationStart(HINSTANCE hInstance, int nShowCmd)
+{
+	init_apartment(apartment_type::single_threaded);
+	ApplicationRoot = make_self<implementation::App>();
+	ApplicationRoot->Run(hInstance, nShowCmd);
 }
 
 /// <summary>
@@ -62,27 +83,27 @@ void InitializeProgramResources()
 /// <summary>
 /// 检测应用程序是否已经运行
 /// </summary>
-bool CheckSingleInstance(LPCWSTR pszUniqueName)
+bool IsAppLaunched(LPCWSTR pszUniqueName)
 {
 	HANDLE hMutex = CreateEvent(NULL, TRUE, FALSE, pszUniqueName);
 	DWORD dwLstErr = GetLastError();
-	bool bOneInstanceCheck = true;
+	bool isAppLaunched = false;
 
 	if (hMutex)
 	{
 		if (dwLstErr == ERROR_ALREADY_EXISTS)
 		{
 			CloseHandle(hMutex);
-			bOneInstanceCheck = false;
+			isAppLaunched = true;
 		}
 	}
 	else
 	{
 		if (dwLstErr == ERROR_ACCESS_DENIED)
 		{
-			bOneInstanceCheck = false;
+			isAppLaunched = true;
 		}
 	}
 
-	return bOneInstanceCheck;
+	return isAppLaunched;
 }

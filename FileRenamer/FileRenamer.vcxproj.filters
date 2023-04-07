@@ -15,6 +15,12 @@
     <Page Include="Styles\Expander.xaml" />
     <Page Include="Styles\TextBlock.xaml" />
     <Page Include="RestartAppsDialog.xaml" />
+    <Page Include="InstructionsControl.xaml" />
+    <Page Include="IntroductionControl.xaml" />
+    <Page Include="PrecautionControl.xaml" />
+    <Page Include="ReferenceControl.xaml" />
+    <Page Include="SettingsHelpControl.xaml" />
+    <Page Include="ThanksControl.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />

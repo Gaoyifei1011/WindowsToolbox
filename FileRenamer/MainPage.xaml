@@ -64,6 +64,8 @@
                     </local:ExtendedNavigationViewItem.Icon>
                 </local:ExtendedNavigationViewItem>
 
+                <NavigationViewItemSeparator />
+
                 <local:ExtendedNavigationViewItem
                     Command="{x:Bind ViewModel.NavigationItemCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag}"
