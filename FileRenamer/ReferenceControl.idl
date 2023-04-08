@@ -1,9 +1,13 @@
+import "ViewModels\Controls\About\ReferenceViewModel.idl";
+
 namespace FileRenamer
 {
     [default_interface]
     runtimeclass ReferenceControl : Windows.UI.Xaml.Controls.UserControl
     {
         ReferenceControl();
+
+        ReferenceViewModel ViewModel{ get; };
         
         String Reference{ get; };
     }

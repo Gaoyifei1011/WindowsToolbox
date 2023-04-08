@@ -11,21 +11,21 @@ using namespace winrt;
 
 namespace winrt::FileRenamer::implementation
 {
-    struct ThanksControl : ThanksControlT<ThanksControl>
-    {
-    public:
-        ThanksControl();
+	struct ThanksControl : ThanksControlT<ThanksControl>
+	{
+	public:
+		ThanksControl();
 
-        hstring Thanks();
+		hstring Thanks();
 
-    private:
-        hstring _thanks;
-    };
+	private:
+		hstring _thanks;
+	};
 }
 
 namespace winrt::FileRenamer::factory_implementation
 {
-    struct ThanksControl : ThanksControlT<ThanksControl, implementation::ThanksControl>
-    {
-    };
+	struct ThanksControl : ThanksControlT<ThanksControl, implementation::ThanksControl>
+	{
+	};
 }

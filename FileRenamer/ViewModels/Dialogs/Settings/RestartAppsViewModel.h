@@ -5,23 +5,23 @@
 
 namespace winrt::FileRenamer::implementation
 {
-    struct RestartAppsViewModel : RestartAppsViewModelT<RestartAppsViewModel>
-    {
-    public:
-        RestartAppsViewModel();
+	struct RestartAppsViewModel : RestartAppsViewModelT<RestartAppsViewModel>
+	{
+	public:
+		RestartAppsViewModel();
 
-        ICommand RestartAppsCommand();
-        ICommand CloseDialogCommand();
+		ICommand RestartAppsCommand();
+		ICommand CloseDialogCommand();
 
-    private:
-        ICommand _restartAppsCommand;
-        ICommand _closeDialogCommand;
-    };
+	private:
+		ICommand _restartAppsCommand;
+		ICommand _closeDialogCommand;
+	};
 }
 
 namespace winrt::FileRenamer::factory_implementation
 {
-    struct RestartAppsViewModel : RestartAppsViewModelT<RestartAppsViewModel, implementation::RestartAppsViewModel>
-    {
-    };
+	struct RestartAppsViewModel : RestartAppsViewModelT<RestartAppsViewModel, implementation::RestartAppsViewModel>
+	{
+	};
 }

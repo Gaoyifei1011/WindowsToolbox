@@ -9,7 +9,7 @@
 
     <local:Expander Style="{StaticResource ExpanderAboutStyle}">
         <local:Expander.Header>
-            <TextBlock Style="{StaticResource ExpanderHeaderStyle}" />
+            <TextBlock Style="{StaticResource ExpanderHeaderStyle}" Text="{x:Bind Thanks}" />
         </local:Expander.Header>
     </local:Expander>
 </UserControl>

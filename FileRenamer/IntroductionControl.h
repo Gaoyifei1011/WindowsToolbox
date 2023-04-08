@@ -11,21 +11,21 @@ using namespace winrt;
 
 namespace winrt::FileRenamer::implementation
 {
-    struct IntroductionControl : IntroductionControlT<IntroductionControl>
-    {
-    public:
-        IntroductionControl();
+	struct IntroductionControl : IntroductionControlT<IntroductionControl>
+	{
+	public:
+		IntroductionControl();
 
-        hstring BriefIntroduction();
+		hstring BriefIntroduction();
 
-    private:
-        hstring _briefIntroduction;
-    };
+	private:
+		hstring _briefIntroduction;
+	};
 }
 
 namespace winrt::FileRenamer::factory_implementation
 {
-    struct IntroductionControl : IntroductionControlT<IntroductionControl, implementation::IntroductionControl>
-    {
-    };
+	struct IntroductionControl : IntroductionControlT<IntroductionControl, implementation::IntroductionControl>
+	{
+	};
 }

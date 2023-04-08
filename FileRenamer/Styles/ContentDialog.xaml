@@ -388,7 +388,6 @@
         </Setter>
     </Style>
 
-
     <Style x:Key="DefaultContentDialogStyle" TargetType="ContentDialog">
         <Setter Property="Foreground" Value="{ThemeResource ContentDialogForeground}" />
         <Setter Property="Background" Value="{ThemeResource ContentDialogBackground}" />

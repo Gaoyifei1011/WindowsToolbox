@@ -12,30 +12,30 @@ using namespace winrt;
 
 namespace winrt::FileRenamer::implementation
 {
-    struct RestartAppsDialog : RestartAppsDialogT<RestartAppsDialog>
-    {
-    public:
-        RestartAppsDialog();
-        FileRenamer::RestartAppsViewModel ViewModel();
-        
-        hstring Restart();
-        hstring RestartContent();
-        hstring OK();
-        hstring Cancel();
+	struct RestartAppsDialog : RestartAppsDialogT<RestartAppsDialog>
+	{
+	public:
+		RestartAppsDialog();
+		FileRenamer::RestartAppsViewModel ViewModel();
 
-    private:
-        FileRenamer::RestartAppsViewModel _viewModel;
+		hstring Restart();
+		hstring RestartContent();
+		hstring OK();
+		hstring Cancel();
 
-        hstring _restart;
-        hstring _restartContent;
-        hstring _ok;
-        hstring _cancel;
-    };
+	private:
+		FileRenamer::RestartAppsViewModel _viewModel;
+
+		hstring _restart;
+		hstring _restartContent;
+		hstring _ok;
+		hstring _cancel;
+	};
 }
 
 namespace winrt::FileRenamer::factory_implementation
 {
-    struct RestartAppsDialog : RestartAppsDialogT<RestartAppsDialog, implementation::RestartAppsDialog>
-    {
-    };
+	struct RestartAppsDialog : RestartAppsDialogT<RestartAppsDialog, implementation::RestartAppsDialog>
+	{
+	};
 }

@@ -11,5 +11,33 @@
         <local:Expander.Header>
             <TextBlock Style="{StaticResource ExpanderHeaderStyle}" Text="{x:Bind Reference}" />
         </local:Expander.Header>
+
+        <local:Expander.Content>
+            <GridView
+                Margin="9,0"
+                Padding="0"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                SelectionMode="None">
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <!--<HyperlinkButton
+                            Padding="5,8"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Content="{Binding Key, Mode=OneTime}"
+                            NavigateUri="{Binding Value, Mode=OneTime}">
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    Content="{Binding Key, Mode=OneTime}"
+                                    Placement="Bottom"
+                                    VerticalOffset="25" />
+                            </ToolTipService.ToolTip>
+                        </HyperlinkButton>-->
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </local:Expander.Content>
     </local:Expander>
 </UserControl>

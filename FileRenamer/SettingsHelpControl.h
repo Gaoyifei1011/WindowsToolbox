@@ -9,21 +9,21 @@
 
 namespace winrt::FileRenamer::implementation
 {
-    struct SettingsHelpControl : SettingsHelpControlT<SettingsHelpControl>
-    {
-    public:
-        SettingsHelpControl();
+	struct SettingsHelpControl : SettingsHelpControlT<SettingsHelpControl>
+	{
+	public:
+		SettingsHelpControl();
 
-        hstring SettingsHelp();
+		hstring SettingsHelp();
 
-    private:
-        hstring _settingsHelp;
-    };
+	private:
+		hstring _settingsHelp;
+	};
 }
 
 namespace winrt::FileRenamer::factory_implementation
 {
-    struct SettingsHelpControl : SettingsHelpControlT<SettingsHelpControl, implementation::SettingsHelpControl>
-    {
-    };
+	struct SettingsHelpControl : SettingsHelpControlT<SettingsHelpControl, implementation::SettingsHelpControl>
+	{
+	};
 }

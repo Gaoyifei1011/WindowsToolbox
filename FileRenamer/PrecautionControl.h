@@ -9,21 +9,21 @@
 
 namespace winrt::FileRenamer::implementation
 {
-    struct PrecautionControl : PrecautionControlT<PrecautionControl>
-    {
-    public:
-        PrecautionControl();
+	struct PrecautionControl : PrecautionControlT<PrecautionControl>
+	{
+	public:
+		PrecautionControl();
 
-        hstring Precaution();
+		hstring Precaution();
 
-    private:
-        hstring _precaution;
-    };
+	private:
+		hstring _precaution;
+	};
 }
 
 namespace winrt::FileRenamer::factory_implementation
 {
-    struct PrecautionControl : PrecautionControlT<PrecautionControl, implementation::PrecautionControl>
-    {
-    };
+	struct PrecautionControl : PrecautionControlT<PrecautionControl, implementation::PrecautionControl>
+	{
+	};
 }

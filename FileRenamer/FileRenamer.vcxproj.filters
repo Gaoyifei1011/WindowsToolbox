@@ -21,6 +21,7 @@
     <Page Include="ReferenceControl.xaml" />
     <Page Include="SettingsHelpControl.xaml" />
     <Page Include="ThanksControl.xaml" />
+    <Page Include="Styles\GridView.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />
@@ -31,6 +32,7 @@
     <Midl Include="ViewModels\Pages\SettingsViewModel.idl" />
     <Midl Include="Expander.idl" />
     <Midl Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.idl" />
+    <Midl Include="ViewModels\Controls\About\ReferenceViewModel.idl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

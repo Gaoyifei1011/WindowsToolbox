@@ -6,26 +6,31 @@
 #include "winrt/Windows.UI.Xaml.Interop.h"
 #include "winrt/Windows.UI.Xaml.Controls.Primitives.h"
 #include "ReferenceControl.g.h"
+#include "ViewModels/Controls/About/ReferenceViewModel.h"
 
 using namespace winrt;
 
 namespace winrt::FileRenamer::implementation
 {
-    struct ReferenceControl : ReferenceControlT<ReferenceControl>
-    {
-    public:
-        ReferenceControl();
+	struct ReferenceControl : ReferenceControlT<ReferenceControl>
+	{
+	public:
+		ReferenceControl();
 
-        hstring Reference();
+		FileRenamer::ReferenceViewModel ViewModel();
 
-    private:
-        hstring _reference;
-    };
+		hstring Reference();
+
+	private:
+		FileRenamer::ReferenceViewModel _viewModel;
+
+		hstring _reference;
+	};
 }
 
 namespace winrt::FileRenamer::factory_implementation
 {
-    struct ReferenceControl : ReferenceControlT<ReferenceControl, implementation::ReferenceControl>
-    {
-    };
+	struct ReferenceControl : ReferenceControlT<ReferenceControl, implementation::ReferenceControl>
+	{
+	};
 }

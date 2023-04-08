@@ -176,17 +176,17 @@
                 Padding="0,10,0,30"
                 Spacing="3">
 
-                <!--<local:IntroductionControl x:Name="IntroductionContent" />-->
+                <local:IntroductionControl x:Name="IntroductionContent" />
 
                 <local:ReferenceControl x:Name="ReferenceContent" />
 
-                <!--<local:InstructionsControl x:Name="InstructionsContent" />
+                <local:InstructionsControl x:Name="InstructionsContent" />
 
                 <local:PrecautionControl x:Name="PrecautionContent" />
 
                 <local:SettingsHelpControl x:Name="SettingsHelpContent" />
 
-                <local:ThanksControl x:Name="ThanksContent" />-->
+                <local:ThanksControl x:Name="ThanksContent" />
             </StackPanel>
         </ScrollViewer>
     </SplitView>

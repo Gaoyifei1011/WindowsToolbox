@@ -1,0 +1,11 @@
+namespace FileRenamer
+{
+    [bindable]
+    [default_interface]
+    runtimeclass ReferenceViewModel 
+    {
+        ReferenceViewModel();
+        
+        Windows.Foundation.Collections.IMap<String, String> ReferenceDict{ get; };
+    }
+}

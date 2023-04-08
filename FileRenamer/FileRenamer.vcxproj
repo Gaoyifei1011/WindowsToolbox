@@ -250,6 +250,10 @@
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="ViewModels\Controls\About\ReferenceViewModel.h">
+      <DependentUpon>ViewModels\Controls\About\ReferenceViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.h">
       <DependentUpon>ViewModels\Dialogs\Settings\RestartAppsViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -355,6 +359,10 @@
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="ViewModels\Controls\About\ReferenceViewModel.cpp">
+      <DependentUpon>ViewModels\Controls\About\ReferenceViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.cpp">
       <DependentUpon>ViewModels\Dialogs\Settings\RestartAppsViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -434,6 +442,9 @@
       <DeploymentContent>true</DeploymentContent>
     </Page>
     <Page Include="Styles\FontIcon.xaml" />
+    <Page Include="Styles\GridView.xaml">
+      <DeploymentContent>true</DeploymentContent>
+    </Page>
     <Page Include="Styles\NavigationView.xaml">
       <DeploymentContent>true</DeploymentContent>
     </Page>
@@ -523,6 +534,9 @@
     <Midl Include="UpperAndLowerCasePage.idl">
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="ViewModels\Controls\About\ReferenceViewModel.idl">
+      <SubType>Designer</SubType>
     </Midl>
     <Midl Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.idl">
       <SubType>Designer</SubType>

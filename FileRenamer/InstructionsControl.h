@@ -11,21 +11,21 @@ using namespace winrt;
 
 namespace winrt::FileRenamer::implementation
 {
-    struct InstructionsControl : InstructionsControlT<InstructionsControl>
-    {
-    public:
-        InstructionsControl();
+	struct InstructionsControl : InstructionsControlT<InstructionsControl>
+	{
+	public:
+		InstructionsControl();
 
-        hstring UseInstruction();
+		hstring UseInstruction();
 
-    private:
-        hstring _useInstruction;
-    };
+	private:
+		hstring _useInstruction;
+	};
 }
 
 namespace winrt::FileRenamer::factory_implementation
 {
-    struct InstructionsControl : InstructionsControlT<InstructionsControl, implementation::InstructionsControl>
-    {
-    };
+	struct InstructionsControl : InstructionsControlT<InstructionsControl, implementation::InstructionsControl>
+	{
+	};
 }
