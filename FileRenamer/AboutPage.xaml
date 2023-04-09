@@ -107,7 +107,7 @@
 
                     <Button.Flyout>
                         <MenuFlyout Placement="Right">
-                            <MenuFlyoutItem Text="{x:Bind CreateDesktopShortcut}">
+                            <MenuFlyoutItem Command="{x:Bind ViewModel.CreateDesktopShortcutCommand}" Text="{x:Bind CreateDesktopShortcut}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip
                                         Content="{x:Bind CreateDesktopShortcutToolTip}"
@@ -115,10 +115,18 @@
                                         VerticalOffset="20" />
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem Text="{x:Bind PinToStartScreen}">
+                            <MenuFlyoutItem Command="{x:Bind ViewModel.PinToStartScreenCommand}" Text="{x:Bind PinToStartScreen}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip
                                         Content="{x:Bind PinToStartScreenToolTip}"
+                                        Placement="Bottom"
+                                        VerticalOffset="20" />
+                                </ToolTipService.ToolTip>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Command="{x:Bind ViewModel.PinToTaskbarCommand}" Text="{x:Bind PinToTaskbar}" Visibility="Collapsed">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        Content="{x:Bind PinToTaskbarToolTip}"
                                         Placement="Bottom"
                                         VerticalOffset="20" />
                                 </ToolTipService.ToolTip>
@@ -142,7 +150,7 @@
 
                     <Button.Flyout>
                         <MenuFlyout Placement="Right">
-                            <MenuFlyoutItem Text="{x:Bind ShowReleaseNotes}">
+                            <MenuFlyoutItem Command="{x:Bind ViewModel.ShowReleaseNotesCommand}" Text="{x:Bind ShowReleaseNotes}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip
                                         Content="{x:Bind ShowReleaseNotesToolTip}"
@@ -150,7 +158,7 @@
                                         VerticalOffset="20" />
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem Text="{x:Bind ShowLicense}">
+                            <MenuFlyoutItem Command="{x:Bind ViewModel.ShowLicenseCommand}" Text="{x:Bind ShowLicense}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip
                                         Content="{x:Bind ShowLicenseToolTip}"
@@ -187,6 +195,7 @@
                 <local:SettingsHelpControl x:Name="SettingsHelpContent" />
 
                 <local:ThanksControl x:Name="ThanksContent" />
+
             </StackPanel>
         </ScrollViewer>
     </SplitView>

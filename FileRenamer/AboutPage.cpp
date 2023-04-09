@@ -14,6 +14,8 @@ namespace winrt::FileRenamer::implementation
 	{
 		InitializeComponent();
 
+		_viewModel = make<FileRenamer::implementation::AboutViewModel>();
+
 		_title = AppResourcesService.GetLocalized(L"About/Title");
 		_briefIntroduction = AppResourcesService.GetLocalized(L"About/BriefIntroduction");
 		_reference = AppResourcesService.GetLocalized(L"About/Reference");
@@ -26,12 +28,19 @@ namespace winrt::FileRenamer::implementation
 		_createDesktopShortcutToolTip = AppResourcesService.GetLocalized(L"About/CreateDesktopShortcutToolTip");
 		_pinToStartScreen = AppResourcesService.GetLocalized(L"About/PinToStartScreen");
 		_pinToStartScreenToolTip = AppResourcesService.GetLocalized(L"About/PinToStartScreenToolTip");
+		_pinToTaskbar = AppResourcesService.GetLocalized(L"About/PinToTaskbar");
+		_pinToTaskbarToolTip = AppResourcesService.GetLocalized(L"About/PinToTaskbarToolTip");
 		_updateAndLicensing = AppResourcesService.GetLocalized(L"About/UpdateAndLicensing");
 		_showReleaseNotes = AppResourcesService.GetLocalized(L"About/ShowReleaseNotes");
 		_showReleaseNotesToolTip = AppResourcesService.GetLocalized(L"About/ShowReleaseNotesToolTip");
 		_showLicense = AppResourcesService.GetLocalized(L"About/ShowLicense");
 		_showLicenseToolTip = AppResourcesService.GetLocalized(L"About/ShowLicenseToolTip");
 	};
+
+	FileRenamer::AboutViewModel AboutPage::ViewModel()
+	{
+		return _viewModel;
+	}
 
 	hstring AboutPage::Title()
 	{
@@ -91,6 +100,16 @@ namespace winrt::FileRenamer::implementation
 	hstring AboutPage::PinToStartScreenToolTip()
 	{
 		return _pinToStartScreenToolTip;
+	}
+
+	hstring AboutPage::PinToTaskbar()
+	{
+		return _pinToTaskbar;
+	}
+
+	hstring AboutPage::PinToTaskbarToolTip()
+	{
+		return _pinToTaskbarToolTip;
 	}
 
 	hstring AboutPage::UpdateAndLicensing()

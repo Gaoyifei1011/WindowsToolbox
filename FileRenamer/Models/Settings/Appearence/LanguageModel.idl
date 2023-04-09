@@ -3,7 +3,7 @@ namespace FileRenamer
 	runtimeclass LanguageModel
 	{
 		LanguageModel();
-		String DisplayName;
-		String InternalName;
+		String DisplayName{ get; set;};
+		String InternalName{ get; set;};
 	}
 }

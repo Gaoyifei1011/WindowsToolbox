@@ -13,11 +13,11 @@ namespace winrt::FileRenamer::implementation
 {
 	SettingsViewModel::SettingsViewModel()
 	{
-		_restartCommand = make<RelayCommand>([this](IInspectable parameter)
+		_restartCommand = make<RelayCommand>([this](IInspectable parameter) -> IAsyncAction
 			{
 				FileRenamer::RestartAppsDialog dialog;
 				dialog.XamlRoot(MileWindow::Current()->Content().XamlRoot());
-				dialog.ShowAsync().GetResults();
+				co_await dialog.ShowAsync();
 			});
 	};
 

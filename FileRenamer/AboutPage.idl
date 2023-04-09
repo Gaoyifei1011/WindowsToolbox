@@ -1,9 +1,13 @@
+import "ViewModels\Pages\AboutViewModel.idl";
+
 namespace FileRenamer
 {
     [default_interface]
     runtimeclass AboutPage : Windows.UI.Xaml.Controls.Page
     {
         AboutPage();
+
+        AboutViewModel ViewModel{ get; };
 
         String Title{ get; };
         String BriefIntroduction{ get; };
@@ -17,6 +21,8 @@ namespace FileRenamer
         String CreateDesktopShortcutToolTip{ get; };
         String PinToStartScreen{ get; };
         String PinToStartScreenToolTip{ get; };
+        String PinToTaskbar{ get; };
+        String PinToTaskbarToolTip{ get; };
         String UpdateAndLicensing{ get; };
         String ShowReleaseNotes{ get; };
         String ShowReleaseNotesToolTip{ get; };

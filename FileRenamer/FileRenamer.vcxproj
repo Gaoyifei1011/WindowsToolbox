@@ -170,6 +170,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Helpers\Controls\About\CreateDesktopShortcutHelper.h" />
     <ClInclude Include="Expander.h">
       <DependentUpon>Expander.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -204,6 +205,10 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="MileWindow.h" />
+    <ClInclude Include="Models\About\ReferenceKeyValuePairModel.h">
+      <DependentUpon>Models\About\ReferenceKeyValuePairModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Models\Settings\Appearence\LanguageModel.h">
       <DependentUpon>Models\Settings\Appearence\LanguageModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -258,6 +263,10 @@
       <DependentUpon>ViewModels\Dialogs\Settings\RestartAppsViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="ViewModels\Pages\AboutViewModel.h">
+      <DependentUpon>ViewModels\Pages\AboutViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="ViewModels\Pages\SettingsViewModel.h">
       <DependentUpon>ViewModels\Pages\SettingsViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -277,6 +286,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="Helpers\Controls\About\CreateDesktopShortcutHelper.cpp" />
     <ClCompile Include="Expander.cpp">
       <DependentUpon>Expander.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -311,6 +321,10 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="MileWindow.cpp" />
+    <ClCompile Include="Models\About\ReferenceKeyValuePairModel.cpp">
+      <DependentUpon>Models\About\ReferenceKeyValuePairModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="Models\Settings\Appearence\LanguageModel.cpp">
       <DependentUpon>Models\Settings\Appearence\LanguageModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -367,6 +381,10 @@
       <DependentUpon>ViewModels\Dialogs\Settings\RestartAppsViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="ViewModels\Pages\AboutViewModel.cpp">
+      <DependentUpon>ViewModels\Pages\AboutViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="ViewModels\Pages\SettingsViewModel.cpp">
       <DependentUpon>ViewModels\Pages\SettingsViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -385,7 +403,7 @@
       <Version>10.0.22621.756</Version>
     </PackageReference>
     <PackageReference Include="Mile.Xaml">
-      <Version>2.0.546</Version>
+      <Version>2.0.573-preview</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -498,6 +516,9 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="Models\About\ReferenceKeyValuePairModel.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="Models\Settings\Appearence\LanguageModel.idl">
       <SubType>Designer</SubType>
     </Midl>
@@ -539,6 +560,9 @@
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="ViewModels\Pages\AboutViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="ViewModels\Pages\SettingsViewModel.idl">

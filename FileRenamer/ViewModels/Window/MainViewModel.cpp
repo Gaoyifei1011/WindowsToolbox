@@ -152,6 +152,7 @@ namespace winrt::FileRenamer::implementation
 	/// </summary>
 	void MainViewModel::OnFrameNavgationFailed(IInspectable const& sender, NavigationFailedEventArgs const& args)
 	{
-		//throw AppStringFormatHelper.format(to_string(AppResourcesService.GetLocalized(L"Window/NavigationFailed")), to_string(args.SourcePageType().Name));
+		//string str = to_string(AppResourcesService.GetLocalized(L"Window/NavigationFailed"));
+		//throw AppStringFormatHelper.format(str, to_string(args.SourcePageType().Name));
 	}
 }

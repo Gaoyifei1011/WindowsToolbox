@@ -9,12 +9,18 @@ namespace winrt::FileRenamer::implementation
 {
 	ReferenceViewModel::ReferenceViewModel()
 	{
-		_referenceDict.Insert(L"Microsoft.Windows.CppWinRT", L"https://github.com/Microsoft/cppwinrt");
-		_referenceDict.Insert(L"Microsoft.Windows.SDK.BuildTools", L"https://aka.ms/WinSDKProjectURL");
-		_referenceDict.Insert(L"Mile.Xaml", L"https://github.com/ProjectMile/Mile.Xaml");
+		FileRenamer::ReferenceKeyValuePairModel ReferenceItem = make<ReferenceKeyValuePairModel>();
+		ReferenceItem.Key(L"Microsoft.Windows.CppWinRT");
+		ReferenceItem.Value(L"https://github.com/Microsoft/cppwinrt");
+		_referenceDict.Append(ReferenceItem);
+		//_referenceDict.Append(make<ReferenceKeyValuePairModel>(L"Microsoft.Windows.CppWinRT", L"https://github.com/Microsoft/cppwinrt"));
+		//_referenceDict.Append(make<ReferenceKeyValuePairModel>(L"Microsoft.Windows.SDK.BuildTools", L"https://aka.ms/WinSDKProjectURL"));
+		//_referenceDict.Append(make<ReferenceKeyValuePairModel>(L"Mile.Xaml", L"https://github.com/ProjectMile/Mile.Xaml"));
+		auto item = _referenceDict;
+		auto length = item.Size();
 	}
 
-	Collections::IMap<hstring, hstring> ReferenceViewModel::ReferenceDict()
+	Collections::IVector<FileRenamer::ReferenceKeyValuePairModel> ReferenceViewModel::ReferenceDict()
 	{
 		return _referenceDict;
 	}

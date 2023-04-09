@@ -2,6 +2,7 @@
 
 #include "winrt/base.h"
 #include "AboutPage.g.h"
+#include "ViewModels/Pages/AboutViewModel.h"
 
 using namespace winrt;
 
@@ -11,6 +12,8 @@ namespace winrt::FileRenamer::implementation
 	{
 	public:
 		AboutPage();
+
+		FileRenamer::AboutViewModel ViewModel();
 
 		hstring Title();
 		hstring BriefIntroduction();
@@ -24,6 +27,8 @@ namespace winrt::FileRenamer::implementation
 		hstring CreateDesktopShortcutToolTip();
 		hstring PinToStartScreen();
 		hstring PinToStartScreenToolTip();
+		hstring PinToTaskbar();
+		hstring PinToTaskbarToolTip();
 		hstring UpdateAndLicensing();
 		hstring ShowReleaseNotes();
 		hstring ShowReleaseNotesToolTip();
@@ -31,6 +36,8 @@ namespace winrt::FileRenamer::implementation
 		hstring ShowLicenseToolTip();
 
 	private:
+		FileRenamer::AboutViewModel _viewModel;
+
 		hstring _title;
 		hstring _briefIntroduction;
 		hstring _reference;
@@ -43,6 +50,8 @@ namespace winrt::FileRenamer::implementation
 		hstring _createDesktopShortcutToolTip;
 		hstring _pinToStartScreen;
 		hstring _pinToStartScreenToolTip;
+		hstring _pinToTaskbar;
+		hstring _pinToTaskbarToolTip;
 		hstring _updateAndLicensing;
 		hstring _showReleaseNotes;
 		hstring _showReleaseNotesToolTip;

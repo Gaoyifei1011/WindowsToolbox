@@ -33,6 +33,8 @@
     <Midl Include="Expander.idl" />
     <Midl Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.idl" />
     <Midl Include="ViewModels\Controls\About\ReferenceViewModel.idl" />
+    <Midl Include="Models\About\ReferenceKeyValuePairModel.idl" />
+    <Midl Include="ViewModels\Pages\AboutViewModel.idl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -44,6 +46,7 @@
     <ClCompile Include="Services\Root\ResourceService.cpp" />
     <ClCompile Include="Helpers\Root\StringFormatHelper.cpp" />
     <ClCompile Include="Services\Window\NavigationService.cpp" />
+    <ClCompile Include="Helpers\Controls\About\CreateDesktopShortcutHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -55,6 +58,7 @@
     <ClInclude Include="Services\Root\ResourceService.h" />
     <ClInclude Include="Helpers\Root\StringFormatHelper.h" />
     <ClInclude Include="Services\Window\NavigationService.h" />
+    <ClInclude Include="Helpers\Controls\About\CreateDesktopShortcutHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="app.manifest" />

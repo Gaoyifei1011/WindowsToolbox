@@ -2,6 +2,7 @@
 
 #include "winrt/base.h"
 #include "winrt/Windows.Foundation.Collections.h"
+#include "Models/About/ReferenceKeyValuePairModel.h"
 #include "ReferenceViewModel.g.h"
 
 using namespace winrt;
@@ -14,10 +15,10 @@ namespace winrt::FileRenamer::implementation
 	public:
 		ReferenceViewModel();
 
-		Collections::IMap<hstring, hstring> ReferenceDict();
+		Collections::IVector<FileRenamer::ReferenceKeyValuePairModel> ReferenceDict();
 
 	private:
-		Collections::IMap<hstring, hstring> _referenceDict{ single_threaded_map<hstring,hstring>() };
+		Collections::IVector<FileRenamer::ReferenceKeyValuePairModel> _referenceDict{ single_threaded_vector< FileRenamer::ReferenceKeyValuePairModel >() };
 	};
 }
 
