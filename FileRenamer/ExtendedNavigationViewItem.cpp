@@ -1,34 +1,28 @@
-﻿#pragma once
-
-#include "pch.h"
+﻿#include "pch.h"
 #include "ExtendedNavigationViewItem.h"
 #include "ExtendedNavigationViewItem.g.cpp"
 
-using namespace winrt;
-using namespace Windows::UI::Xaml;
-using namespace Windows::UI::Xaml::Controls::Primitives;
-
 namespace winrt::FileRenamer::implementation
 {
-	DependencyProperty ExtendedNavigationViewItem::_commandProperty = DependencyProperty::Register(
+	winrt::WinrtXaml::DependencyProperty ExtendedNavigationViewItem::_commandProperty = winrt::WinrtXaml::DependencyProperty::Register(
 		L"Command",
-		xaml_typename<ICommand>(),
-		xaml_typename<FileRenamer::ExtendedNavigationViewItem>(),
-		PropertyMetadata{ nullptr }
+		xaml_typename<winrt::WinrtInput::ICommand>(),
+		xaml_typename<winrt::FileRenamer::ExtendedNavigationViewItem>(),
+		winrt::WinrtXaml::PropertyMetadata{ nullptr }
 	);
 
-	DependencyProperty ExtendedNavigationViewItem::_commandParameterProperty = DependencyProperty::Register(
+	winrt::WinrtXaml::DependencyProperty ExtendedNavigationViewItem::_commandParameterProperty = winrt::WinrtXaml::DependencyProperty::Register(
 		L"CommandParameter",
-		xaml_typename<IInspectable>(),
-		xaml_typename<FileRenamer::ExtendedNavigationViewItem>(),
-		PropertyMetadata{ nullptr }
+		xaml_typename<winrt::WinrtFoundation::IInspectable>(),
+		xaml_typename<winrt::FileRenamer::ExtendedNavigationViewItem>(),
+		winrt::WinrtXaml::PropertyMetadata{ nullptr }
 	);
 
-	DependencyProperty ExtendedNavigationViewItem::_toolTipProperty = DependencyProperty::Register(
+	winrt::WinrtXaml::DependencyProperty ExtendedNavigationViewItem::_toolTipProperty = winrt::WinrtXaml::DependencyProperty::Register(
 		L"ToolTip",
-		xaml_typename<hstring>(),
-		xaml_typename<FileRenamer::ExtendedNavigationViewItem>(),
-		PropertyMetadata{ nullptr }
+		xaml_typename<winrt::hstring>(),
+		xaml_typename<winrt::FileRenamer::ExtendedNavigationViewItem>(),
+		winrt::WinrtXaml::PropertyMetadata{ nullptr }
 	);
 
 	ExtendedNavigationViewItem::ExtendedNavigationViewItem()
@@ -39,66 +33,66 @@ namespace winrt::FileRenamer::implementation
 		this->Tapped({ this,&ExtendedNavigationViewItem::OnItemTapped });
 	};
 
-	ICommand ExtendedNavigationViewItem::Command()
+	winrt::WinrtInput::ICommand ExtendedNavigationViewItem::Command()
 	{
-		return unbox_value<ICommand>(GetValue(_commandProperty));
+		return winrt::unbox_value<winrt::WinrtInput::ICommand>(GetValue(_commandProperty));
 	}
-	void ExtendedNavigationViewItem::Command(ICommand const& value)
+	void ExtendedNavigationViewItem::Command(winrt::WinrtInput::ICommand const& value)
 	{
-		SetValue(_commandProperty, box_value(value));
+		SetValue(_commandProperty, winrt::box_value(value));
 	}
 
-	DependencyProperty ExtendedNavigationViewItem::CommandProperty()
+	winrt::WinrtXaml::DependencyProperty ExtendedNavigationViewItem::CommandProperty()
 	{
 		return _commandProperty;
 	}
 
-	IInspectable ExtendedNavigationViewItem::CommandParameter()
+	winrt::WinrtFoundation::IInspectable ExtendedNavigationViewItem::CommandParameter()
 	{
-		return unbox_value<IInspectable>(GetValue(_commandParameterProperty));
+		return winrt::unbox_value<winrt::WinrtFoundation::IInspectable>(GetValue(_commandParameterProperty));
 	}
-	void ExtendedNavigationViewItem::CommandParameter(IInspectable const& value)
+	void ExtendedNavigationViewItem::CommandParameter(winrt::WinrtFoundation::IInspectable const& value)
 	{
-		SetValue(_commandParameterProperty, box_value(value));
+		SetValue(_commandParameterProperty, winrt::box_value(value));
 	}
 
-	DependencyProperty ExtendedNavigationViewItem::CommandParameterProperty()
+	winrt::WinrtXaml::DependencyProperty ExtendedNavigationViewItem::CommandParameterProperty()
 	{
 		return _commandParameterProperty;
 	}
 
-	hstring ExtendedNavigationViewItem::ToolTip()
+	winrt::hstring ExtendedNavigationViewItem::ToolTip()
 	{
-		return unbox_value<hstring>(GetValue(_toolTipProperty));
+		return winrt::unbox_value<winrt::hstring>(GetValue(_toolTipProperty));
 	}
-	void ExtendedNavigationViewItem::ToolTip(hstring const& value)
+	void ExtendedNavigationViewItem::ToolTip(winrt::hstring const& value)
 	{
-		SetValue(_toolTipProperty, box_value(value));
+		SetValue(_toolTipProperty, winrt::box_value(value));
 	}
 
-	DependencyProperty ExtendedNavigationViewItem::ToolTipProperty()
+	winrt::WinrtXaml::DependencyProperty ExtendedNavigationViewItem::ToolTipProperty()
 	{
 		return _toolTipProperty;
 	}
 
-	void ExtendedNavigationViewItem::OnLoaded(IInspectable const& sender, RoutedEventArgs const& args)
+	void ExtendedNavigationViewItem::OnLoaded(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtXaml::RoutedEventArgs const& args)
 	{
 		if (ExtendedNavigationViewItem::ToolTip() != L"")
 		{
-			Controls::ToolTip NavigationViewItemToolTip;
-			NavigationViewItemToolTip.Content(box_value(ExtendedNavigationViewItem::ToolTip() + L" "));
-			NavigationViewItemToolTip.Placement(PlacementMode::Bottom);
+			winrt::WinrtControls::ToolTip NavigationViewItemToolTip;
+			NavigationViewItemToolTip.Content(winrt::box_value(ExtendedNavigationViewItem::ToolTip() + L" "));
+			NavigationViewItemToolTip.Placement(winrt::WinrtPrimitives::PlacementMode::Bottom);
 			NavigationViewItemToolTip.VerticalOffset(20);
-			Controls::ToolTipService::SetToolTip(this->try_as<DependencyObject>(), box_value(NavigationViewItemToolTip));
+			winrt::WinrtControls::ToolTipService::SetToolTip(this->try_as<winrt::WinrtXaml::DependencyObject>(), winrt::box_value(NavigationViewItemToolTip));
 		}
 	}
 
 	/// <summary>
 	/// 点击导航控件项时触发命令
 	/// </summary>
-	void ExtendedNavigationViewItem::OnItemTapped(IInspectable const& sender, TappedRoutedEventArgs const& args)
+	void ExtendedNavigationViewItem::OnItemTapped(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtInput::TappedRoutedEventArgs const& args)
 	{
-		ICommand clickCommand = ExtendedNavigationViewItem::Command();
+		winrt::WinrtInput::ICommand clickCommand = ExtendedNavigationViewItem::Command();
 		if (clickCommand != nullptr)
 		{
 			clickCommand.Execute(ExtendedNavigationViewItem::CommandParameter());

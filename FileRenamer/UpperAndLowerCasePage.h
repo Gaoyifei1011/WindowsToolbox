@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-#include "winrt/base.h"
-#include "UpperAndLowerCasePage.g.h"
+#include <winrt/base.h>
+#include <WinMain.h>
 
-using namespace winrt;
+#include "UpperAndLowerCasePage.g.h"
 
 namespace winrt::FileRenamer::implementation
 {
@@ -12,10 +12,10 @@ namespace winrt::FileRenamer::implementation
 	public:
 		UpperAndLowerCasePage();
 
-		hstring Title();
+		winrt::hstring Title();
 
 	private:
-		hstring _title;
+		winrt::hstring _title;
 	};
 }
 

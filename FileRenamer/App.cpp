@@ -1,14 +1,6 @@
-#pragma once
-
-#include <Mile.Xaml.h>
-
 #include "pch.h"
 #include "App.h"
-#include "MainPage.h"
-
-using namespace winrt;
-using namespace FileRenamer;
-using namespace FileRenamer::implementation;
+#include "MileWindow.h"
 
 namespace winrt::FileRenamer::implementation
 {
@@ -23,7 +15,7 @@ namespace winrt::FileRenamer::implementation
 	/// </summary>
 	void App::Run(HINSTANCE hInstance, int nShowCmd)
 	{
-		App::MainWindow.Content(make<MainPage>());
+		App::MainWindow.Content(winrt::make<winrt::FileRenamer::implementation::MainPage>());
 		App::MainWindow.Position = { CW_USEDEFAULT,0 };
 		App::MainWindow.Size = { CW_USEDEFAULT,0 };
 		App::MainWindow.MinWindowSize = { 600,768 };

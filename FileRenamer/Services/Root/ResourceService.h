@@ -6,9 +6,10 @@
 #include "Models/Settings/Appearence/LanguageModel.h"
 #include "LanguageModel.g.h"
 
-using namespace winrt;
-using namespace winrt::FileRenamer;
-using namespace winrt::Windows::ApplicationModel::Resources::Core;
+namespace winrt
+{
+	namespace WinrtResourcesCore = Windows::ApplicationModel::Resources::Core;
+}
 
 /// <summary>
 /// 应用资源服务
@@ -18,31 +19,31 @@ class ResourceService
 public:
 	ResourceService();
 
-	void InitializeResource(LanguageModel defaultAppLanguage, LanguageModel currentAppLanguage);
-	hstring GetLocalized(hstring resource);
+	void InitializeResource(winrt::FileRenamer::LanguageModel defaultAppLanguage, winrt::FileRenamer::LanguageModel currentAppLanguage);
+	winrt::hstring GetLocalized(winrt::hstring resource);
 
 private:
 	bool _isInitialized;
-	LanguageModel _defaultAppLanguage;
-	LanguageModel _currentAppLanguage;
-	ResourceContext _defaultResourceContext;
-	ResourceContext _currentResourceContext;
-	ResourceMap _resourceMap = (ResourceManager::Current()).MainResourceMap();
+	winrt::FileRenamer::LanguageModel _defaultAppLanguage;
+	winrt::FileRenamer::LanguageModel _currentAppLanguage;
+	winrt::WinrtResourcesCore::ResourceContext _defaultResourceContext;
+	winrt::WinrtResourcesCore::ResourceContext _currentResourceContext;
+	winrt::WinrtResourcesCore::ResourceMap _resourceMap = (winrt::WinrtResourcesCore::ResourceManager::Current()).MainResourceMap();
 
 	bool IsInitialized();
 	void IsInitialized(bool value);
 
-	LanguageModel DefaultAppLanguage();
-	void DefaultAppLanguage(LanguageModel value);
+	winrt::FileRenamer::LanguageModel DefaultAppLanguage();
+	void DefaultAppLanguage(winrt::FileRenamer::LanguageModel value);
 
-	LanguageModel CurrentAppLanguage();
-	void CurrentAppLanguage(LanguageModel value);
+	winrt::FileRenamer::LanguageModel CurrentAppLanguage();
+	void CurrentAppLanguage(winrt::FileRenamer::LanguageModel value);
 
-	ResourceContext DefaultResourceContext();
-	void DefaultResourceContext(ResourceContext value);
+	winrt::WinrtResourcesCore::ResourceContext DefaultResourceContext();
+	void DefaultResourceContext(winrt::WinrtResourcesCore::ResourceContext value);
 
-	ResourceContext CurrentResourceContext();
-	void CurrentResourceContext(ResourceContext value);
+	winrt::WinrtResourcesCore::ResourceContext CurrentResourceContext();
+	void CurrentResourceContext(winrt::WinrtResourcesCore::ResourceContext value);
 
-	ResourceMap ResourceMap();
+	winrt::WinrtResourcesCore::ResourceMap ResourceMap();
 };

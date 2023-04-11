@@ -44,9 +44,7 @@
     <ClCompile Include="MileWindow.cpp" />
     <ClCompile Include="Helpers\Root\DPICalcHelper.cpp" />
     <ClCompile Include="Services\Root\ResourceService.cpp" />
-    <ClCompile Include="Helpers\Root\StringFormatHelper.cpp" />
     <ClCompile Include="Services\Window\NavigationService.cpp" />
-    <ClCompile Include="Helpers\Controls\About\CreateDesktopShortcutHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -56,9 +54,7 @@
     <ClInclude Include="MileWindow.h" />
     <ClInclude Include="Helpers\Root\DPICalcHelper.h" />
     <ClInclude Include="Services\Root\ResourceService.h" />
-    <ClInclude Include="Helpers\Root\StringFormatHelper.h" />
     <ClInclude Include="Services\Window\NavigationService.h" />
-    <ClInclude Include="Helpers\Controls\About\CreateDesktopShortcutHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="app.manifest" />

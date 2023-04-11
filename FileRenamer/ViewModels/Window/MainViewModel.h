@@ -1,17 +1,23 @@
 ﻿#pragma once
 
-#include "winrt/Windows.Foundation.Collections.h"
-#include "winrt/Windows.UI.Xaml.Interop.h"
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
+
 #include "Extensions/Command/RelayCommand.h"
 #include "MainViewModel.g.h"
 #include "WinMain.h"
 
-using namespace winrt;
-using namespace winrt::Windows::Foundation;
-using namespace winrt::Windows::UI::Xaml::Controls;
-using namespace winrt::Windows::UI::Xaml::Data;
-using namespace winrt::Windows::UI::Xaml::Interop;
-using namespace winrt::Windows::UI::Xaml::Navigation;
+namespace winrt
+{
+	namespace WinrtCollections = Windows::Foundation::Collections;
+	namespace WinrtControls = Windows::UI::Xaml::Controls;
+	namespace WinrtData = Windows::UI::Xaml::Data;
+	namespace WinrtFoundation = Windows::Foundation;
+	namespace WinrtInput = Windows::UI::Xaml::Input;
+	namespace WinrtInterop = Windows::UI::Xaml::Interop;
+	namespace WinrtNavigation = Windows::UI::Xaml::Navigation;
+	namespace WinrtXaml = Windows::UI::Xaml;
+}
 
 namespace winrt::FileRenamer::implementation
 {
@@ -23,32 +29,32 @@ namespace winrt::FileRenamer::implementation
 		bool IsBackEnabled();
 		void IsBackEnabled(bool const& value);
 
-		NavigationViewItem SelectedItem();
-		void SelectedItem(NavigationViewItem const& value);
+		winrt::WinrtControls::NavigationViewItem SelectedItem();
+		void SelectedItem(winrt::WinrtControls::NavigationViewItem const& value);
 
-		ICommand NavigationItemCommand();
-		ICommand ClickCommand();
+		winrt::WinrtInput::ICommand NavigationItemCommand();
+		winrt::WinrtInput::ICommand ClickCommand();
 
-		Collections::IMap<hstring, TypeName> PageDict();
+		winrt::WinrtCollections::IMap<hstring, winrt::WinrtInterop::TypeName> PageDict();
 
-		void OnNavigationViewBackRequested(NavigationView const& sender, NavigationViewBackRequestedEventArgs const& args);
-		void OnNavigationViewLoaded(IInspectable const& sender, RoutedEventArgs const& args);
-		void OnFrameNavigated(IInspectable const& sender, NavigationEventArgs const& args);
-		void OnFrameNavgationFailed(IInspectable const& sender, NavigationFailedEventArgs const& args);
+		void OnNavigationViewBackRequested(winrt::WinrtControls::NavigationView const& sender, winrt::WinrtControls::NavigationViewBackRequestedEventArgs const& args);
+		void OnNavigationViewLoaded(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtXaml::RoutedEventArgs const& args);
+		void OnFrameNavigated(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtNavigation::NavigationEventArgs const& args);
+		void OnFrameNavgationFailed(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtNavigation::NavigationFailedEventArgs const& args);
 
-		event_token PropertyChanged(PropertyChangedEventHandler const& value);
+		event_token PropertyChanged(winrt::WinrtData::PropertyChangedEventHandler const& value);
 		void PropertyChanged(event_token const& token) noexcept;
 
 	private:
 		bool _isBackEnabled;
-		NavigationViewItem _selectedItem;
+		winrt::WinrtControls::NavigationViewItem _selectedItem;
 
-		ICommand _navigationItemCommand;
-		ICommand _clickCommand;
+		winrt::WinrtInput::ICommand _navigationItemCommand;
+		winrt::WinrtInput::ICommand _clickCommand;
 
-		Collections::IMap<hstring, TypeName> _pageDict{ single_threaded_map<hstring,TypeName>() };
+		winrt::WinrtCollections::IMap<hstring, winrt::WinrtInterop::TypeName> _pageDict{ winrt::single_threaded_map<hstring, winrt::WinrtInterop::TypeName>() };
 
-		winrt::event<PropertyChangedEventHandler> m_propertyChanged;
+		winrt::event<winrt::WinrtData::PropertyChangedEventHandler> m_propertyChanged;
 	};
 }
 

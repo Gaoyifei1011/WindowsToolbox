@@ -11,16 +11,9 @@
 #include "MileWindow.h"
 #include "MainPage.h"
 
-using namespace std;
-using namespace winrt;
-using namespace winrt::Windows::Graphics;
-using namespace winrt::Windows::UI::Xaml;
-using namespace winrt::Windows::UI::Xaml::Controls;
-
 WNDPROC MileOldWndProc = 0;
 MileWindow* MileWindow::_current = nullptr;
 LRESULT CALLBACK MileNewWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-LPCWSTR string2LPCWSTR(std::string str);
 
 MileWindow::MileWindow()
 {
@@ -41,11 +34,11 @@ void MileWindow::IsWindowCreated(bool value)
 	_isWindowCreated = value;
 }
 
-string MileWindow::Title()
+std::string MileWindow::Title()
 {
 	return _title;
 }
-void MileWindow::Title(string value)
+void MileWindow::Title(std::string value)
 {
 	_title = value;
 }
@@ -59,11 +52,11 @@ void MileWindow::Handle(HWND value)
 	_handle = value;
 }
 
-UIElement MileWindow::Content()
+winrt::WinrtXaml::UIElement MileWindow::Content()
 {
 	return _content;
 }
-void MileWindow::Content(UIElement value)
+void MileWindow::Content(winrt::WinrtXaml::UIElement value)
 {
 	_content = value;
 }
@@ -78,12 +71,12 @@ MileWindow* MileWindow::Current()
 /// </summary>
 void MileWindow::InitializeWindow(HINSTANCE hInstance)
 {
-	hstring AppTitle = AppResourcesService.GetLocalized(L"Resources/AppDisplayName");
+	winrt::hstring AppTitle = AppResourcesService.GetLocalized(L"Resources/AppDisplayName");
 
 	HWND hwnd = CreateWindowExW(
 		WS_EX_LEFT,
 		L"Mile.Xaml.ContentWindow",
-		string2LPCWSTR(to_string(AppTitle)),
+		AppTitle.c_str(),
 		WS_OVERLAPPEDWINDOW,
 		MileWindow::Position.X,
 		MileWindow::Position.Y,
@@ -92,7 +85,7 @@ void MileWindow::InitializeWindow(HINSTANCE hInstance)
 		nullptr,
 		nullptr,
 		hInstance,
-		get_abi(MileWindow::Content()));
+		winrt::get_abi(MileWindow::Content()));
 
 	MileWindow::Handle(hwnd);
 	if (MileWindow::Handle() == nullptr)
@@ -143,10 +136,10 @@ void MileWindow::SetAppIcon()
 {
 	TCHAR szFullPath[MAX_PATH];
 	ZeroMemory(szFullPath, MAX_PATH);
-	GetModuleFileName(NULL, szFullPath, MAX_PATH);
+	wsprintf(szFullPath, L"%s\\%s", winrt::WinrtApplicationModel::Package::Current().InstalledLocation().Path().c_str(), L"FileRenamer.exe");
 	HICON AppIcon = MileWindow::LoadLocalExeIcon(szFullPath);
-	SendMessage(ApplicationRoot->MainWindow.Handle(), WM_SETICON, ICON_BIG, (LPARAM)AppIcon);
-	SendMessage(ApplicationRoot->MainWindow.Handle(), WM_SETICON, ICON_SMALL, (LPARAM)AppIcon);
+	SendMessage(Current()->Handle(), WM_SETICON, ICON_BIG, (LPARAM)AppIcon);
+	SendMessage(Current()->Handle(), WM_SETICON, ICON_SMALL, (LPARAM)AppIcon);
 }
 
 /// <summary>
@@ -188,37 +181,24 @@ LRESULT CALLBACK MileNewWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_GETMINMAXINFO:
 	{
 		MINMAXINFO* minMaxInfo = (MINMAXINFO*)lParam;
-		if (ApplicationRoot->MainWindow.MinWindowSize.X >= 0)
+		if (MileWindow::Current()->MinWindowSize.X >= 0)
 		{
-			minMaxInfo->ptMinTrackSize.x = DPICalcHelper::ConvertEpxToPixel(ApplicationRoot->MainWindow.Handle(), ApplicationRoot->MainWindow.MinWindowSize.X);
+			minMaxInfo->ptMinTrackSize.x = DPICalcHelper::ConvertEpxToPixel(MileWindow::Current()->Handle(), MileWindow::Current()->MinWindowSize.X);
 		}
-		if (ApplicationRoot->MainWindow.MinWindowSize.Y >= 0)
+		if (MileWindow::Current()->MinWindowSize.Y >= 0)
 		{
-			minMaxInfo->ptMinTrackSize.y = DPICalcHelper::ConvertEpxToPixel(ApplicationRoot->MainWindow.Handle(), ApplicationRoot->MainWindow.MinWindowSize.Y);
+			minMaxInfo->ptMinTrackSize.y = DPICalcHelper::ConvertEpxToPixel(MileWindow::Current()->Handle(), MileWindow::Current()->MinWindowSize.Y);
 		}
-		if (ApplicationRoot->MainWindow.MaxWindowSize.X > 0)
+		if (MileWindow::Current()->MaxWindowSize.X > 0)
 		{
-			minMaxInfo->ptMinTrackSize.x = DPICalcHelper::ConvertEpxToPixel(ApplicationRoot->MainWindow.Handle(), ApplicationRoot->MainWindow.MaxWindowSize.X);
+			minMaxInfo->ptMinTrackSize.x = DPICalcHelper::ConvertEpxToPixel(MileWindow::Current()->Handle(), MileWindow::Current()->MaxWindowSize.X);
 		}
-		if (ApplicationRoot->MainWindow.MaxWindowSize.Y > 0)
+		if (MileWindow::Current()->MaxWindowSize.Y > 0)
 		{
-			minMaxInfo->ptMinTrackSize.y = DPICalcHelper::ConvertEpxToPixel(ApplicationRoot->MainWindow.Handle(), ApplicationRoot->MainWindow.MaxWindowSize.Y);
+			minMaxInfo->ptMinTrackSize.y = DPICalcHelper::ConvertEpxToPixel(MileWindow::Current()->Handle(), MileWindow::Current()->MaxWindowSize.Y);
 		}
 	}
 	}
 
 	return CallWindowProc(MileOldWndProc, hwnd, msg, wParam, lParam);
-}
-
-/// <summary>
-/// ±ê×¼×Ö·û´®£¨std::string£©×ª»»LPCWSTR
-/// </summary>
-LPCWSTR string2LPCWSTR(string str)
-{
-	size_t size = str.length();
-	size_t wLen = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, 0);
-	wchar_t* buffer = new wchar_t[wLen + 1];
-	memset(buffer, 0, (static_cast<unsigned long long>(wLen) + 1) * sizeof(wchar_t));
-	MultiByteToWideChar(CP_ACP, 0, str.c_str(), size, (LPWSTR)buffer, wLen);
-	return buffer;
 }

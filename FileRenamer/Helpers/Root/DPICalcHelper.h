@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Windows.h>
+
 /// <summary>
 /// DPI（每英寸点数）缩放计算辅助类
 /// </summary>

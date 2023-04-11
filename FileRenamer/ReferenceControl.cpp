@@ -1,10 +1,6 @@
 ﻿#include "pch.h"
 #include "ReferenceControl.h"
 #include "ReferenceControl.g.cpp"
-#include "WinMain.h"
-
-using namespace winrt;
-using namespace Windows::UI::Xaml;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -17,12 +13,12 @@ namespace winrt::FileRenamer::implementation
 		_reference = AppResourcesService.GetLocalized(L"About/Reference");
 	}
 
-	FileRenamer::ReferenceViewModel ReferenceControl::ViewModel()
+	winrt::FileRenamer::ReferenceViewModel ReferenceControl::ViewModel()
 	{
 		return _viewModel;
 	}
 
-	hstring ReferenceControl::Reference()
+	winrt::hstring ReferenceControl::Reference()
 	{
 		return _reference;
 	}

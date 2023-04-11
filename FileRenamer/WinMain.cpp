@@ -1,8 +1,5 @@
-#pragma once
-
 #include <Windows.h>
 #include <WinMain.h>
-#include <fstream>
 #include "pch.h"
 #include <tchar.h>
 #include "App.h"
@@ -10,13 +7,8 @@
 #include "Services/Root/ResourceService.h"
 #include "Services/Window/NavigationService.h"
 
-using namespace winrt;
-using namespace winrt::FileRenamer;
-
-com_ptr<implementation::App> ApplicationRoot;
 ResourceService AppResourcesService;
 NavigationService AppNavigationService;
-StringFormatHelper AppStringFormatHelper;
 
 void ApplicationStart(HINSTANCE hInstance, int nShowCmd);
 void InitializeProgramResources();
@@ -60,8 +52,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 /// </summary>
 void ApplicationStart(HINSTANCE hInstance, int nShowCmd)
 {
-	init_apartment(apartment_type::single_threaded);
-	ApplicationRoot = make_self<implementation::App>();
+	winrt::init_apartment(winrt::apartment_type::single_threaded);
+	winrt::com_ptr<winrt::FileRenamer::implementation::App> ApplicationRoot = winrt::make_self<winrt::FileRenamer::implementation::App>();
 	ApplicationRoot->Run(hInstance, nShowCmd);
 }
 
@@ -70,8 +62,8 @@ void ApplicationStart(HINSTANCE hInstance, int nShowCmd)
 /// </summary>
 void InitializeProgramResources()
 {
-	LanguageModel defaultLanguage = make<implementation::LanguageModel>();
-	LanguageModel currentLanguage = make<implementation::LanguageModel>();
+	winrt::FileRenamer::LanguageModel defaultLanguage = winrt::make<winrt::FileRenamer::implementation::LanguageModel>();
+	winrt::FileRenamer::LanguageModel currentLanguage = winrt::make<winrt::FileRenamer::implementation::LanguageModel>();
 
 	defaultLanguage.DisplayName(L"English (United States)");
 	currentLanguage.DisplayName(L"ÖÐÎÄ£¨¼òÌå£©");

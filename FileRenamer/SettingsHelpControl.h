@@ -1,10 +1,8 @@
 ﻿#pragma once
 
-#include "winrt/base.h"
-#include "winrt/Windows.UI.Xaml.h"
-#include "winrt/Windows.UI.Xaml.Markup.h"
-#include "winrt/Windows.UI.Xaml.Interop.h"
-#include "winrt/Windows.UI.Xaml.Controls.Primitives.h"
+#include <winrt/base.h>
+#include <WinMain.h>
+
 #include "SettingsHelpControl.g.h"
 
 namespace winrt::FileRenamer::implementation
@@ -14,10 +12,10 @@ namespace winrt::FileRenamer::implementation
 	public:
 		SettingsHelpControl();
 
-		hstring SettingsHelp();
+		winrt::hstring SettingsHelp();
 
 	private:
-		hstring _settingsHelp;
+		winrt::hstring _settingsHelp;
 	};
 }
 

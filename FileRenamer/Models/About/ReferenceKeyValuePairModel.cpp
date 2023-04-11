@@ -2,28 +2,26 @@
 #include "ReferenceKeyValuePairModel.h"
 #include "ReferenceKeyValuePairModel.g.cpp"
 
-using namespace winrt;
-
 namespace winrt::FileRenamer::implementation
 {
 	ReferenceKeyValuePairModel::ReferenceKeyValuePairModel() {};
 
-	ReferenceKeyValuePairModel::ReferenceKeyValuePairModel(hstring const& key, hstring const& value) :_key{ key }, _value{ value } {};
+	ReferenceKeyValuePairModel::ReferenceKeyValuePairModel(winrt::hstring const& key, winrt::hstring const& value) :_key{ key }, _value{ value } {};
 
-	hstring ReferenceKeyValuePairModel::Key()
+	winrt::hstring ReferenceKeyValuePairModel::Key()
 	{
 		return _key;
 	}
-	void ReferenceKeyValuePairModel::Key(hstring const& value)
+	void ReferenceKeyValuePairModel::Key(winrt::hstring const& value)
 	{
 		_key = value;
 	}
 
-	hstring ReferenceKeyValuePairModel::Value()
+	winrt::hstring ReferenceKeyValuePairModel::Value()
 	{
 		return _value;
 	}
-	void ReferenceKeyValuePairModel::Value(hstring const& value)
+	void ReferenceKeyValuePairModel::Value(winrt::hstring const& value)
 	{
 		_value = value;
 	}

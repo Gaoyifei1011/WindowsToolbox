@@ -6,20 +6,20 @@ namespace winrt::FileRenamer::implementation
 {
 	LanguageModel::LanguageModel() {};
 
-	hstring LanguageModel::DisplayName()
+	winrt::hstring LanguageModel::DisplayName()
 	{
 		return _displayName;
 	}
-	void LanguageModel::DisplayName(hstring const& value)
+	void LanguageModel::DisplayName(winrt::hstring const& value)
 	{
 		_displayName = value;
 	}
 
-	hstring LanguageModel::InternalName()
+	winrt::hstring LanguageModel::InternalName()
 	{
 		return _internalName;
 	}
-	void LanguageModel::InternalName(hstring const& value)
+	void LanguageModel::InternalName(winrt::hstring const& value)
 	{
 		_internalName = value;
 	}

@@ -1,37 +1,36 @@
 #pragma once
 
+#include <winrt/base.h>
+#include <WinMain.h>
+
 #include "pch.h"
 #include "MainPage.g.h"
 #include "Extensions/Command/RelayCommand.h"
 #include "ViewModels/Window/MainViewModel.h"
-
-#include <winrt/base.h>
-
-using namespace winrt;
 
 namespace winrt::FileRenamer::implementation
 {
 	struct MainPage : MainPageT<MainPage>
 	{
 		MainPage();
-		FileRenamer::MainViewModel ViewModel();
+		winrt::FileRenamer::MainViewModel ViewModel();
 
-		hstring FileName();
-		hstring ExtensionName();
-		hstring UpperAndLowerCase();
-		hstring FileProperties();
-		hstring About();
-		hstring Settings();
+		winrt::hstring FileName();
+		winrt::hstring ExtensionName();
+		winrt::hstring UpperAndLowerCase();
+		winrt::hstring FileProperties();
+		winrt::hstring About();
+		winrt::hstring Settings();
 
 	private:
-		FileRenamer::MainViewModel _viewModel;
+		winrt::FileRenamer::MainViewModel _viewModel;
 
-		hstring _fileName;
-		hstring _extensionName;
-		hstring _upperAndLowerCase;
-		hstring _fileProperties;
-		hstring _about;
-		hstring _settings;
+		winrt::hstring _fileName;
+		winrt::hstring _extensionName;
+		winrt::hstring _upperAndLowerCase;
+		winrt::hstring _fileProperties;
+		winrt::hstring _about;
+		winrt::hstring _settings;
 	};
 }
 

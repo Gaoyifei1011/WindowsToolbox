@@ -1,15 +1,18 @@
 ﻿#pragma once
 
-#include "winrt/Windows.UI.Xaml.Hosting.h"
+#include <winrt/Windows.UI.Xaml.Hosting.h>
+
 #include "pch.h"
 #include "Expander.g.h"
 
-using namespace winrt;
-using namespace winrt::Windows::Foundation;
-using namespace winrt::Windows::UI::Composition;
-using namespace winrt::Windows::UI::Xaml;
-using namespace winrt::Windows::UI::Xaml::Controls;
-using namespace winrt::Windows::UI::Xaml::Hosting;
+namespace winrt
+{
+	namespace WinrtComposition = Windows::UI::Composition;
+	namespace WinrtControls = Windows::UI::Xaml::Controls;
+	namespace WinrtFoundation = Windows::Foundation;
+	namespace WinrtHosting = Windows::UI::Xaml::Hosting;
+	namespace WinrtXaml = Windows::UI::Xaml;
+}
 
 namespace winrt::FileRenamer::implementation
 {
@@ -17,11 +20,11 @@ namespace winrt::FileRenamer::implementation
 	{
 		Expander();
 
-		IInspectable Header();
-		void Header(IInspectable const& value);
+		winrt::WinrtFoundation::IInspectable Header();
+		void Header(winrt::WinrtFoundation::IInspectable const& value);
 
-		DataTemplate HeaderTemplate();
-		void HeaderTemplate(DataTemplate const& value);
+		winrt::WinrtXaml::DataTemplate HeaderTemplate();
+		void HeaderTemplate(winrt::WinrtXaml::DataTemplate const& value);
 
 		bool IsExpanded();
 		void IsExpanded(bool const& value);
@@ -32,21 +35,21 @@ namespace winrt::FileRenamer::implementation
 		void OnApplyTemplate();
 		void UpdateExpandState(bool useTransitions);
 
-		static DependencyProperty HeaderProperty();
-		static DependencyProperty HeaderTemplateProperty();
-		static DependencyProperty IsExpandedProperty();
-		static DependencyProperty NegativeContentHeightProperty();
+		static winrt::WinrtXaml::DependencyProperty HeaderProperty();
+		static winrt::WinrtXaml::DependencyProperty HeaderTemplateProperty();
+		static winrt::WinrtXaml::DependencyProperty IsExpandedProperty();
+		static winrt::WinrtXaml::DependencyProperty NegativeContentHeightProperty();
 
-		static void OnIsExpandedPropertyChanged(DependencyObject const& sender, DependencyPropertyChangedEventArgs const& args);
+		static void OnIsExpandedPropertyChanged(winrt::WinrtXaml::DependencyObject const& sender, winrt::WinrtXaml::DependencyPropertyChangedEventArgs const& args);
 
 	private:
-		static DependencyProperty _headerProperty;
-		static DependencyProperty _headerTemplateProperty;
-		static DependencyProperty _isExpandedProperty;
-		static DependencyProperty _negativeContentHeightProperty;
+		static winrt::WinrtXaml::DependencyProperty _headerProperty;
+		static winrt::WinrtXaml::DependencyProperty _headerTemplateProperty;
+		static winrt::WinrtXaml::DependencyProperty _isExpandedProperty;
+		static winrt::WinrtXaml::DependencyProperty _negativeContentHeightProperty;
 
-		void OnContentSizeChanged(IInspectable const& sender, SizeChangedEventArgs const& args);
-		Border::SizeChanged_revoker m_contentSizeChangedRevoker{};
+		void OnContentSizeChanged(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtXaml::SizeChangedEventArgs const& args);
+		winrt::WinrtControls::Border::SizeChanged_revoker m_contentSizeChangedRevoker{};
 	};
 }
 

@@ -1,19 +1,15 @@
 ﻿#pragma once
 
-#include "winrt/Windows.UI.Xaml.Controls.h"
 #include "pch.h"
 #include "MileWindow.h"
 #include "SettingsViewModel.h"
 #include "SettingsViewModel.g.cpp"
 
-using namespace winrt;
-using namespace winrt::Windows::UI::Xaml::Controls;
-
 namespace winrt::FileRenamer::implementation
 {
 	SettingsViewModel::SettingsViewModel()
 	{
-		_restartCommand = make<RelayCommand>([this](IInspectable parameter) -> IAsyncAction
+		_restartCommand = winrt::make<RelayCommand>([this](winrt::WinrtFoundation::IInspectable parameter) -> WinrtFoundation::IAsyncAction
 			{
 				FileRenamer::RestartAppsDialog dialog;
 				dialog.XamlRoot(MileWindow::Current()->Content().XamlRoot());
@@ -24,7 +20,7 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 打开重启应用确认的窗口对话框
 	/// </summary>
-	ICommand SettingsViewModel::RestartCommand()
+	WinrtInput::ICommand SettingsViewModel::RestartCommand()
 	{
 		return _restartCommand;
 	}

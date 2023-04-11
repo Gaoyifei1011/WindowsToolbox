@@ -1,17 +1,13 @@
-#pragma once
-
 #include "RelayCommand.h"
-
-#include <functional>
 
 namespace winrt::FileRenamer::implementation
 {
-	RelayCommand::RelayCommand(std::function<void(IInspectable)> action)
+	RelayCommand::RelayCommand(std::function<void(winrt::WinrtFoundation::IInspectable)> action)
 	{
 		m_action = action;
 	}
 
-	void RelayCommand::Execute(IInspectable parameter)
+	void RelayCommand::Execute(winrt::WinrtFoundation::IInspectable parameter)
 	{
 		if (m_action != nullptr)
 		{
@@ -22,7 +18,7 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 使用 CanExecute 时要调用的可选操作。
 	/// </summary>
-	bool RelayCommand::CanExecute(IInspectable parameter)
+	bool RelayCommand::CanExecute(winrt::WinrtFoundation::IInspectable parameter)
 	{
 		return true;
 	}
@@ -32,7 +28,7 @@ namespace winrt::FileRenamer::implementation
 		m_eventToken.remove(token);
 	}
 
-	winrt::event_token RelayCommand::CanExecuteChanged(EventHandler<IInspectable> const& handler)
+	winrt::event_token RelayCommand::CanExecuteChanged(winrt::WinrtFoundation::EventHandler<winrt::WinrtFoundation::IInspectable> const& handler)
 	{
 		return m_eventToken.add(handler);
 	}

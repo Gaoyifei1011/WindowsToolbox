@@ -1,10 +1,6 @@
 ﻿#include "pch.h"
 #include "RestartAppsDialog.h"
 #include "RestartAppsDialog.g.cpp"
-#include "WinMain.h"
-
-using namespace winrt;
-using namespace Windows::UI::Xaml;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -12,7 +8,7 @@ namespace winrt::FileRenamer::implementation
 	{
 		InitializeComponent();
 
-		_viewModel = make<FileRenamer::implementation::RestartAppsViewModel>();
+		_viewModel = winrt::make<winrt::FileRenamer::implementation::RestartAppsViewModel>();
 
 		_restart = AppResourcesService.GetLocalized(L"Dialog/Restart");
 		_restartContent = AppResourcesService.GetLocalized(L"Dialog/RestartContent");
@@ -20,27 +16,27 @@ namespace winrt::FileRenamer::implementation
 		_cancel = AppResourcesService.GetLocalized(L"Dialog/Cancel");
 	};
 
-	FileRenamer::RestartAppsViewModel RestartAppsDialog::ViewModel()
+	winrt::FileRenamer::RestartAppsViewModel RestartAppsDialog::ViewModel()
 	{
 		return _viewModel;
 	}
 
-	hstring RestartAppsDialog::Restart()
+	winrt::hstring RestartAppsDialog::Restart()
 	{
 		return _restart;
 	}
 
-	hstring RestartAppsDialog::RestartContent()
+	winrt::hstring RestartAppsDialog::RestartContent()
 	{
 		return _restartContent;
 	}
 
-	hstring RestartAppsDialog::OK()
+	winrt::hstring RestartAppsDialog::OK()
 	{
 		return _ok;
 	}
 
-	hstring RestartAppsDialog::Cancel()
+	winrt::hstring RestartAppsDialog::Cancel()
 	{
 		return _cancel;
 	}

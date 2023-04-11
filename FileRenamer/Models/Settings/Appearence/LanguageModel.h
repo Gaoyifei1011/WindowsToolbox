@@ -1,10 +1,6 @@
 ﻿#pragma once
 
-#include <winrt/base.h>
-
 #include "LanguageModel.g.h"
-
-using namespace winrt;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -13,15 +9,15 @@ namespace winrt::FileRenamer::implementation
 		LanguageModel();
 
 	public:
-		hstring DisplayName();
-		void DisplayName(hstring const& value);
+		winrt::hstring DisplayName();
+		void DisplayName(winrt::hstring const& value);
 
-		hstring InternalName();
-		void InternalName(hstring const& value);
+		winrt::hstring InternalName();
+		void InternalName(winrt::hstring const& value);
 
 	private:
-		hstring _displayName;
-		hstring _internalName;
+		winrt::hstring _displayName;
+		winrt::hstring _internalName;
 	};
 }
 

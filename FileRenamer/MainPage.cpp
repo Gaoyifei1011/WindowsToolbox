@@ -1,11 +1,6 @@
-#pragma once
-
 #include "pch.h"
 #include "MainPage.h"
 #include "MainPage.g.cpp"
-#include "WinMain.h"
-
-using namespace winrt;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -13,7 +8,7 @@ namespace winrt::FileRenamer::implementation
 	{
 		InitializeComponent();
 
-		_viewModel = make<FileRenamer::implementation::MainViewModel>();
+		_viewModel = make<winrt::FileRenamer::implementation::MainViewModel>();
 
 		_fileName = AppResourcesService.GetLocalized(L"Window/FileName");
 		_extensionName = AppResourcesService.GetLocalized(L"Window/ExtensionName");
@@ -25,37 +20,37 @@ namespace winrt::FileRenamer::implementation
 		AppNavigationService.NavigationFrame(this->MainFrame());
 	}
 
-	FileRenamer::MainViewModel MainPage::ViewModel()
+	winrt::FileRenamer::MainViewModel MainPage::ViewModel()
 	{
 		return _viewModel;
 	}
 
-	hstring MainPage::FileName()
+	winrt::hstring MainPage::FileName()
 	{
 		return _fileName;
 	}
 
-	hstring MainPage::ExtensionName()
+	winrt::hstring MainPage::ExtensionName()
 	{
 		return _extensionName;
 	}
 
-	hstring MainPage::UpperAndLowerCase()
+	winrt::hstring MainPage::UpperAndLowerCase()
 	{
 		return _upperAndLowerCase;
 	}
 
-	hstring MainPage::FileProperties()
+	winrt::hstring MainPage::FileProperties()
 	{
 		return _fileProperties;
 	}
 
-	hstring MainPage::About()
+	winrt::hstring MainPage::About()
 	{
 		return _about;
 	}
 
-	hstring MainPage::Settings()
+	winrt::hstring MainPage::Settings()
 	{
 		return _settings;
 	}

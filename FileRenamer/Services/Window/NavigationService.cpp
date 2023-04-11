@@ -1,26 +1,23 @@
-#include "winrt/Windows.UI.Xaml.Media.Animation.h"
 #include "NavigationService.h"
-
-using namespace winrt::Windows::UI::Xaml::Media::Animation;
 
 NavigationService::NavigationService() {};
 
-Frame NavigationService::NavigationFrame()
+winrt::WinrtControls::Frame NavigationService::NavigationFrame()
 {
 	return _navigationFrame;
 }
 
-void NavigationService::NavigationFrame(Frame value)
+void NavigationService::NavigationFrame(winrt::WinrtControls::Frame value)
 {
 	_navigationFrame = value;
 }
 
-IVector<NavigationModel> NavigationService::NavigationItemList()
+winrt::WinrtCollections::IVector<winrt::FileRenamer::NavigationModel> NavigationService::NavigationItemList()
 {
 	return _navigationItemList;
 }
 
-void NavigationService::NavigationItemList(IVector<NavigationModel> const& value)
+void NavigationService::NavigationItemList(winrt::WinrtCollections::IVector<winrt::FileRenamer::NavigationModel> const& value)
 {
 	_navigationItemList = value;
 }
@@ -28,14 +25,14 @@ void NavigationService::NavigationItemList(IVector<NavigationModel> const& value
 /// <summary>
  /// 页面向前导航
  /// </summary>
-void NavigationService::NavigateTo(TypeName navigationPageType, IInspectable parameter)
+void NavigationService::NavigateTo(winrt::WinrtInterop::TypeName navigationPageType, winrt::WinrtFoundation::IInspectable parameter)
 {
 	for (uint32_t index = 0; index < NavigationService::NavigationItemList().Size(); index++)
 	{
 		if (NavigationService::NavigationItemList().GetAt(index).NavigationPage() == navigationPageType)
 		{
-			SlideNavigationTransitionInfo info;
-			info.Effect(SlideNavigationTransitionEffect::FromRight);
+			winrt::WinrtAnimation::SlideNavigationTransitionInfo info;
+			info.Effect(winrt::WinrtAnimation::SlideNavigationTransitionEffect::FromRight);
 			NavigationService::NavigationFrame().Navigate(
 				NavigationService::NavigationItemList().GetAt(index).NavigationPage(),
 				parameter,
@@ -59,7 +56,7 @@ void NavigationService::NavigationFrom()
 /// <summary>
 /// 获取当前导航到的页
 /// </summary>
-TypeName NavigationService::GetCurrentPageType()
+winrt::WinrtInterop::TypeName NavigationService::GetCurrentPageType()
 {
 	return NavigationService::NavigationFrame().CurrentSourcePageType();
 }

@@ -1,14 +1,10 @@
 ﻿#pragma once
 
-#include "winrt/base.h"
-#include "winrt/Windows.UI.Xaml.h"
-#include "winrt/Windows.UI.Xaml.Markup.h"
-#include "winrt/Windows.UI.Xaml.Interop.h"
-#include "winrt/Windows.UI.Xaml.Controls.Primitives.h"
+#include <winrt/base.h>
+#include <WinMain.h>
+
 #include "RestartAppsDialog.g.h"
 #include "ViewModels/Dialogs/Settings/RestartAppsViewModel.h"
-
-using namespace winrt;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -16,20 +12,20 @@ namespace winrt::FileRenamer::implementation
 	{
 	public:
 		RestartAppsDialog();
-		FileRenamer::RestartAppsViewModel ViewModel();
+		winrt::FileRenamer::RestartAppsViewModel ViewModel();
 
-		hstring Restart();
-		hstring RestartContent();
-		hstring OK();
-		hstring Cancel();
+		winrt::hstring Restart();
+		winrt::hstring RestartContent();
+		winrt::hstring OK();
+		winrt::hstring Cancel();
 
 	private:
-		FileRenamer::RestartAppsViewModel _viewModel;
+		winrt::FileRenamer::RestartAppsViewModel _viewModel;
 
-		hstring _restart;
-		hstring _restartContent;
-		hstring _ok;
-		hstring _cancel;
+		winrt::hstring _restart;
+		winrt::hstring _restartContent;
+		winrt::hstring _ok;
+		winrt::hstring _cancel;
 	};
 }
 

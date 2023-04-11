@@ -1,13 +1,6 @@
-﻿#pragma once
-
-#include "pch.h"
+﻿#include "pch.h"
 #include "MainViewModel.h"
 #include "MainViewModel.g.cpp"
-#include "Helpers/Root/StringFormatHelper.h"
-
-using namespace std;
-using namespace winrt;
-using namespace winrt::Windows::UI::Xaml::Controls;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -15,13 +8,13 @@ namespace winrt::FileRenamer::implementation
 	{
 		_isBackEnabled = true;
 
-		_navigationItemCommand = make<RelayCommand>([this](IInspectable invokedItemTag)
+		_navigationItemCommand = make<RelayCommand>([this](winrt::WinrtFoundation::IInspectable invokedItemTag)
 			{
 				if (invokedItemTag != nullptr)
 				{
 					for (uint32_t index = 0; index < AppNavigationService.NavigationItemList().Size(); index++)
 					{
-						if (AppNavigationService.NavigationItemList().GetAt(index).NavigationTag() == unbox_value<hstring>(invokedItemTag))
+						if (AppNavigationService.NavigationItemList().GetAt(index).NavigationTag() == winrt::unbox_value<winrt::hstring>(invokedItemTag))
 						{
 							if (MainViewModel::SelectedItem() != AppNavigationService.NavigationItemList().GetAt(index).NavigationItem())
 							{
@@ -30,14 +23,6 @@ namespace winrt::FileRenamer::implementation
 						}
 					}
 				}
-			});
-
-		_clickCommand = make<RelayCommand>([this](IInspectable parameter)
-			{
-				TCHAR szFullPath[MAX_PATH];
-				ZeroMemory(szFullPath, MAX_PATH);
-				GetModuleFileName(NULL, szFullPath, MAX_PATH);
-				MessageBox(ApplicationRoot->MainWindow.Handle(), L"测试对话框", szFullPath, MB_OK);
 			});
 
 		_pageDict.Insert(L"FileName", xaml_typename<FileRenamer::FileNamePage>());
@@ -55,39 +40,39 @@ namespace winrt::FileRenamer::implementation
 	void MainViewModel::IsBackEnabled(bool const& value)
 	{
 		_isBackEnabled = value;
-		m_propertyChanged(*this, PropertyChangedEventArgs{ L"IsBackEnabled" });
+		m_propertyChanged(*this, winrt::WinrtData::PropertyChangedEventArgs{ L"IsBackEnabled" });
 	}
 
-	NavigationViewItem MainViewModel::SelectedItem()
+	winrt::WinrtControls::NavigationViewItem MainViewModel::SelectedItem()
 	{
 		return _selectedItem;
 	}
-	void MainViewModel::SelectedItem(NavigationViewItem const& value)
+	void MainViewModel::SelectedItem(winrt::WinrtControls::NavigationViewItem const& value)
 	{
 		_selectedItem = value;
-		m_propertyChanged(*this, PropertyChangedEventArgs{ L"SelectedItem" });
+		m_propertyChanged(*this, winrt::WinrtData::PropertyChangedEventArgs{ L"SelectedItem" });
 	}
 
-	ICommand MainViewModel::ClickCommand()
+	winrt::WinrtInput::ICommand MainViewModel::ClickCommand()
 	{
 		return _clickCommand;
 	}
 
-	ICommand MainViewModel::NavigationItemCommand()
+	winrt::WinrtInput::ICommand MainViewModel::NavigationItemCommand()
 	{
 		return _navigationItemCommand;
 	}
 
-	Collections::IMap<hstring, TypeName> MainViewModel::PageDict()
+	winrt::WinrtCollections::IMap<winrt::hstring, winrt::WinrtInterop::TypeName> MainViewModel::PageDict()
 	{
 		return _pageDict;
 	}
 
-	event_token MainViewModel::PropertyChanged(PropertyChangedEventHandler const& handler)
+	winrt::event_token MainViewModel::PropertyChanged(winrt::WinrtData::PropertyChangedEventHandler const& handler)
 	{
 		return m_propertyChanged.add(handler);
 	}
-	void MainViewModel::PropertyChanged(event_token const& token) noexcept
+	void MainViewModel::PropertyChanged(winrt::event_token const& token) noexcept
 	{
 		m_propertyChanged.remove(token);
 	}
@@ -95,7 +80,7 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 当后退按钮收到交互（如单击或点击）时发生
 	/// </summary>
-	void MainViewModel::OnNavigationViewBackRequested(NavigationView const& sender, NavigationViewBackRequestedEventArgs const& args)
+	void MainViewModel::OnNavigationViewBackRequested(winrt::WinrtControls::NavigationView const& sender, winrt::WinrtControls::NavigationViewBackRequestedEventArgs const& args)
 	{
 		AppNavigationService.NavigationFrom();
 	}
@@ -103,9 +88,9 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 导航控件加载完成后初始化内容
 	/// </summary>
-	void MainViewModel::OnNavigationViewLoaded(IInspectable const& sender, RoutedEventArgs const& args)
+	void MainViewModel::OnNavigationViewLoaded(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtXaml::RoutedEventArgs const& args)
 	{
-		NavigationView navigationView = sender.try_as<NavigationView>();
+		winrt::WinrtControls::NavigationView navigationView = sender.try_as<winrt::WinrtControls::NavigationView>();
 		if (navigationView == nullptr)
 		{
 			return;
@@ -113,14 +98,14 @@ namespace winrt::FileRenamer::implementation
 
 		for (uint32_t index = 0; index < navigationView.MenuItems().Size(); index++)
 		{
-			NavigationViewItem navigationViewItem = navigationView.MenuItems().GetAt(index).try_as<NavigationViewItem>();
-			if (navigationViewItem != nullptr)
+			winrt::WinrtControls::NavigationViewItem NavigationViewItem = navigationView.MenuItems().GetAt(index).try_as<winrt::WinrtControls::NavigationViewItem>();
+			if (NavigationViewItem != nullptr)
 			{
-				hstring Tag = unbox_value<hstring>(navigationViewItem.Tag());
+				winrt::hstring Tag = winrt::unbox_value<winrt::hstring>(NavigationViewItem.Tag());
 
-				FileRenamer::NavigationModel item = make<FileRenamer::implementation::NavigationModel>();
+				winrt::FileRenamer::NavigationModel item = make<winrt::FileRenamer::implementation::NavigationModel>();
 				item.NavigationTag(Tag);
-				item.NavigationItem(navigationViewItem);
+				item.NavigationItem(NavigationViewItem);
 				item.NavigationPage(MainViewModel::PageDict().Lookup(Tag));
 				AppNavigationService.NavigationItemList().Append(item);
 			}
@@ -134,9 +119,9 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 导航完成后发生
 	/// </summary>
-	void MainViewModel::OnFrameNavigated(IInspectable const& sender, NavigationEventArgs const& args)
+	void MainViewModel::OnFrameNavigated(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtNavigation::NavigationEventArgs const& args)
 	{
-		TypeName CurrentPageType = AppNavigationService.GetCurrentPageType();
+		winrt::WinrtInterop::TypeName CurrentPageType = AppNavigationService.GetCurrentPageType();
 		for (uint32_t index = 0; index < AppNavigationService.NavigationItemList().Size(); index++)
 		{
 			if (AppNavigationService.NavigationItemList().GetAt(index).NavigationPage().Name == CurrentPageType.Name)
@@ -150,7 +135,7 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 导航失败时发生
 	/// </summary>
-	void MainViewModel::OnFrameNavgationFailed(IInspectable const& sender, NavigationFailedEventArgs const& args)
+	void MainViewModel::OnFrameNavgationFailed(IInspectable const& sender, winrt::WinrtNavigation::NavigationFailedEventArgs const& args)
 	{
 		//string str = to_string(AppResourcesService.GetLocalized(L"Window/NavigationFailed"));
 		//throw AppStringFormatHelper.format(str, to_string(args.SourcePageType().Name));

@@ -1,17 +1,20 @@
 #pragma once
 
-#include "winrt/Windows.Foundation.h"
-#include "winrt/Windows.Foundation.Collections.h"
-#include "winrt/Windows.UI.Xaml.Controls.h"
-#include "winrt/Windows.UI.Xaml.Media.Animation.h"
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.UI.Xaml.Controls.h>
+#include <winrt/Windows.UI.Xaml.Media.Animation.h>
+
 #include "Models/Window/NavigationModel.h"
 
-using namespace winrt;
-using namespace winrt::FileRenamer;
-using namespace winrt::Windows::Foundation;
-using namespace winrt::Windows::Foundation::Collections;
-using namespace winrt::Windows::UI::Xaml::Controls;
-using namespace winrt::Windows::UI::Xaml::Media::Animation;
+namespace winrt
+{
+	namespace WinrtAnimation = Windows::UI::Xaml::Media::Animation;
+	namespace WinrtControls = Windows::UI::Xaml::Controls;
+	namespace WinrtCollections = Windows::Foundation::Collections;
+	namespace WinrtFoundation = Windows::Foundation;
+	namespace WinrtInterop = Windows::UI::Xaml::Interop;
+}
 
 /// <summary>
 /// 应用导航服务
@@ -21,20 +24,20 @@ class NavigationService
 public:
 	NavigationService();
 
-	Frame NavigationFrame();
-	void NavigationFrame(Frame value);
+	winrt::WinrtControls::Frame NavigationFrame();
+	void NavigationFrame(winrt::WinrtControls::Frame value);
 
-	IVector<NavigationModel> NavigationItemList();
-	void NavigationItemList(IVector<NavigationModel> const& value);
+	winrt::WinrtCollections::IVector<winrt::FileRenamer::NavigationModel> NavigationItemList();
+	void NavigationItemList(winrt::WinrtCollections::IVector<winrt::FileRenamer::NavigationModel> const& value);
 
-	void NavigateTo(TypeName navigationPageType, IInspectable parameter = nullptr);
+	void NavigateTo(winrt::WinrtInterop::TypeName navigationPageType, winrt::WinrtFoundation::IInspectable parameter = nullptr);
 	void NavigationFrom();
-	TypeName GetCurrentPageType();
+	winrt::WinrtInterop::TypeName GetCurrentPageType();
 	bool CanGoBack();
 
 private:
-	Frame _navigationFrame{ nullptr };
-	SlideNavigationTransitionInfo _navigationTransition{ nullptr };
+	winrt::WinrtControls::Frame _navigationFrame{ nullptr };
+	winrt::WinrtAnimation::SlideNavigationTransitionInfo _navigationTransition{ nullptr };
 
-	IVector<NavigationModel> _navigationItemList{ single_threaded_vector<NavigationModel>() };
+	winrt::WinrtCollections::IVector<winrt::FileRenamer::NavigationModel> _navigationItemList{ winrt::single_threaded_vector<winrt::FileRenamer::NavigationModel>() };
 };

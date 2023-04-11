@@ -123,7 +123,10 @@
                                         VerticalOffset="20" />
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem Command="{x:Bind ViewModel.PinToTaskbarCommand}" Text="{x:Bind PinToTaskbar}" Visibility="Collapsed">
+                            <MenuFlyoutItem
+                                Command="{x:Bind ViewModel.PinToTaskbarCommand}"
+                                Text="{x:Bind PinToTaskbar}"
+                                Visibility="Collapsed">
                                 <ToolTipService.ToolTip>
                                     <ToolTip
                                         Content="{x:Bind PinToTaskbarToolTip}"
@@ -195,7 +198,6 @@
                 <local:SettingsHelpControl x:Name="SettingsHelpContent" />
 
                 <local:ThanksControl x:Name="ThanksContent" />
-
             </StackPanel>
         </ScrollViewer>
     </SplitView>

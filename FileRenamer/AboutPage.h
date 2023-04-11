@@ -2,9 +2,8 @@
 
 #include "winrt/base.h"
 #include "AboutPage.g.h"
+#include "WinMain.h"
 #include "ViewModels/Pages/AboutViewModel.h"
-
-using namespace winrt;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -13,50 +12,50 @@ namespace winrt::FileRenamer::implementation
 	public:
 		AboutPage();
 
-		FileRenamer::AboutViewModel ViewModel();
+		winrt::FileRenamer::AboutViewModel ViewModel();
 
-		hstring Title();
-		hstring BriefIntroduction();
-		hstring Reference();
-		hstring UseInstruction();
-		hstring Precaution();
-		hstring SettingsHelp();
-		hstring Thanks();
-		hstring QuickOperation();
-		hstring CreateDesktopShortcut();
-		hstring CreateDesktopShortcutToolTip();
-		hstring PinToStartScreen();
-		hstring PinToStartScreenToolTip();
-		hstring PinToTaskbar();
-		hstring PinToTaskbarToolTip();
-		hstring UpdateAndLicensing();
-		hstring ShowReleaseNotes();
-		hstring ShowReleaseNotesToolTip();
-		hstring ShowLicense();
-		hstring ShowLicenseToolTip();
+		winrt::hstring Title();
+		winrt::hstring BriefIntroduction();
+		winrt::hstring Reference();
+		winrt::hstring UseInstruction();
+		winrt::hstring Precaution();
+		winrt::hstring SettingsHelp();
+		winrt::hstring Thanks();
+		winrt::hstring QuickOperation();
+		winrt::hstring CreateDesktopShortcut();
+		winrt::hstring CreateDesktopShortcutToolTip();
+		winrt::hstring PinToStartScreen();
+		winrt::hstring PinToStartScreenToolTip();
+		winrt::hstring PinToTaskbar();
+		winrt::hstring PinToTaskbarToolTip();
+		winrt::hstring UpdateAndLicensing();
+		winrt::hstring ShowReleaseNotes();
+		winrt::hstring ShowReleaseNotesToolTip();
+		winrt::hstring ShowLicense();
+		winrt::hstring ShowLicenseToolTip();
 
 	private:
-		FileRenamer::AboutViewModel _viewModel;
+		winrt::FileRenamer::AboutViewModel _viewModel;
 
-		hstring _title;
-		hstring _briefIntroduction;
-		hstring _reference;
-		hstring _useInstruction;
-		hstring _precaution;
-		hstring _settingsHelp;
-		hstring _thanks;
-		hstring _quickOperation;
-		hstring _createDesktopShortcut;
-		hstring _createDesktopShortcutToolTip;
-		hstring _pinToStartScreen;
-		hstring _pinToStartScreenToolTip;
-		hstring _pinToTaskbar;
-		hstring _pinToTaskbarToolTip;
-		hstring _updateAndLicensing;
-		hstring _showReleaseNotes;
-		hstring _showReleaseNotesToolTip;
-		hstring _showLicense;
-		hstring _showLicenseToolTip;
+		winrt::hstring _title;
+		winrt::hstring _briefIntroduction;
+		winrt::hstring _reference;
+		winrt::hstring _useInstruction;
+		winrt::hstring _precaution;
+		winrt::hstring _settingsHelp;
+		winrt::hstring _thanks;
+		winrt::hstring _quickOperation;
+		winrt::hstring _createDesktopShortcut;
+		winrt::hstring _createDesktopShortcutToolTip;
+		winrt::hstring _pinToStartScreen;
+		winrt::hstring _pinToStartScreenToolTip;
+		winrt::hstring _pinToTaskbar;
+		winrt::hstring _pinToTaskbarToolTip;
+		winrt::hstring _updateAndLicensing;
+		winrt::hstring _showReleaseNotes;
+		winrt::hstring _showReleaseNotesToolTip;
+		winrt::hstring _showLicense;
+		winrt::hstring _showLicenseToolTip;
 	};
 }
 

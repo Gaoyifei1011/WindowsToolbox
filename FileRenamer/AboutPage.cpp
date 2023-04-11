@@ -1,12 +1,6 @@
-﻿#pragma once
-
-#include "pch.h"
+﻿#include "pch.h"
 #include "AboutPage.h"
 #include "AboutPage.g.cpp"
-#include "WinMain.h"
-
-using namespace winrt;
-using namespace Windows::UI::Xaml;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -14,7 +8,7 @@ namespace winrt::FileRenamer::implementation
 	{
 		InitializeComponent();
 
-		_viewModel = make<FileRenamer::implementation::AboutViewModel>();
+		_viewModel = winrt::make<winrt::FileRenamer::implementation::AboutViewModel>();
 
 		_title = AppResourcesService.GetLocalized(L"About/Title");
 		_briefIntroduction = AppResourcesService.GetLocalized(L"About/BriefIntroduction");
@@ -37,102 +31,102 @@ namespace winrt::FileRenamer::implementation
 		_showLicenseToolTip = AppResourcesService.GetLocalized(L"About/ShowLicenseToolTip");
 	};
 
-	FileRenamer::AboutViewModel AboutPage::ViewModel()
+	winrt::FileRenamer::AboutViewModel AboutPage::ViewModel()
 	{
 		return _viewModel;
 	}
 
-	hstring AboutPage::Title()
+	winrt::hstring AboutPage::Title()
 	{
 		return _title;
 	}
 
-	hstring AboutPage::BriefIntroduction()
+	winrt::hstring AboutPage::BriefIntroduction()
 	{
 		return _briefIntroduction;
 	}
 
-	hstring AboutPage::Reference()
+	winrt::hstring AboutPage::Reference()
 	{
 		return _reference;
 	}
 
-	hstring AboutPage::UseInstruction()
+	winrt::hstring AboutPage::UseInstruction()
 	{
 		return _useInstruction;
 	}
 
-	hstring AboutPage::Precaution()
+	winrt::hstring AboutPage::Precaution()
 	{
 		return _precaution;
 	}
 
-	hstring AboutPage::SettingsHelp()
+	winrt::hstring AboutPage::SettingsHelp()
 	{
 		return _settingsHelp;
 	}
 
-	hstring AboutPage::Thanks()
+	winrt::hstring AboutPage::Thanks()
 	{
 		return _thanks;
 	}
 
-	hstring AboutPage::QuickOperation()
+	winrt::hstring AboutPage::QuickOperation()
 	{
 		return _quickOperation;
 	}
 
-	hstring AboutPage::CreateDesktopShortcut()
+	winrt::hstring AboutPage::CreateDesktopShortcut()
 	{
 		return _createDesktopShortcut;
 	}
 
-	hstring AboutPage::CreateDesktopShortcutToolTip()
+	winrt::hstring AboutPage::CreateDesktopShortcutToolTip()
 	{
 		return _createDesktopShortcutToolTip;
 	}
 
-	hstring AboutPage::PinToStartScreen()
+	winrt::hstring AboutPage::PinToStartScreen()
 	{
 		return _pinToStartScreen;
 	}
 
-	hstring AboutPage::PinToStartScreenToolTip()
+	winrt::hstring AboutPage::PinToStartScreenToolTip()
 	{
 		return _pinToStartScreenToolTip;
 	}
 
-	hstring AboutPage::PinToTaskbar()
+	winrt::hstring AboutPage::PinToTaskbar()
 	{
 		return _pinToTaskbar;
 	}
 
-	hstring AboutPage::PinToTaskbarToolTip()
+	winrt::hstring AboutPage::PinToTaskbarToolTip()
 	{
 		return _pinToTaskbarToolTip;
 	}
 
-	hstring AboutPage::UpdateAndLicensing()
+	winrt::hstring AboutPage::UpdateAndLicensing()
 	{
 		return _updateAndLicensing;
 	}
 
-	hstring AboutPage::ShowReleaseNotes()
+	winrt::hstring AboutPage::ShowReleaseNotes()
 	{
 		return _showReleaseNotes;
 	}
 
-	hstring AboutPage::ShowReleaseNotesToolTip()
+	winrt::hstring AboutPage::ShowReleaseNotesToolTip()
 	{
 		return _showReleaseNotesToolTip;
 	}
 
-	hstring AboutPage::ShowLicense()
+	winrt::hstring AboutPage::ShowLicense()
 	{
 		return _showLicense;
 	}
 
-	hstring AboutPage::ShowLicenseToolTip()
+	winrt::hstring AboutPage::ShowLicenseToolTip()
 	{
 		return _showLicenseToolTip;
 	}

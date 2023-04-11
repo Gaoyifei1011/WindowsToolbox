@@ -1,12 +1,6 @@
-﻿#pragma once
-
-#include "pch.h"
+﻿#include "pch.h"
 #include "ExtensionNamePage.h"
 #include "ExtensionNamePage.g.cpp"
-#include "WinMain.h"
-
-using namespace winrt;
-using namespace Windows::UI::Xaml;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -17,7 +11,7 @@ namespace winrt::FileRenamer::implementation
 		_title = AppResourcesService.GetLocalized(L"ExtensionName/Title");
 	};
 
-	hstring ExtensionNamePage::Title()
+	winrt::hstring ExtensionNamePage::Title()
 	{
 		return _title;
 	}

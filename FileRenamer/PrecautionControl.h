@@ -1,10 +1,8 @@
 ﻿#pragma once
 
-#include "winrt/base.h"
-#include "winrt/Windows.UI.Xaml.h"
-#include "winrt/Windows.UI.Xaml.Markup.h"
-#include "winrt/Windows.UI.Xaml.Interop.h"
-#include "winrt/Windows.UI.Xaml.Controls.Primitives.h"
+#include <winrt/base.h>
+#include <WinMain.h>
+
 #include "PrecautionControl.g.h"
 
 namespace winrt::FileRenamer::implementation
@@ -14,10 +12,10 @@ namespace winrt::FileRenamer::implementation
 	public:
 		PrecautionControl();
 
-		hstring Precaution();
+		winrt::hstring Precaution();
 
 	private:
-		hstring _precaution;
+		winrt::hstring _precaution;
 	};
 }
 

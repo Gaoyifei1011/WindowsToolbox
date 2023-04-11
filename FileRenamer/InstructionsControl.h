@@ -1,13 +1,9 @@
 ﻿#pragma once
 
-#include "winrt/base.h"
-#include "winrt/Windows.UI.Xaml.h"
-#include "winrt/Windows.UI.Xaml.Markup.h"
-#include "winrt/Windows.UI.Xaml.Interop.h"
-#include "winrt/Windows.UI.Xaml.Controls.Primitives.h"
-#include "InstructionsControl.g.h"
+#include <winrt/base.h>
+#include <WinMain.h>
 
-using namespace winrt;
+#include "InstructionsControl.g.h"
 
 namespace winrt::FileRenamer::implementation
 {
@@ -16,10 +12,10 @@ namespace winrt::FileRenamer::implementation
 	public:
 		InstructionsControl();
 
-		hstring UseInstruction();
+		winrt::hstring UseInstruction();
 
 	private:
-		hstring _useInstruction;
+		winrt::hstring _useInstruction;
 	};
 }
 

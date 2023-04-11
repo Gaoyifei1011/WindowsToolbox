@@ -6,49 +6,57 @@ namespace winrt::FileRenamer::implementation
 {
 	AboutViewModel::AboutViewModel()
 	{
-		_createDesktopShortcutCommand = winrt::make<RelayCommand>([this](IInspectable parameter)
+		_createDesktopShortcutCommand = winrt::make<FileRenamer::implementation::RelayCommand>([this](WinrtFoundation::IInspectable parameter) -> WinrtFoundation::IAsyncAction
 			{
-				//CreateDesktopShortcutHelper::CreateDesktopShortcut();
-				//bool IsCreatedSuccessfully = false;
-				//HRESULT hr = CoInitialize(NULL);
-				//if (SUCCEEDED(hr))
-				//{
-				//	IShellLink* AppLink = nullptr;
-				//	hr = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void**)&AppLink);
-				//	if (SUCCEEDED(hr))
-				//	{
-				//		Windows::Foundation::Collections::IVectorView<Core::AppListEntry> AppEntries = Package::Current().GetAppListEntriesAsync().GetResults();
-				//		Core::AppListEntry DefaultEntry = AppEntries.GetAt(0);
-				//		wstring AppLinkPath = wstring(L"shell:AppsFolder\\") + wstring(DefaultEntry.AppUserModelId().c_str());
-				//		AppLink->SetPath(AppLinkPath.c_str());
+				bool IsCreatedSuccessfully = false;
+				HRESULT hr = CoInitialize(NULL);
+				if (SUCCEEDED(hr))
+				{
+					IShellLink* AppLink = nullptr;
+					hr = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void**)&AppLink);
+					if (SUCCEEDED(hr))
+					{
+						WinrtCollections::IVectorView<WinrtApplicationModelCore::AppListEntry> AppEntries = co_await WinrtApplicationModel::Package::Current().GetAppListEntriesAsync();
+						WinrtApplicationModelCore::AppListEntry DefaultEntry = AppEntries.GetAt(0);
+						std::wstring AppLinkPath = std::wstring(L"shell:AppsFolder\\") + std::wstring(DefaultEntry.AppUserModelId().c_str());
+						AppLink->SetPath(AppLinkPath.c_str());
 
-				//		IPersistFile* PersistFile = nullptr;
-				//		hr = AppLink->QueryInterface(IID_IPersistFile, (void**)&PersistFile);
-				//		if (SUCCEEDED(hr))
-				//		{
-				//			hr = PersistFile->Save(L"C:\\Users\\Gaoyifei\\Desktop\\01.lnk", false);
-				//			if (SUCCEEDED(hr))
-				//			{
-				//				IsCreatedSuccessfully = true;
-				//			}
-				//			PersistFile->Release();
-				//		}
-				//		AppLink->Release();
-				//	}
-				//}
-				//CoUninitialize();
+						IPersistFile* PersistFile = nullptr;
+						hr = AppLink->QueryInterface(IID_IPersistFile, (void**)&PersistFile);
+						if (SUCCEEDED(hr))
+						{
+							TCHAR szDesktop[MAX_PATH];
+							LPITEMIDLIST pidl = NULL;
+							SHGetFolderLocation(NULL, CSIDL_DESKTOPDIRECTORY, NULL, 0, &pidl);
+							SHGetPathFromIDList(pidl, szDesktop);
+
+							TCHAR szLinkPath[MAX_PATH];
+							ZeroMemory(szLinkPath, MAX_PATH);
+
+							wsprintf(szLinkPath, L"%s\\%s.lnk", szDesktop, AppResourcesService.GetLocalized(L"Resources/AppDisplayName").c_str());
+							hr = PersistFile->Save(szLinkPath, false);
+							if (SUCCEEDED(hr))
+							{
+								IsCreatedSuccessfully = true;
+							}
+							PersistFile->Release();
+						}
+						AppLink->Release();
+					}
+				}
+				CoUninitialize();
 			});
 
-		_pinToStartScreenCommand = winrt::make<RelayCommand>([this](IInspectable parameter) -> IAsyncAction
+		_pinToStartScreenCommand = winrt::make<FileRenamer::implementation::RelayCommand>([this](WinrtFoundation::IInspectable parameter) -> WinrtFoundation::IAsyncAction
 			{
 				bool IsPinnedSuccessfully = false;
 
-				Collections::IVectorView<winrt::Windows::ApplicationModel::Core::AppListEntry> AppEntries = co_await winrt::Windows::ApplicationModel::Package::Current().GetAppListEntriesAsync();
-				winrt::Windows::ApplicationModel::Core::AppListEntry DefaultEntry = AppEntries.GetAt(0);
+				WinrtCollections::IVectorView<WinrtApplicationModelCore::AppListEntry> AppEntries = co_await WinrtApplicationModel::Package::Current().GetAppListEntriesAsync();
+				WinrtApplicationModelCore::AppListEntry DefaultEntry = AppEntries.GetAt(0);
 
 				if (DefaultEntry != nullptr)
 				{
-					winrt::Windows::UI::StartScreen::StartScreenManager startScreenManager = winrt::Windows::UI::StartScreen::StartScreenManager::GetDefault();
+					WinrtStartScreen::StartScreenManager startScreenManager = WinrtStartScreen::StartScreenManager::GetDefault();
 					bool containsEntry = co_await startScreenManager.ContainsAppListEntryAsync(DefaultEntry);
 
 					if (!containsEntry)
@@ -59,17 +67,17 @@ namespace winrt::FileRenamer::implementation
 				IsPinnedSuccessfully = true;
 			});
 
-		_pinToTaskbarCommand = make<RelayCommand>([this](IInspectable parameter)
+		_pinToTaskbarCommand = make<FileRenamer::implementation::RelayCommand>([this](WinrtFoundation::IInspectable parameter)
 			{
 			});
 
-		_showReleaseNotesCommand = make<RelayCommand>([this](IInspectable parameter) -> IAsyncAction
+		_showReleaseNotesCommand = make<FileRenamer::implementation::RelayCommand>([this](WinrtFoundation::IInspectable parameter) -> WinrtFoundation::IAsyncAction
 			{
-				Uri uri(L"https://github.com/Gaoyifei1011/FileRenamer/releases");
-				co_await winrt::Windows::System::Launcher::LaunchUriAsync(uri);
+				WinrtFoundation::Uri uri(L"https://github.com/Gaoyifei1011/FileRenamer/releases");
+				co_await WinrtSystem::Launcher::LaunchUriAsync(uri);
 			});
 
-		_showLicenseCommand = make<RelayCommand>([this](IInspectable parameter)
+		_showLicenseCommand = make<FileRenamer::implementation::RelayCommand>([this](WinrtFoundation::IInspectable parameter)
 			{
 			});
 	};
@@ -77,7 +85,7 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 创建应用的桌面快捷方式
 	/// </summary>
-	ICommand AboutViewModel::CreateDesktopShortcutCommand()
+	WinrtInput::ICommand AboutViewModel::CreateDesktopShortcutCommand()
 	{
 		return _createDesktopShortcutCommand;
 	}
@@ -85,7 +93,7 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 将应用固定到“开始”屏幕
 	/// </summary>
-	ICommand AboutViewModel::PinToStartScreenCommand()
+	WinrtInput::ICommand AboutViewModel::PinToStartScreenCommand()
 	{
 		return _pinToStartScreenCommand;
 	}
@@ -93,7 +101,7 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 将应用固定到任务栏
 	/// </summary>
-	ICommand AboutViewModel::PinToTaskbarCommand()
+	WinrtInput::ICommand AboutViewModel::PinToTaskbarCommand()
 	{
 		return _pinToTaskbarCommand;
 	}
@@ -101,7 +109,7 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 查看更新日志
 	/// </summary>
-	ICommand AboutViewModel::ShowReleaseNotesCommand()
+	WinrtInput::ICommand AboutViewModel::ShowReleaseNotesCommand()
 	{
 		return _showReleaseNotesCommand;
 	}
@@ -109,7 +117,7 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 查看许可证
 	/// </summary>
-	ICommand AboutViewModel::ShowLicenseCommand()
+	WinrtInput::ICommand AboutViewModel::ShowLicenseCommand()
 	{
 		return _showLicenseCommand;
 	}

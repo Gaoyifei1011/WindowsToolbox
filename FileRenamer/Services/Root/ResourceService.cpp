@@ -1,15 +1,5 @@
-#pragma once
-
-#include <winrt/Windows.ApplicationModel.Resources.Core.h>
-#include <winrt/Windows.Foundation.Collections.h>
-
-#include "Models/Settings/Appearence/LanguageModel.h"
 #include "LanguageModel.g.h"
 #include "ResourceService.h"
-
-using namespace winrt;
-using namespace winrt::FileRenamer;
-using namespace winrt::Windows::ApplicationModel::Resources::Core;
 
 ResourceService::ResourceService()
 {
@@ -25,43 +15,43 @@ void ResourceService::IsInitialized(bool value)
 	_isInitialized = value;
 }
 
-LanguageModel ResourceService::DefaultAppLanguage()
+winrt::FileRenamer::LanguageModel ResourceService::DefaultAppLanguage()
 {
 	return _defaultAppLanguage;
 }
-void ResourceService::DefaultAppLanguage(LanguageModel value)
+void ResourceService::DefaultAppLanguage(winrt::FileRenamer::LanguageModel value)
 {
 	_defaultAppLanguage = value;
 }
 
-LanguageModel ResourceService::CurrentAppLanguage()
+winrt::FileRenamer::LanguageModel ResourceService::CurrentAppLanguage()
 {
 	return _currentAppLanguage;
 }
-void ResourceService::CurrentAppLanguage(LanguageModel value)
+void ResourceService::CurrentAppLanguage(winrt::FileRenamer::LanguageModel value)
 {
 	_currentAppLanguage = value;
 }
 
-ResourceContext ResourceService::DefaultResourceContext()
+winrt::WinrtResourcesCore::ResourceContext ResourceService::DefaultResourceContext()
 {
 	return _defaultResourceContext;
 }
-void ResourceService::DefaultResourceContext(ResourceContext value)
+void ResourceService::DefaultResourceContext(winrt::WinrtResourcesCore::ResourceContext value)
 {
 	_defaultResourceContext = value;
 }
 
-ResourceContext ResourceService::CurrentResourceContext()
+winrt::WinrtResourcesCore::ResourceContext ResourceService::CurrentResourceContext()
 {
 	return _currentResourceContext;
 }
-void ResourceService::CurrentResourceContext(ResourceContext value)
+void ResourceService::CurrentResourceContext(winrt::WinrtResourcesCore::ResourceContext value)
 {
 	_currentResourceContext = value;
 }
 
-ResourceMap ResourceService::ResourceMap()
+winrt::WinrtResourcesCore::ResourceMap ResourceService::ResourceMap()
 {
 	return _resourceMap;
 }
@@ -71,7 +61,7 @@ ResourceMap ResourceService::ResourceMap()
 /// </summary>
 /// <param name="defaultAppLanguage">默认语言名称</param>
 /// <param name="currentAppLanguage">当前语言名称</param>
-void ResourceService::InitializeResource(LanguageModel defaultAppLanguage, LanguageModel currentAppLanguage)
+void ResourceService::InitializeResource(winrt::FileRenamer::LanguageModel defaultAppLanguage, winrt::FileRenamer::LanguageModel currentAppLanguage)
 {
 	ResourceService::DefaultAppLanguage(defaultAppLanguage);
 	ResourceService::CurrentAppLanguage(currentAppLanguage);
@@ -84,7 +74,7 @@ void ResourceService::InitializeResource(LanguageModel defaultAppLanguage, Langu
 /// <summary>
 /// 字符串本地化
 /// </summary>
-hstring ResourceService::GetLocalized(hstring resource)
+winrt::hstring ResourceService::GetLocalized(winrt::hstring resource)
 {
 	if (ResourceService::IsInitialized())
 	{

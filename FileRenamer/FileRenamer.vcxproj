@@ -170,7 +170,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Helpers\Controls\About\CreateDesktopShortcutHelper.h" />
     <ClInclude Include="Expander.h">
       <DependentUpon>Expander.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -246,7 +245,6 @@
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Helpers\Root\StringFormatHelper.h" />
     <ClInclude Include="ThanksControl.h">
       <DependentUpon>ThanksControl.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -286,7 +284,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="Helpers\Controls\About\CreateDesktopShortcutHelper.cpp" />
     <ClCompile Include="Expander.cpp">
       <DependentUpon>Expander.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -364,7 +361,6 @@
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="Helpers\Root\StringFormatHelper.cpp" />
     <ClCompile Include="ThanksControl.cpp">
       <DependentUpon>ThanksControl.xaml</DependentUpon>
       <SubType>Code</SubType>

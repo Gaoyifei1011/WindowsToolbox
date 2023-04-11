@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-#include "winrt/base.h"
-#include "ExtensionNamePage.g.h"
+#include <winrt/base.h>
+#include <WinMain.h>
 
-using namespace winrt;
+#include "ExtensionNamePage.g.h"
 
 namespace winrt::FileRenamer::implementation
 {
@@ -12,10 +12,10 @@ namespace winrt::FileRenamer::implementation
 	public:
 		ExtensionNamePage();
 
-		hstring Title();
+		winrt::hstring Title();
 
 	private:
-		hstring _title;
+		winrt::hstring _title;
 	};
 }
 

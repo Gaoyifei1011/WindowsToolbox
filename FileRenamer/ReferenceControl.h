@@ -1,14 +1,10 @@
 ﻿#pragma once
 
-#include "winrt/base.h"
-#include "winrt/Windows.UI.Xaml.h"
-#include "winrt/Windows.UI.Xaml.Markup.h"
-#include "winrt/Windows.UI.Xaml.Interop.h"
-#include "winrt/Windows.UI.Xaml.Controls.Primitives.h"
+#include <winrt/base.h>
+#include <WinMain.h>
+
 #include "ReferenceControl.g.h"
 #include "ViewModels/Controls/About/ReferenceViewModel.h"
-
-using namespace winrt;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -17,14 +13,14 @@ namespace winrt::FileRenamer::implementation
 	public:
 		ReferenceControl();
 
-		FileRenamer::ReferenceViewModel ViewModel();
+		winrt::FileRenamer::ReferenceViewModel ViewModel();
 
-		hstring Reference();
+		winrt::hstring Reference();
 
 	private:
-		FileRenamer::ReferenceViewModel _viewModel;
+		winrt::FileRenamer::ReferenceViewModel _viewModel;
 
-		hstring _reference;
+		winrt::hstring _reference;
 	};
 }
 

@@ -1,33 +1,32 @@
 ﻿#pragma once
 
-#include "winrt/base.h"
-#include "ReferenceKeyValuePairModel.g.h"
+#include <winrt/base.h>
 
-using namespace winrt;
+#include "ReferenceKeyValuePairModel.g.h"
 
 namespace winrt::FileRenamer::implementation
 {
-    struct ReferenceKeyValuePairModel : ReferenceKeyValuePairModelT<ReferenceKeyValuePairModel>
-    {
-    public:
-        ReferenceKeyValuePairModel();
-        ReferenceKeyValuePairModel(hstring const& key, hstring const& value);
+	struct ReferenceKeyValuePairModel : ReferenceKeyValuePairModelT<ReferenceKeyValuePairModel>
+	{
+	public:
+		ReferenceKeyValuePairModel();
+		ReferenceKeyValuePairModel(winrt::hstring const& key, winrt::hstring const& value);
 
-        hstring Key();
-        void Key(hstring const& value);
+		winrt::hstring Key();
+		void Key(winrt::hstring const& value);
 
-        hstring Value();
-        void Value(hstring const& value);
+		hstring Value();
+		void Value(winrt::hstring const& value);
 
-    private:
-        hstring _key;
-        hstring _value;
-    };
+	private:
+		winrt::hstring _key;
+		winrt::hstring _value;
+	};
 }
 
 namespace winrt::FileRenamer::factory_implementation
 {
-    struct ReferenceKeyValuePairModel : ReferenceKeyValuePairModelT<ReferenceKeyValuePairModel, implementation::ReferenceKeyValuePairModel>
-    {
-    };
+	struct ReferenceKeyValuePairModel : ReferenceKeyValuePairModelT<ReferenceKeyValuePairModel, implementation::ReferenceKeyValuePairModel>
+	{
+	};
 }

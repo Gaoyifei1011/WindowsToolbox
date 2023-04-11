@@ -1,12 +1,15 @@
 ﻿#pragma once
 
-#include "winrt/base.h"
-#include "winrt/Windows.Foundation.Collections.h"
+#include <winrt/base.h>
+#include <winrt/Windows.Foundation.Collections.h>
+
 #include "Models/About/ReferenceKeyValuePairModel.h"
 #include "ReferenceViewModel.g.h"
 
-using namespace winrt;
-using namespace winrt::Windows::Foundation;
+namespace winrt
+{
+	namespace WinrtCollections = Windows::Foundation::Collections;
+}
 
 namespace winrt::FileRenamer::implementation
 {
@@ -15,10 +18,10 @@ namespace winrt::FileRenamer::implementation
 	public:
 		ReferenceViewModel();
 
-		Collections::IVector<FileRenamer::ReferenceKeyValuePairModel> ReferenceDict();
+		winrt::WinrtCollections::IVector<winrt::FileRenamer::ReferenceKeyValuePairModel> ReferenceDict();
 
 	private:
-		Collections::IVector<FileRenamer::ReferenceKeyValuePairModel> _referenceDict{ single_threaded_vector< FileRenamer::ReferenceKeyValuePairModel >() };
+		winrt::WinrtCollections::IVector<winrt::FileRenamer::ReferenceKeyValuePairModel> _referenceDict{ winrt::single_threaded_vector< winrt::FileRenamer::ReferenceKeyValuePairModel >() };
 	};
 }
 

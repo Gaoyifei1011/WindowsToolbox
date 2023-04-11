@@ -1,12 +1,6 @@
-﻿#pragma once
-
-#include "pch.h"
+﻿#include "pch.h"
 #include "UpperAndLowerCasePage.h"
 #include "UpperAndLowerCasePage.g.cpp"
-#include "WinMain.h"
-
-using namespace winrt;
-using namespace Windows::UI::Xaml;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -17,7 +11,7 @@ namespace winrt::FileRenamer::implementation
 		_title = AppResourcesService.GetLocalized(L"UpperAndLowerCase/Title");
 	};
 
-	hstring UpperAndLowerCasePage::Title()
+	winrt::hstring UpperAndLowerCasePage::Title()
 	{
 		return _title;
 	}

@@ -1,9 +1,16 @@
 ﻿#pragma once
 
+#include <winrt/Windows.UI.Xaml.Controls.h>
+
 #include "Extensions/Command/RelayCommand.h"
+#include "MileWindow.h"
 #include "SettingsViewModel.g.h"
 
-using namespace winrt;
+namespace winrt
+{
+	namespace WinrtFoundation = Windows::Foundation;
+	namespace WinrtInput = Windows::UI::Xaml::Input;
+}
 
 namespace winrt::FileRenamer::implementation
 {
@@ -12,10 +19,10 @@ namespace winrt::FileRenamer::implementation
 	public:
 		SettingsViewModel();
 
-		ICommand RestartCommand();
+		WinrtInput::ICommand RestartCommand();
 
 	private:
-		ICommand _restartCommand;
+		WinrtInput::ICommand _restartCommand;
 	};
 }
 

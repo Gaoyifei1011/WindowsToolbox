@@ -5,26 +5,29 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.UI.Xaml.Input.h>
 
-using namespace winrt::Windows::Foundation;
-using namespace winrt::Windows::UI::Xaml::Input;
+namespace winrt
+{
+	namespace WinrtFoundation = Windows::Foundation;
+	namespace WinrtInput = Windows::UI::Xaml::Input;
+}
 
 namespace winrt::FileRenamer::implementation
 {
 	/// <summary>
 	///  一个命令，其唯一用途是通过调用委托将其功能中继到其他对象。
 	/// </summary>
-	struct RelayCommand : winrt::implements<RelayCommand, ICommand>
+	struct RelayCommand : winrt::implements<winrt::FileRenamer::implementation::RelayCommand, winrt::WinrtInput::ICommand>
 	{
-		RelayCommand(std::function<void(IInspectable)> action);
+		RelayCommand(std::function<void(winrt::WinrtFoundation::IInspectable)> action);
 
-		void Execute(IInspectable parameter);
-		bool CanExecute(IInspectable parameter);
+		void Execute(winrt::WinrtFoundation::IInspectable parameter);
+		bool CanExecute(winrt::WinrtFoundation::IInspectable parameter);
 		void CanExecuteChanged(winrt::event_token const& token) noexcept;
 
-		winrt::event_token CanExecuteChanged(EventHandler<IInspectable> const& handler);
+		winrt::event_token CanExecuteChanged(winrt::WinrtFoundation::EventHandler<winrt::WinrtFoundation::IInspectable> const& handler);
 
 	private:
-		std::function<void(IInspectable)> m_action;
-		winrt::event<EventHandler<IInspectable>> m_eventToken;
+		std::function<void(winrt::WinrtFoundation::IInspectable)> m_action;
+		winrt::event<winrt::WinrtFoundation::EventHandler<winrt::WinrtFoundation::IInspectable>> m_eventToken;
 	};
 }

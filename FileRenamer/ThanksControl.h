@@ -1,13 +1,9 @@
 ﻿#pragma once
 
-#include "winrt/base.h"
-#include "winrt/Windows.UI.Xaml.h"
-#include "winrt/Windows.UI.Xaml.Markup.h"
-#include "winrt/Windows.UI.Xaml.Interop.h"
-#include "winrt/Windows.UI.Xaml.Controls.Primitives.h"
-#include "ThanksControl.g.h"
+#include <winrt/base.h>
+#include <WinMain.h>
 
-using namespace winrt;
+#include "ThanksControl.g.h"
 
 namespace winrt::FileRenamer::implementation
 {
@@ -16,10 +12,10 @@ namespace winrt::FileRenamer::implementation
 	public:
 		ThanksControl();
 
-		hstring Thanks();
+		winrt::hstring Thanks();
 
 	private:
-		hstring _thanks;
+		winrt::hstring _thanks;
 	};
 }
 

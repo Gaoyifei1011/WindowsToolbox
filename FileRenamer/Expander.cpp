@@ -2,93 +2,86 @@
 #include "Expander.h"
 #include "Expander.g.cpp"
 
-using namespace winrt;
-using namespace winrt::Windows::Foundation;
-using namespace winrt::Windows::UI::Composition;
-using namespace winrt::Windows::UI::Xaml;
-using namespace winrt::Windows::UI::Xaml::Controls;
-using namespace winrt::Windows::UI::Xaml::Hosting;
-
 namespace winrt::FileRenamer::implementation
 {
-	DependencyProperty Expander::_headerProperty = DependencyProperty::Register(
+	winrt::WinrtXaml::DependencyProperty Expander::_headerProperty = winrt::WinrtXaml::DependencyProperty::Register(
 		L"Header",
-		xaml_typename<IInspectable>(),
-		xaml_typename<FileRenamer::Expander>(),
-		PropertyMetadata{ IInspectable{nullptr} }
+		xaml_typename<winrt::WinrtFoundation::IInspectable>(),
+		xaml_typename<winrt::FileRenamer::Expander>(),
+		winrt::WinrtXaml::PropertyMetadata{ winrt::WinrtFoundation::IInspectable{nullptr} }
 	);
 
-	DependencyProperty Expander::_headerTemplateProperty = DependencyProperty::Register(
+	winrt::WinrtXaml::DependencyProperty Expander::_headerTemplateProperty = winrt::WinrtXaml::DependencyProperty::Register(
 		L"HeaderTemplate",
-		xaml_typename<DataTemplate>(),
-		xaml_typename<FileRenamer::Expander>(),
-		PropertyMetadata{ DataTemplate{nullptr} }
+		xaml_typename<winrt::WinrtXaml::DataTemplate>(),
+		xaml_typename<winrt::FileRenamer::Expander>(),
+		winrt::WinrtXaml::PropertyMetadata{ winrt::WinrtXaml::DataTemplate{nullptr} }
 	);
 
-	DependencyProperty Expander::_isExpandedProperty = DependencyProperty::Register(
+	winrt::WinrtXaml::DependencyProperty Expander::_isExpandedProperty = winrt::WinrtXaml::DependencyProperty::Register(
 		L"IsExpanded",
 		xaml_typename<bool>(),
-		xaml_typename<FileRenamer::Expander>(),
-		PropertyMetadata{
-			box_value<bool>(false),
-			PropertyChangedCallback(&Expander::OnIsExpandedPropertyChanged)
+		xaml_typename<winrt::FileRenamer::Expander>(),
+		winrt::WinrtXaml::PropertyMetadata{
+			winrt::box_value<bool>(false),
+			winrt::WinrtXaml::PropertyChangedCallback(&Expander::OnIsExpandedPropertyChanged)
 		}
 	);
 
-	DependencyProperty Expander::_negativeContentHeightProperty = DependencyProperty::Register(
+	winrt::WinrtXaml::DependencyProperty Expander::_negativeContentHeightProperty = winrt::WinrtXaml::DependencyProperty::Register(
 		L"NegativeContentHeight",
 		xaml_typename<double>(),
-		xaml_typename<FileRenamer::Expander>(),
-		PropertyMetadata{ box_value<double>(0.0) }
+		xaml_typename<winrt::FileRenamer::Expander>(),
+		winrt::WinrtXaml::PropertyMetadata{ winrt::box_value<double>(0.0) }
 	);
 
 	Expander::Expander() {};
 
-	IInspectable Expander::Header()
+	winrt::WinrtFoundation::IInspectable Expander::Header()
 	{
 		return GetValue(_headerProperty);
 	}
-	void Expander::Header(IInspectable const& value)
+	void Expander::Header(winrt::WinrtFoundation::IInspectable const& value)
 	{
 		SetValue(_headerProperty, value);
 	}
 
-	DataTemplate Expander::HeaderTemplate()
+	winrt::WinrtXaml::DataTemplate Expander::HeaderTemplate()
 	{
-		return unbox_value<DataTemplate>(GetValue(_headerTemplateProperty));
+		return winrt::unbox_value<winrt::WinrtXaml::DataTemplate>(GetValue(_headerTemplateProperty));
 	}
-	void Expander::HeaderTemplate(DataTemplate const& value)
+	void Expander::HeaderTemplate(winrt::WinrtXaml::DataTemplate const& value)
 	{
-		SetValue(_headerTemplateProperty, box_value(value));
+		SetValue(_headerTemplateProperty, winrt::box_value(value));
 	}
 
 	bool Expander::IsExpanded()
 	{
-		return unbox_value<bool>(GetValue(_isExpandedProperty));
+		return winrt::unbox_value<bool>(GetValue(_isExpandedProperty));
 	}
 	void Expander::IsExpanded(bool const& value)
 	{
-		SetValue(_isExpandedProperty, box_value(value));
+		SetValue(_isExpandedProperty, winrt::box_value(value));
 	}
 
 	double Expander::NegativeContentHeight()
 	{
-		return unbox_value<double>(GetValue(_negativeContentHeightProperty));
+		return winrt::unbox_value<double>(GetValue(_negativeContentHeightProperty));
 	}
 	void Expander::NegativeContentHeight(double const& value)
 	{
-		SetValue(_negativeContentHeightProperty, box_value(value));
+		SetValue(_negativeContentHeightProperty, winrt::box_value(value));
 	}
 
 	void Expander::OnApplyTemplate()
 	{
-		if (Border expanderContentClip = GetTemplateChild(L"ExpanderContentClip").try_as<Border>())
+		if (winrt::WinrtControls::Border expanderContentClip = GetTemplateChild(L"ExpanderContentClip").try_as<winrt::WinrtControls::Border>())
 		{
-			Visual visual = ElementCompositionPreview::GetElementVisual(expanderContentClip);
+			winrt::WinrtComposition::Visual visual = winrt::WinrtHosting::ElementCompositionPreview::GetElementVisual(expanderContentClip);
 			visual.Clip(visual.Compositor().CreateInsetClip());
 		}
 
-		if (Border expanderContent = GetTemplateChild(L"ExpanderContent").try_as<Border>())
+		if (winrt::WinrtControls::Border expanderContent = GetTemplateChild(L"ExpanderContent").try_as<winrt::WinrtControls::Border>())
 		{
 			m_contentSizeChangedRevoker = expanderContent.SizeChanged(
 				auto_revoke, { this,&Expander::OnContentSizeChanged });
@@ -103,42 +96,42 @@ namespace winrt::FileRenamer::implementation
 
 		if (isExpanded)
 		{
-			VisualStateManager::GoToState(*this, L"ExpandDown", useTransitions);
+			winrt::WinrtXaml::VisualStateManager::GoToState(*this, L"ExpandDown", useTransitions);
 		}
 		else
 		{
-			VisualStateManager::GoToState(*this, L"CollapseUp", useTransitions);
+			winrt::WinrtXaml::VisualStateManager::GoToState(*this, L"CollapseUp", useTransitions);
 		}
 	}
 
-	DependencyProperty Expander::HeaderProperty()
+	winrt::WinrtXaml::DependencyProperty Expander::HeaderProperty()
 	{
 		return _headerProperty;
 	}
 
-	DependencyProperty Expander::HeaderTemplateProperty()
+	winrt::WinrtXaml::DependencyProperty Expander::HeaderTemplateProperty()
 	{
 		return _headerTemplateProperty;
 	}
 
-	DependencyProperty Expander::IsExpandedProperty()
+	winrt::WinrtXaml::DependencyProperty Expander::IsExpandedProperty()
 	{
 		return _isExpandedProperty;
 	}
 
-	DependencyProperty Expander::NegativeContentHeightProperty()
+	winrt::WinrtXaml::DependencyProperty Expander::NegativeContentHeightProperty()
 	{
 		return _negativeContentHeightProperty;
 	}
 
-	void Expander::OnIsExpandedPropertyChanged(DependencyObject const& sender, DependencyPropertyChangedEventArgs const& args)
+	void Expander::OnIsExpandedPropertyChanged(winrt::WinrtXaml::DependencyObject const& sender, winrt::WinrtXaml::DependencyPropertyChangedEventArgs const& args)
 	{
-		FileRenamer::Expander owner = sender.as<FileRenamer::Expander>();
-		FileRenamer::implementation::Expander* self = get_self<Expander>(owner);
+		winrt::FileRenamer::Expander owner = sender.as<winrt::FileRenamer::Expander>();
+		winrt::FileRenamer::implementation::Expander* self = get_self<winrt::FileRenamer::implementation::Expander>(owner);
 		self->UpdateExpandState(true);
 	}
 
-	void Expander::OnContentSizeChanged(IInspectable const& sender, SizeChangedEventArgs const& args)
+	void Expander::OnContentSizeChanged(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtXaml::SizeChangedEventArgs const& args)
 	{
 		float height = args.NewSize().Height;
 		Expander::NegativeContentHeight(-1.0 * height);

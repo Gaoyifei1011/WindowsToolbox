@@ -1,13 +1,16 @@
 ﻿#pragma once
 
-#include "winrt/base.h"
-#include "winrt/Windows.UI.Xaml.Controls.h"
-#include "winrt/Windows.UI.Xaml.Interop.h"
+#include <winrt/base.h>
+#include <winrt/Windows.UI.Xaml.Controls.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
+
 #include "NavigationModel.g.h"
 
-using namespace winrt;
-using namespace winrt::Windows::UI::Xaml::Controls;
-using namespace winrt::Windows::UI::Xaml::Interop;
+namespace winrt
+{
+	namespace WinrtControls = Windows::UI::Xaml::Controls;
+	namespace WinrtInterop = Windows::UI::Xaml::Interop;
+}
 
 namespace winrt::FileRenamer::implementation
 {
@@ -16,19 +19,19 @@ namespace winrt::FileRenamer::implementation
 	public:
 		NavigationModel();
 
-		hstring NavigationTag();
-		void NavigationTag(hstring const& value);
+		winrt::hstring NavigationTag();
+		void NavigationTag(winrt::hstring const& value);
 
-		NavigationViewItem NavigationItem();
-		void NavigationItem(NavigationViewItem const& value);
+		winrt::WinrtControls::NavigationViewItem NavigationItem();
+		void NavigationItem(winrt::WinrtControls::NavigationViewItem const& value);
 
-		TypeName NavigationPage();
-		void NavigationPage(TypeName const& value);
+		winrt::WinrtInterop::TypeName NavigationPage();
+		void NavigationPage(winrt::WinrtInterop::TypeName const& value);
 
 	private:
-		hstring _navigationTag;
-		NavigationViewItem _navigationItem;
-		TypeName _navigationPage;
+		winrt::hstring _navigationTag;
+		winrt::WinrtControls::NavigationViewItem _navigationItem;
+		winrt::WinrtInterop::TypeName _navigationPage;
 	};
 }
 

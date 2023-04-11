@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-#include "winrt/base.h"
+#include <winrt/base.h>
+#include <WinMain.h>
+
 #include "SettingsPage.g.h"
 #include "ViewModels/Pages/SettingsViewModel.h"
-
-using namespace winrt;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -12,24 +12,24 @@ namespace winrt::FileRenamer::implementation
 	{
 	public:
 		SettingsPage();
-		FileRenamer::SettingsViewModel ViewModel();
+		winrt::FileRenamer::SettingsViewModel ViewModel();
 
-		hstring Title();
-		hstring Appearance();
-		hstring General();
-		hstring Advanced();
-		hstring RestartApp();
-		hstring RestartAppToolTip();
+		winrt::hstring Title();
+		winrt::hstring Appearance();
+		winrt::hstring General();
+		winrt::hstring Advanced();
+		winrt::hstring RestartApp();
+		winrt::hstring RestartAppToolTip();
 
 	private:
-		FileRenamer::SettingsViewModel _viewModel;
+		winrt::FileRenamer::SettingsViewModel _viewModel;
 
-		hstring _title;
-		hstring _appearance;
-		hstring _general;
-		hstring _advanced;
-		hstring _restartApp;
-		hstring _restartAppToolTip;
+		winrt::hstring _title;
+		winrt::hstring _appearance;
+		winrt::hstring _general;
+		winrt::hstring _advanced;
+		winrt::hstring _restartApp;
+		winrt::hstring _restartAppToolTip;
 	};
 }
 

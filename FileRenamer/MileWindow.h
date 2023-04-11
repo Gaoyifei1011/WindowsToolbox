@@ -3,31 +3,38 @@
 #include <string>
 #include <Windows.h>
 #include <winrt/Windows.Graphics.h>
+#include <winrt/Windows.Storage.h>
 #include <winrt/Windows.UI.Xaml.h>
 
-using namespace std;
-using namespace winrt::Windows::Graphics;
-using namespace winrt::Windows::UI::Xaml;
+#include "Helpers/Root/DPICalcHelper.h"
+
+namespace winrt
+{
+	namespace WinrtApplicationModel = Windows::ApplicationModel;
+	namespace WinrtGraphics = Windows::Graphics;
+	namespace WinrtStorage = Windows::Storage;
+	namespace WinrtXaml = Windows::UI::Xaml;
+}
 
 class MileWindow
 {
 public:
 	MileWindow();
 
-	PointInt32 Position;
-	PointInt32 Size;
-	PointInt32 MinWindowSize;
-	PointInt32 MaxWindowSize;
+	winrt::WinrtGraphics::PointInt32 Position;
+	winrt::WinrtGraphics::PointInt32 Size;
+	winrt::WinrtGraphics::PointInt32 MinWindowSize;
+	winrt::WinrtGraphics::PointInt32 MaxWindowSize;
 
 	bool IsWindowCreated();
 
-	string Title();
-	void Title(string value);
+	std::string Title();
+	void Title(std::string value);
 
 	HWND Handle();
 
-	UIElement Content();
-	void Content(UIElement value);
+	winrt::WinrtXaml::UIElement Content();
+	void Content(winrt::WinrtXaml::UIElement value);
 
 	static MileWindow* Current();
 
@@ -36,9 +43,9 @@ public:
 
 private:
 	bool _isWindowCreated;
-	string _title;
+	std::string _title;
 	HWND _handle;
-	UIElement _content = nullptr;
+	winrt::WinrtXaml::UIElement _content = nullptr;
 	static MileWindow* _current;
 
 	void IsWindowCreated(bool value);

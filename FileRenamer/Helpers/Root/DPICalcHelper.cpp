@@ -1,7 +1,3 @@
-#pragma once
-
-#include <Windows.h>
-
 #include "DPICalcHelper.h"
 
 /// <summary>

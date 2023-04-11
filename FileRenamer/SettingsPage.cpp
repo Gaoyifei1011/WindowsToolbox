@@ -1,11 +1,6 @@
-﻿#pragma once
-
-#include "pch.h"
+﻿#include "pch.h"
 #include "SettingsPage.h"
 #include "SettingsPage.g.cpp"
-#include "WinMain.h"
-
-using namespace winrt;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -23,37 +18,37 @@ namespace winrt::FileRenamer::implementation
 		_restartAppToolTip = AppResourcesService.GetLocalized(L"Settings/RestartAppToolTip");
 	};
 
-	FileRenamer::SettingsViewModel SettingsPage::ViewModel()
+	winrt::FileRenamer::SettingsViewModel SettingsPage::ViewModel()
 	{
 		return _viewModel;
 	}
 
-	hstring SettingsPage::Title()
+	winrt::hstring SettingsPage::Title()
 	{
 		return _title;
 	}
 
-	hstring SettingsPage::Appearance()
+	winrt::hstring SettingsPage::Appearance()
 	{
 		return _appearance;
 	}
 
-	hstring SettingsPage::General()
+	winrt::hstring SettingsPage::General()
 	{
 		return _general;
 	}
 
-	hstring SettingsPage::Advanced()
+	winrt::hstring SettingsPage::Advanced()
 	{
 		return _advanced;
 	}
 
-	hstring SettingsPage::RestartApp()
+	winrt::hstring SettingsPage::RestartApp()
 	{
 		return _restartApp;
 	}
 
-	hstring SettingsPage::RestartAppToolTip()
+	winrt::hstring SettingsPage::RestartAppToolTip()
 	{
 		return _restartAppToolTip;
 	}

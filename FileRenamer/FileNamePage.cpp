@@ -3,10 +3,6 @@
 #include "pch.h"
 #include "FileNamePage.h"
 #include "FileNamePage.g.cpp"
-#include "WinMain.h"
-
-using namespace winrt;
-using namespace Windows::UI::Xaml;
 
 namespace winrt::FileRenamer::implementation
 {
@@ -17,7 +13,7 @@ namespace winrt::FileRenamer::implementation
 		_title = AppResourcesService.GetLocalized(L"FileName/Title");
 	};
 
-	hstring FileNamePage::Title()
+	winrt::hstring FileNamePage::Title()
 	{
 		return _title;
 	}

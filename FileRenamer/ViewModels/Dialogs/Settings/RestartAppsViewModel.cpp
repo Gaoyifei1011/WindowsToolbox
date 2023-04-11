@@ -1,11 +1,7 @@
 ﻿#include "pch.h"
-#include "winrt/Windows.ApplicationModel.Core.h"
-#include "MileWindow.h"
 #include "RestartAppsViewModel.h"
 #include "RestartAppsViewModel.g.cpp"
-
-using namespace winrt;
-using namespace winrt::Windows::UI::Xaml::Controls;
+#include "MileWindow.h"
 
 namespace winrt::FileRenamer::implementation
 {
@@ -13,11 +9,11 @@ namespace winrt::FileRenamer::implementation
 
 	RestartAppsViewModel::RestartAppsViewModel()
 	{
-		_restartAppsCommand = make<RelayCommand>([this](IInspectable dialog)
+		_restartAppsCommand = make<RelayCommand>([this](winrt::WinrtFoundation::IInspectable dialog)
 			{
 				if (dialog != nullptr)
 				{
-					ContentDialog restartAppsDialog = unbox_value<ContentDialog>(dialog);
+					winrt::WinrtControls::ContentDialog restartAppsDialog = winrt::unbox_value<winrt::WinrtControls::ContentDialog>(dialog);
 					restartAppsDialog.Hide();
 					RestartApps();
 				}
@@ -27,7 +23,7 @@ namespace winrt::FileRenamer::implementation
 			{
 				if (dialog != nullptr)
 				{
-					ContentDialog restartAppsDialog = unbox_value<ContentDialog>(dialog);
+					winrt::WinrtControls::ContentDialog restartAppsDialog = winrt::unbox_value<winrt::WinrtControls::ContentDialog>(dialog);
 					restartAppsDialog.Hide();
 				}
 			});
@@ -36,7 +32,7 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 重启应用
 	/// </summary>
-	ICommand RestartAppsViewModel::RestartAppsCommand()
+	winrt::WinrtInput::ICommand RestartAppsViewModel::RestartAppsCommand()
 	{
 		return _restartAppsCommand;
 	}
@@ -44,7 +40,7 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 取消重启应用
 	/// </summary>
-	ICommand RestartAppsViewModel::CloseDialogCommand()
+	winrt::WinrtInput::ICommand RestartAppsViewModel::CloseDialogCommand()
 	{
 		return _closeDialogCommand;
 	}
@@ -79,8 +75,7 @@ namespace winrt::FileRenamer::implementation
 
 		TCHAR szFullPath[MAX_PATH];
 		ZeroMemory(szFullPath, MAX_PATH);
-		GetModuleFileName(NULL, szFullPath, MAX_PATH);
-		wsprintf(szFullPath, L"%s %s", szFullPath, L"Restart");
+		wsprintf(szFullPath, L"%s\\%s %s", winrt::WinrtApplicationModel::Package::Current().InstalledLocation().Path().c_str(), L"FileRenamer.exe", L"Restart");
 		bool CreateResult = CreateProcess(NULL, szFullPath, 0, 0, false, 0, NULL, NULL, &FileRenamerStartupInfo, &FileRenamerProcessInformation);
 		if (CreateResult)
 		{

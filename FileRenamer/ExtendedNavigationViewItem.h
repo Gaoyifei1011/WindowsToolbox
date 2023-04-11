@@ -1,16 +1,21 @@
 ﻿#pragma once
 
-#include "winrt/Windows.UI.Xaml.h"
-#include "winrt/Windows.UI.Xaml.Markup.h"
-#include "winrt/Windows.UI.Xaml.Interop.h"
-#include "winrt/Windows.UI.Xaml.Controls.Primitives.h"
-#include "winrt/Windows.UI.Xaml.Input.h"
+#include <winrt/Windows.UI.Xaml.h>
+#include <winrt/Windows.UI.Xaml.Markup.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
+#include <winrt/Windows.UI.Xaml.Controls.Primitives.h>
+#include <winrt/Windows.UI.Xaml.Input.h>
+
 #include "ExtendedNavigationViewItem.g.h"
 
-using namespace winrt;
-using namespace winrt::Windows::Foundation;
-using namespace winrt::Windows::UI::Xaml;
-using namespace winrt::Windows::UI::Xaml::Input;
+namespace winrt
+{
+	namespace WinrtControls = Windows::UI::Xaml::Controls;
+	namespace WinrtFoundation = Windows::Foundation;
+	namespace WinrtInput = Windows::UI::Xaml::Input;
+	namespace WinrtPrimitives = Windows::UI::Xaml::Controls::Primitives;
+	namespace WinrtXaml = Windows::UI::Xaml;
+}
 
 namespace winrt::FileRenamer::implementation
 {
@@ -22,30 +27,30 @@ namespace winrt::FileRenamer::implementation
 	public:
 		ExtendedNavigationViewItem();
 
-		ICommand Command();
-		void Command(ICommand const& value);
+		winrt::WinrtInput::ICommand Command();
+		void Command(winrt::WinrtInput::ICommand const& value);
 
-		IInspectable CommandParameter();
-		void CommandParameter(IInspectable const& value);
+		WinrtFoundation::IInspectable CommandParameter();
+		void CommandParameter(winrt::WinrtFoundation::IInspectable const& value);
 
-		hstring ToolTip();
+		winrt::hstring ToolTip();
 		void ToolTip(hstring const& value);
 
-		static DependencyProperty CommandProperty();
-		static DependencyProperty CommandParameterProperty();
-		static DependencyProperty ToolTipProperty();
+		static winrt::WinrtXaml::DependencyProperty CommandProperty();
+		static winrt::WinrtXaml::DependencyProperty CommandParameterProperty();
+		static winrt::WinrtXaml::DependencyProperty ToolTipProperty();
 
 	private:
-		ICommand _command;
-		IInspectable _commandParameter;
-		hstring _toolTip;
+		winrt::WinrtInput::ICommand _command;
+		winrt::WinrtFoundation::IInspectable _commandParameter;
+		winrt::hstring _toolTip;
 
-		static DependencyProperty _commandProperty;
-		static DependencyProperty _commandParameterProperty;
-		static DependencyProperty _toolTipProperty;
+		static WinrtXaml::DependencyProperty _commandProperty;
+		static WinrtXaml::DependencyProperty _commandParameterProperty;
+		static WinrtXaml::DependencyProperty _toolTipProperty;
 
-		void OnLoaded(IInspectable const& sender, RoutedEventArgs const& args);
-		void OnItemTapped(IInspectable const& sender, TappedRoutedEventArgs const& args);
+		void OnLoaded(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtXaml::RoutedEventArgs const& args);
+		void OnItemTapped(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtInput::TappedRoutedEventArgs const& args);
 	};
 }
 
