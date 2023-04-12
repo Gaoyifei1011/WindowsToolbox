@@ -1,0 +1,16 @@
+import "ViewModels\Controls\Settings\Appearance\ThemeViewModel.idl";
+
+namespace FileRenamer
+{
+    [default_interface]
+    runtimeclass ThemeControl : Windows.UI.Xaml.Controls.UserControl
+    {
+        ThemeControl();
+
+        ThemeViewModel ViewModel{ get; };
+        
+        String ThemeMode{ get; };
+        String ThemeModeDescription{ get; };
+        String WindowsColorSettings{ get; };
+    }
+}

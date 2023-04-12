@@ -8,6 +8,6 @@ namespace FileRenamer
     {
         ReferenceViewModel();
         
-        Windows.Foundation.Collections.IVector<ReferenceKeyValuePairModel> ReferenceDict{ get; };
+        Windows.Foundation.Collections.IObservableVector<ReferenceKeyValuePairModel> ReferenceDict{ get; };
     }
 }

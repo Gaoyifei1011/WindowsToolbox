@@ -145,7 +145,13 @@
     <value>Quick operation</value>
   </data>
   <data name="Reference" xml:space="preserve">
+    <value>Project references</value>
+  </data>
+  <data name="ReferenceTitle" xml:space="preserve">
     <value>Project references (Sort by alphabetical order)</value>
+  </data>
+  <data name="ReferenceToolTip" xml:space="preserve">
+    <value>Click to learn about the referenced open source project</value>
   </data>
   <data name="SettingsHelp" xml:space="preserve">
     <value>Setting options instructions</value>
@@ -163,7 +169,13 @@
     <value>Learn about app-specific updates</value>
   </data>
   <data name="Thanks" xml:space="preserve">
+    <value>Thanks</value>
+  </data>
+  <data name="ThanksTitle" xml:space="preserve">
     <value>Thanks (Sort by alphabetical order)</value>
+  </data>
+  <data name="ThanksToolTip" xml:space="preserve">
+    <value>Click Learn about the thank-your's personal information</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>About</value>

@@ -15,12 +15,12 @@ namespace winrt::FileRenamer::implementation
 
 		winrt::FileRenamer::ReferenceViewModel ViewModel();
 
-		winrt::hstring Reference();
+		winrt::hstring ReferenceTitle();
 
 	private:
 		winrt::FileRenamer::ReferenceViewModel _viewModel;
 
-		winrt::hstring _reference;
+		winrt::hstring _referenceTitle;
 	};
 }
 

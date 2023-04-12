@@ -1,0 +1,11 @@
+namespace FileRenamer
+{
+    [bindable]
+    [default_interface]
+    runtimeclass ThemeViewModel 
+    {
+        ThemeViewModel();
+        
+        Windows.UI.Xaml.Input.ICommand SettingsColorCommand{ get; };
+    }
+}

@@ -9,7 +9,7 @@ namespace winrt::FileRenamer::implementation
 
 	RestartAppsViewModel::RestartAppsViewModel()
 	{
-		_restartAppsCommand = make<RelayCommand>([this](winrt::WinrtFoundation::IInspectable dialog)
+		_restartAppsCommand = winrt::make<RelayCommand>([this](winrt::WinrtFoundation::IInspectable dialog)
 			{
 				if (dialog != nullptr)
 				{
@@ -19,7 +19,7 @@ namespace winrt::FileRenamer::implementation
 				}
 			});
 
-		_closeDialogCommand = make<RelayCommand>([this](IInspectable dialog)
+		_closeDialogCommand = winrt::make<RelayCommand>([this](IInspectable dialog)
 			{
 				if (dialog != nullptr)
 				{

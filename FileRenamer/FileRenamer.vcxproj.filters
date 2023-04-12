@@ -22,6 +22,8 @@
     <Page Include="SettingsHelpControl.xaml" />
     <Page Include="ThanksControl.xaml" />
     <Page Include="Styles\GridView.xaml" />
+    <Page Include="ThemeControl.xaml" />
+    <Page Include="Styles\Grid.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />
@@ -35,6 +37,8 @@
     <Midl Include="ViewModels\Controls\About\ReferenceViewModel.idl" />
     <Midl Include="Models\About\ReferenceKeyValuePairModel.idl" />
     <Midl Include="ViewModels\Pages\AboutViewModel.idl" />
+    <Midl Include="ViewModels\Controls\Settings\Appearance\ThemeViewModel.idl" />
+    <Midl Include="Converters\Formats\AboutToolTipFormatConverter.idl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

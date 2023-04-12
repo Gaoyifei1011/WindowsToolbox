@@ -170,6 +170,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Converters\Formats\AboutToolTipFormatConverter.h">
+      <DependentUpon>Converters\Formats\AboutToolTipFormatConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Expander.h">
       <DependentUpon>Expander.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -249,12 +253,20 @@
       <DependentUpon>ThanksControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="ThemeControl.h">
+      <DependentUpon>ThemeControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="UpperAndLowerCasePage.h">
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="ViewModels\Controls\About\ReferenceViewModel.h">
       <DependentUpon>ViewModels\Controls\About\ReferenceViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="ViewModels\Controls\Settings\Appearance\ThemeViewModel.h">
+      <DependentUpon>ViewModels\Controls\Settings\Appearance\ThemeViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.h">
@@ -282,6 +294,10 @@
     </ClCompile>
     <ClCompile Include="App.cpp">
       <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Converters\Formats\AboutToolTipFormatConverter.cpp">
+      <DependentUpon>Converters\Formats\AboutToolTipFormatConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Expander.cpp">
@@ -365,12 +381,20 @@
       <DependentUpon>ThanksControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="ThemeControl.cpp">
+      <DependentUpon>ThemeControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="UpperAndLowerCasePage.cpp">
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="ViewModels\Controls\About\ReferenceViewModel.cpp">
       <DependentUpon>ViewModels\Controls\About\ReferenceViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="ViewModels\Controls\Settings\Appearance\ThemeViewModel.cpp">
+      <DependentUpon>ViewModels\Controls\Settings\Appearance\ThemeViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.cpp">
@@ -456,6 +480,9 @@
       <DeploymentContent>true</DeploymentContent>
     </Page>
     <Page Include="Styles\FontIcon.xaml" />
+    <Page Include="Styles\Grid.xaml">
+      <DeploymentContent>true</DeploymentContent>
+    </Page>
     <Page Include="Styles\GridView.xaml">
       <DeploymentContent>true</DeploymentContent>
     </Page>
@@ -466,6 +493,9 @@
       <DeploymentContent>true</DeploymentContent>
     </Page>
     <Page Include="ThanksControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ThemeControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UpperAndLowerCasePage.xaml">
@@ -480,6 +510,9 @@
     <Midl Include="App.idl">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="Converters\Formats\AboutToolTipFormatConverter.idl">
+      <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Expander.idl">
       <SubType>Designer</SubType>
@@ -548,11 +581,18 @@
       <DependentUpon>ThanksControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="ThemeControl.idl">
+      <DependentUpon>ThemeControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="UpperAndLowerCasePage.idl">
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="ViewModels\Controls\About\ReferenceViewModel.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="ViewModels\Controls\Settings\Appearance\ThemeViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.idl">

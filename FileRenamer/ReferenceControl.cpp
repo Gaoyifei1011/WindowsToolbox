@@ -8,9 +8,9 @@ namespace winrt::FileRenamer::implementation
 	{
 		InitializeComponent();
 
-		_viewModel = make<FileRenamer::implementation::ReferenceViewModel>();
+		_viewModel = winrt::make<FileRenamer::implementation::ReferenceViewModel>();
 
-		_reference = AppResourcesService.GetLocalized(L"About/Reference");
+		_referenceTitle = AppResourcesService.GetLocalized(L"About/ReferenceTitle");
 	}
 
 	winrt::FileRenamer::ReferenceViewModel ReferenceControl::ViewModel()
@@ -18,8 +18,8 @@ namespace winrt::FileRenamer::implementation
 		return _viewModel;
 	}
 
-	winrt::hstring ReferenceControl::Reference()
+	winrt::hstring ReferenceControl::ReferenceTitle()
 	{
-		return _reference;
+		return _referenceTitle;
 	}
 }

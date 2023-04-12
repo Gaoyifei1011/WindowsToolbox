@@ -18,10 +18,10 @@ namespace winrt::FileRenamer::implementation
 	public:
 		ReferenceViewModel();
 
-		winrt::WinrtCollections::IVector<winrt::FileRenamer::ReferenceKeyValuePairModel> ReferenceDict();
+		winrt::WinrtCollections::IObservableVector<winrt::FileRenamer::ReferenceKeyValuePairModel> ReferenceDict();
 
 	private:
-		winrt::WinrtCollections::IVector<winrt::FileRenamer::ReferenceKeyValuePairModel> _referenceDict{ winrt::single_threaded_vector< winrt::FileRenamer::ReferenceKeyValuePairModel >() };
+		winrt::WinrtCollections::IObservableVector<winrt::FileRenamer::ReferenceKeyValuePairModel> _referenceDict{ winrt::single_threaded_observable_vector<winrt::FileRenamer::ReferenceKeyValuePairModel >() };
 	};
 }
 

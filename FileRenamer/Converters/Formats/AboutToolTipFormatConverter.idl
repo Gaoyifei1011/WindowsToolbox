@@ -1,0 +1,7 @@
+namespace FileRenamer
+{
+    runtimeclass AboutToolTipFormatConverter : [default] Windows.UI.Xaml.Data.IValueConverter
+    {
+        AboutToolTipFormatConverter();
+    }
+}

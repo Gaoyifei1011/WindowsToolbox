@@ -8,11 +8,11 @@ namespace winrt::FileRenamer::implementation
 	{
 		InitializeComponent();
 
-		_thanks = AppResourcesService.GetLocalized(L"About/Thanks");
+		_thanksTitle = AppResourcesService.GetLocalized(L"About/ThanksTitle");
 	}
 
-	winrt::hstring ThanksControl::Thanks()
+	winrt::hstring ThanksControl::ThanksTitle()
 	{
-		return _thanks;
+		return _thanksTitle;
 	}
 }

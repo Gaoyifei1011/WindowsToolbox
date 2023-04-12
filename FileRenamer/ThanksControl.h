@@ -12,10 +12,10 @@ namespace winrt::FileRenamer::implementation
 	public:
 		ThanksControl();
 
-		winrt::hstring Thanks();
+		winrt::hstring ThanksTitle();
 
 	private:
-		winrt::hstring _thanks;
+		winrt::hstring _thanksTitle;
 	};
 }
 

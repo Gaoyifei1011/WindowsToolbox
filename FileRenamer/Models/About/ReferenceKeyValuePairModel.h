@@ -9,7 +9,6 @@ namespace winrt::FileRenamer::implementation
 	struct ReferenceKeyValuePairModel : ReferenceKeyValuePairModelT<ReferenceKeyValuePairModel>
 	{
 	public:
-		ReferenceKeyValuePairModel();
 		ReferenceKeyValuePairModel(winrt::hstring const& key, winrt::hstring const& value);
 
 		winrt::hstring Key();

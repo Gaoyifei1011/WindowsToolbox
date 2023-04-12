@@ -4,7 +4,6 @@ namespace FileRenamer
     [default_interface]
     runtimeclass ReferenceKeyValuePairModel 
     {
-        //ReferenceKeyValuePairModel();
         ReferenceKeyValuePairModel(String Key,String Value);
         
         String Key{ get; set; };

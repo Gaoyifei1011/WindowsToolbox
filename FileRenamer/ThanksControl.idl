@@ -5,6 +5,6 @@ namespace FileRenamer
     {
         ThanksControl();
         
-        String Thanks{ get; };
+        String ThanksTitle{ get; };
     }
 }

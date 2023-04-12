@@ -4,8 +4,6 @@
 
 namespace winrt::FileRenamer::implementation
 {
-	ReferenceKeyValuePairModel::ReferenceKeyValuePairModel() {};
-
 	ReferenceKeyValuePairModel::ReferenceKeyValuePairModel(winrt::hstring const& key, winrt::hstring const& value) :_key{ key }, _value{ value } {};
 
 	winrt::hstring ReferenceKeyValuePairModel::Key()

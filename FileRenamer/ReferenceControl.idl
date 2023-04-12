@@ -9,6 +9,6 @@ namespace FileRenamer
 
         ReferenceViewModel ViewModel{ get; };
         
-        String Reference{ get; };
+        String ReferenceTitle{ get; };
     }
 }
