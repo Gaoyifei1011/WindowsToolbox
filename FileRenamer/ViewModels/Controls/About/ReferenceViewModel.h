@@ -21,7 +21,7 @@ namespace winrt::FileRenamer::implementation
 		winrt::WinrtCollections::IObservableVector<winrt::FileRenamer::ReferenceKeyValuePairModel> ReferenceDict();
 
 	private:
-		winrt::WinrtCollections::IObservableVector<winrt::FileRenamer::ReferenceKeyValuePairModel> _referenceDict{ winrt::single_threaded_observable_vector<winrt::FileRenamer::ReferenceKeyValuePairModel >() };
+		winrt::WinrtCollections::IObservableVector<winrt::FileRenamer::ReferenceKeyValuePairModel> _referenceDict{ winrt::single_threaded_observable_vector<winrt::FileRenamer::ReferenceKeyValuePairModel>() };
 	};
 }
 

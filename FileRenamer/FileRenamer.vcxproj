@@ -212,6 +212,10 @@
       <DependentUpon>Models\About\ReferenceKeyValuePairModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Models\About\ThanksKeyValuePairModel.h">
+      <DependentUpon>Models\About\ThanksKeyValuePairModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Models\Settings\Appearence\LanguageModel.h">
       <DependentUpon>Models\Settings\Appearence\LanguageModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -263,6 +267,10 @@
     </ClInclude>
     <ClInclude Include="ViewModels\Controls\About\ReferenceViewModel.h">
       <DependentUpon>ViewModels\Controls\About\ReferenceViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="ViewModels\Controls\About\ThanksViewModel.h">
+      <DependentUpon>ViewModels\Controls\About\ThanksViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="ViewModels\Controls\Settings\Appearance\ThemeViewModel.h">
@@ -338,6 +346,10 @@
       <DependentUpon>Models\About\ReferenceKeyValuePairModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="Models\About\ThanksKeyValuePairModel.cpp">
+      <DependentUpon>Models\About\ThanksKeyValuePairModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="Models\Settings\Appearence\LanguageModel.cpp">
       <DependentUpon>Models\Settings\Appearence\LanguageModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -391,6 +403,10 @@
     </ClCompile>
     <ClCompile Include="ViewModels\Controls\About\ReferenceViewModel.cpp">
       <DependentUpon>ViewModels\Controls\About\ReferenceViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="ViewModels\Controls\About\ThanksViewModel.cpp">
+      <DependentUpon>ViewModels\Controls\About\ThanksViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="ViewModels\Controls\Settings\Appearance\ThemeViewModel.cpp">
@@ -548,6 +564,9 @@
     <Midl Include="Models\About\ReferenceKeyValuePairModel.idl">
       <SubType>Designer</SubType>
     </Midl>
+    <Midl Include="Models\About\ThanksKeyValuePairModel.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="Models\Settings\Appearence\LanguageModel.idl">
       <SubType>Designer</SubType>
     </Midl>
@@ -590,6 +609,9 @@
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="ViewModels\Controls\About\ReferenceViewModel.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="ViewModels\Controls\About\ThanksViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="ViewModels\Controls\Settings\Appearance\ThemeViewModel.idl">

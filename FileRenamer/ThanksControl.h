@@ -4,6 +4,7 @@
 #include <WinMain.h>
 
 #include "ThanksControl.g.h"
+#include "ViewModels/Controls/About/ThanksViewModel.h"
 
 namespace winrt::FileRenamer::implementation
 {
@@ -12,9 +13,13 @@ namespace winrt::FileRenamer::implementation
 	public:
 		ThanksControl();
 
+		winrt::FileRenamer::ThanksViewModel ViewModel();
+
 		winrt::hstring ThanksTitle();
 
 	private:
+		winrt::FileRenamer::ThanksViewModel _viewModel;
+
 		winrt::hstring _thanksTitle;
 	};
 }

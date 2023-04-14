@@ -7,9 +7,44 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <local:AboutToolTipFormatConverter x:Name="AboutToolTipFormatConverter" />
+    </UserControl.Resources>
+
     <local:Expander Style="{StaticResource ExpanderAboutStyle}">
         <local:Expander.Header>
             <TextBlock Style="{StaticResource ExpanderHeaderStyle}" Text="{x:Bind ThanksTitle}" />
         </local:Expander.Header>
+
+        <local:Expander.Content>
+            <GridView
+                Margin="9,0"
+                Padding="0"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                ItemContainerStyle="{StaticResource GridViewItemStyle}"
+                ItemsSource="{x:Bind ViewModel.ThanksDict}"
+                SelectionMode="None">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="local:ThanksKeyValuePairModel">
+                        <HyperlinkButton
+                            MinWidth="280"
+                            Padding="5,8"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Content="{x:Bind Key}"
+                            NavigateUri="{x:Bind Value}">
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    Content="{x:Bind Key, Converter={StaticResource AboutToolTipFormatConverter}, ConverterParameter=Thanks}"
+                                    Placement="Bottom"
+                                    VerticalOffset="25" />
+                            </ToolTipService.ToolTip>
+                        </HyperlinkButton>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </local:Expander.Content>
     </local:Expander>
 </UserControl>

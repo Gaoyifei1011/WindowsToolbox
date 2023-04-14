@@ -1,0 +1,13 @@
+import "Models\About\ThanksKeyValuePairModel.idl";
+
+namespace FileRenamer
+{
+    [bindable]
+    [default_interface]
+    runtimeclass ThanksViewModel 
+    {
+        ThanksViewModel();
+
+        Windows.Foundation.Collections.IObservableVector<ThanksKeyValuePairModel> ThanksDict{ get; };
+    }
+}

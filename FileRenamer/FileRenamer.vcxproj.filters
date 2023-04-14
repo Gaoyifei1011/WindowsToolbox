@@ -39,6 +39,8 @@
     <Midl Include="ViewModels\Pages\AboutViewModel.idl" />
     <Midl Include="ViewModels\Controls\Settings\Appearance\ThemeViewModel.idl" />
     <Midl Include="Converters\Formats\AboutToolTipFormatConverter.idl" />
+    <Midl Include="Models\About\ThanksKeyValuePairModel.idl" />
+    <Midl Include="ViewModels\Controls\About\ThanksViewModel.idl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

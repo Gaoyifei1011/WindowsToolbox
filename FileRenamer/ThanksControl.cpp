@@ -8,7 +8,14 @@ namespace winrt::FileRenamer::implementation
 	{
 		InitializeComponent();
 
+		_viewModel = winrt::make<FileRenamer::implementation::ThanksViewModel>();
+
 		_thanksTitle = AppResourcesService.GetLocalized(L"About/ThanksTitle");
+	}
+
+	winrt::FileRenamer::ThanksViewModel ThanksControl::ViewModel()
+	{
+		return _viewModel;
 	}
 
 	winrt::hstring ThanksControl::ThanksTitle()
