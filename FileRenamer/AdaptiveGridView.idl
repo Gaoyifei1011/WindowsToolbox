@@ -1,0 +1,22 @@
+namespace FileRenamer
+{
+    [default_interface]
+    runtimeclass AdaptiveGridView : Windows.UI.Xaml.Controls.GridView
+    {
+        AdaptiveGridView();
+
+        Double DesiredWidth{ get; set; };
+        Windows.UI.Xaml.Input.ICommand ItemClickCommand{ get; set;};
+        Double ItemHeight{ get; set; };
+        Double ItemWidth{ get; set; };
+        Boolean OneRowModeEnabled{ get; set; };
+        Boolean StretchContentForSingleRow{ get; set; };
+        
+        static Windows.UI.Xaml.DependencyProperty DesiredWidthProperty{ get; };
+        static Windows.UI.Xaml.DependencyProperty ItemClickCommandProperty{ get; };
+        static Windows.UI.Xaml.DependencyProperty ItemHeightProperty{ get; };
+        static Windows.UI.Xaml.DependencyProperty ItemWidthProperty{ get; };
+        static Windows.UI.Xaml.DependencyProperty OneRowModeEnabledProperty{ get; };
+        static Windows.UI.Xaml.DependencyProperty StretchContentForSingleRowProperty{ get; };       
+    }
+}

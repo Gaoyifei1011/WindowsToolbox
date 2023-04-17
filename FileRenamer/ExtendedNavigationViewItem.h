@@ -40,6 +40,8 @@ namespace winrt::FileRenamer::implementation
 		static winrt::WinrtXaml::DependencyProperty CommandParameterProperty();
 		static winrt::WinrtXaml::DependencyProperty ToolTipProperty();
 
+		void OnTapped(winrt::WinrtInput::TappedRoutedEventArgs const& args);
+
 	private:
 		winrt::WinrtInput::ICommand _command;
 		winrt::WinrtFoundation::IInspectable _commandParameter;
@@ -50,7 +52,6 @@ namespace winrt::FileRenamer::implementation
 		static WinrtXaml::DependencyProperty _toolTipProperty;
 
 		void OnLoaded(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtXaml::RoutedEventArgs const& args);
-		void OnItemTapped(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtInput::TappedRoutedEventArgs const& args);
 	};
 }
 

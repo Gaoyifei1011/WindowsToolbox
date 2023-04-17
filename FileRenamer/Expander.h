@@ -40,7 +40,7 @@ namespace winrt::FileRenamer::implementation
 		static winrt::WinrtXaml::DependencyProperty IsExpandedProperty();
 		static winrt::WinrtXaml::DependencyProperty NegativeContentHeightProperty();
 
-		static void OnIsExpandedPropertyChanged(winrt::WinrtXaml::DependencyObject const& sender, winrt::WinrtXaml::DependencyPropertyChangedEventArgs const& args);
+		static void OnIsExpandedPropertyChanged(winrt::WinrtXaml::DependencyObject const& d, winrt::WinrtXaml::DependencyPropertyChangedEventArgs const& args);
 
 	private:
 		static winrt::WinrtXaml::DependencyProperty _headerProperty;

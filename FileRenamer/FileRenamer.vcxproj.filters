@@ -24,6 +24,7 @@
     <Page Include="Styles\GridView.xaml" />
     <Page Include="ThemeControl.xaml" />
     <Page Include="Styles\Grid.xaml" />
+    <Page Include="AdaptiveGridView.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />
@@ -41,6 +42,7 @@
     <Midl Include="Converters\Formats\AboutToolTipFormatConverter.idl" />
     <Midl Include="Models\About\ThanksKeyValuePairModel.idl" />
     <Midl Include="ViewModels\Controls\About\ThanksViewModel.idl" />
+    <Midl Include="Converters\Controls\AdaptiveHeightValueConverter.idl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

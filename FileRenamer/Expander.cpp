@@ -6,22 +6,22 @@ namespace winrt::FileRenamer::implementation
 {
 	winrt::WinrtXaml::DependencyProperty Expander::_headerProperty = winrt::WinrtXaml::DependencyProperty::Register(
 		L"Header",
-		xaml_typename<winrt::WinrtFoundation::IInspectable>(),
-		xaml_typename<winrt::FileRenamer::Expander>(),
+		winrt::xaml_typename<winrt::WinrtFoundation::IInspectable>(),
+		winrt::xaml_typename<winrt::FileRenamer::Expander>(),
 		winrt::WinrtXaml::PropertyMetadata{ winrt::WinrtFoundation::IInspectable{nullptr} }
 	);
 
 	winrt::WinrtXaml::DependencyProperty Expander::_headerTemplateProperty = winrt::WinrtXaml::DependencyProperty::Register(
 		L"HeaderTemplate",
-		xaml_typename<winrt::WinrtXaml::DataTemplate>(),
-		xaml_typename<winrt::FileRenamer::Expander>(),
+		winrt::xaml_typename<winrt::WinrtXaml::DataTemplate>(),
+		winrt::xaml_typename<winrt::FileRenamer::Expander>(),
 		winrt::WinrtXaml::PropertyMetadata{ winrt::WinrtXaml::DataTemplate{nullptr} }
 	);
 
 	winrt::WinrtXaml::DependencyProperty Expander::_isExpandedProperty = winrt::WinrtXaml::DependencyProperty::Register(
 		L"IsExpanded",
-		xaml_typename<bool>(),
-		xaml_typename<winrt::FileRenamer::Expander>(),
+		winrt::xaml_typename<bool>(),
+		winrt::xaml_typename<winrt::FileRenamer::Expander>(),
 		winrt::WinrtXaml::PropertyMetadata{
 			winrt::box_value<bool>(false),
 			winrt::WinrtXaml::PropertyChangedCallback(&Expander::OnIsExpandedPropertyChanged)
@@ -30,8 +30,8 @@ namespace winrt::FileRenamer::implementation
 
 	winrt::WinrtXaml::DependencyProperty Expander::_negativeContentHeightProperty = winrt::WinrtXaml::DependencyProperty::Register(
 		L"NegativeContentHeight",
-		xaml_typename<double>(),
-		xaml_typename<winrt::FileRenamer::Expander>(),
+		winrt::xaml_typename<double>(),
+		winrt::xaml_typename<winrt::FileRenamer::Expander>(),
 		winrt::WinrtXaml::PropertyMetadata{ winrt::box_value<double>(0.0) }
 	);
 
@@ -124,10 +124,10 @@ namespace winrt::FileRenamer::implementation
 		return _negativeContentHeightProperty;
 	}
 
-	void Expander::OnIsExpandedPropertyChanged(winrt::WinrtXaml::DependencyObject const& sender, winrt::WinrtXaml::DependencyPropertyChangedEventArgs const& args)
+	void Expander::OnIsExpandedPropertyChanged(winrt::WinrtXaml::DependencyObject const& d, winrt::WinrtXaml::DependencyPropertyChangedEventArgs const& args)
 	{
-		winrt::FileRenamer::Expander owner = sender.as<winrt::FileRenamer::Expander>();
-		winrt::FileRenamer::implementation::Expander* self = get_self<winrt::FileRenamer::implementation::Expander>(owner);
+		winrt::FileRenamer::Expander owner = d.as<winrt::FileRenamer::Expander>();
+		winrt::FileRenamer::implementation::Expander* self = winrt::get_self<winrt::FileRenamer::implementation::Expander>(owner);
 		self->UpdateExpandState(true);
 	}
 

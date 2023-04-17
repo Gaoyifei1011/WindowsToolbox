@@ -6,22 +6,22 @@ namespace winrt::FileRenamer::implementation
 {
 	winrt::WinrtXaml::DependencyProperty ExtendedNavigationViewItem::_commandProperty = winrt::WinrtXaml::DependencyProperty::Register(
 		L"Command",
-		xaml_typename<winrt::WinrtInput::ICommand>(),
-		xaml_typename<winrt::FileRenamer::ExtendedNavigationViewItem>(),
+		winrt::xaml_typename<winrt::WinrtInput::ICommand>(),
+		winrt::xaml_typename<winrt::FileRenamer::ExtendedNavigationViewItem>(),
 		winrt::WinrtXaml::PropertyMetadata{ nullptr }
 	);
 
 	winrt::WinrtXaml::DependencyProperty ExtendedNavigationViewItem::_commandParameterProperty = winrt::WinrtXaml::DependencyProperty::Register(
 		L"CommandParameter",
-		xaml_typename<winrt::WinrtFoundation::IInspectable>(),
-		xaml_typename<winrt::FileRenamer::ExtendedNavigationViewItem>(),
+		winrt::xaml_typename<winrt::WinrtFoundation::IInspectable>(),
+		winrt::xaml_typename<winrt::FileRenamer::ExtendedNavigationViewItem>(),
 		winrt::WinrtXaml::PropertyMetadata{ nullptr }
 	);
 
 	winrt::WinrtXaml::DependencyProperty ExtendedNavigationViewItem::_toolTipProperty = winrt::WinrtXaml::DependencyProperty::Register(
 		L"ToolTip",
-		xaml_typename<winrt::hstring>(),
-		xaml_typename<winrt::FileRenamer::ExtendedNavigationViewItem>(),
+		winrt::xaml_typename<winrt::hstring>(),
+		winrt::xaml_typename<winrt::FileRenamer::ExtendedNavigationViewItem>(),
 		winrt::WinrtXaml::PropertyMetadata{ nullptr }
 	);
 
@@ -30,7 +30,6 @@ namespace winrt::FileRenamer::implementation
 		InitializeComponent();
 
 		this->Loaded({ this,&ExtendedNavigationViewItem::OnLoaded });
-		this->Tapped({ this,&ExtendedNavigationViewItem::OnItemTapped });
 	};
 
 	winrt::WinrtInput::ICommand ExtendedNavigationViewItem::Command()
@@ -90,8 +89,10 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 点击导航控件项时触发命令
 	/// </summary>
-	void ExtendedNavigationViewItem::OnItemTapped(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtInput::TappedRoutedEventArgs const& args)
+	void ExtendedNavigationViewItem::OnTapped(winrt::WinrtInput::TappedRoutedEventArgs const& args)
 	{
+		__super::OnTapped(args);
+
 		winrt::WinrtInput::ICommand clickCommand = ExtendedNavigationViewItem::Command();
 		if (clickCommand != nullptr)
 		{

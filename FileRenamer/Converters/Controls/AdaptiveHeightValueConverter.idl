@@ -1,0 +1,9 @@
+namespace FileRenamer
+{
+    runtimeclass AdaptiveHeightValueConverter : [default] Windows.UI.Xaml.Data.IValueConverter
+    {
+        AdaptiveHeightValueConverter();
+
+        static Windows.UI.Xaml.Thickness GetItemMargin(Windows.UI.Xaml.Controls.GridView view, Windows.UI.Xaml.Thickness fallback);
+    }
+}

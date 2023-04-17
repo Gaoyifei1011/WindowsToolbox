@@ -25,12 +25,12 @@ namespace winrt::FileRenamer::implementation
 				}
 			});
 
-		_pageDict.Insert(L"FileName", xaml_typename<FileRenamer::FileNamePage>());
-		_pageDict.Insert(L"ExtensionName", xaml_typename<FileRenamer::ExtensionNamePage>());
-		_pageDict.Insert(L"UpperAndLowerCase", xaml_typename<FileRenamer::UpperAndLowerCasePage>());
-		_pageDict.Insert(L"FileProperties", xaml_typename<FileRenamer::FilePropertiesPage>());
-		_pageDict.Insert(L"About", xaml_typename<FileRenamer::AboutPage>());
-		_pageDict.Insert(L"Settings", xaml_typename<FileRenamer::SettingsPage>());
+		_pageDict.Insert(L"FileName", winrt::xaml_typename<FileRenamer::FileNamePage>());
+		_pageDict.Insert(L"ExtensionName", winrt::xaml_typename<FileRenamer::ExtensionNamePage>());
+		_pageDict.Insert(L"UpperAndLowerCase", winrt::xaml_typename<FileRenamer::UpperAndLowerCasePage>());
+		_pageDict.Insert(L"FileProperties", winrt::xaml_typename<FileRenamer::FilePropertiesPage>());
+		_pageDict.Insert(L"About", winrt::xaml_typename<FileRenamer::AboutPage>());
+		_pageDict.Insert(L"Settings", winrt::xaml_typename<FileRenamer::SettingsPage>());
 	};
 
 	bool MainViewModel::IsBackEnabled()

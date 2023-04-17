@@ -166,8 +166,16 @@
       <DependentUpon>AboutPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="AdaptiveGridView.h">
+      <DependentUpon>AdaptiveGridView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="App.h">
       <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="Converters\Controls\AdaptiveHeightValueConverter.h">
+      <DependentUpon>Converters\Controls\AdaptiveHeightValueConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Converters\Formats\AboutToolTipFormatConverter.h">
@@ -300,8 +308,16 @@
       <DependentUpon>AboutPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="AdaptiveGridView.cpp">
+      <DependentUpon>AdaptiveGridView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="App.cpp">
       <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="Converters\Controls\AdaptiveHeightValueConverter.cpp">
+      <DependentUpon>Converters\Controls\AdaptiveHeightValueConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Converters\Formats\AboutToolTipFormatConverter.cpp">
@@ -453,6 +469,9 @@
     <Page Include="AboutPage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="AdaptiveGridView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ExtendedNavigationViewItem.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -523,9 +542,16 @@
       <DependentUpon>AboutPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="AdaptiveGridView.idl">
+      <DependentUpon>AdaptiveGridView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="App.idl">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="Converters\Controls\AdaptiveHeightValueConverter.idl">
+      <SubType>Designer</SubType>
     </Midl>
     <Midl Include="Converters\Formats\AboutToolTipFormatConverter.idl">
       <SubType>Designer</SubType>
