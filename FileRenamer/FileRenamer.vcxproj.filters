@@ -15,14 +15,7 @@
     <Page Include="Styles\Expander.xaml" />
     <Page Include="Styles\TextBlock.xaml" />
     <Page Include="RestartAppsDialog.xaml" />
-    <Page Include="InstructionsControl.xaml" />
-    <Page Include="IntroductionControl.xaml" />
-    <Page Include="PrecautionControl.xaml" />
-    <Page Include="ReferenceControl.xaml" />
-    <Page Include="SettingsHelpControl.xaml" />
-    <Page Include="ThanksControl.xaml" />
     <Page Include="Styles\GridView.xaml" />
-    <Page Include="ThemeControl.xaml" />
     <Page Include="Styles\Grid.xaml" />
     <Page Include="AdaptiveGridView.xaml" />
   </ItemGroup>
@@ -35,13 +28,10 @@
     <Midl Include="ViewModels\Pages\SettingsViewModel.idl" />
     <Midl Include="Expander.idl" />
     <Midl Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.idl" />
-    <Midl Include="ViewModels\Controls\About\ReferenceViewModel.idl" />
     <Midl Include="Models\About\ReferenceKeyValuePairModel.idl" />
     <Midl Include="ViewModels\Pages\AboutViewModel.idl" />
-    <Midl Include="ViewModels\Controls\Settings\Appearance\ThemeViewModel.idl" />
     <Midl Include="Converters\Formats\AboutToolTipFormatConverter.idl" />
     <Midl Include="Models\About\ThanksKeyValuePairModel.idl" />
-    <Midl Include="ViewModels\Controls\About\ThanksViewModel.idl" />
     <Midl Include="Converters\Controls\AdaptiveHeightValueConverter.idl" />
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +43,10 @@
     <ClCompile Include="Helpers\Root\DPICalcHelper.cpp" />
     <ClCompile Include="Services\Root\ResourceService.cpp" />
     <ClCompile Include="Services\Window\NavigationService.cpp" />
+    <ClCompile Include="Services\Controls\Settings\Appearance\ThemeService.cpp" />
+    <ClCompile Include="Extensions\DataType\Constant\ConfigKey.cpp" />
+    <ClCompile Include="Services\Root\ConfigService.cpp" />
+    <ClCompile Include="global.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -63,6 +57,10 @@
     <ClInclude Include="Helpers\Root\DPICalcHelper.h" />
     <ClInclude Include="Services\Root\ResourceService.h" />
     <ClInclude Include="Services\Window\NavigationService.h" />
+    <ClInclude Include="Services\Controls\Settings\Appearance\ThemeService.h" />
+    <ClInclude Include="Extensions\DataType\Constant\ConfigKey.h" />
+    <ClInclude Include="Services\Root\ConfigService.h" />
+    <ClInclude Include="global.h" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="app.manifest" />

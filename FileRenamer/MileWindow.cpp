@@ -1,15 +1,6 @@
 #pragma once
 
-#include <string>
-#include <Windows.h>
-#include <WinMain.h>
-#include <winrt/Windows.Foundation.h>
-#include <winrt/Windows.Graphics.h>
-#include <winrt/Windows.UI.Xaml.h>
-
-#include "Helpers/Root/DPICalcHelper.h"
 #include "MileWindow.h"
-#include "MainPage.h"
 
 WNDPROC MileOldWndProc = 0;
 MileWindow* MileWindow::_current = nullptr;
@@ -71,7 +62,7 @@ MileWindow* MileWindow::Current()
 /// </summary>
 void MileWindow::InitializeWindow(HINSTANCE hInstance)
 {
-	winrt::hstring AppTitle = AppResourcesService.GetLocalized(L"Resources/AppDisplayName");
+	winrt::hstring AppTitle = AppResourceService.GetLocalized(L"Resources/AppDisplayName");
 
 	HWND hwnd = CreateWindowExW(
 		WS_EX_LEFT,
@@ -90,7 +81,7 @@ void MileWindow::InitializeWindow(HINSTANCE hInstance)
 	MileWindow::Handle(hwnd);
 	if (MileWindow::Handle() == nullptr)
 	{
-		throw AppResourcesService.GetLocalized(L"Resources/WindowHandleInitializeFailed");
+		throw AppResourceService.GetLocalized(L"Resources/WindowHandleInitializeFailed");
 	}
 	else
 	{

@@ -174,6 +174,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="global.h" />
+    <ClInclude Include="Services\Root\ConfigService.h" />
+    <ClInclude Include="Extensions\DataType\Constant\ConfigKey.h" />
     <ClInclude Include="Converters\Controls\AdaptiveHeightValueConverter.h">
       <DependentUpon>Converters\Controls\AdaptiveHeightValueConverter.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -203,14 +206,6 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Helpers\Root\DPICalcHelper.h" />
-    <ClInclude Include="InstructionsControl.h">
-      <DependentUpon>InstructionsControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="IntroductionControl.h">
-      <DependentUpon>IntroductionControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="MainPage.h">
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -236,14 +231,6 @@
       <DependentUpon>Models\Window\NavigationModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="PrecautionControl.h">
-      <DependentUpon>PrecautionControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="ReferenceControl.h">
-      <DependentUpon>ReferenceControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="RestartAppsDialog.h">
       <DependentUpon>RestartAppsDialog.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -253,36 +240,13 @@
     <ClInclude Include="Extensions\Command\RelayCommand.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Services\Root\ResourceService.h" />
-    <ClInclude Include="SettingsHelpControl.h">
-      <DependentUpon>SettingsHelpControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="SettingsPage.h">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="ThanksControl.h">
-      <DependentUpon>ThanksControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="ThemeControl.h">
-      <DependentUpon>ThemeControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
+    <ClInclude Include="Services\Controls\Settings\Appearance\ThemeService.h" />
     <ClInclude Include="UpperAndLowerCasePage.h">
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="ViewModels\Controls\About\ReferenceViewModel.h">
-      <DependentUpon>ViewModels\Controls\About\ReferenceViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="ViewModels\Controls\About\ThanksViewModel.h">
-      <DependentUpon>ViewModels\Controls\About\ThanksViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="ViewModels\Controls\Settings\Appearance\ThemeViewModel.h">
-      <DependentUpon>ViewModels\Controls\Settings\Appearance\ThemeViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.h">
@@ -316,6 +280,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="global.cpp" />
+    <ClCompile Include="Services\Root\ConfigService.cpp" />
+    <ClCompile Include="Extensions\DataType\Constant\ConfigKey.cpp" />
     <ClCompile Include="Converters\Controls\AdaptiveHeightValueConverter.cpp">
       <DependentUpon>Converters\Controls\AdaptiveHeightValueConverter.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -345,14 +312,6 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Helpers\Root\DPICalcHelper.cpp" />
-    <ClCompile Include="InstructionsControl.cpp">
-      <DependentUpon>InstructionsControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="IntroductionControl.cpp">
-      <DependentUpon>IntroductionControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="MainPage.cpp">
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -378,14 +337,6 @@
       <DependentUpon>Models\Window\NavigationModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="PrecautionControl.cpp">
-      <DependentUpon>PrecautionControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="ReferenceControl.cpp">
-      <DependentUpon>ReferenceControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="RestartAppsDialog.cpp">
       <DependentUpon>RestartAppsDialog.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -397,36 +348,13 @@
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="Extensions\Command\RelayCommand.cpp" />
     <ClCompile Include="Services\Root\ResourceService.cpp" />
-    <ClCompile Include="SettingsHelpControl.cpp">
-      <DependentUpon>SettingsHelpControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="SettingsPage.cpp">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="ThanksControl.cpp">
-      <DependentUpon>ThanksControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="ThemeControl.cpp">
-      <DependentUpon>ThemeControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
+    <ClCompile Include="Services\Controls\Settings\Appearance\ThemeService.cpp" />
     <ClCompile Include="UpperAndLowerCasePage.cpp">
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="ViewModels\Controls\About\ReferenceViewModel.cpp">
-      <DependentUpon>ViewModels\Controls\About\ReferenceViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="ViewModels\Controls\About\ThanksViewModel.cpp">
-      <DependentUpon>ViewModels\Controls\About\ThanksViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="ViewModels\Controls\Settings\Appearance\ThemeViewModel.cpp">
-      <DependentUpon>ViewModels\Controls\Settings\Appearance\ThemeViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.cpp">
@@ -484,25 +412,10 @@
     <Page Include="FilePropertiesPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="InstructionsControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="IntroductionControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PrecautionControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ReferenceControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="RestartAppsDialog.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SettingsHelpControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SettingsPage.xaml">
@@ -526,12 +439,6 @@
     </Page>
     <Page Include="Styles\TextBlock.xaml">
       <DeploymentContent>true</DeploymentContent>
-    </Page>
-    <Page Include="ThanksControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ThemeControl.xaml">
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="UpperAndLowerCasePage.xaml">
       <SubType>Designer</SubType>
@@ -575,14 +482,6 @@
       <DependentUpon>FilePropertiesPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="InstructionsControl.idl">
-      <DependentUpon>InstructionsControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="IntroductionControl.idl">
-      <DependentUpon>IntroductionControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
     <Midl Include="MainPage.idl">
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -602,46 +501,17 @@
     <Midl Include="Models\Window\NavigationModel.idl">
       <SubType>Designer</SubType>
     </Midl>
-    <Midl Include="PrecautionControl.idl">
-      <DependentUpon>PrecautionControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="ReferenceControl.idl">
-      <DependentUpon>ReferenceControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
     <Midl Include="RestartAppsDialog.idl">
       <DependentUpon>RestartAppsDialog.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="SettingsHelpControl.idl">
-      <DependentUpon>SettingsHelpControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="SettingsPage.idl">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="ThanksControl.idl">
-      <DependentUpon>ThanksControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="ThemeControl.idl">
-      <DependentUpon>ThemeControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
     <Midl Include="UpperAndLowerCasePage.idl">
       <DependentUpon>UpperAndLowerCasePage.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="ViewModels\Controls\About\ReferenceViewModel.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="ViewModels\Controls\About\ThanksViewModel.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="ViewModels\Controls\Settings\Appearance\ThemeViewModel.idl">
-      <SubType>Designer</SubType>
     </Midl>
     <Midl Include="ViewModels\Dialogs\Settings\RestartAppsViewModel.idl">
       <SubType>Designer</SubType>

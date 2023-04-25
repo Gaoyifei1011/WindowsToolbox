@@ -2,27 +2,23 @@
 
 #include <string>
 #include <Windows.h>
-#include <winrt/Windows.Foundation.Collections.h>
-#include <winrt/Windows.Graphics.h>
-#include <winrt/Windows.Storage.h>
-#include <winrt/Windows.UI.Core.h>
-#include <winrt/Windows.UI.Xaml.h>
-#include <winrt/Windows.UI.Xaml.Media.h>
-#include <winrt/Windows.UI.Xaml.Controls.h>
-#include <winrt/Windows.UI.Xaml.Controls.Primitives.h>
 
+#ifdef GetCurrentTime
+#undef GetCurrentTime
+#endif
+
+#include <winrt/Windows.ApplicationModel.h>
+#include <winrt/Windows.Graphics.h>
+#include <winrt/Windows.UI.Xaml.h>
+
+#include "global.h"
 #include "Helpers/Root/DPICalcHelper.h"
+#include "MainPage.h"
 
 namespace winrt
 {
 	namespace WinrtApplicationModel = Windows::ApplicationModel;
-	namespace WinrtCore = Windows::UI::Core;
-	namespace WinrtCollections = Windows::Foundation::Collections;
-	namespace WinrtControls = Windows::UI::Xaml::Controls;
 	namespace WinrtGraphics = Windows::Graphics;
-	namespace WinrtMedia = Windows::UI::Xaml::Media;
-	namespace WinrtPrimitives = Windows::UI::Xaml::Controls::Primitives;
-	namespace WinrtStorage = Windows::Storage;
 	namespace WinrtXaml = Windows::UI::Xaml;
 }
 

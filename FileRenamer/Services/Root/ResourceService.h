@@ -4,10 +4,12 @@
 #include <winrt/Windows.Foundation.Collections.h>
 
 #include "Models/Settings/Appearence/LanguageModel.h"
+#include "Models/Settings/Appearence/ThemeModel.h"
 #include "LanguageModel.g.h"
 
 namespace winrt
 {
+	namespace WinrtCollections = Windows::Foundation::Collections;
 	namespace WinrtResourcesCore = Windows::ApplicationModel::Resources::Core;
 }
 
@@ -19,16 +21,20 @@ class ResourceService
 public:
 	ResourceService();
 
+	winrt::WinrtCollections::IObservableVector<winrt::FileRenamer::ThemeModel> ThemeList();
+
 	void InitializeResource(winrt::FileRenamer::LanguageModel defaultAppLanguage, winrt::FileRenamer::LanguageModel currentAppLanguage);
+	void LocalizeResource();
+	void InitializeThemeList();
 	winrt::hstring GetLocalized(winrt::hstring resource);
 
 private:
-	bool _isInitialized;
-	winrt::FileRenamer::LanguageModel _defaultAppLanguage;
-	winrt::FileRenamer::LanguageModel _currentAppLanguage;
+	bool _isInitialized{ false };
+	winrt::FileRenamer::LanguageModel _defaultAppLanguage{ nullptr };
+	winrt::FileRenamer::LanguageModel _currentAppLanguage{ nullptr };
 	winrt::WinrtResourcesCore::ResourceContext _defaultResourceContext;
 	winrt::WinrtResourcesCore::ResourceContext _currentResourceContext;
-	winrt::WinrtResourcesCore::ResourceMap _resourceMap = (winrt::WinrtResourcesCore::ResourceManager::Current()).MainResourceMap();
+	winrt::WinrtResourcesCore::ResourceMap _resourceMap{ nullptr };
 
 	bool IsInitialized();
 	void IsInitialized(bool value);
@@ -46,4 +52,6 @@ private:
 	void CurrentResourceContext(winrt::WinrtResourcesCore::ResourceContext value);
 
 	winrt::WinrtResourcesCore::ResourceMap ResourceMap();
+
+	winrt::WinrtCollections::IObservableVector<winrt::FileRenamer::ThemeModel> _themeList{ winrt::single_threaded_observable_vector<winrt::FileRenamer::ThemeModel>() };
 };

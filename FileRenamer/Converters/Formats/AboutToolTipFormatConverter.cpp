@@ -17,11 +17,11 @@ namespace winrt::FileRenamer::implementation
 
 		if (param == L"Reference")
 		{
-			return winrt::box_value(winrt::unbox_value<winrt::hstring>(value) + L"\n" + AppResourcesService.GetLocalized(L"About/ReferenceToolTip"));
+			return winrt::box_value(winrt::unbox_value<winrt::hstring>(value) + L"\n" + AppResourceService.GetLocalized(L"About/ReferenceToolTip"));
 		}
 		else if (param == L"Thanks")
 		{
-			return winrt::box_value(winrt::unbox_value<winrt::hstring>(value) + L"\n" + AppResourcesService.GetLocalized(L"About/ThanksToolTip"));
+			return winrt::box_value(winrt::unbox_value<winrt::hstring>(value) + L"\n" + AppResourceService.GetLocalized(L"About/ThanksToolTip"));
 		}
 		else
 		{

@@ -10,10 +10,10 @@ namespace winrt::FileRenamer::implementation
 
 		_viewModel = winrt::make<winrt::FileRenamer::implementation::RestartAppsViewModel>();
 
-		_restart = AppResourcesService.GetLocalized(L"Dialog/Restart");
-		_restartContent = AppResourcesService.GetLocalized(L"Dialog/RestartContent");
-		_ok = AppResourcesService.GetLocalized(L"Dialog/OK");
-		_cancel = AppResourcesService.GetLocalized(L"Dialog/Cancel");
+		_restart = AppResourceService.GetLocalized(L"Dialog/Restart");
+		_restartContent = AppResourceService.GetLocalized(L"Dialog/RestartContent");
+		_ok = AppResourceService.GetLocalized(L"Dialog/OK");
+		_cancel = AppResourceService.GetLocalized(L"Dialog/Cancel");
 	};
 
 	winrt::FileRenamer::RestartAppsViewModel RestartAppsDialog::ViewModel()

@@ -1,8 +1,8 @@
 ﻿#pragma once
 
 #include <winrt/base.h>
-#include <WinMain.h>
 
+#include "global.h"
 #include "RestartAppsDialog.g.h"
 #include "ViewModels/Dialogs/Settings/RestartAppsViewModel.h"
 

@@ -132,6 +132,15 @@
   <data name="RestartAppToolTip" xml:space="preserve">
     <value>应用设置发生修改后，部分选项需要重启后生效</value>
   </data>
+  <data name="ThemeDark" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="ThemeDefault" xml:space="preserve">
+    <value>使用系统设置</value>
+  </data>
+  <data name="ThemeLight" xml:space="preserve">
+    <value>浅色</value>
+  </data>
   <data name="ThemeMode" xml:space="preserve">
     <value>应用主题</value>
   </data>

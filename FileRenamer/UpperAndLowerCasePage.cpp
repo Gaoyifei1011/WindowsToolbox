@@ -8,7 +8,7 @@ namespace winrt::FileRenamer::implementation
 	{
 		InitializeComponent();
 
-		_title = AppResourcesService.GetLocalized(L"UpperAndLowerCase/Title");
+		_title = AppResourceService.GetLocalized(L"UpperAndLowerCase/Title");
 	};
 
 	winrt::hstring UpperAndLowerCasePage::Title()

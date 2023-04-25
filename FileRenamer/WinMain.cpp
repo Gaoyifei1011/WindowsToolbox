@@ -4,11 +4,6 @@
 #include <tchar.h>
 #include "App.h"
 #include "MainPage.h"
-#include "Services/Root/ResourceService.h"
-#include "Services/Window/NavigationService.h"
-
-ResourceService AppResourcesService;
-NavigationService AppNavigationService;
 
 void ApplicationStart(HINSTANCE hInstance, int nShowCmd);
 void InitializeProgramResources();
@@ -69,7 +64,8 @@ void InitializeProgramResources()
 	currentLanguage.DisplayName(L"ÖÐÎÄ£¨¼òÌå£©");
 	defaultLanguage.InternalName(L"en-us");
 	currentLanguage.InternalName(L"zh-hans");
-	AppResourcesService.InitializeResource(defaultLanguage, currentLanguage);
+	AppResourceService.InitializeResource(defaultLanguage, currentLanguage);
+	AppResourceService.LocalizeResource();
 }
 
 /// <summary>

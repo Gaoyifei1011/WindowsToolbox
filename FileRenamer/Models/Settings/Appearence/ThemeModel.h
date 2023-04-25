@@ -6,10 +6,18 @@ namespace winrt::FileRenamer::implementation
 {
 	struct ThemeModel : ThemeModelT<ThemeModel>
 	{
-		ThemeModel() = default;
+	public:
+		ThemeModel(winrt::hstring const& key, winrt::hstring const& value);
 
-		int32_t MyProperty();
-		void MyProperty(int32_t value);
+		winrt::hstring DisplayName();
+		void DisplayName(winrt::hstring const& value);
+
+		winrt::hstring InternalName();
+		void InternalName(winrt::hstring const& value);
+
+	private:
+		winrt::hstring _displayName;
+		winrt::hstring _internalName;
 	};
 }
 

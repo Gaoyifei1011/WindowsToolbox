@@ -4,13 +4,23 @@
 
 namespace winrt::FileRenamer::implementation
 {
-	int32_t ThemeModel::MyProperty()
+	ThemeModel::ThemeModel(winrt::hstring const& displayName, winrt::hstring const& internalName) :_displayName{ displayName }, _internalName{ internalName } {};
+
+	winrt::hstring ThemeModel::DisplayName()
 	{
-		throw hresult_not_implemented();
+		return _displayName;
+	}
+	void ThemeModel::DisplayName(winrt::hstring const& value)
+	{
+		_displayName = value;
 	}
 
-	void ThemeModel::MyProperty(int32_t /*value*/)
+	winrt::hstring ThemeModel::InternalName()
 	{
-		throw hresult_not_implemented();
+		return _internalName;
+	}
+	void ThemeModel::InternalName(winrt::hstring const& value)
+	{
+		_internalName = value;
 	}
 }

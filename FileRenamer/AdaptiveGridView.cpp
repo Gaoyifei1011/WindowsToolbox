@@ -57,6 +57,8 @@ namespace winrt::FileRenamer::implementation
 
 	AdaptiveGridView::AdaptiveGridView()
 	{
+		InitializeComponent();
+
 		_isLoaded = false;
 		_savedOrientation = winrt::WinrtControls::Orientation::Horizontal;
 		_savedVerticalScrollMode = winrt::WinrtControls::ScrollMode::Auto;
@@ -165,7 +167,7 @@ namespace winrt::FileRenamer::implementation
 	void AdaptiveGridView::PrepareContainerForItemOverride(winrt::WinrtXaml::DependencyObject obj, winrt::WinrtFoundation::IInspectable item)
 	{
 		__super::PrepareContainerForItemOverride(obj, item);
-		OutputDebugString(L"00000000001\n");
+
 		winrt::WinrtXaml::FrameworkElement frameworkElement = obj.try_as<winrt::WinrtXaml::FrameworkElement>();
 		if (frameworkElement != nullptr)
 		{
@@ -174,30 +176,27 @@ namespace winrt::FileRenamer::implementation
 			winrt::WinrtXaml::PropertyPath propertyPath1(L"ItemHeight");
 			binding.Path(propertyPath1);
 			binding.Mode(winrt::WinrtData::BindingMode::TwoWay);
-			OutputDebugString(L"00000000002\n");
 			winrt::WinrtData::Binding binding2;
 			binding.Source(*this);
 			winrt::WinrtXaml::PropertyPath propertyPath2(L"ItemWidth");
 			binding.Path(propertyPath2);
 			binding.Mode(winrt::WinrtData::BindingMode::TwoWay);
-			OutputDebugString(L"00000000003\n");
 			frameworkElement.SetBinding(winrt::WinrtXaml::FrameworkElement::HeightProperty(), binding);
 			frameworkElement.SetBinding(winrt::WinrtXaml::FrameworkElement::WidthProperty(), binding2);
 		}
-		OutputDebugString(L"00000000004\n");
+
 		winrt::WinrtControls::ContentControl contentControl = obj.try_as<winrt::WinrtControls::ContentControl>();
 		if (contentControl != nullptr)
 		{
 			contentControl.HorizontalContentAlignment(winrt::WinrtXaml::HorizontalAlignment::Stretch);
 			contentControl.VerticalContentAlignment(winrt::WinrtXaml::VerticalAlignment::Stretch);
 		}
-		OutputDebugString(L"00000000005\n");
+
 		if (_needContainerMarginForLayout)
 		{
 			_needContainerMarginForLayout = false;
 			AdaptiveGridView::RecalculateLayout(AdaptiveGridView::ActualWidth());
 		}
-		OutputDebugString(L"00000000006\n");
 	}
 
 	/// <summary>计算网格项的宽度。</summary>
@@ -224,7 +223,7 @@ namespace winrt::FileRenamer::implementation
 			_needContainerMarginForLayout = true;
 		}
 
-		return ( containerWidth / num ) - itemMargin.Left - itemMargin.Right;
+		return (containerWidth / num) - itemMargin.Left - itemMargin.Right;
 	}
 
 	/// <summary>

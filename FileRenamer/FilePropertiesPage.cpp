@@ -10,7 +10,7 @@ namespace winrt::FileRenamer::implementation
 	{
 		InitializeComponent();
 
-		_title = AppResourcesService.GetLocalized(L"FileProperties/Title");
+		_title = AppResourceService.GetLocalized(L"FileProperties/Title");
 	};
 
 	hstring FilePropertiesPage::Title()

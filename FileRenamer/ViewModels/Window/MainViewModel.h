@@ -3,9 +3,9 @@
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
+#include "global.h"
 #include "Extensions/Command/RelayCommand.h"
 #include "MainViewModel.g.h"
-#include "WinMain.h"
 
 namespace winrt
 {
@@ -42,8 +42,8 @@ namespace winrt::FileRenamer::implementation
 		void OnFrameNavigated(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtNavigation::NavigationEventArgs const& args);
 		void OnFrameNavgationFailed(winrt::WinrtFoundation::IInspectable const& sender, winrt::WinrtNavigation::NavigationFailedEventArgs const& args);
 
-		event_token PropertyChanged(winrt::WinrtData::PropertyChangedEventHandler const& value);
-		void PropertyChanged(event_token const& token) noexcept;
+		winrt::event_token PropertyChanged(winrt::WinrtData::PropertyChangedEventHandler const& value);
+		void PropertyChanged(winrt::event_token const& token) noexcept;
 
 	private:
 		bool _isBackEnabled;

@@ -9,24 +9,26 @@ namespace FileRenamer
 
         AboutViewModel ViewModel{ get; };
 
-        String Title{ get; };
         String BriefIntroduction{ get; };
-        String Reference{ get; };
-        String UseInstruction{ get; };
-        String Precaution{ get; };
-        String SettingsHelp{ get; };
-        String Thanks{ get; };
-        String QuickOperation{ get; };
         String CreateDesktopShortcut{ get; };
         String CreateDesktopShortcutToolTip{ get; };
         String PinToStartScreen{ get; };
         String PinToStartScreenToolTip{ get; };
         String PinToTaskbar{ get; };
         String PinToTaskbarToolTip{ get; };
-        String UpdateAndLicensing{ get; };
-        String ShowReleaseNotes{ get; };
-        String ShowReleaseNotesToolTip{ get; };
+        String Precaution{ get; };
+        String QuickOperation{ get; };
+        String Reference{ get; };
+        String ReferenceTitle{ get; };
+        String SettingsHelp{ get; };
         String ShowLicense{ get; };
         String ShowLicenseToolTip{ get; };
+        String ShowReleaseNotes{ get; };
+        String ShowReleaseNotesToolTip{ get; };
+        String Thanks{ get; };
+        String ThanksTitle{ get; };
+        String Title{ get; };
+        String UpdateAndLicensing{ get; };
+        String UseInstruction{ get; };
     }
 }

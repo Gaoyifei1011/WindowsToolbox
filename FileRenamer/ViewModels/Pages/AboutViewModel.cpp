@@ -33,7 +33,7 @@ namespace winrt::FileRenamer::implementation
 							TCHAR szLinkPath[MAX_PATH];
 							ZeroMemory(szLinkPath, MAX_PATH);
 
-							wsprintf(szLinkPath, L"%s\\%s.lnk", szDesktop, AppResourcesService.GetLocalized(L"Resources/AppDisplayName").c_str());
+							wsprintf(szLinkPath, L"%s\\%s.lnk", szDesktop, AppResourceService.GetLocalized(L"Resources/AppDisplayName").c_str());
 							hr = PersistFile->Save(szLinkPath, false);
 							if (SUCCEEDED(hr))
 							{
@@ -80,12 +80,18 @@ namespace winrt::FileRenamer::implementation
 		_showLicenseCommand = make<FileRenamer::implementation::RelayCommand>([this](WinrtFoundation::IInspectable parameter)
 			{
 			});
+
+		_referenceDict.Append(winrt::make<ReferenceKeyValuePairModel>(L"Microsoft.Windows.CppWinRT", L"https://github.com/Microsoft/cppwinrt"));
+		_referenceDict.Append(winrt::make<ReferenceKeyValuePairModel>(L"Microsoft.Windows.SDK.BuildTools", L"https://aka.ms/WinSDKProjectURL"));
+		_referenceDict.Append(winrt::make<ReferenceKeyValuePairModel>(L"Mile.Xaml", L"https://github.com/ProjectMile/Mile.Xaml"));
+
+		_thanksDict.Append(winrt::make<ThanksKeyValuePairModel>(L"MouriNaruto", L"https://github.com/MouriNaruto"));
 	};
 
 	/// <summary>
 	/// 创建应用的桌面快捷方式
 	/// </summary>
-	WinrtInput::ICommand AboutViewModel::CreateDesktopShortcutCommand()
+	winrt::WinrtInput::ICommand AboutViewModel::CreateDesktopShortcutCommand()
 	{
 		return _createDesktopShortcutCommand;
 	}
@@ -93,7 +99,7 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 将应用固定到“开始”屏幕
 	/// </summary>
-	WinrtInput::ICommand AboutViewModel::PinToStartScreenCommand()
+	winrt::WinrtInput::ICommand AboutViewModel::PinToStartScreenCommand()
 	{
 		return _pinToStartScreenCommand;
 	}
@@ -101,7 +107,7 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 将应用固定到任务栏
 	/// </summary>
-	WinrtInput::ICommand AboutViewModel::PinToTaskbarCommand()
+	winrt::WinrtInput::ICommand AboutViewModel::PinToTaskbarCommand()
 	{
 		return _pinToTaskbarCommand;
 	}
@@ -109,7 +115,7 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 查看更新日志
 	/// </summary>
-	WinrtInput::ICommand AboutViewModel::ShowReleaseNotesCommand()
+	winrt::WinrtInput::ICommand AboutViewModel::ShowReleaseNotesCommand()
 	{
 		return _showReleaseNotesCommand;
 	}
@@ -117,8 +123,18 @@ namespace winrt::FileRenamer::implementation
 	/// <summary>
 	/// 查看许可证
 	/// </summary>
-	WinrtInput::ICommand AboutViewModel::ShowLicenseCommand()
+	winrt::WinrtInput::ICommand AboutViewModel::ShowLicenseCommand()
 	{
 		return _showLicenseCommand;
+	}
+
+	winrt::WinrtCollections::IObservableVector<winrt::FileRenamer::ThanksKeyValuePairModel> AboutViewModel::ThanksDict()
+	{
+		return _thanksDict;
+	}
+
+	winrt::WinrtCollections::IObservableVector<winrt::FileRenamer::ReferenceKeyValuePairModel> AboutViewModel::ReferenceDict()
+	{
+		return _referenceDict;
 	}
 }

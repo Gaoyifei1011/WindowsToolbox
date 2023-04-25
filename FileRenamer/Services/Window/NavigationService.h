@@ -37,7 +37,6 @@ public:
 
 private:
 	winrt::WinrtControls::Frame _navigationFrame{ nullptr };
-	winrt::WinrtAnimation::SlideNavigationTransitionInfo _navigationTransition{ nullptr };
 
 	winrt::WinrtCollections::IVector<winrt::FileRenamer::NavigationModel> _navigationItemList{ winrt::single_threaded_vector<winrt::FileRenamer::NavigationModel>() };
 };

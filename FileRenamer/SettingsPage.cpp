@@ -8,14 +8,17 @@ namespace winrt::FileRenamer::implementation
 	{
 		InitializeComponent();
 
-		_viewModel = make<FileRenamer::implementation::SettingsViewModel>();
+		_viewModel = winrt::make<FileRenamer::implementation::SettingsViewModel>();
 
-		_title = AppResourcesService.GetLocalized(L"Settings/Title");
-		_appearance = AppResourcesService.GetLocalized(L"Settings/Appearance");
-		_general = AppResourcesService.GetLocalized(L"Settings/General");
-		_advanced = AppResourcesService.GetLocalized(L"Settings/Advanced");
-		_restartApp = AppResourcesService.GetLocalized(L"Settings/RestartApp");
-		_restartAppToolTip = AppResourcesService.GetLocalized(L"Settings/RestartAppToolTip");
+		_advanced = AppResourceService.GetLocalized(L"Settings/Advanced");
+		_appearance = AppResourceService.GetLocalized(L"Settings/Appearance");
+		_general = AppResourceService.GetLocalized(L"Settings/General");
+		_restartApp = AppResourceService.GetLocalized(L"Settings/RestartApp");
+		_restartAppToolTip = AppResourceService.GetLocalized(L"Settings/RestartAppToolTip");
+		_themeMode = AppResourceService.GetLocalized(L"Settings/ThemeMode");
+		_themeModeDescription = AppResourceService.GetLocalized(L"Settings/ThemeModeDescription");
+		_title = AppResourceService.GetLocalized(L"Settings/Title");
+		_windowsColorSettings = AppResourceService.GetLocalized(L"Settings/WindowsColorSettings");
 	};
 
 	winrt::FileRenamer::SettingsViewModel SettingsPage::ViewModel()
@@ -23,9 +26,9 @@ namespace winrt::FileRenamer::implementation
 		return _viewModel;
 	}
 
-	winrt::hstring SettingsPage::Title()
+	winrt::hstring SettingsPage::Advanced()
 	{
-		return _title;
+		return _advanced;
 	}
 
 	winrt::hstring SettingsPage::Appearance()
@@ -38,11 +41,6 @@ namespace winrt::FileRenamer::implementation
 		return _general;
 	}
 
-	winrt::hstring SettingsPage::Advanced()
-	{
-		return _advanced;
-	}
-
 	winrt::hstring SettingsPage::RestartApp()
 	{
 		return _restartApp;
@@ -51,5 +49,25 @@ namespace winrt::FileRenamer::implementation
 	winrt::hstring SettingsPage::RestartAppToolTip()
 	{
 		return _restartAppToolTip;
+	}
+
+	winrt::hstring SettingsPage::ThemeMode()
+	{
+		return _themeMode;
+	}
+
+	winrt::hstring SettingsPage::ThemeModeDescription()
+	{
+		return _themeModeDescription;
+	}
+
+	winrt::hstring SettingsPage::Title()
+	{
+		return _title;
+	}
+
+	winrt::hstring SettingsPage::WindowsColorSettings()
+	{
+		return _windowsColorSettings;
 	}
 }

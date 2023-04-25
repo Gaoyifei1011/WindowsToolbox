@@ -1,8 +1,8 @@
 ﻿#pragma once
 
 #include <winrt/base.h>
-#include <WinMain.h>
 
+#include "global.h"
 #include "FilePropertiesPage.g.h"
 
 namespace winrt::FileRenamer::implementation

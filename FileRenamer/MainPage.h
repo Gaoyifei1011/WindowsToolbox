@@ -1,8 +1,8 @@
 #pragma once
 
 #include <winrt/base.h>
-#include <WinMain.h>
 
+#include "global.h"
 #include "pch.h"
 #include "MainPage.g.h"
 #include "Extensions/Command/RelayCommand.h"

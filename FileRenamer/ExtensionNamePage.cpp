@@ -8,7 +8,7 @@ namespace winrt::FileRenamer::implementation
 	{
 		InitializeComponent();
 
-		_title = AppResourcesService.GetLocalized(L"ExtensionName/Title");
+		_title = AppResourceService.GetLocalized(L"ExtensionName/Title");
 	};
 
 	winrt::hstring ExtensionNamePage::Title()

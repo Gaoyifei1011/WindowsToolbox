@@ -10,12 +10,12 @@ namespace winrt::FileRenamer::implementation
 
 		_viewModel = make<winrt::FileRenamer::implementation::MainViewModel>();
 
-		_fileName = AppResourcesService.GetLocalized(L"Window/FileName");
-		_extensionName = AppResourcesService.GetLocalized(L"Window/ExtensionName");
-		_upperAndLowerCase = AppResourcesService.GetLocalized(L"Window/UpperAndLowerCase");
-		_fileProperties = AppResourcesService.GetLocalized(L"Window/FileProperties");
-		_about = AppResourcesService.GetLocalized(L"Window/About");
-		_settings = AppResourcesService.GetLocalized(L"Window/Settings");
+		_fileName = AppResourceService.GetLocalized(L"Window/FileName");
+		_extensionName = AppResourceService.GetLocalized(L"Window/ExtensionName");
+		_upperAndLowerCase = AppResourceService.GetLocalized(L"Window/UpperAndLowerCase");
+		_fileProperties = AppResourceService.GetLocalized(L"Window/FileProperties");
+		_about = AppResourceService.GetLocalized(L"Window/About");
+		_settings = AppResourceService.GetLocalized(L"Window/Settings");
 
 		AppNavigationService.NavigationFrame(this->MainFrame());
 	}

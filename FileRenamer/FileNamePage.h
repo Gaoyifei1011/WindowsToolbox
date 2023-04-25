@@ -2,8 +2,8 @@
 
 #include <winrt/base.h>
 
+#include "global.h"
 #include "FileNamePage.g.h"
-#include "WinMain.h"
 
 namespace winrt::FileRenamer::implementation
 {

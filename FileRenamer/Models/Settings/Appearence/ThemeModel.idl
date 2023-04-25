@@ -1,10 +1,10 @@
 namespace FileRenamer
 {
-    [bindable]
-    [default_interface]
     runtimeclass ThemeModel 
     {
-        ThemeModel();
-        Int32 MyProperty;
+        ThemeModel(String displayName , String internalName);
+
+        String DisplayName{ get; set; };
+        String InternalName{ get; set; };
     }
 }

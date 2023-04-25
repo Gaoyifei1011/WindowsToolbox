@@ -1,3 +1,6 @@
+import "Models\About\ReferenceKeyValuePairModel.idl";
+import "Models\About\ThanksKeyValuePairModel.idl";
+
 namespace FileRenamer
 {
     [bindable]
@@ -11,5 +14,8 @@ namespace FileRenamer
         Windows.UI.Xaml.Input.ICommand PinToTaskbarCommand{ get; };
         Windows.UI.Xaml.Input.ICommand ShowReleaseNotesCommand{ get; };
         Windows.UI.Xaml.Input.ICommand ShowLicenseCommand{ get; };
+
+        Windows.Foundation.Collections.IObservableVector<ReferenceKeyValuePairModel> ReferenceDict{ get; };
+        Windows.Foundation.Collections.IObservableVector<ThanksKeyValuePairModel> ThanksDict{ get; };
     }
 }

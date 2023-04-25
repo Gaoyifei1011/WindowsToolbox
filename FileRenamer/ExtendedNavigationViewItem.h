@@ -30,7 +30,7 @@ namespace winrt::FileRenamer::implementation
 		winrt::WinrtInput::ICommand Command();
 		void Command(winrt::WinrtInput::ICommand const& value);
 
-		WinrtFoundation::IInspectable CommandParameter();
+		winrt::WinrtFoundation::IInspectable CommandParameter();
 		void CommandParameter(winrt::WinrtFoundation::IInspectable const& value);
 
 		winrt::hstring ToolTip();

@@ -4,6 +4,7 @@
 ResourceService::ResourceService()
 {
 	_isInitialized = false;
+	_resourceMap = winrt::WinrtResourcesCore::ResourceManager::Current().MainResourceMap();
 }
 
 bool ResourceService::IsInitialized()
@@ -56,6 +57,11 @@ winrt::WinrtResourcesCore::ResourceMap ResourceService::ResourceMap()
 	return _resourceMap;
 }
 
+winrt::WinrtCollections::IObservableVector<winrt::FileRenamer::ThemeModel> ResourceService::ThemeList()
+{
+	return _themeList;
+}
+
 /// <summary>
 /// 初始化应用本地化资源
 /// </summary>
@@ -69,6 +75,24 @@ void ResourceService::InitializeResource(winrt::FileRenamer::LanguageModel defau
 	ResourceService::CurrentResourceContext().QualifierValues().Insert(L"Language", ResourceService::CurrentAppLanguage().InternalName());
 
 	IsInitialized(true);
+}
+
+/// <summary>
+/// 初始化应用本地化信息
+/// </summary>
+void ResourceService::LocalizeResource()
+{
+	InitializeThemeList();
+}
+
+/// <summary>
+/// 初始化应用主题信息列表
+/// </summary>
+void ResourceService::InitializeThemeList()
+{
+	ResourceService::ThemeList().Append(winrt::make<winrt::FileRenamer::implementation::ThemeModel>(ResourceService::GetLocalized(L"Settings/ThemeDefault"), L"Default"));
+	ResourceService::ThemeList().Append(winrt::make<winrt::FileRenamer::implementation::ThemeModel>(ResourceService::GetLocalized(L"Settings/ThemeLight"), L"Light"));
+	ResourceService::ThemeList().Append(winrt::make<winrt::FileRenamer::implementation::ThemeModel>(ResourceService::GetLocalized(L"Settings/ThemeDark"), L"Dark"));
 }
 
 /// <summary>

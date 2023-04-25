@@ -132,6 +132,15 @@
   <data name="RestartAppToolTip" xml:space="preserve">
     <value>After the app settings are modified, some options need to be restarted to take effect</value>
   </data>
+  <data name="ThemeDark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="ThemeDefault" xml:space="preserve">
+    <value>Windows default</value>
+  </data>
+  <data name="ThemeLight" xml:space="preserve">
+    <value>Light</value>
+  </data>
   <data name="ThemeMode" xml:space="preserve">
     <value>Application theme</value>
   </data>

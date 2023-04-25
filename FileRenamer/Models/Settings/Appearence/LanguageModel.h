@@ -6,9 +6,9 @@ namespace winrt::FileRenamer::implementation
 {
 	struct LanguageModel : LanguageModelT<LanguageModel>
 	{
+	public:
 		LanguageModel();
 
-	public:
 		winrt::hstring DisplayName();
 		void DisplayName(winrt::hstring const& value);
 

@@ -10,25 +10,28 @@ namespace winrt::FileRenamer::implementation
 
 		_viewModel = winrt::make<winrt::FileRenamer::implementation::AboutViewModel>();
 
-		_title = AppResourcesService.GetLocalized(L"About/Title");
-		_briefIntroduction = AppResourcesService.GetLocalized(L"About/BriefIntroduction");
-		_reference = AppResourcesService.GetLocalized(L"About/Reference");
-		_useInstruction = AppResourcesService.GetLocalized(L"About/UseInstruction");
-		_precaution = AppResourcesService.GetLocalized(L"About/Precaution");
-		_settingsHelp = AppResourcesService.GetLocalized(L"About/SettingsHelp");
-		_thanks = AppResourcesService.GetLocalized(L"About/Thanks");
-		_quickOperation = AppResourcesService.GetLocalized(L"About/QuickOperation");
-		_createDesktopShortcut = AppResourcesService.GetLocalized(L"About/CreateDesktopShortcut");
-		_createDesktopShortcutToolTip = AppResourcesService.GetLocalized(L"About/CreateDesktopShortcutToolTip");
-		_pinToStartScreen = AppResourcesService.GetLocalized(L"About/PinToStartScreen");
-		_pinToStartScreenToolTip = AppResourcesService.GetLocalized(L"About/PinToStartScreenToolTip");
-		_pinToTaskbar = AppResourcesService.GetLocalized(L"About/PinToTaskbar");
-		_pinToTaskbarToolTip = AppResourcesService.GetLocalized(L"About/PinToTaskbarToolTip");
-		_updateAndLicensing = AppResourcesService.GetLocalized(L"About/UpdateAndLicensing");
-		_showReleaseNotes = AppResourcesService.GetLocalized(L"About/ShowReleaseNotes");
-		_showReleaseNotesToolTip = AppResourcesService.GetLocalized(L"About/ShowReleaseNotesToolTip");
-		_showLicense = AppResourcesService.GetLocalized(L"About/ShowLicense");
-		_showLicenseToolTip = AppResourcesService.GetLocalized(L"About/ShowLicenseToolTip");
+		_briefIntroduction = AppResourceService.GetLocalized(L"About/BriefIntroduction");
+		_createDesktopShortcut = AppResourceService.GetLocalized(L"About/CreateDesktopShortcut");
+		_createDesktopShortcutToolTip = AppResourceService.GetLocalized(L"About/CreateDesktopShortcutToolTip");
+		_pinToStartScreen = AppResourceService.GetLocalized(L"About/PinToStartScreen");
+		_pinToStartScreenToolTip = AppResourceService.GetLocalized(L"About/PinToStartScreenToolTip");
+		_pinToTaskbar = AppResourceService.GetLocalized(L"About/PinToTaskbar");
+		_pinToTaskbarToolTip = AppResourceService.GetLocalized(L"About/PinToTaskbarToolTip");
+		_precaution = AppResourceService.GetLocalized(L"About/Precaution");
+		_quickOperation = AppResourceService.GetLocalized(L"About/QuickOperation");
+		_reference = AppResourceService.GetLocalized(L"About/Reference");
+		_referenceTitle = AppResourceService.GetLocalized(L"About/ReferenceTitle");
+		_settingsHelp = AppResourceService.GetLocalized(L"About/SettingsHelp");
+		_showLicense = AppResourceService.GetLocalized(L"About/ShowLicense");
+		_showLicenseToolTip = AppResourceService.GetLocalized(L"About/ShowLicenseToolTip");
+		_showReleaseNotes = AppResourceService.GetLocalized(L"About/ShowReleaseNotes");
+		_showReleaseNotesToolTip = AppResourceService.GetLocalized(L"About/ShowReleaseNotesToolTip");
+		_useInstruction = AppResourceService.GetLocalized(L"About/UseInstruction");
+		_thanks = AppResourceService.GetLocalized(L"About/Thanks");
+		_thanksTitle = AppResourceService.GetLocalized(L"About/ThanksTitle");
+		_title = AppResourceService.GetLocalized(L"About/Title");
+		_updateAndLicensing = AppResourceService.GetLocalized(L"About/UpdateAndLicensing");
+		_useInstruction = AppResourceService.GetLocalized(L"About/UseInstruction");
 	};
 
 	winrt::FileRenamer::AboutViewModel AboutPage::ViewModel()
@@ -36,44 +39,9 @@ namespace winrt::FileRenamer::implementation
 		return _viewModel;
 	}
 
-	winrt::hstring AboutPage::Title()
-	{
-		return _title;
-	}
-
 	winrt::hstring AboutPage::BriefIntroduction()
 	{
 		return _briefIntroduction;
-	}
-
-	winrt::hstring AboutPage::Reference()
-	{
-		return _reference;
-	}
-
-	winrt::hstring AboutPage::UseInstruction()
-	{
-		return _useInstruction;
-	}
-
-	winrt::hstring AboutPage::Precaution()
-	{
-		return _precaution;
-	}
-
-	winrt::hstring AboutPage::SettingsHelp()
-	{
-		return _settingsHelp;
-	}
-
-	winrt::hstring AboutPage::Thanks()
-	{
-		return _thanks;
-	}
-
-	winrt::hstring AboutPage::QuickOperation()
-	{
-		return _quickOperation;
 	}
 
 	winrt::hstring AboutPage::CreateDesktopShortcut()
@@ -106,9 +74,39 @@ namespace winrt::FileRenamer::implementation
 		return _pinToTaskbarToolTip;
 	}
 
-	winrt::hstring AboutPage::UpdateAndLicensing()
+	winrt::hstring AboutPage::Precaution()
 	{
-		return _updateAndLicensing;
+		return _precaution;
+	}
+
+	winrt::hstring AboutPage::QuickOperation()
+	{
+		return _quickOperation;
+	}
+
+	winrt::hstring AboutPage::Reference()
+	{
+		return _reference;
+	}
+
+	winrt::hstring AboutPage::ReferenceTitle()
+	{
+		return _referenceTitle;
+	}
+
+	winrt::hstring AboutPage::SettingsHelp()
+	{
+		return _settingsHelp;
+	}
+
+	winrt::hstring AboutPage::ShowLicense()
+	{
+		return _showLicense;
+	}
+
+	winrt::hstring AboutPage::ShowLicenseToolTip()
+	{
+		return _showLicenseToolTip;
 	}
 
 	winrt::hstring AboutPage::ShowReleaseNotes()
@@ -121,13 +119,28 @@ namespace winrt::FileRenamer::implementation
 		return _showReleaseNotesToolTip;
 	}
 
-	winrt::hstring AboutPage::ShowLicense()
+	winrt::hstring AboutPage::Thanks()
 	{
-		return _showLicense;
+		return _thanks;
 	}
 
-	winrt::hstring AboutPage::ShowLicenseToolTip()
+	winrt::hstring AboutPage::ThanksTitle()
 	{
-		return _showLicenseToolTip;
+		return _thanksTitle;
+	}
+
+	winrt::hstring AboutPage::Title()
+	{
+		return _title;
+	}
+
+	winrt::hstring AboutPage::UpdateAndLicensing()
+	{
+		return _updateAndLicensing;
+	}
+
+	winrt::hstring AboutPage::UseInstruction()
+	{
+		return _useInstruction;
 	}
 }

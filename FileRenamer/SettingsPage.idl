@@ -8,12 +8,15 @@ namespace FileRenamer
         SettingsPage();
 
         SettingsViewModel ViewModel{ get; };
-
-        String Title{ get; };
+        
+        String Advanced{ get; };
         String Appearance{ get; };
         String General{ get; };
-        String Advanced{ get; };
         String RestartApp{ get; };
         String RestartAppToolTip{ get; };
+        String ThemeMode{ get; };
+        String ThemeModeDescription{ get; };
+        String Title{ get; };
+        String WindowsColorSettings{ get; };
     }
 }

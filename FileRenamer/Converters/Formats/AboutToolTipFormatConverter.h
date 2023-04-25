@@ -2,8 +2,8 @@
 
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
-#include <WinMain.h>
 
+#include "global.h"
 #include "AboutToolTipFormatConverter.g.h"
 
 namespace winrt
