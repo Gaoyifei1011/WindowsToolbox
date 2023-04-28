@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "文件重命名工具": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
