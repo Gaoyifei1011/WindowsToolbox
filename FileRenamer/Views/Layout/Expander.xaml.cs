@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Hosting;
 namespace FileRenamer.Views.CustomControls.Layout
 {
     /// <summary>
-    /// 扩展后的导航控件项，附带命令绑定
+    /// 自定义的扩展器控件
     /// </summary>
     public partial class Expander : ContentControl
     {

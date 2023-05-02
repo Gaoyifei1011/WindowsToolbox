@@ -64,6 +64,16 @@ namespace FileRenamer.ViewModels.Pages
             {"Settings",typeof(SettingsPage) }
         };
 
+        public List<string> TagList { get; } = new List<string>()
+        {
+            "FileName",
+            "ExtensionName",
+            "UpperAndLowerCase",
+            "FileProperties",
+            "About",
+            "Settings"
+        };
+
         // 当菜单中的项收到交互（如单击或点击）时发生
         public IRelayCommand NavigationItemCommand => new RelayCommand<object>((invokedItemTag) =>
         {

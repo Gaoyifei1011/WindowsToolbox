@@ -3,7 +3,7 @@
 namespace FileRenamer.Views.Pages
 {
     /// <summary>
-    /// 关于页面
+    /// 扩展名称页面
     /// </summary>
     public sealed partial class ExtensionNamePage : Page
     {

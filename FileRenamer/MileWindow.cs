@@ -36,6 +36,11 @@ namespace FileRenamer
                             {
                                 popup.IsOpen = false;
                             }
+
+                            if (popup.Child as Canvas != null)
+                            {
+                                popup.IsOpen = false;
+                            }
                         }
                         break;
                     }

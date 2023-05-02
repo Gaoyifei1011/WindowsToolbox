@@ -126,6 +126,15 @@
   <data name="General" xml:space="preserve">
     <value>General Options</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="LanguageDescription" xml:space="preserve">
+    <value>Modify the language displayed in the app interface</value>
+  </data>
+  <data name="LanguageToolTip" xml:space="preserve">
+    <value>Help</value>
+  </data>
   <data name="RestartApp" xml:space="preserve">
     <value>Application restart</value>
   </data>

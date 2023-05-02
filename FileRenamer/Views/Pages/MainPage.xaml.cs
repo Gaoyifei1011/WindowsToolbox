@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Media;
 namespace FileRenamer.Views.Pages
 {
     /// <summary>
-    /// 关于页面
+    /// 应用主窗口页面
     /// </summary>
     public sealed partial class MainPage : Page
     {
@@ -27,6 +27,11 @@ namespace FileRenamer.Views.Pages
             foreach (Popup popup in PopupRoot)
             {
                 if (popup.Child as MenuFlyoutPresenter != null)
+                {
+                    popup.IsOpen = false;
+                }
+
+                if (popup.Child as Canvas != null)
                 {
                     popup.IsOpen = false;
                 }

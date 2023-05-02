@@ -1,5 +1,4 @@
 ﻿using Windows.UI.Xaml.Controls;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace FileRenamer.Views.Pages
 {

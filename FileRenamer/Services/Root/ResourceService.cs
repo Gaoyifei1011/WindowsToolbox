@@ -1,7 +1,9 @@
 ﻿using FileRenamer.Models.Controls.Settings.Appearance;
 using FileRenamer.Properties;
 using System;
+using System.Collections.Generic;
 using Windows.ApplicationModel.Resources.Core;
+using Windows.UI.Xaml;
 
 namespace FileRenamer.Services.Root
 {
@@ -22,6 +24,8 @@ namespace FileRenamer.Services.Root
 
         private static ResourceMap ResourceMap { get; } = ResourceManager.Current.MainResourceMap;
 
+        public static List<ThemeModel> ThemeList { get; } = new List<ThemeModel>();
+
         /// <summary>
         /// 初始化应用本地化资源
         /// </summary>
@@ -36,6 +40,36 @@ namespace FileRenamer.Services.Root
             CurrentResourceContext.QualifierValues["Language"] = CurrentAppLanguage;
 
             IsInitialized = true;
+        }
+
+        /// <summary>
+        /// 初始化应用本地化信息
+        /// </summary>
+        public static void LocalizeReosurce()
+        {
+            InitializeThemeList();
+        }
+
+        /// <summary>
+        /// 初始化应用主题信息列表
+        /// </summary>
+        private static void InitializeThemeList()
+        {
+            ThemeList.Add(new ThemeModel
+            {
+                DisplayName = GetLocalized("Settings/ThemeDefault"),
+                InternalName = Convert.ToString(ElementTheme.Default)
+            });
+            ThemeList.Add(new ThemeModel
+            {
+                DisplayName = GetLocalized("Settings/ThemeLight"),
+                InternalName = Convert.ToString(ElementTheme.Light)
+            });
+            ThemeList.Add(new ThemeModel
+            {
+                DisplayName = GetLocalized("Settings/ThemeDark"),
+                InternalName = Convert.ToString(ElementTheme.Dark)
+            });
         }
 
         /// <summary>

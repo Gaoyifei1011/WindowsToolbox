@@ -1,15 +1,15 @@
 ﻿<UserControl
     x:Class="FileRenamer.UI.Controls.About.ThanksControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:aboutViewModel="using:FileRenamer.ViewModels.Controls.About"
-    xmlns:collections="using:FileRenamer.Views.CustomControls.Collections"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:format="using:FileRenamer.Converters.Formats"
-    xmlns:layout="using:FileRenamer.Views.CustomControls.Layout"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:format="using:FileRenamer.Converters.Formats"
     xmlns:model="using:FileRenamer.Models.Controls.About"
     xmlns:root="using:FileRenamer.Services.Root"
+    xmlns:aboutViewModel="using:FileRenamer.ViewModels.Controls.About"
+    xmlns:collections="using:FileRenamer.Views.CustomControls.Collections"
+    xmlns:layout="using:FileRenamer.Views.CustomControls.Layout"
     mc:Ignorable="d">
 
     <UserControl.DataContext>

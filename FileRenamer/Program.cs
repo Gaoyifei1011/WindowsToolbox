@@ -40,7 +40,10 @@ namespace FileRenamer
         {
             await LanguageService.InitializeLanguageAsync();
             ResourceService.InitializeResource(LanguageService.DefaultAppLanguage, LanguageService.AppLanguage);
+            ResourceService.LocalizeReosurce();
             InfoHelper.InitializeSystemVersion();
+
+            await ThemeService.InitializeAsync();
         }
     }
 }

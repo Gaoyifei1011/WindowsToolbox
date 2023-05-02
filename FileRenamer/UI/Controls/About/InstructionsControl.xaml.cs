@@ -3,7 +3,7 @@
 namespace FileRenamer.UI.Controls.About
 {
     /// <summary>
-    /// 应用重启对话框视图
+    /// 关于页面：使用说明控件视图
     /// </summary>
     public sealed partial class InstructionsControl : UserControl
     {

@@ -1,13 +1,14 @@
 ﻿<dialogsAndFlyouts:ExtendedContentDialog
     x:Class="FileRenamer.UI.Dialogs.Settings.RestartAppsDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dialogViewModel="using:FileRenamer.ViewModels.Dialogs.Settings"
-    xmlns:dialogsAndFlyouts="using:FileRenamer.Views.CustomControls.DialogsAndFlyouts"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:root="using:FileRenamer.Services.Root"
+    xmlns:dialogViewModel="using:FileRenamer.ViewModels.Dialogs.Settings"
+    xmlns:dialogsAndFlyouts="using:FileRenamer.Views.CustomControls.DialogsAndFlyouts"
     x:Name="RestartAppsRoot"
+    RequestedTheme="{x:Bind DialogTheme}"
     Style="{StaticResource ContentDialogStyle}"
     mc:Ignorable="d">
 

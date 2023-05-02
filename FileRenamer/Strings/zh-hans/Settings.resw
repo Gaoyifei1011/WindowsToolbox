@@ -126,6 +126,15 @@
   <data name="General" xml:space="preserve">
     <value>常规选项</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>界面语言</value>
+  </data>
+  <data name="LanguageDescription" xml:space="preserve">
+    <value>修改应用界面显示的语言</value>
+  </data>
+  <data name="LanguageToolTip" xml:space="preserve">
+    <value>帮助</value>
+  </data>
   <data name="RestartApp" xml:space="preserve">
     <value>重启应用</value>
   </data>

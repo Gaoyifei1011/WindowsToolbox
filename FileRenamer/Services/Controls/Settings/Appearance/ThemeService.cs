@@ -1,6 +1,7 @@
 ﻿using FileRenamer.Extensions.DataType.Constant;
 using FileRenamer.Models.Controls.Settings.Appearance;
 using FileRenamer.Services.Root;
+using FileRenamer.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -27,7 +28,7 @@ namespace FileRenamer.Services.Controls.Settings.Appearance
         /// </summary>
         public static async Task InitializeAsync()
         {
-            ThemeList = new List<ThemeModel>();
+            ThemeList = ResourceService.ThemeList;
 
             DefaultAppTheme = ThemeList.Find(item => item.InternalName == Convert.ToString(ElementTheme.Default));
 
@@ -74,7 +75,7 @@ namespace FileRenamer.Services.Controls.Settings.Appearance
         /// </summary>
         public static void SetWindowTheme()
         {
-            //(Program.ApplicationRoot.MainWindow.Content as MainPage).ViewModel.WindowTheme = (ElementTheme)Enum.Parse(typeof(ElementTheme), AppTheme.InternalName);
+            MainPage.Current.ViewModel.WindowTheme = (ElementTheme)Enum.Parse(typeof(ElementTheme), AppTheme.InternalName);
         }
     }
 }
