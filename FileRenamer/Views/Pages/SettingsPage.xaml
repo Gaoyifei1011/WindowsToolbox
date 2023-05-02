@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
     xmlns:root="using:FileRenamer.Services.Root"
+    xmlns:sc="using:FileRenamer.UI.Controls.Settings.Appearance"
     x:Name="SettingsPageRoot"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -78,7 +79,6 @@
                     Margin="4"
                     HorizontalAlignment="Stretch"
                     Command="{x:Bind ViewModel.RestartCommand}"
-                    CommandParameter="{Binding ElementName=SettingsPageRoot}"
                     Content="{x:Bind root:ResourceService.GetLocalized('Settings/RestartApp')}">
 
                     <ToolTipService.ToolTip>
@@ -92,7 +92,6 @@
         </SplitView.Pane>
 
         <ScrollViewer
-            x:Name="SettingsScroll"
             HorizontalScrollBarVisibility="Disabled"
             HorizontalScrollMode="Disabled"
             VerticalScrollBarVisibility="Auto"
@@ -109,56 +108,7 @@
                     Style="{StaticResource BodyTextBlockStyle}"
                     Text="{x:Bind root:ResourceService.GetLocalized('Settings/Appearance')}" />
 
-                <Grid VerticalAlignment="Center" Style="{StaticResource CardGridStyle}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <FontIcon
-                        Grid.Column="0"
-                        FontFamily="{StaticResource SegoeFluentFontFamily}"
-                        Glyph="&#xE790;"
-                        Style="{StaticResource FontIconStyle}" />
-
-                    <StackPanel Grid.Column="1" Orientation="Vertical">
-
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind root:ResourceService.GetLocalized('Settings/ThemeMode')}" />
-
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind root:ResourceService.GetLocalized('Settings/ThemeModeDescription')}" />
-                    </StackPanel>
-
-                    <HyperlinkButton
-                        Grid.Column="2"
-                        Command="{x:Bind ViewModel.SettingsColorCommand}"
-                        Content="{x:Bind root:ResourceService.GetLocalized('Settings/WindowsColorSettings')}">
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip
-                                Content="{x:Bind root:ResourceService.GetLocalized('Settings/WindowsColorSettings')}"
-                                Placement="Bottom"
-                                VerticalOffset="20" />
-                        </ToolTipService.ToolTip>
-                    </HyperlinkButton>
-
-                    <!--<ComboBox
-                        Grid.Column="3"
-                        Width="Auto"
-                        VerticalAlignment="Center"
-                        DisplayMemberPath="DisplayName"
-                        ItemsSource="{x:Bind ViewModel.ThemeList}"
-                        SelectedItem="{x:Bind ViewModel.Theme, Mode=OneWay}"
-                        SelectionChanged="{x:Bind ViewModel.OnSelectionChanged}" />-->
-                </Grid>
+                <sc:ThemeControl />
 
                 <TextBlock
                     Margin="0,0,0,5"

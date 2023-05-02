@@ -34,14 +34,27 @@
   <PropertyGroup Condition="'$(Platform)'=='ARM64'">
     <RuntimeIdentifier>win10-arm64</RuntimeIdentifier>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Assets\FileRenamer.ico" />
-    <None Remove="Fonts\Segoe Fluent Icons.ttf" />
-    <None Remove="Fonts\Settings Fluent Icons.ttf" />
-  </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Assets\FileRenamer.ico" CopyToOutputDirectory="Always" />
+    <ApplicationDefinition Update="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+
+    <COMReference Include="IWshRuntimeLibrary">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>f935dc20-1cf0-11d0-adb9-00c04fd58a0b</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
     <Content Include="Assets\FileRenamer.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-125.png" CopyToOutputDirectory="Always" />
@@ -95,28 +108,16 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
     <Content Include="Fonts\Segoe Fluent Icons.ttf" CopyToOutputDirectory="Always" />
     <Content Include="Fonts\Settings Fluent Icons.ttf" CopyToOutputDirectory="Always" />
-    
-    <PackageReference Include="Mile.Xaml" Version="2.0.591-preview" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <ApplicationDefinition Update="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </ApplicationDefinition>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+
+    <None Update="Assets\FileRenamer.ico" />
+    
+    <PackageReference Include="Mile.Xaml" Version="2.0.591-preview" />
+
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 </Project>

@@ -13,7 +13,10 @@ namespace FileRenamer.Services.Window
     {
         public static Frame NavigationFrame { get; set; }
 
-        private static DrillInNavigationTransitionInfo NavigationTransition { get; } = new DrillInNavigationTransitionInfo();
+        private static SlideNavigationTransitionInfo NavigationTransition { get; } = new SlideNavigationTransitionInfo()
+        {
+            Effect = SlideNavigationTransitionEffect.FromRight
+        };
 
         public static List<NavigationModel> NavigationItemList { get; set; } = new List<NavigationModel>();
 

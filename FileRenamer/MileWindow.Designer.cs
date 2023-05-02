@@ -34,7 +34,7 @@ namespace FileRenamer
         {
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.MinimumSize = new Size(768, 600);
             this.Text = ResourceService.GetLocalized("Resources/AppDisplayName");
             this.Icon = Icon.ExtractAssociatedIcon(string.Format(@"{0}\{1}", InfoHelper.GetAppInstalledLocation(), @"FileRenamer.exe"));
         }

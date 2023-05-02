@@ -1,8 +1,8 @@
 ﻿using FileRenamer.Contracts;
 using FileRenamer.Extensions.Command;
-using FileRenamer.Models.Controls.About;
 using FileRenamer.Services.Root;
-using FileRenamer.WindowsAPI.PInvoke.Shell32;
+using FileRenamer.ViewModels.Base;
+using IWshRuntimeLibrary;
 using System;
 using System.Collections.Generic;
 using Windows.ApplicationModel;
@@ -15,40 +15,33 @@ namespace FileRenamer.ViewModels.Pages
     /// <summary>
     /// 关于页面视图模型
     /// </summary>
-    public sealed class AboutViewModel
+    public sealed class AboutViewModel : ViewModelBase
     {
-        //项目引用信息
-        public List<ReferenceKeyValuePairModel> ReferenceDict = new List<ReferenceKeyValuePairModel>()
-        {
-            new ReferenceKeyValuePairModel() {Key = "Microsoft.Windows.SDK.BuildTools" ,Value = "https://aka.ms/WinSDKProjectURL" },
-            new ReferenceKeyValuePairModel() {Key = "Mile.Xaml" ,Value = "https://github.com/ProjectMile/Mile.Xaml" },
-        };
+        private int _selectedIndex = 0;
 
-        public List<ThanksKeyValuePairModel> ThanksDict = new List<ThanksKeyValuePairModel>()
+        public int SelectedIndex
         {
-            new ThanksKeyValuePairModel(){Key = "MouriNaruto" ,Value = "https://github.com/MouriNaruto" },
-        };
+            get { return _selectedIndex; }
+
+            set
+            {
+                _selectedIndex = value;
+                OnPropertyChanged();
+            }
+        }
 
         // 创建应用的桌面快捷方式
         public IRelayCommand CreateDesktopShortcutCommand => new RelayCommand(async () =>
         {
             //bool IsCreatedSuccessfully = false;
 
-            try
-            {
-                IShellLink AppLink = (IShellLink)new CShellLink();
-                IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
-                AppListEntry DefaultEntry = AppEntries[0];
-                AppLink.SetPath(string.Format(@"shell:AppsFolder\{0}", DefaultEntry.AppUserModelId));
-
-                IPersistFile PersistFile = (IPersistFile)AppLink;
-                PersistFile.Save(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), ResourceService.GetLocalized("Resources/AppDisplayName")), false);
-                //IsCreatedSuccessfully = true;
-            }
-            catch (Exception)
-            {
-                //new QuickOperationNotification(QuickOperationType.DesktopShortcut, IsCreatedSuccessfully).Show();
-            }
+            IWshShell shell = new WshShell();
+            WshShortcut AppShortcut = (WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), ResourceService.GetLocalized("Resources/AppDisplayName")));
+            IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
+            AppListEntry DefaultEntry = AppEntries[0];
+            AppShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", DefaultEntry.AppUserModelId);
+            AppShortcut.Save();
+            //new QuickOperationNotification(QuickOperationType.DesktopShortcut, IsCreatedSuccessfully).Show();
         });
 
         // 将应用固定到“开始”屏幕
@@ -95,5 +88,15 @@ namespace FileRenamer.ViewModels.Pages
         {
             //await new LicenseDialog().ShowAsync();
         });
+
+        public List<string> TagList = new List<string>()
+        {
+            "Introduction",
+            "Reference",
+            "UseInstruction",
+            "Precaution",
+            "SettingsHelp",
+            "Thanks",
+        };
     }
 }

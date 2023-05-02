@@ -1,6 +1,7 @@
 ﻿using FileRenamer.Contracts;
 using FileRenamer.Extensions.Command;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
 
 namespace FileRenamer.ViewModels.Dialogs.Settings
@@ -14,6 +15,7 @@ namespace FileRenamer.ViewModels.Dialogs.Settings
         public IRelayCommand RestartAppsCommand => new RelayCommand<ContentDialog>(async (dialog) =>
         {
             dialog.Hide();
+            Application.Restart();
             await Task.CompletedTask;
         });
 

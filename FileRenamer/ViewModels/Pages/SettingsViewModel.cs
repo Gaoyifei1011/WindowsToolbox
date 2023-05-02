@@ -1,8 +1,6 @@
 ﻿using FileRenamer.Contracts;
 using FileRenamer.Extensions.Command;
 using FileRenamer.UI.Dialogs.Settings;
-using System;
-using Windows.System;
 
 namespace FileRenamer.ViewModels.Pages
 {
@@ -15,12 +13,6 @@ namespace FileRenamer.ViewModels.Pages
         public IRelayCommand RestartCommand = new RelayCommand(async () =>
         {
             await new RestartAppsDialog().ShowAsync();
-        });
-
-        // 打开系统主题设置
-        public IRelayCommand SettingsColorCommand => new RelayCommand(async () =>
-        {
-            await Launcher.LaunchUriAsync(new Uri("ms-settings:colors"));
         });
     }
 }
