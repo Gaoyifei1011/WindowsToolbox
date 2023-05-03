@@ -1,6 +1,8 @@
-﻿using FileRenamer.Views.Pages;
+﻿using FileRenamer.Services.Controls.Settings.Appearance;
+using FileRenamer.Views.Pages;
 using FileRenamer.WindowsAPI.PInvoke.User32;
 using Mile.Xaml;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
@@ -20,6 +22,13 @@ namespace FileRenamer
             MileXamlHost.AutoSize = true;
             MileXamlHost.Dock = DockStyle.Fill;
             MileXamlHost.Child = new MainPage();
+
+            Load += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, EventArgs args)
+        {
+            ThemeService.SetWindowTheme();
         }
 
         protected override void WndProc(ref Message m)

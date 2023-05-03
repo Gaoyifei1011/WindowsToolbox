@@ -30,6 +30,16 @@ namespace FileRenamer.ViewModels.Pages
             }
         }
 
+        public List<string> TagList = new List<string>()
+        {
+            "Introduction",
+            "Reference",
+            "UseInstruction",
+            "Precaution",
+            "SettingsHelp",
+            "Thanks",
+        };
+
         // 创建应用的桌面快捷方式
         public IRelayCommand CreateDesktopShortcutCommand => new RelayCommand(async () =>
         {
@@ -88,15 +98,5 @@ namespace FileRenamer.ViewModels.Pages
         {
             //await new LicenseDialog().ShowAsync();
         });
-
-        public List<string> TagList = new List<string>()
-        {
-            "Introduction",
-            "Reference",
-            "UseInstruction",
-            "Precaution",
-            "SettingsHelp",
-            "Thanks",
-        };
     }
 }
