@@ -11,7 +11,7 @@ namespace FileRenamer
 {
     public static class Program
     {
-        private static Mutex AppMutex = null;
+        public static Mutex AppMutex = null;
 
         public static App ApplicationRoot { get; private set; }
 

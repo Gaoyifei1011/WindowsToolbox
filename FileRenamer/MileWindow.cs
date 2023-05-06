@@ -1,9 +1,13 @@
-﻿using FileRenamer.Services.Controls.Settings.Appearance;
+﻿using FileRenamer.Helpers.Root;
+using FileRenamer.Services.Controls.Settings.Appearance;
+using FileRenamer.Services.Root;
 using FileRenamer.Views.Pages;
 using FileRenamer.WindowsAPI.PInvoke.User32;
 using Mile.Xaml;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -13,11 +17,20 @@ namespace FileRenamer
 {
     public partial class MileWindow : Form
     {
+        private int windowWidth = 768;
+        private int windowHeight = 600;
+
         private WindowsXamlHost MileXamlHost = new WindowsXamlHost();
 
         public MileWindow()
         {
             InitializeComponent();
+
+            Graphics graphics = CreateGraphics();
+            MinimumSize = new Size(Convert.ToInt32(windowWidth * graphics.DpiX / 96.0), Convert.ToInt32(windowHeight * graphics.DpiX / 96.0));
+            Text = ResourceService.GetLocalized("Resources/AppDisplayName");
+            Icon = Icon.ExtractAssociatedIcon(string.Format(@"{0}\{1}", InfoHelper.GetAppInstalledLocation(), @"FileRenamer.exe"));
+
             Controls.Add(MileXamlHost);
             MileXamlHost.AutoSize = true;
             MileXamlHost.Dock = DockStyle.Fill;
@@ -29,6 +42,15 @@ namespace FileRenamer
         private void OnLoaded(object sender, EventArgs args)
         {
             ThemeService.SetWindowTheme();
+        }
+
+        protected override void OnDpiChanged(DpiChangedEventArgs args)
+        {
+            Debug.WriteLine("DeviceDpiNew:" + args.DeviceDpiNew / 96.0);
+            MinimumSize = new Size(
+                Convert.ToInt32(windowWidth * args.DeviceDpiNew / 96.0),
+                Convert.ToInt32(windowHeight * args.DeviceDpiNew / 96.0)
+                );
         }
 
         protected override void WndProc(ref Message m)

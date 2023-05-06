@@ -86,10 +86,4 @@
         />
     </dependentAssembly>
   </dependency>
-
-  <file name="Mile.Xaml.dll">
-    <activatableClass xmlns="urn:schemas-microsoft-com:winrt.v1" name="Mile.Xaml.Application" threadingModel="both" />
-    <activatableClass xmlns="urn:schemas-microsoft-com:winrt.v1" name="Mile.Xaml.XamlControlsResources" threadingModel="both" />
-  </file>
-
 </assembly>

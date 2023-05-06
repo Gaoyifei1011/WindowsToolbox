@@ -1,10 +1,13 @@
 ﻿using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Root;
+using System;
+using System.ComponentModel;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace FileRenamer
 {
-    partial class MileWindow
+    public partial class MileWindow : Form
     {
         /// <summary>
         /// Required designer variable.
@@ -32,11 +35,8 @@ namespace FileRenamer
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.MinimumSize = new Size(768, 600);
-            this.Text = ResourceService.GetLocalized("Resources/AppDisplayName");
-            this.Icon = Icon.ExtractAssociatedIcon(string.Format(@"{0}\{1}", InfoHelper.GetAppInstalledLocation(), @"FileRenamer.exe"));
+            this.components = new Container();
+            this.AutoScaleMode = AutoScaleMode.Font;
         }
 
         #endregion
