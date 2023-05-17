@@ -13,6 +13,7 @@
     <FileVersion>1.5.414.0</FileVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <LangVersion>latest</LangVersion>
+    <Optimize>False</Optimize>
     <OutputType>WinExe</OutputType>
     <Platforms>x86;x64;ARM64</Platforms>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
@@ -116,8 +117,12 @@
 
     <None Update="Assets\FileRenamer.ico" />
     
-    <PackageReference Include="Mile.Xaml" Version="2.0.591-preview" />
+    <PackageReference Include="Mile.Xaml" Version="2.0.611" />
 
     <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TaskDialogControl\" />
   </ItemGroup>
 </Project>
