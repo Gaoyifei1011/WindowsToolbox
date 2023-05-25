@@ -1,6 +1,4 @@
-﻿using FileRenamer.Contracts;
-using FileRenamer.Extensions.Command;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
 
 namespace FileRenamer.ViewModels.Dialogs.Settings
@@ -10,18 +8,13 @@ namespace FileRenamer.ViewModels.Dialogs.Settings
     /// </summary>
     public sealed class RestartAppsViewModel
     {
-        // 重启应用
-        public IRelayCommand RestartAppsCommand => new RelayCommand<ContentDialog>((dialog) =>
+        /// <summary>
+        /// 重启应用
+        /// </summary>
+        public void OnRestartAppsClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            dialog.Hide();
             Program.AppMutex.ReleaseMutex();
             Application.Restart();
-        });
-
-        // 取消重启应用
-        public IRelayCommand CloseDialogCommand => new RelayCommand<ContentDialog>((dialog) =>
-        {
-            dialog.Hide();
-        });
+        }
     }
 }

@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:navigation="using:FileRenamer.Views.CustomControls.Navigation"
     xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
     xmlns:root="using:FileRenamer.Services.Root"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -29,73 +28,109 @@
             Style="{StaticResource NavigationViewStyle}">
 
             <NavigationView.MenuItems>
-                <navigation:ExtendedNavigationViewItem
-                    Command="{x:Bind ViewModel.NavigationItemCommand}"
-                    CommandParameter="{x:Bind ViewModel.TagList[0]}"
+                <NavigationViewItem
                     Content="{x:Bind root:ResourceService.GetLocalized('Window/FileName')}"
                     Tag="{x:Bind ViewModel.TagList[0]}"
-                    ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/FileName')}">
-                    <navigation:ExtendedNavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE8a5;" Style="{StaticResource SegoeFluentStyle}" />
-                    </navigation:ExtendedNavigationViewItem.Icon>
-                </navigation:ExtendedNavigationViewItem>
+                    Tapped="{x:Bind ViewModel.OnTapped}">
 
-                <navigation:ExtendedNavigationViewItem
-                    Command="{x:Bind ViewModel.NavigationItemCommand}"
-                    CommandParameter="{x:Bind ViewModel.TagList[1]}"
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8a5;" Style="{StaticResource SegoeFluentStyle}" />
+                    </NavigationViewItem.Icon>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            Content="{x:Bind root:ResourceService.GetLocalized('Window/FileName')}"
+                            Placement="Bottom"
+                            VerticalOffset="20" />
+                    </ToolTipService.ToolTip>
+                </NavigationViewItem>
+
+                <NavigationViewItem
                     Content="{x:Bind root:ResourceService.GetLocalized('Window/ExtensionName')}"
                     Tag="{x:Bind ViewModel.TagList[1]}"
-                    ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/ExtensionName')}">
-                    <navigation:ExtendedNavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE8a6;" Style="{StaticResource SegoeFluentStyle}" />
-                    </navigation:ExtendedNavigationViewItem.Icon>
-                </navigation:ExtendedNavigationViewItem>
+                    Tapped="{x:Bind ViewModel.OnTapped}">
 
-                <navigation:ExtendedNavigationViewItem
-                    Command="{x:Bind ViewModel.NavigationItemCommand}"
-                    CommandParameter="{x:Bind ViewModel.TagList[2]}"
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8a6;" Style="{StaticResource SegoeFluentStyle}" />
+                    </NavigationViewItem.Icon>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            Content="{x:Bind root:ResourceService.GetLocalized('Window/ExtensionName')}"
+                            Placement="Bottom"
+                            VerticalOffset="20" />
+                    </ToolTipService.ToolTip>
+                </NavigationViewItem>
+
+                <NavigationViewItem
                     Content="{x:Bind root:ResourceService.GetLocalized('Window/UpperAndLowerCase')}"
                     Tag="{x:Bind ViewModel.TagList[2]}"
-                    ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/UpperAndLowerCase')}">
-                    <navigation:ExtendedNavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE8e9;" Style="{StaticResource SegoeFluentStyle}" />
-                    </navigation:ExtendedNavigationViewItem.Icon>
-                </navigation:ExtendedNavigationViewItem>
+                    Tapped="{x:Bind ViewModel.OnTapped}">
 
-                <navigation:ExtendedNavigationViewItem
-                    Command="{x:Bind ViewModel.NavigationItemCommand}"
-                    CommandParameter="{x:Bind ViewModel.TagList[3]}"
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8e9;" Style="{StaticResource SegoeFluentStyle}" />
+                    </NavigationViewItem.Icon>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            Content="{x:Bind root:ResourceService.GetLocalized('Window/UpperAndLowerCase')}"
+                            Placement="Bottom"
+                            VerticalOffset="20" />
+                    </ToolTipService.ToolTip>
+                </NavigationViewItem>
+
+                <NavigationViewItem
                     Content="{x:Bind root:ResourceService.GetLocalized('Window/FileProperties')}"
                     Tag="{x:Bind ViewModel.TagList[3]}"
-                    ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/FileProperties')}">
-                    <navigation:ExtendedNavigationViewItem.Icon>
+                    Tapped="{x:Bind ViewModel.OnTapped}">
+
+                    <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE90f;" Style="{StaticResource SegoeFluentStyle}" />
-                    </navigation:ExtendedNavigationViewItem.Icon>
-                </navigation:ExtendedNavigationViewItem>
+                    </NavigationViewItem.Icon>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            Content="{x:Bind root:ResourceService.GetLocalized('Window/FileProperties')}"
+                            Placement="Bottom"
+                            VerticalOffset="20" />
+                    </ToolTipService.ToolTip>
+                </NavigationViewItem>
 
                 <NavigationViewItemSeparator />
 
-                <navigation:ExtendedNavigationViewItem
-                    Command="{x:Bind ViewModel.NavigationItemCommand}"
-                    CommandParameter="{x:Bind ViewModel.TagList[4]}"
+                <NavigationViewItem
                     Content="{x:Bind root:ResourceService.GetLocalized('Window/About')}"
                     Tag="{x:Bind ViewModel.TagList[4]}"
-                    ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/About')}">
-                    <navigation:ExtendedNavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE946;" Style="{StaticResource SegoeFluentStyle}" />
-                    </navigation:ExtendedNavigationViewItem.Icon>
-                </navigation:ExtendedNavigationViewItem>
+                    Tapped="{x:Bind ViewModel.OnTapped}">
 
-                <navigation:ExtendedNavigationViewItem
-                    Command="{x:Bind ViewModel.NavigationItemCommand}"
-                    CommandParameter="{x:Bind ViewModel.TagList[5]}"
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE946;" Style="{StaticResource SegoeFluentStyle}" />
+                    </NavigationViewItem.Icon>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            Content="{x:Bind root:ResourceService.GetLocalized('Window/About')}"
+                            Placement="Bottom"
+                            VerticalOffset="20" />
+                    </ToolTipService.ToolTip>
+                </NavigationViewItem>
+
+                <NavigationViewItem
                     Content="{x:Bind root:ResourceService.GetLocalized('Window/Settings')}"
                     Tag="{x:Bind ViewModel.TagList[5]}"
-                    ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/Settings')}">
-                    <navigation:ExtendedNavigationViewItem.Icon>
+                    Tapped="{x:Bind ViewModel.OnTapped}">
+
+                    <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE713;" Style="{StaticResource SegoeFluentStyle}" />
-                    </navigation:ExtendedNavigationViewItem.Icon>
-                </navigation:ExtendedNavigationViewItem>
+                    </NavigationViewItem.Icon>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            Content="{x:Bind root:ResourceService.GetLocalized('Window/Settings')}"
+                            Placement="Bottom"
+                            VerticalOffset="20" />
+                    </ToolTipService.ToolTip>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
 
             <Frame

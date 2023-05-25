@@ -1,6 +1,4 @@
-﻿using FileRenamer.Contracts;
-using FileRenamer.Extensions.Command;
-using FileRenamer.Services.Root;
+﻿using FileRenamer.Services.Root;
 using FileRenamer.ViewModels.Base;
 using IWshRuntimeLibrary;
 using System;
@@ -9,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.System;
 using Windows.UI.StartScreen;
+using Windows.UI.Xaml;
 
 namespace FileRenamer.ViewModels.Pages
 {
@@ -40,8 +39,10 @@ namespace FileRenamer.ViewModels.Pages
             "Thanks",
         };
 
-        // 创建应用的桌面快捷方式
-        public IRelayCommand CreateDesktopShortcutCommand => new RelayCommand(async () =>
+        /// <summary>
+        /// 创建应用的桌面快捷方式
+        /// </summary>
+        public async void OnCreateDesktopShortcutClicked(object sender, RoutedEventArgs args)
         {
             //bool IsCreatedSuccessfully = false;
 
@@ -52,10 +53,12 @@ namespace FileRenamer.ViewModels.Pages
             AppShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", DefaultEntry.AppUserModelId);
             AppShortcut.Save();
             //new QuickOperationNotification(QuickOperationType.DesktopShortcut, IsCreatedSuccessfully).Show();
-        });
+        }
 
-        // 将应用固定到“开始”屏幕
-        public IRelayCommand PinToStartScreenCommand => new RelayCommand(async () =>
+        /// <summary>
+        /// 将应用固定到“开始”屏幕
+        /// </summary>
+        public async void OnPinToStartScreenClicked(object sender, RoutedEventArgs args)
         {
             //bool IsPinnedSuccessfully = false;
 
@@ -82,21 +85,25 @@ namespace FileRenamer.ViewModels.Pages
             {
                 //new QuickOperationNotification(QuickOperationType.StartScreen, IsPinnedSuccessfully).Show();
             }
-        });
+        }
 
         // 将应用固定到任务栏
-        public IRelayCommand PinToTaskbarCommand => new RelayCommand(() => { });
+        //public void OnPinToTaskbarClicked(object sender,RoutedEventArgs args) { }
 
-        // 查看更新日志
-        public IRelayCommand ShowReleaseNotesCommand => new RelayCommand(async () =>
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Gaoyifei1011/FileRenamer/releases"));
-        });
-
-        // 查看许可证
-        public IRelayCommand ShowLicenseCommand => new RelayCommand(() =>
+        /// <summary>
+        /// 查看许可证
+        /// </summary>
+        public void OnShowLicenseClicked(object sender, RoutedEventArgs args)
         {
             //await new LicenseDialog().ShowAsync();
-        });
+        }
+
+        /// <summary>
+        /// 查看更新日志
+        /// </summary>
+        public async void OnShowReleaseNotesClicked(object sender, RoutedEventArgs args)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/Gaoyifei1011/FileRenamer/releases"));
+        }
     }
 }

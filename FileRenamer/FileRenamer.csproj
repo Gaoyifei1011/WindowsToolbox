@@ -37,9 +37,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ApplicationDefinition Update="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </ApplicationDefinition>
+    <ApplicationDefinition Update="App.xaml" Generator="MSBuild:Compile" />
 
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -56,6 +54,7 @@
       <Isolated>false</Isolated>
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
+    
     <Content Include="Assets\FileRenamer.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-125.png" CopyToOutputDirectory="Always" />
@@ -117,12 +116,8 @@
 
     <None Update="Assets\FileRenamer.ico" />
     
-    <PackageReference Include="Mile.Xaml" Version="2.0.611" />
+    <PackageReference Include="Mile.Xaml" Version="2.0.617" />
 
     <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="TaskDialogControl\" />
   </ItemGroup>
 </Project>

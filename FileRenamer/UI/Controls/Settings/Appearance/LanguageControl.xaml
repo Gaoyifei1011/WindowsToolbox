@@ -1,12 +1,12 @@
 ﻿<UserControl
     x:Class="FileRenamer.UI.Controls.Settings.Appearance.LauguageControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:basicinput="using:FileRenamer.Views.CustomControls.BasicInput"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:root="using:FileRenamer.Services.Root"
     xmlns:settingsViewModel="using:FileRenamer.ViewModels.Controls.Settings.Appearance"
-    xmlns:basicinput="using:FileRenamer.Views.CustomControls.BasicInput"
     mc:Ignorable="d">
 
     <UserControl.DataContext>
@@ -44,7 +44,7 @@
         <basicinput:ExtendedButton
             Grid.Column="2"
             VerticalAlignment="Center"
-            Command="{x:Bind ViewModel.LanguageTipCommand}"
+            Click="{x:Bind ViewModel.OnLanguageTipClicked}"
             Cursor="Hand"
             Style="{StaticResource ButtonInfoStyle}">
 

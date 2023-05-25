@@ -1,8 +1,7 @@
-﻿using FileRenamer.Contracts;
-using FileRenamer.Extensions.Command;
-using FileRenamer.UI.Dialogs.Settings;
+﻿using FileRenamer.UI.Dialogs.Settings;
 using FileRenamer.ViewModels.Base;
 using System.Collections.Generic;
+using Windows.UI.Xaml;
 
 namespace FileRenamer.ViewModels.Pages
 {
@@ -31,10 +30,12 @@ namespace FileRenamer.ViewModels.Pages
             "Advanced"
         };
 
-        // 打开重启应用确认的窗口对话框
-        public IRelayCommand RestartCommand = new RelayCommand(async () =>
+        /// <summary>
+        /// 打开重启应用确认的窗口对话框
+        /// </summary>
+        public async void OnRestartAppsClicked(object sender, RoutedEventArgs args)
         {
             await new RestartAppsDialog().ShowAsync();
-        });
+        }
     }
 }

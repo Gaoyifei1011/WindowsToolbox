@@ -138,7 +138,7 @@
 
                     <Button.Flyout>
                         <MenuFlyout Placement="Right">
-                            <MenuFlyoutItem Command="{x:Bind ViewModel.CreateDesktopShortcutCommand}" Text="{x:Bind root:ResourceService.GetLocalized('About/CreateDesktopShortcut')}">
+                            <MenuFlyoutItem Click="{x:Bind ViewModel.OnCreateDesktopShortcutClicked}" Text="{x:Bind root:ResourceService.GetLocalized('About/CreateDesktopShortcut')}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip
                                         Content="{x:Bind root:ResourceService.GetLocalized('About/CreateDesktopShortcutToolTip')}"
@@ -146,7 +146,7 @@
                                         VerticalOffset="20" />
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem Command="{x:Bind ViewModel.PinToStartScreenCommand}" Text="{x:Bind root:ResourceService.GetLocalized('About/PinToStartScreen')}">
+                            <MenuFlyoutItem Click="{x:Bind ViewModel.OnPinToStartScreenClicked}" Text="{x:Bind root:ResourceService.GetLocalized('About/PinToStartScreen')}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip
                                         Content="{x:Bind root:ResourceService.GetLocalized('About/PinToStartScreenToolTip')}"
@@ -154,8 +154,8 @@
                                         VerticalOffset="20" />
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                Command="{x:Bind ViewModel.PinToTaskbarCommand}"
+                            <!--<MenuFlyoutItem
+                                Click="{x:Bind ViewModel.OnPinToTaskbarClicked}"
                                 Text="{x:Bind root:ResourceService.GetLocalized('About/PinToTaskbar')}"
                                 Visibility="Collapsed">
                                 <ToolTipService.ToolTip>
@@ -164,7 +164,7 @@
                                         Placement="Bottom"
                                         VerticalOffset="20" />
                                 </ToolTipService.ToolTip>
-                            </MenuFlyoutItem>
+                            </MenuFlyoutItem>-->
                         </MenuFlyout>
                     </Button.Flyout>
                 </Button>
@@ -184,7 +184,7 @@
 
                     <Button.Flyout>
                         <MenuFlyout Placement="Right">
-                            <MenuFlyoutItem Command="{x:Bind ViewModel.ShowReleaseNotesCommand}" Text="{x:Bind root:ResourceService.GetLocalized('About/ShowReleaseNotes')}">
+                            <MenuFlyoutItem Click="{x:Bind ViewModel.OnShowReleaseNotesClicked}" Text="{x:Bind root:ResourceService.GetLocalized('About/ShowReleaseNotes')}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip
                                         Content="{x:Bind root:ResourceService.GetLocalized('About/ShowReleaseNotesToolTip')}"
@@ -192,7 +192,7 @@
                                         VerticalOffset="20" />
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem Command="{x:Bind ViewModel.ShowLicenseCommand}" Text="{x:Bind root:ResourceService.GetLocalized('About/ShowLicense')}">
+                            <MenuFlyoutItem Click="{x:Bind ViewModel.OnShowLicenseClicked}" Text="{x:Bind root:ResourceService.GetLocalized('About/ShowLicense')}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip
                                         Content="{x:Bind root:ResourceService.GetLocalized('About/ShowLicenseToolTip')}"

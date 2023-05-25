@@ -6,7 +6,6 @@ using FileRenamer.WindowsAPI.PInvoke.User32;
 using Mile.Xaml;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
@@ -46,7 +45,6 @@ namespace FileRenamer
 
         protected override void OnDpiChanged(DpiChangedEventArgs args)
         {
-            Debug.WriteLine("DeviceDpiNew:" + args.DeviceDpiNew / 96.0);
             MinimumSize = new Size(
                 Convert.ToInt32(windowWidth * args.DeviceDpiNew / 96.0),
                 Convert.ToInt32(windowHeight * args.DeviceDpiNew / 96.0)

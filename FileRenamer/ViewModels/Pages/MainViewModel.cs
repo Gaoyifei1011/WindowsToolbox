@@ -1,6 +1,4 @@
-﻿using FileRenamer.Contracts;
-using FileRenamer.Extensions.Command;
-using FileRenamer.Models.Window;
+﻿using FileRenamer.Models.Window;
 using FileRenamer.Services.Root;
 using FileRenamer.Services.Window;
 using FileRenamer.ViewModels.Base;
@@ -9,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace FileRenamer.ViewModels.Pages
@@ -74,18 +73,23 @@ namespace FileRenamer.ViewModels.Pages
             "Settings"
         };
 
-        // 当菜单中的项收到交互（如单击或点击）时发生
-        public IRelayCommand NavigationItemCommand => new RelayCommand<object>((invokedItemTag) =>
+        /// <summary>
+        /// 导航完成后发生
+        /// </summary>
+        public void OnFrameNavigated(object sender, NavigationEventArgs args)
         {
-            if (invokedItemTag is not null)
-            {
-                NavigationModel navigationViewItem = NavigationService.NavigationItemList.Find(item => item.NavigationTag == Convert.ToString(invokedItemTag));
-                if (SelectedItem != navigationViewItem.NavigationItem)
-                {
-                    NavigationService.NavigateTo(navigationViewItem.NavigationPage);
-                }
-            }
-        });
+            Type CurrentPageType = NavigationService.GetCurrentPageType();
+            SelectedItem = NavigationService.NavigationItemList.Find(item => item.NavigationPage == CurrentPageType).NavigationItem;
+            IsBackEnabled = NavigationService.CanGoBack();
+        }
+
+        /// <summary>
+        /// 导航失败时发生
+        /// </summary>
+        public void OnFrameNavgationFailed(object sender, NavigationFailedEventArgs args)
+        {
+            throw new ApplicationException(string.Format(ResourceService.GetLocalized("Window/NavigationFailed"), args.SourcePageType.FullName));
+        }
 
         /// <summary>
         /// 当后退按钮收到交互（如单击或点击）时发生
@@ -95,6 +99,9 @@ namespace FileRenamer.ViewModels.Pages
             NavigationService.NavigationFrom();
         }
 
+        /// <summary>
+        /// 导航控件加载完成后初始化内容，初始化导航视图控件属性、屏幕缩放比例值和应用的背景色
+        /// </summary>
         public void OnNavigationViewLoaded(object sender, RoutedEventArgs args)
         {
             if (sender is not NavigationView navigationView)
@@ -124,21 +131,19 @@ namespace FileRenamer.ViewModels.Pages
         }
 
         /// <summary>
-        /// 导航完成后发生
+        /// 当菜单中的项收到交互（如单击或点击）时发生
         /// </summary>
-        public void OnFrameNavigated(object sender, NavigationEventArgs args)
+        public void OnTapped(object sender, TappedRoutedEventArgs args)
         {
-            Type CurrentPageType = NavigationService.GetCurrentPageType();
-            SelectedItem = NavigationService.NavigationItemList.Find(item => item.NavigationPage == CurrentPageType).NavigationItem;
-            IsBackEnabled = NavigationService.CanGoBack();
-        }
-
-        /// <summary>
-        /// 导航失败时发生
-        /// </summary>
-        public void OnFrameNavgationFailed(object sender, NavigationFailedEventArgs args)
-        {
-            throw new ApplicationException(string.Format(ResourceService.GetLocalized("Window/NavigationFailed"), args.SourcePageType.FullName));
+            NavigationViewItem navigationViewItem = sender as NavigationViewItem;
+            if (navigationViewItem.Tag is not null)
+            {
+                NavigationModel navigationItem = NavigationService.NavigationItemList.Find(item => item.NavigationTag == Convert.ToString(navigationViewItem.Tag));
+                if (SelectedItem != navigationItem.NavigationItem)
+                {
+                    NavigationService.NavigateTo(navigationItem.NavigationPage);
+                }
+            }
         }
     }
 }

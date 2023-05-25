@@ -1,11 +1,11 @@
-﻿using FileRenamer.Contracts;
-using FileRenamer.Extensions.Command;
-using FileRenamer.Models.Controls.Settings.Appearance;
+﻿using FileRenamer.Models.Controls.Settings.Appearance;
 using FileRenamer.Services.Controls.Settings.Appearance;
 using FileRenamer.ViewModels.Base;
+using FileRenamer.Views.CustomControls.DialogsAndFlyouts;
 using System;
 using System.Collections.Generic;
 using Windows.System;
+using Windows.UI.Xaml;
 
 namespace FileRenamer.ViewModels.Controls.Settings.Appearance
 {
@@ -26,18 +26,26 @@ namespace FileRenamer.ViewModels.Controls.Settings.Appearance
             }
         }
 
-        // 打开系统主题设置
-        public IRelayCommand SettingsColorCommand => new RelayCommand(async () =>
+        /// <summary>
+        /// 打开系统主题设置
+        /// </summary>
+        public async void OnSettingsColorClicked(object sender, RoutedEventArgs args)
         {
             await Launcher.LaunchUriAsync(new Uri("ms-settings:colors"));
-        });
+        }
 
-        // 主题修改设置
-        public IRelayCommand ThemeSelectCommand => new RelayCommand<string>(async (themeIndex) =>
+        /// <summary>
+        /// 主题修改设置
+        /// </summary>
+        public async void OnThemeSelectClicked(object sender, RoutedEventArgs args)
         {
-            Theme = ThemeList[Convert.ToInt32(themeIndex)];
-            await ThemeService.SetThemeAsync(Theme);
-            ThemeService.SetWindowTheme();
-        });
+            RadioMenuFlyoutItem item = sender as RadioMenuFlyoutItem;
+            if (item.Tag is not null)
+            {
+                Theme = ThemeList[Convert.ToInt32(item.Tag)];
+                await ThemeService.SetThemeAsync(Theme);
+                ThemeService.SetWindowTheme();
+            }
+        }
     }
 }
