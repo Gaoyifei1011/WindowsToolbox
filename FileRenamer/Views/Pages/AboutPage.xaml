@@ -218,6 +218,8 @@
                 Padding="0,10,0,30"
                 Spacing="3">
 
+                <ac:HeaderControl />
+
                 <ac:IntroductionControl x:Name="Introduction" />
 
                 <ac:ReferenceControl x:Name="Reference" />

@@ -9,7 +9,20 @@ namespace FileRenamer.Helpers.Root
     /// </summary>
     public static class InfoHelper
     {
+        private static AppVersion AppVersion;
+
         private static SystemVersion SystemVersion;
+
+        /// <summary>
+        /// 初始化应用版本信息
+        /// </summary>
+        public static void InitializeAppVersion()
+        {
+            AppVersion.MajorVersion = Package.Current.Id.Version.Major;
+            AppVersion.MinorVersion = Package.Current.Id.Version.Minor;
+            AppVersion.BuildVersion = Package.Current.Id.Version.Build;
+            AppVersion.RevisionVersion = Package.Current.Id.Version.Revision;
+        }
 
         /// <summary>
         /// 初始化系统版本信息
@@ -30,6 +43,14 @@ namespace FileRenamer.Helpers.Root
         public static string GetAppInstalledLocation()
         {
             return Package.Current.InstalledLocation.Path;
+        }
+
+        /// <summary>
+        /// 获取应用版本信息
+        /// </summary>
+        public static AppVersion GetAppVersion()
+        {
+            return AppVersion;
         }
 
         /// <summary>

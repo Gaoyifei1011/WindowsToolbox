@@ -21,6 +21,8 @@ namespace FileRenamer
 
         private WindowsXamlHost MileXamlHost = new WindowsXamlHost();
 
+        public static MileWindow Current { get; private set; }
+
         public MileWindow()
         {
             InitializeComponent();
@@ -29,6 +31,8 @@ namespace FileRenamer
             MinimumSize = new Size(Convert.ToInt32(windowWidth * graphics.DpiX / 96.0), Convert.ToInt32(windowHeight * graphics.DpiX / 96.0));
             Text = ResourceService.GetLocalized("Resources/AppDisplayName");
             Icon = Icon.ExtractAssociatedIcon(string.Format(@"{0}\{1}", InfoHelper.GetAppInstalledLocation(), @"FileRenamer.exe"));
+
+            Current = this;
 
             Controls.Add(MileXamlHost);
             MileXamlHost.AutoSize = true;

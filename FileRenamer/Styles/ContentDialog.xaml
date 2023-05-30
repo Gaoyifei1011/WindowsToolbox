@@ -22,7 +22,7 @@
                 <ControlTemplate TargetType="ContentDialog">
                     <Border x:Name="Container">
                         <Grid x:Name="LayoutRoot" Visibility="Collapsed">
-                            <Rectangle x:Name="SmokeLayerBackground" Fill="{ThemeResource ContentDialogSmokeFill}" />
+                            <Grid x:Name="SmokeLayerBackground" Background="{ThemeResource ContentDialogSmokeFill}" />
                             <Border
                                 x:Name="BackgroundElement"
                                 MinWidth="{ThemeResource ContentDialogMinWidth}"

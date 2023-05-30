@@ -117,14 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AppVersion" xml:space="preserve">
+    <value>应用版本：{0}</value>
+  </data>
   <data name="BriefIntroduction" xml:space="preserve">
     <value>应用简介</value>
+  </data>
+  <data name="CheckUpdate" xml:space="preserve">
+    <value>检查更新</value>
   </data>
   <data name="CreateDesktopShortcut" xml:space="preserve">
     <value>创建快捷方式</value>
   </data>
   <data name="CreateDesktopShortcutToolTip" xml:space="preserve">
     <value>在电脑桌面创建此应用的快捷方式</value>
+  </data>
+  <data name="Developer" xml:space="preserve">
+    <value>开发者：</value>
+  </data>
+  <data name="DeveloperName" xml:space="preserve">
+    <value>@高怡飞</value>
+  </data>
+  <data name="DeveloperNameToolTip" xml:space="preserve">
+    <value>单击访问开发者主页</value>
   </data>
   <data name="PinToStartScreen" xml:space="preserve">
     <value>固定到”开始“屏幕</value>
@@ -141,6 +156,9 @@
   <data name="Precaution" xml:space="preserve">
     <value>注意事项</value>
   </data>
+  <data name="ProjectHomePage" xml:space="preserve">
+    <value>项目主页</value>
+  </data>
   <data name="QuickOperation" xml:space="preserve">
     <value>快捷操作</value>
   </data>
@@ -152,6 +170,9 @@
   </data>
   <data name="ReferenceToolTip" xml:space="preserve">
     <value>单击了解被引用开源项目的信息</value>
+  </data>
+  <data name="SendFeedback" xml:space="preserve">
+    <value>发送反馈</value>
   </data>
   <data name="SettingsHelp" xml:space="preserve">
     <value>设置选项说明</value>

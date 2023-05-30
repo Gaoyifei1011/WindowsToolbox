@@ -52,7 +52,6 @@
     <ProjectGuid>67832ec5-e851-4b6f-a452-70cbea98de44</ProjectGuid>
     <TargetPlatformVersion>10.0.22621.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
-    <NoWarn>$(NoWarn);NU1702</NoWarn>
     <PackageCertificateKeyFile>FileRenamerPackage_SignKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">

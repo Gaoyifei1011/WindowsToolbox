@@ -16,6 +16,7 @@
     </Page.DataContext>
 
     <Grid>
+        <Grid x:Name="GlassHost" />
         <NavigationView
             AlwaysShowHeader="False"
             BackRequested="{x:Bind ViewModel.OnNavigationViewBackRequested}"

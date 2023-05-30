@@ -117,94 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppVersion" xml:space="preserve">
-    <value>Application Version: {0}</value>
+  <data name="Content1" xml:space="preserve">
+    <value>您可以将异常信息复制到剪贴板，并在 Github 仓库中反馈您遇到的问题。</value>
   </data>
-  <data name="BriefIntroduction" xml:space="preserve">
-    <value>App brief introduction</value>
-  </data>
-  <data name="CheckUpdate" xml:space="preserve">
-    <value>Check Update</value>
-  </data>
-  <data name="CreateDesktopShortcut" xml:space="preserve">
-    <value>Create desktop shortcut</value>
-  </data>
-  <data name="CreateDesktopShortcutToolTip" xml:space="preserve">
-    <value>Create a shortcut to this app on your desktop</value>
-  </data>
-  <data name="Developer" xml:space="preserve">
-    <value>Developer:</value>
-  </data>
-  <data name="DeveloperName" xml:space="preserve">
-    <value>@高怡飞</value>
-  </data>
-  <data name="DeveloperNameToolTip" xml:space="preserve">
-    <value>Click to visit the Developer home page</value>
-  </data>
-  <data name="PinToStartScreen" xml:space="preserve">
-    <value>Pin to the Start screen</value>
-  </data>
-  <data name="PinToStartScreenToolTip" xml:space="preserve">
-    <value>Pin the app to Start screen</value>
-  </data>
-  <data name="PinToTaskbar" xml:space="preserve">
-    <value>Pin to taskbar</value>
-  </data>
-  <data name="PinToTaskbarToolTip" xml:space="preserve">
-    <value>Pin the app to taskbar</value>
-  </data>
-  <data name="Precaution" xml:space="preserve">
-    <value>Precautions</value>
-  </data>
-  <data name="ProjectHomePage" xml:space="preserve">
-    <value>Project home page</value>
-  </data>
-  <data name="QuickOperation" xml:space="preserve">
-    <value>Quick operation</value>
-  </data>
-  <data name="Reference" xml:space="preserve">
-    <value>Project references</value>
-  </data>
-  <data name="ReferenceTitle" xml:space="preserve">
-    <value>Project references (Sort by alphabetical order)</value>
-  </data>
-  <data name="ReferenceToolTip" xml:space="preserve">
-    <value>Click to learn about the referenced open source project</value>
-  </data>
-  <data name="SendFeedback" xml:space="preserve">
-    <value>Send feedback</value>
-  </data>
-  <data name="SettingsHelp" xml:space="preserve">
-    <value>Setting options instructions</value>
-  </data>
-  <data name="ShowLicense" xml:space="preserve">
-    <value>Show License</value>
-  </data>
-  <data name="ShowLicenseToolTip" xml:space="preserve">
-    <value>View the app's license agreement</value>
-  </data>
-  <data name="ShowReleaseNotes" xml:space="preserve">
-    <value>Show release notes</value>
-  </data>
-  <data name="ShowReleaseNotesToolTip" xml:space="preserve">
-    <value>Learn about app-specific updates</value>
-  </data>
-  <data name="Thanks" xml:space="preserve">
-    <value>Thanks</value>
-  </data>
-  <data name="ThanksTitle" xml:space="preserve">
-    <value>Thanks (Sort by alphabetical order)</value>
-  </data>
-  <data name="ThanksToolTip" xml:space="preserve">
-    <value>Click Learn about the thank-your's personal information</value>
+  <data name="Content2" xml:space="preserve">
+    <value>点击“确定”将复制异常信息，点击“取消”则退出应用程序</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>About</value>
-  </data>
-  <data name="UpdateAndLicensing" xml:space="preserve">
-    <value>Update and licensing</value>
-  </data>
-  <data name="UseInstruction" xml:space="preserve">
-    <value>Direction for use</value>
+    <value>应用程序发生异常</value>
   </data>
 </root>
