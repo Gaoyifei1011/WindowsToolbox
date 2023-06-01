@@ -17,6 +17,7 @@
                 <ResourceDictionary Source="ms-appx:///Styles/HyperlinkButton.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/MenuFlyout.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/NavigationView.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/ScrollViewer.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/TextBlock.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

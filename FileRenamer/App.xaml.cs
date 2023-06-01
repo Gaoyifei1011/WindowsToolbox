@@ -4,6 +4,7 @@ using FileRenamer.Services.Root;
 using FileRenamer.WindowsAPI.PInvoke.Comctl32;
 using System;
 using System.Text;
+using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 
@@ -16,7 +17,7 @@ namespace FileRenamer
         public App()
         {
             WindowsXamlManager = WindowsXamlManager.InitializeForCurrentThread();
-            InitializeComponent();
+            InitializeComponent();            
             UnhandledException += OnUnhandledException;
         }
 
@@ -26,7 +27,7 @@ namespace FileRenamer
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs args)
         {
             Comctl32Library.TaskDialog(
-                MileWindow.Current.Handle,
+                Program.MainWindow.Handle,
                 IntPtr.Zero,
                 ResourceService.GetLocalized("Resources/AppDisplayName"),
                 ResourceService.GetLocalized("MessageInfo/Title"),

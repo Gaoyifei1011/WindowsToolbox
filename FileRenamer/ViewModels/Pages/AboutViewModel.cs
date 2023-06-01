@@ -1,12 +1,9 @@
-﻿using FileRenamer.Services.Root;
+﻿using FileRenamer.Helpers.Root;
+using FileRenamer.Models.Controls.About;
 using FileRenamer.ViewModels.Base;
-using IWshRuntimeLibrary;
 using System;
 using System.Collections.Generic;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Core;
 using Windows.System;
-using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 
 namespace FileRenamer.ViewModels.Pages
@@ -16,94 +13,76 @@ namespace FileRenamer.ViewModels.Pages
     /// </summary>
     public sealed class AboutViewModel : ViewModelBase
     {
-        private int _selectedIndex = 0;
+        private readonly ushort MajorVersion = InfoHelper.GetAppVersion().MajorVersion;
 
-        public int SelectedIndex
+        private readonly ushort MinorVersion = InfoHelper.GetAppVersion().MinorVersion;
+
+        private readonly ushort BuildVersion = InfoHelper.GetAppVersion().BuildVersion;
+
+        private readonly ushort RevisionVersion = InfoHelper.GetAppVersion().RevisionVersion;
+
+        private string _appVersion;
+
+        public string AppVersion
         {
-            get { return _selectedIndex; }
+            get { return _appVersion; }
 
             set
             {
-                _selectedIndex = value;
+                _appVersion = value;
                 OnPropertyChanged();
             }
         }
 
-        public List<string> TagList = new List<string>()
+        //项目引用信息
+        public List<ReferenceKeyValuePairModel> ReferenceDict = new List<ReferenceKeyValuePairModel>()
         {
-            "Introduction",
-            "Reference",
-            "UseInstruction",
-            "Precaution",
-            "SettingsHelp",
-            "Thanks",
+            new ReferenceKeyValuePairModel() {Key = "Mile.Xaml" ,Value = "https://github.com/ProjectMile/Mile.Xaml" },
+        };
+
+        public List<ThanksKeyValuePairModel> ThanksDict = new List<ThanksKeyValuePairModel>()
+        {
+            new ThanksKeyValuePairModel(){Key = "MouriNaruto" ,Value = "https://github.com/MouriNaruto" },
         };
 
         /// <summary>
-        /// 创建应用的桌面快捷方式
+        /// 检查更新
         /// </summary>
-        public async void OnCreateDesktopShortcutClicked(object sender, RoutedEventArgs args)
-        {
-            //bool IsCreatedSuccessfully = false;
-
-            IWshShell shell = new WshShell();
-            WshShortcut AppShortcut = (WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), ResourceService.GetLocalized("Resources/AppDisplayName")));
-            IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
-            AppListEntry DefaultEntry = AppEntries[0];
-            AppShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", DefaultEntry.AppUserModelId);
-            AppShortcut.Save();
-            //new QuickOperationNotification(QuickOperationType.DesktopShortcut, IsCreatedSuccessfully).Show();
-        }
-
-        /// <summary>
-        /// 将应用固定到“开始”屏幕
-        /// </summary>
-        public async void OnPinToStartScreenClicked(object sender, RoutedEventArgs args)
-        {
-            //bool IsPinnedSuccessfully = false;
-
-            try
-            {
-                IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
-
-                AppListEntry DefaultEntry = AppEntries[0];
-
-                if (DefaultEntry is not null)
-                {
-                    StartScreenManager startScreenManager = StartScreenManager.GetDefault();
-
-                    bool containsEntry = await startScreenManager.ContainsAppListEntryAsync(DefaultEntry);
-
-                    if (!containsEntry)
-                    {
-                        await startScreenManager.RequestAddAppListEntryAsync(DefaultEntry);
-                    }
-                }
-                //IsPinnedSuccessfully = true;
-            }
-            catch (Exception)
-            {
-                //new QuickOperationNotification(QuickOperationType.StartScreen, IsPinnedSuccessfully).Show();
-            }
-        }
-
-        // 将应用固定到任务栏
-        //public void OnPinToTaskbarClicked(object sender,RoutedEventArgs args) { }
-
-        /// <summary>
-        /// 查看许可证
-        /// </summary>
-        public void OnShowLicenseClicked(object sender, RoutedEventArgs args)
-        {
-            //await new LicenseDialog().ShowAsync();
-        }
-
-        /// <summary>
-        /// 查看更新日志
-        /// </summary>
-        public async void OnShowReleaseNotesClicked(object sender, RoutedEventArgs args)
+        public async void OnCheckUpdateClicked(object sender, RoutedEventArgs args)
         {
             await Launcher.LaunchUriAsync(new Uri("https://github.com/Gaoyifei1011/FileRenamer/releases"));
+        }
+
+        /// <summary>
+        /// 开发者个人信息
+        /// </summary>
+        public async void OnDeveloperDescriptionClicked(object sender, RoutedEventArgs args)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/Gaoyifei1011"));
+        }
+
+        /// <summary>
+        /// 初始化应用版本信息
+        /// </summary>
+        public void OnLoaded(object sender, RoutedEventArgs args)
+        {
+            AppVersion = string.Format("{0}.{1}.{2}.{3}", MajorVersion, MinorVersion, BuildVersion, RevisionVersion);
+        }
+
+        /// <summary>
+        /// 项目主页
+        /// </summary>
+        public async void OnProjectDescriptionClicked(object sender, RoutedEventArgs args)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/Gaoyifei1011/FileRenamer"));
+        }
+
+        /// <summary>
+        /// 发送反馈
+        /// </summary>
+        public async void OnSendFeedbackClicked(object sender, RoutedEventArgs args)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/Gaoyifei1011/FileRenamer/issues"));
         }
     }
 }

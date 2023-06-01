@@ -120,6 +120,12 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="CreateDesktopShortcut" xml:space="preserve">
+    <value>Create desktop shortcut</value>
+  </data>
+  <data name="CreateDesktopShortcutToolTip" xml:space="preserve">
+    <value>Create a shortcut to this app on your desktop</value>
+  </data>
   <data name="ExtensionName" xml:space="preserve">
     <value>Extension Name</value>
   </data>
@@ -129,8 +135,44 @@
   <data name="FileProperties" xml:space="preserve">
     <value>File Properties</value>
   </data>
+  <data name="Others" xml:space="preserve">
+    <value>Others</value>
+  </data>
+  <data name="OthersToolTip" xml:space="preserve">
+    <value>Other options</value>
+  </data>
+  <data name="PinToStartScreen" xml:space="preserve">
+    <value>Pin to the Start screen</value>
+  </data>
+  <data name="PinToStartScreenToolTip" xml:space="preserve">
+    <value>Pin the app to Start screen</value>
+  </data>
+  <data name="PinToTaskbar" xml:space="preserve">
+    <value>Pin to taskbar</value>
+  </data>
+  <data name="PinToTaskbarToolTip" xml:space="preserve">
+    <value>Pin the app to taskbar</value>
+  </data>
+  <data name="RestartApp" xml:space="preserve">
+    <value>Application restart</value>
+  </data>
+  <data name="RestartAppToolTip" xml:space="preserve">
+    <value>After the app settings are modified, some options need to be restarted to take effect</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="ShowLicense" xml:space="preserve">
+    <value>Show License</value>
+  </data>
+  <data name="ShowLicenseToolTip" xml:space="preserve">
+    <value>View the app's license agreement</value>
+  </data>
+  <data name="ShowReleaseNotes" xml:space="preserve">
+    <value>Show release notes</value>
+  </data>
+  <data name="ShowReleaseNotesToolTip" xml:space="preserve">
+    <value>Learn about app-specific updates</value>
   </data>
   <data name="UpperAndLowerCase" xml:space="preserve">
     <value>Upper and Lower Case</value>

@@ -1,16 +1,14 @@
 ﻿using FileRenamer.Services.Window;
 using System.Collections.Generic;
-using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 
 namespace FileRenamer.Views.Pages
 {
     /// <summary>
-    /// 应用主窗口页面
+    /// 应用主窗口页面视图
     /// </summary>
     public sealed partial class MainPage : Page
     {
@@ -21,20 +19,6 @@ namespace FileRenamer.Views.Pages
             Current = this;
             InitializeComponent();
             NavigationService.NavigationFrame = MainFrame;
-            //InitializeFrostedGlass(GlassHost);
-        }
-
-        private void InitializeFrostedGlass(UIElement glassHost)
-        {
-            Visual hostVisual = ElementCompositionPreview.GetElementVisual(glassHost);
-            Compositor compositor = hostVisual.Compositor;
-            var backdropBrush = compositor.CreateHostBackdropBrush();
-            var glassVisual = compositor.CreateSpriteVisual();
-            glassVisual.Brush = backdropBrush;
-            ElementCompositionPreview.SetElementChildVisual(glassHost, glassVisual);
-            var bindSizeAnimation = compositor.CreateExpressionAnimation("hostVisual.Size");
-            bindSizeAnimation.SetReferenceParameter("hostVisual", hostVisual);
-            glassVisual.StartAnimation("Size", bindSizeAnimation);
         }
 
         public void OnSizeChanged(object sender, SizeChangedEventArgs args)

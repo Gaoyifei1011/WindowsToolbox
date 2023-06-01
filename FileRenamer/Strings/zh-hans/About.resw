@@ -126,12 +126,6 @@
   <data name="CheckUpdate" xml:space="preserve">
     <value>检查更新</value>
   </data>
-  <data name="CreateDesktopShortcut" xml:space="preserve">
-    <value>创建快捷方式</value>
-  </data>
-  <data name="CreateDesktopShortcutToolTip" xml:space="preserve">
-    <value>在电脑桌面创建此应用的快捷方式</value>
-  </data>
   <data name="Developer" xml:space="preserve">
     <value>开发者：</value>
   </data>
@@ -140,18 +134,6 @@
   </data>
   <data name="DeveloperNameToolTip" xml:space="preserve">
     <value>单击访问开发者主页</value>
-  </data>
-  <data name="PinToStartScreen" xml:space="preserve">
-    <value>固定到”开始“屏幕</value>
-  </data>
-  <data name="PinToStartScreenToolTip" xml:space="preserve">
-    <value>将应用固定到“开始”屏幕</value>
-  </data>
-  <data name="PinToTaskbar" xml:space="preserve">
-    <value>固定到任务栏</value>
-  </data>
-  <data name="PinToTaskbarToolTip" xml:space="preserve">
-    <value>将应用固定到任务栏</value>
   </data>
   <data name="Precaution" xml:space="preserve">
     <value>注意事项</value>
@@ -176,18 +158,6 @@
   </data>
   <data name="SettingsHelp" xml:space="preserve">
     <value>设置选项说明</value>
-  </data>
-  <data name="ShowLicense" xml:space="preserve">
-    <value>查看许可证</value>
-  </data>
-  <data name="ShowLicenseToolTip" xml:space="preserve">
-    <value>查看应用的许可协议</value>
-  </data>
-  <data name="ShowReleaseNotes" xml:space="preserve">
-    <value>查看更新日志</value>
-  </data>
-  <data name="ShowReleaseNotesToolTip" xml:space="preserve">
-    <value>了解应用具体的更新内容</value>
   </data>
   <data name="Thanks" xml:space="preserve">
     <value>感谢</value>

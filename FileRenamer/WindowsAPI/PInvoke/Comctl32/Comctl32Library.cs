@@ -52,7 +52,7 @@ namespace FileRenamer.WindowsAPI.PInvoke.Comctl32
         /// E_INVALIDARG：一个或多个参数无效。
         /// E_FAIL：此操作失败。
         /// </returns>
-        [DllImport(Comctl32, EntryPoint = "TaskDialog", SetLastError = true)]
+        [DllImport(Comctl32, CharSet = CharSet.Unicode, EntryPoint = "TaskDialog", SetLastError = true)]
         public static extern int TaskDialog(IntPtr hWndOwner, IntPtr hInstance, string pszWindowTitle, string pszMainInstruction, string pszContent, TASKDIALOG_COMMON_BUTTON_FLAGS dwCommonButtons, TASKDIALOGICON pszIcon, out TaskDialogResult pnButton);
     }
 }

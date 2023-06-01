@@ -16,7 +16,6 @@
     </Page.DataContext>
 
     <Grid>
-        <Grid x:Name="GlassHost" />
         <NavigationView
             AlwaysShowHeader="False"
             BackRequested="{x:Bind ViewModel.OnNavigationViewBackRequested}"
@@ -133,6 +132,89 @@
                     </ToolTipService.ToolTip>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
+
+            <NavigationView.PaneFooter>
+                <Grid>
+                    <DropDownButton
+                        x:Name="AboutButton"
+                        x:Load="{x:Bind ViewModel.IsAboutPage, Mode=OneWay}"
+                        Content="{x:Bind root:ResourceService.GetLocalized('Window/Others')}">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip
+                                Content="{x:Bind root:ResourceService.GetLocalized('Window/OthersToolTip')}"
+                                Placement="Bottom"
+                                VerticalOffset="25" />
+                        </ToolTipService.ToolTip>
+
+                        <DropDownButton.Flyout>
+                            <MenuFlyout Placement="Bottom">
+                                <MenuFlyoutItem Click="{x:Bind ViewModel.OnCreateDesktopShortcutClicked}" Text="{x:Bind root:ResourceService.GetLocalized('Window/CreateDesktopShortcut')}">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip
+                                            Content="{x:Bind root:ResourceService.GetLocalized('Window/CreateDesktopShortcutToolTip')}"
+                                            Placement="Bottom"
+                                            VerticalOffset="20" />
+                                    </ToolTipService.ToolTip>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Click="{x:Bind ViewModel.OnPinToStartScreenClicked}" Text="{x:Bind root:ResourceService.GetLocalized('Window/PinToStartScreen')}">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip
+                                            Content="{x:Bind root:ResourceService.GetLocalized('Window/PinToStartScreenToolTip')}"
+                                            Placement="Bottom"
+                                            VerticalOffset="20" />
+                                    </ToolTipService.ToolTip>
+                                </MenuFlyoutItem>
+
+                                <!--<MenuFlyoutItem
+                                Click="{x:Bind ViewModel.OnPinToTaskbarClicked}"
+                                Text="{x:Bind root:ResourceService.GetLocalized('Window/PinToTaskbar')}"
+                                Visibility="Collapsed">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        Content="{x:Bind root:ResourceService.GetLocalized('Window/PinToTaskbarToolTip')}"
+                                        Placement="Bottom"
+                                        VerticalOffset="20" />
+                                </ToolTipService.ToolTip>
+                            </MenuFlyoutItem>-->
+
+                                <MenuFlyoutSeparator />
+
+                                <MenuFlyoutItem Click="{x:Bind ViewModel.OnShowReleaseNotesClicked}" Text="{x:Bind root:ResourceService.GetLocalized('Window/ShowReleaseNotes')}">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip
+                                            Content="{x:Bind root:ResourceService.GetLocalized('Window/ShowReleaseNotesToolTip')}"
+                                            Placement="Bottom"
+                                            VerticalOffset="20" />
+                                    </ToolTipService.ToolTip>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Click="{x:Bind ViewModel.OnShowLicenseClicked}" Text="{x:Bind root:ResourceService.GetLocalized('Window/ShowLicense')}">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip
+                                            Content="{x:Bind root:ResourceService.GetLocalized('Window/ShowLicenseToolTip')}"
+                                            Placement="Bottom"
+                                            VerticalOffset="20" />
+                                    </ToolTipService.ToolTip>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+
+                    <Button
+                        x:Name="RestartButton"
+                        x:Load="{x:Bind ViewModel.IsSettingsPage, Mode=OneWay}"
+                        Click="{x:Bind ViewModel.OnRestartAppsClicked}"
+                        Content="{x:Bind root:ResourceService.GetLocalized('Window/RestartApp')}">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip
+                                Content="{x:Bind root:ResourceService.GetLocalized('Window/RestartAppToolTip')}"
+                                Placement="Bottom"
+                                VerticalOffset="20" />
+                        </ToolTipService.ToolTip>
+                    </Button>
+                </Grid>
+            </NavigationView.PaneFooter>
 
             <Frame
                 x:Name="MainFrame"

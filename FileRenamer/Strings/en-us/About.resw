@@ -126,12 +126,6 @@
   <data name="CheckUpdate" xml:space="preserve">
     <value>Check Update</value>
   </data>
-  <data name="CreateDesktopShortcut" xml:space="preserve">
-    <value>Create desktop shortcut</value>
-  </data>
-  <data name="CreateDesktopShortcutToolTip" xml:space="preserve">
-    <value>Create a shortcut to this app on your desktop</value>
-  </data>
   <data name="Developer" xml:space="preserve">
     <value>Developer:</value>
   </data>
@@ -140,18 +134,6 @@
   </data>
   <data name="DeveloperNameToolTip" xml:space="preserve">
     <value>Click to visit the Developer home page</value>
-  </data>
-  <data name="PinToStartScreen" xml:space="preserve">
-    <value>Pin to the Start screen</value>
-  </data>
-  <data name="PinToStartScreenToolTip" xml:space="preserve">
-    <value>Pin the app to Start screen</value>
-  </data>
-  <data name="PinToTaskbar" xml:space="preserve">
-    <value>Pin to taskbar</value>
-  </data>
-  <data name="PinToTaskbarToolTip" xml:space="preserve">
-    <value>Pin the app to taskbar</value>
   </data>
   <data name="Precaution" xml:space="preserve">
     <value>Precautions</value>
@@ -176,18 +158,6 @@
   </data>
   <data name="SettingsHelp" xml:space="preserve">
     <value>Setting options instructions</value>
-  </data>
-  <data name="ShowLicense" xml:space="preserve">
-    <value>Show License</value>
-  </data>
-  <data name="ShowLicenseToolTip" xml:space="preserve">
-    <value>View the app's license agreement</value>
-  </data>
-  <data name="ShowReleaseNotes" xml:space="preserve">
-    <value>Show release notes</value>
-  </data>
-  <data name="ShowReleaseNotesToolTip" xml:space="preserve">
-    <value>Learn about app-specific updates</value>
   </data>
   <data name="Thanks" xml:space="preserve">
     <value>Thanks</value>

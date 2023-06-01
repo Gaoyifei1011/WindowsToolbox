@@ -135,12 +135,6 @@
   <data name="LanguageToolTip" xml:space="preserve">
     <value>Help</value>
   </data>
-  <data name="RestartApp" xml:space="preserve">
-    <value>Application restart</value>
-  </data>
-  <data name="RestartAppToolTip" xml:space="preserve">
-    <value>After the app settings are modified, some options need to be restarted to take effect</value>
-  </data>
   <data name="ThemeDark" xml:space="preserve">
     <value>Dark</value>
   </data>

@@ -1,8 +1,10 @@
-﻿using FileRenamer.Helpers.Root;
+﻿using FileRenamer.Extensions.DataType.Enums;
+using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Controls.Settings.Appearance;
 using FileRenamer.Services.Root;
 using FileRenamer.WindowsAPI.PInvoke.Comctl32;
 using System;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -11,15 +13,25 @@ using System.Windows.Forms;
 
 namespace FileRenamer
 {
-    public static class Program
+    /// <summary>
+    /// 文件重命名工具 桌面程序
+    /// </summary>
+    public class Program
     {
         public static Mutex AppMutex = null;
 
         public static App ApplicationRoot { get; private set; }
 
+        public static MileWindow MainWindow { get; private set; }
+
+        /// <summary>
+        /// 应用程序的主入口点
+        /// </summary>
         [STAThread]
         public static void Main(string[] args)
         {
+            CheckAppBootState();
+
             bool isExists = Mutex.TryOpenExisting(Assembly.GetExecutingAssembly().GetName().Name, out AppMutex);
             if (isExists && AppMutex is not null) { return; }
             else
@@ -36,7 +48,31 @@ namespace FileRenamer
             ApplicationRoot = new App();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MileWindow());
+
+            MainWindow = new MileWindow();
+            Application.Run(MainWindow);
+        }
+
+        /// <summary>
+        /// 检查应用的启动状态
+        /// </summary>
+        public static void CheckAppBootState()
+        {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(CultureInfo.CurrentCulture.Parent.Parent.Name);
+            if (!RuntimeHelper.IsMsix())
+            {
+                Comctl32Library.TaskDialog(
+                    IntPtr.Zero,
+                    IntPtr.Zero,
+                    Properties.Resources.AppDisplayName,
+                    Properties.Resources.AppBootFailed,
+                    Properties.Resources.AppBootFailedContent1 + Environment.NewLine + Properties.Resources.AppBootFailedContent2 + Environment.NewLine + Properties.Resources.AppBootFailedContent3,
+                    TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_OK_BUTTON,
+                    TASKDIALOGICON.TD_SHIELD_ERROR_RED_BAR,
+                    out TaskDialogResult Result
+                    );
+                Environment.Exit(Convert.ToInt32(AppExitCode.Failed));
+            }
         }
 
         /// <summary>
@@ -45,7 +81,7 @@ namespace FileRenamer
         private static void OnThreadException(object sender, ThreadExceptionEventArgs args)
         {
             Comctl32Library.TaskDialog(
-                    MileWindow.Current.Handle,
+                    MainWindow.Handle,
                     IntPtr.Zero,
                     ResourceService.GetLocalized("Resources/AppDisplayName"),
                     ResourceService.GetLocalized("MessageInfo/Title"),
@@ -76,6 +112,33 @@ namespace FileRenamer
         /// </summary>
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
+            Comctl32Library.TaskDialog(
+                MainWindow.Handle,
+                IntPtr.Zero,
+                ResourceService.GetLocalized("Resources/AppDisplayName"),
+                ResourceService.GetLocalized("MessageInfo/Title"),
+                ResourceService.GetLocalized("MessageInfo/Content1") + Environment.NewLine + ResourceService.GetLocalized("MessageInfo/Content2"),
+                TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_OK_BUTTON | TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_CANCEL_BUTTON,
+                TASKDIALOGICON.TD_SHIELD_ERROR_RED_BAR,
+                out TaskDialogResult Result
+                );
+
+            // 复制异常信息到剪贴板
+            if (Result == TaskDialogResult.IDOK)
+            {
+                Exception exception = args.ExceptionObject as Exception;
+                if (exception is not null)
+                {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.AppendLine("HelpLink:" + exception.HelpLink);
+                    stringBuilder.AppendLine("HResult:" + exception.HResult);
+                    stringBuilder.AppendLine("Message:" + exception.Message);
+                    stringBuilder.AppendLine("Source:" + exception.Source);
+                    stringBuilder.AppendLine("StackTrace:" + exception.StackTrace);
+
+                    CopyPasteHelper.CopyToClipBoard(stringBuilder.ToString());
+                }
+            }
             return;
         }
 

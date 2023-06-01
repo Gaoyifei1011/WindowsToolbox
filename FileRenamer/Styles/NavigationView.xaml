@@ -187,6 +187,7 @@
                                         x:Name="PaneFooterOnTopPane"
                                         Grid.Column="7"
                                         Height="{ThemeResource TopNavigationViewPaneFooterHeight}"
+                                        Margin="0,0,8,0"
                                         HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
                                         IsTabStop="False" />

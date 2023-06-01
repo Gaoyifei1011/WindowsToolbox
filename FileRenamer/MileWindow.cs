@@ -16,23 +16,21 @@ namespace FileRenamer
 {
     public partial class MileWindow : Form
     {
-        private int windowWidth = 768;
-        private int windowHeight = 600;
+        private int windowWidth = 1000;
+        private int windowHeight = 700;
 
         private WindowsXamlHost MileXamlHost = new WindowsXamlHost();
-
-        public static MileWindow Current { get; private set; }
 
         public MileWindow()
         {
             InitializeComponent();
 
             Graphics graphics = CreateGraphics();
-            MinimumSize = new Size(Convert.ToInt32(windowWidth * graphics.DpiX / 96.0), Convert.ToInt32(windowHeight * graphics.DpiX / 96.0));
+            Size = new Size(Convert.ToInt32(windowWidth * graphics.DpiX / 96.0), Convert.ToInt32(windowHeight * graphics.DpiX / 96.0));
             Text = ResourceService.GetLocalized("Resources/AppDisplayName");
             Icon = Icon.ExtractAssociatedIcon(string.Format(@"{0}\{1}", InfoHelper.GetAppInstalledLocation(), @"FileRenamer.exe"));
-
-            Current = this;
+            MaximizeBox = false;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
 
             Controls.Add(MileXamlHost);
             MileXamlHost.AutoSize = true;
