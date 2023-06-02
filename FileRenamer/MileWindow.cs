@@ -43,6 +43,7 @@ namespace FileRenamer
         private void OnLoaded(object sender, EventArgs args)
         {
             ThemeService.SetWindowTheme();
+            TopMostService.SetAppTopMost();
         }
 
         protected override void OnDpiChanged(DpiChangedEventArgs args)

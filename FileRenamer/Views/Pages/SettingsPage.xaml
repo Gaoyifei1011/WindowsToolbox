@@ -34,7 +34,7 @@
                 Text="{x:Bind root:ResourceService.GetLocalized('Settings/Appearance')}" />
 
             <!--  应用主题设置用户控件  -->
-            <Grid VerticalAlignment="Center" Style="{StaticResource CardGridStyle}">
+            <Grid Style="{StaticResource CardGridStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -140,7 +140,7 @@
             </Grid>
 
             <!--  界面语言设置用户控件  -->
-            <Grid VerticalAlignment="Center" Style="{StaticResource CardGridStyle}">
+            <Grid Style="{StaticResource CardGridStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -208,11 +208,103 @@
                 </ComboBox>
             </Grid>
 
+            <!--  应用窗口置顶设置控件  -->
+            <Grid Style="{StaticResource CardGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <FontIcon
+                    Grid.Column="0"
+                    FontFamily="{StaticResource SegoeFluentFontFamily}"
+                    Glyph="&#xE840;"
+                    Style="{StaticResource FontIconStyle}" />
+
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind root:ResourceService.GetLocalized('Settings/TopMost')}" />
+
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{x:Bind root:ResourceService.GetLocalized('Settings/TopMostDescription')}" />
+                </StackPanel>
+
+                <ToggleSwitch
+                    Grid.Column="2"
+                    MinWidth="0"
+                    FlowDirection="RightToLeft"
+                    IsOn="{x:Bind ViewModel.TopMostValue, Mode=OneWay}"
+                    OffContent="{x:Bind root:ResourceService.GetLocalized('Settings/TopMostOffContent')}"
+                    OnContent="{x:Bind root:ResourceService.GetLocalized('Settings/TopMostOnContent')}"
+                    Toggled="{x:Bind ViewModel.OnTopMostToggled}" />
+            </Grid>
+
             <TextBlock
                 Margin="0,0,0,5"
                 FontSize="16"
                 Style="{StaticResource BodyTextBlockStyle}"
                 Text="{x:Bind root:ResourceService.GetLocalized('Settings/General')}" />
+
+            <!--  应用通知设置用户控件  -->
+            <Grid Style="{StaticResource CardGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <FontIcon
+                    Grid.Column="0"
+                    FontFamily="{StaticResource SegoeFluentFontFamily}"
+                    Glyph="&#xEA8f;"
+                    Style="{StaticResource FontIconStyle}" />
+
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind root:ResourceService.GetLocalized('Settings/Notification')}" />
+
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{x:Bind root:ResourceService.GetLocalized('Settings/NotificationDescription')}" />
+                </StackPanel>
+
+                <HyperlinkButton
+                    Grid.Column="2"
+                    Margin="0,0,6,0"
+                    VerticalAlignment="Center"
+                    Click="{x:Bind ViewModel.OnSettingsNotificationClicked}"
+                    Content="{x:Bind root:ResourceService.GetLocalized('Settings/WindowsNotificationSettings')}">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            Content="{x:Bind root:ResourceService.GetLocalized('Settings/WindowsNotificationSettings')}"
+                            Placement="Bottom"
+                            VerticalOffset="25" />
+                    </ToolTipService.ToolTip>
+                </HyperlinkButton>
+
+                <ToggleSwitch
+                    Grid.Column="3"
+                    MinWidth="0"
+                    FlowDirection="RightToLeft"
+                    IsOn="{x:Bind ViewModel.Notification, Mode=OneWay}"
+                    OffContent="{x:Bind root:ResourceService.GetLocalized('Settings/NotificationOffContent')}"
+                    OnContent="{x:Bind root:ResourceService.GetLocalized('Settings/NotificationOnContent')}"
+                    Toggled="{x:Bind ViewModel.OnNotificationToggled}" />
+            </Grid>
 
             <TextBlock
                 Margin="0,0,0,5"

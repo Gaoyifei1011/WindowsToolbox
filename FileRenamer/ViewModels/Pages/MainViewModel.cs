@@ -116,6 +116,8 @@ namespace FileRenamer.ViewModels.Pages
             Type CurrentPageType = NavigationService.GetCurrentPageType();
             SelectedItem = NavigationService.NavigationItemList.Find(item => item.NavigationPage == CurrentPageType).NavigationItem;
             IsBackEnabled = NavigationService.CanGoBack();
+            IsAboutPage = Convert.ToString(SelectedItem.Tag) == TagList[4];
+            IsSettingsPage = Convert.ToString(SelectedItem.Tag) == TagList[5];
         }
 
         /// <summary>
@@ -132,9 +134,6 @@ namespace FileRenamer.ViewModels.Pages
         public void OnNavigationViewBackRequested(object sender, NavigationViewBackRequestedEventArgs args)
         {
             NavigationService.NavigationFrom();
-
-            IsAboutPage = Convert.ToString(SelectedItem.Tag) == TagList[4];
-            IsSettingsPage = Convert.ToString(SelectedItem.Tag) == TagList[5];
         }
 
         /// <summary>
@@ -189,9 +188,6 @@ namespace FileRenamer.ViewModels.Pages
                 {
                     NavigationService.NavigateTo(navigationItem.NavigationPage);
                 }
-
-                IsAboutPage = Convert.ToString(SelectedItem.Tag) == TagList[4];
-                IsSettingsPage = Convert.ToString(SelectedItem.Tag) == TagList[5];
             }
         }
 

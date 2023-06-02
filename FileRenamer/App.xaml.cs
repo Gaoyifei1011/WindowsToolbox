@@ -4,7 +4,6 @@ using FileRenamer.Services.Root;
 using FileRenamer.WindowsAPI.PInvoke.Comctl32;
 using System;
 using System.Text;
-using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 
@@ -17,7 +16,7 @@ namespace FileRenamer
         public App()
         {
             WindowsXamlManager = WindowsXamlManager.InitializeForCurrentThread();
-            InitializeComponent();            
+            InitializeComponent();
             UnhandledException += OnUnhandledException;
         }
 

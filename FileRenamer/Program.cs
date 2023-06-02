@@ -1,6 +1,7 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Controls.Settings.Appearance;
+using FileRenamer.Services.Controls.Settings.Common;
 using FileRenamer.Services.Root;
 using FileRenamer.WindowsAPI.PInvoke.Comctl32;
 using System;
@@ -156,6 +157,9 @@ namespace FileRenamer
             InfoHelper.InitializeSystemVersion();
 
             await ThemeService.InitializeAsync();
+            await TopMostService.InitializeTopMostValueAsync();
+
+            await NotificationService.InitializeNotificationAsync();
         }
     }
 }

@@ -408,7 +408,6 @@
                                 IsTabStop="False"
                                 Opacity="0"
                                 Template="{StaticResource HorizontalIncrementTemplate}" />
-
                         </Grid>
                         <Grid
                             x:Name="HorizontalPanningRoot"
@@ -424,7 +423,6 @@
                                 VerticalAlignment="Bottom"
                                 Background="{ThemeResource ScrollBarPanningThumbBackground}"
                                 BorderThickness="0" />
-
                         </Grid>
                         <Grid
                             x:Name="VerticalRoot"
@@ -510,7 +508,6 @@
                                 IsTabStop="False"
                                 Opacity="0"
                                 Template="{StaticResource VerticalIncrementTemplate}" />
-
                         </Grid>
                         <Grid
                             x:Name="VerticalPanningRoot"
@@ -526,7 +523,6 @@
                                 VerticalAlignment="Top"
                                 Background="{ThemeResource ScrollBarPanningThumbBackground}"
                                 BorderThickness="0" />
-
                         </Grid>
 
                         <VisualStateManager.VisualStateGroups>
@@ -547,7 +543,6 @@
                                         <Setter Target="VerticalPanningThumb.Background" Value="{ThemeResource ScrollBarPanningThumbBackgroundDisabled}" />
                                     </VisualState.Setters>
                                 </VisualState>
-
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="ScrollingIndicatorStates">
                                 <VisualState x:Name="TouchIndicator">
@@ -701,7 +696,6 @@
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
-
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="ConsciousStates">
 
@@ -1139,12 +1133,9 @@
                                             Duration="0" />
                                     </Storyboard>
                                 </VisualState>
-
                             </VisualStateGroup>
-
                         </VisualStateManager.VisualStateGroups>
                     </Grid>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -1217,7 +1208,6 @@
                                 Grid.Column="1"
                                 Background="{ThemeResource ScrollViewerScrollBarSeparatorBackground}"
                                 Opacity="0" />
-
                         </Grid>
 
                         <VisualStateManager.VisualStateGroups>
@@ -1359,7 +1349,6 @@
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
-
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="ScrollBarSeparatorStates">
 
@@ -1410,12 +1399,9 @@
                                             Duration="0" />
                                     </Storyboard>
                                 </VisualState>
-
                             </VisualStateGroup>
-
                         </VisualStateManager.VisualStateGroups>
                     </Border>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

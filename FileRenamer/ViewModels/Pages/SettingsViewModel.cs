@@ -1,6 +1,7 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
 using FileRenamer.Models.Controls.Settings.Appearance;
 using FileRenamer.Services.Controls.Settings.Appearance;
+using FileRenamer.Services.Controls.Settings.Common;
 using FileRenamer.Services.Window;
 using FileRenamer.ViewModels.Base;
 using FileRenamer.Views.CustomControls.DialogsAndFlyouts;
@@ -44,6 +45,32 @@ namespace FileRenamer.ViewModels.Pages
             }
         }
 
+        private bool _topMostValue = TopMostService.TopMostValue;
+
+        public bool TopMostValue
+        {
+            get { return _topMostValue; }
+
+            set
+            {
+                _topMostValue = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _notification = NotificationService.AppNotification;
+
+        public bool Notification
+        {
+            get { return _notification; }
+
+            set
+            {
+                _notification = value;
+                OnPropertyChanged();
+            }
+        }
+
         public List<ThemeModel> ThemeList { get; } = ThemeService.ThemeList;
 
         public List<LanguageModel> LanguageList { get; } = LanguageService.LanguageList;
@@ -54,6 +81,19 @@ namespace FileRenamer.ViewModels.Pages
         public void OnLanguageTipClicked(object sender, RoutedEventArgs args)
         {
             NavigationService.NavigateTo(typeof(AboutPage), AppNaviagtionArgs.SettingsHelp);
+        }
+
+        /// <summary>
+        /// 设置是否开启应用通知
+        /// </summary>
+        public async void OnNotificationToggled(object sender, RoutedEventArgs args)
+        {
+            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+            if (toggleSwitch is not null)
+            {
+                await NotificationService.SetNotificationAsync(toggleSwitch.IsOn);
+                Notification = toggleSwitch.IsOn;
+            }
         }
 
         /// <summary>
@@ -79,6 +119,14 @@ namespace FileRenamer.ViewModels.Pages
         }
 
         /// <summary>
+        /// 打开系统通知设置
+        /// </summary>
+        public async void OnSettingsNotificationClicked(object sender, RoutedEventArgs args)
+        {
+            await Launcher.LaunchUriAsync(new Uri("ms-settings:notifications"));
+        }
+
+        /// <summary>
         /// 主题修改设置
         /// </summary>
         public async void OnThemeSelectClicked(object sender, RoutedEventArgs args)
@@ -89,6 +137,20 @@ namespace FileRenamer.ViewModels.Pages
                 Theme = ThemeList[Convert.ToInt32(item.Tag)];
                 await ThemeService.SetThemeAsync(Theme);
                 ThemeService.SetWindowTheme();
+            }
+        }
+
+        /// <summary>
+        /// 是否开启应用窗口置顶
+        /// </summary>
+        public async void OnTopMostToggled(object sender, RoutedEventArgs args)
+        {
+            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+            if (toggleSwitch is not null)
+            {
+                await TopMostService.SetTopMostValueAsync(toggleSwitch.IsOn);
+                TopMostService.SetAppTopMost();
+                TopMostValue = toggleSwitch.IsOn;
             }
         }
     }
