@@ -75,7 +75,7 @@ namespace FileRenamer.Services.Controls.Settings.Appearance
         /// </summary>
         public static void SetWindowTheme()
         {
-            MainPage.Current.ViewModel.WindowTheme = (ElementTheme)Enum.Parse(typeof(ElementTheme), AppTheme.InternalName);
+            Program.MainWindow.MainPage.ViewModel.WindowTheme = (ElementTheme)Enum.Parse(typeof(ElementTheme), AppTheme.InternalName);
         }
     }
 }

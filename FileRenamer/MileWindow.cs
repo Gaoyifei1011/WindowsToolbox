@@ -21,6 +21,8 @@ namespace FileRenamer
 
         private WindowsXamlHost MileXamlHost = new WindowsXamlHost();
 
+        public MainPage MainPage { get; private set; } = new MainPage();
+
         public MileWindow()
         {
             InitializeComponent();
@@ -31,11 +33,13 @@ namespace FileRenamer
             Icon = Icon.ExtractAssociatedIcon(string.Format(@"{0}\{1}", InfoHelper.GetAppInstalledLocation(), @"FileRenamer.exe"));
             MaximizeBox = false;
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            BackColor = Color.FromArgb(30, 60, 90);
+            TransparencyKey = Color.FromArgb(30, 60, 90);
 
             Controls.Add(MileXamlHost);
             MileXamlHost.AutoSize = true;
             MileXamlHost.Dock = DockStyle.Fill;
-            MileXamlHost.Child = new MainPage();
+            MileXamlHost.Child = MainPage;
 
             Load += OnLoaded;
         }
@@ -43,6 +47,7 @@ namespace FileRenamer
         private void OnLoaded(object sender, EventArgs args)
         {
             ThemeService.SetWindowTheme();
+            BackdropService.SetAppBackdrop();
             TopMostService.SetAppTopMost();
         }
 
@@ -61,7 +66,7 @@ namespace FileRenamer
                 // 窗口移动时的事件
                 case (int)WindowMessage.WM_MOVE:
                     {
-                        IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(MainPage.Current.XamlRoot);
+                        IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(Program.MainWindow.MainPage.XamlRoot);
                         foreach (Popup popup in PopupRoot)
                         {
                             if (popup.Child as MenuFlyoutPresenter != null)

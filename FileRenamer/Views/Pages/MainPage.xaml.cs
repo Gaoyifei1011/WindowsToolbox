@@ -12,11 +12,8 @@ namespace FileRenamer.Views.Pages
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public static MainPage Current { get; private set; }
-
         public MainPage()
         {
-            Current = this;
             InitializeComponent();
             NavigationService.NavigationFrame = MainFrame;
         }

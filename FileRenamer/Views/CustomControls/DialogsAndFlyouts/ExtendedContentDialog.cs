@@ -18,7 +18,7 @@ namespace FileRenamer.Views.CustomControls.DialogsAndFlyouts
             if (!IsDialogOpening)
             {
                 IsDialogOpening = true;
-                XamlRoot = MainPage.Current.XamlRoot;
+                XamlRoot = Program.MainWindow.MainPage.XamlRoot;
                 dialogResult = await base.ShowAsync();
                 IsDialogOpening = false;
             }

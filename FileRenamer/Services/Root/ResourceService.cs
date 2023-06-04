@@ -24,6 +24,8 @@ namespace FileRenamer.Services.Root
 
         private static ResourceMap ResourceMap { get; } = ResourceManager.Current.MainResourceMap;
 
+        public static List<BackdropModel> BackdropList { get; } = new List<BackdropModel>();
+
         public static List<ThemeModel> ThemeList { get; } = new List<ThemeModel>();
 
         /// <summary>
@@ -47,6 +49,7 @@ namespace FileRenamer.Services.Root
         /// </summary>
         public static void LocalizeReosurce()
         {
+            InitializeBackdropList();
             InitializeThemeList();
         }
 
@@ -69,6 +72,36 @@ namespace FileRenamer.Services.Root
             {
                 DisplayName = GetLocalized("Settings/ThemeDark"),
                 InternalName = Convert.ToString(ElementTheme.Dark)
+            });
+        }
+
+        /// <summary>
+        /// 初始化应用背景色信息列表
+        /// </summary>
+        private static void InitializeBackdropList()
+        {
+            BackdropList.Add(new BackdropModel
+            {
+                DisplayName = GetLocalized("Settings/BackdropDefault"),
+                InternalName = "Default"
+            });
+
+            BackdropList.Add(new BackdropModel
+            {
+                DisplayName = GetLocalized("Settings/BackdropMica"),
+                InternalName = "Mica"
+            });
+
+            BackdropList.Add(new BackdropModel
+            {
+                DisplayName = GetLocalized("Settings/BackdropMicaAlt"),
+                InternalName = "MicaAlt"
+            });
+
+            BackdropList.Add(new BackdropModel
+            {
+                DisplayName = GetLocalized("Settings/BackdropAcrylic"),
+                InternalName = "Acrylic"
             });
         }
 

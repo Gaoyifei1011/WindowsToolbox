@@ -37,12 +37,13 @@ namespace FileRenamer.ViewModels.Pages
         //项目引用信息
         public List<ReferenceKeyValuePairModel> ReferenceDict = new List<ReferenceKeyValuePairModel>()
         {
-            new ReferenceKeyValuePairModel() {Key = "Mile.Xaml" ,Value = "https://github.com/ProjectMile/Mile.Xaml" },
+            new ReferenceKeyValuePairModel() {Key = "Mile.Xaml" , Value = "https://github.com/ProjectMile/Mile.Xaml" }
         };
 
         public List<ThanksKeyValuePairModel> ThanksDict = new List<ThanksKeyValuePairModel>()
         {
-            new ThanksKeyValuePairModel(){Key = "MouriNaruto" ,Value = "https://github.com/MouriNaruto" },
+            new ThanksKeyValuePairModel() { Key ="AndromedaMelody", Value="https://github.com/AndromedaMelody"},
+            new ThanksKeyValuePairModel() { Key = "MouriNaruto" , Value = "https://github.com/MouriNaruto" }
         };
 
         /// <summary>

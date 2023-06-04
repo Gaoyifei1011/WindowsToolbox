@@ -136,7 +136,7 @@
             </Grid>
 
             <!--  应用简介用户控件  -->
-            <layout:Expander Style="{StaticResource ExpanderAboutStyle}">
+            <layout:Expander Style="{StaticResource ExpanderAboutStyle}" Visibility="Collapsed">
                 <layout:Expander.Header>
                     <TextBlock Style="{StaticResource ExpanderHeaderStyle}" Text="{x:Bind root:ResourceService.GetLocalized('About/BriefIntroduction')}" />
                 </layout:Expander.Header>
@@ -183,26 +183,27 @@
             </layout:Expander>
 
             <!--  使用说明控件  -->
-            <layout:Expander Style="{StaticResource ExpanderAboutStyle}">
+            <layout:Expander Style="{StaticResource ExpanderAboutStyle}" Visibility="Collapsed">
                 <layout:Expander.Header>
                     <TextBlock Style="{StaticResource ExpanderHeaderStyle}" Text="{x:Bind root:ResourceService.GetLocalized('About/UseInstruction')}" />
                 </layout:Expander.Header>
             </layout:Expander>
 
             <!--  注意事项用户控件  -->
-            <layout:Expander Style="{StaticResource ExpanderAboutStyle}">
+            <layout:Expander Style="{StaticResource ExpanderAboutStyle}" Visibility="Collapsed">
                 <layout:Expander.Header>
                     <TextBlock Style="{StaticResource ExpanderHeaderStyle}" Text="{x:Bind root:ResourceService.GetLocalized('About/Precaution')}" />
                 </layout:Expander.Header>
             </layout:Expander>
 
             <!--  设置选项说明用户控件  -->
-            <layout:Expander Style="{StaticResource ExpanderAboutStyle}">
+            <layout:Expander Style="{StaticResource ExpanderAboutStyle}" Visibility="Collapsed">
                 <layout:Expander.Header>
                     <TextBlock Style="{StaticResource ExpanderHeaderStyle}" Text="{x:Bind root:ResourceService.GetLocalized('About/SettingsHelp')}" />
                 </layout:Expander.Header>
             </layout:Expander>
 
+            <!--  感谢用户控件  -->
             <layout:Expander Style="{StaticResource ExpanderAboutStyle}">
                 <layout:Expander.Header>
                     <TextBlock Style="{StaticResource ExpanderHeaderStyle}" Text="{x:Bind root:ResourceService.GetLocalized('About/ThanksTitle')}" />

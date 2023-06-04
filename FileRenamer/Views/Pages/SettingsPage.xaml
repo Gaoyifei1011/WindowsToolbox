@@ -2,7 +2,7 @@
     x:Class="FileRenamer.Views.Pages.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:basicinput="using:FileRenamer.Views.CustomControls.BasicInput"
+    xmlns:controlExtensions="using:FileRenamer.Helpers.Controls.Extensions"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogsAndFlyouts="using:FileRenamer.Views.CustomControls.DialogsAndFlyouts"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -139,6 +139,110 @@
                 </DropDownButton>
             </Grid>
 
+            <!--  窗口背景材质设置用户控件  -->
+            <Grid Style="{StaticResource CardGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <FontIcon
+                    Grid.Column="0"
+                    FontFamily="{StaticResource SegoeFluentFontFamily}"
+                    Glyph="&#xE771;"
+                    Style="{StaticResource FontIconStyle}" />
+
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind root:ResourceService.GetLocalized('Settings/Backdrop')}" />
+
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{x:Bind root:ResourceService.GetLocalized('Settings/BackdropDescription')}" />
+                </StackPanel>
+
+                <DropDownButton
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Content="{x:Bind ViewModel.Backdrop.DisplayName, Mode=OneWay}">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            Content="{x:Bind ViewModel.Backdrop.DisplayName, Mode=OneWay}"
+                            Placement="Bottom"
+                            VerticalOffset="20" />
+                    </ToolTipService.ToolTip>
+
+                    <DropDownButton.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <dialogsAndFlyouts:RadioMenuFlyoutItem
+                                Click="{x:Bind ViewModel.OnBackdropSelectClicked}"
+                                GroupName="BackdropSetting"
+                                IsChecked="{x:Bind IsItemChecked(ViewModel.Backdrop.InternalName, ViewModel.BackdropList[0].InternalName), Mode=OneWay}"
+                                Tag="0"
+                                Text="{x:Bind ViewModel.BackdropList[0].DisplayName}">
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        Content="{x:Bind ViewModel.BackdropList[0].DisplayName}"
+                                        Placement="Bottom"
+                                        VerticalOffset="20" />
+                                </ToolTipService.ToolTip>
+                            </dialogsAndFlyouts:RadioMenuFlyoutItem>
+
+                            <dialogsAndFlyouts:RadioMenuFlyoutItem
+                                Click="{x:Bind ViewModel.OnBackdropSelectClicked}"
+                                GroupName="BackdropSetting"
+                                IsChecked="{x:Bind IsItemChecked(ViewModel.Backdrop.InternalName, ViewModel.BackdropList[1].InternalName), Mode=OneWay}"
+                                Tag="1"
+                                Text="{x:Bind ViewModel.BackdropList[1].DisplayName}">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        Content="{x:Bind ViewModel.BackdropList[1].DisplayName}"
+                                        Placement="Bottom"
+                                        VerticalOffset="20" />
+                                </ToolTipService.ToolTip>
+                            </dialogsAndFlyouts:RadioMenuFlyoutItem>
+
+                            <dialogsAndFlyouts:RadioMenuFlyoutItem
+                                Click="{x:Bind ViewModel.OnBackdropSelectClicked}"
+                                GroupName="BackdropSetting"
+                                IsChecked="{x:Bind IsItemChecked(ViewModel.Backdrop.InternalName, ViewModel.BackdropList[2].InternalName), Mode=OneWay}"
+                                Tag="2"
+                                Text="{x:Bind ViewModel.BackdropList[2].DisplayName}">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        Content="{x:Bind ViewModel.BackdropList[2].DisplayName}"
+                                        Placement="Bottom"
+                                        VerticalOffset="20" />
+                                </ToolTipService.ToolTip>
+                            </dialogsAndFlyouts:RadioMenuFlyoutItem>
+
+                            <dialogsAndFlyouts:RadioMenuFlyoutItem
+                                Click="{x:Bind ViewModel.OnBackdropSelectClicked}"
+                                GroupName="BackdropSetting"
+                                IsChecked="{x:Bind IsItemChecked(ViewModel.Backdrop.InternalName, ViewModel.BackdropList[3].InternalName), Mode=OneWay}"
+                                Tag="3"
+                                Text="{x:Bind ViewModel.BackdropList[3].DisplayName}">
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        Content="{x:Bind ViewModel.BackdropList[3].DisplayName}"
+                                        Placement="Bottom"
+                                        VerticalOffset="20" />
+                                </ToolTipService.ToolTip>
+                            </dialogsAndFlyouts:RadioMenuFlyoutItem>
+                        </MenuFlyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
+            </Grid>
+
             <!--  界面语言设置用户控件  -->
             <Grid Style="{StaticResource CardGridStyle}">
                 <Grid.ColumnDefinitions>
@@ -168,19 +272,19 @@
                         Text="{x:Bind root:ResourceService.GetLocalized('Settings/LanguageDescription')}" />
                 </StackPanel>
 
-                <basicinput:ExtendedButton
+                <Button
                     Grid.Column="2"
                     VerticalAlignment="Center"
+                    controlExtensions:CursorHelper.Cursor="Hand"
                     Click="{x:Bind ViewModel.OnLanguageTipClicked}"
-                    Cursor="Hand"
                     Style="{StaticResource ButtonInfoStyle}">
 
-                    <basicinput:ExtendedButton.Content>
+                    <Button.Content>
                         <FontIcon
                             FontSize="16"
                             Glyph="&#xE946;"
                             Style="{StaticResource SegoeFluentStyle}" />
-                    </basicinput:ExtendedButton.Content>
+                    </Button.Content>
 
                     <ToolTipService.ToolTip>
                         <ToolTip
@@ -188,7 +292,7 @@
                             Placement="Bottom"
                             VerticalOffset="25" />
                     </ToolTipService.ToolTip>
-                </basicinput:ExtendedButton>
+                </Button>
 
                 <ComboBox
                     Grid.Column="3"
@@ -239,6 +343,7 @@
                 <ToggleSwitch
                     Grid.Column="2"
                     MinWidth="0"
+                    controlExtensions:CursorHelper.Cursor="Hand"
                     FlowDirection="RightToLeft"
                     IsOn="{x:Bind ViewModel.TopMostValue, Mode=OneWay}"
                     OffContent="{x:Bind root:ResourceService.GetLocalized('Settings/TopMostOffContent')}"
@@ -299,18 +404,13 @@
                 <ToggleSwitch
                     Grid.Column="3"
                     MinWidth="0"
+                    controlExtensions:CursorHelper.Cursor="Hand"
                     FlowDirection="RightToLeft"
                     IsOn="{x:Bind ViewModel.Notification, Mode=OneWay}"
                     OffContent="{x:Bind root:ResourceService.GetLocalized('Settings/NotificationOffContent')}"
                     OnContent="{x:Bind root:ResourceService.GetLocalized('Settings/NotificationOnContent')}"
                     Toggled="{x:Bind ViewModel.OnNotificationToggled}" />
             </Grid>
-
-            <TextBlock
-                Margin="0,0,0,5"
-                FontSize="16"
-                Style="{StaticResource BodyTextBlockStyle}"
-                Text="{x:Bind root:ResourceService.GetLocalized('Settings/Advanced')}" />
         </StackPanel>
     </ScrollViewer>
 </Page>

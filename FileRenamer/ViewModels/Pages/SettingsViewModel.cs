@@ -32,6 +32,19 @@ namespace FileRenamer.ViewModels.Pages
             }
         }
 
+        private BackdropModel _backdrop = BackdropService.AppBackdrop;
+
+        public BackdropModel Backdrop
+        {
+            get { return _backdrop; }
+
+            set
+            {
+                _backdrop = value;
+                OnPropertyChanged();
+            }
+        }
+
         private LanguageModel _language = LanguageService.AppLanguage;
 
         public LanguageModel Language
@@ -73,7 +86,23 @@ namespace FileRenamer.ViewModels.Pages
 
         public List<ThemeModel> ThemeList { get; } = ThemeService.ThemeList;
 
+        public List<BackdropModel> BackdropList { get; } = BackdropService.BackdropList;
+
         public List<LanguageModel> LanguageList { get; } = LanguageService.LanguageList;
+
+        /// <summary>
+        /// 背景色修改设置
+        /// </summary>
+        public async void OnBackdropSelectClicked(object sender, RoutedEventArgs args)
+        {
+            RadioMenuFlyoutItem item = sender as RadioMenuFlyoutItem;
+            if (item.Tag is not null)
+            {
+                Backdrop = BackdropList[Convert.ToInt32(item.Tag)];
+                await BackdropService.SetBackdropAsync(Backdrop);
+                BackdropService.SetAppBackdrop();
+            }
+        }
 
         /// <summary>
         /// 语言设置说明

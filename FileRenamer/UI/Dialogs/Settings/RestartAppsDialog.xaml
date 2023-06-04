@@ -5,14 +5,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogViewModel="using:FileRenamer.ViewModels.Dialogs.Settings"
     xmlns:dialogsAndFlyouts="using:FileRenamer.Views.CustomControls.DialogsAndFlyouts"
+    xmlns:fileRenamer="using:FileRenamer"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:page="using:FileRenamer.Views.Pages"
     xmlns:root="using:FileRenamer.Services.Root"
     Title="{x:Bind root:ResourceService.GetLocalized('Dialog/Restart')}"
     CloseButtonText="{x:Bind root:ResourceService.GetLocalized('Dialog/Cancel')}"
     PrimaryButtonClick="{x:Bind ViewModel.OnRestartAppsClicked}"
     PrimaryButtonText="{x:Bind root:ResourceService.GetLocalized('Dialog/OK')}"
-    RequestedTheme="{x:Bind page:MainPage.Current.ViewModel.WindowTheme, Mode=OneWay}"
+    RequestedTheme="{x:Bind fileRenamer:Program.MainWindow.MainPage.ViewModel.WindowTheme, Mode=OneWay}"
     Style="{StaticResource ContentDialogStyle}"
     mc:Ignorable="d">
 

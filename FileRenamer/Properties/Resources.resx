@@ -132,6 +132,10 @@
   <data name="AppDisplayName" xml:space="preserve">
     <value>FileRenamer</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="LICENSE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Assets\Resources\LICENSE;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="ResourcesInitializeFailed" xml:space="preserve">
     <value>Have you forgot to initialize app's resources?</value>
   </data>

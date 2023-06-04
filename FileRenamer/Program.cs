@@ -4,7 +4,9 @@ using FileRenamer.Services.Controls.Settings.Appearance;
 using FileRenamer.Services.Controls.Settings.Common;
 using FileRenamer.Services.Root;
 using FileRenamer.WindowsAPI.PInvoke.Comctl32;
+using FileRenamer.WindowsAPI.PInvoke.User32;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -34,7 +36,19 @@ namespace FileRenamer
             CheckAppBootState();
 
             bool isExists = Mutex.TryOpenExisting(Assembly.GetExecutingAssembly().GetName().Name, out AppMutex);
-            if (isExists && AppMutex is not null) { return; }
+            if (isExists && AppMutex is not null)
+            {
+                Process[] FileRenamerProcessList = Process.GetProcessesByName("FileRenamer");
+
+                foreach (Process processItem in FileRenamerProcessList)
+                {
+                    if (processItem.MainWindowHandle != IntPtr.Zero)
+                    {
+                        User32Library.SetForegroundWindow(processItem.MainWindowHandle);
+                    }
+                }
+                return;
+            }
             else
             {
                 AppMutex = new Mutex(true, Assembly.GetExecutingAssembly().GetName().Name);
@@ -156,6 +170,7 @@ namespace FileRenamer
             InfoHelper.InitializeAppVersion();
             InfoHelper.InitializeSystemVersion();
 
+            await BackdropService.InitializeBackdropAsync();
             await ThemeService.InitializeAsync();
             await TopMostService.InitializeTopMostValueAsync();
 
