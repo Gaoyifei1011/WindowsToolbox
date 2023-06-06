@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
 
-namespace FileRenamer.ViewModels.Dialogs.Settings
+namespace FileRenamer.ViewModels.Dialogs
 {
     /// <summary>
     /// 应用重启对话框视图模型

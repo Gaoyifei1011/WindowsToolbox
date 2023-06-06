@@ -1,0 +1,28 @@
+﻿<dialogsAndFlyouts:ExtendedContentDialog
+    x:Class="FileRenamer.UI.Dialogs.LicenseDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:fileRenamer="using:FileRenamer"
+    xmlns:root="using:FileRenamer.Services.Root"
+    xmlns:dialogViewModel="using:FileRenamer.ViewModels.Dialogs"
+    xmlns:dialogsAndFlyouts="using:FileRenamer.Views.CustomControls.DialogsAndFlyouts"
+    Title="{x:Bind root:ResourceService.GetLocalized('Dialog/License11')}"
+    CloseButtonText="{x:Bind root:ResourceService.GetLocalized('Dialog/CloseDialog')}"
+    Loading="{x:Bind ViewModel.OnLoading}"
+    RequestedTheme="{x:Bind fileRenamer:Program.MainWindow.MainPage.ViewModel.WindowTheme, Mode=OneWay}"
+    Style="{StaticResource ContentDialogStyle}"
+    mc:Ignorable="d">
+
+    <dialogsAndFlyouts:ExtendedContentDialog.DataContext>
+        <dialogViewModel:LicenseViewModel x:Name="ViewModel" />
+    </dialogsAndFlyouts:ExtendedContentDialog.DataContext>
+
+    <TextBox
+        IsReadOnly="True"
+        ScrollViewer.VerticalScrollBarVisibility="Auto"
+        ScrollViewer.VerticalScrollMode="Enabled"
+        Text="{x:Bind ViewModel.LicenseText, Mode=OneWay}"
+        TextWrapping="Wrap" />
+</dialogsAndFlyouts:ExtendedContentDialog>

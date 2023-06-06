@@ -48,9 +48,6 @@ namespace FileRenamer.Views.CustomControls.Layout
         public static readonly DependencyProperty NegativeContentHeightProperty =
             DependencyProperty.Register("NegativeContentHeight", typeof(double), typeof(Expander), new PropertyMetadata(0.0));
 
-        public Expander()
-        { }
-
         protected override void OnApplyTemplate()
         {
             Border expanderContentClip = (Border)GetTemplateChild("ExpanderContentClip");

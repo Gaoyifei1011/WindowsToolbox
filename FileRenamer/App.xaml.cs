@@ -1,15 +1,14 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Root;
-using FileRenamer.WindowsAPI.PInvoke.Comctl32;
 using System;
 using System.Text;
-using Windows.UI.Xaml;
+using System.Windows.Forms;
 using Windows.UI.Xaml.Hosting;
 
 namespace FileRenamer
 {
-    public sealed partial class App : Application
+    public sealed partial class App : Windows.UI.Xaml.Application
     {
         private WindowsXamlManager WindowsXamlManager { get; set; }
 
@@ -25,19 +24,17 @@ namespace FileRenamer
         /// </summary>
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs args)
         {
-            Comctl32Library.TaskDialog(
-                Program.MainWindow.Handle,
-                IntPtr.Zero,
+            DialogResult Result = MessageBox.Show(
+                ResourceService.GetLocalized("MessageInfo/Title") + Environment.NewLine +
+                ResourceService.GetLocalized("MessageInfo/Content1") + Environment.NewLine +
+                ResourceService.GetLocalized("MessageInfo/Content2"),
                 ResourceService.GetLocalized("Resources/AppDisplayName"),
-                ResourceService.GetLocalized("MessageInfo/Title"),
-                ResourceService.GetLocalized("MessageInfo/Content1") + Environment.NewLine + ResourceService.GetLocalized("MessageInfo/Content2"),
-                TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_OK_BUTTON | TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_CANCEL_BUTTON,
-                TASKDIALOGICON.TD_SHIELD_ERROR_RED_BAR,
-                out TaskDialogResult Result
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Error
                 );
 
             // 复制异常信息到剪贴板
-            if (Result == TaskDialogResult.IDOK)
+            if (Result == DialogResult.OK)
             {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.AppendLine("HelpLink:" + args.Exception.HelpLink);

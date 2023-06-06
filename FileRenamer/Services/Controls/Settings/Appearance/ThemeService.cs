@@ -1,7 +1,6 @@
 ﻿using FileRenamer.Extensions.DataType.Constant;
 using FileRenamer.Models.Controls.Settings.Appearance;
 using FileRenamer.Services.Root;
-using FileRenamer.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;

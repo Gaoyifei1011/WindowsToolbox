@@ -3,7 +3,7 @@ using FileRenamer.Views.CustomControls.DialogsAndFlyouts;
 using System;
 using Windows.UI.Xaml;
 
-namespace FileRenamer.UI.Dialogs.Settings
+namespace FileRenamer.UI.Dialogs
 {
     /// <summary>
     /// 应用重启对话框视图

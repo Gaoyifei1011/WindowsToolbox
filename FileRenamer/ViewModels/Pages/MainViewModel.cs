@@ -1,15 +1,17 @@
-﻿using FileRenamer.Models.Window;
+﻿using FileRenamer.Extensions.DataType.Enums;
+using FileRenamer.Models.Window;
 using FileRenamer.Services.Root;
 using FileRenamer.Services.Window;
-using FileRenamer.UI.Dialogs.Settings;
+using FileRenamer.UI.Dialogs;
+using FileRenamer.UI.Notifications;
 using FileRenamer.ViewModels.Base;
 using FileRenamer.Views.Pages;
 using IWshRuntimeLibrary;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
-using Windows.System;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -196,15 +198,22 @@ namespace FileRenamer.ViewModels.Pages
         /// </summary>
         public async void OnCreateDesktopShortcutClicked(object sender, RoutedEventArgs args)
         {
-            //bool IsCreatedSuccessfully = false;
-
-            IWshShell shell = new WshShell();
-            WshShortcut AppShortcut = (WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), ResourceService.GetLocalized("Resources/AppDisplayName")));
-            IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
-            AppListEntry DefaultEntry = AppEntries[0];
-            AppShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", DefaultEntry.AppUserModelId);
-            AppShortcut.Save();
-            //new QuickOperationNotification(QuickOperationType.DesktopShortcut, IsCreatedSuccessfully).Show();
+            bool IsCreatedSuccessfully = false;
+            try
+            {
+                IWshShell shell = new WshShell();
+                WshShortcut AppShortcut = (WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), ResourceService.GetLocalized("Resources/AppDisplayName")));
+                IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
+                AppListEntry DefaultEntry = AppEntries[0];
+                AppShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", DefaultEntry.AppUserModelId);
+                AppShortcut.Save();
+                IsCreatedSuccessfully = true;
+            }
+            catch (Exception) { }
+            finally
+            {
+                new QuickOperationNotification(QuickOperationType.DesktopShortcut, IsCreatedSuccessfully).Show();
+            }
         }
 
         /// <summary>
@@ -212,7 +221,7 @@ namespace FileRenamer.ViewModels.Pages
         /// </summary>
         public async void OnPinToStartScreenClicked(object sender, RoutedEventArgs args)
         {
-            //bool IsPinnedSuccessfully = false;
+            bool IsPinnedSuccessfully = false;
 
             try
             {
@@ -231,11 +240,12 @@ namespace FileRenamer.ViewModels.Pages
                         await startScreenManager.RequestAddAppListEntryAsync(DefaultEntry);
                     }
                 }
-                //IsPinnedSuccessfully = true;
+                IsPinnedSuccessfully = true;
             }
-            catch (Exception)
+            catch (Exception) { }
+            finally
             {
-                //new QuickOperationNotification(QuickOperationType.StartScreen, IsPinnedSuccessfully).Show();
+                new QuickOperationNotification(QuickOperationType.StartScreen, IsPinnedSuccessfully).Show();
             }
         }
 
@@ -245,17 +255,17 @@ namespace FileRenamer.ViewModels.Pages
         /// <summary>
         /// 查看许可证
         /// </summary>
-        public void OnShowLicenseClicked(object sender, RoutedEventArgs args)
+        public async void OnShowLicenseClicked(object sender, RoutedEventArgs args)
         {
-            //await new LicenseDialog().ShowAsync();
+            await new LicenseDialog().ShowAsync();
         }
 
         /// <summary>
         /// 查看更新日志
         /// </summary>
-        public async void OnShowReleaseNotesClicked(object sender, RoutedEventArgs args)
+        public void OnShowReleaseNotesClicked(object sender, RoutedEventArgs args)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Gaoyifei1011/FileRenamer/releases"));
+            Process.Start("explorer.exe", "https://github.com/Gaoyifei1011/FileRenamer/releases");
         }
     }
 }

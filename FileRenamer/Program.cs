@@ -3,7 +3,6 @@ using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Controls.Settings.Appearance;
 using FileRenamer.Services.Controls.Settings.Common;
 using FileRenamer.Services.Root;
-using FileRenamer.WindowsAPI.PInvoke.Comctl32;
 using FileRenamer.WindowsAPI.PInvoke.User32;
 using System;
 using System.Diagnostics;
@@ -61,6 +60,8 @@ namespace FileRenamer
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
             ApplicationRoot = new App();
+            ResourceDictionaryHelper.InitializeResourceDictionary();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -76,16 +77,16 @@ namespace FileRenamer
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(CultureInfo.CurrentCulture.Parent.Parent.Name);
             if (!RuntimeHelper.IsMsix())
             {
-                Comctl32Library.TaskDialog(
-                    IntPtr.Zero,
-                    IntPtr.Zero,
+                MessageBox.Show(
+                    Properties.Resources.AppBootFailed + Environment.NewLine +
+                    Properties.Resources.AppBootFailedContent1 + Environment.NewLine +
+                    Properties.Resources.AppBootFailedContent2 + Environment.NewLine +
+                    Properties.Resources.AppBootFailedContent3,
                     Properties.Resources.AppDisplayName,
-                    Properties.Resources.AppBootFailed,
-                    Properties.Resources.AppBootFailedContent1 + Environment.NewLine + Properties.Resources.AppBootFailedContent2 + Environment.NewLine + Properties.Resources.AppBootFailedContent3,
-                    TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_OK_BUTTON,
-                    TASKDIALOGICON.TD_SHIELD_ERROR_RED_BAR,
-                    out TaskDialogResult Result
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
                     );
+
                 Environment.Exit(Convert.ToInt32(AppExitCode.Failed));
             }
         }
@@ -95,19 +96,17 @@ namespace FileRenamer
         /// </summary>
         private static void OnThreadException(object sender, ThreadExceptionEventArgs args)
         {
-            Comctl32Library.TaskDialog(
-                    MainWindow.Handle,
-                    IntPtr.Zero,
-                    ResourceService.GetLocalized("Resources/AppDisplayName"),
-                    ResourceService.GetLocalized("MessageInfo/Title"),
-                    ResourceService.GetLocalized("MessageInfo/Content1") + Environment.NewLine + ResourceService.GetLocalized("MessageInfo/Content2"),
-                    TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_OK_BUTTON | TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_CANCEL_BUTTON,
-                    TASKDIALOGICON.TD_SHIELD_ERROR_RED_BAR,
-                    out TaskDialogResult Result
-                    );
+            DialogResult Result = MessageBox.Show(
+                ResourceService.GetLocalized("MessageInfo/Title") + Environment.NewLine +
+                ResourceService.GetLocalized("MessageInfo/Content1") + Environment.NewLine +
+                ResourceService.GetLocalized("MessageInfo/Content2"),
+                ResourceService.GetLocalized("Resources/AppDisplayName"),
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Error
+                );
 
             // 复制异常信息到剪贴板
-            if (Result == TaskDialogResult.IDOK)
+            if (Result == DialogResult.OK)
             {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.AppendLine("HelpLink:" + args.Exception.HelpLink);
@@ -127,19 +126,17 @@ namespace FileRenamer
         /// </summary>
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
-            Comctl32Library.TaskDialog(
-                MainWindow.Handle,
-                IntPtr.Zero,
+            DialogResult Result = MessageBox.Show(
+                ResourceService.GetLocalized("MessageInfo/Title") + Environment.NewLine +
+                ResourceService.GetLocalized("MessageInfo/Content1") + Environment.NewLine +
+                ResourceService.GetLocalized("MessageInfo/Content2"),
                 ResourceService.GetLocalized("Resources/AppDisplayName"),
-                ResourceService.GetLocalized("MessageInfo/Title"),
-                ResourceService.GetLocalized("MessageInfo/Content1") + Environment.NewLine + ResourceService.GetLocalized("MessageInfo/Content2"),
-                TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_OK_BUTTON | TASKDIALOG_COMMON_BUTTON_FLAGS.TDCBF_CANCEL_BUTTON,
-                TASKDIALOGICON.TD_SHIELD_ERROR_RED_BAR,
-                out TaskDialogResult Result
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Error
                 );
 
             // 复制异常信息到剪贴板
-            if (Result == TaskDialogResult.IDOK)
+            if (Result == DialogResult.OK)
             {
                 Exception exception = args.ExceptionObject as Exception;
                 if (exception is not null)
@@ -165,10 +162,6 @@ namespace FileRenamer
             await LanguageService.InitializeLanguageAsync();
             ResourceService.InitializeResource(LanguageService.DefaultAppLanguage, LanguageService.AppLanguage);
             ResourceService.LocalizeReosurce();
-
-            // 初始化应用版本和系统版本信息
-            InfoHelper.InitializeAppVersion();
-            InfoHelper.InitializeSystemVersion();
 
             await BackdropService.InitializeBackdropAsync();
             await ThemeService.InitializeAsync();

@@ -1,9 +1,8 @@
 ﻿using FileRenamer.Helpers.Root;
 using FileRenamer.Models.Controls.About;
 using FileRenamer.ViewModels.Base;
-using System;
 using System.Collections.Generic;
-using Windows.System;
+using System.Diagnostics;
 using Windows.UI.Xaml;
 
 namespace FileRenamer.ViewModels.Pages
@@ -13,13 +12,13 @@ namespace FileRenamer.ViewModels.Pages
     /// </summary>
     public sealed class AboutViewModel : ViewModelBase
     {
-        private readonly ushort MajorVersion = InfoHelper.GetAppVersion().MajorVersion;
+        private readonly int MajorVersion = InfoHelper.AppVersion.Major;
 
-        private readonly ushort MinorVersion = InfoHelper.GetAppVersion().MinorVersion;
+        private readonly int MinorVersion = InfoHelper.AppVersion.Minor;
 
-        private readonly ushort BuildVersion = InfoHelper.GetAppVersion().BuildVersion;
+        private readonly int BuildVersion = InfoHelper.AppVersion.Build;
 
-        private readonly ushort RevisionVersion = InfoHelper.GetAppVersion().RevisionVersion;
+        private readonly int RevisionVersion = InfoHelper.AppVersion.Revision;
 
         private string _appVersion;
 
@@ -49,17 +48,17 @@ namespace FileRenamer.ViewModels.Pages
         /// <summary>
         /// 检查更新
         /// </summary>
-        public async void OnCheckUpdateClicked(object sender, RoutedEventArgs args)
+        public void OnCheckUpdateClicked(object sender, RoutedEventArgs args)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Gaoyifei1011/FileRenamer/releases"));
+            Process.Start("explorer.exe", "https://github.com/Gaoyifei1011/FileRenamer/releases");
         }
 
         /// <summary>
         /// 开发者个人信息
         /// </summary>
-        public async void OnDeveloperDescriptionClicked(object sender, RoutedEventArgs args)
+        public void OnDeveloperDescriptionClicked(object sender, RoutedEventArgs args)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Gaoyifei1011"));
+            Process.Start("explorer.exe", "https://github.com/Gaoyifei1011");
         }
 
         /// <summary>
@@ -73,17 +72,17 @@ namespace FileRenamer.ViewModels.Pages
         /// <summary>
         /// 项目主页
         /// </summary>
-        public async void OnProjectDescriptionClicked(object sender, RoutedEventArgs args)
+        public void OnProjectDescriptionClicked(object sender, RoutedEventArgs args)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Gaoyifei1011/FileRenamer"));
+            Process.Start("explorer.exe", "https://github.com/Gaoyifei1011/FileRenamer");
         }
 
         /// <summary>
         /// 发送反馈
         /// </summary>
-        public async void OnSendFeedbackClicked(object sender, RoutedEventArgs args)
+        public void OnSendFeedbackClicked(object sender, RoutedEventArgs args)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Gaoyifei1011/FileRenamer/issues"));
+            Process.Start("explorer.exe", "https://github.com/Gaoyifei1011/FileRenamer/issues");
         }
     }
 }

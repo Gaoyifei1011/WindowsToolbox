@@ -117,28 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Cancel" xml:space="preserve">
-    <value>取消</value>
+  <data name="DesktopShortcutSuccessfully" xml:space="preserve">
+    <value>应用的桌面快捷方式已成功创建</value>
   </data>
-  <data name="CloseDialog" xml:space="preserve">
-    <value>关闭对话框</value>
+  <data name="DesktopShortFailed" xml:space="preserve">
+    <value>应用的桌面快捷方式创建失败，请手动创建</value>
   </data>
-  <data name="DPIChangedNotifyContent" xml:space="preserve">
-    <value>应用已监测到您的屏幕缩放比例发生了变化，为了确保您的应用能够正常运行，建议您重启应用</value>
+  <data name="LanguageChangeFailed" xml:space="preserve">
+    <value>语言设置修改失败，请重试</value>
   </data>
-  <data name="DPIChangedNotifyTitle" xml:space="preserve">
-    <value>屏幕缩放</value>
+  <data name="LanguageChangeSuccessfully" xml:space="preserve">
+    <value>语言设置修改成功，重启应用后生效</value>
   </data>
-  <data name="License" xml:space="preserve">
-    <value>文件重命名工具 许可证</value>
+  <data name="StartScreenFailed" xml:space="preserve">
+    <value>应用固定到“开始”屏幕失败，请手动固定</value>
   </data>
-  <data name="OK" xml:space="preserve">
-    <value>确定</value>
+  <data name="StartScreenSuccessfully" xml:space="preserve">
+    <value>已成功将应用固定到“开始”屏幕</value>
   </data>
-  <data name="Restart" xml:space="preserve">
-    <value>重启应用</value>
+  <data name="TaskbarFailed" xml:space="preserve">
+    <value>应用固定到任务栏失败，请手动固定</value>
   </data>
-  <data name="RestartContent" xml:space="preserve">
-    <value>应用即将重启，重启后应用的数据将会丢失，请确保您的工作内容已经全部保存。</value>
+  <data name="TaskbarSuccessfully" xml:space="preserve">
+    <value>已成功将应用固定到任务栏</value>
   </data>
 </root>

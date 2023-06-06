@@ -117,28 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Cancel" xml:space="preserve">
-    <value>取消</value>
+  <data name="DesktopShortcutSuccessfully" xml:space="preserve">
+    <value>The desktop shortcut for the app was created successfully</value>
   </data>
-  <data name="CloseDialog" xml:space="preserve">
-    <value>关闭对话框</value>
+  <data name="DesktopShortFailed" xml:space="preserve">
+    <value>The app's desktop shortcut failed to create, please create it manually</value>
   </data>
-  <data name="DPIChangedNotifyContent" xml:space="preserve">
-    <value>应用已监测到您的屏幕缩放比例发生了变化，为了确保您的应用能够正常运行，建议您重启应用</value>
+  <data name="LanguageChangeFailed" xml:space="preserve">
+    <value>Language setting modification failed, please try again</value>
   </data>
-  <data name="DPIChangedNotifyTitle" xml:space="preserve">
-    <value>屏幕缩放</value>
+  <data name="LanguageChangeSuccessfully" xml:space="preserve">
+    <value>The language setting is modified successfully and takes effect after restarting the application</value>
   </data>
-  <data name="License" xml:space="preserve">
-    <value>文件重命名工具 许可证</value>
+  <data name="StartScreenFailed" xml:space="preserve">
+    <value>App pinning to Start screen failed, please pin it manually</value>
   </data>
-  <data name="OK" xml:space="preserve">
-    <value>确定</value>
+  <data name="StartScreenSuccessfully" xml:space="preserve">
+    <value>You successfully pinned the app to the Start screen</value>
   </data>
-  <data name="Restart" xml:space="preserve">
-    <value>重启应用</value>
+  <data name="TaskbarFailed" xml:space="preserve">
+    <value>App pinning to taskbar failed. Please pin manually</value>
   </data>
-  <data name="RestartContent" xml:space="preserve">
-    <value>应用即将重启，重启后应用的数据将会丢失，请确保您的工作内容已经全部保存。</value>
+  <data name="TaskbarSuccessfully" xml:space="preserve">
+    <value>The app was successfully pinned to the taskbar</value>
   </data>
 </root>

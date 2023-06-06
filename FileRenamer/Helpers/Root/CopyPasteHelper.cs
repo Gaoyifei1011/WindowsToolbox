@@ -1,4 +1,5 @@
-﻿using Windows.ApplicationModel.DataTransfer;
+﻿using System;
+using System.Windows.Forms;
 
 namespace FileRenamer.Helpers.Root
 {
@@ -7,19 +8,21 @@ namespace FileRenamer.Helpers.Root
     /// </summary>
     public static class CopyPasteHelper
     {
-        private static DataPackage DataPackage { get; } = new DataPackage();
-
         /// <summary>
         /// 复制到剪贴板
         /// </summary>
         /// <param name="content">复制到剪贴板的内容</param>
-        public static void CopyToClipBoard(string content)
+        public static bool CopyToClipBoard(string content)
         {
-            DataPackage.RequestedOperation = DataPackageOperation.Copy;
-
-            DataPackage.SetText(content);
-
-            Clipboard.SetContent(DataPackage);
+            try
+            {
+                Clipboard.SetDataObject(content);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

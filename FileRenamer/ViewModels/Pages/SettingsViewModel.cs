@@ -3,12 +3,13 @@ using FileRenamer.Models.Controls.Settings.Appearance;
 using FileRenamer.Services.Controls.Settings.Appearance;
 using FileRenamer.Services.Controls.Settings.Common;
 using FileRenamer.Services.Window;
+using FileRenamer.UI.Notifications;
 using FileRenamer.ViewModels.Base;
 using FileRenamer.Views.CustomControls.DialogsAndFlyouts;
 using FileRenamer.Views.Pages;
 using System;
 using System.Collections.Generic;
-using Windows.System;
+using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -135,24 +136,24 @@ namespace FileRenamer.ViewModels.Pages
                 Language = args.AddedItems[0] as LanguageModel;
                 await LanguageService.SetLanguageAsync(Language);
                 LanguageService.SetAppLanguage(Language);
-                //new LanguageChangeNotification(true).Show();
+                new LanguageChangeNotification(true).Show();
             }
         }
 
         /// <summary>
         /// 打开系统主题设置
         /// </summary>
-        public async void OnSettingsColorClicked(object sender, RoutedEventArgs args)
+        public void OnSettingsColorClicked(object sender, RoutedEventArgs args)
         {
-            await Launcher.LaunchUriAsync(new Uri("ms-settings:colors"));
+            Process.Start("explorer.exe", "ms-settings:colors");
         }
 
         /// <summary>
         /// 打开系统通知设置
         /// </summary>
-        public async void OnSettingsNotificationClicked(object sender, RoutedEventArgs args)
+        public void OnSettingsNotificationClicked(object sender, RoutedEventArgs args)
         {
-            await Launcher.LaunchUriAsync(new Uri("ms-settings:notifications"));
+            Process.Start("explorer.exe", "ms-settings:notifications");
         }
 
         /// <summary>

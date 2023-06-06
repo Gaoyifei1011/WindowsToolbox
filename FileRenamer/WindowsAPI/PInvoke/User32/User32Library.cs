@@ -12,7 +12,7 @@ namespace FileRenamer.WindowsAPI.PInvoke.User32
         /// </summary>
         /// <param name="hWnd">应激活并带到前台的窗口的句柄。</param>
         /// <returns>如果将窗口带到前台，则返回值为非零值。如果未将窗口带到前台，则返回值为零。</returns>
-        [DllImport(User32,CharSet = CharSet.Unicode, EntryPoint = "SetForegroundWindow", SetLastError = false)]
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetForegroundWindow", SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
     }

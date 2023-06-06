@@ -1,5 +1,4 @@
-﻿using FileRenamer.Views.Pages;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 

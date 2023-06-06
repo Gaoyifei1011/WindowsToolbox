@@ -82,7 +82,7 @@
     <ProjectReference Include="..\FileRenamer\FileRenamer.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FileRenamerPackage_SignKey.pfx" />
+    <None Include="FileRenamerPackage_SignKey.pfx" />
   </ItemGroup>
   <Target Name="FileRenamerStompSourceProjectForWapProject" BeforeTargets="_ConvertItems">
     <ItemGroup>
