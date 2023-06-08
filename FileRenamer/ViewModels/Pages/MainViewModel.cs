@@ -1,15 +1,18 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
-using FileRenamer.Models.Window;
+using FileRenamer.Models;
+using FileRenamer.Services.Controls.Settings.Appearance;
 using FileRenamer.Services.Root;
 using FileRenamer.Services.Window;
 using FileRenamer.UI.Dialogs;
 using FileRenamer.UI.Notifications;
 using FileRenamer.ViewModels.Base;
 using FileRenamer.Views.Pages;
+using FileRenamer.WindowsAPI.PInvoke.DwmApi;
 using IWshRuntimeLibrary;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.UI.StartScreen;
@@ -139,34 +142,54 @@ namespace FileRenamer.ViewModels.Pages
         }
 
         /// <summary>
-        /// 导航控件加载完成后初始化内容，初始化导航视图控件属性、屏幕缩放比例值和应用的背景色
+        /// 导航控件加载完成后初始化内容，初始化导航视图控件属性和应用的背景色
         /// </summary>
         public void OnNavigationViewLoaded(object sender, RoutedEventArgs args)
         {
-            if (sender is not NavigationView navigationView)
-            {
-                return;
-            }
+            PropertyChanged += OnPropertyChanged;
 
-            foreach (object item in navigationView.MenuItems)
+            NavigationView navigationView = sender as NavigationView;
+            if (navigationView is not null)
             {
-                NavigationViewItem navigationViewItem = item as NavigationViewItem;
-                if (navigationViewItem is not null)
+                foreach (object item in navigationView.MenuItems)
                 {
-                    string Tag = Convert.ToString(navigationViewItem.Tag);
-
-                    NavigationService.NavigationItemList.Add(new NavigationModel()
+                    NavigationViewItem navigationViewItem = item as NavigationViewItem;
+                    if (navigationViewItem is not null)
                     {
-                        NavigationTag = Tag,
-                        NavigationItem = navigationViewItem,
-                        NavigationPage = PageDict[Tag],
-                    });
-                }
-            }
+                        string Tag = Convert.ToString(navigationViewItem.Tag);
 
-            SelectedItem = NavigationService.NavigationItemList[0].NavigationItem;
-            NavigationService.NavigateTo(typeof(FileNamePage));
-            IsBackEnabled = NavigationService.CanGoBack();
+                        NavigationService.NavigationItemList.Add(new NavigationModel()
+                        {
+                            NavigationTag = Tag,
+                            NavigationItem = navigationViewItem,
+                            NavigationPage = PageDict[Tag],
+                        });
+                    }
+                }
+
+                SelectedItem = NavigationService.NavigationItemList[0].NavigationItem;
+                NavigationService.NavigateTo(typeof(FileNamePage));
+                IsBackEnabled = NavigationService.CanGoBack();
+            }
+        }
+
+        /// <summary>
+        /// 窗口被卸载时，注销所有事件
+        /// </summary>
+        public void OnNavigationViewUnLoaded(object sender, RoutedEventArgs args)
+        {
+            PropertyChanged -= OnPropertyChanged;
+        }
+
+        /// <summary>
+        /// 可通知的属性发生更改时的事件处理
+        /// </summary>
+        private void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName == nameof(WindowTheme))
+            {
+                SetAppTheme();
+            }
         }
 
         /// <summary>
@@ -266,6 +289,36 @@ namespace FileRenamer.ViewModels.Pages
         public void OnShowReleaseNotesClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "https://github.com/Gaoyifei1011/FileRenamer/releases");
+        }
+
+        /// <summary>
+        /// 设置应用的主题色
+        /// </summary>
+        public void SetAppTheme()
+        {
+            if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[0].InternalName)
+            {
+                if (Application.Current.RequestedTheme is ApplicationTheme.Light)
+                {
+                    int useLightMode = 0;
+                    DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));
+                }
+                else
+                {
+                    int useDarkMode = 1;
+                    DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
+                }
+            }
+            if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[1].InternalName)
+            {
+                int useLightMode = 0;
+                DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));
+            }
+            else if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[2].InternalName)
+            {
+                int useDarkMode = 1;
+                DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
+            }
         }
     }
 }

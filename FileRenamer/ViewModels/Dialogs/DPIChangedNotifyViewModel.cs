@@ -21,7 +21,7 @@ namespace FileRenamer.ViewModels.Dialogs
         /// </summary>
         private void RestartApps()
         {
-            // 重启应用
+            Program.CloseApp();
             Application.Restart();
         }
     }

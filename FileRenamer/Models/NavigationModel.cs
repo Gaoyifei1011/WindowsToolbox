@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Controls;
 
-namespace FileRenamer.Models.Window
+namespace FileRenamer.Models
 {
     /// <summary>
     /// 页面导航数据模型

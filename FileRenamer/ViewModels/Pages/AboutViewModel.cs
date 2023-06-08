@@ -1,5 +1,5 @@
 ﻿using FileRenamer.Helpers.Root;
-using FileRenamer.Models.Controls.About;
+using FileRenamer.Models;
 using FileRenamer.ViewModels.Base;
 using System.Collections.Generic;
 using System.Diagnostics;

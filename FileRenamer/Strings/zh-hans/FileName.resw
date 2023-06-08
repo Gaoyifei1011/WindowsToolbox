@@ -117,7 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Title" xml:space="preserve">
-    <value>文件名称</value>
+  <data name="Auto" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="ChangeExtensionSimultaneously" xml:space="preserve">
+    <value>同时修改扩展名</value>
+  </data>
+  <data name="ClearList" xml:space="preserve">
+    <value>清空列表</value>
+  </data>
+  <data name="CurrentNumber" xml:space="preserve">
+    <value>当前序号：{0}</value>
+  </data>
+  <data name="LookUp" xml:space="preserve">
+    <value>查找</value>
+  </data>
+  <data name="Modify" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="NewFileName" xml:space="preserve">
+    <value>新文件名称</value>
+  </data>
+  <data name="NumberFormat" xml:space="preserve">
+    <value>编号格式</value>
+  </data>
+  <data name="OriginalFileName" xml:space="preserve">
+    <value>原文件名称</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>预览</value>
+  </data>
+  <data name="RenameRule" xml:space="preserve">
+    <value>改名规则</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>替换</value>
+  </data>
+  <data name="SelectFolder" xml:space="preserve">
+    <value>选择文件夹</value>
+  </data>
+  <data name="SortList" xml:space="preserve">
+    <value>排序列表</value>
+  </data>
+  <data name="StartNumber" xml:space="preserve">
+    <value>起始编号</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>总计：{0}</value>
+  </data>
+  <data name="ViewExampleNameChange" xml:space="preserve">
+    <value>查看改名示例</value>
   </data>
 </root>

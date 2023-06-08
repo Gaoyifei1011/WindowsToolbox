@@ -19,25 +19,28 @@ namespace FileRenamer
     {
         private int windowWidth = 1000;
         private int windowHeight = 700;
+        private Graphics graphics;
 
-        private WindowsXamlHost MileXamlHost = new WindowsXamlHost();
+        public WindowsXamlHost MileXamlHost = new WindowsXamlHost();
 
         public MainPage MainPage { get; private set; } = new MainPage();
 
         public MileWindow()
         {
             InitializeComponent();
+            graphics = CreateGraphics();
 
-            Graphics graphics = CreateGraphics();
-            Size = new Size(Convert.ToInt32(windowWidth * graphics.DpiX / 96.0), Convert.ToInt32(windowHeight * graphics.DpiX / 96.0));
-            Text = ResourceService.GetLocalized("Resources/AppDisplayName");
+            BackColor = Color.FromArgb(30, 60, 90);
+            Controls.Add(MileXamlHost);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = Icon.ExtractAssociatedIcon(string.Format(@"{0}{1}", InfoHelper.GetAppInstalledLocation(), @"FileRenamer.exe"));
             MaximizeBox = false;
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-            BackColor = Color.FromArgb(30, 60, 90);
+            Size = new Size(Convert.ToInt32(windowWidth * graphics.DpiX / 96.0), Convert.ToInt32(windowHeight * graphics.DpiX / 96.0));
+            StartPosition = FormStartPosition.CenterParent;
+            Text = ResourceService.GetLocalized("Resources/AppDisplayName");
             TransparencyKey = Color.FromArgb(30, 60, 90);
+            graphics.Dispose();
 
-            Controls.Add(MileXamlHost);
             MileXamlHost.AutoSize = true;
             MileXamlHost.Dock = DockStyle.Fill;
             MileXamlHost.Child = MainPage;
@@ -53,6 +56,8 @@ namespace FileRenamer
             ThemeService.SetWindowTheme();
             BackdropService.SetAppBackdrop();
             TopMostService.SetAppTopMost();
+
+            MainPage.ViewModel.SetAppTheme();
         }
 
         /// <summary>
@@ -60,6 +65,8 @@ namespace FileRenamer
         /// </summary>
         protected override async void OnDpiChanged(DpiChangedEventArgs args)
         {
+            base.OnDpiChanged(args);
+
             Size = new Size(
                 Convert.ToInt32(windowWidth * args.DeviceDpiNew / 96.0),
                 Convert.ToInt32(windowHeight * args.DeviceDpiNew / 96.0)
@@ -91,6 +98,12 @@ namespace FileRenamer
                                 popup.IsOpen = false;
                             }
                         }
+                        break;
+                    }
+                // 系统设置发生变化时的消息
+                case (int)WindowMessage.WM_SETTINGCHANGE:
+                    {
+                        MainPage.ViewModel.SetAppTheme();
                         break;
                     }
             }

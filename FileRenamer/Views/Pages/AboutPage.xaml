@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:format="using:FileRenamer.Converters.Formats"
-    xmlns:model="using:FileRenamer.Models.Controls.About"
+    xmlns:model="using:FileRenamer.Models"
     xmlns:root="using:FileRenamer.Services.Root"
     xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
     xmlns:collections="using:FileRenamer.Views.CustomControls.Collections"

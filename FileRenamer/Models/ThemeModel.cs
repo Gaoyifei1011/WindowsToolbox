@@ -1,4 +1,4 @@
-﻿namespace FileRenamer.Models.Controls.Settings.Appearance
+﻿namespace FileRenamer.Models
 {
     /// <summary>
     /// 应用主题设置数据模型

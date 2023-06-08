@@ -1,4 +1,4 @@
-﻿using FileRenamer.Models.Window;
+﻿using FileRenamer.Models;
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;

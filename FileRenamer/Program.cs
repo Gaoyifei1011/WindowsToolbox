@@ -44,6 +44,7 @@ namespace FileRenamer
                     if (processItem.MainWindowHandle != IntPtr.Zero)
                     {
                         User32Library.SetForegroundWindow(processItem.MainWindowHandle);
+                        processItem.Dispose();
                     }
                 }
                 return;
@@ -56,6 +57,7 @@ namespace FileRenamer
             InitializeProgramResourcesAsync().Wait();
 
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            Application.ApplicationExit += OnApplicationExit;
             Application.ThreadException += OnThreadException;
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
@@ -70,25 +72,11 @@ namespace FileRenamer
         }
 
         /// <summary>
-        /// 检查应用的启动状态
+        /// 在应用程序即将关闭时发生
         /// </summary>
-        public static void CheckAppBootState()
+        private static void OnApplicationExit(object sender, EventArgs args)
         {
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(CultureInfo.CurrentCulture.Parent.Parent.Name);
-            if (!RuntimeHelper.IsMsix())
-            {
-                MessageBox.Show(
-                    Properties.Resources.AppBootFailed + Environment.NewLine +
-                    Properties.Resources.AppBootFailedContent1 + Environment.NewLine +
-                    Properties.Resources.AppBootFailedContent2 + Environment.NewLine +
-                    Properties.Resources.AppBootFailedContent3,
-                    Properties.Resources.AppDisplayName,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                    );
-
-                Environment.Exit(Convert.ToInt32(AppExitCode.Failed));
-            }
+            CloseApp();
         }
 
         /// <summary>
@@ -155,6 +143,28 @@ namespace FileRenamer
         }
 
         /// <summary>
+        /// 检查应用的启动状态
+        /// </summary>
+        public static void CheckAppBootState()
+        {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(CultureInfo.CurrentCulture.Parent.Parent.Name);
+            if (!RuntimeHelper.IsMsix())
+            {
+                MessageBox.Show(
+                    Properties.Resources.AppBootFailed + Environment.NewLine +
+                    Properties.Resources.AppBootFailedContent1 + Environment.NewLine +
+                    Properties.Resources.AppBootFailedContent2 + Environment.NewLine +
+                    Properties.Resources.AppBootFailedContent3,
+                    Properties.Resources.AppDisplayName,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                    );
+
+                Environment.Exit(Convert.ToInt32(AppExitCode.Failed));
+            }
+        }
+
+        /// <summary>
         /// 加载应用程序所需的资源
         /// </summary>
         private static async Task InitializeProgramResourcesAsync()
@@ -168,6 +178,16 @@ namespace FileRenamer
             await TopMostService.InitializeTopMostValueAsync();
 
             await NotificationService.InitializeNotificationAsync();
+        }
+
+        /// <summary>
+        /// 关闭应用
+        /// </summary>
+        public static void CloseApp()
+        {
+            AppMutex.ReleaseMutex();
+            AppMutex.Close();
+            AppMutex.Dispose();
         }
     }
 }

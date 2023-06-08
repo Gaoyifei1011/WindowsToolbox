@@ -1,5 +1,5 @@
 ﻿using FileRenamer.Extensions.DataType.Constant;
-using FileRenamer.Models.Controls.Settings.Appearance;
+using FileRenamer.Models;
 using FileRenamer.Services.Root;
 using System;
 using System.Collections.Generic;

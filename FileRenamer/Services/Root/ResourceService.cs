@@ -1,4 +1,4 @@
-﻿using FileRenamer.Models.Controls.Settings.Appearance;
+﻿using FileRenamer.Models;
 using FileRenamer.Properties;
 using System;
 using System.Collections.Generic;

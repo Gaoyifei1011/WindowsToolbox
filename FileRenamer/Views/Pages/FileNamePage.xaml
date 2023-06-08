@@ -4,27 +4,355 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:FileRenamer.Models"
     xmlns:root="using:FileRenamer.Services.Root"
+    xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
+    xmlns:dialogsandflyouts="using:FileRenamer.Views.CustomControls.DialogsAndFlyouts"
     AllowDrop="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Padding="0">
+    <Page.DataContext>
+        <pageViewModel:FileNameViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <Grid Padding="0,3,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="30,15,30,5">
+        <Grid
+            Grid.Row="0"
+            Margin="0,0,0,3"
+            Padding="30,0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Spacing="3">
+
+                <Grid ColumnSpacing="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind root:ResourceService.GetLocalized('FileName/RenameRule')}" />
+                    <TextBox
+                        Grid.Column="1"
+                        Height="20"
+                        Text="&lt;#&gt;" />
+                </Grid>
+
+                <Grid ColumnSpacing="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind root:ResourceService.GetLocalized('FileName/StartNumber')}" />
+                    <TextBox
+                        Grid.Column="1"
+                        Height="20"
+                        Text="1" />
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        Margin="0,0,5,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind root:ResourceService.GetLocalized('FileName/NumberFormat')}" />
+
+                    <DropDownButton Grid.Column="1" Content="{x:Bind root:ResourceService.GetLocalized('FileName/Auto')}">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip
+                                Content="{x:Bind root:ResourceService.GetLocalized('FileName/Auto')}"
+                                Placement="Bottom"
+                                VerticalOffset="20" />
+                        </ToolTipService.ToolTip>
+
+                        <DropDownButton.Flyout>
+                            <MenuFlyout Placement="Bottom">
+                                <dialogsandflyouts:RadioMenuFlyoutItem Text="{x:Bind root:ResourceService.GetLocalized('FileName/Auto')}" />
+                                <dialogsandflyouts:RadioMenuFlyoutItem Text="0" />
+                                <dialogsandflyouts:RadioMenuFlyoutItem Text="00" />
+                                <dialogsandflyouts:RadioMenuFlyoutItem Text="000" />
+                                <dialogsandflyouts:RadioMenuFlyoutItem Text="0000" />
+                                <dialogsandflyouts:RadioMenuFlyoutItem Text="00000" />
+                                <dialogsandflyouts:RadioMenuFlyoutItem Text="000000" />
+                                <dialogsandflyouts:RadioMenuFlyoutItem Text="0000000" />
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+
+                    <CheckBox
+                        Grid.Column="2"
+                        Margin="0,0,5,0"
+                        Content="{x:Bind root:ResourceService.GetLocalized('FileName/ChangeExtensionSimultaneously')}" />
+
+                    <TextBox Grid.Column="3" Text="" />
+                </Grid>
+            </StackPanel>
+
+            <AppBarSeparator Grid.Column="1" Margin="20,0" />
+
+            <StackPanel Grid.Column="2" Spacing="3">
+                <Grid ColumnSpacing="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind root:ResourceService.GetLocalized('FileName/LookUp')}" />
+                    <TextBox
+                        Grid.Column="1"
+                        Height="20"
+                        Text="" />
+                </Grid>
+
+                <Grid ColumnSpacing="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind root:ResourceService.GetLocalized('FileName/Replace')}" />
+                    <TextBox
+                        Grid.Column="1"
+                        Height="20"
+                        Text="" />
+                </Grid>
+
+                <Button HorizontalAlignment="Stretch" Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewExampleNameChange')}">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewExampleNameChange')}"
+                            Placement="Bottom"
+                            VerticalOffset="20" />
+                    </ToolTipService.ToolTip>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Grid
+            Grid.Row="1"
+            Height="35"
+            Margin="30,0"
+            Padding="6,0,0,0"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <TextBlock
                 Grid.Column="0"
-                FontSize="26"
-                Text="{x:Bind root:ResourceService.GetLocalized('FileName/Title')}" />
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                Text="{x:Bind root:ResourceService.GetLocalized('FileName/OriginalFileName')}">
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('FileName/OriginalFileName')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </TextBlock>
+
+            <TextBlock
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                Text="{x:Bind root:ResourceService.GetLocalized('FileName/NewFileName')}">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('FileName/NewFileName')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </TextBlock>
+        </Grid>
+
+        <ListView
+            Grid.Row="2"
+            Margin="0,0,0,3"
+            Padding="30,0"
+            IsItemClickEnabled="True"
+            ItemContainerStyle="{StaticResource DataGridListViewItemContainerStyle}"
+            ItemsSource="{x:Bind ViewModel.FileNameDataList, Mode=OneWay}"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            ScrollViewer.HorizontalScrollMode="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            ScrollViewer.VerticalScrollMode="Enabled"
+            SelectionMode="None">
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:FileNameModel">
+                    <Grid
+                        Height="35"
+                        Padding="6,0,0,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1,0,1,1">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource CardTextStyle}"
+                            Text="{x:Bind OriginalFileName}">
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    Content="{x:Bind OriginalFileName}"
+                                    Placement="Bottom"
+                                    VerticalOffset="20" />
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource CardTextStyle}"
+                            Text="{x:Bind NewFileName}">
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    Content="{x:Bind NewFileName}"
+                                    Placement="Bottom"
+                                    VerticalOffset="20" />
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Grid
+            Grid.Row="3"
+            Margin="30,0,30,3"
+            ColumnSpacing="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="{x:Bind root:ResourceService.GetLocalized('FileName/SelectFolder')}">
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('FileName/SelectFolder')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </Button>
+
+            <DropDownButton Grid.Column="1" Content="{x:Bind root:ResourceService.GetLocalized('FileName/SortList')}">
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('FileName/SortList')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </DropDownButton>
+
+            <Button Grid.Column="2" Content="{x:Bind root:ResourceService.GetLocalized('FileName/ClearList')}">
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('FileName/ClearList')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </Button>
+            <TextBlock
+                Grid.Column="3"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                Text="{x:Bind root:ResourceService.GetLocalized('FileName/Total')}">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('FileName/Total')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </TextBlock>
+
+            <TextBlock
+                Grid.Column="4"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                Text="{x:Bind root:ResourceService.GetLocalized('FileName/CurrentNumber')}">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('FileName/CurrentNumber')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </TextBlock>
+
+            <Button Grid.Column="5" Content="{x:Bind root:ResourceService.GetLocalized('FileName/Preview')}">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('FileName/Preview')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </Button>
+            <Button
+                Grid.Column="6"
+                Content="{x:Bind root:ResourceService.GetLocalized('FileName/Modify')}"
+                Style="{StaticResource AccentButtonStyle}">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('FileName/Modify')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </Button>
         </Grid>
     </Grid>
 </Page>

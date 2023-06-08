@@ -1,5 +1,6 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
-using FileRenamer.Models.Controls.Settings.Appearance;
+using FileRenamer.Helpers.Root;
+using FileRenamer.Models;
 using FileRenamer.Services.Controls.Settings.Appearance;
 using FileRenamer.Services.Controls.Settings.Common;
 using FileRenamer.Services.Window;
@@ -20,6 +21,8 @@ namespace FileRenamer.ViewModels.Pages
     /// </summary>
     public sealed class SettingsViewModel : ViewModelBase
     {
+        public bool CanUseBackdrop { get; set; }
+
         private ThemeModel _theme = ThemeService.AppTheme;
 
         public ThemeModel Theme
@@ -182,6 +185,13 @@ namespace FileRenamer.ViewModels.Pages
                 TopMostService.SetAppTopMost();
                 TopMostValue = toggleSwitch.IsOn;
             }
+        }
+
+        public SettingsViewModel()
+        {
+            int BuildNumber = InfoHelper.SystemVersion.Build;
+
+            CanUseBackdrop = BuildNumber >= 22621;
         }
     }
 }

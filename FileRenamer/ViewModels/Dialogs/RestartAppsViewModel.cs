@@ -9,11 +9,11 @@ namespace FileRenamer.ViewModels.Dialogs
     public sealed class RestartAppsViewModel
     {
         /// <summary>
-        /// 重启应用
+        /// 重启应用，并关闭其他进程
         /// </summary>
         public void OnRestartAppsClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            Program.AppMutex.ReleaseMutex();
+            Program.CloseApp();
             Application.Restart();
         }
     }

@@ -8,7 +8,7 @@
     xmlns:root="using:FileRenamer.Services.Root"
     xmlns:dialogViewModel="using:FileRenamer.ViewModels.Dialogs"
     xmlns:dialogsAndFlyouts="using:FileRenamer.Views.CustomControls.DialogsAndFlyouts"
-    Title="{x:Bind root:ResourceService.GetLocalized('Dialog/License11')}"
+    Title="{x:Bind root:ResourceService.GetLocalized('Dialog/License')}"
     CloseButtonText="{x:Bind root:ResourceService.GetLocalized('Dialog/CloseDialog')}"
     Loading="{x:Bind ViewModel.OnLoading}"
     RequestedTheme="{x:Bind fileRenamer:Program.MainWindow.MainPage.ViewModel.WindowTheme, Mode=OneWay}"
