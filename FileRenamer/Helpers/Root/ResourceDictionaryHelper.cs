@@ -17,8 +17,6 @@ namespace FileRenamer.Helpers.Root
 
         public static ResourceDictionary GridResourceDict { get; private set; }
 
-        public static ResourceDictionary GridViewResourceDict { get; private set; }
-
         public static ResourceDictionary HyperlinkButtonResourceDict { get; private set; }
 
         public static ResourceDictionary InAppNotificationResourceDict { get; private set; }
@@ -41,13 +39,12 @@ namespace FileRenamer.Helpers.Root
             ExpanderResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[4];
             FontIconResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[5];
             GridResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[6];
-            GridViewResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[7];
-            HyperlinkButtonResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[8];
-            InAppNotificationResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[9];
-            MenuFlyoutResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[10];
-            NavigationViewResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[11];
-            ScrollViewerResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[12];
-            TextBlockResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[13];
+            HyperlinkButtonResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[7];
+            InAppNotificationResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[8];
+            MenuFlyoutResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[9];
+            NavigationViewResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[10];
+            ScrollViewerResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[11];
+            TextBlockResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[12];
         }
     }
 }

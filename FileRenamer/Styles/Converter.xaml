@@ -4,4 +4,5 @@
     xmlns:convert="using:FileRenamer.Converters.Conversions">
 
     <convert:BooleanToOppositeValueConverter x:Name="BooleanToOppositeValueConverter" />
+    <convert:IntToVisibilityConverter x:Name="IntToVisibilityConverter" />
 </ResourceDictionary>

@@ -5,9 +5,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:root="using:FileRenamer.Services.Root"
+    xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
     AllowDrop="True"
+    DragOver="{x:Bind ViewModel.OnDragOver}"
+    Drop="{x:Bind ViewModel.OnDrop}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
+
+    <Page.DataContext>
+        <pageViewModel:ExtensionNameViewModel x:Name="ViewModel" />
+    </Page.DataContext>
 
     <Grid Padding="0">
 

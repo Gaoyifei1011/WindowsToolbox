@@ -129,6 +129,12 @@
   <data name="CurrentNumber" xml:space="preserve">
     <value>Current number：{0}</value>
   </data>
+  <data name="DragOverContent" xml:space="preserve">
+    <value>Copy the file to the File Name page</value>
+  </data>
+  <data name="EmptyList" xml:space="preserve">
+    <value>没有任何内容</value>
+  </data>
   <data name="LookUp" xml:space="preserve">
     <value>Look up</value>
   </data>

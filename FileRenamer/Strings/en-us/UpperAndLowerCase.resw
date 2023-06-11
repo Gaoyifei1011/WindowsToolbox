@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DragOverContent" xml:space="preserve">
+    <value>Copy the file to the Upper and Lower Case page</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Upper and Lower Case</value>
   </data>

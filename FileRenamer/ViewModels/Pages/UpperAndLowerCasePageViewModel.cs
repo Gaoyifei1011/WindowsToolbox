@@ -1,9 +1,6 @@
-﻿using FileRenamer.Models;
-using FileRenamer.Services.Root;
-using FileRenamer.ViewModels.Base;
+﻿using FileRenamer.Services.Root;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -11,20 +8,10 @@ using Windows.UI.Xaml;
 namespace FileRenamer.ViewModels.Pages
 {
     /// <summary>
-    /// 文件名称页面视图模型
+    /// 大写小写页面视图模型
     /// </summary>
-    public sealed class FileNameViewModel : ViewModelBase
+    public sealed class UpperAndLowerCasePageViewModel
     {
-        public ObservableCollection<FileNameModel> FileNameDataList { get; } = new ObservableCollection<FileNameModel>();
-
-        /// <summary>
-        /// 清空列表
-        /// </summary>
-        public void OnClearList(object sender, RoutedEventArgs args)
-        {
-            FileNameDataList.Clear();
-        }
-
         /// <summary>
         /// 设置拖动的数据的可视表示形式
         /// </summary>
@@ -34,7 +21,7 @@ namespace FileRenamer.ViewModels.Pages
             args.DragUIOverride.IsCaptionVisible = true;
             args.DragUIOverride.IsContentVisible = false;
             args.DragUIOverride.IsGlyphVisible = true;
-            args.DragUIOverride.Caption = ResourceService.GetLocalized("FileName/DragOverContent");
+            args.DragUIOverride.Caption = ResourceService.GetLocalized("UpperAndLowerCase/DragOverContent");
             args.Handled = true;
         }
 
@@ -50,10 +37,6 @@ namespace FileRenamer.ViewModels.Pages
                 if (view.Contains(StandardDataFormats.StorageItems))
                 {
                     IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
-                    foreach (IStorageItem item in filesList)
-                    {
-                        FileNameDataList.Add(new FileNameModel() { OriginalFileName = item.Name });
-                    }
                 }
             }
             finally

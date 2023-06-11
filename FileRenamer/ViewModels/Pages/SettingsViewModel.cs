@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
 
 namespace FileRenamer.ViewModels.Pages
 {
@@ -105,6 +107,18 @@ namespace FileRenamer.ViewModels.Pages
                 Backdrop = BackdropList[Convert.ToInt32(item.Tag)];
                 await BackdropService.SetBackdropAsync(Backdrop);
                 BackdropService.SetAppBackdrop();
+            }
+        }
+
+        /// <summary>
+        /// 组合框打开时设置对应的主题色
+        /// </summary>
+        public void OnDropDownOpened(object sender, object args)
+        {
+            IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(Program.MainWindow.MainPage.XamlRoot);
+            foreach (Popup popup in PopupRoot)
+            {
+                (popup.Child as Canvas).RequestedTheme = Program.MainWindow.MainPage.ViewModel.WindowTheme;
             }
         }
 

@@ -32,8 +32,7 @@ namespace FileRenamer.Helpers.Controls.Extensions
 
         private static void CursorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var element = d as FrameworkElement;
-            if (element == null)
+            if (d is not FrameworkElement element)
             {
                 throw new NullReferenceException(nameof(element));
             }

@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using FileRenamer.Services.Root;
+using Windows.UI.Xaml.Controls;
 
 namespace FileRenamer.Views.Pages
 {
@@ -10,6 +11,11 @@ namespace FileRenamer.Views.Pages
         public FileNamePage()
         {
             InitializeComponent();
+        }
+
+        public string LocalizeTotal(int count)
+        {
+            return string.Format(ResourceService.GetLocalized("FileName/Total"), ViewModel.FileNameDataList.Count);
         }
     }
 }
