@@ -272,9 +272,6 @@ namespace FileRenamer.ViewModels.Pages
             }
         }
 
-        // 将应用固定到任务栏
-        //public void OnPinToTaskbarClicked(object sender,RoutedEventArgs args) { }
-
         /// <summary>
         /// 查看许可证
         /// </summary>

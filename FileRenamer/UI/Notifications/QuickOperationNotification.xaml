@@ -1,13 +1,13 @@
 <notification:InAppNotification
     x:Class="FileRenamer.UI.Notifications.QuickOperationNotification"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:fileRenamer="using:FileRenamer"
-    xmlns:root="using:FileRenamer.Services.Root"
-    xmlns:notificationViewModel="using:FileRenamer.ViewModels.Notifications"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:notification="using:FileRenamer.Views.CustomControls.Notifications"
+    xmlns:notificationViewModel="using:FileRenamer.ViewModels.Notifications"
+    xmlns:root="using:FileRenamer.Services.Root"
     RequestedTheme="{x:Bind fileRenamer:Program.MainWindow.MainPage.ViewModel.WindowTheme, Mode=OneWay}"
     mc:Ignorable="d">
 
@@ -36,15 +36,5 @@
             x:Load="{x:Bind ControlLoad(ViewModel.OperationType, ViewModel.IsPinnedSuccessfully, 'StartScreenFailed'), Mode=OneWay}"
             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
             Text="{x:Bind root:ResourceService.GetLocalized('Notification/StartScreenFailed')}" />
-        <TextBlock
-            x:Name="TaskbarSuccess"
-            x:Load="{x:Bind ControlLoad(ViewModel.OperationType, ViewModel.IsPinnedSuccessfully, 'TaskbarSuccess'), Mode=OneWay}"
-            Foreground="{ThemeResource SystemFillColorSuccessBrush}"
-            Text="{x:Bind root:ResourceService.GetLocalized('Notification/TaskbarSuccessfully')}" />
-        <TextBlock
-            x:Name="TaskbarFailed"
-            x:Load="{x:Bind ControlLoad(ViewModel.OperationType, ViewModel.IsPinnedSuccessfully, 'TaskbarFailed'), Mode=OneWay}"
-            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-            Text="{x:Bind root:ResourceService.GetLocalized('Notification/TaskbarFailed')}" />
     </Grid>
 </notification:InAppNotification>

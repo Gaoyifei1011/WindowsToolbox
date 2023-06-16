@@ -3,19 +3,21 @@ using FileRenamer.Services.Controls.Settings.Appearance;
 using FileRenamer.Services.Root;
 using FileRenamer.UI.Dialogs;
 using FileRenamer.Views.Pages;
+using FileRenamer.WindowsAPI.PInvoke.DwmApi;
 using FileRenamer.WindowsAPI.PInvoke.User32;
 using Mile.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 
-namespace FileRenamer
+namespace FileRenamer.Views.Forms
 {
-    public partial class MileWindow : Form
+    public partial class MainForm : Form
     {
         private int windowWidth = 1000;
         private int windowHeight = 700;
@@ -23,14 +25,15 @@ namespace FileRenamer
 
         public WindowsXamlHost MileXamlHost = new WindowsXamlHost();
 
+        public event Action<Message> MessageReceived;
+
         public MainPage MainPage { get; private set; } = new MainPage();
 
-        public MileWindow()
+        public MainForm()
         {
             InitializeComponent();
             graphics = CreateGraphics();
 
-            BackColor = Color.FromArgb(30, 60, 90);
             Controls.Add(MileXamlHost);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = Icon.ExtractAssociatedIcon(string.Format(@"{0}{1}", InfoHelper.GetAppInstalledLocation(), @"FileRenamer.exe"));
@@ -38,7 +41,6 @@ namespace FileRenamer
             Size = new Size(Convert.ToInt32(windowWidth * graphics.DpiX / 96.0), Convert.ToInt32(windowHeight * graphics.DpiX / 96.0));
             StartPosition = FormStartPosition.CenterParent;
             Text = ResourceService.GetLocalized("Resources/AppDisplayName");
-            TransparencyKey = Color.FromArgb(30, 60, 90);
             graphics.Dispose();
 
             MileXamlHost.AutoSize = true;
@@ -54,8 +56,7 @@ namespace FileRenamer
             base.OnLoad(args);
 
             ThemeService.SetWindowTheme();
-            BackdropService.SetAppBackdrop();
-            TopMostService.SetAppTopMost();
+            BackdropService.SetAppBackdrop(Handle);
 
             MainPage.ViewModel.SetAppTheme();
         }
@@ -88,12 +89,12 @@ namespace FileRenamer
                         IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(Program.MainWindow.MainPage.XamlRoot);
                         foreach (Popup popup in PopupRoot)
                         {
-                            if (popup.Child as MenuFlyoutPresenter != null)
+                            if (popup.Child as MenuFlyoutPresenter is not null)
                             {
                                 popup.IsOpen = false;
                             }
 
-                            if (popup.Child as Canvas != null)
+                            if (popup.Child as Canvas is not null)
                             {
                                 popup.IsOpen = false;
                             }
@@ -104,11 +105,36 @@ namespace FileRenamer
                 case (int)WindowMessage.WM_SETTINGCHANGE:
                     {
                         MainPage.ViewModel.SetAppTheme();
+                        MessageReceived?.Invoke(m);
                         break;
                     }
             }
 
             base.WndProc(ref m);
+        }
+
+        public void SetWindowBackdrop()
+        {
+            if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[0].InternalName)
+            {
+                int noBackdrop = 1;
+                DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref noBackdrop, Marshal.SizeOf(typeof(int)));
+            }
+            else if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[1].InternalName)
+            {
+                int micaBackdrop = 2;
+                DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref micaBackdrop, Marshal.SizeOf(typeof(int)));
+            }
+            else if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[2].InternalName)
+            {
+                int micaAltBackdrop = 4;
+                DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref micaAltBackdrop, Marshal.SizeOf(typeof(int)));
+            }
+            else if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[3].InternalName)
+            {
+                int acrylicBackdrop = 3;
+                DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref acrylicBackdrop, Marshal.SizeOf(typeof(int)));
+            }
         }
     }
 }

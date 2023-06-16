@@ -1,13 +1,13 @@
 ﻿<Page
     x:Class="FileRenamer.Views.Pages.FileNamePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialogsandflyouts="using:FileRenamer.Views.CustomControls.DialogsAndFlyouts"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
-    xmlns:root="using:FileRenamer.Services.Root"
     xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
-    xmlns:dialogsandflyouts="using:FileRenamer.Views.CustomControls.DialogsAndFlyouts"
+    xmlns:root="using:FileRenamer.Services.Root"
     AllowDrop="True"
     DragOver="{x:Bind ViewModel.OnDragOver}"
     Drop="{x:Bind ViewModel.OnDrop}"
@@ -52,7 +52,8 @@
                     <TextBox
                         Grid.Column="1"
                         Height="20"
-                        Text="&lt;#&gt;" />
+                        PlaceholderText="{x:Bind root:ResourceService.GetLocalized('FileName/RenameRulePlaceHolderText')}"
+                        Text="{x:Bind ViewModel.RenameRule, Mode=TwoWay}" />
                 </Grid>
 
                 <Grid ColumnSpacing="5">
@@ -68,7 +69,8 @@
                     <TextBox
                         Grid.Column="1"
                         Height="20"
-                        Text="1" />
+                        PlaceholderText="{x:Bind root:ResourceService.GetLocalized('FileName/StartNumberPlaceHolderText')}"
+                        Text="{x:Bind ViewModel.StartNumber, Mode=TwoWay}" />
                 </Grid>
 
                 <Grid>
@@ -85,25 +87,72 @@
                         VerticalAlignment="Center"
                         Text="{x:Bind root:ResourceService.GetLocalized('FileName/NumberFormat')}" />
 
-                    <DropDownButton Grid.Column="1" Content="{x:Bind root:ResourceService.GetLocalized('FileName/Auto')}">
+                    <DropDownButton Grid.Column="1" Content="{x:Bind ViewModel.SelectedNumberFormat.DisplayName, Mode=OneWay}">
 
                         <ToolTipService.ToolTip>
                             <ToolTip
-                                Content="{x:Bind root:ResourceService.GetLocalized('FileName/Auto')}"
+                                Content="{x:Bind ViewModel.SelectedNumberFormat.DisplayName, Mode=OneWay}"
                                 Placement="Bottom"
                                 VerticalOffset="20" />
                         </ToolTipService.ToolTip>
 
                         <DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
-                                <dialogsandflyouts:RadioMenuFlyoutItem Text="{x:Bind root:ResourceService.GetLocalized('FileName/Auto')}" />
-                                <dialogsandflyouts:RadioMenuFlyoutItem Text="0" />
-                                <dialogsandflyouts:RadioMenuFlyoutItem Text="00" />
-                                <dialogsandflyouts:RadioMenuFlyoutItem Text="000" />
-                                <dialogsandflyouts:RadioMenuFlyoutItem Text="0000" />
-                                <dialogsandflyouts:RadioMenuFlyoutItem Text="00000" />
-                                <dialogsandflyouts:RadioMenuFlyoutItem Text="000000" />
-                                <dialogsandflyouts:RadioMenuFlyoutItem Text="0000000" />
+                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    GroupName="NumberFormat"
+                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[0].InternalName)}"
+                                    Tag="0"
+                                    Text="{x:Bind ViewModel.NumberFormatList[0].DisplayName}" />
+
+                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    GroupName="NumberFormat"
+                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[1].InternalName)}"
+                                    Tag="1"
+                                    Text="{x:Bind ViewModel.NumberFormatList[1].DisplayName}" />
+
+                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    GroupName="NumberFormat"
+                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[2].InternalName)}"
+                                    Tag="2"
+                                    Text="{x:Bind ViewModel.NumberFormatList[2].DisplayName}" />
+
+                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    GroupName="NumberFormat"
+                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[3].InternalName)}"
+                                    Tag="3"
+                                    Text="{x:Bind ViewModel.NumberFormatList[3].DisplayName}" />
+
+                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    GroupName="NumberFormat"
+                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[4].InternalName)}"
+                                    Tag="4"
+                                    Text="{x:Bind ViewModel.NumberFormatList[4].DisplayName}" />
+
+                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    GroupName="NumberFormat"
+                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[5].InternalName)}"
+                                    Tag="5"
+                                    Text="{x:Bind ViewModel.NumberFormatList[5].DisplayName}" />
+
+                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    GroupName="NumberFormat"
+                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[6].InternalName)}"
+                                    Tag="6"
+                                    Text="{x:Bind ViewModel.NumberFormatList[6].DisplayName}" />
+
+                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    GroupName="NumberFormat"
+                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[7].InternalName)}"
+                                    Tag="7"
+                                    Text="{x:Bind ViewModel.NumberFormatList[7].DisplayName}" />
                             </MenuFlyout>
                         </DropDownButton.Flyout>
                     </DropDownButton>
@@ -111,7 +160,8 @@
                     <CheckBox
                         Grid.Column="2"
                         Margin="0,0,5,0"
-                        Content="{x:Bind root:ResourceService.GetLocalized('FileName/ChangeExtensionSimultaneously')}" />
+                        Content="{x:Bind root:ResourceService.GetLocalized('FileName/ChangeExtensionSimultaneously')}"
+                        IsChecked="{x:Bind ViewModel.IsChecked, Mode=TwoWay}" />
 
                     <TextBox Grid.Column="3" Text="" />
                 </Grid>
@@ -129,11 +179,12 @@
                     <TextBlock
                         Grid.Column="0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind root:ResourceService.GetLocalized('FileName/LookUp')}" />
+                        Text="{x:Bind root:ResourceService.GetLocalized('FileName/LookUpString')}" />
                     <TextBox
                         Grid.Column="1"
                         Height="20"
-                        Text="" />
+                        PlaceholderText="{x:Bind root:ResourceService.GetLocalized('FileName/LookUpStringPlaceHolderText')}"
+                        Text="{x:Bind ViewModel.LookUpString, Mode=TwoWay}" />
                 </Grid>
 
                 <Grid ColumnSpacing="5">
@@ -145,18 +196,22 @@
                     <TextBlock
                         Grid.Column="0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind root:ResourceService.GetLocalized('FileName/Replace')}" />
+                        Text="{x:Bind root:ResourceService.GetLocalized('FileName/ReplaceString')}" />
                     <TextBox
                         Grid.Column="1"
                         Height="20"
-                        Text="" />
+                        PlaceholderText="{x:Bind root:ResourceService.GetLocalized('FileName/ReplaceStringPlaceHolderText')}"
+                        Text="{x:Bind ViewModel.ReplaceString, Mode=TwoWay}" />
                 </Grid>
 
-                <Button HorizontalAlignment="Stretch" Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewExampleNameChange')}">
+                <Button
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind ViewModel.OnViewNameChangeExampleClicked}"
+                    Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewNameChangeExample')}">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
-                            Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewExampleNameChange')}"
+                            Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewNameChangeExample')}"
                             Placement="Bottom"
                             VerticalOffset="20" />
                     </ToolTipService.ToolTip>
@@ -172,6 +227,7 @@
             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1">
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -182,6 +238,7 @@
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 Text="{x:Bind root:ResourceService.GetLocalized('FileName/OriginalFileName')}">
+
                 <ToolTipService.ToolTip>
                     <ToolTip
                         Content="{x:Bind root:ResourceService.GetLocalized('FileName/OriginalFileName')}"
@@ -296,7 +353,10 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Content="{x:Bind root:ResourceService.GetLocalized('FileName/SelectFolder')}">
+            <Button
+                Grid.Column="0"
+                Click="{x:Bind ViewModel.OnSelectFolderClicked}"
+                Content="{x:Bind root:ResourceService.GetLocalized('FileName/SelectFolder')}">
                 <ToolTipService.ToolTip>
                     <ToolTip
                         Content="{x:Bind root:ResourceService.GetLocalized('FileName/SelectFolder')}"
@@ -316,7 +376,7 @@
 
             <Button
                 Grid.Column="2"
-                Click="{x:Bind ViewModel.OnClearList}"
+                Click="{x:Bind ViewModel.OnClearListClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileName/ClearList')}">
                 <ToolTipService.ToolTip>
                     <ToolTip
@@ -363,6 +423,7 @@
                         VerticalOffset="20" />
                 </ToolTipService.ToolTip>
             </Button>
+
             <Button
                 Grid.Column="6"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileName/Modify')}"

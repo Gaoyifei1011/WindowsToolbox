@@ -3,6 +3,7 @@ using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Controls.Settings.Appearance;
 using FileRenamer.Services.Controls.Settings.Common;
 using FileRenamer.Services.Root;
+using FileRenamer.Views.Forms;
 using FileRenamer.WindowsAPI.PInvoke.User32;
 using System;
 using System.Diagnostics;
@@ -24,7 +25,7 @@ namespace FileRenamer
 
         public static App ApplicationRoot { get; private set; }
 
-        public static MileWindow MainWindow { get; private set; }
+        public static MainForm MainWindow { get; private set; }
 
         /// <summary>
         /// 应用程序的主入口点
@@ -67,7 +68,7 @@ namespace FileRenamer
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            MainWindow = new MileWindow();
+            MainWindow = new MainForm();
             Application.Run(MainWindow);
         }
 
@@ -175,7 +176,6 @@ namespace FileRenamer
 
             await BackdropService.InitializeBackdropAsync();
             await ThemeService.InitializeAsync();
-            await TopMostService.InitializeTopMostValueAsync();
 
             await NotificationService.InitializeNotificationAsync();
         }

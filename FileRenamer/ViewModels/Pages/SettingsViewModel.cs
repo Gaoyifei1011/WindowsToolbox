@@ -64,19 +64,6 @@ namespace FileRenamer.ViewModels.Pages
             }
         }
 
-        private bool _topMostValue = TopMostService.TopMostValue;
-
-        public bool TopMostValue
-        {
-            get { return _topMostValue; }
-
-            set
-            {
-                _topMostValue = value;
-                OnPropertyChanged();
-            }
-        }
-
         private bool _notification = NotificationService.AppNotification;
 
         public bool Notification
@@ -106,7 +93,7 @@ namespace FileRenamer.ViewModels.Pages
             {
                 Backdrop = BackdropList[Convert.ToInt32(item.Tag)];
                 await BackdropService.SetBackdropAsync(Backdrop);
-                BackdropService.SetAppBackdrop();
+                BackdropService.SetAppBackdrop(Program.MainWindow.Handle);
             }
         }
 
@@ -118,7 +105,10 @@ namespace FileRenamer.ViewModels.Pages
             IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(Program.MainWindow.MainPage.XamlRoot);
             foreach (Popup popup in PopupRoot)
             {
-                (popup.Child as Canvas).RequestedTheme = Program.MainWindow.MainPage.ViewModel.WindowTheme;
+                if (popup.Child as Canvas is not null)
+                {
+                    (popup.Child as Canvas).RequestedTheme = Program.MainWindow.MainPage.ViewModel.WindowTheme;
+                }
             }
         }
 
@@ -184,20 +174,6 @@ namespace FileRenamer.ViewModels.Pages
                 Theme = ThemeList[Convert.ToInt32(item.Tag)];
                 await ThemeService.SetThemeAsync(Theme);
                 ThemeService.SetWindowTheme();
-            }
-        }
-
-        /// <summary>
-        /// 是否开启应用窗口置顶
-        /// </summary>
-        public async void OnTopMostToggled(object sender, RoutedEventArgs args)
-        {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-            if (toggleSwitch is not null)
-            {
-                await TopMostService.SetTopMostValueAsync(toggleSwitch.IsOn);
-                TopMostService.SetAppTopMost();
-                TopMostValue = toggleSwitch.IsOn;
             }
         }
 

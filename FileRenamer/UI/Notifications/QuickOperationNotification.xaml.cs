@@ -34,14 +34,6 @@ namespace FileRenamer.UI.Notifications
             {
                 return true;
             }
-            else if (controlName is "TaskbarSuccess" && operationType is QuickOperationType.Taskbar && isPinnedSuccessfully)
-            {
-                return true;
-            }
-            else if (controlName is "TaskbarFailed" && operationType is QuickOperationType.Taskbar && !isPinnedSuccessfully)
-            {
-                return true;
-            }
             else
             {
                 return false;

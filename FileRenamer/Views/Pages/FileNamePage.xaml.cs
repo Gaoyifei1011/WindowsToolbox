@@ -17,5 +17,10 @@ namespace FileRenamer.Views.Pages
         {
             return string.Format(ResourceService.GetLocalized("FileName/Total"), ViewModel.FileNameDataList.Count);
         }
+
+        public bool IsItemChecked(string selectedInternalName, string internalName)
+        {
+            return selectedInternalName == internalName;
+        }
     }
 }

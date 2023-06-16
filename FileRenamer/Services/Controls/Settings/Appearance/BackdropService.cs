@@ -1,10 +1,8 @@
 ﻿using FileRenamer.Extensions.DataType.Constant;
 using FileRenamer.Models;
 using FileRenamer.Services.Root;
-using FileRenamer.WindowsAPI.PInvoke.DwmApi;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace FileRenamer.Services.Controls.Settings.Appearance
@@ -21,6 +19,8 @@ namespace FileRenamer.Services.Controls.Settings.Appearance
         public static BackdropModel AppBackdrop { get; set; }
 
         public static List<BackdropModel> BackdropList { get; set; }
+
+        public static event Action BackdropChanged;
 
         /// <summary>
         /// 应用在初始化前获取设置存储的背景色值
@@ -57,33 +57,15 @@ namespace FileRenamer.Services.Controls.Settings.Appearance
             AppBackdrop = backdrop;
 
             await ConfigService.SaveSettingAsync(SettingsKey, backdrop.InternalName);
+            BackdropChanged?.Invoke();
         }
 
         /// <summary>
         /// 设置应用显示的背景色
         /// </summary>
-        public static void SetAppBackdrop()
+        public static void SetAppBackdrop(IntPtr handle)
         {
-            if (AppBackdrop.InternalName == BackdropList[0].InternalName)
-            {
-                int noBackdrop = 1;
-                DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref noBackdrop, Marshal.SizeOf(typeof(int)));
-            }
-            else if (AppBackdrop.InternalName == BackdropList[1].InternalName)
-            {
-                int micaBackdrop = 2;
-                DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref micaBackdrop, Marshal.SizeOf(typeof(int)));
-            }
-            else if (AppBackdrop.InternalName == BackdropList[2].InternalName)
-            {
-                int micaAltBackdrop = 4;
-                DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref micaAltBackdrop, Marshal.SizeOf(typeof(int)));
-            }
-            else if (AppBackdrop.InternalName == BackdropList[3].InternalName)
-            {
-                int acrylicBackdrop = 3;
-                DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref acrylicBackdrop, Marshal.SizeOf(typeof(int)));
-            }
+            Program.MainWindow.SetWindowBackdrop();
         }
     }
 }

@@ -13,7 +13,6 @@ namespace FileRenamer.Views.CustomControls.DialogsAndFlyouts
         [ThreadStatic]
         private static ConcurrentDictionary<string, WeakReference<RadioMenuFlyoutItem>> s_selectionMap;
 
-        // Copies of IsChecked & GroupName to avoid using those dependency properties in the ~RadioMenuFlyoutItem() destructor which would lead to crashes.
         private bool m_isChecked;
 
         private string m_groupName;
@@ -49,7 +48,6 @@ namespace FileRenamer.Views.CustomControls.DialogsAndFlyouts
         {
             RegisterPropertyChangedCallback(ToggleMenuFlyoutItem.IsCheckedProperty, OnInternalIsCheckedChanged);
 
-            // Ensure that this object exists
             s_selectionMap ??= new ConcurrentDictionary<string, WeakReference<RadioMenuFlyoutItem>>();
 
             DefaultStyleKey = typeof(RadioMenuFlyoutItem);
@@ -57,7 +55,6 @@ namespace FileRenamer.Views.CustomControls.DialogsAndFlyouts
 
         ~RadioMenuFlyoutItem()
         {
-            // If this is the checked item, remove it from the lookup.
             if (m_isChecked)
             {
                 if (m_groupName != null)
@@ -93,12 +90,10 @@ namespace FileRenamer.Views.CustomControls.DialogsAndFlyouts
             {
                 if (m_isSafeUncheck)
                 {
-                    // The uncheck is due to another radio button being checked -- that's all right.
                     IsChecked = false;
                 }
                 else
                 {
-                    // The uncheck is due to user interaction -- not allowed.
                     base.IsChecked = true;
                 }
             }
@@ -118,7 +113,6 @@ namespace FileRenamer.Views.CustomControls.DialogsAndFlyouts
                 {
                     if (previousCheckedItemWeak.TryGetTarget(out var previousCheckedItem))
                     {
-                        // Uncheck the previously checked item.
                         previousCheckedItem.IsChecked = false;
                     }
                 }
@@ -133,7 +127,6 @@ namespace FileRenamer.Views.CustomControls.DialogsAndFlyouts
             {
                 if (sender is MenuFlyoutSubItem subMenu)
                 {
-                    // Every time the submenu is loaded, see if it contains a checked RadioMenuFlyoutItem or not.
                     subMenu.Loaded += (object sender, RoutedEventArgs _) =>
                     {
                         bool isAnyItemChecked = false;

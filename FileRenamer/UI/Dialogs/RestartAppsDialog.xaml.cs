@@ -1,7 +1,4 @@
-﻿using FileRenamer.Services.Controls.Settings.Appearance;
-using FileRenamer.Views.CustomControls.DialogsAndFlyouts;
-using System;
-using Windows.UI.Xaml;
+﻿using FileRenamer.Views.CustomControls.DialogsAndFlyouts;
 
 namespace FileRenamer.UI.Dialogs
 {
@@ -10,8 +7,6 @@ namespace FileRenamer.UI.Dialogs
     /// </summary>
     public sealed partial class RestartAppsDialog : ExtendedContentDialog
     {
-        public ElementTheme DialogTheme { get; } = (ElementTheme)Enum.Parse(typeof(ElementTheme), ThemeService.AppTheme.InternalName);
-
         public RestartAppsDialog()
         {
             InitializeComponent();
