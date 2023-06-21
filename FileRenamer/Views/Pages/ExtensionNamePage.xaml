@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:FileRenamer.Models"
     xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
     xmlns:root="using:FileRenamer.Services.Root"
     AllowDrop="True"
@@ -16,23 +17,295 @@
         <pageViewModel:ExtensionNameViewModel x:Name="ViewModel" />
     </Page.DataContext>
 
-    <Grid Padding="0">
+    <Grid Padding="0,3,0,0">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="30,15,30,5">
+        <Grid
+            Grid.Row="0"
+            Margin="0,0,0,3"
+            Padding="30,0"
+            ColumnSpacing="5"
+            RowSpacing="3">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.7*" />
+                <ColumnDefinition Width="0.7*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <CheckBox
+                Grid.Row="0"
+                Grid.RowSpan="1"
+                Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/SameExtensionName')}" />
+
+            <Grid Grid.Row="0" Grid.Column="2">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/ChangeTo')}" />
+                <TextBox Grid.Column="1" />
+            </Grid>
+
+            <CheckBox
+                Grid.Row="1"
+                Grid.RowSpan="1"
+                Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/FindAndReplaceExtensionName')}" />
+
+            <Grid Grid.Row="1" Grid.Column="2">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Search')}" />
+                <TextBox Grid.Column="1" />
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="3">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Replace')}" />
+                <TextBox Grid.Column="1" />
+            </Grid>
+        </Grid>
+
+        <Grid
+            Grid.Row="1"
+            Height="35"
+            Margin="30,0"
+            Padding="6,0,0,0"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1">
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <TextBlock
                 Grid.Column="0"
-                FontSize="26"
-                Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Title')}" />
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/OriginalFileName')}">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/OriginalFileName')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </TextBlock>
+
+            <TextBlock
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/NewFileName')}">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/NewFileName')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </TextBlock>
+        </Grid>
+
+        <ListView
+            Grid.Row="2"
+            Margin="0,0,0,3"
+            Padding="30,0"
+            IsItemClickEnabled="True"
+            ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
+            ItemsSource="{x:Bind ViewModel.ExtensionNameDataList, Mode=OneWay}"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            ScrollViewer.HorizontalScrollMode="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            ScrollViewer.VerticalScrollMode="Enabled"
+            SelectionMode="None">
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:OldAndNewNameModel">
+                    <Grid
+                        Height="35"
+                        Padding="6,0,0,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1,0,1,1">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource CardTextStyle}"
+                            Text="{x:Bind OriginalFileName}">
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    Content="{x:Bind OriginalFileName}"
+                                    Placement="Bottom"
+                                    VerticalOffset="20" />
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource CardTextStyle}"
+                            Text="{x:Bind NewFileName}">
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    Content="{x:Bind NewFileName}"
+                                    Placement="Bottom"
+                                    VerticalOffset="20" />
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <TextBlock
+            Grid.Row="2"
+            Margin="30,10,30,0"
+            VerticalAlignment="Top"
+            Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/EmptyList')}"
+            TextAlignment="Center"
+            Visibility="{x:Bind ViewModel.ExtensionNameDataList.Count, Converter={StaticResource IntToVisibilityConverter}, ConverterParameter=Reverse, Mode=OneWay}">
+
+            <ToolTipService.ToolTip>
+                <ToolTip
+                    Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/EmptyList')}"
+                    Placement="Bottom"
+                    VerticalOffset="20" />
+            </ToolTipService.ToolTip>
+        </TextBlock>
+
+        <Grid
+            Grid.Row="3"
+            Margin="30,0,30,3"
+            ColumnSpacing="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Grid.Column="0"
+                Click="{x:Bind ViewModel.OnSelectFolderClicked}"
+                Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/SelectFolder')}">
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/SelectFolder')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </Button>
+
+            <DropDownButton Grid.Column="1" Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/SortList')}">
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/SortList')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </DropDownButton>
+
+            <Button
+                Grid.Column="2"
+                Click="{x:Bind ViewModel.OnClearListClicked}"
+                Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/ClearList')}">
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/ClearList')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </Button>
+
+            <TextBlock
+                Grid.Column="3"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                Text="{x:Bind LocalizeTotal(ViewModel.ExtensionNameDataList.Count), Mode=OneWay}">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind LocalizeTotal(ViewModel.ExtensionNameDataList.Count), Mode=OneWay}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </TextBlock>
+
+            <TextBlock
+                Grid.Column="4"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/CurrentNumber')}">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/CurrentNumber')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </TextBlock>
+
+            <Button Grid.Column="5" Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Preview')}">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Preview')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </Button>
+
+            <Button
+                Grid.Column="6"
+                Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Modify')}"
+                Style="{StaticResource AccentButtonStyle}">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip
+                        Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Modify')}"
+                        Placement="Bottom"
+                        VerticalOffset="20" />
+                </ToolTipService.ToolTip>
+            </Button>
         </Grid>
     </Grid>
 </Page>

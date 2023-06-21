@@ -5,7 +5,7 @@ namespace FileRenamer.Models
     /// <summary>
     /// 文件名称模型
     /// </summary>
-    public class FileNameModel : ModelBase
+    public class OldAndNewNameModel : ModelBase
     {
         /// <summary>
         /// 文件的初始名称

@@ -117,10 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ChangeTo" xml:space="preserve">
+    <value>改为：</value>
+  </data>
+  <data name="ClearList" xml:space="preserve">
+    <value>清空列表</value>
+  </data>
+  <data name="CurrentNumber" xml:space="preserve">
+    <value>当前序号：{0}</value>
+  </data>
   <data name="DragOverContent" xml:space="preserve">
     <value>复制到“扩展名称”页面中</value>
   </data>
+  <data name="EmptyList" xml:space="preserve">
+    <value>没有任何内容</value>
+  </data>
+  <data name="FindAndReplaceExtensionName" xml:space="preserve">
+    <value>查找并且替换扩展名</value>
+  </data>
+  <data name="Modify" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="NewFileName" xml:space="preserve">
+    <value>新文件名称</value>
+  </data>
+  <data name="OriginalFileName" xml:space="preserve">
+    <value>原文件名称</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>预览</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>替换：</value>
+  </data>
+  <data name="SameExtensionName" xml:space="preserve">
+    <value>全部改为相同扩展名</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>查找：</value>
+  </data>
+  <data name="SelectFolder" xml:space="preserve">
+    <value>选择文件夹</value>
+  </data>
+  <data name="SortList" xml:space="preserve">
+    <value>排序列表</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>扩展名称</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>总计：{0}</value>
   </data>
 </root>

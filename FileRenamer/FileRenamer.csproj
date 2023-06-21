@@ -30,6 +30,9 @@
   <PropertyGroup Condition="'$(Platform)'=='ARM64'">
     <RuntimeIdentifier>win10-arm64</RuntimeIdentifier>
   </PropertyGroup>
+  <ItemGroup>
+    <PRIResource Remove="Resources\About.resw" />
+  </ItemGroup>
 
   <ItemGroup>
     <ApplicationDefinition Update="App.xaml" Generator="MSBuild:Compile" />
@@ -119,5 +122,9 @@
     <None Update="Assets\FileRenamer.ico" />
 
     <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Resources\About.resw" />
   </ItemGroup>
 </Project>

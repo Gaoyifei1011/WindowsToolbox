@@ -8,6 +8,7 @@ using FileRenamer.UI.Notifications;
 using FileRenamer.ViewModels.Base;
 using FileRenamer.Views.Pages;
 using FileRenamer.WindowsAPI.PInvoke.DwmApi;
+using FileRenamer.WindowsAPI.PInvoke.Uxtheme;
 using IWshRuntimeLibrary;
 using System;
 using System.Collections.Generic;
@@ -299,22 +300,30 @@ namespace FileRenamer.ViewModels.Pages
                 {
                     int useLightMode = 0;
                     DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));
+                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
+                    UxthemeLibrary.FlushMenuThemes();
                 }
                 else
                 {
                     int useDarkMode = 1;
                     DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
+                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
+                    UxthemeLibrary.FlushMenuThemes();
                 }
             }
             if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[1].InternalName)
             {
                 int useLightMode = 0;
                 DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));
+                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
+                UxthemeLibrary.FlushMenuThemes();
             }
             else if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[2].InternalName)
             {
                 int useDarkMode = 1;
                 DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
+                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
+                UxthemeLibrary.FlushMenuThemes();
             }
         }
     }

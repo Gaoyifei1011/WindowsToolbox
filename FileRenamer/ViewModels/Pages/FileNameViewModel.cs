@@ -108,7 +108,7 @@ namespace FileRenamer.ViewModels.Pages
             new NumberFormatModel(){ DisplayName = "0000000", InternalName = "0000000"},
         };
 
-        public ObservableCollection<FileNameModel> FileNameDataList { get; } = new ObservableCollection<FileNameModel>();
+        public ObservableCollection<OldAndNewNameModel> FileNameDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
 
         public FileNameViewModel()
         {
@@ -150,7 +150,7 @@ namespace FileRenamer.ViewModels.Pages
                     IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
                     foreach (IStorageItem item in filesList)
                     {
-                        FileNameDataList.Add(new FileNameModel() { OriginalFileName = item.Name });
+                        FileNameDataList.Add(new OldAndNewNameModel() { OriginalFileName = item.Name });
                     }
                 }
             }

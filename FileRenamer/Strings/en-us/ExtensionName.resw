@@ -117,10 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ChangeTo" xml:space="preserve">
+    <value>Changed to:</value>
+  </data>
+  <data name="ClearList" xml:space="preserve">
+    <value>Clear list</value>
+  </data>
+  <data name="CurrentNumber" xml:space="preserve">
+    <value>Current number：{0}</value>
+  </data>
   <data name="DragOverContent" xml:space="preserve">
     <value>Copy the file to the Extension Name page</value>
   </data>
+  <data name="EmptyList" xml:space="preserve">
+    <value>There is no content</value>
+  </data>
+  <data name="FindAndReplaceExtensionName" xml:space="preserve">
+    <value>Find and replace the extension name</value>
+  </data>
+  <data name="Modify" xml:space="preserve">
+    <value>Modify</value>
+  </data>
+  <data name="NewFileName" xml:space="preserve">
+    <value>New file name</value>
+  </data>
+  <data name="OriginalFileName" xml:space="preserve">
+    <value>Original file name</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Replace:</value>
+  </data>
+  <data name="SameExtensionName" xml:space="preserve">
+    <value>All changed to the same extension name</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search:</value>
+  </data>
+  <data name="SelectFolder" xml:space="preserve">
+    <value>Select folder</value>
+  </data>
+  <data name="SortList" xml:space="preserve">
+    <value>Sort list</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Extension Name</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total：{0}</value>
   </data>
 </root>

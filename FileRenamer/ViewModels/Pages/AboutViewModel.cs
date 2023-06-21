@@ -1,8 +1,11 @@
 ﻿using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
+using FileRenamer.UI.Dialogs.About;
 using FileRenamer.ViewModels.Base;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Windows.System;
 using Windows.UI.Xaml;
 
 namespace FileRenamer.ViewModels.Pages
@@ -46,6 +49,22 @@ namespace FileRenamer.ViewModels.Pages
         };
 
         /// <summary>
+        /// 应用信息
+        /// </summary>
+        public async void OnAppInformationClicked(object sender, RoutedEventArgs args)
+        {
+            await new AppInformationDialog().ShowAsync();
+        }
+
+        /// <summary>
+        /// 应用设置
+        /// </summary>
+        public async void OnAppSettingsClicked(object sender, RoutedEventArgs args)
+        {
+            await Launcher.LaunchUriAsync(new Uri("ms-settings:appsfeatures-app"));
+        }
+
+        /// <summary>
         /// 检查更新
         /// </summary>
         public void OnCheckUpdateClicked(object sender, RoutedEventArgs args)
@@ -83,6 +102,14 @@ namespace FileRenamer.ViewModels.Pages
         public void OnSendFeedbackClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "https://github.com/Gaoyifei1011/FileRenamer/issues");
+        }
+
+        /// <summary>
+        /// 系统信息
+        /// </summary>
+        public async void OnSystemInformationClicked(object sender, RoutedEventArgs args)
+        {
+            await Launcher.LaunchUriAsync(new Uri("ms-settings:about"));
         }
     }
 }

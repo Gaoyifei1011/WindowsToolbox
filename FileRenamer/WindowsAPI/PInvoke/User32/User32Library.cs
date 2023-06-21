@@ -5,7 +5,7 @@ namespace FileRenamer.WindowsAPI.PInvoke.User32
 {
     public static class User32Library
     {
-        private const string User32 = "User32.dll";
+        private const string User32 = "user32.dll";
 
         /// <summary>
         /// 将创建指定窗口的线程引入前台并激活窗口。 键盘输入将定向到窗口，并为用户更改各种视觉提示。 系统为创建前台窗口的线程分配的优先级略高于其他线程的优先级。

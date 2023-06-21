@@ -1,7 +1,7 @@
 ﻿using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Controls.Settings.Appearance;
 using FileRenamer.Services.Root;
-using FileRenamer.UI.Controls;
+using FileRenamer.UI.Dialogs;
 using FileRenamer.WindowsAPI.PInvoke.DwmApi;
 using FileRenamer.WindowsAPI.PInvoke.User32;
 using Mile.Xaml;
@@ -24,7 +24,7 @@ namespace FileRenamer.Views.Forms
 
         private static IntPtr PrivateHandle { get; set; } = IntPtr.Zero;
 
-        public NameChangeControl NameChange { get; private set; } = new NameChangeControl();
+        public NameChangeDialog NameChange { get; private set; } = new NameChangeDialog();
 
         public NameChangeForm()
         {
@@ -46,7 +46,6 @@ namespace FileRenamer.Views.Forms
             MileXamlHost.AutoSize = true;
             MileXamlHost.Dock = DockStyle.Fill;
             MileXamlHost.Child = NameChange;
-            NameChange.ViewModel.WindowHandle = Handle;
         }
 
         /// <summary>
@@ -55,27 +54,13 @@ namespace FileRenamer.Views.Forms
         protected override void OnClosed(EventArgs args)
         {
             base.OnClosed(args);
+
             Program.MainWindow.MessageReceived -= OnMessageReceived;
             BackdropService.BackdropChanged -= OnBackdropChanged;
             ThemeService.ThemeChanged -= OnThemeChanged;
             IsOpened = false;
             PrivateHandle = IntPtr.Zero;
             Dispose();
-        }
-
-        /// <summary>
-        /// 窗体程序加载时初始化应用程序设置
-        /// </summary>
-        protected override void OnLoad(EventArgs args)
-        {
-            base.OnLoad(args);
-
-            NameChange.ViewModel.SetAppTheme();
-            SetWindowBackdrop();
-
-            Program.MainWindow.MessageReceived += OnMessageReceived;
-            BackdropService.BackdropChanged += OnBackdropChanged;
-            ThemeService.ThemeChanged += OnThemeChanged;
         }
 
         /// <summary>
@@ -89,6 +74,22 @@ namespace FileRenamer.Views.Forms
                 Convert.ToInt32(windowWidth * args.DeviceDpiNew / 96.0),
                 Convert.ToInt32(windowHeight * args.DeviceDpiNew / 96.0)
                 );
+        }
+
+        /// <summary>
+        /// 窗体创建句柄时初始化应用程序设置
+        /// </summary>
+        protected override void OnHandleCreated(EventArgs args)
+        {
+            base.OnHandleCreated(args);
+
+            NameChange.ViewModel.WindowHandle = Handle;
+            NameChange.ViewModel.SetAppTheme();
+            SetWindowBackdrop();
+
+            Program.MainWindow.MessageReceived += OnMessageReceived;
+            BackdropService.BackdropChanged += OnBackdropChanged;
+            ThemeService.ThemeChanged += OnThemeChanged;
         }
 
         /// <summary>
@@ -123,6 +124,9 @@ namespace FileRenamer.Views.Forms
             }
         }
 
+        /// <summary>
+        /// 显示窗口
+        /// </summary>
         public new void Show()
         {
             if (!IsOpened)

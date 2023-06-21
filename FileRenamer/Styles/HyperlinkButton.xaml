@@ -89,4 +89,13 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style
+        x:Key="AboutHyperlinkButtonStyle"
+        BasedOn="{StaticResource DefaultHyperlinkButtonStyle}"
+        TargetType="HyperlinkButton">
+        <Setter Property="Margin" Value="-5,0,10,0" />
+        <Setter Property="Padding" Value="5" />
+    </Style>
+
 </ResourceDictionary>

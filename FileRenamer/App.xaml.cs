@@ -24,6 +24,20 @@ namespace FileRenamer
         /// </summary>
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs args)
         {
+            System.IO.File.AppendAllText(@"D:\01.txt", ResourceService.GetLocalized("MessageInfo/Title") + Environment.NewLine +
+    ResourceService.GetLocalized("MessageInfo/Content1") + Environment.NewLine +
+    ResourceService.GetLocalized("MessageInfo/Content2") +
+    ResourceService.GetLocalized("Resources/AppDisplayName") + "\n");
+
+            StringBuilder stringBuilder1 = new StringBuilder();
+            stringBuilder1.AppendLine("HelpLink:" + args.Exception.HelpLink);
+            stringBuilder1.AppendLine("HResult:" + args.Exception.HResult);
+            stringBuilder1.AppendLine("Message:" + args.Exception.Message);
+            stringBuilder1.AppendLine("Source:" + args.Exception.Source);
+            stringBuilder1.AppendLine("StackTrace:" + args.Exception.StackTrace);
+
+            System.IO.File.AppendAllText(@"D:\01.txt", stringBuilder1.ToString());
+
             DialogResult Result = MessageBox.Show(
                 ResourceService.GetLocalized("MessageInfo/Title") + Environment.NewLine +
                 ResourceService.GetLocalized("MessageInfo/Content1") + Environment.NewLine +

@@ -8,7 +8,7 @@ namespace FileRenamer.WindowsAPI.PInvoke.Kernel32
     /// </summary>
     public static class Kernel32Library
     {
-        private const string Kernel32 = "Kernel32.dll";
+        private const string Kernel32 = "kernel32.dll";
 
         public const int APPMODEL_ERROR_NO_PACKAGE = 15700;
 
