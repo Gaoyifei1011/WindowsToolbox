@@ -12,6 +12,8 @@
 
                 <ResourceDictionary Source="ms-appx:///Styles/Button.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/ContentDialog.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/DatePicker.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/DateTimePickerFlyout.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Expander.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/FontIcon.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Grid.xaml" />
@@ -21,6 +23,7 @@
                 <ResourceDictionary Source="ms-appx:///Styles/MenuFlyout.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/NavigationView.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/ScrollViewer.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/TimePicker.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/TextBlock.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

@@ -69,7 +69,7 @@ namespace FileRenamer.ViewModels.Pages
         public void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = ResourceService.GetLocalized("FileName/SelectFolder");
+            dialog.Description = ResourceService.GetLocalized("ExtensionName/SelectFolder");
             dialog.ShowNewFolderButton = true;
             dialog.RootFolder = Environment.SpecialFolder.Desktop;
             DialogResult result = dialog.ShowDialog();

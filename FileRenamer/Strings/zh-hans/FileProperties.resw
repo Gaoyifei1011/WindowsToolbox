@@ -117,10 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Archive" xml:space="preserve">
+    <value>存档</value>
+  </data>
+  <data name="ClearList" xml:space="preserve">
+    <value>清空列表</value>
+  </data>
+  <data name="CreateDate" xml:space="preserve">
+    <value>创建日期</value>
+  </data>
+  <data name="CurrentNumber" xml:space="preserve">
+    <value>当前序号：{0}</value>
+  </data>
   <data name="DragOverContent" xml:space="preserve">
     <value>复制到“文件属性”页面中</value>
   </data>
-  <data name="Title" xml:space="preserve">
-    <value>文件属性</value>
+  <data name="EmptyList" xml:space="preserve">
+    <value>没有任何内容</value>
+  </data>
+  <data name="Hide" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="Modify" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="ModifyDate" xml:space="preserve">
+    <value>修改日期</value>
+  </data>
+  <data name="NewFileName" xml:space="preserve">
+    <value>新文件名称</value>
+  </data>
+  <data name="OriginalFileName" xml:space="preserve">
+    <value>原文件名称</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>预览</value>
+  </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>只读</value>
+  </data>
+  <data name="SelectFolder" xml:space="preserve">
+    <value>选择文件夹</value>
+  </data>
+  <data name="SortList" xml:space="preserve">
+    <value>排序列表</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>系统</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>总计：{0}</value>
   </data>
 </root>
