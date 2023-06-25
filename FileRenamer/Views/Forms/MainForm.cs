@@ -92,11 +92,25 @@ namespace FileRenamer.Views.Forms
                             if (popup.Child as MenuFlyoutPresenter is not null)
                             {
                                 popup.IsOpen = false;
+                                break;
                             }
 
                             if (popup.Child as Canvas is not null)
                             {
                                 popup.IsOpen = false;
+                                break;
+                            }
+
+                            if(popup.Child as TimePickerFlyoutPresenter is not null)
+                            {
+                                popup.IsOpen = false;
+                                break;
+                            }
+
+                            if (popup.Child as DatePickerFlyoutPresenter is not null)
+                            {
+                                popup.IsOpen = false;
+                                break;
                             }
                         }
                         break;

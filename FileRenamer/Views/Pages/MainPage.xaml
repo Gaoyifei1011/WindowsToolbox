@@ -9,7 +9,6 @@
     xmlns:root="using:FileRenamer.Services.Root"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     RequestedTheme="{x:Bind ViewModel.WindowTheme, Mode=OneWay}"
-    SizeChanged="{x:Bind OnSizeChanged}"
     mc:Ignorable="d">
 
     <Page.DataContext>

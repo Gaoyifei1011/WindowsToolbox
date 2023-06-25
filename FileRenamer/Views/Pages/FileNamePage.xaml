@@ -365,7 +365,7 @@
                 </ToolTipService.ToolTip>
             </Button>
 
-            <DropDownButton Grid.Column="1" Content="{x:Bind root:ResourceService.GetLocalized('FileName/SortList')}">
+            <DropDownButton Grid.Column="1" Click="DropDownButton_Click" Content="{x:Bind root:ResourceService.GetLocalized('FileName/SortList')}">
                 <ToolTipService.ToolTip>
                     <ToolTip
                         Content="{x:Bind root:ResourceService.GetLocalized('FileName/SortList')}"

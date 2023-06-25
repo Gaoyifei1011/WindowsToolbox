@@ -5,6 +5,7 @@ using FileRenamer.Services.Controls.Settings.Common;
 using FileRenamer.Services.Root;
 using FileRenamer.Views.Forms;
 using FileRenamer.WindowsAPI.PInvoke.User32;
+using GetStoreApp.Services.Root;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -85,19 +86,12 @@ namespace FileRenamer
         /// </summary>
         private static void OnThreadException(object sender, ThreadExceptionEventArgs args)
         {
-            System.IO.File.AppendAllText(@"D:\01.txt", ResourceService.GetLocalized("MessageInfo/Title") + Environment.NewLine +
-                ResourceService.GetLocalized("MessageInfo/Content1") + Environment.NewLine +
-                ResourceService.GetLocalized("MessageInfo/Content2") +
-                ResourceService.GetLocalized("Resources/AppDisplayName") + "\n");
-
             StringBuilder stringBuilder1 = new StringBuilder();
             stringBuilder1.AppendLine("HelpLink:" + args.Exception.HelpLink);
             stringBuilder1.AppendLine("HResult:" + args.Exception.HResult);
             stringBuilder1.AppendLine("Message:" + args.Exception.Message);
             stringBuilder1.AppendLine("Source:" + args.Exception.Source);
             stringBuilder1.AppendLine("StackTrace:" + args.Exception.StackTrace);
-
-            System.IO.File.AppendAllText(@"D:\01.txt", stringBuilder1.ToString());
 
             DialogResult Result = MessageBox.Show(
                 ResourceService.GetLocalized("MessageInfo/Title") + Environment.NewLine +
@@ -131,19 +125,12 @@ namespace FileRenamer
         {
             Exception exception1 = args.ExceptionObject as Exception;
 
-            System.IO.File.AppendAllText(@"D:\01.txt", ResourceService.GetLocalized("MessageInfo/Title") + Environment.NewLine +
-    ResourceService.GetLocalized("MessageInfo/Content1") + Environment.NewLine +
-    ResourceService.GetLocalized("MessageInfo/Content2") +
-    ResourceService.GetLocalized("Resources/AppDisplayName") + "\n");
-
             StringBuilder stringBuilder1 = new StringBuilder();
             stringBuilder1.AppendLine("HelpLink:" + exception1.HelpLink);
             stringBuilder1.AppendLine("HResult:" + exception1.HResult);
             stringBuilder1.AppendLine("Message:" + exception1.Message);
             stringBuilder1.AppendLine("Source:" + exception1.Source);
             stringBuilder1.AppendLine("StackTrace:" + exception1.StackTrace);
-
-            System.IO.File.AppendAllText(@"D:\01.txt", stringBuilder1.ToString());
 
             DialogResult Result = MessageBox.Show(
                 ResourceService.GetLocalized("MessageInfo/Title") + Environment.NewLine +
@@ -204,6 +191,7 @@ namespace FileRenamer
             ResourceService.InitializeResource(LanguageService.DefaultAppLanguage, LanguageService.AppLanguage);
             ResourceService.LocalizeReosurce();
 
+            LogService.Initialize();
             await BackdropService.InitializeBackdropAsync();
             await ThemeService.InitializeAsync();
 
