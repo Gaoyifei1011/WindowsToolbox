@@ -101,7 +101,7 @@ namespace FileRenamer.Views.Forms
                                 break;
                             }
 
-                            if(popup.Child as TimePickerFlyoutPresenter is not null)
+                            if (popup.Child as TimePickerFlyoutPresenter is not null)
                             {
                                 popup.IsOpen = false;
                                 break;
@@ -121,6 +121,10 @@ namespace FileRenamer.Views.Forms
                         MainPage.ViewModel.SetAppTheme();
                         MessageReceived?.Invoke(m);
                         break;
+                    }
+                case (int)WindowMessage.WM_NCRBUTTONDOWN:
+                    {
+                        return;
                     }
             }
 

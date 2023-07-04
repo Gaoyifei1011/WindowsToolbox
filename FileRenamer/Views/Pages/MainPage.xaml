@@ -34,7 +34,7 @@
                 Tapped="{x:Bind ViewModel.OnTapped}">
 
                 <NavigationViewItem.Icon>
-                    <FontIcon Glyph="&#xE8a5;" Style="{StaticResource SegoeFluentStyle}" />
+                    <FontIcon FontSize="16" Glyph="&#xE8a5;" />
                 </NavigationViewItem.Icon>
 
                 <ToolTipService.ToolTip>
@@ -51,7 +51,7 @@
                 Tapped="{x:Bind ViewModel.OnTapped}">
 
                 <NavigationViewItem.Icon>
-                    <FontIcon Glyph="&#xE8a6;" Style="{StaticResource SegoeFluentStyle}" />
+                    <FontIcon FontSize="16" Glyph="&#xE8a6;" />
                 </NavigationViewItem.Icon>
 
                 <ToolTipService.ToolTip>
@@ -68,7 +68,7 @@
                 Tapped="{x:Bind ViewModel.OnTapped}">
 
                 <NavigationViewItem.Icon>
-                    <FontIcon Glyph="&#xE8e9;" Style="{StaticResource SegoeFluentStyle}" />
+                    <FontIcon FontSize="16" Glyph="&#xE8e9;" />
                 </NavigationViewItem.Icon>
 
                 <ToolTipService.ToolTip>
@@ -85,7 +85,7 @@
                 Tapped="{x:Bind ViewModel.OnTapped}">
 
                 <NavigationViewItem.Icon>
-                    <FontIcon Glyph="&#xE90f;" Style="{StaticResource SegoeFluentStyle}" />
+                    <FontIcon FontSize="16" Glyph="&#xE90f;" />
                 </NavigationViewItem.Icon>
 
                 <ToolTipService.ToolTip>
@@ -104,7 +104,7 @@
                 Tapped="{x:Bind ViewModel.OnTapped}">
 
                 <NavigationViewItem.Icon>
-                    <FontIcon Glyph="&#xE946;" Style="{StaticResource SegoeFluentStyle}" />
+                    <FontIcon FontSize="16" Glyph="&#xE946;" />
                 </NavigationViewItem.Icon>
 
                 <ToolTipService.ToolTip>
@@ -121,7 +121,7 @@
                 Tapped="{x:Bind ViewModel.OnTapped}">
 
                 <NavigationViewItem.Icon>
-                    <FontIcon Glyph="&#xE713;" Style="{StaticResource SegoeFluentStyle}" />
+                    <FontIcon FontSize="16" Glyph="&#xE713;" />
                 </NavigationViewItem.Icon>
 
                 <ToolTipService.ToolTip>

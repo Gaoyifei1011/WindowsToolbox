@@ -97,5 +97,4 @@
         <Setter Property="Margin" Value="-5,0,10,0" />
         <Setter Property="Padding" Value="5" />
     </Style>
-
 </ResourceDictionary>

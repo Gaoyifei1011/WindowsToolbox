@@ -142,8 +142,7 @@ namespace FileRenamer.ViewModels.Pages
             {
                 Language = args.AddedItems[0] as LanguageModel;
                 await LanguageService.SetLanguageAsync(Language);
-                LanguageService.SetAppLanguage(Language);
-                new LanguageChangeNotification(true).Show();
+                new LanguageChangeNotification().Show();
             }
         }
 

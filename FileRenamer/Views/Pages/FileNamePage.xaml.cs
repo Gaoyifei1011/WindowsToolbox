@@ -1,5 +1,4 @@
 ﻿using FileRenamer.Services.Root;
-using GetStoreApp.Services.Root;
 using Windows.UI.Xaml.Controls;
 
 namespace FileRenamer.Views.Pages
@@ -22,11 +21,6 @@ namespace FileRenamer.Views.Pages
         public bool IsItemChecked(string selectedInternalName, string internalName)
         {
             return selectedInternalName == internalName;
-        }
-
-        private void DropDownButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            LogService.WriteLog(LogType.Info, "Test LogService");
         }
     }
 }

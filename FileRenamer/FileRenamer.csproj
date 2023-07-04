@@ -31,6 +31,14 @@
     <RuntimeIdentifier>win10-arm64</RuntimeIdentifier>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Fonts\**" />
+    <Content Remove="Fonts\**" />
+    <EmbeddedResource Remove="Fonts\**" />
+    <None Remove="Fonts\**" />
+    <Page Remove="Fonts\**" />
+    <PRIResource Remove="Fonts\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PRIResource Remove="Resources\About.resw" />
   </ItemGroup>
 
@@ -104,8 +112,6 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
-    <Content Include="Fonts\Segoe Fluent Icons.ttf" CopyToOutputDirectory="Always" />
-    <Content Include="Fonts\Settings Fluent Icons.ttf" CopyToOutputDirectory="Always" />
     <PackageReference Include="Mile.Xaml" Version="2.1.651-preview" />
 
     <EmbeddedResource Update="Properties\Resources.resx">

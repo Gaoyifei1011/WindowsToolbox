@@ -1,5 +1,4 @@
 ﻿using FileRenamer.Views.CustomControls.Notifications;
-using System.Runtime.InteropServices;
 
 namespace FileRenamer.UI.Notifications
 {
@@ -8,11 +7,9 @@ namespace FileRenamer.UI.Notifications
     /// </summary>
     public sealed partial class LanguageChangeNotification : InAppNotification
     {
-        public LanguageChangeNotification([Optional, DefaultParameterValue(false)] bool setResult)
+        public LanguageChangeNotification()
         {
             InitializeComponent();
-            XamlRoot = Program.MainWindow.MainPage.XamlRoot;
-            ViewModel.Initialize(setResult);
         }
     }
 }

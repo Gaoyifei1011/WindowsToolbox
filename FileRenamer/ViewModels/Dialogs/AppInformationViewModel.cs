@@ -1,14 +1,10 @@
 ﻿using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Root;
-using FileRenamer.UI.Notifications;
 using FileRenamer.ViewModels.Base;
-using Windows.UI.Xaml.Controls;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Windows.ApplicationModel;
-using Windows.Storage;
 using System.Diagnostics;
+using System.Text;
+using Windows.UI.Xaml.Controls;
 
 namespace FileRenamer.ViewModels.Dialogs.About
 {
@@ -78,7 +74,7 @@ namespace FileRenamer.ViewModels.Dialogs.About
         /// </summary>
         public void InitializeAppInformation()
         {
-            FileVersionInfo WindowsUIFile = FileVersionInfo.GetVersionInfo(string.Format(@"{0}\{1}",Environment.SystemDirectory, "Windows.UI.Xaml.dll"));
+            FileVersionInfo WindowsUIFile = FileVersionInfo.GetVersionInfo(string.Format(@"{0}\{1}", Environment.SystemDirectory, "Windows.UI.Xaml.dll"));
             WindowsUIVersion = WindowsUIFile.ProductVersion;
 
             FileVersionInfo MileXamlFile = FileVersionInfo.GetVersionInfo(string.Format(@"{0}{1}", InfoHelper.GetAppInstalledLocation(), @"Mile.Xaml.Managed.dll"));

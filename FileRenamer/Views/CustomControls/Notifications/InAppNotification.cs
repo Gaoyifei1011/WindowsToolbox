@@ -54,6 +54,7 @@ namespace FileRenamer.Views.CustomControls.Notifications
         {
             DefaultStyleKey = typeof(InAppNotification);
             Style = ResourceDictionaryHelper.InAppNotificationResourceDict["InAppNotificationStyle"] as Style;
+            XamlRoot = Program.MainWindow.MainPage.XamlRoot;
         }
 
         protected override void OnApplyTemplate()

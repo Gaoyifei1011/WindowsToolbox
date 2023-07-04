@@ -6,25 +6,9 @@
     xmlns:fileRenamer="using:FileRenamer"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:notification="using:FileRenamer.Views.CustomControls.Notifications"
-    xmlns:notificationViewModel="using:FileRenamer.ViewModels.Notifications"
     xmlns:root="using:FileRenamer.Services.Root"
     RequestedTheme="{x:Bind fileRenamer:Program.MainWindow.MainPage.ViewModel.WindowTheme, Mode=OneWay}"
     mc:Ignorable="d">
 
-    <notification:InAppNotification.DataContext>
-        <notificationViewModel:LanguageChangeViewModel x:Name="ViewModel" />
-    </notification:InAppNotification.DataContext>
-
-    <Grid>
-        <TextBlock
-            x:Name="LanguageChangeSuccess"
-            x:Load="{x:Bind ViewModel.SetResult, Mode=OneWay}"
-            Foreground="{ThemeResource SystemFillColorSuccessBrush}"
-            Text="{x:Bind root:ResourceService.GetLocalized('Notification/LanguageChangeSuccessfully')}" />
-        <TextBlock
-            x:Name="LanguageChangeFailed"
-            x:Load="{x:Bind ViewModel.SetResult, Converter={StaticResource BooleanToOppositeValueConverter}, Mode=OneWay}"
-            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-            Text="{x:Bind root:ResourceService.GetLocalized('Notification/LanguageChangeFailed')}" />
-    </Grid>
+    <TextBlock Foreground="{ThemeResource SystemFillColorSuccessBrush}" Text="{x:Bind root:ResourceService.GetLocalized('Notification/LanguageChange')}" />
 </notification:InAppNotification>

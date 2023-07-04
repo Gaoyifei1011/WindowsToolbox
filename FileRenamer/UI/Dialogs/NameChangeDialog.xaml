@@ -157,10 +157,7 @@
                 Spacing="5">
                 <Button Click="{x:Bind ViewModel.OnForwardNavigateClicked}" Style="{StaticResource ButtonSquareStyle}">
                     <Button.Content>
-                        <FontIcon
-                            FontFamily="{StaticResource SegoeFluentFontFamily}"
-                            Glyph="&#xE76B;"
-                            Style="{StaticResource SegoeFluentStyle}" />
+                        <FontIcon FontSize="16" Glyph="&#xE76B;" />
                     </Button.Content>
 
                     <ToolTipService.ToolTip>
@@ -173,10 +170,7 @@
 
                 <Button Click="{x:Bind ViewModel.OnNextNavigateClicked}" Style="{StaticResource ButtonSquareStyle}">
                     <Button.Content>
-                        <FontIcon
-                            FontFamily="{StaticResource SegoeFluentFontFamily}"
-                            Glyph="&#xE76C;"
-                            Style="{StaticResource SegoeFluentStyle}" />
+                        <FontIcon FontSize="16" Glyph="&#xE76C;" />
                     </Button.Content>
 
                     <ToolTipService.ToolTip>

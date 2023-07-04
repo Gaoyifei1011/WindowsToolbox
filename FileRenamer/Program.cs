@@ -5,7 +5,6 @@ using FileRenamer.Services.Controls.Settings.Common;
 using FileRenamer.Services.Root;
 using FileRenamer.Views.Forms;
 using FileRenamer.WindowsAPI.PInvoke.User32;
-using GetStoreApp.Services.Root;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -166,7 +165,7 @@ namespace FileRenamer
         public static void CheckAppBootState()
         {
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(CultureInfo.CurrentCulture.Parent.Parent.Name);
-            if (!RuntimeHelper.IsMsix())
+            if (!RuntimeHelper.IsMSIX)
             {
                 MessageBox.Show(
                     Properties.Resources.AppBootFailed + Environment.NewLine +
@@ -191,7 +190,6 @@ namespace FileRenamer
             ResourceService.InitializeResource(LanguageService.DefaultAppLanguage, LanguageService.AppLanguage);
             ResourceService.LocalizeReosurce();
 
-            LogService.Initialize();
             await BackdropService.InitializeBackdropAsync();
             await ThemeService.InitializeAsync();
 

@@ -1,8 +1,0 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:convert="using:FileRenamer.Converters.Conversions">
-
-    <convert:BooleanToOppositeValueConverter x:Name="BooleanToOppositeValueConverter" />
-    <convert:IntToVisibilityConverter x:Name="IntToVisibilityConverter" />
-</ResourceDictionary>
