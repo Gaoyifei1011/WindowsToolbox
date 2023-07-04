@@ -8,12 +8,15 @@ using FileRenamer.UI.Notifications;
 using FileRenamer.ViewModels.Base;
 using FileRenamer.Views.Pages;
 using FileRenamer.WindowsAPI.PInvoke.DwmApi;
+using FileRenamer.WindowsAPI.PInvoke.User32;
 using FileRenamer.WindowsAPI.PInvoke.Uxtheme;
 using IWshRuntimeLibrary;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.UI.StartScreen;
@@ -115,6 +118,14 @@ namespace FileRenamer.ViewModels.Pages
         };
 
         /// <summary>
+        /// 窗口关闭
+        /// </summary>
+        public void OnCloseClicked(object sender, RoutedEventArgs args)
+        {
+            Program.MainWindow.Close();
+        }
+
+        /// <summary>
         /// 导航完成后发生
         /// </summary>
         public void OnFrameNavigated(object sender, NavigationEventArgs args)
@@ -132,6 +143,28 @@ namespace FileRenamer.ViewModels.Pages
         public void OnFrameNavgationFailed(object sender, NavigationFailedEventArgs args)
         {
             throw new ApplicationException(string.Format(ResourceService.GetLocalized("Window/NavigationFailed"), args.SourcePageType.FullName));
+        }
+
+        /// <summary>
+        /// 窗口最小化
+        /// </summary>
+        public void OnMinimizeClicked(object sender, RoutedEventArgs args)
+        {
+            Program.MainWindow.WindowState = FormWindowState.Minimized;
+        }
+
+        /// <summary>
+        /// 窗口移动
+        /// </summary>
+        public async void OnMoveClicked(object sender, RoutedEventArgs args)
+        {
+            MenuFlyoutItem menuItem = sender as MenuFlyoutItem;
+            if (menuItem.Tag is not null)
+            {
+                ((Flyout)menuItem.Tag).Hide();
+                await Task.Delay(10);
+                User32Library.SendMessage(Program.MainWindow.Handle, WindowMessage.WM_SYSCOMMAND, 0xF010, IntPtr.Zero);
+            }
         }
 
         /// <summary>
@@ -296,7 +329,7 @@ namespace FileRenamer.ViewModels.Pages
         {
             if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[0].InternalName)
             {
-                if (Application.Current.RequestedTheme is ApplicationTheme.Light)
+                if (Windows.UI.Xaml.Application.Current.RequestedTheme is ApplicationTheme.Light)
                 {
                     int useLightMode = 0;
                     DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));

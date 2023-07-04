@@ -7,10 +7,10 @@ namespace FileRenamer.WindowsAPI.PInvoke.Uxtheme
     {
         private const string Uxtheme = "uxtheme.dll";
 
-        [DllImport(Uxtheme, EntryPoint = "#135")]
+        [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "#135")]
         public static extern IntPtr SetPreferredAppMode(PreferredAppMode preferredAppMode);
 
-        [DllImport(Uxtheme, EntryPoint = "#136")]
+        [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "#136")]
         public static extern IntPtr FlushMenuThemes();
     }
 }

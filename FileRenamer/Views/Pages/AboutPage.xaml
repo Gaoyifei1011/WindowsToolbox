@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:layout="using:FileRenamer.Views.CustomControls.Layout"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:model="using:FileRenamer.Models"
+    xmlns:model="using:FileRenamer.Models.Base"
     xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
     xmlns:root="using:FileRenamer.Services.Root"
     Loaded="{x:Bind ViewModel.OnLoaded}"
@@ -155,7 +155,7 @@
                         ItemsSource="{x:Bind ViewModel.ReferenceDict}"
                         SelectionMode="None">
                         <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="model:ReferenceKeyValuePairModel">
+                            <DataTemplate x:DataType="model:KeyValuePairModel">
                                 <HyperlinkButton
                                     Width="150"
                                     Padding="5,8"
@@ -267,7 +267,7 @@
                         ItemsSource="{x:Bind ViewModel.ThanksDict}"
                         SelectionMode="None">
                         <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="model:ThanksKeyValuePairModel">
+                            <DataTemplate x:DataType="model:KeyValuePairModel">
                                 <HyperlinkButton
                                     Width="150"
                                     Padding="5,8"

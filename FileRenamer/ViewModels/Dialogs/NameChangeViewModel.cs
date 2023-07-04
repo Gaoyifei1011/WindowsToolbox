@@ -3,10 +3,13 @@ using FileRenamer.Services.Controls.Settings.Appearance;
 using FileRenamer.Services.Root;
 using FileRenamer.ViewModels.Base;
 using FileRenamer.WindowsAPI.PInvoke.DwmApi;
+using FileRenamer.WindowsAPI.PInvoke.User32;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace FileRenamer.ViewModels.Dialogs
 {
@@ -63,34 +66,34 @@ namespace FileRenamer.ViewModels.Dialogs
         {
             { 0, new List<OldAndNewNameModel>()
                 {
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName1"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList1NewFileName1") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName2"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList1NewFileName2") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName3"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList1NewFileName3") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName4"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList1NewFileName4") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName1"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList1ChangedName1") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName2"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList1ChangedName2") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName3"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList1ChangedName3") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName4"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList1ChangedName4") },
                 }
             },
             { 1, new List<OldAndNewNameModel>()
                 {
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName1"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList2NewFileName1") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName2"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList2NewFileName2") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName3"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList2NewFileName3") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName4"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList2NewFileName4") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName1"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList2ChangedName1") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName2"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList2ChangedName2") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName3"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList2ChangedName3") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName4"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList2ChangedName4") },
                 }
             },
             { 2, new List<OldAndNewNameModel>()
                 {
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName1"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList3NewFileName1") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName2"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList3NewFileName2") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName3"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList3NewFileName3") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName4"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList3NewFileName4") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName1"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList3ChangedName1") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName2"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList3ChangedName2") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName3"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList3ChangedName3") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName4"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList3ChangedName4") },
                 }
             },
             { 3, new List<OldAndNewNameModel>()
                 {
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName1"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList4NewFileName1") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName2"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList4NewFileName2") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName3"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList4NewFileName3") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalFileName4"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList4NewFileName4") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName1"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList4ChangedName1") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName2"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList4ChangedName2") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName3"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList4ChangedName3") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("Dialog/NameChangeOriginalName4"), NewFileName = ResourceService.GetLocalized("Dialog/NameChangeList4ChangedName4") },
                 }
             },
         };
@@ -107,6 +110,14 @@ namespace FileRenamer.ViewModels.Dialogs
         }
 
         /// <summary>
+        /// 窗口关闭
+        /// </summary>
+        public void OnCloseClicked(object sender, RoutedEventArgs args)
+        {
+            User32Library.SendMessage(WindowHandle, WindowMessage.WM_CLOSE, 0, IntPtr.Zero);
+        }
+
+        /// <summary>
         /// 向前导航
         /// </summary>
         public void OnForwardNavigateClicked(object sender, RoutedEventArgs args)
@@ -117,6 +128,20 @@ namespace FileRenamer.ViewModels.Dialogs
             {
                 NameChangeList[index].OriginalFileName = NameChangeDict[CurrentIndex][index].OriginalFileName;
                 NameChangeList[index].NewFileName = NameChangeDict[CurrentIndex][index].NewFileName;
+            }
+        }
+
+        /// <summary>
+        /// 窗口移动
+        /// </summary>
+        public async void OnMoveClicked(object sender, RoutedEventArgs args)
+        {
+            MenuFlyoutItem menuItem = sender as MenuFlyoutItem;
+            if (menuItem.Tag is not null)
+            {
+                ((Flyout)menuItem.Tag).Hide();
+                await Task.Delay(10);
+                User32Library.SendMessage(WindowHandle, WindowMessage.WM_SYSCOMMAND, 0xF010, IntPtr.Zero);
             }
         }
 

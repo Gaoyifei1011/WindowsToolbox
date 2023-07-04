@@ -9,6 +9,7 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace FileRenamer.Views.Forms
 {
@@ -40,7 +41,7 @@ namespace FileRenamer.Views.Forms
             StartPosition = FormStartPosition.Manual;
             Left = Program.MainWindow.Left + (Program.MainWindow.Width - Width) / 2;
             Top = Program.MainWindow.Top + (Program.MainWindow.Height - Height) / 2;
-            Text = ResourceService.GetLocalized("NameChange/Title");
+            Text = ResourceService.GetLocalized("Dialog/NameChangeTitle");
             graphics.Dispose();
 
             MileXamlHost.AutoSize = true;
@@ -122,6 +123,51 @@ namespace FileRenamer.Views.Forms
                         break;
                     }
             }
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            switch (m.Msg)
+            {
+                // 窗口移动时的消息
+                case (int)WindowMessage.WM_MOVE:
+                    {
+                        if (NameChange.TitlebarMenuFlyout.IsOpen)
+                        {
+                            NameChange.TitlebarMenuFlyout.Hide();
+                        }
+                        break;
+                    }
+                // 选择窗口右键菜单的条目时接收到的消息
+                case (int)WindowMessage.WM_SYSCOMMAND:
+                    {
+                        SystemCommand sysCommand = (SystemCommand)(m.WParam.ToInt32() & 0xFFF0);
+
+                        if (sysCommand == SystemCommand.SC_MOUSEMENU || sysCommand == SystemCommand.SC_KEYMENU)
+                        {
+                            FlyoutShowOptions options = new FlyoutShowOptions();
+                            options.Position = new Windows.Foundation.Point(0, 0);
+                            options.ShowMode = FlyoutShowMode.Standard;
+                            NameChange.TitlebarMenuFlyout.ShowAt(null, options);
+                            return;
+                        }
+                        break;
+                    }
+                // 当用户按下鼠标右键时，光标位于窗口的非工作区内的消息
+                case (int)WindowMessage.WM_NCRBUTTONDOWN:
+                    {
+                        Point ms = MousePosition;
+                        FlyoutShowOptions options = new FlyoutShowOptions();
+                        options.Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft;
+                        options.ShowMode = FlyoutShowMode.Standard;
+                        options.Position = InfoHelper.SystemVersion.Build >= 22000 ? new Windows.Foundation.Point(DPICalcHelper.ConvertPixelToEpx(Handle, ms.X - Location.X - 8), DPICalcHelper.ConvertPixelToEpx(Handle, ms.Y - Location.Y - 32)) : new Windows.Foundation.Point(ms.X - Location.X, ms.Y - Location.Y - 32);
+                        NameChange.TitlebarMenuFlyout.ShowAt(null, options);
+
+                        return;
+                    }
+            }
+
+            base.WndProc(ref m);
         }
 
         /// <summary>

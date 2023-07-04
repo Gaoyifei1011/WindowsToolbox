@@ -49,19 +49,6 @@ namespace FileRenamer.Views.Forms
         }
 
         /// <summary>
-        /// 窗体程序加载时初始化应用程序设置
-        /// </summary>
-        protected override void OnLoad(EventArgs args)
-        {
-            base.OnLoad(args);
-
-            ThemeService.SetWindowTheme();
-            BackdropService.SetAppBackdrop(Handle);
-
-            MainPage.ViewModel.SetAppTheme();
-        }
-
-        /// <summary>
         /// 当前显示窗体的显示设备上的 DPI 设置更改时发生
         /// </summary>
         protected override async void OnDpiChanged(DpiChangedEventArgs args)
@@ -77,6 +64,27 @@ namespace FileRenamer.Views.Forms
         }
 
         /// <summary>
+        /// 窗体程序加载时初始化应用程序设置
+        /// </summary>
+        protected override void OnLoad(EventArgs args)
+        {
+            base.OnLoad(args);
+
+            ThemeService.SetWindowTheme();
+            BackdropService.SetAppBackdrop(Handle);
+
+            MainPage.ViewModel.SetAppTheme();
+        }
+
+        /// <summary>
+        /// 窗体大小发生改变时响应的事件
+        /// </summary>
+        protected override void OnSizeChanged(EventArgs args)
+        {
+            base.OnSizeChanged(args);
+        }
+
+        /// <summary>
         /// 处理 Windows 消息
         /// </summary>
         protected override void WndProc(ref Message m)
@@ -86,6 +94,10 @@ namespace FileRenamer.Views.Forms
                 // 窗口移动时的消息
                 case (int)WindowMessage.WM_MOVE:
                     {
+                        if (MainPage.TitlebarMenuFlyout.IsOpen)
+                        {
+                            MainPage.TitlebarMenuFlyout.Hide();
+                        }
                         IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(Program.MainWindow.MainPage.XamlRoot);
                         foreach (Popup popup in PopupRoot)
                         {
@@ -122,8 +134,30 @@ namespace FileRenamer.Views.Forms
                         MessageReceived?.Invoke(m);
                         break;
                     }
+                // 选择窗口右键菜单的条目时接收到的消息
+                case (int)WindowMessage.WM_SYSCOMMAND:
+                    {
+                        SystemCommand sysCommand = (SystemCommand)(m.WParam.ToInt32() & 0xFFF0);
+
+                        if (sysCommand == SystemCommand.SC_MOUSEMENU || sysCommand == SystemCommand.SC_KEYMENU)
+                        {
+                            FlyoutShowOptions options = new FlyoutShowOptions();
+                            options.Position = new Windows.Foundation.Point(0, 0);
+                            options.ShowMode = FlyoutShowMode.Standard;
+                            MainPage.TitlebarMenuFlyout.ShowAt(null, options);
+                            return;
+                        }
+                        break;
+                    }
+                // 当用户按下鼠标右键时，光标位于窗口的非工作区内的消息
                 case (int)WindowMessage.WM_NCRBUTTONDOWN:
                     {
+                        Point ms = MousePosition;
+                        FlyoutShowOptions options = new FlyoutShowOptions();
+                        options.Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft;
+                        options.ShowMode = FlyoutShowMode.Standard;
+                        options.Position = InfoHelper.SystemVersion.Build >= 22000 ? new Windows.Foundation.Point(DPICalcHelper.ConvertPixelToEpx(Handle, ms.X - Location.X - 8), DPICalcHelper.ConvertPixelToEpx(Handle, ms.Y - Location.Y - 32)) : new Windows.Foundation.Point(ms.X - Location.X, ms.Y - Location.Y - 32);
+                        MainPage.TitlebarMenuFlyout.ShowAt(null, options);
                         return;
                     }
             }

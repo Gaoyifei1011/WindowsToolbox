@@ -120,6 +120,9 @@
   <data name="About" xml:space="preserve">
     <value>关于</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
   <data name="CreateDesktopShortcut" xml:space="preserve">
     <value>创建快捷方式</value>
   </data>
@@ -134,6 +137,15 @@
   </data>
   <data name="FileProperties" xml:space="preserve">
     <value>文件属性</value>
+  </data>
+  <data name="Maximize" xml:space="preserve">
+    <value>最大化</value>
+  </data>
+  <data name="Minimize" xml:space="preserve">
+    <value>最小化</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>移动</value>
   </data>
   <data name="Others" xml:space="preserve">
     <value>其他</value>
@@ -153,6 +165,9 @@
   <data name="RestartAppToolTip" xml:space="preserve">
     <value>应用设置发生修改后，部分选项需要重启后生效</value>
   </data>
+  <data name="Restore" xml:space="preserve">
+    <value>还原</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>设置</value>
   </data>
@@ -167,6 +182,9 @@
   </data>
   <data name="ShowReleaseNotesToolTip" xml:space="preserve">
     <value>了解应用具体的更新内容</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>大小</value>
   </data>
   <data name="UpperAndLowerCase" xml:space="preserve">
     <value>大写小写</value>

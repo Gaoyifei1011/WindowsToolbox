@@ -1,5 +1,5 @@
 ﻿using FileRenamer.Helpers.Root;
-using FileRenamer.Models;
+using FileRenamer.Models.Base;
 using FileRenamer.UI.Dialogs.About;
 using FileRenamer.ViewModels.Base;
 using System.Collections.Generic;
@@ -35,15 +35,15 @@ namespace FileRenamer.ViewModels.Pages
         }
 
         //项目引用信息
-        public List<ReferenceKeyValuePairModel> ReferenceDict = new List<ReferenceKeyValuePairModel>()
+        public List<KeyValuePairModel> ReferenceDict = new List<KeyValuePairModel>()
         {
-            new ReferenceKeyValuePairModel() {Key = "Mile.Xaml" , Value = "https://github.com/ProjectMile/Mile.Xaml" }
+            new KeyValuePairModel() {Key = "Mile.Xaml" , Value = "https://github.com/ProjectMile/Mile.Xaml" }
         };
 
-        public List<ThanksKeyValuePairModel> ThanksDict = new List<ThanksKeyValuePairModel>()
+        public List<KeyValuePairModel> ThanksDict = new List<KeyValuePairModel>()
         {
-            new ThanksKeyValuePairModel() { Key ="AndromedaMelody", Value="https://github.com/AndromedaMelody"},
-            new ThanksKeyValuePairModel() { Key = "MouriNaruto" , Value = "https://github.com/MouriNaruto" }
+            new KeyValuePairModel() { Key ="AndromedaMelody", Value="https://github.com/AndromedaMelody"},
+            new KeyValuePairModel() { Key = "MouriNaruto" , Value = "https://github.com/MouriNaruto" }
         };
 
         /// <summary>

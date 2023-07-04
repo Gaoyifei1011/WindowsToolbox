@@ -1,9 +1,9 @@
-﻿namespace FileRenamer.Models
+﻿namespace FileRenamer.Models.Base
 {
     /// <summary>
     /// 键值对（使用列表模仿字典（因为字典类型无法绑定））数据模型
     /// </summary>
-    public class ThanksKeyValuePairModel
+    public class KeyValuePairModel
     {
         public string Key { get; set; }
 

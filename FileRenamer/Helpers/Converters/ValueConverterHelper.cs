@@ -8,6 +8,14 @@ namespace FileRenamer.Helpers.Converters
     public static class ValueConverterHelper
     {
         /// <summary>
+        /// 布尔值取反
+        /// </summary>
+        public static bool BooleanReverseConvert(bool value)
+        {
+            return !value;
+        }
+
+        /// <summary>
         /// 整数值与控件显示值转换（判断结果相反）
         /// </summary>
         public static Visibility IntToVisibilityReverseConvert(int value)
