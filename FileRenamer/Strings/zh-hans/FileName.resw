@@ -126,9 +126,6 @@
   <data name="ClearList" xml:space="preserve">
     <value>清空列表</value>
   </data>
-  <data name="CurrentNumber" xml:space="preserve">
-    <value>当前序号：{0}</value>
-  </data>
   <data name="DragOverContent" xml:space="preserve">
     <value>复制到“文件名称”页面中</value>
   </data>
@@ -145,13 +142,13 @@
     <value>修改</value>
   </data>
   <data name="NewFileName" xml:space="preserve">
-    <value>新文件名称</value>
+    <value>新文件(夹)名称</value>
   </data>
   <data name="NumberFormat" xml:space="preserve">
     <value>编号格式</value>
   </data>
   <data name="OriginalFileName" xml:space="preserve">
-    <value>原文件名称</value>
+    <value>原文件(夹)名称</value>
   </data>
   <data name="Preview" xml:space="preserve">
     <value>预览</value>

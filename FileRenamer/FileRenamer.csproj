@@ -129,8 +129,4 @@
 
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Resources\About.resw" />
-  </ItemGroup>
 </Project>

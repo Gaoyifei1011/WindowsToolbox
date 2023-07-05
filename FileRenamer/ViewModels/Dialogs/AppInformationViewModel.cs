@@ -1,5 +1,6 @@
 ﻿using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Root;
+using FileRenamer.UI.Notifications;
 using FileRenamer.ViewModels.Base;
 using System;
 using System.Diagnostics;
@@ -66,7 +67,7 @@ namespace FileRenamer.ViewModels.Dialogs.About
 
             CopyPasteHelper.CopyToClipBoard(stringBuilder.ToString());
             sender.Hide();
-            //new AppInformationCopyNotification(true).Show();
+            new AppInformationCopyNotification().Show();
         }
 
         /// <summary>
@@ -75,7 +76,12 @@ namespace FileRenamer.ViewModels.Dialogs.About
         public void InitializeAppInformation()
         {
             FileVersionInfo WindowsUIFile = FileVersionInfo.GetVersionInfo(string.Format(@"{0}\{1}", Environment.SystemDirectory, "Windows.UI.Xaml.dll"));
-            WindowsUIVersion = WindowsUIFile.ProductVersion;
+            WindowsUIVersion = string.Format("{0}.{1}.{2}.{3}",
+                WindowsUIFile.ProductMajorPart,
+                WindowsUIFile.ProductMinorPart,
+                WindowsUIFile.ProductBuildPart,
+                WindowsUIFile.ProductPrivatePart
+                );
 
             FileVersionInfo MileXamlFile = FileVersionInfo.GetVersionInfo(string.Format(@"{0}{1}", InfoHelper.GetAppInstalledLocation(), @"Mile.Xaml.Managed.dll"));
             MileXamlVersion = MileXamlFile.FileVersion;

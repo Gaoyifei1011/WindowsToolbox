@@ -20,6 +20,7 @@
         <Flyout
             x:Name="TitlebarMenuFlyout"
             x:FieldModifier="public"
+            AreOpenCloseAnimationsEnabled="False"
             Placement="BottomEdgeAlignedLeft"
             ShouldConstrainToRootBounds="False">
             <Flyout.FlyoutPresenterStyle>

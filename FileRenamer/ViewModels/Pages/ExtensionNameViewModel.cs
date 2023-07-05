@@ -3,6 +3,7 @@ using FileRenamer.Services.Root;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -76,6 +77,37 @@ namespace FileRenamer.ViewModels.Pages
             {
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
+                    DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
+
+                    try
+                    {
+                        foreach (DirectoryInfo subFolder in currentFolder.GetDirectories())
+                        {
+                            if ((subFolder.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+                            {
+                                continue;
+                            }
+                            ExtensionNameDataList.Add(new OldAndNewNameModel() { OriginalFileName = subFolder.Name });
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+
+                    try
+                    {
+                        foreach (FileInfo subFile in currentFolder.GetFiles())
+                        {
+                            if ((subFile.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+                            {
+                                continue;
+                            }
+                            ExtensionNameDataList.Add(new OldAndNewNameModel() { OriginalFileName = subFile.Name });
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
             }
         }

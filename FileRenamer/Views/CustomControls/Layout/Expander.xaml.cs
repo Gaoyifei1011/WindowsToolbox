@@ -34,7 +34,6 @@ namespace FileRenamer.Views.CustomControls.Layout
             set { SetValue(IsExpandedProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ToolTip.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsExpandedProperty =
             DependencyProperty.Register("IsExpanded", typeof(bool), typeof(Expander), new PropertyMetadata(null, OnIsExpandedPropertyChanged));
 
@@ -44,7 +43,6 @@ namespace FileRenamer.Views.CustomControls.Layout
             set { SetValue(NegativeContentHeightProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ToolTip.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty NegativeContentHeightProperty =
             DependencyProperty.Register("NegativeContentHeight", typeof(double), typeof(Expander), new PropertyMetadata(0.0));
 

@@ -34,6 +34,8 @@ namespace FileRenamer.Views.Forms
             InitializeComponent();
             graphics = CreateGraphics();
 
+            //BackColor = Color.FromArgb(30,60,90);
+            //TransparencyKey = Color.FromArgb(30, 60, 90);
             Controls.Add(MileXamlHost);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = Icon.ExtractAssociatedIcon(string.Format(@"{0}{1}", InfoHelper.GetAppInstalledLocation(), @"FileRenamer.exe"));

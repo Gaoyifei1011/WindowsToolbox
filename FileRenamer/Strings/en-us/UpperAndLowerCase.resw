@@ -126,9 +126,6 @@
   <data name="ClearList" xml:space="preserve">
     <value>Clear list</value>
   </data>
-  <data name="CurrentNumber" xml:space="preserve">
-    <value>Current number：{0}</value>
-  </data>
   <data name="DeleteSpace" xml:space="preserve">
     <value>Delete Spaces in file names</value>
   </data>
@@ -154,10 +151,10 @@
     <value>Modify</value>
   </data>
   <data name="NewFileName" xml:space="preserve">
-    <value>New file name</value>
+    <value>New file (folder) name</value>
   </data>
   <data name="OriginalFileName" xml:space="preserve">
-    <value>Original file name</value>
+    <value>Original file (folder) name</value>
   </data>
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>

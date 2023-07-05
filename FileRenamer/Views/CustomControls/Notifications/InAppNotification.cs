@@ -26,7 +26,6 @@ namespace FileRenamer.Views.CustomControls.Notifications
             set { SetValue(DurationProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Duration.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DurationProperty =
             DependencyProperty.Register("Duration", typeof(int), typeof(InAppNotification), new PropertyMetadata(2000));
 
@@ -36,7 +35,6 @@ namespace FileRenamer.Views.CustomControls.Notifications
             set { SetValue(HorizontalOffsetProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for HorizontalOffset.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HorizontalOffsetProperty =
             DependencyProperty.Register("HorizontalOffset", typeof(double), typeof(InAppNotification), new PropertyMetadata(0.0));
 
@@ -46,7 +44,6 @@ namespace FileRenamer.Views.CustomControls.Notifications
             set { SetValue(VerticalOffsetProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for VerticalOffset.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VerticalOffsetProperty =
             DependencyProperty.Register("VerticalOffset", typeof(double), typeof(InAppNotification), new PropertyMetadata(0.0));
 

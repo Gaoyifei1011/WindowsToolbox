@@ -1,8 +1,11 @@
-﻿using FileRenamer.Models;
+﻿using FileRenamer.Extensions.DataType.Enums;
+using FileRenamer.Models;
 using FileRenamer.Services.Root;
+using FileRenamer.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -13,9 +16,49 @@ namespace FileRenamer.ViewModels.Pages
     /// <summary>
     /// 大写小写页面视图模型
     /// </summary>
-    public sealed class UpperAndLowerCasePageViewModel
+    public sealed class UpperAndLowerCasePageViewModel : ViewModelBase
     {
+        public UpperAndLowerSelectedType _selectedType = UpperAndLowerSelectedType.None;
+
+        public UpperAndLowerSelectedType SelectedType
+        {
+            get { return _selectedType; }
+
+            set
+            {
+                _selectedType = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<OldAndNewNameModel> UpperAndLowerCaseDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
+
+        /// <summary>
+        /// 选中时触发的事件
+        /// </summary>
+        public void OnChecked(object sender, RoutedEventArgs args)
+        {
+            Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
+            if (checkBox is not null)
+            {
+                SelectedType = (UpperAndLowerSelectedType)Convert.ToInt32(checkBox.Tag);
+            }
+        }
+
+        /// <summary>
+        /// 取消选中时触发的事件
+        /// </summary>
+        public void OnUnchecked(object sender, RoutedEventArgs args)
+        {
+            Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
+            if (checkBox is not null)
+            {
+                if (SelectedType == (UpperAndLowerSelectedType)Convert.ToInt32(checkBox.Tag))
+                {
+                    SelectedType = UpperAndLowerSelectedType.None;
+                }
+            }
+        }
 
         /// <summary>
         /// 清空列表
@@ -50,6 +93,10 @@ namespace FileRenamer.ViewModels.Pages
                 if (view.Contains(StandardDataFormats.StorageItems))
                 {
                     IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
+                    foreach (IStorageItem item in filesList)
+                    {
+                        UpperAndLowerCaseDataList.Add(new OldAndNewNameModel() { OriginalFileName = item.Name });
+                    }
                 }
             }
             finally
@@ -72,6 +119,37 @@ namespace FileRenamer.ViewModels.Pages
             {
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
+                    DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
+
+                    try
+                    {
+                        foreach (DirectoryInfo subFolder in currentFolder.GetDirectories())
+                        {
+                            if ((subFolder.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+                            {
+                                continue;
+                            }
+                            UpperAndLowerCaseDataList.Add(new OldAndNewNameModel() { OriginalFileName = subFolder.Name });
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+
+                    try
+                    {
+                        foreach (FileInfo subFile in currentFolder.GetFiles())
+                        {
+                            if ((subFile.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+                            {
+                                continue;
+                            }
+                            UpperAndLowerCaseDataList.Add(new OldAndNewNameModel() { OriginalFileName = subFile.Name });
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
             }
         }

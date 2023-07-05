@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CopyAppInformation" xml:space="preserve">
+    <value>The app information has been successfully copied to the clipboard</value>
+  </data>
   <data name="DesktopShortcutSuccessfully" xml:space="preserve">
     <value>The desktop shortcut for the app was created successfully</value>
   </data>

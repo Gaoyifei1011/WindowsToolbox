@@ -1,4 +1,5 @@
-﻿using FileRenamer.Services.Root;
+﻿using FileRenamer.Extensions.DataType.Enums;
+using FileRenamer.Services.Root;
 using Windows.UI.Xaml.Controls;
 
 namespace FileRenamer.Views.Pages
@@ -16,6 +17,11 @@ namespace FileRenamer.Views.Pages
         public string LocalizeTotal(int count)
         {
             return string.Format(ResourceService.GetLocalized("UpperAndLowerCase/Total"), ViewModel.UpperAndLowerCaseDataList.Count);
+        }
+
+        public bool IsItemChecked(UpperAndLowerSelectedType selectedType, UpperAndLowerSelectedType comparedType)
+        {
+            return selectedType == comparedType;
         }
     }
 }
