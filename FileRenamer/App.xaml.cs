@@ -1,20 +1,18 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Root;
+using Mile.Xaml;
 using System;
 using System.Text;
 using System.Windows.Forms;
-using Windows.UI.Xaml.Hosting;
 
 namespace FileRenamer
 {
     public sealed partial class App : Windows.UI.Xaml.Application
     {
-        private WindowsXamlManager WindowsXamlManager { get; set; }
-
         public App()
         {
-            WindowsXamlManager = WindowsXamlManager.InitializeForCurrentThread();
+            this.ThreadInitialize();
             InitializeComponent();
             UnhandledException += OnUnhandledException;
         }
@@ -61,8 +59,9 @@ namespace FileRenamer
         /// </summary>
         public void CloseApp()
         {
-            WindowsXamlManager?.Dispose();
-            WindowsXamlManager = null;
+            Program.AppMutex.Close();
+            Program.AppMutex.Dispose();
+            this.ThreadUninitialize();
             Environment.Exit(Convert.ToInt32(AppExitCode.Successfully));
         }
     }

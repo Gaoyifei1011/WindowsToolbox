@@ -77,7 +77,7 @@ namespace FileRenamer
         /// </summary>
         private static void OnApplicationExit(object sender, EventArgs args)
         {
-            CloseApp();
+            ApplicationRoot.CloseApp();
         }
 
         /// <summary>
@@ -201,8 +201,6 @@ namespace FileRenamer
         /// </summary>
         public static void CloseApp()
         {
-            AppMutex.Close();
-            AppMutex.Dispose();
         }
     }
 }

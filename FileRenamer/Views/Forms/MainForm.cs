@@ -5,12 +5,14 @@ using FileRenamer.UI.Dialogs;
 using FileRenamer.Views.Pages;
 using FileRenamer.WindowsAPI.PInvoke.DwmApi;
 using FileRenamer.WindowsAPI.PInvoke.User32;
+using FileRenamer.WindowsAPI.PInvoke.Uxtheme;
 using Mile.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
@@ -34,8 +36,6 @@ namespace FileRenamer.Views.Forms
             InitializeComponent();
             graphics = CreateGraphics();
 
-            //BackColor = Color.FromArgb(30,60,90);
-            //TransparencyKey = Color.FromArgb(30, 60, 90);
             Controls.Add(MileXamlHost);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = Icon.ExtractAssociatedIcon(string.Format(@"{0}{1}", InfoHelper.GetAppInstalledLocation(), @"FileRenamer.exe"));
@@ -66,6 +66,16 @@ namespace FileRenamer.Views.Forms
         }
 
         /// <summary>
+        /// 关闭窗口时恢复默认状态
+        /// </summary>
+        protected override void OnFormClosing(FormClosingEventArgs args)
+        {
+            base.OnFormClosing(args);
+            AllowTransparency = false;
+            Program.ApplicationRoot.CloseApp();
+        }
+
+        /// <summary>
         /// 窗体程序加载时初始化应用程序设置
         /// </summary>
         protected override void OnLoad(EventArgs args)
@@ -75,7 +85,7 @@ namespace FileRenamer.Views.Forms
             ThemeService.SetWindowTheme();
             BackdropService.SetAppBackdrop(Handle);
 
-            MainPage.ViewModel.SetAppTheme();
+            SetAppTheme();
         }
 
         /// <summary>
@@ -100,7 +110,7 @@ namespace FileRenamer.Views.Forms
                         {
                             MainPage.TitlebarMenuFlyout.Hide();
                         }
-                        IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(Program.MainWindow.MainPage.XamlRoot);
+                        IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(MainPage.XamlRoot);
                         foreach (Popup popup in PopupRoot)
                         {
                             if (popup.Child as MenuFlyoutPresenter is not null)
@@ -132,7 +142,8 @@ namespace FileRenamer.Views.Forms
                 // 系统设置发生变化时的消息
                 case (int)WindowMessage.WM_SETTINGCHANGE:
                     {
-                        MainPage.ViewModel.SetAppTheme();
+                        SetAppTheme();
+                        RefreshWindowState();
                         MessageReceived?.Invoke(m);
                         break;
                     }
@@ -167,27 +178,123 @@ namespace FileRenamer.Views.Forms
             base.WndProc(ref m);
         }
 
+        /// <summary>
+        /// 设置应用的主题色
+        /// </summary>
+        public void SetAppTheme()
+        {
+            if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[0].InternalName)
+            {
+                if (Windows.UI.Xaml.Application.Current.RequestedTheme is ApplicationTheme.Light)
+                {
+                    int useLightMode = 0;
+                    DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));
+                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
+                    UxthemeLibrary.FlushMenuThemes();
+
+                    RefreshWindowState();
+                }
+                else
+                {
+                    int useDarkMode = 1;
+                    DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
+                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
+                    UxthemeLibrary.FlushMenuThemes();
+
+                    RefreshWindowState();
+                }
+            }
+            if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[1].InternalName)
+            {
+                int useLightMode = 0;
+                DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));
+                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
+                UxthemeLibrary.FlushMenuThemes();
+
+                RefreshWindowState();
+            }
+            else if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[2].InternalName)
+            {
+                int useDarkMode = 1;
+                DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
+                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
+                UxthemeLibrary.FlushMenuThemes();
+
+                RefreshWindowState();
+            }
+        }
+
+        /// <summary>
+        /// 添加窗口背景色
+        /// </summary>
         public void SetWindowBackdrop()
         {
             if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[0].InternalName)
             {
                 int noBackdrop = 1;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref noBackdrop, Marshal.SizeOf(typeof(int)));
+
+                RefreshWindowState();
             }
             else if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[1].InternalName)
             {
                 int micaBackdrop = 2;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref micaBackdrop, Marshal.SizeOf(typeof(int)));
+
+                RefreshWindowState();
             }
             else if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[2].InternalName)
             {
                 int micaAltBackdrop = 4;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref micaAltBackdrop, Marshal.SizeOf(typeof(int)));
+
+                RefreshWindowState();
             }
             else if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[3].InternalName)
             {
                 int acrylicBackdrop = 3;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref acrylicBackdrop, Marshal.SizeOf(typeof(int)));
+
+                RefreshWindowState();
+            }
+        }
+
+        /// <summary>
+        /// 当主题色或背景色发生改变时，刷新窗体的状态
+        /// </summary>
+        public void RefreshWindowState()
+        {
+            if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[0].InternalName)
+            {
+                if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[0].InternalName)
+                {
+                    if (Windows.UI.Xaml.Application.Current.RequestedTheme == ApplicationTheme.Light)
+                    {
+                        TransparencyKey = BackColor = Color.White;
+                        AllowTransparency = false;
+                    }
+                    else
+                    {
+                        TransparencyKey = BackColor = Color.Black;
+                        AllowTransparency = false;
+                    }
+                }
+                else if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[1].InternalName)
+                {
+                    TransparencyKey = BackColor = Color.White;
+                    AllowTransparency = false;
+                }
+                else if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[2].InternalName)
+                {
+                    TransparencyKey = BackColor = Color.Black;
+                    AllowTransparency = false;
+                }
+            }
+            else
+            {
+                AllowTransparency = true;
+                BackColor = Color.FromArgb(255, 255, 254);
+                TransparencyKey = Color.FromArgb(255, 255, 254);
             }
         }
     }

@@ -13,7 +13,7 @@ namespace FileRenamer.ViewModels.Dialogs
         /// </summary>
         public void OnRestartAppsClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            Program.CloseApp();
+            Program.ApplicationRoot.CloseApp();
             Application.Restart();
         }
     }

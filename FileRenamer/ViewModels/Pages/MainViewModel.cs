@@ -1,20 +1,16 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
 using FileRenamer.Models;
-using FileRenamer.Services.Controls.Settings.Appearance;
 using FileRenamer.Services.Root;
 using FileRenamer.Services.Window;
 using FileRenamer.UI.Dialogs;
 using FileRenamer.UI.Notifications;
 using FileRenamer.ViewModels.Base;
 using FileRenamer.Views.Pages;
-using FileRenamer.WindowsAPI.PInvoke.DwmApi;
 using FileRenamer.WindowsAPI.PInvoke.User32;
-using FileRenamer.WindowsAPI.PInvoke.Uxtheme;
 using IWshRuntimeLibrary;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel;
@@ -222,7 +218,7 @@ namespace FileRenamer.ViewModels.Pages
         {
             if (args.PropertyName == nameof(WindowTheme))
             {
-                SetAppTheme();
+                Program.MainWindow.SetAppTheme();
             }
         }
 
@@ -320,44 +316,6 @@ namespace FileRenamer.ViewModels.Pages
         public void OnShowReleaseNotesClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "https://github.com/Gaoyifei1011/FileRenamer/releases");
-        }
-
-        /// <summary>
-        /// 设置应用的主题色
-        /// </summary>
-        public void SetAppTheme()
-        {
-            if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[0].InternalName)
-            {
-                if (Windows.UI.Xaml.Application.Current.RequestedTheme is ApplicationTheme.Light)
-                {
-                    int useLightMode = 0;
-                    DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));
-                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
-                    UxthemeLibrary.FlushMenuThemes();
-                }
-                else
-                {
-                    int useDarkMode = 1;
-                    DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
-                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
-                    UxthemeLibrary.FlushMenuThemes();
-                }
-            }
-            if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[1].InternalName)
-            {
-                int useLightMode = 0;
-                DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));
-                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
-                UxthemeLibrary.FlushMenuThemes();
-            }
-            else if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[2].InternalName)
-            {
-                int useDarkMode = 1;
-                DwmApiLibrary.DwmSetWindowAttribute(Program.MainWindow.Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
-                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
-                UxthemeLibrary.FlushMenuThemes();
-            }
         }
     }
 }

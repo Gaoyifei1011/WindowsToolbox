@@ -4,11 +4,13 @@ using FileRenamer.Services.Root;
 using FileRenamer.UI.Dialogs;
 using FileRenamer.WindowsAPI.PInvoke.DwmApi;
 using FileRenamer.WindowsAPI.PInvoke.User32;
+using FileRenamer.WindowsAPI.PInvoke.Uxtheme;
 using Mile.Xaml;
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
 
 namespace FileRenamer.Views.Forms
@@ -65,6 +67,15 @@ namespace FileRenamer.Views.Forms
         }
 
         /// <summary>
+        /// 关闭窗口时恢复默认状态
+        /// </summary>
+        protected override void OnFormClosing(FormClosingEventArgs args)
+        {
+            base.OnFormClosing(args);
+            AllowTransparency = false;
+        }
+
+        /// <summary>
         /// 当前显示窗体的显示设备上的 DPI 设置更改时发生
         /// </summary>
         protected override void OnDpiChanged(DpiChangedEventArgs args)
@@ -85,7 +96,7 @@ namespace FileRenamer.Views.Forms
             base.OnHandleCreated(args);
 
             NameChange.ViewModel.WindowHandle = Handle;
-            NameChange.ViewModel.SetAppTheme();
+            SetAppTheme();
             SetWindowBackdrop();
 
             Program.MainWindow.MessageReceived += OnMessageReceived;
@@ -106,7 +117,7 @@ namespace FileRenamer.Views.Forms
         /// </summary>
         private async void OnThemeChanged()
         {
-            await MileXamlHost.Child.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, NameChange.ViewModel.SetAppTheme);
+            await MileXamlHost.Child.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, SetAppTheme);
         }
 
         /// <summary>
@@ -119,12 +130,16 @@ namespace FileRenamer.Views.Forms
                 // 系统设置发生变化时的消息
                 case (int)WindowMessage.WM_SETTINGCHANGE:
                     {
-                        await MileXamlHost.Child.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, NameChange.ViewModel.SetAppTheme);
+                        await MileXamlHost.Child.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, SetAppTheme);
+                        RefreshWindowState();
                         break;
                     }
             }
         }
 
+        /// <summary>
+        /// 处理 Windows 消息
+        /// </summary>
         protected override void WndProc(ref Message m)
         {
             switch (m.Msg)
@@ -197,21 +212,114 @@ namespace FileRenamer.Views.Forms
             {
                 int noBackdrop = 1;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref noBackdrop, Marshal.SizeOf(typeof(int)));
+
+                RefreshWindowState();
             }
             else if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[1].InternalName)
             {
                 int micaBackdrop = 2;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref micaBackdrop, Marshal.SizeOf(typeof(int)));
+
+                RefreshWindowState();
             }
             else if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[2].InternalName)
             {
                 int micaAltBackdrop = 4;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref micaAltBackdrop, Marshal.SizeOf(typeof(int)));
+
+                RefreshWindowState();
             }
             else if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[3].InternalName)
             {
                 int acrylicBackdrop = 3;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref acrylicBackdrop, Marshal.SizeOf(typeof(int)));
+
+                RefreshWindowState();
+            }
+        }
+
+        /// <summary>
+        /// 设置当前窗口的主题色
+        /// </summary>
+        public void SetAppTheme()
+        {
+            if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[0].InternalName)
+            {
+                if (Windows.UI.Xaml.Application.Current.RequestedTheme is ApplicationTheme.Light)
+                {
+                    int useLightMode = 0;
+                    DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));
+                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
+                    UxthemeLibrary.FlushMenuThemes();
+
+                    RefreshWindowState();
+                }
+                else
+                {
+                    int useDarkMode = 1;
+                    DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
+                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
+                    UxthemeLibrary.FlushMenuThemes();
+
+                    RefreshWindowState();
+                }
+            }
+            if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[1].InternalName)
+            {
+                int useLightMode = 0;
+                DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));
+                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
+                UxthemeLibrary.FlushMenuThemes();
+
+                RefreshWindowState();
+            }
+            else if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[2].InternalName)
+            {
+                int useDarkMode = 1;
+                DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
+                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
+                UxthemeLibrary.FlushMenuThemes();
+
+                RefreshWindowState();
+            }
+        }
+
+        /// <summary>
+        /// 当主题色或背景色发生改变时，刷新窗体的状态
+        /// </summary>
+        public void RefreshWindowState()
+        {
+            if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[0].InternalName)
+            {
+                if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[0].InternalName)
+                {
+                    if (Windows.UI.Xaml.Application.Current.RequestedTheme == Windows.UI.Xaml.ApplicationTheme.Light)
+                    {
+                        TransparencyKey = BackColor = Color.White;
+                        AllowTransparency = false;
+                    }
+                    else
+                    {
+                        TransparencyKey = BackColor = Color.Black;
+                        AllowTransparency = false;
+                    }
+                }
+                else if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[1].InternalName)
+                {
+                    TransparencyKey = BackColor = Color.White;
+                    AllowTransparency = false;
+                }
+                else if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[2].InternalName)
+                {
+                    TransparencyKey = BackColor = Color.Black;
+                    AllowTransparency = false;
+                }
+            }
+            else
+            {
+                AllowTransparency = true;
+                BackColor = Color.FromArgb(255, 255, 254);
+                TransparencyKey = Color.FromArgb(255, 255, 254);
             }
         }
     }

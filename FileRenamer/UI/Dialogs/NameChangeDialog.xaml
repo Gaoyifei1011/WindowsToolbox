@@ -1,14 +1,14 @@
 <Grid
     x:Class="FileRenamer.UI.Dialogs.NameChangeDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dialogViewModel="using:FileRenamer.ViewModels.Dialogs"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:fileRenamer="using:FileRenamer"
     xmlns:model="using:FileRenamer.Models"
     xmlns:root="using:FileRenamer.Services.Root"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    RequestedTheme="{x:Bind ViewModel.WindowTheme, Mode=OneWay}"
+    xmlns:dialogViewModel="using:FileRenamer.ViewModels.Dialogs"
+    RequestedTheme="{x:Bind fileRenamer:Program.MainWindow.MainPage.ViewModel.WindowTheme, Mode=OneWay}"
     mc:Ignorable="d">
 
     <Grid.DataContext>

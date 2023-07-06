@@ -1,5 +1,4 @@
 ﻿using FileRenamer.Services.Root;
-using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
 
 namespace FileRenamer.Views.Pages
