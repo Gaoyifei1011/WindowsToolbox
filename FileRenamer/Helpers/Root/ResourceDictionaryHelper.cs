@@ -13,6 +13,8 @@ namespace FileRenamer.Helpers.Root
 
         public static ResourceDictionary ExpanderResourceDict { get; private set; }
 
+        public static ResourceDictionary FlyoutResourceDict { get; private set; }
+
         public static ResourceDictionary GridResourceDict { get; private set; }
 
         public static ResourceDictionary HyperlinkButtonResourceDict { get; private set; }
@@ -37,14 +39,15 @@ namespace FileRenamer.Helpers.Root
             ButtonResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[1];
             ContentDialogResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[2];
             ExpanderResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[3];
-            GridResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[4];
-            HyperlinkButtonResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[5];
-            InAppNotificationResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[6];
-            ListViewResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[7];
-            MenuFlyoutResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[8];
-            NavigationViewResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[9];
-            ScrollViewerResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[10];
-            TextBlockResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[11];
+            FlyoutResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[4];
+            GridResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[5];
+            HyperlinkButtonResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[6];
+            InAppNotificationResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[7];
+            ListViewResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[8];
+            MenuFlyoutResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[9];
+            NavigationViewResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[10];
+            ScrollViewerResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[11];
+            TextBlockResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[12];
         }
     }
 }

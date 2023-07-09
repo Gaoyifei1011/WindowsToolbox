@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="ms-appx:///Styles/Button.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/ContentDialog.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Expander.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/Flyout.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Grid.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/HyperlinkButton.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/InAppNotification.xaml" />

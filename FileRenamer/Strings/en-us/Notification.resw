@@ -126,10 +126,7 @@
   <data name="DesktopShortFailed" xml:space="preserve">
     <value>The app's desktop shortcut failed to create, please create it manually</value>
   </data>
-  <data name="LanguageChangeFailed" xml:space="preserve">
-    <value>Language setting modification failed, please try again</value>
-  </data>
-  <data name="LanguageChangeSuccessfully" xml:space="preserve">
+  <data name="LanguageChange" xml:space="preserve">
     <value>The language setting is modified successfully and takes effect after restarting the application</value>
   </data>
   <data name="StartScreenFailed" xml:space="preserve">

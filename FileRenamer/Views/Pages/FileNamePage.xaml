@@ -1,14 +1,15 @@
 ﻿<Page
     x:Class="FileRenamer.Views.Pages.FileNamePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converter="using:FileRenamer.Helpers.Converters"
-    xmlns:model="using:FileRenamer.Models"
-    xmlns:root="using:FileRenamer.Services.Root"
-    xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialogs="using:FileRenamer.UI.Dialogs"
     xmlns:dialogsandflyouts="using:FileRenamer.Views.CustomControls.DialogsAndFlyouts"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:FileRenamer.Models"
+    xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
+    xmlns:root="using:FileRenamer.Services.Root"
     AllowDrop="True"
     DragOver="{x:Bind ViewModel.OnDragOver}"
     Drop="{x:Bind ViewModel.OnDrop}"
@@ -205,10 +206,16 @@
                         Text="{x:Bind ViewModel.ReplaceString, Mode=TwoWay}" />
                 </Grid>
 
-                <Button
-                    HorizontalAlignment="Stretch"
-                    Click="{x:Bind ViewModel.OnViewNameChangeExampleClicked}"
-                    Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewNameChangeExample')}">
+                <Button HorizontalAlignment="Stretch" Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewNameChangeExample')}">
+
+                    <Button.Flyout>
+                        <Flyout
+                            FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}"
+                            Placement="Right"
+                            ShouldConstrainToRootBounds="False">
+                            <dialogs:NameChangeDialog />
+                        </Flyout>
+                    </Button.Flyout>
 
                     <ToolTipService.ToolTip>
                         <ToolTip
