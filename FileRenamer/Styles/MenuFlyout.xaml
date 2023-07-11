@@ -3,53 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dialogsAndFlyouts="using:FileRenamer.Views.CustomControls.DialogsAndFlyouts">
 
-    <Style
-        x:Key="MenuFlyoutPresenterStyle"
-        BasedOn="{StaticResource DefaultMenuFlyoutPresenterStyle}"
-        TargetType="MenuFlyoutPresenter">
-        <Setter Property="Background" Value="{ThemeResource MenuFlyoutPresenterBackground}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="{StaticResource MenuFlyoutPresenterThemePadding}" />
-        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
-        <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False" />
-        <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="False" />
-        <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
-        <Setter Property="MaxWidth" Value="{ThemeResource FlyoutThemeMaxWidth}" />
-        <Setter Property="MinHeight" Value="0" />
-        <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="MenuFlyoutPresenter">
-                    <Border
-                        Background="{TemplateBinding Background}"
-                        BackgroundSizing="InnerBorderEdge"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}">
-                        <ScrollViewer
-                            x:Name="MenuFlyoutPresenterScrollViewer"
-                            MinWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.FlyoutContentMinWidth}"
-                            Margin="{TemplateBinding Padding}"
-                            AutomationProperties.AccessibilityView="Raw"
-                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                            HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                            IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-                            IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                            VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                            ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                            <ItemsPresenter />
-                        </ScrollViewer>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="AppTitleBarMenuFlyoutItemStyle" TargetType="MenuFlyoutItem">
         <Setter Property="Height" Value="28" />
         <Setter Property="Background" Value="{ThemeResource MenuFlyoutItemBackground}" />
@@ -75,7 +28,6 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="28" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
@@ -91,7 +43,7 @@
                         </Viewbox>
                         <TextBlock
                             x:Name="TextBlock"
-                            Grid.Column="1"
+                            Grid.Column="0"
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                             FontSize="12"
@@ -101,7 +53,7 @@
 
                         <TextBlock
                             x:Name="KeyboardAcceleratorTextBlock"
-                            Grid.Column="2"
+                            Grid.Column="1"
                             MinWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.KeyboardAcceleratorTextMinWidth}"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
@@ -109,7 +61,7 @@
                             Foreground="{ThemeResource MenuFlyoutItemKeyboardAcceleratorTextForeground}"
                             Style="{ThemeResource CaptionTextBlockStyle}"
                             Text="{TemplateBinding KeyboardAcceleratorTextOverride}"
-                            Visibility="Visible" />
+                            Visibility="Collapsed" />
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">

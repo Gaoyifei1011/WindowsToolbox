@@ -1,5 +1,8 @@
-﻿using FileRenamer.Models;
+﻿using FileRenamer.Extensions.DataType.Enums;
+using FileRenamer.Models;
 using FileRenamer.Services.Root;
+using FileRenamer.UI.Notifications;
+using FileRenamer.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,9 +17,73 @@ namespace FileRenamer.ViewModels.Pages
     /// <summary>
     /// 扩展名称页面视图模型
     /// </summary>
-    public sealed class ExtensionNameViewModel
+    public sealed class ExtensionNameViewModel : ViewModelBase
     {
+        private ExtensionNameSelectedType _selectedType = ExtensionNameSelectedType.None;
+
+        public ExtensionNameSelectedType SelectedType
+        {
+            get { return _selectedType; }
+
+            set
+            {
+                _selectedType = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _changeToText;
+
+        public string ChangeToText
+        {
+            get { return _changeToText; }
+
+            set
+            {
+                _changeToText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _searchText;
+
+        public string SearchText
+        {
+            get { return _searchText; }
+
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _replaceText;
+
+        public string ReplaceText
+        {
+            get { return _replaceText; }
+
+            set
+            {
+                _replaceText = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<OldAndNewNameModel> ExtensionNameDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
+
+        /// <summary>
+        /// 选中时触发的事件
+        /// </summary>
+        public void OnChecked(object sender, RoutedEventArgs args)
+        {
+            Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
+            if (checkBox is not null)
+            {
+                SelectedType = (ExtensionNameSelectedType)Convert.ToInt32(checkBox.Tag);
+            }
+        }
 
         /// <summary>
         /// 清空列表
@@ -60,6 +127,36 @@ namespace FileRenamer.ViewModels.Pages
             finally
             {
                 deferral.Complete();
+            }
+        }
+
+        /// <summary>
+        /// 预览修改的内容
+        /// </summary>
+        public void OnPreviewClicked(object sender, RoutedEventArgs args)
+        {
+            bool checkResult = CheckOperationState();
+            if (checkResult)
+            {
+            }
+            else
+            {
+                new NoOperationNotification().Show();
+            }
+        }
+
+        /// <summary>
+        /// 修改内容
+        /// </summary>
+        public void OnModifyClicked(object sender, RoutedEventArgs args)
+        {
+            bool checkResult = CheckOperationState();
+            if (checkResult)
+            {
+            }
+            else
+            {
+                new NoOperationNotification().Show();
             }
         }
 
@@ -109,6 +206,46 @@ namespace FileRenamer.ViewModels.Pages
                     {
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// 取消选中时触发的事件
+        /// </summary>
+        public void OnUnchecked(object sender, RoutedEventArgs args)
+        {
+            Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
+            if (checkBox is not null)
+            {
+                if (SelectedType == (ExtensionNameSelectedType)Convert.ToInt32(checkBox.Tag))
+                {
+                    SelectedType = ExtensionNameSelectedType.None;
+                }
+
+                if ((ExtensionNameSelectedType)Convert.ToInt32(checkBox.Tag) == ExtensionNameSelectedType.IsSameExtensionName)
+                {
+                    ChangeToText = string.Empty;
+                }
+                else if ((ExtensionNameSelectedType)Convert.ToInt32(checkBox.Tag) == ExtensionNameSelectedType.IsFindAndReplaceExtensionName)
+                {
+                    SearchText = string.Empty;
+                    ReplaceText = string.Empty;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 检查用户是否指定了操作过程
+        /// </summary>
+        private bool CheckOperationState()
+        {
+            if (SelectedType == ExtensionNameSelectedType.None)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }

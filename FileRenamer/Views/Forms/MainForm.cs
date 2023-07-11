@@ -106,13 +106,15 @@ namespace FileRenamer.Views.Forms
                 // 窗口移动时的消息
                 case (int)WindowMessage.WM_MOVE:
                     {
-                        if (MainPage.TitlebarMenuFlyout.IsOpen)
-                        {
-                            MainPage.TitlebarMenuFlyout.Hide();
-                        }
                         IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(MainPage.XamlRoot);
                         foreach (Popup popup in PopupRoot)
                         {
+                            if (popup.Child as FlyoutPresenter is not null)
+                            {
+                                popup.IsOpen = false;
+                                break;
+                            }
+
                             if (popup.Child as MenuFlyoutPresenter is not null)
                             {
                                 popup.IsOpen = false;

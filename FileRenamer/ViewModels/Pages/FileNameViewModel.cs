@@ -1,8 +1,8 @@
 ﻿using FileRenamer.Models;
 using FileRenamer.Services.Root;
+using FileRenamer.UI.Notifications;
 using FileRenamer.ViewModels.Base;
 using FileRenamer.Views.CustomControls.DialogsAndFlyouts;
-using FileRenamer.Views.Forms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,7 +19,7 @@ namespace FileRenamer.ViewModels.Pages
     /// </summary>
     public sealed class FileNameViewModel : ViewModelBase
     {
-        private bool _isChecked;
+        private bool _isChecked = false;
 
         public bool IsChecked
         {
@@ -28,6 +28,19 @@ namespace FileRenamer.ViewModels.Pages
             set
             {
                 _isChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _currentIndex = 0;
+
+        public int CurrentIndex
+        {
+            get { return _currentIndex; }
+
+            set
+            {
+                _currentIndex = value;
                 OnPropertyChanged();
             }
         }
@@ -58,7 +71,20 @@ namespace FileRenamer.ViewModels.Pages
             }
         }
 
-        private string _lookUpString;
+        private string _extensionName;
+
+        public string ExtensionName
+        {
+            get { return _extensionName; }
+
+            set
+            {
+                _extensionName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _lookUpString = string.Empty;
 
         public string LookUpString
         {
@@ -71,7 +97,7 @@ namespace FileRenamer.ViewModels.Pages
             }
         }
 
-        private string _replaceString;
+        private string _replaceString = string.Empty;
 
         public string ReplaceString
         {
@@ -97,6 +123,14 @@ namespace FileRenamer.ViewModels.Pages
             }
         }
 
+        public List<string> NameChangeRuleList { get; } = new List<string>()
+        {
+            ResourceService.GetLocalized("FileName/NameChangeRule1"),
+            ResourceService.GetLocalized("FileName/NameChangeRule2"),
+            ResourceService.GetLocalized("FileName/NameChangeRule3"),
+            ResourceService.GetLocalized("FileName/NameChangeRule4"),
+        };
+
         public List<NumberFormatModel> NumberFormatList { get; } = new List<NumberFormatModel>
         {
             new NumberFormatModel(){ DisplayName = ResourceService.GetLocalized("FileName/Auto"), InternalName = "Auto"},
@@ -109,11 +143,63 @@ namespace FileRenamer.ViewModels.Pages
             new NumberFormatModel(){ DisplayName = "0000000", InternalName = "0000000"},
         };
 
+        public List<OldAndNewNameModel> NameChangeList { get; } = new List<OldAndNewNameModel>()
+        {
+            new OldAndNewNameModel(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
+            new OldAndNewNameModel(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
+            new OldAndNewNameModel(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
+            new OldAndNewNameModel(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
+        };
+
+        public Dictionary<int, List<OldAndNewNameModel>> NameChangeDict = new Dictionary<int, List<OldAndNewNameModel>>()
+        {
+            { 0, new List<OldAndNewNameModel>()
+                {
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName1"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList1ChangedName1") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName2"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList1ChangedName2") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName3"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList1ChangedName3") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName4"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList1ChangedName4") },
+                }
+            },
+            { 1, new List<OldAndNewNameModel>()
+                {
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName1"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList2ChangedName1") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName2"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList2ChangedName2") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName3"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList2ChangedName3") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName4"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList2ChangedName4") },
+                }
+            },
+            { 2, new List<OldAndNewNameModel>()
+                {
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName1"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList3ChangedName1") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName2"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList3ChangedName2") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName3"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList3ChangedName3") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName4"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList3ChangedName4") },
+                }
+            },
+            { 3, new List<OldAndNewNameModel>()
+                {
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName1"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList4ChangedName1") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName2"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList4ChangedName2") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName3"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList4ChangedName3") },
+                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName4"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList4ChangedName4") },
+                }
+            },
+        };
+
         public ObservableCollection<OldAndNewNameModel> FileNameDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
 
         public FileNameViewModel()
         {
             SelectedNumberFormat = NumberFormatList[0];
+
+            CurrentIndex = 0;
+
+            for (int index = 0; index < NameChangeList.Count; index++)
+            {
+                NameChangeList[index].OriginalFileName = NameChangeDict[CurrentIndex][index].OriginalFileName;
+                NameChangeList[index].NewFileName = NameChangeDict[CurrentIndex][index].NewFileName;
+            }
         }
 
         /// <summary>
@@ -162,6 +248,34 @@ namespace FileRenamer.ViewModels.Pages
         }
 
         /// <summary>
+        /// 向前导航
+        /// </summary>
+        public void OnForwardNavigateClicked(object sender, RoutedEventArgs args)
+        {
+            CurrentIndex = CurrentIndex == 0 ? 3 : CurrentIndex - 1;
+
+            for (int index = 0; index < NameChangeList.Count; index++)
+            {
+                NameChangeList[index].OriginalFileName = NameChangeDict[CurrentIndex][index].OriginalFileName;
+                NameChangeList[index].NewFileName = NameChangeDict[CurrentIndex][index].NewFileName;
+            }
+        }
+
+        /// <summary>
+        /// 向后导航
+        /// </summary>
+        public void OnNextNavigateClicked(object sender, RoutedEventArgs args)
+        {
+            CurrentIndex = CurrentIndex == 3 ? 0 : CurrentIndex + 1;
+
+            for (int index = 0; index < NameChangeList.Count; index++)
+            {
+                NameChangeList[index].OriginalFileName = NameChangeDict[CurrentIndex][index].OriginalFileName;
+                NameChangeList[index].NewFileName = NameChangeDict[CurrentIndex][index].NewFileName;
+            }
+        }
+
+        /// <summary>
         /// 选择编号格式
         /// </summary>
         public void OnNumberFormatClicked(object sender, RoutedEventArgs args)
@@ -170,6 +284,36 @@ namespace FileRenamer.ViewModels.Pages
             if (item.Tag is not null)
             {
                 SelectedNumberFormat = NumberFormatList[Convert.ToInt32(item.Tag)];
+            }
+        }
+
+        /// <summary>
+        /// 预览修改的内容
+        /// </summary>
+        public void OnPreviewClicked(object sender, RoutedEventArgs args)
+        {
+            bool checkResult = CheckOperationState();
+            if (checkResult)
+            {
+            }
+            else
+            {
+                new NoOperationNotification().Show();
+            }
+        }
+
+        /// <summary>
+        /// 修改内容
+        /// </summary>
+        public void OnModifyClicked(object sender, RoutedEventArgs args)
+        {
+            bool checkResult = CheckOperationState();
+            if (checkResult)
+            {
+            }
+            else
+            {
+                new NoOperationNotification().Show();
             }
         }
 
@@ -223,12 +367,26 @@ namespace FileRenamer.ViewModels.Pages
         }
 
         /// <summary>
-        /// 显示改名示例窗口
+        /// 取消选中时触发的事件
         /// </summary>
-        public void OnViewNameChangeExampleClicked(object sender, RoutedEventArgs args)
+        public void OnUnchecked(object sender, RoutedEventArgs args)
         {
-            NameChangeForm nameChangeForm = new NameChangeForm();
-            nameChangeForm.Show();
+            ExtensionName = string.Empty;
+        }
+
+        /// <summary>
+        /// 检查用户是否指定了操作过程
+        /// </summary>
+        private bool CheckOperationState()
+        {
+            if (RenameRule == string.Empty && StartNumber == string.Empty && IsChecked == false && LookUpString == string.Empty && ReplaceString == string.Empty)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

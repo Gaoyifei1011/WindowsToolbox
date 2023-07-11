@@ -20,8 +20,6 @@ namespace FileRenamer.Services.Controls.Settings.Appearance
 
         public static List<BackdropModel> BackdropList { get; set; }
 
-        public static event Action BackdropChanged;
-
         /// <summary>
         /// 应用在初始化前获取设置存储的背景色值
         /// </summary>
@@ -57,7 +55,6 @@ namespace FileRenamer.Services.Controls.Settings.Appearance
             AppBackdrop = backdrop;
 
             await ConfigService.SaveSettingAsync(SettingsKey, backdrop.InternalName);
-            BackdropChanged?.Invoke();
         }
 
         /// <summary>

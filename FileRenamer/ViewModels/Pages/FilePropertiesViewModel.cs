@@ -1,5 +1,7 @@
-﻿using FileRenamer.Models;
+﻿using FileRenamer.Extensions.DataType.Enums;
+using FileRenamer.Models;
 using FileRenamer.Services.Root;
+using FileRenamer.UI.Notifications;
 using FileRenamer.ViewModels.Base;
 using System;
 using System.Collections.Generic;
@@ -17,6 +19,84 @@ namespace FileRenamer.ViewModels.Pages
     /// </summary>
     public sealed class FilePropertiesViewModel : ViewModelBase
     {
+        private bool _isReadOnlyChecked = false;
+
+        public bool IsReadOnlyChecked
+        {
+            get { return _isReadOnlyChecked; }
+
+            set
+            {
+                _isReadOnlyChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isArchiveChecked = false;
+
+        public bool IsArchiveChecked
+        {
+            get { return _isArchiveChecked; }
+
+            set
+            {
+                _isArchiveChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isCreateDateChecked = false;
+
+        public bool IsCreateDateChecked
+        {
+            get { return _isCreateDateChecked; }
+
+            set
+            {
+                _isCreateDateChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isHideChecked = false;
+
+        public bool IsHideChecked
+        {
+            get { return _isHideChecked; }
+
+            set
+            {
+                _isHideChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isSystemChecked = false;
+
+        public bool IsSystemChecked
+        {
+            get { return _isSystemChecked; }
+
+            set
+            {
+                _isSystemChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isModifyDateChecked = false;
+
+        public bool IsModifyDateChecked
+        {
+            get { return _isModifyDateChecked; }
+
+            set
+            {
+                _isModifyDateChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
         private DateTimeOffset _createDate = DateTimeOffset.Now;
 
         public DateTimeOffset CreateDate
@@ -119,6 +199,36 @@ namespace FileRenamer.ViewModels.Pages
         }
 
         /// <summary>
+        /// 预览修改的内容
+        /// </summary>
+        public void OnPreviewClicked(object sender, RoutedEventArgs args)
+        {
+            bool checkResult = CheckOperationState();
+            if (checkResult)
+            {
+            }
+            else
+            {
+                new NoOperationNotification().Show();
+            }
+        }
+
+        /// <summary>
+        /// 修改内容
+        /// </summary>
+        public void OnModifyClicked(object sender, RoutedEventArgs args)
+        {
+            bool checkResult = CheckOperationState();
+            if (checkResult)
+            {
+            }
+            else
+            {
+                new NoOperationNotification().Show();
+            }
+        }
+
+        /// <summary>
         /// 选择文件夹
         /// </summary>
         public void OnSelectFolderClicked(object sender, RoutedEventArgs args)
@@ -164,6 +274,42 @@ namespace FileRenamer.ViewModels.Pages
                     {
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// 取消选中时触发的事件
+        /// </summary>
+        public void OnUnchecked(object sender, RoutedEventArgs args)
+        {
+            Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
+            if (checkBox is not null)
+            {
+                if (checkBox.Tag.ToString() == "CreateDate")
+                {
+                    CreateDate = DateTimeOffset.Now;
+                    CreateTime = DateTimeOffset.Now.TimeOfDay;
+                }
+                else if(checkBox.Tag.ToString() == "ModifyDate")
+                {
+                    ModifyDate = DateTimeOffset.Now;
+                    ModifyTime = DateTimeOffset.Now.TimeOfDay;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 检查用户是否指定了操作过程
+        /// </summary>
+        private bool CheckOperationState()
+        {
+            if (IsReadOnlyChecked == false && IsArchiveChecked == false && IsCreateDateChecked == false && IsHideChecked == false && IsSystemChecked == false && IsModifyDateChecked == false)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }

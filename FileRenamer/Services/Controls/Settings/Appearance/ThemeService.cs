@@ -22,8 +22,6 @@ namespace FileRenamer.Services.Controls.Settings.Appearance
 
         public static List<ThemeModel> ThemeList { get; set; }
 
-        public static event Action ThemeChanged;
-
         /// <summary>
         /// 应用在初始化前获取设置存储的主题值
         /// </summary>
@@ -69,7 +67,6 @@ namespace FileRenamer.Services.Controls.Settings.Appearance
             }
 
             await ConfigService.SaveSettingAsync(ThemeSettingsKey, theme.InternalName);
-            ThemeChanged?.Invoke();
         }
 
         /// <summary>

@@ -36,10 +36,7 @@
                                     Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.BackButtonVisibility}">
                                     <!--  页面导航控件修改处  -->
                                     <ToolTipService.ToolTip>
-                                        <ToolTip
-                                            x:Name="NavigationViewBackButtonToolTip"
-                                            Placement="Bottom"
-                                            VerticalOffset="20" />
+                                        <ToolTip x:Name="NavigationViewBackButtonToolTip" Placement="Mouse" />
                                     </ToolTipService.ToolTip>
                                 </Button>
                                 <Button

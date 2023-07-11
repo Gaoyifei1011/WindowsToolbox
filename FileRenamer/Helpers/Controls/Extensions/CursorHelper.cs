@@ -30,14 +30,14 @@ namespace FileRenamer.Helpers.Controls.Extensions
             return (CoreCursorType)element.GetValue(CursorProperty);
         }
 
-        private static void CursorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void CursorChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             if (d is not FrameworkElement element)
             {
                 throw new NullReferenceException(nameof(element));
             }
 
-            var value = (CoreCursorType)e.NewValue;
+            var value = (CoreCursorType)args.NewValue;
 
             lock (_cursorLock)
             {
@@ -55,16 +55,16 @@ namespace FileRenamer.Helpers.Controls.Extensions
             }
         }
 
-        private static void Element_PointerEntered(object sender, PointerRoutedEventArgs e)
+        private static void Element_PointerEntered(object sender, PointerRoutedEventArgs args)
         {
             CoreCursorType cursor = GetCursor((FrameworkElement)sender);
             Window.Current.CoreWindow.PointerCursor = _cursors[cursor];
         }
 
-        private static void Element_PointerExited(object sender, PointerRoutedEventArgs e)
+        private static void Element_PointerExited(object sender, PointerRoutedEventArgs args)
         {
             CoreCursor cursor;
-            if (sender != e.OriginalSource && e.OriginalSource is FrameworkElement newElement)
+            if (sender != args.OriginalSource && args.OriginalSource is FrameworkElement newElement)
             {
                 cursor = _cursors[GetCursor(newElement)];
             }

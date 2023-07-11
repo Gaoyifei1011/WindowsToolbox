@@ -14,14 +14,14 @@ namespace FileRenamer.Views.Pages
             InitializeComponent();
         }
 
-        public string LocalizeTotal(int count)
-        {
-            return string.Format(ResourceService.GetLocalized("UpperAndLowerCase/Total"), ViewModel.UpperAndLowerCaseDataList.Count);
-        }
-
         public bool IsItemChecked(UpperAndLowerSelectedType selectedType, UpperAndLowerSelectedType comparedType)
         {
             return selectedType == comparedType;
+        }
+
+        public string LocalizeTotal(int count)
+        {
+            return string.Format(ResourceService.GetLocalized("UpperAndLowerCase/Total"), ViewModel.UpperAndLowerCaseDataList.Count);
         }
     }
 }

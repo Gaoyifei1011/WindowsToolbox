@@ -157,7 +157,7 @@ namespace FileRenamer.ViewModels.Pages
             MenuFlyoutItem menuItem = sender as MenuFlyoutItem;
             if (menuItem.Tag is not null)
             {
-                ((Flyout)menuItem.Tag).Hide();
+                ((MenuFlyout)menuItem.Tag).Hide();
                 await Task.Delay(10);
                 User32Library.SendMessage(Program.MainWindow.Handle, WindowMessage.WM_SYSCOMMAND, 0xF010, IntPtr.Zero);
             }

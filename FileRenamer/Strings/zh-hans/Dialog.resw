@@ -120,20 +120,11 @@
   <data name="AppInformationTitle" xml:space="preserve">
     <value>应用信息</value>
   </data>
-  <data name="BuildDatePlaceHolder" xml:space="preserve">
-    <value>&lt;C&gt; 代表建立日期</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
-  <data name="ChangedName" xml:space="preserve">
-    <value>新文件名称</value>
-  </data>
   <data name="ChangeRule" xml:space="preserve">
     <value>改名规则：{0}</value>
-  </data>
-  <data name="ChangeRuleDescription" xml:space="preserve">
-    <value>代表符号可以放在任意位置，前后可以自定义内容</value>
   </data>
   <data name="CloseDialog" xml:space="preserve">
     <value>关闭对话框</value>
@@ -150,125 +141,20 @@
   <data name="DPIChangedNotifyTitle" xml:space="preserve">
     <value>屏幕缩放</value>
   </data>
-  <data name="ForwardNavigate" xml:space="preserve">
-    <value>向前导航</value>
-  </data>
   <data name="License" xml:space="preserve">
     <value>文件重命名工具 许可证</value>
   </data>
   <data name="MileXamlVersion" xml:space="preserve">
     <value>Mile Xaml 版本：</value>
   </data>
-  <data name="ModifyDatePlaceHolder" xml:space="preserve">
-    <value>&lt;N&gt; 代表修改日期</value>
-  </data>
-  <data name="NameChangeList1ChangedName1" xml:space="preserve">
-    <value>我的1文件.jpg</value>
-  </data>
-  <data name="NameChangeList1ChangedName2" xml:space="preserve">
-    <value>我的2文件.TXT</value>
-  </data>
-  <data name="NameChangeList1ChangedName3" xml:space="preserve">
-    <value>我的3文件.RAR</value>
-  </data>
-  <data name="NameChangeList1ChangedName4" xml:space="preserve">
-    <value>我的4文件.GIF</value>
-  </data>
-  <data name="NameChangeList2ChangedName1" xml:space="preserve">
-    <value>我未命名的1文件.jpg</value>
-  </data>
-  <data name="NameChangeList2ChangedName2" xml:space="preserve">
-    <value>我SN的2文件.TXT</value>
-  </data>
-  <data name="NameChangeList2ChangedName3" xml:space="preserve">
-    <value>我TEST的3文件.RAR</value>
-  </data>
-  <data name="NameChangeList2ChangedName4" xml:space="preserve">
-    <value>我C02_01_A的4文件.GIF</value>
-  </data>
-  <data name="NameChangeList3ChangedName1" xml:space="preserve">
-    <value>1_图片.jpg</value>
-  </data>
-  <data name="NameChangeList3ChangedName2" xml:space="preserve">
-    <value>2_图片.TXT</value>
-  </data>
-  <data name="NameChangeList3ChangedName3" xml:space="preserve">
-    <value>3_图片.RAR</value>
-  </data>
-  <data name="NameChangeList3ChangedName4" xml:space="preserve">
-    <value>4_图片.GIF</value>
-  </data>
-  <data name="NameChangeList4ChangedName1" xml:space="preserve">
-    <value>我的音乐(1).MP3</value>
-  </data>
-  <data name="NameChangeList4ChangedName2" xml:space="preserve">
-    <value>我的音乐(2).MP3</value>
-  </data>
-  <data name="NameChangeList4ChangedName3" xml:space="preserve">
-    <value>我的音乐(3).MP3</value>
-  </data>
-  <data name="NameChangeList4ChangedName4" xml:space="preserve">
-    <value>我的音乐(4).MP3</value>
-  </data>
-  <data name="NameChangeOriginalName1" xml:space="preserve">
-    <value>未命名.jpg</value>
-  </data>
-  <data name="NameChangeOriginalName2" xml:space="preserve">
-    <value>SN.TXT</value>
-  </data>
-  <data name="NameChangeOriginalName3" xml:space="preserve">
-    <value>TEST.RAR</value>
-  </data>
-  <data name="NameChangeOriginalName4" xml:space="preserve">
-    <value>C02_01_A.GIF</value>
-  </data>
-  <data name="NameChangeRule1" xml:space="preserve">
-    <value>我的&lt;#&gt;文件</value>
-  </data>
-  <data name="NameChangeRule2" xml:space="preserve">
-    <value>我&lt;&amp;&gt;的&lt;#&gt;文件</value>
-  </data>
-  <data name="NameChangeRule3" xml:space="preserve">
-    <value>&lt;#&gt;_图片</value>
-  </data>
-  <data name="NameChangeRule4" xml:space="preserve">
-    <value>我的音乐(&lt;#&gt;)，同时更改扩展名称：MP3</value>
-  </data>
-  <data name="NameChangeTip" xml:space="preserve">
-    <value>提示</value>
-  </data>
-  <data name="NameChangeTitle" xml:space="preserve">
-    <value>改名示例</value>
-  </data>
-  <data name="NextNavigate" xml:space="preserve">
-    <value>向后导航</value>
-  </data>
-  <data name="NumberPlaceHolder" xml:space="preserve">
-    <value>&lt;#&gt; 代表编号</value>
-  </data>
   <data name="OK" xml:space="preserve">
     <value>确定</value>
-  </data>
-  <data name="OriginalFileName" xml:space="preserve">
-    <value>&lt;&amp;&gt; 代表原始文件名称</value>
-  </data>
-  <data name="OriginalName" xml:space="preserve">
-    <value>原文件名称</value>
-  </data>
-  <data name="PlaceHolderDescription" xml:space="preserve">
-    <value>占位符说明</value>
-  </data>
-  <data name="ReferenceSample" xml:space="preserve">
-    <value>参考样例</value>
   </data>
   <data name="Restart" xml:space="preserve">
     <value>重启应用</value>
   </data>
   <data name="RestartContent" xml:space="preserve">
     <value>应用即将重启，重启后应用的数据将会丢失，请确保您的工作内容已经全部保存。</value>
-  </data>
-  <data name="TodayDatePlaceHolder" xml:space="preserve">
-    <value>&lt;$&gt; 代表今天日期</value>
   </data>
   <data name="WindowsUIVersion" xml:space="preserve">
     <value>Windows UI 版本：</value>

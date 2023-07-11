@@ -1,6 +1,7 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
 using FileRenamer.Models;
 using FileRenamer.Services.Root;
+using FileRenamer.UI.Notifications;
 using FileRenamer.ViewModels.Base;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace FileRenamer.ViewModels.Pages
     /// </summary>
     public sealed class UpperAndLowerCasePageViewModel : ViewModelBase
     {
-        public UpperAndLowerSelectedType _selectedType = UpperAndLowerSelectedType.None;
+        private UpperAndLowerSelectedType _selectedType = UpperAndLowerSelectedType.None;
 
         public UpperAndLowerSelectedType SelectedType
         {
@@ -42,21 +43,6 @@ namespace FileRenamer.ViewModels.Pages
             if (checkBox is not null)
             {
                 SelectedType = (UpperAndLowerSelectedType)Convert.ToInt32(checkBox.Tag);
-            }
-        }
-
-        /// <summary>
-        /// 取消选中时触发的事件
-        /// </summary>
-        public void OnUnchecked(object sender, RoutedEventArgs args)
-        {
-            Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
-            if (checkBox is not null)
-            {
-                if (SelectedType == (UpperAndLowerSelectedType)Convert.ToInt32(checkBox.Tag))
-                {
-                    SelectedType = UpperAndLowerSelectedType.None;
-                }
             }
         }
 
@@ -106,6 +92,36 @@ namespace FileRenamer.ViewModels.Pages
         }
 
         /// <summary>
+        /// 预览修改的内容
+        /// </summary>
+        public void OnPreviewClicked(object sender, RoutedEventArgs args)
+        {
+            bool checkResult = CheckOperationState();
+            if (checkResult)
+            {
+            }
+            else
+            {
+                new NoOperationNotification().Show();
+            }
+        }
+
+        /// <summary>
+        /// 修改内容
+        /// </summary>
+        public void OnModifyClicked(object sender, RoutedEventArgs args)
+        {
+            bool checkResult = CheckOperationState();
+            if (checkResult)
+            {
+            }
+            else
+            {
+                new NoOperationNotification().Show();
+            }
+        }
+
+        /// <summary>
         /// 选择文件夹
         /// </summary>
         public void OnSelectFolderClicked(object sender, RoutedEventArgs args)
@@ -151,6 +167,36 @@ namespace FileRenamer.ViewModels.Pages
                     {
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// 取消选中时触发的事件
+        /// </summary>
+        public void OnUnchecked(object sender, RoutedEventArgs args)
+        {
+            Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
+            if (checkBox is not null)
+            {
+                if (SelectedType == (UpperAndLowerSelectedType)Convert.ToInt32(checkBox.Tag))
+                {
+                    SelectedType = UpperAndLowerSelectedType.None;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 检查用户是否指定了操作过程
+        /// </summary>
+        private bool CheckOperationState()
+        {
+            if (SelectedType == UpperAndLowerSelectedType.None)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }

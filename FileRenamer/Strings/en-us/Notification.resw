@@ -129,6 +129,9 @@
   <data name="LanguageChange" xml:space="preserve">
     <value>The language setting is modified successfully and takes effect after restarting the application</value>
   </data>
+  <data name="NoOperation" xml:space="preserve">
+    <value>Please select at least one option or enter the content before proceeding</value>
+  </data>
   <data name="StartScreenFailed" xml:space="preserve">
     <value>App pinning to Start screen failed, please pin it manually</value>
   </data>

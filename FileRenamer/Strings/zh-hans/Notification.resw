@@ -129,6 +129,9 @@
   <data name="LanguageChange" xml:space="preserve">
     <value>语言设置修改成功，重启应用后生效</value>
   </data>
+  <data name="NoOperation" xml:space="preserve">
+    <value>请至少选择一个选项或输入内容后进行操作</value>
+  </data>
   <data name="StartScreenFailed" xml:space="preserve">
     <value>应用固定到“开始”屏幕失败，请手动固定</value>
   </data>

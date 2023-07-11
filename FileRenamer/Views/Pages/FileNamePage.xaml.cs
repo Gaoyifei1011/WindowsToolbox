@@ -13,14 +13,19 @@ namespace FileRenamer.Views.Pages
             InitializeComponent();
         }
 
-        public string LocalizeTotal(int count)
+        public string GetChangeRule(int index)
         {
-            return string.Format(ResourceService.GetLocalized("FileName/Total"), ViewModel.FileNameDataList.Count);
+            return string.Format(ResourceService.GetLocalized("Dialog/ChangeRule"), ViewModel.NameChangeRuleList[index]);
         }
 
         public bool IsItemChecked(string selectedInternalName, string internalName)
         {
             return selectedInternalName == internalName;
+        }
+
+        public string LocalizeTotal(int count)
+        {
+            return string.Format(ResourceService.GetLocalized("FileName/Total"), ViewModel.FileNameDataList.Count);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FileRenamer.Services.Root;
+﻿using FileRenamer.Extensions.DataType.Enums;
+using FileRenamer.Services.Root;
 using Windows.UI.Xaml.Controls;
 
 namespace FileRenamer.Views.Pages
@@ -11,6 +12,11 @@ namespace FileRenamer.Views.Pages
         public ExtensionNamePage()
         {
             InitializeComponent();
+        }
+
+        public bool IsItemChecked(ExtensionNameSelectedType selectedType, ExtensionNameSelectedType comparedType)
+        {
+            return selectedType == comparedType;
         }
 
         public string LocalizeTotal(int count)

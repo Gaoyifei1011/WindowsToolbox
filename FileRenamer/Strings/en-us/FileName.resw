@@ -120,8 +120,17 @@
   <data name="Auto" xml:space="preserve">
     <value>Auto</value>
   </data>
+  <data name="BuildDatePlaceHolder" xml:space="preserve">
+    <value>&lt;C&gt; Represent build date</value>
+  </data>
+  <data name="ChangedName" xml:space="preserve">
+    <value>New file name</value>
+  </data>
   <data name="ChangeExtensionSimultaneously" xml:space="preserve">
     <value>Change the extension at the same time</value>
+  </data>
+  <data name="ChangeRuleDescription" xml:space="preserve">
+    <value>The representative symbol can be placed anywhere, and the content can be customized before and after</value>
   </data>
   <data name="ClearList" xml:space="preserve">
     <value>Clear list</value>
@@ -132,6 +141,9 @@
   <data name="EmptyList" xml:space="preserve">
     <value>There is no content</value>
   </data>
+  <data name="ForwardNavigate" xml:space="preserve">
+    <value>Forward navigate</value>
+  </data>
   <data name="LookUpString" xml:space="preserve">
     <value>Look up</value>
   </data>
@@ -141,17 +153,116 @@
   <data name="Modify" xml:space="preserve">
     <value>Modify</value>
   </data>
+  <data name="ModifyDatePlaceHolder" xml:space="preserve">
+    <value>&lt;N&gt; Represent modify date</value>
+  </data>
+  <data name="NameChangeList1ChangedName1" xml:space="preserve">
+    <value>My 1 file.jpg</value>
+  </data>
+  <data name="NameChangeList1ChangedName2" xml:space="preserve">
+    <value>My 2 file.TXT</value>
+  </data>
+  <data name="NameChangeList1ChangedName3" xml:space="preserve">
+    <value>My 3 file.RAR</value>
+  </data>
+  <data name="NameChangeList1ChangedName4" xml:space="preserve">
+    <value>My 4 file.GIF</value>
+  </data>
+  <data name="NameChangeList2ChangedName1" xml:space="preserve">
+    <value>My UnNamed 1 file.jpg</value>
+  </data>
+  <data name="NameChangeList2ChangedName2" xml:space="preserve">
+    <value>My SN 2 file.TXT</value>
+  </data>
+  <data name="NameChangeList2ChangedName3" xml:space="preserve">
+    <value>My TEST 3 file.RAR</value>
+  </data>
+  <data name="NameChangeList2ChangedName4" xml:space="preserve">
+    <value>My C02_01_A 4 file.GIF</value>
+  </data>
+  <data name="NameChangeList3ChangedName1" xml:space="preserve">
+    <value>1_picture.jpg</value>
+  </data>
+  <data name="NameChangeList3ChangedName2" xml:space="preserve">
+    <value>2_picture.TXT</value>
+  </data>
+  <data name="NameChangeList3ChangedName3" xml:space="preserve">
+    <value>3_picture.RAR</value>
+  </data>
+  <data name="NameChangeList3ChangedName4" xml:space="preserve">
+    <value>4_picture.GIF</value>
+  </data>
+  <data name="NameChangeList4ChangedName1" xml:space="preserve">
+    <value>My music (1).MP3</value>
+  </data>
+  <data name="NameChangeList4ChangedName2" xml:space="preserve">
+    <value>My music (2).MP3</value>
+  </data>
+  <data name="NameChangeList4ChangedName3" xml:space="preserve">
+    <value>My music (3).MP3</value>
+  </data>
+  <data name="NameChangeList4ChangedName4" xml:space="preserve">
+    <value>My music (4).MP3</value>
+  </data>
+  <data name="NameChangeOriginalName1" xml:space="preserve">
+    <value>UnNamed.jpg</value>
+  </data>
+  <data name="NameChangeOriginalName2" xml:space="preserve">
+    <value>SN.TXT</value>
+  </data>
+  <data name="NameChangeOriginalName3" xml:space="preserve">
+    <value>TEST.RAR</value>
+  </data>
+  <data name="NameChangeOriginalName4" xml:space="preserve">
+    <value>C02_01_A.GIF</value>
+  </data>
+  <data name="NameChangeRule1" xml:space="preserve">
+    <value>My &lt;#&gt; file</value>
+  </data>
+  <data name="NameChangeRule2" xml:space="preserve">
+    <value>My &lt;&amp;&gt; &lt;#&gt; file</value>
+  </data>
+  <data name="NameChangeRule3" xml:space="preserve">
+    <value>&lt;#&gt;_picture</value>
+  </data>
+  <data name="NameChangeRule4" xml:space="preserve">
+    <value>My music (&lt;#&gt;),and change the extension name:MP3</value>
+  </data>
+  <data name="NameChangeTip" xml:space="preserve">
+    <value>Tips</value>
+  </data>
+  <data name="NameChangeTitle" xml:space="preserve">
+    <value>Name change example</value>
+  </data>
   <data name="NewFileName" xml:space="preserve">
     <value>New file (folder) name</value>
+  </data>
+  <data name="NextNavigate" xml:space="preserve">
+    <value>Next navigate</value>
   </data>
   <data name="NumberFormat" xml:space="preserve">
     <value>Serial number format</value>
   </data>
+  <data name="NumberPlaceHolder" xml:space="preserve">
+    <value>&lt;#&gt; Represent number</value>
+  </data>
   <data name="OriginalFileName" xml:space="preserve">
     <value>Original file (folder) name</value>
   </data>
+  <data name="OriginalName" xml:space="preserve">
+    <value>Original file name</value>
+  </data>
+  <data name="OriginalNameChangeFileName" xml:space="preserve">
+    <value>&lt;&amp;&gt; Represent original file name</value>
+  </data>
+  <data name="PlaceHolderDescription" xml:space="preserve">
+    <value>Placeholder description</value>
+  </data>
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
+  </data>
+  <data name="ReferenceSample" xml:space="preserve">
+    <value>Reference sample</value>
   </data>
   <data name="RenameRule" xml:space="preserve">
     <value>Rename rule</value>
@@ -176,6 +287,9 @@
   </data>
   <data name="StartNumberPlaceHolderText" xml:space="preserve">
     <value>Please input start number</value>
+  </data>
+  <data name="TodayDatePlaceHolder" xml:space="preserve">
+    <value>&lt;$&gt; Represent today date</value>
   </data>
   <data name="Total" xml:space="preserve">
     <value>Total：{0}</value>
