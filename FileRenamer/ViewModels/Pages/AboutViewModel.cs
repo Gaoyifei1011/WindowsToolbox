@@ -2,8 +2,10 @@
 using FileRenamer.Models.Base;
 using FileRenamer.UI.Dialogs.About;
 using FileRenamer.ViewModels.Base;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Windows.System;
 using Windows.UI.Xaml;
 
 namespace FileRenamer.ViewModels.Pages
@@ -57,9 +59,9 @@ namespace FileRenamer.ViewModels.Pages
         /// <summary>
         /// 应用设置
         /// </summary>
-        public void OnAppSettingsClicked(object sender, RoutedEventArgs args)
+        public async void OnAppSettingsClicked(object sender, RoutedEventArgs args)
         {
-            Process.Start("explorer.exe", "ms-settings:appsfeatures-app");
+            await Launcher.LaunchUriAsync(new Uri("ms-settings:appsfeatures-app"));
         }
 
         /// <summary>
