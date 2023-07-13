@@ -1,5 +1,4 @@
-﻿using FileRenamer.Extensions.DataType.Enums;
-using FileRenamer.Models;
+﻿using FileRenamer.Models;
 using FileRenamer.Services.Root;
 using FileRenamer.UI.Notifications;
 using FileRenamer.ViewModels.Base;
@@ -151,7 +150,7 @@ namespace FileRenamer.ViewModels.Pages
 
         public ObservableCollection<OldAndNewNameModel> FilePropertiesDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
 
-        public List<string> FilePropertiesFailedOperationList { get; } = new List<string>();
+        public ObservableCollection<string> OperationFailedList { get; } = new ObservableCollection<string>();
 
         /// <summary>
         /// 清空列表
@@ -159,6 +158,7 @@ namespace FileRenamer.ViewModels.Pages
         public void OnClearListClicked(object sender, RoutedEventArgs args)
         {
             FilePropertiesDataList.Clear();
+            OperationFailedList.Clear();
         }
 
         /// <summary>
@@ -188,13 +188,18 @@ namespace FileRenamer.ViewModels.Pages
                     IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
                     foreach (IStorageItem item in filesList)
                     {
-                        FilePropertiesDataList.Add(new OldAndNewNameModel() { OriginalFileName = item.Name });
+                        FilePropertiesDataList.Add(new OldAndNewNameModel()
+                        {
+                            OriginalFileName = item.Name,
+                            OriginalFilePath = item.Path
+                        });
                     }
                 }
             }
             finally
             {
                 deferral.Complete();
+                OperationFailedList.Clear();
             }
         }
 
@@ -206,6 +211,11 @@ namespace FileRenamer.ViewModels.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
+                OperationFailedList.Clear();
+                if (FilePropertiesDataList.Count is 0)
+                {
+                    new ListEmptyNotification().Show();
+                }
             }
             else
             {
@@ -221,6 +231,15 @@ namespace FileRenamer.ViewModels.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
+                OperationFailedList.Clear();
+                if (FilePropertiesDataList.Count is 0)
+                {
+                    new ListEmptyNotification().Show();
+                }
+                else
+                {
+                    new OperationResultNotification(FilePropertiesDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
+                }
             }
             else
             {
@@ -240,6 +259,7 @@ namespace FileRenamer.ViewModels.Pages
             DialogResult result = dialog.ShowDialog();
             if (result == DialogResult.OK || result == DialogResult.Yes)
             {
+                OperationFailedList.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
                     DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
@@ -252,7 +272,11 @@ namespace FileRenamer.ViewModels.Pages
                             {
                                 continue;
                             }
-                            FilePropertiesDataList.Add(new OldAndNewNameModel() { OriginalFileName = subFolder.Name });
+                            FilePropertiesDataList.Add(new OldAndNewNameModel()
+                            {
+                                OriginalFileName = subFolder.Name,
+                                OriginalFilePath = subFolder.FullName
+                            });
                         }
                     }
                     catch (Exception)
@@ -267,7 +291,11 @@ namespace FileRenamer.ViewModels.Pages
                             {
                                 continue;
                             }
-                            FilePropertiesDataList.Add(new OldAndNewNameModel() { OriginalFileName = subFile.Name });
+                            FilePropertiesDataList.Add(new OldAndNewNameModel()
+                            {
+                                OriginalFileName = subFile.Name,
+                                OriginalFilePath = subFile.FullName
+                            });
                         }
                     }
                     catch (Exception)
@@ -290,7 +318,7 @@ namespace FileRenamer.ViewModels.Pages
                     CreateDate = DateTimeOffset.Now;
                     CreateTime = DateTimeOffset.Now.TimeOfDay;
                 }
-                else if(checkBox.Tag.ToString() == "ModifyDate")
+                else if (checkBox.Tag.ToString() == "ModifyDate")
                 {
                     ModifyDate = DateTimeOffset.Now;
                     ModifyTime = DateTimeOffset.Now.TimeOfDay;

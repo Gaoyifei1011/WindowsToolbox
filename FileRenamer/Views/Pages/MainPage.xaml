@@ -207,7 +207,7 @@
                 <DropDownButton
                     x:Name="AboutButton"
                     controlExtensions:CursorHelper.Cursor="Hand"
-                    x:Load="{x:Bind ViewModel.IsAboutPage, Mode=OneWay}"
+                    x:Load="{x:Bind IsCurrentPage(ViewModel.SelectedItem.Tag, ViewModel.TagList[4]), Mode=OneWay}"
                     Content="{x:Bind root:ResourceService.GetLocalized('Window/Others')}">
 
                     <ToolTipService.ToolTip>
@@ -247,7 +247,7 @@
 
                 <Button
                     x:Name="RestartButton"
-                    x:Load="{x:Bind ViewModel.IsSettingsPage, Mode=OneWay}"
+                    x:Load="{x:Bind IsCurrentPage(ViewModel.SelectedItem.Tag, ViewModel.TagList[5]), Mode=OneWay}"
                     Click="{x:Bind ViewModel.OnRestartAppsClicked}"
                     Content="{x:Bind root:ResourceService.GetLocalized('Window/RestartApp')}">
 

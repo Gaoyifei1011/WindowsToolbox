@@ -9,7 +9,7 @@
         <Setter Property="Padding" Value="10" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Bottom" />
-        <Setter Property="VerticalOffset" Value="75" />
+        <Setter Property="VerticalOffset" Value="65" />
         <Setter Property="Background" Value="{ThemeResource SystemControlTransientBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlTransientBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />

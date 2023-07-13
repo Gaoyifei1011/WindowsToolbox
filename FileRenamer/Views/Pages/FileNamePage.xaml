@@ -531,10 +531,10 @@
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
                             Style="{StaticResource CardTextStyle}"
-                            Text="{x:Bind OriginalFileName}">
+                            Text="{x:Bind OriginalFileName, Mode=OneWay}">
 
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="{x:Bind OriginalFileName}" Placement="Mouse" />
+                                <ToolTip Content="{x:Bind OriginalFilePath, Mode=OneWay}" Placement="Mouse" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
 
@@ -543,10 +543,10 @@
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
                             Style="{StaticResource CardTextStyle}"
-                            Text="{x:Bind NewFileName}">
+                            Text="{x:Bind NewFileName, Mode=OneWay}">
 
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="{x:Bind NewFileName}" Placement="Mouse" />
+                                <ToolTip Content="{x:Bind NewFilePath, Mode=OneWay}" Placement="Mouse" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
                     </Grid>
@@ -578,6 +578,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <Button
@@ -606,7 +607,6 @@
 
             <TextBlock
                 Grid.Column="3"
-                Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 Text="{x:Bind LocalizeTotal(ViewModel.FileNameDataList.Count), Mode=OneWay}"
                 TextAlignment="Center">
@@ -616,8 +616,20 @@
                 </ToolTipService.ToolTip>
             </TextBlock>
 
-            <Button
+            <HyperlinkButton
                 Grid.Column="4"
+                Margin="0,0,10,0"
+                Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewErrorInformation')}"
+                Style="{StaticResource ErrorHyperlinkButtonStyle}"
+                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(ViewModel.OperationFailedList.Count), Mode=OneWay}">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewErrorInformation')}" Placement="Mouse" />
+                </ToolTipService.ToolTip>
+            </HyperlinkButton>
+
+            <Button
+                Grid.Column="5"
                 Click="{x:Bind ViewModel.OnPreviewClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileName/Preview')}">
 
@@ -627,7 +639,7 @@
             </Button>
 
             <Button
-                Grid.Column="5"
+                Grid.Column="6"
                 Click="{x:Bind ViewModel.OnModifyClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileName/Modify')}"
                 Style="{StaticResource AccentButtonStyle}">

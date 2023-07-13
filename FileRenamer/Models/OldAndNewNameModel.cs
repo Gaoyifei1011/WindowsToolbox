@@ -24,6 +24,22 @@ namespace FileRenamer.Models
         }
 
         /// <summary>
+        /// 文件的初始路径
+        /// </summary>
+        private string _originalFilePath;
+
+        public string OriginalFilePath
+        {
+            get { return _originalFilePath; }
+
+            set
+            {
+                _originalFilePath = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// 文件新名称
         /// </summary>
         private string _newFileName;
@@ -35,6 +51,22 @@ namespace FileRenamer.Models
             set
             {
                 _newFileName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 文件新名称
+        /// </summary>
+        private string _newFilePath;
+
+        public string NewFilePath
+        {
+            get { return _newFilePath; }
+
+            set
+            {
+                _newFilePath = value;
                 OnPropertyChanged();
             }
         }

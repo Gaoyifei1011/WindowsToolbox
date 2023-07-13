@@ -93,9 +93,9 @@ namespace FileRenamer
             stringBuilder1.AppendLine("StackTrace:" + args.Exception.StackTrace);
 
             DialogResult Result = MessageBox.Show(
-                ResourceService.GetLocalized("MessageInfo/Title") + Environment.NewLine +
-                ResourceService.GetLocalized("MessageInfo/Content1") + Environment.NewLine +
-                ResourceService.GetLocalized("MessageInfo/Content2"),
+                ResourceService.GetLocalized("Resources/Title") + Environment.NewLine +
+                ResourceService.GetLocalized("Resources/Content1") + Environment.NewLine +
+                ResourceService.GetLocalized("Resources/Content2"),
                 ResourceService.GetLocalized("Resources/AppDisplayName"),
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Error
@@ -132,9 +132,9 @@ namespace FileRenamer
             stringBuilder1.AppendLine("StackTrace:" + exception1.StackTrace);
 
             DialogResult Result = MessageBox.Show(
-                ResourceService.GetLocalized("MessageInfo/Title") + Environment.NewLine +
-                ResourceService.GetLocalized("MessageInfo/Content1") + Environment.NewLine +
-                ResourceService.GetLocalized("MessageInfo/Content2"),
+                ResourceService.GetLocalized("Resources/Title") + Environment.NewLine +
+                ResourceService.GetLocalized("Resources/Content1") + Environment.NewLine +
+                ResourceService.GetLocalized("Resources/Content2"),
                 ResourceService.GetLocalized("Resources/AppDisplayName"),
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Error

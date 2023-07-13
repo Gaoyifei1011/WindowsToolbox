@@ -13,5 +13,13 @@ namespace FileRenamer.Views.Pages
             InitializeComponent();
             NavigationService.NavigationFrame = MainFrame;
         }
+
+        /// <summary>
+        /// 检查当前页面是否为目标页面
+        /// </summary>
+        public bool IsCurrentPage(object selectedItem, string pageName)
+        {
+            return selectedItem.ToString() == pageName;
+        }
     }
 }

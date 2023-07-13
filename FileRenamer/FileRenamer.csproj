@@ -30,17 +30,6 @@
   <PropertyGroup Condition="'$(Platform)'=='ARM64'">
     <RuntimeIdentifier>win10-arm64</RuntimeIdentifier>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Fonts\**" />
-    <Content Remove="Fonts\**" />
-    <EmbeddedResource Remove="Fonts\**" />
-    <None Remove="Fonts\**" />
-    <Page Remove="Fonts\**" />
-    <PRIResource Remove="Fonts\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <PRIResource Remove="Resources\About.resw" />
-  </ItemGroup>
 
   <ItemGroup>
     <ApplicationDefinition Update="App.xaml" Generator="MSBuild:Compile" />
@@ -128,5 +117,6 @@
     <None Update="Assets\FileRenamer.ico" />
 
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
   </ItemGroup>
 </Project>

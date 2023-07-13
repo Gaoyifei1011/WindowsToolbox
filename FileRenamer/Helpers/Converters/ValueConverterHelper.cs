@@ -16,6 +16,14 @@ namespace FileRenamer.Helpers.Converters
         }
 
         /// <summary>
+        /// 整数值与控件显示值转换
+        /// </summary>
+        public static Visibility IntToVisibilityConvert(int value)
+        {
+            return value is 1 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        /// <summary>
         /// 整数值与控件显示值转换（判断结果相反）
         /// </summary>
         public static Visibility IntToVisibilityReverseConvert(int value)

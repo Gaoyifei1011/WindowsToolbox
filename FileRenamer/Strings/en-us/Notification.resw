@@ -129,8 +129,17 @@
   <data name="LanguageChange" xml:space="preserve">
     <value>The language setting is modified successfully and takes effect after restarting the application</value>
   </data>
+  <data name="ListEmpty" xml:space="preserve">
+    <value>There are no files in the list</value>
+  </data>
   <data name="NoOperation" xml:space="preserve">
     <value>Please select at least one option or enter the content before proceeding</value>
+  </data>
+  <data name="OperationResultFailed" xml:space="preserve">
+    <value>{0} files in the list were modified successfully, and {1} files failed to be modified</value>
+  </data>
+  <data name="OperationResultSuccessfully" xml:space="preserve">
+    <value>{0} files in the list are modified successfully</value>
   </data>
   <data name="StartScreenFailed" xml:space="preserve">
     <value>App pinning to Start screen failed, please pin it manually</value>

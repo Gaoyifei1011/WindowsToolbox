@@ -165,4 +165,7 @@
   <data name="Total" xml:space="preserve">
     <value>总计：{0}</value>
   </data>
+  <data name="ViewErrorInformation" xml:space="preserve">
+    <value>查看错误信息</value>
+  </data>
 </root>

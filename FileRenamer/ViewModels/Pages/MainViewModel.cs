@@ -28,32 +28,6 @@ namespace FileRenamer.ViewModels.Pages
     /// </summary>
     public sealed class MainViewModel : ViewModelBase
     {
-        private bool _isAboutPage;
-
-        public bool IsAboutPage
-        {
-            get { return _isAboutPage; }
-
-            set
-            {
-                _isAboutPage = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private bool _isSettingsPage;
-
-        public bool IsSettingsPage
-        {
-            get { return _isSettingsPage; }
-
-            set
-            {
-                _isSettingsPage = value;
-                OnPropertyChanged();
-            }
-        }
-
         private ElementTheme _windowTheme;
 
         public ElementTheme WindowTheme
@@ -129,8 +103,6 @@ namespace FileRenamer.ViewModels.Pages
             Type CurrentPageType = NavigationService.GetCurrentPageType();
             SelectedItem = NavigationService.NavigationItemList.Find(item => item.NavigationPage == CurrentPageType).NavigationItem;
             IsBackEnabled = NavigationService.CanGoBack();
-            IsAboutPage = Convert.ToString(SelectedItem.Tag) == TagList[4];
-            IsSettingsPage = Convert.ToString(SelectedItem.Tag) == TagList[5];
         }
 
         /// <summary>

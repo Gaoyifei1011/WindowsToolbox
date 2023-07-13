@@ -294,6 +294,9 @@
   <data name="Total" xml:space="preserve">
     <value>Total：{0}</value>
   </data>
+  <data name="ViewErrorInformation" xml:space="preserve">
+    <value>View error information</value>
+  </data>
   <data name="ViewNameChangeExample" xml:space="preserve">
     <value>View example name change</value>
   </data>

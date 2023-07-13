@@ -73,6 +73,8 @@ namespace FileRenamer.ViewModels.Pages
 
         public ObservableCollection<OldAndNewNameModel> ExtensionNameDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
 
+        public ObservableCollection<string> OperationFailedList { get; } = new ObservableCollection<string>();
+
         /// <summary>
         /// 选中时触发的事件
         /// </summary>
@@ -91,6 +93,7 @@ namespace FileRenamer.ViewModels.Pages
         public void OnClearListClicked(object sender, RoutedEventArgs args)
         {
             ExtensionNameDataList.Clear();
+            OperationFailedList.Clear();
         }
 
         /// <summary>
@@ -120,13 +123,18 @@ namespace FileRenamer.ViewModels.Pages
                     IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
                     foreach (IStorageItem item in filesList)
                     {
-                        ExtensionNameDataList.Add(new OldAndNewNameModel() { OriginalFileName = item.Name });
+                        ExtensionNameDataList.Add(new OldAndNewNameModel()
+                        {
+                            OriginalFileName = item.Name,
+                            OriginalFilePath = item.Path
+                        });
                     }
                 }
             }
             finally
             {
                 deferral.Complete();
+                OperationFailedList.Clear();
             }
         }
 
@@ -138,6 +146,11 @@ namespace FileRenamer.ViewModels.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
+                OperationFailedList.Clear();
+                if (ExtensionNameDataList.Count is 0)
+                {
+                    new ListEmptyNotification().Show();
+                }
             }
             else
             {
@@ -153,6 +166,15 @@ namespace FileRenamer.ViewModels.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
+                OperationFailedList.Clear();
+                if (ExtensionNameDataList.Count is 0)
+                {
+                    new ListEmptyNotification().Show();
+                }
+                else
+                {
+                    new OperationResultNotification(ExtensionNameDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
+                }
             }
             else
             {
@@ -172,6 +194,7 @@ namespace FileRenamer.ViewModels.Pages
             DialogResult result = dialog.ShowDialog();
             if (result == DialogResult.OK || result == DialogResult.Yes)
             {
+                OperationFailedList.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
                     DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
@@ -184,7 +207,11 @@ namespace FileRenamer.ViewModels.Pages
                             {
                                 continue;
                             }
-                            ExtensionNameDataList.Add(new OldAndNewNameModel() { OriginalFileName = subFolder.Name });
+                            ExtensionNameDataList.Add(new OldAndNewNameModel()
+                            {
+                                OriginalFileName = subFolder.Name,
+                                OriginalFilePath = subFolder.FullName
+                            });
                         }
                     }
                     catch (Exception)
@@ -199,7 +226,11 @@ namespace FileRenamer.ViewModels.Pages
                             {
                                 continue;
                             }
-                            ExtensionNameDataList.Add(new OldAndNewNameModel() { OriginalFileName = subFile.Name });
+                            ExtensionNameDataList.Add(new OldAndNewNameModel()
+                            {
+                                OriginalFileName = subFile.Name,
+                                OriginalFilePath = subFile.FullName
+                            });
                         }
                     }
                     catch (Exception)
