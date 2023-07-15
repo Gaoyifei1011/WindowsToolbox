@@ -7,15 +7,10 @@
     xmlns:layout="using:FileRenamer.Views.CustomControls.Layout"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models.Base"
-    xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
     xmlns:root="using:FileRenamer.Services.Root"
-    Loaded="{x:Bind ViewModel.OnLoaded}"
+    Loaded="{x:Bind OnLoaded}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
-
-    <Page.DataContext>
-        <pageViewModel:AboutViewModel x:Name="ViewModel" />
-    </Page.DataContext>
 
     <ScrollViewer
         HorizontalScrollBarVisibility="Disabled"
@@ -57,7 +52,7 @@
                     <TextBlock
                         Margin="0,0,0,10"
                         FontSize="15"
-                        Text="{x:Bind LocalizeAppVersion(ViewModel.AppVersion), Mode=OneWay}" />
+                        Text="{x:Bind LocalizeAppVersion(AppVersion), Mode=OneWay}" />
 
                     <StackPanel Orientation="Horizontal">
 
@@ -68,7 +63,7 @@
 
                         <HyperlinkButton
                             VerticalAlignment="Center"
-                            Click="{x:Bind ViewModel.OnDeveloperDescriptionClicked}"
+                            Click="{x:Bind OnDeveloperDescriptionClicked}"
                             Content="{x:Bind root:ResourceService.GetLocalized('About/DeveloperName')}"
                             Style="{StaticResource HyperlinkButtonStyle}">
 
@@ -87,7 +82,7 @@
 
                     <Button
                         MinWidth="150"
-                        Click="{x:Bind ViewModel.OnProjectDescriptionClicked}"
+                        Click="{x:Bind OnProjectDescriptionClicked}"
                         Content="{x:Bind root:ResourceService.GetLocalized('About/ProjectHomePage')}"
                         Style="{StaticResource AccentButtonStyle}">
 
@@ -98,7 +93,7 @@
 
                     <Button
                         MinWidth="150"
-                        Click="{x:Bind ViewModel.OnSendFeedbackClicked}"
+                        Click="{x:Bind OnSendFeedbackClicked}"
                         Content="{x:Bind root:ResourceService.GetLocalized('About/SendFeedback')}">
 
                         <ToolTipService.ToolTip>
@@ -108,7 +103,7 @@
 
                     <Button
                         MinWidth="150"
-                        Click="{x:Bind ViewModel.OnCheckUpdateClicked}"
+                        Click="{x:Bind OnCheckUpdateClicked}"
                         Content="{x:Bind root:ResourceService.GetLocalized('About/CheckUpdate')}">
 
                         <ToolTipService.ToolTip>
@@ -140,7 +135,7 @@
                         BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
                         BorderThickness="1"
                         CornerRadius="{ThemeResource ControlCornerRadius}"
-                        ItemsSource="{x:Bind ViewModel.ReferenceDict}"
+                        ItemsSource="{x:Bind ReferenceDict}"
                         SelectionMode="None">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="model:KeyValuePairModel">
@@ -187,7 +182,7 @@
                         <TextBlock Style="{StaticResource ExpanderContentDescriptionStyle}" Text="{x:Bind root:ResourceService.GetLocalized('About/BackdropDescription')}" />
 
                         <HyperlinkButton
-                            Click="{x:Bind ViewModel.OnSystemInformationClicked}"
+                            Click="{x:Bind OnSystemInformationClicked}"
                             Content="{x:Bind root:ResourceService.GetLocalized('About/SystemInformation')}"
                             Style="{StaticResource AboutHyperlinkButtonStyle}">
 
@@ -202,7 +197,7 @@
 
                         <StackPanel Orientation="Horizontal">
                             <HyperlinkButton
-                                Click="{x:Bind ViewModel.OnAppInformationClicked}"
+                                Click="{x:Bind OnAppInformationClicked}"
                                 Content="{x:Bind root:ResourceService.GetLocalized('About/AppInformation')}"
                                 Style="{StaticResource AboutHyperlinkButtonStyle}">
 
@@ -212,7 +207,7 @@
                             </HyperlinkButton>
 
                             <HyperlinkButton
-                                Click="{x:Bind ViewModel.OnAppSettingsClicked}"
+                                Click="{x:Bind OnAppSettingsClicked}"
                                 Content="{x:Bind root:ResourceService.GetLocalized('About/AppSettings')}"
                                 Style="{StaticResource AboutHyperlinkButtonStyle}">
 
@@ -240,7 +235,7 @@
                         BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
                         BorderThickness="1"
                         CornerRadius="{ThemeResource ControlCornerRadius}"
-                        ItemsSource="{x:Bind ViewModel.ThanksDict}"
+                        ItemsSource="{x:Bind ThanksDict}"
                         SelectionMode="None">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="model:KeyValuePairModel">

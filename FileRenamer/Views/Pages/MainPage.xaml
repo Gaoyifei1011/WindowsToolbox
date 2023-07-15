@@ -5,14 +5,9 @@
     xmlns:controlExtensions="using:FileRenamer.Helpers.Controls.Extensions"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
     xmlns:root="using:FileRenamer.Services.Root"
-    RequestedTheme="{x:Bind ViewModel.WindowTheme, Mode=OneWay}"
+    RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}"
     mc:Ignorable="d">
-
-    <Page.DataContext>
-        <pageViewModel:MainViewModel x:Name="ViewModel" x:FieldModifier="public" />
-    </Page.DataContext>
 
     <!--  标题栏右键菜单  -->
     <Page.Resources>
@@ -35,7 +30,7 @@
             </MenuFlyoutItem>
 
             <MenuFlyoutItem
-                Click="{x:Bind ViewModel.OnMoveClicked}"
+                Click="{x:Bind OnMoveClicked}"
                 Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                 Tag="{x:Bind TitlebarMenuFlyout}"
                 Text="{x:Bind root:ResourceService.GetLocalized('Window/Move')}">
@@ -56,7 +51,7 @@
             </MenuFlyoutItem>
 
             <MenuFlyoutItem
-                Click="{x:Bind ViewModel.OnMinimizeClicked}"
+                Click="{x:Bind OnMinimizeClicked}"
                 Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                 Text="{x:Bind root:ResourceService.GetLocalized('Window/Minimize')}">
                 <MenuFlyoutItem.Icon>
@@ -84,7 +79,7 @@
             <MenuFlyoutSeparator Width="200" />
 
             <MenuFlyoutItem
-                Click="{x:Bind ViewModel.OnCloseClicked}"
+                Click="{x:Bind OnCloseClicked}"
                 Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                 Text="{x:Bind root:ResourceService.GetLocalized('Window/Close')}">
                 <MenuFlyoutItem.Icon>
@@ -104,21 +99,21 @@
 
     <NavigationView
         AlwaysShowHeader="False"
-        BackRequested="{x:Bind ViewModel.OnNavigationViewBackRequested}"
+        BackRequested="{x:Bind OnNavigationViewBackRequested}"
         Canvas.ZIndex="0"
-        IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
+        IsBackEnabled="{x:Bind IsBackEnabled, Mode=OneWay}"
         IsSettingsVisible="False"
-        Loaded="{x:Bind ViewModel.OnNavigationViewLoaded}"
+        Loaded="{x:Bind OnNavigationViewLoaded}"
         PaneDisplayMode="Top"
-        SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=OneWay}"
+        SelectedItem="{x:Bind SelectedItem, Mode=OneWay}"
         Style="{StaticResource NavigationViewStyle}"
-        Unloaded="{x:Bind ViewModel.OnNavigationViewUnLoaded}">
+        Unloaded="{x:Bind OnNavigationViewUnLoaded}">
 
         <NavigationView.MenuItems>
             <NavigationViewItem
                 Content="{x:Bind root:ResourceService.GetLocalized('Window/FileName')}"
-                Tag="{x:Bind ViewModel.TagList[0]}"
-                Tapped="{x:Bind ViewModel.OnTapped}">
+                Tag="{x:Bind TagList[0]}"
+                Tapped="{x:Bind OnItemTapped}">
 
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE8a5;" />
@@ -131,8 +126,8 @@
 
             <NavigationViewItem
                 Content="{x:Bind root:ResourceService.GetLocalized('Window/ExtensionName')}"
-                Tag="{x:Bind ViewModel.TagList[1]}"
-                Tapped="{x:Bind ViewModel.OnTapped}">
+                Tag="{x:Bind TagList[1]}"
+                Tapped="{x:Bind OnItemTapped}">
 
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE8a6;" />
@@ -145,8 +140,8 @@
 
             <NavigationViewItem
                 Content="{x:Bind root:ResourceService.GetLocalized('Window/UpperAndLowerCase')}"
-                Tag="{x:Bind ViewModel.TagList[2]}"
-                Tapped="{x:Bind ViewModel.OnTapped}">
+                Tag="{x:Bind TagList[2]}"
+                Tapped="{x:Bind OnItemTapped}">
 
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE8e9;" />
@@ -159,8 +154,8 @@
 
             <NavigationViewItem
                 Content="{x:Bind root:ResourceService.GetLocalized('Window/FileProperties')}"
-                Tag="{x:Bind ViewModel.TagList[3]}"
-                Tapped="{x:Bind ViewModel.OnTapped}">
+                Tag="{x:Bind TagList[3]}"
+                Tapped="{x:Bind OnItemTapped}">
 
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE90f;" />
@@ -175,8 +170,8 @@
 
             <NavigationViewItem
                 Content="{x:Bind root:ResourceService.GetLocalized('Window/About')}"
-                Tag="{x:Bind ViewModel.TagList[4]}"
-                Tapped="{x:Bind ViewModel.OnTapped}">
+                Tag="{x:Bind TagList[4]}"
+                Tapped="{x:Bind OnItemTapped}">
 
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE946;" />
@@ -189,8 +184,8 @@
 
             <NavigationViewItem
                 Content="{x:Bind root:ResourceService.GetLocalized('Window/Settings')}"
-                Tag="{x:Bind ViewModel.TagList[5]}"
-                Tapped="{x:Bind ViewModel.OnTapped}">
+                Tag="{x:Bind TagList[5]}"
+                Tapped="{x:Bind OnItemTapped}">
 
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE713;" />
@@ -207,7 +202,7 @@
                 <DropDownButton
                     x:Name="AboutButton"
                     controlExtensions:CursorHelper.Cursor="Hand"
-                    x:Load="{x:Bind IsCurrentPage(ViewModel.SelectedItem.Tag, ViewModel.TagList[4]), Mode=OneWay}"
+                    x:Load="{x:Bind IsCurrentPage(SelectedItem.Tag, TagList[4]), Mode=OneWay}"
                     Content="{x:Bind root:ResourceService.GetLocalized('Window/Others')}">
 
                     <ToolTipService.ToolTip>
@@ -216,13 +211,13 @@
 
                     <DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
-                            <MenuFlyoutItem Click="{x:Bind ViewModel.OnCreateDesktopShortcutClicked}" Text="{x:Bind root:ResourceService.GetLocalized('Window/CreateDesktopShortcut')}">
+                            <MenuFlyoutItem Click="{x:Bind OnCreateDesktopShortcutClicked}" Text="{x:Bind root:ResourceService.GetLocalized('Window/CreateDesktopShortcut')}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Window/CreateDesktopShortcutToolTip')}" Placement="Mouse" />
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
 
-                            <MenuFlyoutItem Click="{x:Bind ViewModel.OnPinToStartScreenClicked}" Text="{x:Bind root:ResourceService.GetLocalized('Window/PinToStartScreen')}">
+                            <MenuFlyoutItem Click="{x:Bind OnPinToStartScreenClicked}" Text="{x:Bind root:ResourceService.GetLocalized('Window/PinToStartScreen')}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Window/PinToStartScreenToolTip')}" Placement="Mouse" />
                                 </ToolTipService.ToolTip>
@@ -230,13 +225,13 @@
 
                             <MenuFlyoutSeparator />
 
-                            <MenuFlyoutItem Click="{x:Bind ViewModel.OnShowReleaseNotesClicked}" Text="{x:Bind root:ResourceService.GetLocalized('Window/ShowReleaseNotes')}">
+                            <MenuFlyoutItem Click="{x:Bind OnShowReleaseNotesClicked}" Text="{x:Bind root:ResourceService.GetLocalized('Window/ShowReleaseNotes')}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Window/ShowReleaseNotesToolTip')}" Placement="Mouse" />
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
 
-                            <MenuFlyoutItem Click="{x:Bind ViewModel.OnShowLicenseClicked}" Text="{x:Bind root:ResourceService.GetLocalized('Window/ShowLicense')}">
+                            <MenuFlyoutItem Click="{x:Bind OnShowLicenseClicked}" Text="{x:Bind root:ResourceService.GetLocalized('Window/ShowLicense')}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Window/ShowLicenseToolTip')}" Placement="Mouse" />
                                 </ToolTipService.ToolTip>
@@ -247,8 +242,8 @@
 
                 <Button
                     x:Name="RestartButton"
-                    x:Load="{x:Bind IsCurrentPage(ViewModel.SelectedItem.Tag, ViewModel.TagList[5]), Mode=OneWay}"
-                    Click="{x:Bind ViewModel.OnRestartAppsClicked}"
+                    x:Load="{x:Bind IsCurrentPage(SelectedItem.Tag, TagList[5]), Mode=OneWay}"
+                    Click="{x:Bind OnRestartAppsClicked}"
                     Content="{x:Bind root:ResourceService.GetLocalized('Window/RestartApp')}">
 
                     <ToolTipService.ToolTip>
@@ -260,8 +255,8 @@
 
         <Frame
             x:Name="MainFrame"
-            Navigated="{x:Bind ViewModel.OnFrameNavigated}"
-            NavigationFailed="{x:Bind ViewModel.OnFrameNavgationFailed}">
+            Navigated="{x:Bind OnFrameNavigated}"
+            NavigationFailed="{x:Bind OnFrameNavgationFailed}">
             <Frame.ContentTransitions>
                 <TransitionCollection>
                     <NavigationThemeTransition />

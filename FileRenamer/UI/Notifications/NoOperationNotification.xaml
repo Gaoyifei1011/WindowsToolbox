@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:notification="using:FileRenamer.Views.CustomControls.Notifications"
     xmlns:root="using:FileRenamer.Services.Root"
-    RequestedTheme="{x:Bind fileRenamer:Program.MainWindow.MainPage.ViewModel.WindowTheme, Mode=OneWay}"
+    RequestedTheme="{x:Bind fileRenamer:Program.MainWindow.MainPage.WindowTheme, Mode=OneWay}"
     mc:Ignorable="d">
 
     <TextBlock Foreground="{ThemeResource SystemFillColorCriticalBrush}" Text="{x:Bind root:ResourceService.GetLocalized('Notification/NoOperation')}" />

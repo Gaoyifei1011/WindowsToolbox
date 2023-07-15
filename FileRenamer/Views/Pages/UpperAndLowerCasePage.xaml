@@ -1,23 +1,16 @@
 ﻿<Page
     x:Class="FileRenamer.Views.Pages.UpperAndLowerCasePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:enum="using:FileRenamer.Extensions.DataType.Enums"
     xmlns:converter="using:FileRenamer.Helpers.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:enum="using:FileRenamer.Extensions.DataType.Enums"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
     xmlns:root="using:FileRenamer.Services.Root"
-    xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
     AllowDrop="True"
-    DragOver="{x:Bind ViewModel.OnDragOver}"
-    Drop="{x:Bind ViewModel.OnDrop}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
-
-    <Page.DataContext>
-        <pageViewModel:UpperAndLowerCaseViewModel x:Name="ViewModel" />
-    </Page.DataContext>
 
     <Grid Padding="0,3,0,0">
 
@@ -50,74 +43,74 @@
             <CheckBox
                 Grid.Row="0"
                 Grid.Column="0"
-                Checked="{x:Bind ViewModel.OnChecked}"
+                Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/AllUppercase')}"
-                IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedType, enum:UpperAndLowerSelectedType.AllUppercase), Mode=OneWay}"
+                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.AllUppercase), Mode=OneWay}"
                 Tag="1"
-                Unchecked="{x:Bind ViewModel.OnUnchecked}" />
+                Unchecked="{x:Bind OnUnchecked}" />
 
             <CheckBox
                 Grid.Row="0"
                 Grid.Column="1"
-                Checked="{x:Bind ViewModel.OnChecked}"
+                Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/FileNameUppercase')}"
-                IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedType, enum:UpperAndLowerSelectedType.FileNameUppercase), Mode=OneWay}"
+                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.FileNameUppercase), Mode=OneWay}"
                 Tag="2"
-                Unchecked="{x:Bind ViewModel.OnUnchecked}" />
+                Unchecked="{x:Bind OnUnchecked}" />
 
             <CheckBox
                 Grid.Row="0"
                 Grid.Column="2"
-                Checked="{x:Bind ViewModel.OnChecked}"
+                Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/ExtensionNameUppercase')}"
-                IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedType, enum:UpperAndLowerSelectedType.ExtensionNameUppercase), Mode=OneWay}"
+                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.ExtensionNameUppercase), Mode=OneWay}"
                 Tag="3"
-                Unchecked="{x:Bind ViewModel.OnUnchecked}" />
+                Unchecked="{x:Bind OnUnchecked}" />
 
             <CheckBox
                 Grid.Row="0"
                 Grid.Column="3"
-                Checked="{x:Bind ViewModel.OnChecked}"
+                Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/DeleteSpace')}"
-                IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedType, enum:UpperAndLowerSelectedType.DeleteSpace), Mode=OneWay}"
+                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.DeleteSpace), Mode=OneWay}"
                 Tag="4"
-                Unchecked="{x:Bind ViewModel.OnUnchecked}" />
+                Unchecked="{x:Bind OnUnchecked}" />
 
             <CheckBox
                 Grid.Row="1"
                 Grid.Column="0"
-                Checked="{x:Bind ViewModel.OnChecked}"
+                Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/AllLowercase')}"
-                IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedType, enum:UpperAndLowerSelectedType.AllLowercase), Mode=OneWay}"
+                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.AllLowercase), Mode=OneWay}"
                 Tag="5"
-                Unchecked="{x:Bind ViewModel.OnUnchecked}" />
+                Unchecked="{x:Bind OnUnchecked}" />
 
             <CheckBox
                 Grid.Row="1"
                 Grid.Column="1"
-                Checked="{x:Bind ViewModel.OnChecked}"
+                Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/FileNameLowercase')}"
-                IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedType, enum:UpperAndLowerSelectedType.FileNameLowercase), Mode=OneWay}"
+                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.FileNameLowercase), Mode=OneWay}"
                 Tag="6"
-                Unchecked="{x:Bind ViewModel.OnUnchecked}" />
+                Unchecked="{x:Bind OnUnchecked}" />
 
             <CheckBox
                 Grid.Row="1"
                 Grid.Column="2"
-                Checked="{x:Bind ViewModel.OnChecked}"
+                Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/ExtensionNameLowercase')}"
-                IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedType, enum:UpperAndLowerSelectedType.ExtensionNameLowercase), Mode=OneWay}"
+                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.ExtensionNameLowercase), Mode=OneWay}"
                 Tag="7"
-                Unchecked="{x:Bind ViewModel.OnUnchecked}" />
+                Unchecked="{x:Bind OnUnchecked}" />
 
             <CheckBox
                 Grid.Row="1"
                 Grid.Column="3"
-                Checked="{x:Bind ViewModel.OnChecked}"
+                Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/ReplaceSpace')}"
-                IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedType, enum:UpperAndLowerSelectedType.ReplaceSpace), Mode=OneWay}"
+                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.ReplaceSpace), Mode=OneWay}"
                 Tag="8"
-                Unchecked="{x:Bind ViewModel.OnUnchecked}" />
+                Unchecked="{x:Bind OnUnchecked}" />
         </Grid>
 
         <Grid
@@ -163,7 +156,7 @@
             Padding="30,0"
             IsItemClickEnabled="True"
             ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
-            ItemsSource="{x:Bind ViewModel.UpperAndLowerCaseDataList, Mode=OneWay}"
+            ItemsSource="{x:Bind UpperAndLowerCaseDataList, Mode=OneWay}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             ScrollViewer.HorizontalScrollMode="Disabled"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -218,7 +211,7 @@
             VerticalAlignment="Top"
             Text="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/EmptyList')}"
             TextAlignment="Center"
-            Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(ViewModel.UpperAndLowerCaseDataList.Count), Mode=OneWay}">
+            Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(UpperAndLowerCaseDataList.Count), Mode=OneWay}">
 
             <ToolTipService.ToolTip>
                 <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/EmptyList')}" Placement="Mouse" />
@@ -241,7 +234,7 @@
 
             <Button
                 Grid.Column="0"
-                Click="{x:Bind ViewModel.OnSelectFolderClicked}"
+                Click="{x:Bind OnSelectFolderClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/SelectFolder')}">
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/SelectFolder')}" Placement="Mouse" />
@@ -256,7 +249,7 @@
 
             <Button
                 Grid.Column="2"
-                Click="{x:Bind ViewModel.OnClearListClicked}"
+                Click="{x:Bind OnClearListClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/ClearList')}">
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/ClearList')}" Placement="Mouse" />
@@ -266,11 +259,11 @@
             <TextBlock
                 Grid.Column="3"
                 VerticalAlignment="Center"
-                Text="{x:Bind LocalizeTotal(ViewModel.UpperAndLowerCaseDataList.Count), Mode=OneWay}"
+                Text="{x:Bind LocalizeTotal(UpperAndLowerCaseDataList.Count), Mode=OneWay}"
                 TextAlignment="Center">
 
                 <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind LocalizeTotal(ViewModel.UpperAndLowerCaseDataList.Count), Mode=OneWay}" Placement="Mouse" />
+                    <ToolTip Content="{x:Bind LocalizeTotal(UpperAndLowerCaseDataList.Count), Mode=OneWay}" Placement="Mouse" />
                 </ToolTipService.ToolTip>
             </TextBlock>
 
@@ -279,7 +272,7 @@
                 Margin="0,0,10,0"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/ViewErrorInformation')}"
                 Style="{StaticResource ErrorHyperlinkButtonStyle}"
-                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(ViewModel.OperationFailedList.Count), Mode=OneWay}">
+                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedList.Count), Mode=OneWay}">
 
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/ViewErrorInformation')}" Placement="Mouse" />
@@ -288,7 +281,7 @@
 
             <Button
                 Grid.Column="5"
-                Click="{x:Bind ViewModel.OnPreviewClicked}"
+                Click="{x:Bind OnPreviewClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/Preview')}">
 
                 <ToolTipService.ToolTip>
@@ -298,7 +291,7 @@
 
             <Button
                 Grid.Column="6"
-                Click="{x:Bind ViewModel.OnModifyClicked}"
+                Click="{x:Bind OnModifyClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/Modify')}"
                 Style="{StaticResource AccentButtonStyle}">
 

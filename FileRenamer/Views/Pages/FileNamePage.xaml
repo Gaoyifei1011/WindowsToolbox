@@ -8,17 +8,10 @@
     xmlns:dialogsandflyouts="using:FileRenamer.Views.CustomControls.DialogsAndFlyouts"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
-    xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
     xmlns:root="using:FileRenamer.Services.Root"
     AllowDrop="True"
-    DragOver="{x:Bind ViewModel.OnDragOver}"
-    Drop="{x:Bind ViewModel.OnDrop}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
-
-    <Page.DataContext>
-        <pageViewModel:FileNameViewModel x:Name="ViewModel" />
-    </Page.DataContext>
 
     <Grid Padding="0,3,0,0">
         <Grid.RowDefinitions>
@@ -55,7 +48,7 @@
                         Grid.Column="1"
                         Height="20"
                         PlaceholderText="{x:Bind root:ResourceService.GetLocalized('FileName/RenameRulePlaceHolderText')}"
-                        Text="{x:Bind ViewModel.RenameRule, Mode=TwoWay}" />
+                        Text="{x:Bind RenameRule, Mode=TwoWay}" />
                 </Grid>
 
                 <Grid ColumnSpacing="5">
@@ -72,7 +65,7 @@
                         Grid.Column="1"
                         Height="20"
                         PlaceholderText="{x:Bind root:ResourceService.GetLocalized('FileName/StartNumberPlaceHolderText')}"
-                        Text="{x:Bind ViewModel.StartNumber, Mode=TwoWay}" />
+                        Text="{x:Bind StartNumber, Mode=TwoWay}" />
                 </Grid>
 
                 <Grid>
@@ -89,69 +82,69 @@
                         VerticalAlignment="Center"
                         Text="{x:Bind root:ResourceService.GetLocalized('FileName/NumberFormat')}" />
 
-                    <DropDownButton Grid.Column="1" Content="{x:Bind ViewModel.SelectedNumberFormat.DisplayName, Mode=OneWay}">
+                    <DropDownButton Grid.Column="1" Content="{x:Bind SelectedNumberFormat.DisplayName, Mode=OneWay}">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind ViewModel.SelectedNumberFormat.DisplayName, Mode=OneWay}" Placement="Mouse" />
+                            <ToolTip Content="{x:Bind SelectedNumberFormat.DisplayName, Mode=OneWay}" Placement="Mouse" />
                         </ToolTipService.ToolTip>
 
                         <DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
                                 <dialogsandflyouts:RadioMenuFlyoutItem
-                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[0].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[0].InternalName)}"
                                     Tag="0"
-                                    Text="{x:Bind ViewModel.NumberFormatList[0].DisplayName}" />
+                                    Text="{x:Bind NumberFormatList[0].DisplayName}" />
 
                                 <dialogsandflyouts:RadioMenuFlyoutItem
-                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[1].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[1].InternalName)}"
                                     Tag="1"
-                                    Text="{x:Bind ViewModel.NumberFormatList[1].DisplayName}" />
+                                    Text="{x:Bind NumberFormatList[1].DisplayName}" />
 
                                 <dialogsandflyouts:RadioMenuFlyoutItem
-                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[2].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[2].InternalName)}"
                                     Tag="2"
-                                    Text="{x:Bind ViewModel.NumberFormatList[2].DisplayName}" />
+                                    Text="{x:Bind NumberFormatList[2].DisplayName}" />
 
                                 <dialogsandflyouts:RadioMenuFlyoutItem
-                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[3].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[3].InternalName)}"
                                     Tag="3"
-                                    Text="{x:Bind ViewModel.NumberFormatList[3].DisplayName}" />
+                                    Text="{x:Bind NumberFormatList[3].DisplayName}" />
 
                                 <dialogsandflyouts:RadioMenuFlyoutItem
-                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[4].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[4].InternalName)}"
                                     Tag="4"
-                                    Text="{x:Bind ViewModel.NumberFormatList[4].DisplayName}" />
+                                    Text="{x:Bind NumberFormatList[4].DisplayName}" />
 
                                 <dialogsandflyouts:RadioMenuFlyoutItem
-                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[5].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[5].InternalName)}"
                                     Tag="5"
-                                    Text="{x:Bind ViewModel.NumberFormatList[5].DisplayName}" />
+                                    Text="{x:Bind NumberFormatList[5].DisplayName}" />
 
                                 <dialogsandflyouts:RadioMenuFlyoutItem
-                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[6].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[6].InternalName)}"
                                     Tag="6"
-                                    Text="{x:Bind ViewModel.NumberFormatList[6].DisplayName}" />
+                                    Text="{x:Bind NumberFormatList[6].DisplayName}" />
 
                                 <dialogsandflyouts:RadioMenuFlyoutItem
-                                    Click="{x:Bind ViewModel.OnNumberFormatClicked}"
+                                    Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedNumberFormat.InternalName, ViewModel.NumberFormatList[7].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[7].InternalName)}"
                                     Tag="7"
-                                    Text="{x:Bind ViewModel.NumberFormatList[7].DisplayName}" />
+                                    Text="{x:Bind NumberFormatList[7].DisplayName}" />
                             </MenuFlyout>
                         </DropDownButton.Flyout>
                     </DropDownButton>
@@ -160,13 +153,13 @@
                         Grid.Column="2"
                         Margin="0,0,5,0"
                         Content="{x:Bind root:ResourceService.GetLocalized('FileName/ChangeExtensionSimultaneously')}"
-                        IsChecked="{x:Bind ViewModel.IsChecked, Mode=TwoWay}"
-                        Unchecked="{x:Bind ViewModel.OnUnchecked}" />
+                        IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
+                        Unchecked="{x:Bind OnUnchecked}" />
 
                     <TextBox
                         Grid.Column="3"
-                        IsEnabled="{x:Bind ViewModel.IsChecked, Mode=OneWay}"
-                        Text="{x:Bind ViewModel.ExtensionName, Mode=OneWay}" />
+                        IsEnabled="{x:Bind IsChecked, Mode=OneWay}"
+                        Text="{x:Bind ExtensionName, Mode=OneWay}" />
                 </Grid>
             </StackPanel>
 
@@ -187,7 +180,7 @@
                         Grid.Column="1"
                         Height="20"
                         PlaceholderText="{x:Bind root:ResourceService.GetLocalized('FileName/LookUpStringPlaceHolderText')}"
-                        Text="{x:Bind ViewModel.LookUpString, Mode=TwoWay}" />
+                        Text="{x:Bind LookUpString, Mode=TwoWay}" />
                 </Grid>
 
                 <Grid ColumnSpacing="5">
@@ -204,7 +197,7 @@
                         Grid.Column="1"
                         Height="20"
                         PlaceholderText="{x:Bind root:ResourceService.GetLocalized('FileName/ReplaceStringPlaceHolderText')}"
-                        Text="{x:Bind ViewModel.ReplaceString, Mode=TwoWay}" />
+                        Text="{x:Bind ReplaceString, Mode=TwoWay}" />
                 </Grid>
 
                 <Button HorizontalAlignment="Stretch" Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewNameChangeExample')}">
@@ -329,7 +322,7 @@
                                         </TextBlock>
 
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Style="{StaticResource ContentDialogContentStyle}" Text="{x:Bind GetChangeRule(ViewModel.CurrentIndex), Mode=OneWay}" />
+                                            <TextBlock Style="{StaticResource ContentDialogContentStyle}" Text="{x:Bind GetChangeRule(CurrentIndex), Mode=OneWay}" />
                                         </StackPanel>
                                     </StackPanel>
 
@@ -339,7 +332,7 @@
                                         Spacing="5">
                                         <Button
                                             controlExtensions:CursorHelper.Cursor="Hand"
-                                            Click="{x:Bind ViewModel.OnForwardNavigateClicked}"
+                                            Click="{x:Bind OnForwardNavigateClicked}"
                                             Style="{StaticResource ButtonSquareStyle}">
                                             <Button.Content>
                                                 <FontIcon FontSize="16" Glyph="&#xE76B;" />
@@ -352,7 +345,7 @@
 
                                         <Button
                                             controlExtensions:CursorHelper.Cursor="Hand"
-                                            Click="{x:Bind ViewModel.OnNextNavigateClicked}"
+                                            Click="{x:Bind OnNextNavigateClicked}"
                                             Style="{StaticResource ButtonSquareStyle}">
                                             <Button.Content>
                                                 <FontIcon FontSize="16" Glyph="&#xE76C;" />
@@ -368,7 +361,7 @@
                                 <ListView
                                     Margin="0,0,0,5"
                                     ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
-                                    ItemsSource="{x:Bind ViewModel.NameChangeList}"
+                                    ItemsSource="{x:Bind NameChangeList}"
                                     SelectionMode="None"
                                     Style="{StaticResource ListViewStyle}">
 
@@ -505,7 +498,7 @@
             Padding="30,0"
             IsItemClickEnabled="True"
             ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
-            ItemsSource="{x:Bind ViewModel.FileNameDataList, Mode=OneWay}"
+            ItemsSource="{x:Bind FileNameDataList, Mode=OneWay}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             ScrollViewer.HorizontalScrollMode="Disabled"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -560,7 +553,7 @@
             VerticalAlignment="Top"
             Text="{x:Bind root:ResourceService.GetLocalized('FileName/EmptyList')}"
             TextAlignment="Center"
-            Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(ViewModel.FileNameDataList.Count), Mode=OneWay}">
+            Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FileNameDataList.Count), Mode=OneWay}">
 
             <ToolTipService.ToolTip>
                 <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileName/EmptyList')}" Placement="Mouse" />
@@ -583,7 +576,7 @@
 
             <Button
                 Grid.Column="0"
-                Click="{x:Bind ViewModel.OnSelectFolderClicked}"
+                Click="{x:Bind OnSelectFolderClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileName/SelectFolder')}">
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileName/SelectFolder')}" Placement="Mouse" />
@@ -598,7 +591,7 @@
 
             <Button
                 Grid.Column="2"
-                Click="{x:Bind ViewModel.OnClearListClicked}"
+                Click="{x:Bind OnClearListClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileName/ClearList')}">
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileName/ClearList')}" Placement="Mouse" />
@@ -608,11 +601,11 @@
             <TextBlock
                 Grid.Column="3"
                 VerticalAlignment="Center"
-                Text="{x:Bind LocalizeTotal(ViewModel.FileNameDataList.Count), Mode=OneWay}"
+                Text="{x:Bind LocalizeTotal(FileNameDataList.Count), Mode=OneWay}"
                 TextAlignment="Center">
 
                 <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind LocalizeTotal(ViewModel.FileNameDataList.Count), Mode=OneWay}" Placement="Mouse" />
+                    <ToolTip Content="{x:Bind LocalizeTotal(FileNameDataList.Count), Mode=OneWay}" Placement="Mouse" />
                 </ToolTipService.ToolTip>
             </TextBlock>
 
@@ -621,7 +614,7 @@
                 Margin="0,0,10,0"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewErrorInformation')}"
                 Style="{StaticResource ErrorHyperlinkButtonStyle}"
-                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(ViewModel.OperationFailedList.Count), Mode=OneWay}">
+                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedList.Count), Mode=OneWay}">
 
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewErrorInformation')}" Placement="Mouse" />
@@ -630,7 +623,7 @@
 
             <Button
                 Grid.Column="5"
-                Click="{x:Bind ViewModel.OnPreviewClicked}"
+                Click="{x:Bind OnPreviewClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileName/Preview')}">
 
                 <ToolTipService.ToolTip>
@@ -640,7 +633,7 @@
 
             <Button
                 Grid.Column="6"
-                Click="{x:Bind ViewModel.OnModifyClicked}"
+                Click="{x:Bind OnModifyClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileName/Modify')}"
                 Style="{StaticResource AccentButtonStyle}">
 

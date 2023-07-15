@@ -7,17 +7,10 @@
     xmlns:enum="using:FileRenamer.Extensions.DataType.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
-    xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
     xmlns:root="using:FileRenamer.Services.Root"
     AllowDrop="True"
-    DragOver="{x:Bind ViewModel.OnDragOver}"
-    Drop="{x:Bind ViewModel.OnDrop}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
-
-    <Page.DataContext>
-        <pageViewModel:ExtensionNameViewModel x:Name="ViewModel" />
-    </Page.DataContext>
 
     <Grid Padding="0,3,0,0">
 
@@ -50,11 +43,11 @@
             <CheckBox
                 Grid.Row="0"
                 Grid.RowSpan="1"
-                Checked="{x:Bind ViewModel.OnChecked}"
+                Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/SameExtensionName')}"
-                IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedType, enum:ExtensionNameSelectedType.IsSameExtensionName), Mode=OneWay}"
+                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsSameExtensionName), Mode=OneWay}"
                 Tag="1"
-                Unchecked="{x:Bind ViewModel.OnUnchecked}" />
+                Unchecked="{x:Bind OnUnchecked}" />
 
             <Grid Grid.Row="0" Grid.Column="2">
 
@@ -66,18 +59,18 @@
                 <TextBlock Grid.Column="0" Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/ChangeTo')}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind IsItemChecked(ViewModel.SelectedType, enum:ExtensionNameSelectedType.IsSameExtensionName), Mode=OneWay}"
-                    Text="{x:Bind ViewModel.ChangeToText, Mode=OneWay}" />
+                    IsEnabled="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsSameExtensionName), Mode=OneWay}"
+                    Text="{x:Bind ChangeToText, Mode=OneWay}" />
             </Grid>
 
             <CheckBox
                 Grid.Row="1"
                 Grid.RowSpan="1"
-                Checked="{x:Bind ViewModel.OnChecked}"
+                Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/FindAndReplaceExtensionName')}"
-                IsChecked="{x:Bind IsItemChecked(ViewModel.SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
                 Tag="2"
-                Unchecked="{x:Bind ViewModel.OnUnchecked}" />
+                Unchecked="{x:Bind OnUnchecked}" />
 
             <Grid Grid.Row="1" Grid.Column="2">
 
@@ -89,8 +82,8 @@
                 <TextBlock Grid.Column="0" Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Search')}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind IsItemChecked(ViewModel.SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
-                    Text="{x:Bind ViewModel.SearchText, Mode=OneWay}" />
+                    IsEnabled="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                    Text="{x:Bind SearchText, Mode=OneWay}" />
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="3">
@@ -103,8 +96,8 @@
                 <TextBlock Grid.Column="0" Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Replace')}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind IsItemChecked(ViewModel.SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
-                    Text="{x:Bind ViewModel.ReplaceText, Mode=OneWay}" />
+                    IsEnabled="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                    Text="{x:Bind ReplaceText, Mode=OneWay}" />
             </Grid>
         </Grid>
 
@@ -151,7 +144,7 @@
             Padding="30,0"
             IsItemClickEnabled="True"
             ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
-            ItemsSource="{x:Bind ViewModel.ExtensionNameDataList, Mode=OneWay}"
+            ItemsSource="{x:Bind ExtensionNameDataList, Mode=OneWay}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             ScrollViewer.HorizontalScrollMode="Disabled"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -206,7 +199,7 @@
             VerticalAlignment="Top"
             Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/EmptyList')}"
             TextAlignment="Center"
-            Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(ViewModel.ExtensionNameDataList.Count), Mode=OneWay}">
+            Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(ExtensionNameDataList.Count), Mode=OneWay}">
 
             <ToolTipService.ToolTip>
                 <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/EmptyList')}" Placement="Mouse" />
@@ -229,7 +222,7 @@
 
             <Button
                 Grid.Column="0"
-                Click="{x:Bind ViewModel.OnSelectFolderClicked}"
+                Click="{x:Bind OnSelectFolderClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/SelectFolder')}">
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/SelectFolder')}" Placement="Mouse" />
@@ -244,7 +237,7 @@
 
             <Button
                 Grid.Column="2"
-                Click="{x:Bind ViewModel.OnClearListClicked}"
+                Click="{x:Bind OnClearListClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/ClearList')}">
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/ClearList')}" Placement="Mouse" />
@@ -254,11 +247,11 @@
             <TextBlock
                 Grid.Column="3"
                 VerticalAlignment="Center"
-                Text="{x:Bind LocalizeTotal(ViewModel.ExtensionNameDataList.Count), Mode=OneWay}"
+                Text="{x:Bind LocalizeTotal(ExtensionNameDataList.Count), Mode=OneWay}"
                 TextAlignment="Center">
 
                 <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind LocalizeTotal(ViewModel.ExtensionNameDataList.Count), Mode=OneWay}" Placement="Mouse" />
+                    <ToolTip Content="{x:Bind LocalizeTotal(ExtensionNameDataList.Count), Mode=OneWay}" Placement="Mouse" />
                 </ToolTipService.ToolTip>
             </TextBlock>
 
@@ -267,7 +260,7 @@
                 Margin="0,0,10,0"
                 Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/ViewErrorInformation')}"
                 Style="{StaticResource ErrorHyperlinkButtonStyle}"
-                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(ViewModel.OperationFailedList.Count), Mode=OneWay}">
+                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedList.Count), Mode=OneWay}">
 
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/ViewErrorInformation')}" Placement="Mouse" />
@@ -276,7 +269,7 @@
 
             <Button
                 Grid.Column="5"
-                Click="{x:Bind ViewModel.OnPreviewClicked}"
+                Click="{x:Bind OnPreviewClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Preview')}">
 
                 <ToolTipService.ToolTip>
@@ -286,7 +279,7 @@
 
             <Button
                 Grid.Column="6"
-                Click="{x:Bind ViewModel.OnModifyClicked}"
+                Click="{x:Bind OnModifyClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Modify')}"
                 Style="{StaticResource AccentButtonStyle}">
 

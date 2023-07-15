@@ -38,8 +38,8 @@ namespace FileRenamer.Services.Root
             DefaultAppLanguage = defaultAppLanguage.InternalName;
             CurrentAppLanguage = currentAppLanguage.InternalName;
 
-            DefaultResourceContext.QualifierValues["Language"] = DefaultAppLanguage;
-            CurrentResourceContext.QualifierValues["Language"] = CurrentAppLanguage;
+            DefaultResourceContext.QualifierValues["AppLanguage"] = DefaultAppLanguage;
+            CurrentResourceContext.QualifierValues["AppLanguage"] = CurrentAppLanguage;
 
             IsInitialized = true;
         }

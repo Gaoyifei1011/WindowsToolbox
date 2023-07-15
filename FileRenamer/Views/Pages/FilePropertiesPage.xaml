@@ -6,17 +6,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
-    xmlns:pageViewModel="using:FileRenamer.ViewModels.Pages"
     xmlns:root="using:FileRenamer.Services.Root"
     AllowDrop="True"
-    DragOver="{x:Bind ViewModel.OnDragOver}"
-    Drop="{x:Bind ViewModel.OnDrop}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
-
-    <Page.DataContext>
-        <pageViewModel:FilePropertiesViewModel x:Name="ViewModel" />
-    </Page.DataContext>
 
     <Grid Padding="0,3,0,0">
 
@@ -54,41 +47,41 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/ReadOnly')}"
-                    IsChecked="{x:Bind ViewModel.IsReadOnlyChecked, Mode=TwoWay}" />
+                    IsChecked="{x:Bind IsReadOnlyChecked, Mode=TwoWay}" />
 
                 <CheckBox
                     Grid.Row="0"
                     Grid.Column="1"
                     Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/Archive')}"
-                    IsChecked="{x:Bind ViewModel.IsArchiveChecked, Mode=TwoWay}" />
+                    IsChecked="{x:Bind IsArchiveChecked, Mode=TwoWay}" />
 
                 <CheckBox
                     Grid.Row="0"
                     Grid.Column="3"
                     Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/CreateDate')}"
-                    IsChecked="{x:Bind ViewModel.IsCreateDateChecked, Mode=TwoWay}"
+                    IsChecked="{x:Bind IsCreateDateChecked, Mode=TwoWay}"
                     Tag="CreateDate"
-                    Unchecked="{x:Bind ViewModel.OnUnchecked}" />
+                    Unchecked="{x:Bind OnUnchecked}" />
 
                 <CheckBox
                     Grid.Row="1"
                     Grid.Column="0"
                     Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/Hide')}"
-                    IsChecked="{x:Bind ViewModel.IsHideChecked, Mode=TwoWay}" />
+                    IsChecked="{x:Bind IsHideChecked, Mode=TwoWay}" />
 
                 <CheckBox
                     Grid.Row="1"
                     Grid.Column="1"
                     Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/System')}"
-                    IsChecked="{x:Bind ViewModel.IsSystemChecked, Mode=TwoWay}" />
+                    IsChecked="{x:Bind IsSystemChecked, Mode=TwoWay}" />
 
                 <CheckBox
                     Grid.Row="1"
                     Grid.Column="3"
                     Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/ModifyDate')}"
-                    IsChecked="{x:Bind ViewModel.IsModifyDateChecked, Mode=TwoWay}"
+                    IsChecked="{x:Bind IsModifyDateChecked, Mode=TwoWay}"
                     Tag="ModifyDate"
-                    Unchecked="{x:Bind ViewModel.OnUnchecked}" />
+                    Unchecked="{x:Bind OnUnchecked}" />
 
                 <AppBarSeparator
                     Grid.Row="0"
@@ -114,26 +107,26 @@
                 <DatePicker
                     Grid.Row="0"
                     Grid.Column="0"
-                    Date="{x:Bind ViewModel.CreateDate, Mode=OneWay}"
-                    IsEnabled="{x:Bind ViewModel.IsCreateDateChecked, Mode=OneWay}" />
+                    Date="{x:Bind CreateDate, Mode=OneWay}"
+                    IsEnabled="{x:Bind IsCreateDateChecked, Mode=OneWay}" />
 
                 <TimePicker
                     Grid.Row="0"
                     Grid.Column="1"
-                    IsEnabled="{x:Bind ViewModel.IsCreateDateChecked, Mode=OneWay}"
-                    Time="{x:Bind ViewModel.CreateTime, Mode=OneWay}" />
+                    IsEnabled="{x:Bind IsCreateDateChecked, Mode=OneWay}"
+                    Time="{x:Bind CreateTime, Mode=OneWay}" />
 
                 <DatePicker
                     Grid.Row="1"
                     Grid.Column="0"
-                    Date="{x:Bind ViewModel.ModifyDate, Mode=OneWay}"
-                    IsEnabled="{x:Bind ViewModel.IsModifyDateChecked, Mode=OneWay}" />
+                    Date="{x:Bind ModifyDate, Mode=OneWay}"
+                    IsEnabled="{x:Bind IsModifyDateChecked, Mode=OneWay}" />
 
                 <TimePicker
                     Grid.Row="1"
                     Grid.Column="1"
-                    IsEnabled="{x:Bind ViewModel.IsModifyDateChecked, Mode=OneWay}"
-                    Time="{x:Bind ViewModel.ModifyTime, Mode=OneWay}" />
+                    IsEnabled="{x:Bind IsModifyDateChecked, Mode=OneWay}"
+                    Time="{x:Bind ModifyTime, Mode=OneWay}" />
             </Grid>
         </Grid>
 
@@ -180,7 +173,7 @@
             Padding="30,0"
             IsItemClickEnabled="True"
             ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
-            ItemsSource="{x:Bind ViewModel.FilePropertiesDataList, Mode=OneWay}"
+            ItemsSource="{x:Bind FilePropertiesDataList, Mode=OneWay}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             ScrollViewer.HorizontalScrollMode="Disabled"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -235,7 +228,7 @@
             VerticalAlignment="Top"
             Text="{x:Bind root:ResourceService.GetLocalized('FileProperties/EmptyList')}"
             TextAlignment="Center"
-            Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(ViewModel.FilePropertiesDataList.Count), Mode=OneWay}">
+            Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FilePropertiesDataList.Count), Mode=OneWay}">
 
             <ToolTipService.ToolTip>
                 <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/EmptyList')}" Placement="Mouse" />
@@ -258,7 +251,7 @@
 
             <Button
                 Grid.Column="0"
-                Click="{x:Bind ViewModel.OnSelectFolderClicked}"
+                Click="{x:Bind OnSelectFolderClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/SelectFolder')}">
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/SelectFolder')}" Placement="Mouse" />
@@ -273,7 +266,7 @@
 
             <Button
                 Grid.Column="2"
-                Click="{x:Bind ViewModel.OnClearListClicked}"
+                Click="{x:Bind OnClearListClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/ClearList')}">
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/ClearList')}" Placement="Mouse" />
@@ -283,11 +276,11 @@
             <TextBlock
                 Grid.Column="3"
                 VerticalAlignment="Center"
-                Text="{x:Bind LocalizeTotal(ViewModel.FilePropertiesDataList.Count), Mode=OneWay}"
+                Text="{x:Bind LocalizeTotal(FilePropertiesDataList.Count), Mode=OneWay}"
                 TextAlignment="Center">
 
                 <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind LocalizeTotal(ViewModel.FilePropertiesDataList.Count), Mode=OneWay}" Placement="Mouse" />
+                    <ToolTip Content="{x:Bind LocalizeTotal(FilePropertiesDataList.Count), Mode=OneWay}" Placement="Mouse" />
                 </ToolTipService.ToolTip>
             </TextBlock>
 
@@ -296,7 +289,7 @@
                 Margin="0,0,10,0"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/ViewErrorInformation')}"
                 Style="{StaticResource ErrorHyperlinkButtonStyle}"
-                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(ViewModel.OperationFailedList.Count), Mode=OneWay}">
+                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedList.Count), Mode=OneWay}">
 
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/ViewErrorInformation')}" Placement="Mouse" />
@@ -305,7 +298,7 @@
 
             <Button
                 Grid.Column="5"
-                Click="{x:Bind ViewModel.OnPreviewClicked}"
+                Click="{x:Bind OnPreviewClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/Preview')}">
 
                 <ToolTipService.ToolTip>
@@ -315,7 +308,7 @@
 
             <Button
                 Grid.Column="6"
-                Click="{x:Bind ViewModel.OnModifyClicked}"
+                Click="{x:Bind OnModifyClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/Modify')}"
                 Style="{StaticResource AccentButtonStyle}">
 
