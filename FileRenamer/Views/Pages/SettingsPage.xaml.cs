@@ -2,7 +2,6 @@
 using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Services.Controls.Settings.Appearance;
-using FileRenamer.Services.Controls.Settings.Common;
 using FileRenamer.Services.Window;
 using FileRenamer.UI.Notifications;
 using FileRenamer.Views.CustomControls.DialogsAndFlyouts;
@@ -60,19 +59,6 @@ namespace FileRenamer.Views.Pages
             {
                 _appLanguage = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AppLanguage)));
-            }
-        }
-
-        private bool _notification = NotificationService.AppNotification;
-
-        public bool Notification
-        {
-            get { return _notification; }
-
-            set
-            {
-                _notification = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Notification)));
             }
         }
 
@@ -134,19 +120,6 @@ namespace FileRenamer.Views.Pages
         }
 
         /// <summary>
-        /// 设置是否开启应用通知
-        /// </summary>
-        public async void OnNotificationToggled(object sender, RoutedEventArgs args)
-        {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-            if (toggleSwitch is not null)
-            {
-                await NotificationService.SetNotificationAsync(toggleSwitch.IsOn);
-                Notification = toggleSwitch.IsOn;
-            }
-        }
-
-        /// <summary>
         /// 应用默认语言修改
         /// </summary>
         public async void OnSelectionChanged(object sender, SelectionChangedEventArgs args)
@@ -165,14 +138,6 @@ namespace FileRenamer.Views.Pages
         public void OnSettingsColorClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "ms-settings:colors");
-        }
-
-        /// <summary>
-        /// 打开系统通知设置
-        /// </summary>
-        public void OnSettingsNotificationClicked(object sender, RoutedEventArgs args)
-        {
-            Process.Start("explorer.exe", "ms-settings:notifications");
         }
 
         /// <summary>

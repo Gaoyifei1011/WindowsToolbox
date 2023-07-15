@@ -138,9 +138,6 @@
   <data name="BackdropMicaAlt" xml:space="preserve">
     <value>云母（Alt）</value>
   </data>
-  <data name="General" xml:space="preserve">
-    <value>常规选项</value>
-  </data>
   <data name="Language" xml:space="preserve">
     <value>界面语言</value>
   </data>
@@ -149,18 +146,6 @@
   </data>
   <data name="LanguageToolTip" xml:space="preserve">
     <value>帮助</value>
-  </data>
-  <data name="Notification" xml:space="preserve">
-    <value>应用通知</value>
-  </data>
-  <data name="NotificationDescription" xml:space="preserve">
-    <value>显示来自应用的消息通知</value>
-  </data>
-  <data name="NotificationOffContent" xml:space="preserve">
-    <value>关闭</value>
-  </data>
-  <data name="NotificationOnContent" xml:space="preserve">
-    <value>开启</value>
   </data>
   <data name="ThemeDark" xml:space="preserve">
     <value>深色</value>
@@ -182,8 +167,5 @@
   </data>
   <data name="WindowsColorSettings" xml:space="preserve">
     <value>Windows 颜色设置</value>
-  </data>
-  <data name="WindowsNotificationSettings" xml:space="preserve">
-    <value>Windows 通知设置</value>
   </data>
 </root>

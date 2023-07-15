@@ -27,7 +27,7 @@ namespace FileRenamer.UI.Dialogs
         /// </summary>
         private void RestartApps()
         {
-            Program.ApplicationRoot.CloseApp();
+            Program.ApplicationRoot.CloseApp(true);
             Application.Restart();
         }
     }

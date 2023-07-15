@@ -5,6 +5,7 @@ using FileRenamer.Views.CustomControls.DialogsAndFlyouts;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using Windows.UI.Xaml.Controls;
 
@@ -67,7 +68,7 @@ namespace FileRenamer.UI.Dialogs.About
                 WindowsUIFile.ProductPrivatePart
                 );
 
-            FileVersionInfo MileXamlFile = FileVersionInfo.GetVersionInfo(string.Format(@"{0}{1}", InfoHelper.GetAppInstalledLocation(), @"Mile.Xaml.Managed.dll"));
+            FileVersionInfo MileXamlFile = FileVersionInfo.GetVersionInfo(Path.Combine(AppContext.BaseDirectory, @"Mile.Xaml.Managed.dll"));
             MileXamlVersion = MileXamlFile.FileVersion;
 
             // .NET ∞Ê±æ–≈œ¢

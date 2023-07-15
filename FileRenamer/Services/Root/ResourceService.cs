@@ -1,4 +1,5 @@
-﻿using FileRenamer.Models;
+﻿using FileRenamer.Helpers.Root;
+using FileRenamer.Models;
 using FileRenamer.Properties;
 using System;
 using System.Collections.Generic;
@@ -18,15 +19,30 @@ namespace FileRenamer.Services.Root
 
         private static string CurrentAppLanguage { get; set; }
 
-        private static ResourceContext DefaultResourceContext { get; set; } = new ResourceContext();
+        private static ResourceContext DefaultResourceContext { get; set; }
 
-        private static ResourceContext CurrentResourceContext { get; set; } = new ResourceContext();
+        private static ResourceContext CurrentResourceContext { get; set; }
+
+        private static ResourceContext UnpackagedResourceContext { get; set; }
 
         private static ResourceMap ResourceMap { get; } = ResourceManager.Current.MainResourceMap;
 
         public static List<BackdropModel> BackdropList { get; } = new List<BackdropModel>();
 
         public static List<ThemeModel> ThemeList { get; } = new List<ThemeModel>();
+
+        static ResourceService()
+        {
+            if (RuntimeHelper.IsMSIX)
+            {
+                DefaultResourceContext = new ResourceContext();
+                CurrentResourceContext = new ResourceContext();
+            }
+            else
+            {
+                UnpackagedResourceContext = ResourceContext.GetForViewIndependentUse();
+            }
+        }
 
         /// <summary>
         /// 初始化应用本地化资源
@@ -38,8 +54,15 @@ namespace FileRenamer.Services.Root
             DefaultAppLanguage = defaultAppLanguage.InternalName;
             CurrentAppLanguage = currentAppLanguage.InternalName;
 
-            DefaultResourceContext.QualifierValues["AppLanguage"] = DefaultAppLanguage;
-            CurrentResourceContext.QualifierValues["AppLanguage"] = CurrentAppLanguage;
+            if (RuntimeHelper.IsMSIX)
+            {
+                DefaultResourceContext.QualifierValues["Language"] = DefaultAppLanguage;
+                CurrentResourceContext.QualifierValues["Language"] = CurrentAppLanguage;
+            }
+            else
+            {
+                UnpackagedResourceContext.QualifierValues["Language"] = CurrentAppLanguage;
+            }
 
             IsInitialized = true;
         }
@@ -112,19 +135,44 @@ namespace FileRenamer.Services.Root
         {
             if (IsInitialized)
             {
-                try
-                {
-                    return ResourceMap.GetValue(resource, CurrentResourceContext).ValueAsString;
-                }
-                catch (NullReferenceException)
+                if (RuntimeHelper.IsMSIX)
                 {
                     try
                     {
-                        return ResourceMap.GetValue(resource, DefaultResourceContext).ValueAsString;
+                        return ResourceMap.GetValue(resource, CurrentResourceContext).ValueAsString;
                     }
                     catch (NullReferenceException)
                     {
-                        return resource;
+                        try
+                        {
+                            return ResourceMap.GetValue(resource, DefaultResourceContext).ValueAsString;
+                        }
+                        catch (NullReferenceException)
+                        {
+                            return resource;
+                        }
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        return ResourceMap.GetValue(resource, UnpackagedResourceContext).ValueAsString;
+                    }
+                    catch (NullReferenceException)
+                    {
+                        try
+                        {
+                            UnpackagedResourceContext.QualifierValues["Language"] = DefaultAppLanguage;
+                            string result = ResourceMap.GetValue(resource, DefaultResourceContext).ValueAsString;
+                            UnpackagedResourceContext.QualifierValues["Language"] = CurrentAppLanguage;
+                            return result;
+                        }
+                        catch (NullReferenceException)
+                        {
+                            UnpackagedResourceContext.QualifierValues["Language"] = CurrentAppLanguage;
+                            return resource;
+                        }
                     }
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using FileRenamer.Extensions.DataType.Constant;
+using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Services.Root;
 using System;
@@ -21,9 +22,21 @@ namespace FileRenamer.Services.Controls.Settings.Appearance
 
         public static LanguageModel AppLanguage { get; set; }
 
-        private static IReadOnlyList<string> AppLanguagesList { get; } = ApplicationLanguages.ManifestLanguages;
+        private static IReadOnlyList<string> AppLanguagesList { get; }
 
         public static List<LanguageModel> LanguageList { get; set; } = new List<LanguageModel>();
+
+        static LanguageService()
+        {
+            if (RuntimeHelper.IsMSIX)
+            {
+                AppLanguagesList = ApplicationLanguages.ManifestLanguages;
+            }
+            else
+            {
+                AppLanguagesList = new List<string>() { "en-us", "zh-hans" };
+            }
+        }
 
         /// <summary>
         /// 初始化应用语言信息列表
@@ -73,7 +86,6 @@ namespace FileRenamer.Services.Controls.Settings.Appearance
             if (LanguageValueResult.Item1)
             {
                 await SetLanguageAsync(AppLanguage, false);
-                SetAppLanguage(AppLanguage);
             }
         }
 
@@ -119,14 +131,6 @@ namespace FileRenamer.Services.Controls.Settings.Appearance
             }
 
             await ConfigService.SaveSettingAsync(SettingsKey, language.InternalName);
-        }
-
-        /// <summary>
-        /// 设置应用的语言值
-        /// </summary>
-        public static void SetAppLanguage(LanguageModel language)
-        {
-            ApplicationLanguages.PrimaryLanguageOverride = language.InternalName;
         }
     }
 }

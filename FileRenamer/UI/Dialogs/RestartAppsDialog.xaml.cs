@@ -19,7 +19,7 @@ namespace FileRenamer.UI.Dialogs
         /// </summary>
         public void OnRestartAppsClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            Program.ApplicationRoot.CloseApp();
+            Program.ApplicationRoot.CloseApp(true);
             Application.Restart();
         }
     }

@@ -9,8 +9,6 @@
 
         public const string LanguageKey = "AppLanguage";
 
-        public const string NotificationKey = "AppNotification";
-
         public const string ThemeKey = "AppTheme";
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
+using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Services.Root;
 using FileRenamer.Services.Window;
@@ -243,10 +244,18 @@ namespace FileRenamer.Views.Pages
             {
                 IWshShell shell = new WshShell();
                 WshShortcut AppShortcut = (WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), ResourceService.GetLocalized("Resources/AppDisplayName")));
-                IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
-                AppListEntry DefaultEntry = AppEntries[0];
-                AppShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", DefaultEntry.AppUserModelId);
-                AppShortcut.Save();
+                if (RuntimeHelper.IsMSIX)
+                {
+                    IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
+                    AppListEntry DefaultEntry = AppEntries[0];
+                    AppShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", DefaultEntry.AppUserModelId);
+                    AppShortcut.Save();
+                }
+                else
+                {
+                    AppShortcut.TargetPath = Process.GetCurrentProcess().MainModule.FileName;
+                    AppShortcut.Save();
+                }
                 IsCreatedSuccessfully = true;
             }
             catch (Exception) { }

@@ -9,6 +9,7 @@ using FileRenamer.WindowsAPI.PInvoke.Uxtheme;
 using Mile.Xaml;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -38,7 +39,7 @@ namespace FileRenamer.Views.Forms
 
             Controls.Add(MileXamlHost);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Icon = Icon.ExtractAssociatedIcon(string.Format(@"{0}{1}", InfoHelper.GetAppInstalledLocation(), @"FileRenamer.exe"));
+            Icon = Icon.ExtractAssociatedIcon(Process.GetCurrentProcess().MainModule.FileName);
             MaximizeBox = false;
             Size = new Size(Convert.ToInt32(windowWidth * graphics.DpiX / 96.0), Convert.ToInt32(windowHeight * graphics.DpiX / 96.0));
             StartPosition = FormStartPosition.CenterParent;
@@ -72,7 +73,7 @@ namespace FileRenamer.Views.Forms
         {
             base.OnFormClosing(args);
             AllowTransparency = false;
-            Program.ApplicationRoot.CloseApp();
+            Program.ApplicationRoot.CloseApp(false);
         }
 
         /// <summary>

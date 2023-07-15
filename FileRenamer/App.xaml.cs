@@ -57,12 +57,15 @@ namespace FileRenamer
         /// <summary>
         /// 关闭应用并释放所有资源
         /// </summary>
-        public void CloseApp()
+        public void CloseApp(bool isRestart)
         {
             Program.AppMutex.Close();
             Program.AppMutex.Dispose();
             this.ThreadUninitialize();
-            Environment.Exit(Convert.ToInt32(AppExitCode.Successfully));
+            if (!isRestart)
+            {
+                Environment.Exit(Convert.ToInt32(AppExitCode.Successfully));
+            }
         }
     }
 }

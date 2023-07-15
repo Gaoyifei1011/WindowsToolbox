@@ -1,13 +1,12 @@
-﻿using FileRenamer.Extensions.DataType.Enums;
-using FileRenamer.Helpers.Root;
+﻿using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Controls.Settings.Appearance;
-using FileRenamer.Services.Controls.Settings.Common;
 using FileRenamer.Services.Root;
 using FileRenamer.Views.Forms;
 using FileRenamer.WindowsAPI.PInvoke.User32;
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -33,7 +32,7 @@ namespace FileRenamer
         [STAThread]
         public static void Main(string[] args)
         {
-            CheckAppBootState();
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(CultureInfo.CurrentCulture.Parent.Parent.Name);
 
             bool isExists = Mutex.TryOpenExisting(Assembly.GetExecutingAssembly().GetName().Name, out AppMutex);
             if (isExists && AppMutex is not null)
@@ -77,7 +76,7 @@ namespace FileRenamer
         /// </summary>
         private static void OnApplicationExit(object sender, EventArgs args)
         {
-            ApplicationRoot.CloseApp();
+            ApplicationRoot.CloseApp(false);
         }
 
         /// <summary>
@@ -160,47 +159,23 @@ namespace FileRenamer
         }
 
         /// <summary>
-        /// 检查应用的启动状态
-        /// </summary>
-        public static void CheckAppBootState()
-        {
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(CultureInfo.CurrentCulture.Parent.Parent.Name);
-            if (!RuntimeHelper.IsMSIX)
-            {
-                MessageBox.Show(
-                    Properties.Resources.AppBootFailed + Environment.NewLine +
-                    Properties.Resources.AppBootFailedContent1 + Environment.NewLine +
-                    Properties.Resources.AppBootFailedContent2 + Environment.NewLine +
-                    Properties.Resources.AppBootFailedContent3,
-                    Properties.Resources.AppDisplayName,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                    );
-
-                Environment.Exit(Convert.ToInt32(AppExitCode.Failed));
-            }
-        }
-
-        /// <summary>
         /// 加载应用程序所需的资源
         /// </summary>
         private static async Task InitializeProgramResourcesAsync()
         {
+            if (!RuntimeHelper.IsMSIX)
+            {
+                if (!File.Exists(ConfigService.UnPackagedConfigFile))
+                {
+                    File.Create(ConfigService.UnPackagedConfigFile);
+                }
+            }
             await LanguageService.InitializeLanguageAsync();
             ResourceService.InitializeResource(LanguageService.DefaultAppLanguage, LanguageService.AppLanguage);
             ResourceService.LocalizeReosurce();
 
             await BackdropService.InitializeBackdropAsync();
             await ThemeService.InitializeAsync();
-
-            await NotificationService.InitializeNotificationAsync();
-        }
-
-        /// <summary>
-        /// 关闭应用
-        /// </summary>
-        public static void CloseApp()
-        {
         }
     }
 }
