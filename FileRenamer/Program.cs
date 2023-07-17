@@ -64,7 +64,6 @@ namespace FileRenamer
             ApplicationRoot = new App();
             ResourceDictionaryHelper.InitializeResourceDictionary();
 
-            Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             MainWindow = new MainForm();

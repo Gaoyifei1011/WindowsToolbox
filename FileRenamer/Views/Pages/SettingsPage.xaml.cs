@@ -87,7 +87,7 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         public async void OnBackdropSelectClicked(object sender, RoutedEventArgs args)
         {
-            RadioMenuFlyoutItem item = sender as RadioMenuFlyoutItem;
+            ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
             {
                 Backdrop = BackdropList[Convert.ToInt32(item.Tag)];
@@ -145,7 +145,7 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         public async void OnThemeSelectClicked(object sender, RoutedEventArgs args)
         {
-            RadioMenuFlyoutItem item = sender as RadioMenuFlyoutItem;
+            ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
             {
                 Theme = ThemeList[Convert.ToInt32(item.Tag)];

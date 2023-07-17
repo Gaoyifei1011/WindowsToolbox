@@ -1,7 +1,6 @@
 ﻿using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Controls.Settings.Appearance;
 using FileRenamer.Services.Root;
-using FileRenamer.UI.Dialogs;
 using FileRenamer.Views.Pages;
 using FileRenamer.WindowsAPI.PInvoke.DwmApi;
 using FileRenamer.WindowsAPI.PInvoke.User32;
@@ -9,6 +8,7 @@ using FileRenamer.WindowsAPI.PInvoke.Uxtheme;
 using Mile.Xaml;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -20,11 +20,13 @@ using Windows.UI.Xaml.Media;
 
 namespace FileRenamer.Views.Forms
 {
-    public partial class MainForm : Form
+    public class MainForm : Form
     {
         private int windowWidth = 1000;
         private int windowHeight = 700;
         private Graphics graphics;
+
+        private IContainer components = null;
 
         public WindowsXamlHost MileXamlHost = new WindowsXamlHost();
 
@@ -51,19 +53,22 @@ namespace FileRenamer.Views.Forms
             MileXamlHost.Child = MainPage;
         }
 
-        /// <summary>
-        /// 当前显示窗体的显示设备上的 DPI 设置更改时发生
-        /// </summary>
-        protected override async void OnDpiChanged(DpiChangedEventArgs args)
+        private void InitializeComponent()
         {
-            base.OnDpiChanged(args);
+            components = new Container();
+            AutoScaleMode = AutoScaleMode.Font;
+        }
 
-            Size = new Size(
-                Convert.ToInt32(windowWidth * args.DeviceDpiNew / 96.0),
-                Convert.ToInt32(windowHeight * args.DeviceDpiNew / 96.0)
-                );
-
-            await new DPIChangedNotifyDialog().ShowAsync();
+        /// <summary>
+        /// 处置由 MainForm 窗体占用的资源
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
         /// <summary>
@@ -90,11 +95,52 @@ namespace FileRenamer.Views.Forms
         }
 
         /// <summary>
-        /// 窗体大小发生改变时响应的事件
+        /// 窗体移动时关闭浮出窗口
         /// </summary>
-        protected override void OnSizeChanged(EventArgs args)
+        protected override void OnMove(EventArgs args)
         {
-            base.OnSizeChanged(args);
+            base.OnMove(args);
+            if (MainPage.XamlRoot is not null)
+            {
+                IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(MainPage.XamlRoot);
+                foreach (Popup popup in PopupRoot)
+                {
+                    // 关闭浮出控件
+                    if (popup.Child as FlyoutPresenter is not null)
+                    {
+                        popup.IsOpen = false;
+                        break;
+                    }
+
+                    // 关闭菜单浮出控件
+                    if (popup.Child as MenuFlyoutPresenter is not null)
+                    {
+                        popup.IsOpen = false;
+                        break;
+                    }
+
+                    // 关闭组合框弹出控件
+                    if (popup.Child as Canvas is not null)
+                    {
+                        popup.IsOpen = false;
+                        break;
+                    }
+
+                    // 关闭日期选择器浮出控件
+                    if (popup.Child as DatePickerFlyoutPresenter is not null)
+                    {
+                        popup.IsOpen = false;
+                        break;
+                    }
+
+                    // 关闭时间选择器浮出控件
+                    if (popup.Child as TimePickerFlyoutPresenter is not null)
+                    {
+                        popup.IsOpen = false;
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -104,42 +150,13 @@ namespace FileRenamer.Views.Forms
         {
             switch (m.Msg)
             {
-                // 窗口移动时的消息
-                case (int)WindowMessage.WM_MOVE:
+                case (int)WindowMessage.WM_DPICHANGED:
                     {
-                        IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(MainPage.XamlRoot);
-                        foreach (Popup popup in PopupRoot)
-                        {
-                            if (popup.Child as FlyoutPresenter is not null)
-                            {
-                                popup.IsOpen = false;
-                                break;
-                            }
+                        Size = new Size(
+                        Convert.ToInt32(windowWidth * User32Library.GetDpiForWindow(Handle) / 96.0),
+                        Convert.ToInt32(windowHeight * User32Library.GetDpiForWindow(Handle) / 96.0)
+                        );
 
-                            if (popup.Child as MenuFlyoutPresenter is not null)
-                            {
-                                popup.IsOpen = false;
-                                break;
-                            }
-
-                            if (popup.Child as Canvas is not null)
-                            {
-                                popup.IsOpen = false;
-                                break;
-                            }
-
-                            if (popup.Child as TimePickerFlyoutPresenter is not null)
-                            {
-                                popup.IsOpen = false;
-                                break;
-                            }
-
-                            if (popup.Child as DatePickerFlyoutPresenter is not null)
-                            {
-                                popup.IsOpen = false;
-                                break;
-                            }
-                        }
                         break;
                     }
                 // 系统设置发生变化时的消息
@@ -162,6 +179,15 @@ namespace FileRenamer.Views.Forms
                             options.ShowMode = FlyoutShowMode.Standard;
                             MainPage.TitlebarMenuFlyout.ShowAt(null, options);
                             return;
+                        }
+                        break;
+                    }
+                // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
+                case (int)WindowMessage.WM_NCLBUTTONDOWN:
+                    {
+                        if (MainPage.TitlebarMenuFlyout.IsOpen)
+                        {
+                            MainPage.TitlebarMenuFlyout.Hide();
                         }
                         break;
                     }

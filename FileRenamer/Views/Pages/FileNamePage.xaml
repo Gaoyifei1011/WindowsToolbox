@@ -5,7 +5,6 @@
     xmlns:controlExtensions="using:FileRenamer.Helpers.Controls.Extensions"
     xmlns:converter="using:FileRenamer.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dialogsandflyouts="using:FileRenamer.Views.CustomControls.DialogsAndFlyouts"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
     xmlns:root="using:FileRenamer.Services.Root"
@@ -90,59 +89,59 @@
 
                         <DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
-                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[0].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[0].InternalName), Mode=OneWay}"
+                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="0"
                                     Text="{x:Bind NumberFormatList[0].DisplayName}" />
 
-                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[1].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[1].InternalName), Mode=OneWay}"
+                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="1"
                                     Text="{x:Bind NumberFormatList[1].DisplayName}" />
 
-                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[2].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[2].InternalName), Mode=OneWay}"
+                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="2"
                                     Text="{x:Bind NumberFormatList[2].DisplayName}" />
 
-                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[3].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[3].InternalName), Mode=OneWay}"
+                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="3"
                                     Text="{x:Bind NumberFormatList[3].DisplayName}" />
 
-                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[4].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[4].InternalName), Mode=OneWay}"
+                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="4"
                                     Text="{x:Bind NumberFormatList[4].DisplayName}" />
 
-                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[5].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[5].InternalName), Mode=OneWay}"
+                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="5"
                                     Text="{x:Bind NumberFormatList[5].DisplayName}" />
 
-                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[6].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[6].InternalName), Mode=OneWay}"
+                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="6"
                                     Text="{x:Bind NumberFormatList[6].DisplayName}" />
 
-                                <dialogsandflyouts:RadioMenuFlyoutItem
+                                <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    GroupName="NumberFormat"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[7].InternalName)}"
+                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat.InternalName, NumberFormatList[7].InternalName), Mode=OneWay}"
+                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="7"
                                     Text="{x:Bind NumberFormatList[7].DisplayName}" />
                             </MenuFlyout>

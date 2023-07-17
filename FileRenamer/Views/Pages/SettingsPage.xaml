@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controlExtensions="using:FileRenamer.Helpers.Controls.Extensions"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dialogsAndFlyouts="using:FileRenamer.Views.CustomControls.DialogsAndFlyouts"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:root="using:FileRenamer.Services.Root"
     NavigationCacheMode="Required"
@@ -79,41 +78,41 @@
 
                     <DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
-                            <dialogsAndFlyouts:RadioMenuFlyoutItem
+                            <ToggleMenuFlyoutItem
                                 Click="{x:Bind OnThemeSelectClicked}"
-                                GroupName="ThemeSetting"
                                 IsChecked="{x:Bind IsItemChecked(Theme.InternalName, ThemeList[0].InternalName), Mode=OneWay}"
+                                Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                 Tag="0"
                                 Text="{x:Bind ThemeList[0].DisplayName}">
 
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="{x:Bind ThemeList[0].DisplayName}" Placement="Mouse" />
                                 </ToolTipService.ToolTip>
-                            </dialogsAndFlyouts:RadioMenuFlyoutItem>
+                            </ToggleMenuFlyoutItem>
 
-                            <dialogsAndFlyouts:RadioMenuFlyoutItem
+                            <ToggleMenuFlyoutItem
                                 Click="{x:Bind OnThemeSelectClicked}"
-                                GroupName="ThemeSetting"
                                 IsChecked="{x:Bind IsItemChecked(Theme.InternalName, ThemeList[1].InternalName), Mode=OneWay}"
+                                Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                 Tag="1"
                                 Text="{x:Bind ThemeList[1].DisplayName}">
 
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="{x:Bind ThemeList[1].DisplayName}" Placement="Mouse" />
                                 </ToolTipService.ToolTip>
-                            </dialogsAndFlyouts:RadioMenuFlyoutItem>
+                            </ToggleMenuFlyoutItem>
 
-                            <dialogsAndFlyouts:RadioMenuFlyoutItem
+                            <ToggleMenuFlyoutItem
                                 Click="{x:Bind OnThemeSelectClicked}"
-                                GroupName="ThemeSetting"
                                 IsChecked="{x:Bind IsItemChecked(Theme.InternalName, ThemeList[2].InternalName), Mode=OneWay}"
+                                Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                 Tag="2"
                                 Text="{x:Bind ThemeList[2].DisplayName}">
 
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="{x:Bind ThemeList[2].DisplayName}" Placement="Mouse" />
                                 </ToolTipService.ToolTip>
-                            </dialogsAndFlyouts:RadioMenuFlyoutItem>
+                            </ToggleMenuFlyoutItem>
                         </MenuFlyout>
                     </DropDownButton.Flyout>
                 </DropDownButton>
@@ -161,51 +160,53 @@
 
                     <DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
-                            <dialogsAndFlyouts:RadioMenuFlyoutItem
+                            <ToggleMenuFlyoutItem
                                 Click="{x:Bind OnBackdropSelectClicked}"
-                                GroupName="BackdropSetting"
                                 IsChecked="{x:Bind IsItemChecked(Backdrop.InternalName, BackdropList[0].InternalName), Mode=OneWay}"
+                                Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                 Tag="0"
                                 Text="{x:Bind BackdropList[0].DisplayName}">
 
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="{x:Bind BackdropList[0].DisplayName}" Placement="Mouse" />
                                 </ToolTipService.ToolTip>
-                            </dialogsAndFlyouts:RadioMenuFlyoutItem>
+                            </ToggleMenuFlyoutItem>
 
-                            <dialogsAndFlyouts:RadioMenuFlyoutItem
+                            <ToggleMenuFlyoutItem
                                 Click="{x:Bind OnBackdropSelectClicked}"
-                                GroupName="BackdropSetting"
                                 IsChecked="{x:Bind IsItemChecked(Backdrop.InternalName, BackdropList[1].InternalName), Mode=OneWay}"
+                                Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                 Tag="1"
                                 Text="{x:Bind BackdropList[1].DisplayName}">
+
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="{x:Bind BackdropList[1].DisplayName}" Placement="Mouse" />
                                 </ToolTipService.ToolTip>
-                            </dialogsAndFlyouts:RadioMenuFlyoutItem>
+                            </ToggleMenuFlyoutItem>
 
-                            <dialogsAndFlyouts:RadioMenuFlyoutItem
+                            <ToggleMenuFlyoutItem
                                 Click="{x:Bind OnBackdropSelectClicked}"
-                                GroupName="BackdropSetting"
                                 IsChecked="{x:Bind IsItemChecked(Backdrop.InternalName, BackdropList[2].InternalName), Mode=OneWay}"
+                                Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                 Tag="2"
                                 Text="{x:Bind BackdropList[2].DisplayName}">
+
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="{x:Bind BackdropList[2].DisplayName}" Placement="Mouse" />
                                 </ToolTipService.ToolTip>
-                            </dialogsAndFlyouts:RadioMenuFlyoutItem>
+                            </ToggleMenuFlyoutItem>
 
-                            <dialogsAndFlyouts:RadioMenuFlyoutItem
+                            <ToggleMenuFlyoutItem
                                 Click="{x:Bind OnBackdropSelectClicked}"
-                                GroupName="BackdropSetting"
                                 IsChecked="{x:Bind IsItemChecked(Backdrop.InternalName, BackdropList[3].InternalName), Mode=OneWay}"
+                                Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                 Tag="3"
                                 Text="{x:Bind BackdropList[3].DisplayName}">
 
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="{x:Bind BackdropList[3].DisplayName}" Placement="Mouse" />
                                 </ToolTipService.ToolTip>
-                            </dialogsAndFlyouts:RadioMenuFlyoutItem>
+                            </ToggleMenuFlyoutItem>
                         </MenuFlyout>
                     </DropDownButton.Flyout>
                 </DropDownButton>

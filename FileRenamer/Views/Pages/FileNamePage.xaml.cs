@@ -309,7 +309,7 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         public void OnNumberFormatClicked(object sender, RoutedEventArgs args)
         {
-            RadioMenuFlyoutItem item = sender as RadioMenuFlyoutItem;
+            ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
             {
                 SelectedNumberFormat = NumberFormatList[Convert.ToInt32(item.Tag)];
