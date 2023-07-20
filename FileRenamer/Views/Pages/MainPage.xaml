@@ -12,6 +12,9 @@
 
     <!--  标题栏右键菜单  -->
     <Page.Resources>
+        <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+        <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
+
         <MenuFlyout
             x:Name="TitlebarMenuFlyout"
             x:FieldModifier="public"
@@ -100,21 +103,18 @@
 
     <NavigationView
         AlwaysShowHeader="False"
-        BackRequested="{x:Bind OnNavigationViewBackRequested}"
+        BackRequested="{x:Bind OnBackRequested}"
         Canvas.ZIndex="0"
         IsBackEnabled="{x:Bind IsBackEnabled, Mode=OneWay}"
         IsSettingsVisible="False"
+        ItemInvoked="{x:Bind OnItemInvoked}"
         Loaded="{x:Bind OnNavigationViewLoaded}"
         PaneDisplayMode="Top"
         SelectedItem="{x:Bind SelectedItem, Mode=OneWay}"
-        Style="{StaticResource NavigationViewStyle}"
         Unloaded="{x:Bind OnNavigationViewUnLoaded}">
 
         <NavigationView.MenuItems>
-            <NavigationViewItem
-                Content="{x:Bind root:ResourceService.GetLocalized('Window/FileName')}"
-                Tag="{x:Bind TagList[0]}"
-                Tapped="{x:Bind OnItemTapped}">
+            <NavigationViewItem Content="{x:Bind root:ResourceService.GetLocalized('Window/FileName')}" Tag="{x:Bind TagList[0]}">
 
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE8a5;" />
@@ -125,10 +125,7 @@
                 </ToolTipService.ToolTip>
             </NavigationViewItem>
 
-            <NavigationViewItem
-                Content="{x:Bind root:ResourceService.GetLocalized('Window/ExtensionName')}"
-                Tag="{x:Bind TagList[1]}"
-                Tapped="{x:Bind OnItemTapped}">
+            <NavigationViewItem Content="{x:Bind root:ResourceService.GetLocalized('Window/ExtensionName')}" Tag="{x:Bind TagList[1]}">
 
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE8a6;" />
@@ -139,10 +136,7 @@
                 </ToolTipService.ToolTip>
             </NavigationViewItem>
 
-            <NavigationViewItem
-                Content="{x:Bind root:ResourceService.GetLocalized('Window/UpperAndLowerCase')}"
-                Tag="{x:Bind TagList[2]}"
-                Tapped="{x:Bind OnItemTapped}">
+            <NavigationViewItem Content="{x:Bind root:ResourceService.GetLocalized('Window/UpperAndLowerCase')}" Tag="{x:Bind TagList[2]}">
 
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE8e9;" />
@@ -153,10 +147,7 @@
                 </ToolTipService.ToolTip>
             </NavigationViewItem>
 
-            <NavigationViewItem
-                Content="{x:Bind root:ResourceService.GetLocalized('Window/FileProperties')}"
-                Tag="{x:Bind TagList[3]}"
-                Tapped="{x:Bind OnItemTapped}">
+            <NavigationViewItem Content="{x:Bind root:ResourceService.GetLocalized('Window/FileProperties')}" Tag="{x:Bind TagList[3]}">
 
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE90f;" />
@@ -169,10 +160,7 @@
 
             <NavigationViewItemSeparator />
 
-            <NavigationViewItem
-                Content="{x:Bind root:ResourceService.GetLocalized('Window/About')}"
-                Tag="{x:Bind TagList[4]}"
-                Tapped="{x:Bind OnItemTapped}">
+            <NavigationViewItem Content="{x:Bind root:ResourceService.GetLocalized('Window/About')}" Tag="{x:Bind TagList[4]}">
 
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE946;" />
@@ -183,10 +171,7 @@
                 </ToolTipService.ToolTip>
             </NavigationViewItem>
 
-            <NavigationViewItem
-                Content="{x:Bind root:ResourceService.GetLocalized('Window/Settings')}"
-                Tag="{x:Bind TagList[5]}"
-                Tapped="{x:Bind OnItemTapped}">
+            <NavigationViewItem Content="{x:Bind root:ResourceService.GetLocalized('Window/Settings')}" Tag="{x:Bind TagList[5]}">
 
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE713;" />
@@ -199,7 +184,7 @@
         </NavigationView.MenuItems>
 
         <NavigationView.PaneFooter>
-            <Grid>
+            <Grid Margin="0,0,8,0">
                 <DropDownButton
                     x:Name="AboutButton"
                     controlExtensions:CursorHelper.Cursor="Hand"

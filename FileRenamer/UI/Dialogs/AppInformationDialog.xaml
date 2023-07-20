@@ -8,11 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:root="using:FileRenamer.Services.Root"
     Title="{x:Bind root:ResourceService.GetLocalized('Dialog/AppInformationTitle')}"
+    BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
     CloseButtonText="{x:Bind root:ResourceService.GetLocalized('Dialog/CloseDialog')}"
     PrimaryButtonClick="{x:Bind OnCopyAppInformationClicked}"
+    PrimaryButtonStyle="{ThemeResource AccentButtonStyle}"
     PrimaryButtonText="{x:Bind root:ResourceService.GetLocalized('Dialog/CopyAppInformation')}"
     RequestedTheme="{x:Bind fileRenamer:Program.MainWindow.MainPage.WindowTheme, Mode=OneWay}"
-    Style="{StaticResource ContentDialogStyle}"
+    Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <dialogsAndFlyouts:ExtendedContentDialog.Resources>

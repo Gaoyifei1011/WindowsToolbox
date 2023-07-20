@@ -330,9 +330,13 @@
                                         Orientation="Horizontal"
                                         Spacing="5">
                                         <Button
+                                            Width="32"
+                                            Height="32"
+                                            Margin="5,0,0,0"
+                                            Padding="0"
                                             controlExtensions:CursorHelper.Cursor="Hand"
                                             Click="{x:Bind OnForwardNavigateClicked}"
-                                            Style="{StaticResource ButtonSquareStyle}">
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
                                             <Button.Content>
                                                 <FontIcon FontSize="16" Glyph="&#xE76B;" />
                                             </Button.Content>
@@ -343,9 +347,13 @@
                                         </Button>
 
                                         <Button
+                                            Width="32"
+                                            Height="32"
+                                            Margin="5,0,0,0"
+                                            Padding="0"
                                             controlExtensions:CursorHelper.Cursor="Hand"
                                             Click="{x:Bind OnNextNavigateClicked}"
-                                            Style="{StaticResource ButtonSquareStyle}">
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
                                             <Button.Content>
                                                 <FontIcon FontSize="16" Glyph="&#xE76C;" />
                                             </Button.Content>

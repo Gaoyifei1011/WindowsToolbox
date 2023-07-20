@@ -3,7 +3,6 @@ using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Services.Root;
 using FileRenamer.UI.Notifications;
-using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -386,7 +385,7 @@ namespace FileRenamer.Views.Pages
                     {
                         try
                         {
-                            FileSystem.RenameDirectory(item.OriginalFilePath, item.NewFileName);
+                            Directory.Move(item.OriginalFilePath, item.NewFilePath);
                         }
                         catch (Exception)
                         {
@@ -397,7 +396,7 @@ namespace FileRenamer.Views.Pages
                     {
                         try
                         {
-                            FileSystem.RenameFile(item.OriginalFilePath, item.NewFileName);
+                            File.Move(item.OriginalFilePath, item.NewFilePath);
                         }
                         catch (Exception)
                         {

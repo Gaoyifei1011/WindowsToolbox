@@ -154,9 +154,25 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 当后退按钮收到交互（如单击或点击）时发生
         /// </summary>
-        public void OnNavigationViewBackRequested(object sender, NavigationViewBackRequestedEventArgs args)
+        public void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
             NavigationService.NavigationFrom();
+        }
+
+        /// <summary>
+        /// 当菜单中的项收到交互（如单击或点击）时发生
+        /// </summary>
+        public void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        {
+            NavigationViewItemBase navigationViewItem = args.InvokedItemContainer;
+            if (navigationViewItem.Tag is not null)
+            {
+                NavigationModel navigationItem = NavigationService.NavigationItemList.Find(item => item.NavigationTag == Convert.ToString(navigationViewItem.Tag));
+                if (SelectedItem != navigationItem.NavigationItem)
+                {
+                    NavigationService.NavigateTo(navigationItem.NavigationPage);
+                }
+            }
         }
 
         /// <summary>
@@ -216,22 +232,6 @@ namespace FileRenamer.Views.Pages
         public async void OnRestartAppsClicked(object sender, RoutedEventArgs args)
         {
             await new RestartAppsDialog().ShowAsync();
-        }
-
-        /// <summary>
-        /// 当菜单中的项收到交互（如单击或点击）时发生
-        /// </summary>
-        public void OnItemTapped(object sender, TappedRoutedEventArgs args)
-        {
-            NavigationViewItem navigationViewItem = sender as NavigationViewItem;
-            if (navigationViewItem.Tag is not null)
-            {
-                NavigationModel navigationItem = NavigationService.NavigationItemList.Find(item => item.NavigationTag == Convert.ToString(navigationViewItem.Tag));
-                if (SelectedItem != navigationItem.NavigationItem)
-                {
-                    NavigationService.NavigateTo(navigationItem.NavigationPage);
-                }
-            }
         }
 
         /// <summary>

@@ -9,14 +9,12 @@
                 <ResourceDictionary Source="ms-appx:///Mile.Xaml.Styles.SunValley.xbf" />
 
                 <ResourceDictionary Source="ms-appx:///Styles/Button.xaml" />
-                <ResourceDictionary Source="ms-appx:///Styles/ContentDialog.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Expander.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Grid.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/HyperlinkButton.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/InAppNotification.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/ListView.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/MenuFlyout.xaml" />
-                <ResourceDictionary Source="ms-appx:///Styles/NavigationView.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/ScrollViewer.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/TextBlock.xaml" />
             </ResourceDictionary.MergedDictionaries>
