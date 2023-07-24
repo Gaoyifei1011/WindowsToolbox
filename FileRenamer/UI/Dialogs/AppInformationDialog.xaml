@@ -30,11 +30,13 @@
             </Grid.ColumnDefinitions>
             <TextBlock
                 Grid.Column="0"
-                Style="{StaticResource ContentDialogContentStyle}"
-                Text="{x:Bind root:ResourceService.GetLocalized('Dialog/WindowsUIVersion')}" />
+                Margin="0,0,0,5"
+                Text="{x:Bind root:ResourceService.GetLocalized('Dialog/WindowsUIVersion')}"
+                TextAlignment="Justify"
+                TextWrapping="Wrap" />
             <TextBlock
                 Grid.Column="1"
-                Style="{StaticResource ContentDialogContentStyle}"
+                Margin="0,0,0,5"
                 Text="{x:Bind WindowsUIVersion, Mode=OneWay}"
                 TextAlignment="DetectFromContent"
                 TextWrapping="Wrap" />
@@ -47,11 +49,13 @@
             </Grid.ColumnDefinitions>
             <TextBlock
                 Grid.Column="0"
-                Style="{StaticResource ContentDialogContentStyle}"
-                Text="{x:Bind root:ResourceService.GetLocalized('Dialog/MileXamlVersion')}" />
+                Margin="0,0,0,5"
+                Text="{x:Bind root:ResourceService.GetLocalized('Dialog/MileXamlVersion')}"
+                TextAlignment="Justify"
+                TextWrapping="Wrap" />
             <TextBlock
                 Grid.Column="1"
-                Style="{StaticResource ContentDialogContentStyle}"
+                Margin="0,0,0,5"
                 Text="{x:Bind MileXamlVersion, Mode=OneWay}"
                 TextAlignment="DetectFromContent"
                 TextWrapping="Wrap" />
@@ -64,11 +68,13 @@
             </Grid.ColumnDefinitions>
             <TextBlock
                 Grid.Column="0"
-                Style="{StaticResource ContentDialogContentStyle}"
-                Text="{x:Bind root:ResourceService.GetLocalized('Dialog/DoNetVersion')}" />
+                Margin="0,0,0,5"
+                Text="{x:Bind root:ResourceService.GetLocalized('Dialog/DoNetVersion')}"
+                TextAlignment="Justify"
+                TextWrapping="Wrap" />
             <TextBlock
                 Grid.Column="1"
-                Style="{StaticResource ContentDialogContentStyle}"
+                Margin="0,0,0,5"
                 Text="{x:Bind DoNetVersion, Mode=OneWay}"
                 TextAlignment="DetectFromContent"
                 TextWrapping="Wrap" />

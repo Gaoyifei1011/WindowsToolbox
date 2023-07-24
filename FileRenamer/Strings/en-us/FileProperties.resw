@@ -132,6 +132,12 @@
   <data name="EmptyList" xml:space="preserve">
     <value>There is no content</value>
   </data>
+  <data name="FileName" xml:space="preserve">
+    <value>File (folder) name</value>
+  </data>
+  <data name="FileProperties" xml:space="preserve">
+    <value>Changed file (folder) properties</value>
+  </data>
   <data name="Hide" xml:space="preserve">
     <value>Hide</value>
   </data>
@@ -141,17 +147,11 @@
   <data name="ModifyDate" xml:space="preserve">
     <value>Modify date</value>
   </data>
-  <data name="NewFileName" xml:space="preserve">
-    <value>New file (folder) name</value>
-  </data>
-  <data name="OriginalFileName" xml:space="preserve">
-    <value>Original file (folder) name</value>
-  </data>
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
   </data>
   <data name="ReadOnly" xml:space="preserve">
-    <value>Read only</value>
+    <value>Readonly</value>
   </data>
   <data name="SelectFolder" xml:space="preserve">
     <value>Select folder</value>

@@ -22,13 +22,6 @@ namespace FileRenamer
         /// </summary>
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs args)
         {
-            StringBuilder stringBuilder1 = new StringBuilder();
-            stringBuilder1.AppendLine("HelpLink:" + args.Exception.HelpLink);
-            stringBuilder1.AppendLine("HResult:" + args.Exception.HResult);
-            stringBuilder1.AppendLine("Message:" + args.Exception.Message);
-            stringBuilder1.AppendLine("Source:" + args.Exception.Source);
-            stringBuilder1.AppendLine("StackTrace:" + args.Exception.StackTrace);
-
             DialogResult Result = MessageBox.Show(
                 ResourceService.GetLocalized("Resources/Title") + Environment.NewLine +
                 ResourceService.GetLocalized("Resources/Content1") + Environment.NewLine +

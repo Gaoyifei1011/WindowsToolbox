@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using Windows.UI.Xaml.Controls;
 
@@ -72,7 +73,7 @@ namespace FileRenamer.UI.Dialogs.About
             MileXamlVersion = MileXamlFile.FileVersion;
 
             // .NET ∞Ê±æ–≈œ¢
-            DoNetVersion = Convert.ToString(Environment.Version);
+            DoNetVersion = Convert.ToString(RuntimeInformation.FrameworkDescription.Remove(0, 15));
         }
 
         /// <summary>

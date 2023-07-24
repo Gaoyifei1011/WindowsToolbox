@@ -12,7 +12,6 @@
     <ScrollViewer
         HorizontalScrollBarVisibility="Disabled"
         HorizontalScrollMode="Disabled"
-        Style="{StaticResource ScrollViewerStyle}"
         VerticalScrollBarVisibility="Auto"
         VerticalScrollMode="Enabled">
 
@@ -28,7 +27,12 @@
                 Text="{x:Bind root:ResourceService.GetLocalized('Settings/Appearance')}" />
 
             <!--  应用主题设置用户控件  -->
-            <Grid Style="{StaticResource CardGridStyle}">
+            <Grid
+                Padding="16,12"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource ControlCornerRadius}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -121,8 +125,12 @@
             <!--  窗口背景材质设置用户控件  -->
             <Grid
                 x:Name="BackdropSettings"
+                Padding="16,12"
                 x:Load="{x:Bind CanUseBackdrop}"
-                Style="{StaticResource CardGridStyle}">
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource ControlCornerRadius}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -213,7 +221,12 @@
             </Grid>
 
             <!--  界面语言设置用户控件  -->
-            <Grid Style="{StaticResource CardGridStyle}">
+            <Grid
+                Padding="16,12"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource ControlCornerRadius}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -241,21 +254,21 @@
                         Text="{x:Bind root:ResourceService.GetLocalized('Settings/LanguageDescription')}" />
                 </StackPanel>
 
-                <Button
+                <MenuFlyoutItem
                     Grid.Column="2"
                     VerticalAlignment="Center"
                     controlExtensions:CursorHelper.Cursor="Hand"
                     Click="{x:Bind OnLanguageTipClicked}"
-                    Style="{StaticResource ButtonInfoStyle}">
+                    Style="{StaticResource ButtonNormalMenuItemStyle}">
 
-                    <Button.Content>
-                        <FontIcon FontSize="16" Glyph="&#xE946;" />
-                    </Button.Content>
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE946;" />
+                    </MenuFlyoutItem.Icon>
 
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Settings/LanguageToolTip')}" Placement="Mouse" />
                     </ToolTipService.ToolTip>
-                </Button>
+                </MenuFlyoutItem>
 
                 <ComboBox
                     Grid.Column="3"

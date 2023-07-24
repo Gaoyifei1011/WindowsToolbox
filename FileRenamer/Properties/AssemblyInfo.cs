@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // 程序集信息设置
 [assembly: AssemblyCopyright("Copyright ©2023 高怡飞, All Rights Reserved.")]
 [assembly: AssemblyDescription("文件重命名工具")]
-[assembly: AssemblyFileVersion("0.1.2.0")]
-[assembly: AssemblyInformationalVersion("0.1.2.0")]
+[assembly: AssemblyFileVersion("0.1.3.0")]
+[assembly: AssemblyInformationalVersion("0.1.3.0")]
 [assembly: AssemblyProduct("文件重命名工具")]
 [assembly: AssemblyTitle("文件重命名工具")]
-[assembly: AssemblyVersion("0.1.2.0")]
+[assembly: AssemblyVersion("0.1.3.0")]
 
 // 设置程序集对COM组件的访问权限
 [assembly: ComVisible(false)]

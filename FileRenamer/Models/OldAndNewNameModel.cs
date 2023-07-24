@@ -1,11 +1,11 @@
-﻿using FileRenamer.Models.Base;
+﻿using System.ComponentModel;
 
 namespace FileRenamer.Models
 {
     /// <summary>
     /// 文件名称模型
     /// </summary>
-    public class OldAndNewNameModel : ModelBase
+    public class OldAndNewNameModel : INotifyPropertyChanged
     {
         /// <summary>
         /// 文件的初始名称
@@ -19,7 +19,7 @@ namespace FileRenamer.Models
             set
             {
                 _originalFileName = value;
-                OnPropertyChanged();
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OriginalFileName)));
             }
         }
 
@@ -35,7 +35,7 @@ namespace FileRenamer.Models
             set
             {
                 _originalFilePath = value;
-                OnPropertyChanged();
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OriginalFilePath)));
             }
         }
 
@@ -51,7 +51,7 @@ namespace FileRenamer.Models
             set
             {
                 _newFileName = value;
-                OnPropertyChanged();
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NewFileName)));
             }
         }
 
@@ -67,8 +67,10 @@ namespace FileRenamer.Models
             set
             {
                 _newFilePath = value;
-                OnPropertyChanged();
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NewFilePath)));
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

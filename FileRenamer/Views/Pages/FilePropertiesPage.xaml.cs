@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -149,9 +150,9 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        public ObservableCollection<OldAndNewNameModel> FilePropertiesDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
+        public ObservableCollection<OldAndNewPropertiesModel> FilePropertiesDataList { get; } = new ObservableCollection<OldAndNewPropertiesModel>();
 
-        public ObservableCollection<string> OperationFailedList { get; } = new ObservableCollection<string>();
+        public ObservableCollection<Tuple<OldAndNewPropertiesModel, Exception>> OperationFailedList { get; } = new ObservableCollection<Tuple<OldAndNewPropertiesModel, Exception>>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -172,6 +173,25 @@ namespace FileRenamer.Views.Pages
         {
             FilePropertiesDataList.Clear();
             OperationFailedList.Clear();
+        }
+
+        /// <summary>
+        /// 日期更改时触发的事件
+        /// </summary>
+        public void OnDateChanged(object sender, DatePickerValueChangedEventArgs args)
+        {
+            DatePicker datePicker = sender as DatePicker;
+            if (datePicker is not null && datePicker.Tag is not null)
+            {
+                if (datePicker.Tag.ToString() == nameof(CreateDate))
+                {
+                    CreateDate = args.NewDate;
+                }
+                else if (datePicker.Tag.ToString() == nameof(ModifyDate))
+                {
+                    ModifyDate = args.NewDate;
+                }
+            }
         }
 
         /// <summary>
@@ -203,10 +223,10 @@ namespace FileRenamer.Views.Pages
                     IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
                     foreach (IStorageItem item in filesList)
                     {
-                        FilePropertiesDataList.Add(new OldAndNewNameModel()
+                        FilePropertiesDataList.Add(new OldAndNewPropertiesModel()
                         {
-                            OriginalFileName = item.Name,
-                            OriginalFilePath = item.Path
+                            FileName = item.Name,
+                            FilePath = item.Path
                         });
                     }
                 }
@@ -231,6 +251,10 @@ namespace FileRenamer.Views.Pages
                 {
                     new ListEmptyNotification().Show();
                 }
+                else
+                {
+                    PreviewChangedFileAttributes();
+                }
             }
             else
             {
@@ -253,7 +277,10 @@ namespace FileRenamer.Views.Pages
                 }
                 else
                 {
+                    PreviewChangedFileAttributes();
+                    ChangeFileAttributes();
                     new OperationResultNotification(FilePropertiesDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
+                    FilePropertiesDataList.Clear();
                 }
             }
             else
@@ -287,10 +314,10 @@ namespace FileRenamer.Views.Pages
                             {
                                 continue;
                             }
-                            FilePropertiesDataList.Add(new OldAndNewNameModel()
+                            FilePropertiesDataList.Add(new OldAndNewPropertiesModel()
                             {
-                                OriginalFileName = subFolder.Name,
-                                OriginalFilePath = subFolder.FullName
+                                FileName = subFolder.Name,
+                                FilePath = subFolder.FullName
                             });
                         }
                     }
@@ -306,16 +333,35 @@ namespace FileRenamer.Views.Pages
                             {
                                 continue;
                             }
-                            FilePropertiesDataList.Add(new OldAndNewNameModel()
+                            FilePropertiesDataList.Add(new OldAndNewPropertiesModel()
                             {
-                                OriginalFileName = subFile.Name,
-                                OriginalFilePath = subFile.FullName
+                                FileName = subFile.Name,
+                                FilePath = subFile.FullName
                             });
                         }
                     }
                     catch (Exception)
                     {
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 时间更改时触发的事件
+        /// </summary>
+        public void OnTimeChanged(object sender, TimePickerValueChangedEventArgs args)
+        {
+            TimePicker timePicker = sender as TimePicker;
+            if (timePicker is not null && timePicker.Tag is not null)
+            {
+                if (timePicker.Tag.ToString() == nameof(CreateTime))
+                {
+                    CreateTime = args.NewTime;
+                }
+                else if (timePicker.Tag.ToString() == nameof(ModifyTime))
+                {
+                    ModifyTime = args.NewTime;
                 }
             }
         }
@@ -328,12 +374,12 @@ namespace FileRenamer.Views.Pages
             Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
             if (checkBox is not null)
             {
-                if (checkBox.Tag.ToString() == "CreateDate")
+                if (checkBox.Tag.ToString() == nameof(CreateDate))
                 {
                     CreateDate = DateTimeOffset.Now;
                     CreateTime = DateTimeOffset.Now.TimeOfDay;
                 }
-                else if (checkBox.Tag.ToString() == "ModifyDate")
+                else if (checkBox.Tag.ToString() == nameof(ModifyDate))
                 {
                     ModifyDate = DateTimeOffset.Now;
                     ModifyTime = DateTimeOffset.Now.TimeOfDay;
@@ -353,6 +399,84 @@ namespace FileRenamer.Views.Pages
             else
             {
                 return true;
+            }
+        }
+
+        /// <summary>
+        /// 修改文件属性
+        /// </summary>
+        private void PreviewChangedFileAttributes()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            if (IsReadOnlyChecked)
+            {
+                stringBuilder.Append(ResourceService.GetLocalized("FileProperties/ReadOnly"));
+                stringBuilder.Append(" ");
+            }
+            if (IsArchiveChecked)
+            {
+                stringBuilder.Append(ResourceService.GetLocalized("FileProperties/Archive"));
+                stringBuilder.Append(" ");
+            }
+            if (IsHideChecked)
+            {
+                stringBuilder.Append(ResourceService.GetLocalized("FileProperties/Hide"));
+                stringBuilder.Append(" ");
+            }
+            if (IsSystemChecked)
+            {
+                stringBuilder.Append(ResourceService.GetLocalized("FileProperties/System"));
+                stringBuilder.Append(" ");
+            }
+            if (IsCreateDateChecked)
+            {
+                stringBuilder.Append(ResourceService.GetLocalized("FileProperties/CreateDate"));
+                stringBuilder.Append(" ");
+            }
+            if (IsModifyDateChecked)
+            {
+                stringBuilder.Append(ResourceService.GetLocalized("FileProperties/ModifyDate"));
+                stringBuilder.Append(" ");
+            }
+
+            foreach (OldAndNewPropertiesModel item in FilePropertiesDataList)
+            {
+                item.FileProperties = stringBuilder.ToString();
+            }
+        }
+
+        /// <summary>
+        /// 更改文件属性
+        /// </summary>
+        private void ChangeFileAttributes()
+        {
+            foreach (OldAndNewPropertiesModel item in FilePropertiesDataList)
+            {
+                if (!string.IsNullOrEmpty(item.FileName) && !string.IsNullOrEmpty(item.FilePath))
+                {
+                    try
+                    {
+                        System.IO.FileAttributes fileAttributes = File.GetAttributes(item.FilePath);
+                        if (IsReadOnlyChecked) fileAttributes |= System.IO.FileAttributes.ReadOnly;
+                        if (IsArchiveChecked) fileAttributes |= System.IO.FileAttributes.Archive;
+                        if (IsHideChecked) fileAttributes |= System.IO.FileAttributes.Hidden;
+                        if (IsSystemChecked) fileAttributes |= System.IO.FileAttributes.System;
+                        File.SetAttributes(item.FilePath, fileAttributes);
+
+                        if (IsCreateDateChecked)
+                        {
+                            File.SetCreationTime(item.FilePath, CreateDate.Date + CreateTime);
+                        }
+                        if (IsModifyDateChecked)
+                        {
+                            File.SetLastWriteTime(item.FilePath, ModifyDate.Date + ModifyTime);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        OperationFailedList.Add(new Tuple<OldAndNewPropertiesModel, Exception>(item, e));
+                    }
+                }
             }
         }
     }

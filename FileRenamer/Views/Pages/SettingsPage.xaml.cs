@@ -4,7 +4,6 @@ using FileRenamer.Models;
 using FileRenamer.Services.Controls.Settings.Appearance;
 using FileRenamer.Services.Window;
 using FileRenamer.UI.Notifications;
-using FileRenamer.Views.CustomControls.DialogsAndFlyouts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -18,7 +18,6 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace FileRenamer.Views.Pages

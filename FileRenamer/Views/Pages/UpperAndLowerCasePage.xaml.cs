@@ -36,7 +36,7 @@ namespace FileRenamer.Views.Pages
 
         public ObservableCollection<OldAndNewNameModel> UpperAndLowerCaseDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
 
-        public ObservableCollection<OldAndNewNameModel> OperationFailedList { get; } = new ObservableCollection<OldAndNewNameModel>();
+        public ObservableCollection<Tuple<OldAndNewNameModel, Exception>> OperationFailedList { get; } = new ObservableCollection<Tuple<OldAndNewNameModel, Exception>>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -162,6 +162,7 @@ namespace FileRenamer.Views.Pages
                     PreviewChangedFileName();
                     ChangeFileName();
                     new OperationResultNotification(UpperAndLowerCaseDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
+                    UpperAndLowerCaseDataList.Clear();
                 }
             }
             else
@@ -387,9 +388,9 @@ namespace FileRenamer.Views.Pages
                         {
                             Directory.Move(item.OriginalFilePath, item.NewFilePath);
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
-                            OperationFailedList.Add(item);
+                            OperationFailedList.Add(new Tuple<OldAndNewNameModel, Exception>(item, e));
                         }
                     }
                     else
@@ -398,9 +399,9 @@ namespace FileRenamer.Views.Pages
                         {
                             File.Move(item.OriginalFilePath, item.NewFilePath);
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
-                            OperationFailedList.Add(item);
+                            OperationFailedList.Add(new Tuple<OldAndNewNameModel, Exception>(item, e));
                         }
                     }
                 }

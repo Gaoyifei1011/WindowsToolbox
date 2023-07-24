@@ -132,6 +132,12 @@
   <data name="EmptyList" xml:space="preserve">
     <value>没有任何内容</value>
   </data>
+  <data name="FileName" xml:space="preserve">
+    <value>文件(夹)名称</value>
+  </data>
+  <data name="FileProperties" xml:space="preserve">
+    <value>更改的文件(夹)属性</value>
+  </data>
   <data name="Hide" xml:space="preserve">
     <value>隐藏</value>
   </data>
@@ -140,12 +146,6 @@
   </data>
   <data name="ModifyDate" xml:space="preserve">
     <value>修改日期</value>
-  </data>
-  <data name="NewFileName" xml:space="preserve">
-    <value>新文件(夹)名称</value>
-  </data>
-  <data name="OriginalFileName" xml:space="preserve">
-    <value>原文件(夹)名称</value>
   </data>
   <data name="Preview" xml:space="preserve">
     <value>预览</value>

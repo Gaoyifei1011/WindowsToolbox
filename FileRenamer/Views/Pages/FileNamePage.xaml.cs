@@ -1,7 +1,7 @@
-﻿using FileRenamer.Models;
+﻿using FileRenamer.Helpers.Root;
+using FileRenamer.Models;
 using FileRenamer.Services.Root;
 using FileRenamer.UI.Notifications;
-using FileRenamer.Views.CustomControls.DialogsAndFlyouts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -190,7 +190,7 @@ namespace FileRenamer.Views.Pages
 
         public ObservableCollection<OldAndNewNameModel> FileNameDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
 
-        public ObservableCollection<string> OperationFailedList { get; } = new ObservableCollection<string>();
+        public ObservableCollection<Tuple<OldAndNewNameModel, Exception>> OperationFailedList { get; } = new ObservableCollection<Tuple<OldAndNewNameModel, Exception>>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -352,6 +352,7 @@ namespace FileRenamer.Views.Pages
                 else
                 {
                     new OperationResultNotification(FileNameDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
+                    FileNameDataList.Clear();
                 }
             }
             else
@@ -438,6 +439,41 @@ namespace FileRenamer.Views.Pages
             else
             {
                 return true;
+            }
+        }
+
+        /// <summary>
+        /// 更改文件名称
+        /// </summary>
+        private void ChangeFileName()
+        {
+            foreach (OldAndNewNameModel item in FileNameDataList)
+            {
+                if (!string.IsNullOrEmpty(item.OriginalFileName) && !string.IsNullOrEmpty(item.OriginalFilePath))
+                {
+                    if (IOHelper.IsDir(item.OriginalFilePath))
+                    {
+                        try
+                        {
+                            Directory.Move(item.OriginalFilePath, item.NewFilePath);
+                        }
+                        catch (Exception e)
+                        {
+                            OperationFailedList.Add(new Tuple<OldAndNewNameModel, Exception>(item, e));
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            File.Move(item.OriginalFilePath, item.NewFilePath);
+                        }
+                        catch (Exception e)
+                        {
+                            OperationFailedList.Add(new Tuple<OldAndNewNameModel, Exception>(item, e));
+                        }
+                    }
+                }
             }
         }
     }

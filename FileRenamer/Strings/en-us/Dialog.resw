@@ -133,7 +133,7 @@
     <value>Copy app information</value>
   </data>
   <data name="DoNetVersion" xml:space="preserve">
-    <value>.NET version:</value>
+    <value>.NET Framework version:</value>
   </data>
   <data name="License" xml:space="preserve">
     <value>FileRenamer License</value>

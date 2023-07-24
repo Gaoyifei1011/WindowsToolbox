@@ -1,4 +1,5 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
+using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Services.Root;
 using FileRenamer.UI.Notifications;
@@ -76,7 +77,7 @@ namespace FileRenamer.Views.Pages
 
         public ObservableCollection<OldAndNewNameModel> ExtensionNameDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
 
-        public ObservableCollection<string> OperationFailedList { get; } = new ObservableCollection<string>();
+        public ObservableCollection<Tuple<OldAndNewNameModel, Exception>> OperationFailedList { get; } = new ObservableCollection<Tuple<OldAndNewNameModel, Exception>>();
 
         public ExtensionNamePage()
         {
@@ -171,6 +172,10 @@ namespace FileRenamer.Views.Pages
                 {
                     new ListEmptyNotification().Show();
                 }
+                else
+                {
+                    PreviewChangedFileName();
+                }
             }
             else
             {
@@ -193,7 +198,10 @@ namespace FileRenamer.Views.Pages
                 }
                 else
                 {
+                    PreviewChangedFileName();
+                    ChangeFileName();
                     new OperationResultNotification(ExtensionNameDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
+                    ExtensionNameDataList.Clear();
                 }
             }
             else
@@ -297,6 +305,82 @@ namespace FileRenamer.Views.Pages
             else
             {
                 return true;
+            }
+        }
+
+        /// <summary>
+        /// 预览修改后的文件名称
+        /// </summary>
+        private void PreviewChangedFileName()
+        {
+            switch (SelectedType)
+            {
+                case ExtensionNameSelectedType.IsSameExtensionName:
+                    {
+                        foreach (OldAndNewNameModel item in ExtensionNameDataList)
+                        {
+                            if (!string.IsNullOrEmpty(item.OriginalFileName))
+                            {
+                                string fileName = Path.GetFileNameWithoutExtension(item.OriginalFileName);
+                                item.NewFileName = fileName + "." + ChangeToText;
+                                item.NewFilePath = item.OriginalFilePath.Replace(item.OriginalFileName, item.NewFileName);
+                            }
+                        }
+                        break;
+                    }
+                case ExtensionNameSelectedType.IsFindAndReplaceExtensionName:
+                    {
+                        foreach (OldAndNewNameModel item in ExtensionNameDataList)
+                        {
+                            if (!string.IsNullOrEmpty(item.OriginalFileName))
+                            {
+                                string fileName = Path.GetFileNameWithoutExtension(item.OriginalFileName);
+                                string extensionName = Path.GetExtension(item.OriginalFileName);
+                                if (extensionName.Contains(SearchText))
+                                {
+                                    extensionName = extensionName.Replace(SearchText, ReplaceText);
+                                }
+                                item.NewFileName = fileName + extensionName;
+                                item.NewFilePath = item.OriginalFilePath.Replace(item.OriginalFileName, item.NewFileName);
+                            }
+                        }
+                        break;
+                    }
+            }
+        }
+
+        /// <summary>
+        /// 更改文件名称
+        /// </summary>
+        private void ChangeFileName()
+        {
+            foreach (OldAndNewNameModel item in ExtensionNameDataList)
+            {
+                if (!string.IsNullOrEmpty(item.OriginalFileName) && !string.IsNullOrEmpty(item.OriginalFilePath))
+                {
+                    if (IOHelper.IsDir(item.OriginalFilePath))
+                    {
+                        try
+                        {
+                            Directory.Move(item.OriginalFilePath, item.NewFilePath);
+                        }
+                        catch (Exception e)
+                        {
+                            OperationFailedList.Add(new Tuple<OldAndNewNameModel, Exception>(item, e));
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            File.Move(item.OriginalFilePath, item.NewFilePath);
+                        }
+                        catch (Exception e)
+                        {
+                            OperationFailedList.Add(new Tuple<OldAndNewNameModel, Exception>(item, e));
+                        }
+                    }
+                }
             }
         }
     }

@@ -60,7 +60,7 @@
                 <TextBox
                     Grid.Column="1"
                     IsEnabled="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsSameExtensionName), Mode=OneWay}"
-                    Text="{x:Bind ChangeToText, Mode=OneWay}" />
+                    Text="{x:Bind ChangeToText, Mode=TwoWay}" />
             </Grid>
 
             <CheckBox
@@ -83,7 +83,7 @@
                 <TextBox
                     Grid.Column="1"
                     IsEnabled="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
-                    Text="{x:Bind SearchText, Mode=OneWay}" />
+                    Text="{x:Bind SearchText, Mode=TwoWay}" />
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="3">
@@ -97,7 +97,7 @@
                 <TextBox
                     Grid.Column="1"
                     IsEnabled="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
-                    Text="{x:Bind ReplaceText, Mode=OneWay}" />
+                    Text="{x:Bind ReplaceText, Mode=TwoWay}" />
             </Grid>
         </Grid>
 
@@ -167,10 +167,12 @@
 
                         <TextBlock
                             Grid.Column="0"
+                            MinWidth="50"
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
-                            Style="{StaticResource CardTextStyle}"
-                            Text="{x:Bind OriginalFileName, Mode=OneWay}">
+                            FontSize="14"
+                            Text="{x:Bind OriginalFileName, Mode=OneWay}"
+                            TextAlignment="Left">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip Content="{x:Bind OriginalFilePath, Mode=OneWay}" Placement="Mouse" />
@@ -179,10 +181,12 @@
 
                         <TextBlock
                             Grid.Column="1"
+                            MinWidth="50"
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
-                            Style="{StaticResource CardTextStyle}"
-                            Text="{x:Bind NewFileName, Mode=OneWay}">
+                            FontSize="14"
+                            Text="{x:Bind NewFileName, Mode=OneWay}"
+                            TextAlignment="Left">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip Content="{x:Bind NewFilePath, Mode=OneWay}" Placement="Mouse" />
