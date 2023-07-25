@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -30,7 +31,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _selectedType = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedType)));
+                OnPropertyChanged();
             }
         }
 
@@ -131,7 +132,7 @@ namespace FileRenamer.Views.Pages
                 OperationFailedList.Clear();
                 if (UpperAndLowerCaseDataList.Count is 0)
                 {
-                    new ListEmptyNotification().Show();
+                    new ListEmptyNotification(this).Show();
                 }
                 else
                 {
@@ -140,7 +141,7 @@ namespace FileRenamer.Views.Pages
             }
             else
             {
-                new NoOperationNotification().Show();
+                new NoOperationNotification(this).Show();
             }
         }
 
@@ -155,19 +156,19 @@ namespace FileRenamer.Views.Pages
                 OperationFailedList.Clear();
                 if (UpperAndLowerCaseDataList.Count is 0)
                 {
-                    new ListEmptyNotification().Show();
+                    new ListEmptyNotification(this).Show();
                 }
                 else
                 {
                     PreviewChangedFileName();
                     ChangeFileName();
-                    new OperationResultNotification(UpperAndLowerCaseDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
+                    new OperationResultNotification(this, UpperAndLowerCaseDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
                     UpperAndLowerCaseDataList.Clear();
                 }
             }
             else
             {
-                new NoOperationNotification().Show();
+                new NoOperationNotification(this).Show();
             }
         }
 
@@ -242,6 +243,11 @@ namespace FileRenamer.Views.Pages
                     SelectedType = UpperAndLowerSelectedType.None;
                 }
             }
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

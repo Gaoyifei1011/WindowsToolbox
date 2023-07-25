@@ -15,14 +15,18 @@ namespace FileRenamer.Helpers.Controls
         /// <summary>
         /// 显示对话框
         /// </summary>
-        public static async Task<ContentDialogResult> ShowAsync(ContentDialog dialog, XamlRoot xamlRoot, ElementTheme theme = ElementTheme.Default)
+        public static async Task<ContentDialogResult> ShowAsync(ContentDialog dialog, FrameworkElement element)
         {
             ContentDialogResult dialogResult = ContentDialogResult.None;
-            if (!IsDialogOpening && dialog is not null && xamlRoot is not null)
+            if (!IsDialogOpening && dialog is not null && element is not null)
             {
                 IsDialogOpening = true;
-                dialog.XamlRoot = xamlRoot;
-                dialog.RequestedTheme = theme;
+                dialog.XamlRoot = element.XamlRoot;
+                dialog.RequestedTheme = element.ActualTheme;
+                element.ActualThemeChanged += (sender, args) =>
+                {
+                    dialog.RequestedTheme = sender.ActualTheme;
+                };
                 dialogResult = await dialog.ShowAsync();
                 IsDialogOpening = false;
             }

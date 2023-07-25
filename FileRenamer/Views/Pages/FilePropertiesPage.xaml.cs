@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -29,7 +30,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _isReadOnlyChecked = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsReadOnlyChecked)));
+                OnPropertyChanged();
             }
         }
 
@@ -42,7 +43,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _isArchiveChecked = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsArchiveChecked)));
+                OnPropertyChanged();
             }
         }
 
@@ -55,7 +56,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _isCreateDateChecked = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsCreateDateChecked)));
+                OnPropertyChanged();
             }
         }
 
@@ -68,7 +69,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _isHideChecked = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsHideChecked)));
+                OnPropertyChanged();
             }
         }
 
@@ -81,7 +82,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _isSystemChecked = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSystemChecked)));
+                OnPropertyChanged();
             }
         }
 
@@ -94,7 +95,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _isModifyDateChecked = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsModifyDateChecked)));
+                OnPropertyChanged();
             }
         }
 
@@ -107,7 +108,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _createDate = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CreateDate)));
+                OnPropertyChanged();
             }
         }
 
@@ -120,7 +121,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _createTime = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CreateTime)));
+                OnPropertyChanged();
             }
         }
 
@@ -133,7 +134,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _modifyDate = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModifyDate)));
+                OnPropertyChanged();
             }
         }
 
@@ -146,7 +147,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _modifyTime = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModifyTime)));
+                OnPropertyChanged();
             }
         }
 
@@ -249,7 +250,7 @@ namespace FileRenamer.Views.Pages
                 OperationFailedList.Clear();
                 if (FilePropertiesDataList.Count is 0)
                 {
-                    new ListEmptyNotification().Show();
+                    new ListEmptyNotification(this).Show();
                 }
                 else
                 {
@@ -258,7 +259,7 @@ namespace FileRenamer.Views.Pages
             }
             else
             {
-                new NoOperationNotification().Show();
+                new NoOperationNotification(this).Show();
             }
         }
 
@@ -273,19 +274,19 @@ namespace FileRenamer.Views.Pages
                 OperationFailedList.Clear();
                 if (FilePropertiesDataList.Count is 0)
                 {
-                    new ListEmptyNotification().Show();
+                    new ListEmptyNotification(this).Show();
                 }
                 else
                 {
                     PreviewChangedFileAttributes();
                     ChangeFileAttributes();
-                    new OperationResultNotification(FilePropertiesDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
+                    new OperationResultNotification(this, FilePropertiesDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
                     FilePropertiesDataList.Clear();
                 }
             }
             else
             {
-                new NoOperationNotification().Show();
+                new NoOperationNotification(this).Show();
             }
         }
 
@@ -385,6 +386,11 @@ namespace FileRenamer.Views.Pages
                     ModifyTime = DateTimeOffset.Now.TimeOfDay;
                 }
             }
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

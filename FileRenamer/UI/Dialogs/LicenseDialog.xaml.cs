@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Windows.UI.Xaml.Controls;
 
@@ -18,7 +19,7 @@ namespace FileRenamer.UI.Dialogs
             set
             {
                 _licenseText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LicenseText)));
+                OnPropertyChanged();
             }
         }
 
@@ -28,6 +29,11 @@ namespace FileRenamer.UI.Dialogs
         {
             InitializeComponent();
             LicenseText = Encoding.UTF8.GetString(Properties.Resources.LICENSE);
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

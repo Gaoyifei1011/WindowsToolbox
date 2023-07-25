@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -29,7 +30,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _isChecked = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecked)));
+                OnPropertyChanged();
             }
         }
 
@@ -42,7 +43,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _currentIndex = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentIndex)));
+                OnPropertyChanged();
             }
         }
 
@@ -55,7 +56,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _renameRule = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RenameRule)));
+                OnPropertyChanged();
             }
         }
 
@@ -68,7 +69,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _startNumber = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StartNumber)));
+                OnPropertyChanged();
             }
         }
 
@@ -81,7 +82,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _extensionName = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExtensionName)));
+                OnPropertyChanged();
             }
         }
 
@@ -94,7 +95,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _lookUpString = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LookUpString)));
+                OnPropertyChanged();
             }
         }
 
@@ -107,7 +108,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _replaceString = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReplaceString)));
+                OnPropertyChanged();
             }
         }
 
@@ -120,7 +121,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _selectedNumberFormat = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedNumberFormat)));
+                OnPropertyChanged();
             }
         }
 
@@ -327,7 +328,7 @@ namespace FileRenamer.Views.Pages
                 OperationFailedList.Clear();
                 if (FileNameDataList.Count is 0)
                 {
-                    new ListEmptyNotification().Show();
+                    new ListEmptyNotification(this).Show();
                 }
                 else
                 {
@@ -336,7 +337,7 @@ namespace FileRenamer.Views.Pages
             }
             else
             {
-                new NoOperationNotification().Show();
+                new NoOperationNotification(this).Show();
             }
         }
 
@@ -351,19 +352,19 @@ namespace FileRenamer.Views.Pages
                 OperationFailedList.Clear();
                 if (FileNameDataList.Count is 0)
                 {
-                    new ListEmptyNotification().Show();
+                    new ListEmptyNotification(this).Show();
                 }
                 else
                 {
                     PreviewChangedFileName();
                     ChangeFileName();
-                    new OperationResultNotification(FileNameDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
+                    new OperationResultNotification(this, FileNameDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
                     FileNameDataList.Clear();
                 }
             }
             else
             {
-                new NoOperationNotification().Show();
+                new NoOperationNotification(this).Show();
             }
         }
 
@@ -431,6 +432,11 @@ namespace FileRenamer.Views.Pages
         public void OnUnchecked(object sender, RoutedEventArgs args)
         {
             ExtensionName = string.Empty;
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

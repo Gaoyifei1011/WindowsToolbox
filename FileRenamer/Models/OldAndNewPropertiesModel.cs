@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace FileRenamer.Models
 {
@@ -19,7 +20,7 @@ namespace FileRenamer.Models
             set
             {
                 _fileName = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileName)));
+                OnPropertyChanged();
             }
         }
 
@@ -35,7 +36,7 @@ namespace FileRenamer.Models
             set
             {
                 _filePath = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FilePath)));
+                OnPropertyChanged();
             }
         }
 
@@ -51,10 +52,15 @@ namespace FileRenamer.Models
             set
             {
                 _fileProperties = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileProperties)));
+                OnPropertyChanged();
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

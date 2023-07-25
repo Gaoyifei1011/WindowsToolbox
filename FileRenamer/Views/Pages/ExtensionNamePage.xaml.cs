@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -30,7 +31,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _selectedType = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedType)));
+                OnPropertyChanged();
             }
         }
 
@@ -43,7 +44,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _changeToText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ChangeToText)));
+                OnPropertyChanged();
             }
         }
 
@@ -56,7 +57,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _searchText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchText)));
+                OnPropertyChanged();
             }
         }
 
@@ -69,7 +70,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _replaceText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReplaceText)));
+                OnPropertyChanged();
             }
         }
 
@@ -170,7 +171,7 @@ namespace FileRenamer.Views.Pages
                 OperationFailedList.Clear();
                 if (ExtensionNameDataList.Count is 0)
                 {
-                    new ListEmptyNotification().Show();
+                    new ListEmptyNotification(this).Show();
                 }
                 else
                 {
@@ -179,7 +180,7 @@ namespace FileRenamer.Views.Pages
             }
             else
             {
-                new NoOperationNotification().Show();
+                new NoOperationNotification(this).Show();
             }
         }
 
@@ -194,19 +195,19 @@ namespace FileRenamer.Views.Pages
                 OperationFailedList.Clear();
                 if (ExtensionNameDataList.Count is 0)
                 {
-                    new ListEmptyNotification().Show();
+                    new ListEmptyNotification(this).Show();
                 }
                 else
                 {
                     PreviewChangedFileName();
                     ChangeFileName();
-                    new OperationResultNotification(ExtensionNameDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
+                    new OperationResultNotification(this, ExtensionNameDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
                     ExtensionNameDataList.Clear();
                 }
             }
             else
             {
-                new NoOperationNotification().Show();
+                new NoOperationNotification(this).Show();
             }
         }
 
@@ -291,6 +292,11 @@ namespace FileRenamer.Views.Pages
                     ReplaceText = string.Empty;
                 }
             }
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

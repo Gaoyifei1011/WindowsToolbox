@@ -1,4 +1,5 @@
 ﻿using FileRenamer.Views.CustomControls.Notifications;
+using Windows.UI.Xaml;
 
 namespace FileRenamer.UI.Notifications
 {
@@ -7,7 +8,7 @@ namespace FileRenamer.UI.Notifications
     /// </summary>
     public sealed partial class NoOperationNotification : InAppNotification
     {
-        public NoOperationNotification()
+        public NoOperationNotification(FrameworkElement element) : base(element)
         {
             InitializeComponent();
         }

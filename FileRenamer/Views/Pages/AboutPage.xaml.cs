@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -35,7 +36,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _appVersion = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AppVersion)));
+                OnPropertyChanged();
             }
         }
 
@@ -72,11 +73,7 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         public async void OnAppInformationClicked(object sender, RoutedEventArgs args)
         {
-            await ContentDialogHelper.ShowAsync(
-                new AppInformationDialog(),
-                Program.MainWindow.MainPage.XamlRoot,
-                Program.MainWindow.MainPage.WindowTheme
-                );
+            await ContentDialogHelper.ShowAsync(new AppInformationDialog(), this);
         }
 
         /// <summary>
@@ -133,6 +130,11 @@ namespace FileRenamer.Views.Pages
         public void OnSystemInformationClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "ms-settings:about");
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

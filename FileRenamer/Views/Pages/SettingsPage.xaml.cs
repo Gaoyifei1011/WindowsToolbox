@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -31,7 +32,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _theme = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Theme)));
+                OnPropertyChanged();
             }
         }
 
@@ -44,7 +45,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _backdrop = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Backdrop)));
+                OnPropertyChanged();
             }
         }
 
@@ -57,7 +58,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _appLanguage = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AppLanguage)));
+                OnPropertyChanged();
             }
         }
 
@@ -127,7 +128,7 @@ namespace FileRenamer.Views.Pages
             {
                 AppLanguage = args.AddedItems[0] as LanguageModel;
                 await LanguageService.SetLanguageAsync(AppLanguage);
-                new LanguageChangeNotification().Show();
+                new LanguageChangeNotification(this).Show();
             }
         }
 
@@ -151,6 +152,11 @@ namespace FileRenamer.Views.Pages
                 await ThemeService.SetThemeAsync(Theme);
                 ThemeService.SetWindowTheme();
             }
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

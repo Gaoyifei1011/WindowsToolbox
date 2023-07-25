@@ -1,7 +1,9 @@
 using FileRenamer.Extensions.DataType.Enums;
 using FileRenamer.Views.CustomControls.Notifications;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Windows.UI.Xaml;
 
 namespace FileRenamer.UI.Notifications
 {
@@ -19,7 +21,7 @@ namespace FileRenamer.UI.Notifications
             set
             {
                 _operationType = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OperationType)));
+                OnPropertyChanged();
             }
         }
 
@@ -32,13 +34,13 @@ namespace FileRenamer.UI.Notifications
             set
             {
                 _isPinnedSuccessfully = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsPinnedSuccessfully)));
+                OnPropertyChanged();
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public QuickOperationNotification(QuickOperationType operationType, [Optional, DefaultParameterValue(false)] bool isPinnedSuccessfully)
+        public QuickOperationNotification(FrameworkElement element, QuickOperationType operationType, [Optional, DefaultParameterValue(false)] bool isPinnedSuccessfully) : base(element)
         {
             InitializeComponent();
             OperationType = operationType;
@@ -67,6 +69,11 @@ namespace FileRenamer.UI.Notifications
             {
                 return false;
             }
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

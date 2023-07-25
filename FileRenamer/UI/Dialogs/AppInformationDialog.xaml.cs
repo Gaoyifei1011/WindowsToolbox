@@ -5,6 +5,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using Windows.UI.Xaml.Controls;
@@ -25,7 +26,7 @@ namespace FileRenamer.UI.Dialogs.About
             set
             {
                 _windowsUIVersion = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowsUIVersion)));
+                OnPropertyChanged();
             }
         }
 
@@ -38,7 +39,7 @@ namespace FileRenamer.UI.Dialogs.About
             set
             {
                 _mileXamlVersion = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MileXamlVersion)));
+                OnPropertyChanged();
             }
         }
 
@@ -51,7 +52,7 @@ namespace FileRenamer.UI.Dialogs.About
             set
             {
                 _doNetVersion = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DoNetVersion)));
+                OnPropertyChanged();
             }
         }
 
@@ -89,7 +90,12 @@ namespace FileRenamer.UI.Dialogs.About
 
             CopyPasteHelper.CopyToClipBoard(stringBuilder.ToString());
             sender.Hide();
-            new AppInformationCopyNotification().Show();
+            new AppInformationCopyNotification(this).Show();
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

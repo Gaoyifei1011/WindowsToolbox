@@ -1,5 +1,6 @@
 ﻿using FileRenamer.Services.Root;
 using FileRenamer.Views.CustomControls.Notifications;
+using Windows.UI.Xaml;
 
 namespace FileRenamer.UI.Notifications
 {
@@ -10,7 +11,7 @@ namespace FileRenamer.UI.Notifications
     {
         public string OperationResult { get; }
 
-        public OperationResultNotification(int successItems, int failedItems)
+        public OperationResultNotification(FrameworkElement element, int successItems, int failedItems) : base(element)
         {
             InitializeComponent();
             OperationResult = failedItems is 0 ?

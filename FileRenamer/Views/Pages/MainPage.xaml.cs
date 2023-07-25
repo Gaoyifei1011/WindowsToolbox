@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel;
@@ -37,7 +38,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _windowTheme = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
+                OnPropertyChanged();
             }
         }
 
@@ -50,7 +51,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _isBackEnabled = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsBackEnabled)));
+                OnPropertyChanged();
             }
         }
 
@@ -63,7 +64,7 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _selectedItem = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
+                OnPropertyChanged();
             }
         }
 
@@ -231,11 +232,7 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         public async void OnRestartAppsClicked(object sender, RoutedEventArgs args)
         {
-            await ContentDialogHelper.ShowAsync(
-                new RestartAppsDialog(),
-                Program.MainWindow.MainPage.XamlRoot,
-                Program.MainWindow.MainPage.WindowTheme
-                );
+            await ContentDialogHelper.ShowAsync(new RestartAppsDialog(), this);
         }
 
         /// <summary>
@@ -265,7 +262,7 @@ namespace FileRenamer.Views.Pages
             catch (Exception) { }
             finally
             {
-                new QuickOperationNotification(QuickOperationType.DesktopShortcut, IsCreatedSuccessfully).Show();
+                new QuickOperationNotification(this, QuickOperationType.DesktopShortcut, IsCreatedSuccessfully).Show();
             }
         }
 
@@ -298,7 +295,7 @@ namespace FileRenamer.Views.Pages
             catch (Exception) { }
             finally
             {
-                new QuickOperationNotification(QuickOperationType.StartScreen, IsPinnedSuccessfully).Show();
+                new QuickOperationNotification(this, QuickOperationType.StartScreen, IsPinnedSuccessfully).Show();
             }
         }
 
@@ -307,11 +304,7 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         public async void OnShowLicenseClicked(object sender, RoutedEventArgs args)
         {
-            await ContentDialogHelper.ShowAsync(
-                new LicenseDialog(),
-                Program.MainWindow.MainPage.XamlRoot,
-                Program.MainWindow.MainPage.WindowTheme
-                );
+            await ContentDialogHelper.ShowAsync(new LicenseDialog(), this);
         }
 
         /// <summary>
@@ -320,6 +313,11 @@ namespace FileRenamer.Views.Pages
         public void OnShowReleaseNotesClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "https://github.com/Gaoyifei1011/FileRenamer/releases");
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
