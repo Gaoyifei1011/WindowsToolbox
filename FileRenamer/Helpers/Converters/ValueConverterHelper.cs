@@ -20,7 +20,7 @@ namespace FileRenamer.Helpers.Converters
         /// </summary>
         public static Visibility IntToVisibilityConvert(int value)
         {
-            return value is 1 ? Visibility.Visible : Visibility.Collapsed;
+            return value is not 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>
@@ -29,6 +29,18 @@ namespace FileRenamer.Helpers.Converters
         public static Visibility IntToVisibilityReverseConvert(int value)
         {
             return value is 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public static Visibility StringToVisibilityConvert(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return Visibility.Collapsed;
+            }
+            else
+            {
+                return Visibility.Visible;
+            }
         }
     }
 }

@@ -211,7 +211,10 @@
                             TextAlignment="Left">
 
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="{x:Bind FilePath, Mode=OneWay}" Placement="Mouse" />
+                                <ToolTip
+                                    Content="{x:Bind FilePath, Mode=OneWay}"
+                                    Placement="Mouse"
+                                    Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(FilePath), Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
 
@@ -225,7 +228,10 @@
                             TextAlignment="Left">
 
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="{x:Bind FileProperties, Mode=OneWay}" Placement="Mouse" />
+                                <ToolTip
+                                    Content="{x:Bind FileProperties, Mode=OneWay}"
+                                    Placement="Mouse"
+                                    Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(FileProperties), Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
                     </Grid>

@@ -563,7 +563,10 @@
                             TextAlignment="Left">
 
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="{x:Bind OriginalFilePath, Mode=OneWay}" Placement="Mouse" />
+                                <ToolTip
+                                    Content="{x:Bind OriginalFilePath, Mode=OneWay}"
+                                    Placement="Mouse"
+                                    Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(OriginalFilePath), Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
 
@@ -577,7 +580,10 @@
                             TextAlignment="Left">
 
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="{x:Bind NewFilePath, Mode=OneWay}" Placement="Mouse" />
+                                <ToolTip
+                                    Content="{x:Bind NewFilePath, Mode=OneWay}"
+                                    Placement="Mouse"
+                                    Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(NewFilePath), Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
                     </Grid>
