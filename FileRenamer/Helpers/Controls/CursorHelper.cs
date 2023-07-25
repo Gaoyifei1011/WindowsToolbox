@@ -4,7 +4,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 
-namespace FileRenamer.Helpers.Controls.Extensions
+namespace FileRenamer.Helpers.Controls
 {
     /// <summary>
     /// 附加属性：设置指针位于控件上时显示的游标

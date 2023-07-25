@@ -1,7 +1,6 @@
 using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Root;
 using FileRenamer.UI.Notifications;
-using FileRenamer.Views.CustomControls.DialogsAndFlyouts;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -15,7 +14,7 @@ namespace FileRenamer.UI.Dialogs.About
     /// <summary>
     /// 应用信息对话框
     /// </summary>
-    public sealed partial class AppInformationDialog : ExtendedContentDialog, INotifyPropertyChanged
+    public sealed partial class AppInformationDialog : ContentDialog, INotifyPropertyChanged
     {
         private string _windowsUIVersion;
 

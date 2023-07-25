@@ -1,4 +1,5 @@
-﻿using FileRenamer.Helpers.Root;
+﻿using FileRenamer.Helpers.Controls;
+using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Services.Root;
 using FileRenamer.UI.Dialogs.About;
@@ -71,7 +72,11 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         public async void OnAppInformationClicked(object sender, RoutedEventArgs args)
         {
-            await new AppInformationDialog().ShowAsync();
+            await ContentDialogHelper.ShowAsync(
+                new AppInformationDialog(),
+                Program.MainWindow.MainPage.XamlRoot,
+                Program.MainWindow.MainPage.WindowTheme
+                );
         }
 
         /// <summary>

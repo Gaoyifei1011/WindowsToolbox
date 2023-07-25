@@ -45,37 +45,6 @@ namespace FileRenamer.Views.Pages
             InitializeComponent();
         }
 
-        public bool IsItemChecked(UpperAndLowerSelectedType selectedType, UpperAndLowerSelectedType comparedType)
-        {
-            return selectedType == comparedType;
-        }
-
-        public string LocalizeTotal(int count)
-        {
-            return string.Format(ResourceService.GetLocalized("UpperAndLowerCase/Total"), UpperAndLowerCaseDataList.Count);
-        }
-
-        /// <summary>
-        /// 选中时触发的事件
-        /// </summary>
-        public void OnChecked(object sender, RoutedEventArgs args)
-        {
-            Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
-            if (checkBox is not null)
-            {
-                SelectedType = (UpperAndLowerSelectedType)Convert.ToInt32(checkBox.Tag);
-            }
-        }
-
-        /// <summary>
-        /// 清空列表
-        /// </summary>
-        public void OnClearListClicked(object sender, RoutedEventArgs args)
-        {
-            UpperAndLowerCaseDataList.Clear();
-            OperationFailedList.Clear();
-        }
-
         /// <summary>
         /// 设置拖动的数据的可视表示形式
         /// </summary>
@@ -118,6 +87,37 @@ namespace FileRenamer.Views.Pages
                 deferral.Complete();
                 OperationFailedList.Clear();
             }
+        }
+
+        public bool IsItemChecked(UpperAndLowerSelectedType selectedType, UpperAndLowerSelectedType comparedType)
+        {
+            return selectedType == comparedType;
+        }
+
+        public string LocalizeTotal(int count)
+        {
+            return string.Format(ResourceService.GetLocalized("UpperAndLowerCase/Total"), UpperAndLowerCaseDataList.Count);
+        }
+
+        /// <summary>
+        /// 选中时触发的事件
+        /// </summary>
+        public void OnChecked(object sender, RoutedEventArgs args)
+        {
+            Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
+            if (checkBox is not null)
+            {
+                SelectedType = (UpperAndLowerSelectedType)Convert.ToInt32(checkBox.Tag);
+            }
+        }
+
+        /// <summary>
+        /// 清空列表
+        /// </summary>
+        public void OnClearListClicked(object sender, RoutedEventArgs args)
+        {
+            UpperAndLowerCaseDataList.Clear();
+            OperationFailedList.Clear();
         }
 
         /// <summary>

@@ -208,30 +208,6 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        public string GetChangeRule(int index)
-        {
-            return string.Format(ResourceService.GetLocalized("Dialog/ChangeRule"), NameChangeRuleList[index]);
-        }
-
-        public bool IsItemChecked(string selectedInternalName, string internalName)
-        {
-            return selectedInternalName == internalName;
-        }
-
-        public string LocalizeTotal(int count)
-        {
-            return string.Format(ResourceService.GetLocalized("FileName/Total"), FileNameDataList.Count);
-        }
-
-        /// <summary>
-        /// 清空列表
-        /// </summary>
-        public void OnClearListClicked(object sender, RoutedEventArgs args)
-        {
-            FileNameDataList.Clear();
-            OperationFailedList.Clear();
-        }
-
         /// <summary>
         /// 设置拖动的数据的可视表示形式
         /// </summary>
@@ -274,6 +250,30 @@ namespace FileRenamer.Views.Pages
                 deferral.Complete();
                 OperationFailedList.Clear();
             }
+        }
+
+        public string GetChangeRule(int index)
+        {
+            return string.Format(ResourceService.GetLocalized("Dialog/ChangeRule"), NameChangeRuleList[index]);
+        }
+
+        public bool IsItemChecked(string selectedInternalName, string internalName)
+        {
+            return selectedInternalName == internalName;
+        }
+
+        public string LocalizeTotal(int count)
+        {
+            return string.Format(ResourceService.GetLocalized("FileName/Total"), FileNameDataList.Count);
+        }
+
+        /// <summary>
+        /// 清空列表
+        /// </summary>
+        public void OnClearListClicked(object sender, RoutedEventArgs args)
+        {
+            FileNameDataList.Clear();
+            OperationFailedList.Clear();
         }
 
         /// <summary>
@@ -329,6 +329,10 @@ namespace FileRenamer.Views.Pages
                 {
                     new ListEmptyNotification().Show();
                 }
+                else
+                {
+                    PreviewChangedFileName();
+                }
             }
             else
             {
@@ -351,6 +355,8 @@ namespace FileRenamer.Views.Pages
                 }
                 else
                 {
+                    PreviewChangedFileName();
+                    ChangeFileName();
                     new OperationResultNotification(FileNameDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
                     FileNameDataList.Clear();
                 }
@@ -439,6 +445,125 @@ namespace FileRenamer.Views.Pages
             else
             {
                 return true;
+            }
+        }
+
+        /// <summary>
+        /// 预览修改后的文件名称
+        /// </summary>
+        private void PreviewChangedFileName()
+        {
+            int startIndex = 0;
+            if (!string.IsNullOrEmpty(StartNumber))
+            {
+                int.TryParse(StartNumber, out startIndex);
+            }
+
+            foreach (OldAndNewNameModel item in FileNameDataList)
+            {
+                string tempNewFileName = item.OriginalFileName;
+                // 根据改名规则替换
+                if (!string.IsNullOrEmpty(RenameRule))
+                {
+                    try
+                    {
+                        string tempFileName = RenameRule;
+                        if (tempFileName.Contains("<#>"))
+                        {
+                            string formattedIndex = string.Empty;
+                            if (SelectedNumberFormat.InternalName == NumberFormatList[0].InternalName)
+                            {
+                                formattedIndex = startIndex.ToString();
+                            }
+                            else if (SelectedNumberFormat.InternalName == NumberFormatList[1].InternalName)
+                            {
+                                formattedIndex = string.Format("{0:D1}", startIndex);
+                            }
+                            else if (SelectedNumberFormat.InternalName == NumberFormatList[2].InternalName)
+                            {
+                                formattedIndex = string.Format("{0:D2}", startIndex);
+                            }
+                            else if (SelectedNumberFormat.InternalName == NumberFormatList[3].InternalName)
+                            {
+                                formattedIndex = string.Format("{0:D3}", startIndex);
+                            }
+                            else if (SelectedNumberFormat.InternalName == NumberFormatList[4].InternalName)
+                            {
+                                formattedIndex = string.Format("{0:D4}", startIndex);
+                            }
+                            else if (SelectedNumberFormat.InternalName == NumberFormatList[5].InternalName)
+                            {
+                                formattedIndex = string.Format("{0:D5}", startIndex);
+                            }
+                            else if (SelectedNumberFormat.InternalName == NumberFormatList[6].InternalName)
+                            {
+                                formattedIndex = string.Format("{0:D6}", startIndex);
+                            }
+                            else if (SelectedNumberFormat.InternalName == NumberFormatList[7].InternalName)
+                            {
+                                formattedIndex = string.Format("{0:D7}", startIndex);
+                            }
+
+                            tempFileName = tempFileName.Replace("<#>", formattedIndex);
+                            startIndex++;
+                        }
+                        if (tempFileName.Contains("<$>"))
+                        {
+                            tempFileName = tempFileName.Replace("<$>", DateTime.Now.ToString("yyyy-MM-dd"));
+                        }
+                        if (tempFileName.Contains("<&>"))
+                        {
+                            tempFileName = tempFileName.Replace("<&>", item.OriginalFileName);
+                        }
+                        if (tempFileName.Contains("<N>"))
+                        {
+                            if (IOHelper.IsDir(item.OriginalFilePath))
+                            {
+                                DirectoryInfo directoryInfo = new DirectoryInfo(item.OriginalFilePath);
+                                tempFileName = tempFileName.Replace("<N>", directoryInfo.LastWriteTime.ToString("yyyy-MM-dd"));
+                            }
+                            else
+                            {
+                                FileInfo fileInfo = new FileInfo(item.OriginalFilePath);
+                                tempFileName = tempFileName.Replace("<N>", fileInfo.LastWriteTime.ToString("yyyy-MM-dd"));
+                            }
+                        }
+                        if (tempFileName.Contains("<C>"))
+                        {
+                            if (IOHelper.IsDir(item.OriginalFilePath))
+                            {
+                                DirectoryInfo directoryInfo = new DirectoryInfo(item.OriginalFilePath);
+                                tempFileName = tempFileName.Replace("<C>", directoryInfo.CreationTime.ToString("yyyy-MM-dd"));
+                            }
+                            else
+                            {
+                                FileInfo fileInfo = new FileInfo(item.OriginalFilePath);
+                                tempFileName = tempFileName.Replace("<C>", fileInfo.CreationTime.ToString("yyyy-MM-dd"));
+                            }
+                        }
+                        tempNewFileName = tempFileName + Path.GetExtension(item.OriginalFileName);
+                    }
+                    catch (Exception)
+                    {
+                        tempNewFileName = item.OriginalFileName;
+                    }
+                }
+
+                // 修改文件扩展名
+                if (IsChecked)
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(tempNewFileName);
+                    tempNewFileName = fileName + ExtensionName;
+                }
+
+                // 查找并替换字符串
+                if (!string.IsNullOrEmpty(LookUpString) && tempNewFileName.Contains(LookUpString))
+                {
+                    tempNewFileName = tempNewFileName.Replace(LookUpString, ReplaceString);
+                }
+
+                item.NewFileName = tempNewFileName;
+                item.NewFilePath = item.OriginalFilePath.Replace(item.OriginalFileName, item.NewFileName);
             }
         }
 

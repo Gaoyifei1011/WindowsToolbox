@@ -1,4 +1,5 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
+using FileRenamer.Helpers.Controls;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Services.Root;
@@ -230,7 +231,11 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         public async void OnRestartAppsClicked(object sender, RoutedEventArgs args)
         {
-            await new RestartAppsDialog().ShowAsync();
+            await ContentDialogHelper.ShowAsync(
+                new RestartAppsDialog(),
+                Program.MainWindow.MainPage.XamlRoot,
+                Program.MainWindow.MainPage.WindowTheme
+                );
         }
 
         /// <summary>
@@ -302,7 +307,11 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         public async void OnShowLicenseClicked(object sender, RoutedEventArgs args)
         {
-            await new LicenseDialog().ShowAsync();
+            await ContentDialogHelper.ShowAsync(
+                new LicenseDialog(),
+                Program.MainWindow.MainPage.XamlRoot,
+                Program.MainWindow.MainPage.WindowTheme
+                );
         }
 
         /// <summary>

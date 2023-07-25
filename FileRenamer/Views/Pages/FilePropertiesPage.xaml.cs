@@ -161,39 +161,6 @@ namespace FileRenamer.Views.Pages
             InitializeComponent();
         }
 
-        public string LocalizeTotal(int count)
-        {
-            return string.Format(ResourceService.GetLocalized("FileProperties/Total"), FilePropertiesDataList.Count);
-        }
-
-        /// <summary>
-        /// 清空列表
-        /// </summary>
-        public void OnClearListClicked(object sender, RoutedEventArgs args)
-        {
-            FilePropertiesDataList.Clear();
-            OperationFailedList.Clear();
-        }
-
-        /// <summary>
-        /// 日期更改时触发的事件
-        /// </summary>
-        public void OnDateChanged(object sender, DatePickerValueChangedEventArgs args)
-        {
-            DatePicker datePicker = sender as DatePicker;
-            if (datePicker is not null && datePicker.Tag is not null)
-            {
-                if (datePicker.Tag.ToString() == nameof(CreateDate))
-                {
-                    CreateDate = args.NewDate;
-                }
-                else if (datePicker.Tag.ToString() == nameof(ModifyDate))
-                {
-                    ModifyDate = args.NewDate;
-                }
-            }
-        }
-
         /// <summary>
         /// 设置拖动的数据的可视表示形式
         /// </summary>
@@ -235,6 +202,39 @@ namespace FileRenamer.Views.Pages
             {
                 deferral.Complete();
                 OperationFailedList.Clear();
+            }
+        }
+
+        public string LocalizeTotal(int count)
+        {
+            return string.Format(ResourceService.GetLocalized("FileProperties/Total"), FilePropertiesDataList.Count);
+        }
+
+        /// <summary>
+        /// 清空列表
+        /// </summary>
+        public void OnClearListClicked(object sender, RoutedEventArgs args)
+        {
+            FilePropertiesDataList.Clear();
+            OperationFailedList.Clear();
+        }
+
+        /// <summary>
+        /// 日期更改时触发的事件
+        /// </summary>
+        public void OnDateChanged(object sender, DatePickerValueChangedEventArgs args)
+        {
+            DatePicker datePicker = sender as DatePicker;
+            if (datePicker is not null && datePicker.Tag is not null)
+            {
+                if (datePicker.Tag.ToString() == nameof(CreateDate))
+                {
+                    CreateDate = args.NewDate;
+                }
+                else if (datePicker.Tag.ToString() == nameof(ModifyDate))
+                {
+                    ModifyDate = args.NewDate;
+                }
             }
         }
 

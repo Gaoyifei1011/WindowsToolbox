@@ -103,6 +103,8 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
     <PackageReference Include="Mile.Xaml" Version="2.1.661" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    
+    <Reference Include="Microsoft.CSharp" />
 
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -116,8 +118,5 @@
     </EmbeddedResource>
 
     <None Update="Assets\FileRenamer.ico" />
-
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.VisualBasic" />
   </ItemGroup>
 </Project>

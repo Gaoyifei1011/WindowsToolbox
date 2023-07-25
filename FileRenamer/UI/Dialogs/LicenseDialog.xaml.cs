@@ -1,13 +1,13 @@
-﻿using FileRenamer.Views.CustomControls.DialogsAndFlyouts;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Text;
+using Windows.UI.Xaml.Controls;
 
 namespace FileRenamer.UI.Dialogs
 {
     /// <summary>
     /// 许可证文字内容对话框
     /// </summary>
-    public sealed partial class LicenseDialog : ExtendedContentDialog, INotifyPropertyChanged
+    public sealed partial class LicenseDialog : ContentDialog, INotifyPropertyChanged
     {
         private string _licenseText;
 

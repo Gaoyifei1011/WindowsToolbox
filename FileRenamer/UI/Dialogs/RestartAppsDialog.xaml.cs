@@ -1,5 +1,4 @@
-﻿using FileRenamer.Views.CustomControls.DialogsAndFlyouts;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
 
 namespace FileRenamer.UI.Dialogs
@@ -7,7 +6,7 @@ namespace FileRenamer.UI.Dialogs
     /// <summary>
     /// 应用重启对话框
     /// </summary>
-    public sealed partial class RestartAppsDialog : ExtendedContentDialog
+    public sealed partial class RestartAppsDialog : ContentDialog
     {
         public RestartAppsDialog()
         {
