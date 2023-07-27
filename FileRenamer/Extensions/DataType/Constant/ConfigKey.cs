@@ -9,6 +9,10 @@
 
         public const string LanguageKey = "AppLanguage";
 
+        public const string OpenFolderKey = "OpenFolderValue";
+
         public const string ThemeKey = "AppTheme";
+
+        public const string TopMostKey = "TopMostValue";
     }
 }

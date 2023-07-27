@@ -2,6 +2,7 @@
 using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Services.Controls.Settings.Appearance;
+using FileRenamer.Services.Controls.Settings.Common;
 using FileRenamer.Services.Window;
 using FileRenamer.UI.Notifications;
 using System;
@@ -62,6 +63,32 @@ namespace FileRenamer.Views.Pages
             }
         }
 
+        private bool _topMostValue = TopMostService.TopMostValue;
+
+        public bool TopMostValue
+        {
+            get { return _topMostValue; }
+
+            set
+            {
+                _topMostValue = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _openFolderValue = TopMostService.TopMostValue;
+
+        public bool OpenFolderValue
+        {
+            get { return _openFolderValue; }
+
+            set
+            {
+                _openFolderValue = value;
+                OnPropertyChanged();
+            }
+        }
+
         public List<ThemeModel> ThemeList { get; } = ThemeService.ThemeList;
 
         public List<BackdropModel> BackdropList { get; } = BackdropService.BackdropList;
@@ -75,6 +102,44 @@ namespace FileRenamer.Views.Pages
             InitializeComponent();
             int BuildNumber = InfoHelper.SystemVersion.Build;
             CanUseBackdrop = BuildNumber >= 22621;
+
+            for (int index = 0; index < LanguageList.Count; index++)
+            {
+                LanguageModel languageItem = LanguageList[index];
+                ToggleMenuFlyoutItem toggleMenuFlyoutItem = new ToggleMenuFlyoutItem()
+                {
+                    Text = languageItem.DisplayName,
+                    Style = ResourceDictionaryHelper.MenuFlyoutResourceDict["ToggleMenuFlyoutItemStyle"] as Style,
+                    Tag = index
+                };
+                if (AppLanguage.InternalName == LanguageList[index].InternalName)
+                {
+                    toggleMenuFlyoutItem.IsChecked = true;
+                }
+
+                toggleMenuFlyoutItem.Click += async (sender, args) =>
+                {
+                    foreach (MenuFlyoutItemBase menuFlyoutItemBase in LanguageFlyout.Items)
+                    {
+                        ToggleMenuFlyoutItem toggleMenuFlyoutItem = menuFlyoutItemBase as ToggleMenuFlyoutItem;
+                        if (toggleMenuFlyoutItem is not null && toggleMenuFlyoutItem.IsChecked)
+                        {
+                            toggleMenuFlyoutItem.IsChecked = false;
+                        }
+                    }
+
+                    int selectedIndex = Convert.ToInt32((sender as ToggleMenuFlyoutItem).Tag);
+                    (LanguageFlyout.Items[selectedIndex] as ToggleMenuFlyoutItem).IsChecked = true;
+
+                    if (AppLanguage.InternalName != LanguageList[selectedIndex].InternalName)
+                    {
+                        AppLanguage = LanguageList[selectedIndex];
+                        await LanguageService.SetLanguageAsync(AppLanguage);
+                        new LanguageChangeNotification(this).Show();
+                    }
+                };
+                LanguageFlyout.Items.Add(toggleMenuFlyoutItem);
+            }
         }
 
         public bool IsItemChecked(string selectedInternalName, string internalName)
@@ -141,6 +206,14 @@ namespace FileRenamer.Views.Pages
         }
 
         /// <summary>
+        /// 打开系统主题色设置
+        /// </summary>
+        public void OnSettingsBackdropClicked(object sender, RoutedEventArgs args)
+        {
+            Process.Start("explorer.exe", "ms-settings:easeofaccess-visualeffects");
+        }
+
+        /// <summary>
         /// 主题修改设置
         /// </summary>
         public async void OnThemeSelectClicked(object sender, RoutedEventArgs args)
@@ -151,6 +224,33 @@ namespace FileRenamer.Views.Pages
                 Theme = ThemeList[Convert.ToInt32(item.Tag)];
                 await ThemeService.SetThemeAsync(Theme);
                 ThemeService.SetWindowTheme();
+            }
+        }
+
+        /// <summary>
+        /// 是否开启应用窗口置顶
+        /// </summary>
+        public async void OnTopMostToggled(object sender, RoutedEventArgs args)
+        {
+            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+            if (toggleSwitch is not null)
+            {
+                await TopMostService.SetTopMostValueAsync(toggleSwitch.IsOn);
+                TopMostService.SetAppTopMost();
+                TopMostValue = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 是否在修改完成后打开对应的文件夹
+        /// </summary>
+        public async void OnOpenFolderToggled(object sender, RoutedEventArgs args)
+        {
+            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+            if (toggleSwitch is not null)
+            {
+                await OpenFolderService.SetOpenFolderValueAsync(toggleSwitch.IsOn);
+                OpenFolderValue = toggleSwitch.IsOn;
             }
         }
 

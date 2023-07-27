@@ -153,11 +153,11 @@
   <data name="ReadOnly" xml:space="preserve">
     <value>只读</value>
   </data>
+  <data name="SelectFile" xml:space="preserve">
+    <value>选择文件</value>
+  </data>
   <data name="SelectFolder" xml:space="preserve">
     <value>选择文件夹</value>
-  </data>
-  <data name="SortList" xml:space="preserve">
-    <value>排序列表</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>系统</value>

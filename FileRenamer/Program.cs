@@ -1,5 +1,6 @@
 ﻿using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Controls.Settings.Appearance;
+using FileRenamer.Services.Controls.Settings.Common;
 using FileRenamer.Services.Root;
 using FileRenamer.Views.Forms;
 using FileRenamer.WindowsAPI.PInvoke.User32;
@@ -175,6 +176,9 @@ namespace FileRenamer
 
             await BackdropService.InitializeBackdropAsync();
             await ThemeService.InitializeAsync();
+            await TopMostService.InitializeTopMostValueAsync();
+
+            await OpenFolderService.InitializeOpenFolderValueAsync();
         }
     }
 }

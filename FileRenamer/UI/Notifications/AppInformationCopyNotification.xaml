@@ -3,11 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:fileRenamer="using:FileRenamer"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:notification="using:FileRenamer.Views.CustomControls.Notifications"
     xmlns:root="using:FileRenamer.Services.Root"
-    RequestedTheme="{x:Bind fileRenamer:Program.MainWindow.MainPage.WindowTheme, Mode=OneWay}"
     mc:Ignorable="d">
 
     <TextBlock Foreground="{ThemeResource SystemFillColorSuccessBrush}" Text="{x:Bind root:ResourceService.GetLocalized('Notification/CopyAppInformation')}" />

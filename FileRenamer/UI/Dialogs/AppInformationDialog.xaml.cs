@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Controls;
 namespace FileRenamer.UI.Dialogs.About
 {
     /// <summary>
-    /// Ó¦ÓÃĞÅÏ¢¶Ô»°¿ò
+    /// åº”ç”¨ä¿¡æ¯å¯¹è¯æ¡†
     /// </summary>
     public sealed partial class AppInformationDialog : ContentDialog, INotifyPropertyChanged
     {
@@ -72,12 +72,12 @@ namespace FileRenamer.UI.Dialogs.About
             FileVersionInfo MileXamlFile = FileVersionInfo.GetVersionInfo(Path.Combine(AppContext.BaseDirectory, @"Mile.Xaml.Managed.dll"));
             MileXamlVersion = MileXamlFile.FileVersion;
 
-            // .NET °æ±¾ĞÅÏ¢
+            // .NET ç‰ˆæœ¬ä¿¡æ¯
             DoNetVersion = Convert.ToString(RuntimeInformation.FrameworkDescription.Remove(0, 15));
         }
 
         /// <summary>
-        /// ¸´ÖÆÓ¦ÓÃĞÅÏ¢
+        /// å¤åˆ¶åº”ç”¨ä¿¡æ¯
         /// </summary>
         public void OnCopyAppInformationClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {

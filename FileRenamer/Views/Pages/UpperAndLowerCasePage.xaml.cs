@@ -1,7 +1,9 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
+using FileRenamer.Helpers.Controls;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Services.Root;
+using FileRenamer.UI.Dialogs;
 using FileRenamer.UI.Notifications;
 using System;
 using System.Collections.Generic;
@@ -37,7 +39,7 @@ namespace FileRenamer.Views.Pages
 
         public ObservableCollection<OldAndNewNameModel> UpperAndLowerCaseDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
 
-        public ObservableCollection<Tuple<OldAndNewNameModel, Exception>> OperationFailedList { get; } = new ObservableCollection<Tuple<OldAndNewNameModel, Exception>>();
+        public ObservableCollection<OperationFailedModel> OperationFailedList { get; } = new ObservableCollection<OperationFailedModel>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -173,6 +175,39 @@ namespace FileRenamer.Views.Pages
         }
 
         /// <summary>
+        /// 选择文件
+        /// </summary>
+        public void OnSelectFileClicked(object sender, RoutedEventArgs args)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = true;
+            dialog.Title = ResourceService.GetLocalized("FileName/SelectFile");
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                foreach (string fileName in dialog.FileNames)
+                {
+                    try
+                    {
+                        FileInfo file = new FileInfo(fileName);
+                        if ((file.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+                        {
+                            continue;
+                        }
+                        UpperAndLowerCaseDataList.Add(new OldAndNewNameModel()
+                        {
+                            OriginalFileName = file.Name,
+                            OriginalFilePath = file.FullName
+                        });
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// 选择文件夹
         /// </summary>
         public void OnSelectFolderClicked(object sender, RoutedEventArgs args)
@@ -243,6 +278,14 @@ namespace FileRenamer.Views.Pages
                     SelectedType = UpperAndLowerSelectedType.None;
                 }
             }
+        }
+
+        /// <summary>
+        /// 查看修改失败的文件错误信息
+        /// </summary>
+        public async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
+        {
+            await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedList), this);
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -396,7 +439,12 @@ namespace FileRenamer.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            OperationFailedList.Add(new Tuple<OldAndNewNameModel, Exception>(item, e));
+                            OperationFailedList.Add(new OperationFailedModel()
+                            {
+                                FileName = item.OriginalFileName,
+                                FilePath = item.OriginalFilePath,
+                                Exception = e
+                            });
                         }
                     }
                     else
@@ -407,7 +455,12 @@ namespace FileRenamer.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            OperationFailedList.Add(new Tuple<OldAndNewNameModel, Exception>(item, e));
+                            OperationFailedList.Add(new OperationFailedModel()
+                            {
+                                FileName = item.OriginalFileName,
+                                FilePath = item.OriginalFilePath,
+                                Exception = e
+                            });
                         }
                     }
                 }

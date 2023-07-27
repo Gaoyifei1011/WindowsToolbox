@@ -90,6 +90,7 @@ namespace FileRenamer.Views.Forms
 
             ThemeService.SetWindowTheme();
             BackdropService.SetAppBackdrop(Handle);
+            TopMostService.SetAppTopMost();
 
             SetAppTheme();
         }

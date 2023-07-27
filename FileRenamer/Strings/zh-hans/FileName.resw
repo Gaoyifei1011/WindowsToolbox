@@ -276,11 +276,11 @@
   <data name="ReplaceStringPlaceHolderText" xml:space="preserve">
     <value>请输入替换内容</value>
   </data>
+  <data name="SelectFile" xml:space="preserve">
+    <value>选择文件</value>
+  </data>
   <data name="SelectFolder" xml:space="preserve">
     <value>选择文件夹</value>
-  </data>
-  <data name="SortList" xml:space="preserve">
-    <value>排序列表</value>
   </data>
   <data name="StartNumber" xml:space="preserve">
     <value>起始编号</value>

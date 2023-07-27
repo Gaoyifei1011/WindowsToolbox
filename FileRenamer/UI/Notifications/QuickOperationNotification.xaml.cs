@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 namespace FileRenamer.UI.Notifications
 {
     /// <summary>
-    /// 快捷操作应用内通知
+    /// 蹇嵎鎿嶄綔搴旂敤鍐呴�氱煡
     /// </summary>
     public sealed partial class QuickOperationNotification : InAppNotification, INotifyPropertyChanged
     {

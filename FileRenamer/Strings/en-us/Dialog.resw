@@ -129,11 +129,38 @@
   <data name="CloseDialog" xml:space="preserve">
     <value>Close dialog</value>
   </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="CopyAll" xml:space="preserve">
+    <value>Copy all information</value>
+  </data>
   <data name="CopyAppInformation" xml:space="preserve">
     <value>Copy app information</value>
   </data>
   <data name="DoNetVersion" xml:space="preserve">
     <value>.NET Framework version:</value>
+  </data>
+  <data name="ErrorCode" xml:space="preserve">
+    <value>Error code</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Error message</value>
+  </data>
+  <data name="ExceptionCode" xml:space="preserve">
+    <value>Exception code（HResult）:</value>
+  </data>
+  <data name="ExceptionMessage" xml:space="preserve">
+    <value>Exception message:</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>File name</value>
+  </data>
+  <data name="FileNameCopy" xml:space="preserve">
+    <value>File name:</value>
+  </data>
+  <data name="FilePathCopy" xml:space="preserve">
+    <value>File path:</value>
   </data>
   <data name="License" xml:space="preserve">
     <value>FileRenamer License</value>
@@ -143,6 +170,12 @@
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="OperationFailed" xml:space="preserve">
+    <value>Error message list</value>
   </data>
   <data name="Restart" xml:space="preserve">
     <value>Application restart</value>

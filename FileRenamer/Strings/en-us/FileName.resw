@@ -276,11 +276,11 @@
   <data name="ReplaceStringPlaceHolderText" xml:space="preserve">
     <value>Please input replace content</value>
   </data>
+  <data name="SelectFile" xml:space="preserve">
+    <value>Select file</value>
+  </data>
   <data name="SelectFolder" xml:space="preserve">
     <value>Select folder</value>
-  </data>
-  <data name="SortList" xml:space="preserve">
-    <value>Sort list</value>
   </data>
   <data name="StartNumber" xml:space="preserve">
     <value>Start number</value>

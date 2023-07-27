@@ -135,6 +135,12 @@
   <data name="NoOperation" xml:space="preserve">
     <value>请至少选择一个选项或输入内容后进行操作</value>
   </data>
+  <data name="OperationFailedCopy" xml:space="preserve">
+    <value>该条错误信息已经成功复制到剪贴板</value>
+  </data>
+  <data name="OperationFailedSelectedCopy" xml:space="preserve">
+    <value>{0}条错误信息已经成功复制到剪贴板</value>
+  </data>
   <data name="OperationResultFailed" xml:space="preserve">
     <value>列表中的{0}个文件修改成功，{1}个文件修改失败</value>
   </data>

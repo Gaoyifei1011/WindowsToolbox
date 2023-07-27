@@ -3,12 +3,10 @@ using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Services.Root;
 using FileRenamer.UI.Dialogs.About;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -77,27 +75,11 @@ namespace FileRenamer.Views.Pages
         }
 
         /// <summary>
-        /// 应用设置
-        /// </summary>
-        public async void OnAppSettingsClicked(object sender, RoutedEventArgs args)
-        {
-            await Launcher.LaunchUriAsync(new Uri("ms-settings:appsfeatures-app"));
-        }
-
-        /// <summary>
         /// 检查更新
         /// </summary>
         public void OnCheckUpdateClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "https://github.com/Gaoyifei1011/FileRenamer/releases");
-        }
-
-        /// <summary>
-        /// 开发者个人信息
-        /// </summary>
-        public void OnDeveloperDescriptionClicked(object sender, RoutedEventArgs args)
-        {
-            Process.Start("explorer.exe", "https://github.com/Gaoyifei1011");
         }
 
         /// <summary>

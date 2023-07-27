@@ -135,6 +135,12 @@
   <data name="NoOperation" xml:space="preserve">
     <value>Please select at least one option or enter the content before proceeding</value>
   </data>
+  <data name="OperationFailedCopy" xml:space="preserve">
+    <value>This error message has been successfully copied to the clipboard</value>
+  </data>
+  <data name="OperationFailedSelectedCopy" xml:space="preserve">
+    <value>The {0} error message was successfully copied to the clipboard</value>
+  </data>
   <data name="OperationResultFailed" xml:space="preserve">
     <value>{0} files in the list were modified successfully, and {1} files failed to be modified</value>
   </data>

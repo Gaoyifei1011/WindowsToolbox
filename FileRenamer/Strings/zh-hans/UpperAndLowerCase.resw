@@ -162,11 +162,11 @@
   <data name="ReplaceSpace" xml:space="preserve">
     <value>替换文件名空格为"_"</value>
   </data>
+  <data name="SelectFile" xml:space="preserve">
+    <value>选择文件</value>
+  </data>
   <data name="SelectFolder" xml:space="preserve">
     <value>选择文件夹</value>
-  </data>
-  <data name="SortList" xml:space="preserve">
-    <value>排序列表</value>
   </data>
   <data name="Total" xml:space="preserve">
     <value>总计：{0}</value>

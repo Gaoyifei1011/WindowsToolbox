@@ -30,6 +30,9 @@
   <PropertyGroup Condition="'$(Platform)'=='ARM64'">
     <RuntimeIdentifier>win10-arm64</RuntimeIdentifier>
   </PropertyGroup>
+  <ItemGroup>
+    <PRIResource Remove="Resources\Notification.resw" />
+  </ItemGroup>
 
   <ItemGroup>
     <ApplicationDefinition Update="App.xaml" Generator="MSBuild:Compile" />
@@ -101,6 +104,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
+    <None Include="Resources\Notification.resw" />
     <PackageReference Include="Mile.Xaml" Version="2.1.661" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     

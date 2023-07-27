@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Hosting;
 namespace FileRenamer.Views.CustomControls.Layout
 {
     /// <summary>
-    /// ×Ô¶¨ÒåµÄÀ©Õ¹Æ÷¿Ø¼þ
+    /// è‡ªå®šä¹‰çš„æ‰©å±•å™¨æŽ§ä»¶
     /// </summary>
     public partial class Expander : ContentControl
     {

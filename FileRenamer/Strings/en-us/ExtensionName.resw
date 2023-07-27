@@ -153,11 +153,11 @@
   <data name="Search" xml:space="preserve">
     <value>Search:</value>
   </data>
+  <data name="SelectFile" xml:space="preserve">
+    <value>Select file</value>
+  </data>
   <data name="SelectFolder" xml:space="preserve">
     <value>Select folder</value>
-  </data>
-  <data name="SortList" xml:space="preserve">
-    <value>Sort list</value>
   </data>
   <data name="Total" xml:space="preserve">
     <value>Total：{0}</value>
