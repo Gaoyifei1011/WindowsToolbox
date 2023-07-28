@@ -147,6 +147,9 @@
   <data name="ModifyDate" xml:space="preserve">
     <value>Modify date</value>
   </data>
+  <data name="ModifyingNow" xml:space="preserve">
+    <value>Modifying now,please wait......</value>
+  </data>
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
   </data>

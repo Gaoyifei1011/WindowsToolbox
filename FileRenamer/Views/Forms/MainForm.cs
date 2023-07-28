@@ -1,6 +1,9 @@
-﻿using FileRenamer.Helpers.Root;
-using FileRenamer.Services.Controls.Settings.Appearance;
+﻿using FileRenamer.Helpers.Controls;
+using FileRenamer.Helpers.Root;
+using FileRenamer.Services.Controls.Settings;
 using FileRenamer.Services.Root;
+using FileRenamer.Services.Window;
+using FileRenamer.UI.Dialogs;
 using FileRenamer.Views.Pages;
 using FileRenamer.WindowsAPI.PInvoke.DwmApi;
 using FileRenamer.WindowsAPI.PInvoke.User32;
@@ -64,7 +67,7 @@ namespace FileRenamer.Views.Forms
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (components is not null))
             {
                 components.Dispose();
             }
@@ -78,7 +81,6 @@ namespace FileRenamer.Views.Forms
         {
             base.OnFormClosing(args);
             AllowTransparency = false;
-            Program.ApplicationRoot.CloseApp(false);
         }
 
         /// <summary>
@@ -151,36 +153,12 @@ namespace FileRenamer.Views.Forms
         {
             switch (m.Msg)
             {
-                case (int)WindowMessage.WM_DPICHANGED:
-                    {
-                        Size = new Size(
-                        Convert.ToInt32(windowWidth * User32Library.GetDpiForWindow(Handle) / 96.0),
-                        Convert.ToInt32(windowHeight * User32Library.GetDpiForWindow(Handle) / 96.0)
-                        );
-
-                        break;
-                    }
                 // 系统设置发生变化时的消息
                 case (int)WindowMessage.WM_SETTINGCHANGE:
                     {
                         SetAppTheme();
                         RefreshWindowState();
                         MessageReceived?.Invoke(m);
-                        break;
-                    }
-                // 选择窗口右键菜单的条目时接收到的消息
-                case (int)WindowMessage.WM_SYSCOMMAND:
-                    {
-                        SystemCommand sysCommand = (SystemCommand)(m.WParam.ToInt32() & 0xFFF0);
-
-                        if (sysCommand == SystemCommand.SC_MOUSEMENU || sysCommand == SystemCommand.SC_KEYMENU)
-                        {
-                            FlyoutShowOptions options = new FlyoutShowOptions();
-                            options.Position = new Windows.Foundation.Point(0, 0);
-                            options.ShowMode = FlyoutShowMode.Standard;
-                            MainPage.TitlebarMenuFlyout.ShowAt(null, options);
-                            return;
-                        }
                         break;
                     }
                 // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
@@ -202,6 +180,59 @@ namespace FileRenamer.Views.Forms
                         options.Position = InfoHelper.SystemVersion.Build >= 22000 ? new Windows.Foundation.Point(DPICalcHelper.ConvertPixelToEpx(Handle, ms.X - Location.X - 8), DPICalcHelper.ConvertPixelToEpx(Handle, ms.Y - Location.Y - 32)) : new Windows.Foundation.Point(ms.X - Location.X, ms.Y - Location.Y - 32);
                         MainPage.TitlebarMenuFlyout.ShowAt(null, options);
                         return;
+                    }
+                case (int)WindowMessage.WM_COPYDATA:
+                    {
+                        COPYDATASTRUCT copyDataStruct = Marshal.PtrToStructure<COPYDATASTRUCT>(m.LParam);
+
+                        if (copyDataStruct.lpData is "AppIsRunning")
+                        {
+                            BeginInvoke(async () =>
+                            {
+                                await ContentDialogHelper.ShowAsync(new AppRunningDialog(), MainPage);
+                            });
+                        }
+                        else if (copyDataStruct.lpData is "FileName")
+                        {
+                            NavigationService.NavigateTo(typeof(FileNamePage));
+                        }
+                        else if (copyDataStruct.lpData is "ExtensionName")
+                        {
+                            NavigationService.NavigateTo(typeof(ExtensionNamePage));
+                        }
+                        else if (copyDataStruct.lpData is "UpperAndLowerCase")
+                        {
+                            NavigationService.NavigateTo(typeof(UpperAndLowerCasePage));
+                        }
+                        else if (copyDataStruct.lpData is "FileProperties")
+                        {
+                            NavigationService.NavigateTo(typeof(FilePropertiesPage));
+                        }
+                        break;
+                    };
+                // 选择窗口右键菜单的条目时接收到的消息
+                case (int)WindowMessage.WM_SYSCOMMAND:
+                    {
+                        SystemCommand sysCommand = (SystemCommand)(m.WParam.ToInt32() & 0xFFF0);
+
+                        if (sysCommand is SystemCommand.SC_MOUSEMENU || sysCommand is SystemCommand.SC_KEYMENU)
+                        {
+                            FlyoutShowOptions options = new FlyoutShowOptions();
+                            options.Position = new Windows.Foundation.Point(0, 0);
+                            options.ShowMode = FlyoutShowMode.Standard;
+                            MainPage.TitlebarMenuFlyout.ShowAt(null, options);
+                            return;
+                        }
+                        break;
+                    }
+                case (int)WindowMessage.WM_DPICHANGED:
+                    {
+                        Size = new Size(
+                        Convert.ToInt32(windowWidth * User32Library.GetDpiForWindow(Handle) / 96.0),
+                        Convert.ToInt32(windowHeight * User32Library.GetDpiForWindow(Handle) / 96.0)
+                        );
+
+                        break;
                     }
             }
 

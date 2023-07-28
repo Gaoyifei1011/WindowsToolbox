@@ -23,12 +23,12 @@ namespace FileRenamer.Helpers.Root
         /// </summary>
         public static void InitializeResourceDictionary()
         {
-            ExpanderResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[1];
-            HyperlinkButtonResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[2];
-            InAppNotificationResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[3];
-            ListViewResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[4];
-            MenuFlyoutResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[5];
-            ScrollBarResourceDict = Program.ApplicationRoot.Resources.MergedDictionaries[6];
+            ExpanderResourceDict = Application.Current.Resources.MergedDictionaries[1];
+            HyperlinkButtonResourceDict = Application.Current.Resources.MergedDictionaries[2];
+            InAppNotificationResourceDict = Application.Current.Resources.MergedDictionaries[3];
+            ListViewResourceDict = Application.Current.Resources.MergedDictionaries[4];
+            MenuFlyoutResourceDict = Application.Current.Resources.MergedDictionaries[5];
+            ScrollBarResourceDict = Application.Current.Resources.MergedDictionaries[6];
         }
     }
 }

@@ -147,6 +147,9 @@
   <data name="ModifyDate" xml:space="preserve">
     <value>修改日期</value>
   </data>
+  <data name="ModifyingNow" xml:space="preserve">
+    <value>正在修改中，请稍候...</value>
+  </data>
   <data name="Preview" xml:space="preserve">
     <value>预览</value>
   </data>

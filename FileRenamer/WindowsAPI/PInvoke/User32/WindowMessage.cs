@@ -1,7 +1,7 @@
 ﻿namespace FileRenamer.WindowsAPI.PInvoke.User32
 {
     /// <summary>
-    /// 窗口消息（，0x0400，0x0800）
+    /// 窗口消息（0x0000，0x0400，0x0800）
     /// 系统预留使用的消息 0x0000 - 0x03FF
     /// 被私有窗口类使用的消息 0x0400 - 0x07FF
     /// 被应用程序使用的消息 0x0800 - 0xBFFF

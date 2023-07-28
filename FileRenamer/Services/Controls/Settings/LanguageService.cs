@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Globalization;
 
-namespace FileRenamer.Services.Controls.Settings.Appearance
+namespace FileRenamer.Services.Controls.Settings
 {
     /// <summary>
     /// 应用语言设置服务

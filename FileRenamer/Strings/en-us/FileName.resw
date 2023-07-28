@@ -156,6 +156,9 @@
   <data name="ModifyDatePlaceHolder" xml:space="preserve">
     <value>&lt;N&gt; Represent modify date</value>
   </data>
+  <data name="ModifyingNow" xml:space="preserve">
+    <value>Modifying now,please wait......</value>
+  </data>
   <data name="NameChangeList1ChangedName1" xml:space="preserve">
     <value>My 1 file.jpg</value>
   </data>

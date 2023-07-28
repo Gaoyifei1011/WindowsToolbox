@@ -1,8 +1,7 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
-using FileRenamer.Services.Controls.Settings.Appearance;
-using FileRenamer.Services.Controls.Settings.Common;
+using FileRenamer.Services.Controls.Settings;
 using FileRenamer.Services.Window;
 using FileRenamer.UI.Notifications;
 using System;
@@ -12,8 +11,6 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
 
 namespace FileRenamer.Views.Pages
 {
@@ -72,19 +69,6 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _topMostValue = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private bool _openFolderValue = TopMostService.TopMostValue;
-
-        public bool OpenFolderValue
-        {
-            get { return _openFolderValue; }
-
-            set
-            {
-                _openFolderValue = value;
                 OnPropertyChanged();
             }
         }
@@ -162,39 +146,11 @@ namespace FileRenamer.Views.Pages
         }
 
         /// <summary>
-        /// 组合框打开时设置对应的主题色
-        /// </summary>
-        public void OnDropDownOpened(object sender, object args)
-        {
-            IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(Program.MainWindow.MainPage.XamlRoot);
-            foreach (Popup popup in PopupRoot)
-            {
-                if (popup.Child as Canvas is not null)
-                {
-                    (popup.Child as Canvas).RequestedTheme = Program.MainWindow.MainPage.WindowTheme;
-                }
-            }
-        }
-
-        /// <summary>
         /// 语言设置说明
         /// </summary>
         public void OnLanguageTipClicked(object sender, RoutedEventArgs args)
         {
             NavigationService.NavigateTo(typeof(AboutPage), AppNaviagtionArgs.SettingsHelp);
-        }
-
-        /// <summary>
-        /// 应用默认语言修改
-        /// </summary>
-        public async void OnSelectionChanged(object sender, SelectionChangedEventArgs args)
-        {
-            if (args.RemovedItems.Count > 0)
-            {
-                AppLanguage = args.AddedItems[0] as LanguageModel;
-                await LanguageService.SetLanguageAsync(AppLanguage);
-                new LanguageChangeNotification(this).Show();
-            }
         }
 
         /// <summary>
@@ -238,19 +194,6 @@ namespace FileRenamer.Views.Pages
                 await TopMostService.SetTopMostValueAsync(toggleSwitch.IsOn);
                 TopMostService.SetAppTopMost();
                 TopMostValue = toggleSwitch.IsOn;
-            }
-        }
-
-        /// <summary>
-        /// 是否在修改完成后打开对应的文件夹
-        /// </summary>
-        public async void OnOpenFolderToggled(object sender, RoutedEventArgs args)
-        {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-            if (toggleSwitch is not null)
-            {
-                await OpenFolderService.SetOpenFolderValueAsync(toggleSwitch.IsOn);
-                OpenFolderValue = toggleSwitch.IsOn;
             }
         }
 

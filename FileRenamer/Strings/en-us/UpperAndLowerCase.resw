@@ -150,6 +150,9 @@
   <data name="Modify" xml:space="preserve">
     <value>Modify</value>
   </data>
+  <data name="ModifyingNow" xml:space="preserve">
+    <value>Modifying now,please wait......</value>
+  </data>
   <data name="NewFileName" xml:space="preserve">
     <value>New file (folder) name</value>
   </data>

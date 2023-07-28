@@ -11,7 +11,7 @@ namespace FileRenamer.Helpers.Root
         /// <summary>
         /// 有效像素值转换为实际的像素值
         /// </summary>
-        public static int ConvertEpxToPixel(nint hwnd, int effectivePixels)
+        public static int ConvertEpxToPixel(IntPtr hwnd, int effectivePixels)
         {
             float scalingFactor = GetScalingFactor(hwnd);
             return Convert.ToInt32(effectivePixels * scalingFactor);

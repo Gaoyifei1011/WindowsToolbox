@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace FileRenamer.Services.Controls.Settings.Appearance
+namespace FileRenamer.Services.Controls.Settings
 {
     /// <summary>
     /// 应用主题设置服务

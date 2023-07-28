@@ -156,6 +156,9 @@
   <data name="ModifyDatePlaceHolder" xml:space="preserve">
     <value>&lt;N&gt; 代表修改日期</value>
   </data>
+  <data name="ModifyingNow" xml:space="preserve">
+    <value>正在修改中，请稍候...</value>
+  </data>
   <data name="NameChangeList1ChangedName1" xml:space="preserve">
     <value>我的1文件.jpg</value>
   </data>

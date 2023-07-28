@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -24,6 +25,19 @@ namespace FileRenamer.Views.Pages
     /// </summary>
     public sealed partial class UpperAndLowerCasePage : Page, INotifyPropertyChanged
     {
+        private bool _isModifyingNow = false;
+
+        public bool IsModifyingNow
+        {
+            get { return _isModifyingNow; }
+
+            set
+            {
+                _isModifyingNow = value;
+                OnPropertyChanged();
+            }
+        }
+
         private UpperAndLowerSelectedType _selectedType = UpperAndLowerSelectedType.None;
 
         public UpperAndLowerSelectedType SelectedType
@@ -164,8 +178,6 @@ namespace FileRenamer.Views.Pages
                 {
                     PreviewChangedFileName();
                     ChangeFileName();
-                    new OperationResultNotification(this, UpperAndLowerCaseDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
-                    UpperAndLowerCaseDataList.Clear();
                 }
             }
             else
@@ -182,14 +194,14 @@ namespace FileRenamer.Views.Pages
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = true;
             dialog.Title = ResourceService.GetLocalized("FileName/SelectFile");
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (dialog.ShowDialog() is DialogResult.OK)
             {
                 foreach (string fileName in dialog.FileNames)
                 {
                     try
                     {
                         FileInfo file = new FileInfo(fileName);
-                        if ((file.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+                        if ((file.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                         {
                             continue;
                         }
@@ -217,7 +229,7 @@ namespace FileRenamer.Views.Pages
             dialog.ShowNewFolderButton = true;
             dialog.RootFolder = Environment.SpecialFolder.Desktop;
             DialogResult result = dialog.ShowDialog();
-            if (result == DialogResult.OK || result == DialogResult.Yes)
+            if (result is DialogResult.OK || result is DialogResult.Yes)
             {
                 OperationFailedList.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
@@ -228,7 +240,7 @@ namespace FileRenamer.Views.Pages
                     {
                         foreach (DirectoryInfo subFolder in currentFolder.GetDirectories())
                         {
-                            if ((subFolder.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+                            if ((subFolder.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
                             }
@@ -247,7 +259,7 @@ namespace FileRenamer.Views.Pages
                     {
                         foreach (FileInfo subFile in currentFolder.GetFiles())
                         {
-                            if ((subFile.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+                            if ((subFile.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
                             }
@@ -298,7 +310,7 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         private bool CheckOperationState()
         {
-            if (SelectedType == UpperAndLowerSelectedType.None)
+            if (SelectedType is UpperAndLowerSelectedType.None)
             {
                 return false;
             }
@@ -427,44 +439,63 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         private void ChangeFileName()
         {
-            foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
+            List<OperationFailedModel> operationFailedList = new List<OperationFailedModel>();
+            IsModifyingNow = true;
+            Task.Run(async () =>
             {
-                if (!string.IsNullOrEmpty(item.OriginalFileName) && !string.IsNullOrEmpty(item.OriginalFilePath))
+                foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
                 {
-                    if (IOHelper.IsDir(item.OriginalFilePath))
+                    if (!string.IsNullOrEmpty(item.OriginalFileName) && !string.IsNullOrEmpty(item.OriginalFilePath))
                     {
-                        try
+                        if (IOHelper.IsDir(item.OriginalFilePath))
                         {
-                            Directory.Move(item.OriginalFilePath, item.NewFilePath);
-                        }
-                        catch (Exception e)
-                        {
-                            OperationFailedList.Add(new OperationFailedModel()
+                            try
                             {
-                                FileName = item.OriginalFileName,
-                                FilePath = item.OriginalFilePath,
-                                Exception = e
-                            });
-                        }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            File.Move(item.OriginalFilePath, item.NewFilePath);
-                        }
-                        catch (Exception e)
-                        {
-                            OperationFailedList.Add(new OperationFailedModel()
+                                Directory.Move(item.OriginalFilePath, item.NewFilePath);
+                            }
+                            catch (Exception e)
                             {
-                                FileName = item.OriginalFileName,
-                                FilePath = item.OriginalFilePath,
-                                Exception = e
-                            });
+                                operationFailedList.Add(new OperationFailedModel()
+                                {
+                                    FileName = item.OriginalFileName,
+                                    FilePath = item.OriginalFilePath,
+                                    Exception = e
+                                });
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                File.Move(item.OriginalFilePath, item.NewFilePath);
+                            }
+                            catch (Exception e)
+                            {
+                                operationFailedList.Add(new OperationFailedModel()
+                                {
+                                    FileName = item.OriginalFileName,
+                                    FilePath = item.OriginalFilePath,
+                                    Exception = e
+                                });
+                            }
                         }
                     }
                 }
-            }
+
+                await Task.Delay(300);
+
+                Program.MainWindow.BeginInvoke(() =>
+                {
+                    IsModifyingNow = false;
+                    foreach (OperationFailedModel item in operationFailedList)
+                    {
+                        OperationFailedList.Add(item);
+                    }
+
+                    new OperationResultNotification(this, UpperAndLowerCaseDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
+                    UpperAndLowerCaseDataList.Clear();
+                });
+            });
         }
     }
 }

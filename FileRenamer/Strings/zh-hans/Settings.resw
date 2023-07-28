@@ -138,9 +138,6 @@
   <data name="BackdropMicaAlt" xml:space="preserve">
     <value>云母（Alt）</value>
   </data>
-  <data name="General" xml:space="preserve">
-    <value>常规选项</value>
-  </data>
   <data name="Language" xml:space="preserve">
     <value>界面语言</value>
   </data>
@@ -149,18 +146,6 @@
   </data>
   <data name="LanguageToolTip" xml:space="preserve">
     <value>帮助</value>
-  </data>
-  <data name="OpenFolder" xml:space="preserve">
-    <value>自动打开文件夹</value>
-  </data>
-  <data name="OpenFolderDescription" xml:space="preserve">
-    <value>是否在修改完成后自动打开对应的文件夹</value>
-  </data>
-  <data name="OpenFolderOffContent" xml:space="preserve">
-    <value>关闭</value>
-  </data>
-  <data name="OpenFolderOnContent" xml:space="preserve">
-    <value>开启</value>
   </data>
   <data name="ThemeDark" xml:space="preserve">
     <value>深色</value>

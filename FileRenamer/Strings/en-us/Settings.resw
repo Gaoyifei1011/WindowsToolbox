@@ -138,9 +138,6 @@
   <data name="BackdropMicaAlt" xml:space="preserve">
     <value>Mica alt</value>
   </data>
-  <data name="General" xml:space="preserve">
-    <value>General Options</value>
-  </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>
@@ -149,18 +146,6 @@
   </data>
   <data name="LanguageToolTip" xml:space="preserve">
     <value>Help</value>
-  </data>
-  <data name="OpenFolder" xml:space="preserve">
-    <value>Open folder automatically</value>
-  </data>
-  <data name="OpenFolderDescription" xml:space="preserve">
-    <value>Whether to automatically open the folder after the modification is completed</value>
-  </data>
-  <data name="OpenFolderOffContent" xml:space="preserve">
-    <value>Closed</value>
-  </data>
-  <data name="OpenFolderOnContent" xml:space="preserve">
-    <value>Opened</value>
   </data>
   <data name="ThemeDark" xml:space="preserve">
     <value>Dark</value>

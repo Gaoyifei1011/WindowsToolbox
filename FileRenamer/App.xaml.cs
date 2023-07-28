@@ -1,15 +1,17 @@
-﻿using FileRenamer.Extensions.DataType.Enums;
-using FileRenamer.Helpers.Root;
-using FileRenamer.Services.Root;
+﻿using FileRenamer.Services.Root;
 using Mile.Xaml;
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
 namespace FileRenamer
 {
-    public sealed partial class App : Windows.UI.Xaml.Application
+    public partial class App : Windows.UI.Xaml.Application, IDisposable
     {
+        private bool isDisposed;
+
         public App()
         {
             this.ThreadInitialize();
@@ -22,6 +24,15 @@ namespace FileRenamer
         /// </summary>
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs args)
         {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("HelpLink:" + args.Exception.HelpLink);
+            stringBuilder.AppendLine("HResult:" + args.Exception.HResult);
+            stringBuilder.AppendLine("Message:" + args.Exception.Message);
+            stringBuilder.AppendLine("Source:" + args.Exception.Source);
+            stringBuilder.AppendLine("StackTrace:" + args.Exception.StackTrace);
+
+            File.AppendAllText(Path.Combine(Program.ErrorFileFolderPath, "ErrorInformation.log"), stringBuilder.ToString());
+
             DialogResult Result = MessageBox.Show(
                 ResourceService.GetLocalized("Resources/Title") + Environment.NewLine +
                 ResourceService.GetLocalized("Resources/Content1") + Environment.NewLine +
@@ -31,33 +42,50 @@ namespace FileRenamer
                 MessageBoxIcon.Error
                 );
 
-            // 复制异常信息到剪贴板
-            if (Result == DialogResult.OK)
+            // 打开资源管理器存放异常信息的文件目录
+            if (Result is DialogResult.OK)
             {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine("HelpLink:" + args.Exception.HelpLink);
-                stringBuilder.AppendLine("HResult:" + args.Exception.HResult);
-                stringBuilder.AppendLine("Message:" + args.Exception.Message);
-                stringBuilder.AppendLine("Source:" + args.Exception.Source);
-                stringBuilder.AppendLine("StackTrace:" + args.Exception.StackTrace);
-
-                CopyPasteHelper.CopyToClipBoard(stringBuilder.ToString());
+                Process.Start("explorer.exe", Program.ErrorFileFolderPath);
             }
-
-            return;
         }
 
         /// <summary>
         /// 关闭应用并释放所有资源
         /// </summary>
-        public void CloseApp(bool isRestart)
+        public void CloseApp()
         {
-            Program.AppMutex.Close();
-            Program.AppMutex.Dispose();
+            Program.MainWindow.Close();
             this.ThreadUninitialize();
-            if (!isRestart)
+            Environment.Exit(0);
+        }
+
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~App()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!isDisposed)
             {
-                Environment.Exit(Convert.ToInt32(AppExitCode.Successfully));
+                if (disposing)
+                {
+                    CloseApp();
+                }
+
+                isDisposed = true;
             }
         }
     }

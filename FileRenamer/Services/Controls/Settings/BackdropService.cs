@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FileRenamer.Services.Controls.Settings.Appearance
+namespace FileRenamer.Services.Controls.Settings
 {
     /// <summary>
     /// 应用背景色设置服务

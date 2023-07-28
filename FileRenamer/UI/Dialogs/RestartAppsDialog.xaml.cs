@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+﻿using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
 
 namespace FileRenamer.UI.Dialogs
@@ -18,8 +18,8 @@ namespace FileRenamer.UI.Dialogs
         /// </summary>
         public void OnRestartAppsClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            Program.ApplicationRoot.CloseApp(true);
-            Application.Restart();
+            Process.Start(Process.GetCurrentProcess().MainModule.FileName, "Restart");
+            Program.ApplicationRoot.Dispose();
         }
     }
 }

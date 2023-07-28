@@ -3,7 +3,7 @@ using FileRenamer.Services.Root;
 using System;
 using System.Threading.Tasks;
 
-namespace FileRenamer.Services.Controls.Settings.Appearance
+namespace FileRenamer.Services.Controls.Settings
 {
     /// <summary>
     /// 应用窗口置顶设置服务

@@ -109,7 +109,7 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         public void OnCloseClicked(object sender, RoutedEventArgs args)
         {
-            Program.MainWindow.Close();
+            Program.ApplicationRoot.Dispose();
         }
 
         /// <summary>
@@ -205,6 +205,23 @@ namespace FileRenamer.Views.Pages
                 SelectedItem = NavigationService.NavigationItemList[0].NavigationItem;
                 NavigationService.NavigateTo(typeof(FileNamePage));
                 IsBackEnabled = NavigationService.CanGoBack();
+            }
+
+            string[] arguments = Environment.GetCommandLineArgs();
+            if (arguments.Length is 2)
+            {
+                if (arguments[1] is "ExtensionName")
+                {
+                    NavigationService.NavigateTo(typeof(ExtensionNamePage));
+                }
+                else if (arguments[1] is "UpperAndLowerCase")
+                {
+                    NavigationService.NavigateTo(typeof(UpperAndLowerCasePage));
+                }
+                else if (arguments[1] is "FileProperties")
+                {
+                    NavigationService.NavigateTo(typeof(FilePropertiesPage));
+                }
             }
         }
 

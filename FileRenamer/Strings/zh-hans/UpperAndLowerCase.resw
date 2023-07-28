@@ -150,6 +150,9 @@
   <data name="Modify" xml:space="preserve">
     <value>修改</value>
   </data>
+  <data name="ModifyingNow" xml:space="preserve">
+    <value>正在修改中，请稍候...</value>
+  </data>
   <data name="NewFileName" xml:space="preserve">
     <value>新文件(夹)名称</value>
   </data>

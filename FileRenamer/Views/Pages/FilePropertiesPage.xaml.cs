@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -97,6 +98,19 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _isModifyDateChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isModifyingNow = false;
+
+        public bool IsModifyingNow
+        {
+            get { return _isModifyingNow; }
+
+            set
+            {
+                _isModifyingNow = value;
                 OnPropertyChanged();
             }
         }
@@ -282,8 +296,6 @@ namespace FileRenamer.Views.Pages
                 {
                     PreviewChangedFileAttributes();
                     ChangeFileAttributes();
-                    new OperationResultNotification(this, FilePropertiesDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
-                    FilePropertiesDataList.Clear();
                 }
             }
             else
@@ -300,14 +312,14 @@ namespace FileRenamer.Views.Pages
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = true;
             dialog.Title = ResourceService.GetLocalized("FileName/SelectFile");
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (dialog.ShowDialog() is DialogResult.OK)
             {
                 foreach (string fileName in dialog.FileNames)
                 {
                     try
                     {
                         FileInfo file = new FileInfo(fileName);
-                        if ((file.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+                        if ((file.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                         {
                             continue;
                         }
@@ -335,7 +347,7 @@ namespace FileRenamer.Views.Pages
             dialog.ShowNewFolderButton = true;
             dialog.RootFolder = Environment.SpecialFolder.Desktop;
             DialogResult result = dialog.ShowDialog();
-            if (result == DialogResult.OK || result == DialogResult.Yes)
+            if (result is DialogResult.OK || result is DialogResult.Yes)
             {
                 OperationFailedList.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
@@ -346,7 +358,7 @@ namespace FileRenamer.Views.Pages
                     {
                         foreach (DirectoryInfo subFolder in currentFolder.GetDirectories())
                         {
-                            if ((subFolder.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+                            if ((subFolder.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
                             }
@@ -365,7 +377,7 @@ namespace FileRenamer.Views.Pages
                     {
                         foreach (FileInfo subFile in currentFolder.GetFiles())
                         {
-                            if ((subFile.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+                            if ((subFile.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
                             }
@@ -441,7 +453,7 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         private bool CheckOperationState()
         {
-            if (IsReadOnlyChecked == false && IsArchiveChecked == false && IsCreateDateChecked == false && IsHideChecked == false && IsSystemChecked == false && IsModifyDateChecked == false)
+            if (IsReadOnlyChecked is false && IsArchiveChecked is false && IsCreateDateChecked is false && IsHideChecked is false && IsSystemChecked is false && IsModifyDateChecked is false)
             {
                 return false;
             }
@@ -499,39 +511,58 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         private void ChangeFileAttributes()
         {
-            foreach (OldAndNewPropertiesModel item in FilePropertiesDataList)
+            List<OperationFailedModel> operationFailedList = new List<OperationFailedModel>();
+            IsModifyingNow = true;
+            Task.Run(async () =>
             {
-                if (!string.IsNullOrEmpty(item.FileName) && !string.IsNullOrEmpty(item.FilePath))
+                foreach (OldAndNewPropertiesModel item in FilePropertiesDataList)
                 {
-                    try
+                    if (!string.IsNullOrEmpty(item.FileName) && !string.IsNullOrEmpty(item.FilePath))
                     {
-                        System.IO.FileAttributes fileAttributes = File.GetAttributes(item.FilePath);
-                        if (IsReadOnlyChecked) fileAttributes |= System.IO.FileAttributes.ReadOnly;
-                        if (IsArchiveChecked) fileAttributes |= System.IO.FileAttributes.Archive;
-                        if (IsHideChecked) fileAttributes |= System.IO.FileAttributes.Hidden;
-                        if (IsSystemChecked) fileAttributes |= System.IO.FileAttributes.System;
-                        File.SetAttributes(item.FilePath, fileAttributes);
+                        try
+                        {
+                            System.IO.FileAttributes fileAttributes = File.GetAttributes(item.FilePath);
+                            if (IsReadOnlyChecked) fileAttributes |= System.IO.FileAttributes.ReadOnly;
+                            if (IsArchiveChecked) fileAttributes |= System.IO.FileAttributes.Archive;
+                            if (IsHideChecked) fileAttributes |= System.IO.FileAttributes.Hidden;
+                            if (IsSystemChecked) fileAttributes |= System.IO.FileAttributes.System;
+                            File.SetAttributes(item.FilePath, fileAttributes);
 
-                        if (IsCreateDateChecked)
-                        {
-                            File.SetCreationTime(item.FilePath, CreateDate.Date + CreateTime);
+                            if (IsCreateDateChecked)
+                            {
+                                File.SetCreationTime(item.FilePath, CreateDate.Date + CreateTime);
+                            }
+                            if (IsModifyDateChecked)
+                            {
+                                File.SetLastWriteTime(item.FilePath, ModifyDate.Date + ModifyTime);
+                            }
                         }
-                        if (IsModifyDateChecked)
+                        catch (Exception e)
                         {
-                            File.SetLastWriteTime(item.FilePath, ModifyDate.Date + ModifyTime);
+                            operationFailedList.Add(new OperationFailedModel()
+                            {
+                                FileName = item.FileName,
+                                FilePath = item.FilePath,
+                                Exception = e
+                            });
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        OperationFailedList.Add(new OperationFailedModel()
-                        {
-                            FileName = item.FileName,
-                            FilePath = item.FilePath,
-                            Exception = e
-                        });
                     }
                 }
-            }
+
+                await Task.Delay(300);
+
+                Program.MainWindow.BeginInvoke(() =>
+                {
+                    IsModifyingNow = false;
+                    foreach (OperationFailedModel item in operationFailedList)
+                    {
+                        OperationFailedList.Add(item);
+                    }
+
+                    new OperationResultNotification(this, FilePropertiesDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
+                    FilePropertiesDataList.Clear();
+                });
+            });
         }
     }
 }

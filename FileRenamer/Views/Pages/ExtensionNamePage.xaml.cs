@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -24,6 +25,19 @@ namespace FileRenamer.Views.Pages
     /// </summary>
     public sealed partial class ExtensionNamePage : Page, INotifyPropertyChanged
     {
+        private bool _isModifyingNow = false;
+
+        public bool IsModifyingNow
+        {
+            get { return _isModifyingNow; }
+
+            set
+            {
+                _isModifyingNow = value;
+                OnPropertyChanged();
+            }
+        }
+
         private ExtensionNameSelectedType _selectedType = ExtensionNameSelectedType.None;
 
         public ExtensionNameSelectedType SelectedType
@@ -203,8 +217,6 @@ namespace FileRenamer.Views.Pages
                 {
                     PreviewChangedFileName();
                     ChangeFileName();
-                    new OperationResultNotification(this, ExtensionNameDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
-                    ExtensionNameDataList.Clear();
                 }
             }
             else
@@ -221,14 +233,14 @@ namespace FileRenamer.Views.Pages
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = true;
             dialog.Title = ResourceService.GetLocalized("FileName/SelectFile");
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (dialog.ShowDialog() is DialogResult.OK)
             {
                 foreach (string fileName in dialog.FileNames)
                 {
                     try
                     {
                         FileInfo file = new FileInfo(fileName);
-                        if ((file.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+                        if ((file.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                         {
                             continue;
                         }
@@ -256,7 +268,7 @@ namespace FileRenamer.Views.Pages
             dialog.ShowNewFolderButton = true;
             dialog.RootFolder = Environment.SpecialFolder.Desktop;
             DialogResult result = dialog.ShowDialog();
-            if (result == DialogResult.OK || result == DialogResult.Yes)
+            if (result is DialogResult.OK || result is DialogResult.Yes)
             {
                 OperationFailedList.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
@@ -267,7 +279,7 @@ namespace FileRenamer.Views.Pages
                     {
                         foreach (DirectoryInfo subFolder in currentFolder.GetDirectories())
                         {
-                            if ((subFolder.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+                            if ((subFolder.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
                             }
@@ -286,7 +298,7 @@ namespace FileRenamer.Views.Pages
                     {
                         foreach (FileInfo subFile in currentFolder.GetFiles())
                         {
-                            if ((subFile.Attributes & System.IO.FileAttributes.Hidden) == System.IO.FileAttributes.Hidden)
+                            if ((subFile.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
                             }
@@ -317,11 +329,11 @@ namespace FileRenamer.Views.Pages
                     SelectedType = ExtensionNameSelectedType.None;
                 }
 
-                if ((ExtensionNameSelectedType)Convert.ToInt32(checkBox.Tag) == ExtensionNameSelectedType.IsSameExtensionName)
+                if ((ExtensionNameSelectedType)Convert.ToInt32(checkBox.Tag) is ExtensionNameSelectedType.IsSameExtensionName)
                 {
                     ChangeToText = string.Empty;
                 }
-                else if ((ExtensionNameSelectedType)Convert.ToInt32(checkBox.Tag) == ExtensionNameSelectedType.IsFindAndReplaceExtensionName)
+                else if ((ExtensionNameSelectedType)Convert.ToInt32(checkBox.Tag) is ExtensionNameSelectedType.IsFindAndReplaceExtensionName)
                 {
                     SearchText = string.Empty;
                     ReplaceText = string.Empty;
@@ -347,7 +359,7 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         private bool CheckOperationState()
         {
-            if (SelectedType == ExtensionNameSelectedType.None)
+            if (SelectedType is ExtensionNameSelectedType.None)
             {
                 return false;
             }
@@ -403,44 +415,63 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         private void ChangeFileName()
         {
-            foreach (OldAndNewNameModel item in ExtensionNameDataList)
+            List<OperationFailedModel> operationFailedList = new List<OperationFailedModel>();
+            IsModifyingNow = true;
+            Task.Run(async () =>
             {
-                if (!string.IsNullOrEmpty(item.OriginalFileName) && !string.IsNullOrEmpty(item.OriginalFilePath))
+                foreach (OldAndNewNameModel item in ExtensionNameDataList)
                 {
-                    if (IOHelper.IsDir(item.OriginalFilePath))
+                    if (!string.IsNullOrEmpty(item.OriginalFileName) && !string.IsNullOrEmpty(item.OriginalFilePath))
                     {
-                        try
+                        if (IOHelper.IsDir(item.OriginalFilePath))
                         {
-                            Directory.Move(item.OriginalFilePath, item.NewFilePath);
-                        }
-                        catch (Exception e)
-                        {
-                            OperationFailedList.Add(new OperationFailedModel()
+                            try
                             {
-                                FileName = item.OriginalFileName,
-                                FilePath = item.OriginalFilePath,
-                                Exception = e
-                            });
-                        }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            File.Move(item.OriginalFilePath, item.NewFilePath);
-                        }
-                        catch (Exception e)
-                        {
-                            OperationFailedList.Add(new OperationFailedModel()
+                                Directory.Move(item.OriginalFilePath, item.NewFilePath);
+                            }
+                            catch (Exception e)
                             {
-                                FileName = item.OriginalFileName,
-                                FilePath = item.OriginalFilePath,
-                                Exception = e
-                            });
+                                operationFailedList.Add(new OperationFailedModel()
+                                {
+                                    FileName = item.OriginalFileName,
+                                    FilePath = item.OriginalFilePath,
+                                    Exception = e
+                                });
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                File.Move(item.OriginalFilePath, item.NewFilePath);
+                            }
+                            catch (Exception e)
+                            {
+                                operationFailedList.Add(new OperationFailedModel()
+                                {
+                                    FileName = item.OriginalFileName,
+                                    FilePath = item.OriginalFilePath,
+                                    Exception = e
+                                });
+                            }
                         }
                     }
                 }
-            }
+
+                await Task.Delay(300);
+
+                Program.MainWindow.BeginInvoke(() =>
+                {
+                    IsModifyingNow = false;
+                    foreach (OperationFailedModel item in operationFailedList)
+                    {
+                        OperationFailedList.Add(item);
+                    }
+
+                    new OperationResultNotification(this, ExtensionNameDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
+                    ExtensionNameDataList.Clear();
+                });
+            });
         }
     }
 }
