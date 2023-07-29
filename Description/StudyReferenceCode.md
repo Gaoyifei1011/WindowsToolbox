@@ -1,8 +1,7 @@
-### <p align="center">Ñ§Ï°¹ı³ÌÖĞ²Î¿¼»òÊ¹ÓÃµÄ´úÂë</p>
+### <p align="center">å­¦ä¹ è¿‡ç¨‹ä¸­å‚è€ƒæˆ–ä½¿ç”¨çš„ä»£ç </p>
 ### <p align="center">Code referenced or used during the learning process</p>
 
 ------
 
 > * [Mile.Xaml.Samples](https://github.com/ProjectMile/Mile.Xaml.Samples)&emsp;
-> * [NanaBox](https://github.com/M2Team/NanaBox/)&emsp;
 > * [Windows Community Toolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit/)&emsp;
