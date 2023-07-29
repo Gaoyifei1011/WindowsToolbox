@@ -9,13 +9,19 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "FileRenamerPackage", "FileR
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Description", "Description", "{24C140DE-963F-4934-8AF9-F1D93AD7CC4E}"
 	ProjectSection(SolutionItems) = preProject
+		Description\README_EN-US.md = Description\README_EN-US.md
+		Description\README_ZH-CN.md = Description\README_ZH-CN.md
+		Description\StudyReferenceCode.md = Description\StudyReferenceCode.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{600A58B9-FBFC-440E-A78C-18DDB7B84865}"
+	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
 		LICENSE = LICENSE
 		README.md = README.md
-		Description\StudyReferenceCode.md = Description\StudyReferenceCode.md
 	EndProjectSection
 EndProject
 Global

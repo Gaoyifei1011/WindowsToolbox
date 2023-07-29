@@ -34,29 +34,31 @@
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.7*" />
-                <ColumnDefinition Width="0.7*" />
+                <ColumnDefinition Width="1.2*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <CheckBox
                 Grid.Row="0"
-                Grid.RowSpan="1"
+                Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/SameExtensionName')}"
                 IsChecked="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsSameExtensionName), Mode=OneWay}"
                 Tag="1"
                 Unchecked="{x:Bind OnUnchecked}" />
 
-            <Grid Grid.Row="0" Grid.Column="2">
+            <Grid Grid.Row="0" Grid.Column="1">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/ChangeTo')}" />
+                <TextBlock
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/ChangeTo')}" />
                 <TextBox
                     Grid.Column="1"
                     IsEnabled="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsSameExtensionName), Mode=OneWay}"
@@ -65,28 +67,31 @@
 
             <CheckBox
                 Grid.Row="1"
-                Grid.RowSpan="1"
+                Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/FindAndReplaceExtensionName')}"
                 IsChecked="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
                 Tag="2"
                 Unchecked="{x:Bind OnUnchecked}" />
 
-            <Grid Grid.Row="1" Grid.Column="2">
+            <Grid Grid.Row="1" Grid.Column="1">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Search')}" />
+                <TextBlock
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Search')}" />
                 <TextBox
                     Grid.Column="1"
                     IsEnabled="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
                     Text="{x:Bind SearchText, Mode=TwoWay}" />
             </Grid>
 
-            <Grid Grid.Row="1" Grid.Column="3">
+            <Grid Grid.Row="1" Grid.Column="2">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
