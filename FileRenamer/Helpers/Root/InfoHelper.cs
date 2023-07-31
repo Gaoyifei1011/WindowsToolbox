@@ -35,13 +35,5 @@ namespace FileRenamer.Helpers.Root
                     );
             }
         }
-
-        /// <summary>
-        /// 获取应用安装根目录
-        /// </summary>
-        public static string GetAppInstalledLocation()
-        {
-            return AppContext.BaseDirectory;
-        }
     }
 }

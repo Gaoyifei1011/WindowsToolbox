@@ -1,8 +1,6 @@
-﻿using FileRenamer.Extensions.DataType.Enums;
-using FileRenamer.Helpers.Root;
+﻿using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Services.Controls.Settings;
-using FileRenamer.Services.Window;
 using FileRenamer.UI.Notifications;
 using System;
 using System.Collections.Generic;
@@ -21,9 +19,9 @@ namespace FileRenamer.Views.Pages
     {
         public bool CanUseBackdrop { get; set; }
 
-        private ThemeModel _theme = ThemeService.AppTheme;
+        private GroupOptionsModel _theme = ThemeService.AppTheme;
 
-        public ThemeModel Theme
+        public GroupOptionsModel Theme
         {
             get { return _theme; }
 
@@ -34,9 +32,9 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        private BackdropModel _backdrop = BackdropService.AppBackdrop;
+        private GroupOptionsModel _backdrop = BackdropService.AppBackdrop;
 
-        public BackdropModel Backdrop
+        public GroupOptionsModel Backdrop
         {
             get { return _backdrop; }
 
@@ -47,9 +45,9 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        private LanguageModel _appLanguage = LanguageService.AppLanguage;
+        private GroupOptionsModel _appLanguage = LanguageService.AppLanguage;
 
-        public LanguageModel AppLanguage
+        public GroupOptionsModel AppLanguage
         {
             get { return _appLanguage; }
 
@@ -73,11 +71,11 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        public List<ThemeModel> ThemeList { get; } = ThemeService.ThemeList;
+        public List<GroupOptionsModel> ThemeList { get; } = ThemeService.ThemeList;
 
-        public List<BackdropModel> BackdropList { get; } = BackdropService.BackdropList;
+        public List<GroupOptionsModel> BackdropList { get; } = BackdropService.BackdropList;
 
-        public List<LanguageModel> LanguageList { get; } = LanguageService.LanguageList;
+        public List<GroupOptionsModel> LanguageList { get; } = LanguageService.LanguageList;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -89,19 +87,19 @@ namespace FileRenamer.Views.Pages
 
             for (int index = 0; index < LanguageList.Count; index++)
             {
-                LanguageModel languageItem = LanguageList[index];
+                GroupOptionsModel languageItem = LanguageList[index];
                 ToggleMenuFlyoutItem toggleMenuFlyoutItem = new ToggleMenuFlyoutItem()
                 {
-                    Text = languageItem.DisplayName,
+                    Text = languageItem.DisplayMember,
                     Style = ResourceDictionaryHelper.MenuFlyoutResourceDict["ToggleMenuFlyoutItemStyle"] as Style,
                     Tag = index
                 };
-                if (AppLanguage.InternalName == LanguageList[index].InternalName)
+                if (AppLanguage.SelectedValue == LanguageList[index].SelectedValue)
                 {
                     toggleMenuFlyoutItem.IsChecked = true;
                 }
 
-                toggleMenuFlyoutItem.Click += async (sender, args) =>
+                toggleMenuFlyoutItem.Click += (sender, args) =>
                 {
                     foreach (MenuFlyoutItemBase menuFlyoutItemBase in LanguageFlyout.Items)
                     {
@@ -115,10 +113,10 @@ namespace FileRenamer.Views.Pages
                     int selectedIndex = Convert.ToInt32((sender as ToggleMenuFlyoutItem).Tag);
                     (LanguageFlyout.Items[selectedIndex] as ToggleMenuFlyoutItem).IsChecked = true;
 
-                    if (AppLanguage.InternalName != LanguageList[selectedIndex].InternalName)
+                    if (AppLanguage.SelectedValue != LanguageList[selectedIndex].SelectedValue)
                     {
                         AppLanguage = LanguageList[selectedIndex];
-                        await LanguageService.SetLanguageAsync(AppLanguage);
+                        LanguageService.SetLanguage(AppLanguage);
                         new LanguageChangeNotification(this).Show();
                     }
                 };
@@ -126,37 +124,29 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        public bool IsItemChecked(string selectedInternalName, string internalName)
+        public bool IsItemChecked(GroupOptionsModel selectedMember, GroupOptionsModel comparedMember)
         {
-            return selectedInternalName == internalName;
+            return selectedMember.SelectedValue == comparedMember.SelectedValue;
         }
 
         /// <summary>
         /// 背景色修改设置
         /// </summary>
-        public async void OnBackdropSelectClicked(object sender, RoutedEventArgs args)
+        public void OnBackdropSelectClicked(object sender, RoutedEventArgs args)
         {
             ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
             {
                 Backdrop = BackdropList[Convert.ToInt32(item.Tag)];
-                await BackdropService.SetBackdropAsync(Backdrop);
+                BackdropService.SetBackdrop(Backdrop);
                 BackdropService.SetAppBackdrop(Program.MainWindow.Handle);
             }
         }
 
         /// <summary>
-        /// 语言设置说明
-        /// </summary>
-        public void OnLanguageTipClicked(object sender, RoutedEventArgs args)
-        {
-            NavigationService.NavigateTo(typeof(AboutPage), AppNaviagtionArgs.SettingsHelp);
-        }
-
-        /// <summary>
         /// 打开系统主题设置
         /// </summary>
-        public void OnSettingsColorClicked(object sender, RoutedEventArgs args)
+        public void OnSystemColorSettingsClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "ms-settings:colors");
         }
@@ -164,21 +154,26 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 打开系统主题色设置
         /// </summary>
-        public void OnSettingsBackdropClicked(object sender, RoutedEventArgs args)
+        public void OnSystemBackdropSettingsClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "ms-settings:easeofaccess-visualeffects");
+        }
+
+        public void OnSystemLanguageSettingsClicked(object sender, RoutedEventArgs args)
+        {
+            Process.Start("explorer.exe", "ms-settings:regionlanguage-languageoptions");
         }
 
         /// <summary>
         /// 主题修改设置
         /// </summary>
-        public async void OnThemeSelectClicked(object sender, RoutedEventArgs args)
+        public void OnThemeSelectClicked(object sender, RoutedEventArgs args)
         {
             ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
             {
                 Theme = ThemeList[Convert.ToInt32(item.Tag)];
-                await ThemeService.SetThemeAsync(Theme);
+                ThemeService.SetTheme(Theme);
                 ThemeService.SetWindowTheme();
             }
         }
@@ -186,12 +181,12 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 是否开启应用窗口置顶
         /// </summary>
-        public async void OnTopMostToggled(object sender, RoutedEventArgs args)
+        public void OnTopMostToggled(object sender, RoutedEventArgs args)
         {
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
             {
-                await TopMostService.SetTopMostValueAsync(toggleSwitch.IsOn);
+                TopMostService.SetTopMostValue(toggleSwitch.IsOn);
                 TopMostService.SetAppTopMost();
                 TopMostValue = toggleSwitch.IsOn;
             }

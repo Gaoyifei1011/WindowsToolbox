@@ -27,9 +27,9 @@ namespace FileRenamer.Services.Root
 
         private static ResourceMap ResourceMap { get; } = ResourceManager.Current.MainResourceMap;
 
-        public static List<BackdropModel> BackdropList { get; } = new List<BackdropModel>();
+        public static List<GroupOptionsModel> BackdropList { get; } = new List<GroupOptionsModel>();
 
-        public static List<ThemeModel> ThemeList { get; } = new List<ThemeModel>();
+        public static List<GroupOptionsModel> ThemeList { get; } = new List<GroupOptionsModel>();
 
         static ResourceService()
         {
@@ -49,10 +49,10 @@ namespace FileRenamer.Services.Root
         /// </summary>
         /// <param name="defaultAppLanguage">默认语言名称</param>
         /// <param name="currentAppLanguage">当前语言名称</param>
-        public static void InitializeResource(LanguageModel defaultAppLanguage, LanguageModel currentAppLanguage)
+        public static void InitializeResource(GroupOptionsModel defaultAppLanguage, GroupOptionsModel currentAppLanguage)
         {
-            DefaultAppLanguage = defaultAppLanguage.InternalName;
-            CurrentAppLanguage = currentAppLanguage.InternalName;
+            DefaultAppLanguage = defaultAppLanguage.SelectedValue;
+            CurrentAppLanguage = currentAppLanguage.SelectedValue;
 
             if (RuntimeHelper.IsMSIX)
             {
@@ -81,20 +81,20 @@ namespace FileRenamer.Services.Root
         /// </summary>
         private static void InitializeThemeList()
         {
-            ThemeList.Add(new ThemeModel
+            ThemeList.Add(new GroupOptionsModel
             {
-                DisplayName = GetLocalized("Settings/ThemeDefault"),
-                InternalName = Convert.ToString(ElementTheme.Default)
+                DisplayMember = GetLocalized("Settings/ThemeDefault"),
+                SelectedValue = Convert.ToString(ElementTheme.Default)
             });
-            ThemeList.Add(new ThemeModel
+            ThemeList.Add(new GroupOptionsModel
             {
-                DisplayName = GetLocalized("Settings/ThemeLight"),
-                InternalName = Convert.ToString(ElementTheme.Light)
+                DisplayMember = GetLocalized("Settings/ThemeLight"),
+                SelectedValue = Convert.ToString(ElementTheme.Light)
             });
-            ThemeList.Add(new ThemeModel
+            ThemeList.Add(new GroupOptionsModel
             {
-                DisplayName = GetLocalized("Settings/ThemeDark"),
-                InternalName = Convert.ToString(ElementTheme.Dark)
+                DisplayMember = GetLocalized("Settings/ThemeDark"),
+                SelectedValue = Convert.ToString(ElementTheme.Dark)
             });
         }
 
@@ -103,28 +103,28 @@ namespace FileRenamer.Services.Root
         /// </summary>
         private static void InitializeBackdropList()
         {
-            BackdropList.Add(new BackdropModel
+            BackdropList.Add(new GroupOptionsModel
             {
-                DisplayName = GetLocalized("Settings/BackdropDefault"),
-                InternalName = "Default"
+                DisplayMember = GetLocalized("Settings/BackdropDefault"),
+                SelectedValue = "Default"
             });
 
-            BackdropList.Add(new BackdropModel
+            BackdropList.Add(new GroupOptionsModel
             {
-                DisplayName = GetLocalized("Settings/BackdropMica"),
-                InternalName = "Mica"
+                DisplayMember = GetLocalized("Settings/BackdropMica"),
+                SelectedValue = "Mica"
             });
 
-            BackdropList.Add(new BackdropModel
+            BackdropList.Add(new GroupOptionsModel
             {
-                DisplayName = GetLocalized("Settings/BackdropMicaAlt"),
-                InternalName = "MicaAlt"
+                DisplayMember = GetLocalized("Settings/BackdropMicaAlt"),
+                SelectedValue = "MicaAlt"
             });
 
-            BackdropList.Add(new BackdropModel
+            BackdropList.Add(new GroupOptionsModel
             {
-                DisplayName = GetLocalized("Settings/BackdropAcrylic"),
-                InternalName = "Acrylic"
+                DisplayMember = GetLocalized("Settings/BackdropAcrylic"),
+                SelectedValue = "Acrylic"
             });
         }
 

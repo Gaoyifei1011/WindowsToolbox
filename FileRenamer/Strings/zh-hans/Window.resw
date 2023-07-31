@@ -171,6 +171,9 @@
   <data name="Settings" xml:space="preserve">
     <value>设置</value>
   </data>
+  <data name="SettingsInstruction" xml:space="preserve">
+    <value>设置说明</value>
+  </data>
   <data name="ShowLicense" xml:space="preserve">
     <value>查看许可证</value>
   </data>

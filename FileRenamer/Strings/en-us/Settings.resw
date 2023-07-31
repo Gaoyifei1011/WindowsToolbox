@@ -144,8 +144,14 @@
   <data name="LanguageDescription" xml:space="preserve">
     <value>Modify the language displayed in the app interface</value>
   </data>
-  <data name="LanguageToolTip" xml:space="preserve">
-    <value>Help</value>
+  <data name="SystemBackdropSettings" xml:space="preserve">
+    <value>System backdrop settings</value>
+  </data>
+  <data name="SystemColorSettings" xml:space="preserve">
+    <value>System color settings</value>
+  </data>
+  <data name="SystemLanguageSettings" xml:space="preserve">
+    <value>System language settings</value>
   </data>
   <data name="ThemeDark" xml:space="preserve">
     <value>Dark</value>
@@ -176,11 +182,5 @@
   </data>
   <data name="TopMostOnContent" xml:space="preserve">
     <value>Pinned</value>
-  </data>
-  <data name="WindowsBackdropSettings" xml:space="preserve">
-    <value>Windows backdrop settings</value>
-  </data>
-  <data name="WindowsColorSettings" xml:space="preserve">
-    <value>Windows color settings</value>
   </data>
 </root>

@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,11 +24,13 @@ using Windows.UI.Xaml.Media;
 
 namespace FileRenamer.Views.Forms
 {
+    /// <summary>
+    /// 应用主界面
+    /// </summary>
     public class MainForm : Form
     {
         private int windowWidth = 1000;
         private int windowHeight = 700;
-        private Graphics graphics;
 
         private IContainer components = null;
 
@@ -37,19 +40,21 @@ namespace FileRenamer.Views.Forms
 
         public MainPage MainPage { get; private set; } = new MainPage();
 
+        public DisplayInformation DisplayInformation { get; private set; } = DisplayInformation.GetForCurrentView();
+
         public MainForm()
         {
             InitializeComponent();
-            graphics = CreateGraphics();
 
             Controls.Add(MileXamlHost);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = Icon.ExtractAssociatedIcon(Process.GetCurrentProcess().MainModule.FileName);
             MaximizeBox = false;
-            Size = new Size(Convert.ToInt32(windowWidth * graphics.DpiX / 96.0), Convert.ToInt32(windowHeight * graphics.DpiX / 96.0));
+            Size = new Size(Convert.ToInt32(windowWidth * DisplayInformation.LogicalDpi / 96), Convert.ToInt32(windowHeight * DisplayInformation.LogicalDpi / 96));
             StartPosition = FormStartPosition.CenterParent;
             Text = ResourceService.GetLocalized("Resources/AppDisplayName");
-            graphics.Dispose();
+
+            DisplayInformation.DpiChanged += OnDpiChanged;
 
             MileXamlHost.AutoSize = true;
             MileXamlHost.Dock = DockStyle.Fill;
@@ -177,7 +182,11 @@ namespace FileRenamer.Views.Forms
                         FlyoutShowOptions options = new FlyoutShowOptions();
                         options.Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft;
                         options.ShowMode = FlyoutShowMode.Standard;
-                        options.Position = InfoHelper.SystemVersion.Build >= 22000 ? new Windows.Foundation.Point(DPICalcHelper.ConvertPixelToEpx(Handle, ms.X - Location.X - 8), DPICalcHelper.ConvertPixelToEpx(Handle, ms.Y - Location.Y - 32)) : new Windows.Foundation.Point(ms.X - Location.X, ms.Y - Location.Y - 32);
+                        options.Position = InfoHelper.SystemVersion.Build >= 22000 ?
+                            new Windows.Foundation.Point(
+                                (ms.X - Location.X - 8) / DisplayInformation.LogicalDpi * 96,
+                                (ms.Y - Location.Y - 32) / DisplayInformation.LogicalDpi * 96) :
+                            new Windows.Foundation.Point(ms.X - Location.X - 8, ms.Y - Location.Y - 32);
                         MainPage.TitlebarMenuFlyout.ShowAt(null, options);
                         return;
                     }
@@ -225,18 +234,20 @@ namespace FileRenamer.Views.Forms
                         }
                         break;
                     }
-                case (int)WindowMessage.WM_DPICHANGED:
-                    {
-                        Size = new Size(
-                        Convert.ToInt32(windowWidth * User32Library.GetDpiForWindow(Handle) / 96.0),
-                        Convert.ToInt32(windowHeight * User32Library.GetDpiForWindow(Handle) / 96.0)
-                        );
-
-                        break;
-                    }
             }
 
             base.WndProc(ref m);
+        }
+
+        /// <summary>
+        /// 设备的每英寸像素 (PPI) 显示更改修改后触发的事件
+        /// </summary>
+        public void OnDpiChanged(DisplayInformation sender, object args)
+        {
+            Size = new Size(
+            Convert.ToInt32(windowWidth * sender.LogicalDpi / 96),
+            Convert.ToInt32(windowHeight * sender.LogicalDpi / 96)
+            );
         }
 
         /// <summary>
@@ -244,7 +255,7 @@ namespace FileRenamer.Views.Forms
         /// </summary>
         public void SetAppTheme()
         {
-            if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[0].InternalName)
+            if (ThemeService.AppTheme.SelectedValue == ThemeService.ThemeList[0].SelectedValue)
             {
                 if (Windows.UI.Xaml.Application.Current.RequestedTheme is ApplicationTheme.Light)
                 {
@@ -265,7 +276,7 @@ namespace FileRenamer.Views.Forms
                     RefreshWindowState();
                 }
             }
-            if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[1].InternalName)
+            if (ThemeService.AppTheme.SelectedValue == ThemeService.ThemeList[1].SelectedValue)
             {
                 int useLightMode = 0;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));
@@ -274,7 +285,7 @@ namespace FileRenamer.Views.Forms
 
                 RefreshWindowState();
             }
-            else if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[2].InternalName)
+            else if (ThemeService.AppTheme.SelectedValue == ThemeService.ThemeList[2].SelectedValue)
             {
                 int useDarkMode = 1;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
@@ -290,28 +301,28 @@ namespace FileRenamer.Views.Forms
         /// </summary>
         public void SetWindowBackdrop()
         {
-            if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[0].InternalName)
+            if (BackdropService.AppBackdrop.SelectedValue == BackdropService.BackdropList[0].SelectedValue)
             {
                 int noBackdrop = 1;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref noBackdrop, Marshal.SizeOf(typeof(int)));
 
                 RefreshWindowState();
             }
-            else if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[1].InternalName)
+            else if (BackdropService.AppBackdrop.SelectedValue == BackdropService.BackdropList[1].SelectedValue)
             {
                 int micaBackdrop = 2;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref micaBackdrop, Marshal.SizeOf(typeof(int)));
 
                 RefreshWindowState();
             }
-            else if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[2].InternalName)
+            else if (BackdropService.AppBackdrop.SelectedValue == BackdropService.BackdropList[2].SelectedValue)
             {
                 int micaAltBackdrop = 4;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref micaAltBackdrop, Marshal.SizeOf(typeof(int)));
 
                 RefreshWindowState();
             }
-            else if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[3].InternalName)
+            else if (BackdropService.AppBackdrop.SelectedValue == BackdropService.BackdropList[3].SelectedValue)
             {
                 int acrylicBackdrop = 3;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref acrylicBackdrop, Marshal.SizeOf(typeof(int)));
@@ -325,9 +336,9 @@ namespace FileRenamer.Views.Forms
         /// </summary>
         public void RefreshWindowState()
         {
-            if (BackdropService.AppBackdrop.InternalName == BackdropService.BackdropList[0].InternalName)
+            if (BackdropService.AppBackdrop.SelectedValue == BackdropService.BackdropList[0].SelectedValue)
             {
-                if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[0].InternalName)
+                if (ThemeService.AppTheme.SelectedValue == ThemeService.ThemeList[0].SelectedValue)
                 {
                     if (Windows.UI.Xaml.Application.Current.RequestedTheme == ApplicationTheme.Light)
                     {
@@ -340,12 +351,12 @@ namespace FileRenamer.Views.Forms
                         AllowTransparency = false;
                     }
                 }
-                else if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[1].InternalName)
+                else if (ThemeService.AppTheme.SelectedValue == ThemeService.ThemeList[1].SelectedValue)
                 {
                     TransparencyKey = BackColor = Color.White;
                     AllowTransparency = false;
                 }
-                else if (ThemeService.AppTheme.InternalName == ThemeService.ThemeList[2].InternalName)
+                else if (ThemeService.AppTheme.SelectedValue == ThemeService.ThemeList[2].SelectedValue)
                 {
                     TransparencyKey = BackColor = Color.Black;
                     AllowTransparency = false;

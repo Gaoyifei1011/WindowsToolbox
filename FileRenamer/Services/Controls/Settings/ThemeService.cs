@@ -4,7 +4,6 @@ using FileRenamer.Services.Root;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 namespace FileRenamer.Services.Controls.Settings
@@ -16,57 +15,57 @@ namespace FileRenamer.Services.Controls.Settings
     {
         private static string ThemeSettingsKey { get; } = ConfigKey.ThemeKey;
 
-        private static ThemeModel DefaultAppTheme { get; set; }
+        private static GroupOptionsModel DefaultAppTheme { get; set; }
 
-        public static ThemeModel AppTheme { get; set; }
+        public static GroupOptionsModel AppTheme { get; set; }
 
-        public static List<ThemeModel> ThemeList { get; set; }
+        public static List<GroupOptionsModel> ThemeList { get; set; }
 
         /// <summary>
         /// 应用在初始化前获取设置存储的主题值
         /// </summary>
-        public static async Task InitializeAsync()
+        public static void InitializeTheme()
         {
             ThemeList = ResourceService.ThemeList;
 
-            DefaultAppTheme = ThemeList.Find(item => item.InternalName == Convert.ToString(ElementTheme.Default));
+            DefaultAppTheme = ThemeList.Find(item => item.SelectedValue == Convert.ToString(ElementTheme.Default));
 
-            (bool, ThemeModel) ThemeResult = await GetThemeAsync();
+            (bool, GroupOptionsModel) ThemeResult = GetTheme();
 
             AppTheme = ThemeResult.Item2;
 
             if (ThemeResult.Item1)
             {
-                await SetThemeAsync(AppTheme, false);
+                SetTheme(AppTheme, false);
             }
         }
 
         /// <summary>
         /// 获取设置存储的主题值，如果设置没有存储，使用默认值
         /// </summary>
-        private static async Task<(bool, ThemeModel)> GetThemeAsync()
+        private static (bool, GroupOptionsModel) GetTheme()
         {
-            string theme = await ConfigService.ReadSettingAsync<string>(ThemeSettingsKey);
+            string theme = ConfigService.ReadSetting<string>(ThemeSettingsKey);
 
             if (string.IsNullOrEmpty(theme))
             {
-                return (true, ThemeList.Find(item => item.InternalName.Equals(DefaultAppTheme.InternalName, StringComparison.OrdinalIgnoreCase)));
+                return (true, ThemeList.Find(item => item.SelectedValue.Equals(DefaultAppTheme.SelectedValue, StringComparison.OrdinalIgnoreCase)));
             }
 
-            return (false, ThemeList.Find(item => item.InternalName.Equals(theme, StringComparison.OrdinalIgnoreCase)));
+            return (false, ThemeList.Find(item => item.SelectedValue.Equals(theme, StringComparison.OrdinalIgnoreCase)));
         }
 
         /// <summary>
         /// 应用主题发生修改时修改设置存储的主题值
         /// </summary>
-        public static async Task SetThemeAsync(ThemeModel theme, [Optional, DefaultParameterValue(true)] bool isNotFirstSet)
+        public static void SetTheme(GroupOptionsModel theme, [Optional, DefaultParameterValue(true)] bool isNotFirstSet)
         {
             if (isNotFirstSet)
             {
                 AppTheme = theme;
             }
 
-            await ConfigService.SaveSettingAsync(ThemeSettingsKey, theme.InternalName);
+            ConfigService.SaveSetting(ThemeSettingsKey, theme.SelectedValue);
         }
 
         /// <summary>
@@ -74,7 +73,7 @@ namespace FileRenamer.Services.Controls.Settings
         /// </summary>
         public static void SetWindowTheme()
         {
-            Program.MainWindow.MainPage.WindowTheme = (ElementTheme)Enum.Parse(typeof(ElementTheme), AppTheme.InternalName);
+            Program.MainWindow.MainPage.WindowTheme = (ElementTheme)Enum.Parse(typeof(ElementTheme), AppTheme.SelectedValue);
         }
     }
 }

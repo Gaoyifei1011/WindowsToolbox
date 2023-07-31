@@ -128,9 +128,9 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        private NumberFormatModel _selectedNumberFormat;
+        private GroupOptionsModel _selectedNumberFormat;
 
-        public NumberFormatModel SelectedNumberFormat
+        public GroupOptionsModel SelectedNumberFormat
         {
             get { return _selectedNumberFormat; }
 
@@ -149,16 +149,16 @@ namespace FileRenamer.Views.Pages
             ResourceService.GetLocalized("FileName/NameChangeRule4"),
         };
 
-        public List<NumberFormatModel> NumberFormatList { get; } = new List<NumberFormatModel>
+        public List<GroupOptionsModel> NumberFormatList { get; } = new List<GroupOptionsModel>
         {
-            new NumberFormatModel(){ DisplayName = ResourceService.GetLocalized("FileName/Auto"), InternalName = "Auto"},
-            new NumberFormatModel(){ DisplayName = "0", InternalName = "0"},
-            new NumberFormatModel(){ DisplayName = "00", InternalName = "00"},
-            new NumberFormatModel(){ DisplayName = "000", InternalName = "000"},
-            new NumberFormatModel(){ DisplayName = "0000", InternalName = "0000"},
-            new NumberFormatModel(){ DisplayName = "00000", InternalName = "00000"},
-            new NumberFormatModel(){ DisplayName = "000000", InternalName = "000000"},
-            new NumberFormatModel(){ DisplayName = "0000000", InternalName = "0000000"},
+            new GroupOptionsModel(){ DisplayMember = ResourceService.GetLocalized("FileName/Auto"), SelectedValue = "Auto"},
+            new GroupOptionsModel(){ DisplayMember = "0", SelectedValue = "0"},
+            new GroupOptionsModel(){ DisplayMember = "00", SelectedValue = "00"},
+            new GroupOptionsModel(){ DisplayMember = "000", SelectedValue = "000"},
+            new GroupOptionsModel(){ DisplayMember = "0000", SelectedValue = "0000"},
+            new GroupOptionsModel(){ DisplayMember = "00000", SelectedValue = "00000"},
+            new GroupOptionsModel(){ DisplayMember = "000000", SelectedValue = "000000"},
+            new GroupOptionsModel(){ DisplayMember = "0000000", SelectedValue = "0000000"},
         };
 
         public List<OldAndNewNameModel> NameChangeList { get; } = new List<OldAndNewNameModel>()
@@ -274,9 +274,9 @@ namespace FileRenamer.Views.Pages
             return string.Format(ResourceService.GetLocalized("Dialog/ChangeRule"), NameChangeRuleList[index]);
         }
 
-        public bool IsItemChecked(string selectedInternalName, string internalName)
+        public bool IsItemChecked(GroupOptionsModel selectedMember, GroupOptionsModel comparedMember)
         {
-            return selectedInternalName == internalName;
+            return selectedMember.SelectedValue == comparedMember.SelectedValue;
         }
 
         public string LocalizeTotal(int count)
@@ -528,35 +528,35 @@ namespace FileRenamer.Views.Pages
                         if (tempFileName.Contains("<#>"))
                         {
                             string formattedIndex = string.Empty;
-                            if (SelectedNumberFormat.InternalName == NumberFormatList[0].InternalName)
+                            if (SelectedNumberFormat.SelectedValue == NumberFormatList[0].SelectedValue)
                             {
                                 formattedIndex = startIndex.ToString();
                             }
-                            else if (SelectedNumberFormat.InternalName == NumberFormatList[1].InternalName)
+                            else if (SelectedNumberFormat.SelectedValue == NumberFormatList[1].SelectedValue)
                             {
                                 formattedIndex = string.Format("{0:D1}", startIndex);
                             }
-                            else if (SelectedNumberFormat.InternalName == NumberFormatList[2].InternalName)
+                            else if (SelectedNumberFormat.SelectedValue == NumberFormatList[2].SelectedValue)
                             {
                                 formattedIndex = string.Format("{0:D2}", startIndex);
                             }
-                            else if (SelectedNumberFormat.InternalName == NumberFormatList[3].InternalName)
+                            else if (SelectedNumberFormat.SelectedValue == NumberFormatList[3].SelectedValue)
                             {
                                 formattedIndex = string.Format("{0:D3}", startIndex);
                             }
-                            else if (SelectedNumberFormat.InternalName == NumberFormatList[4].InternalName)
+                            else if (SelectedNumberFormat.SelectedValue == NumberFormatList[4].SelectedValue)
                             {
                                 formattedIndex = string.Format("{0:D4}", startIndex);
                             }
-                            else if (SelectedNumberFormat.InternalName == NumberFormatList[5].InternalName)
+                            else if (SelectedNumberFormat.SelectedValue == NumberFormatList[5].SelectedValue)
                             {
                                 formattedIndex = string.Format("{0:D5}", startIndex);
                             }
-                            else if (SelectedNumberFormat.InternalName == NumberFormatList[6].InternalName)
+                            else if (SelectedNumberFormat.SelectedValue == NumberFormatList[6].SelectedValue)
                             {
                                 formattedIndex = string.Format("{0:D6}", startIndex);
                             }
-                            else if (SelectedNumberFormat.InternalName == NumberFormatList[7].InternalName)
+                            else if (SelectedNumberFormat.SelectedValue == NumberFormatList[7].SelectedValue)
                             {
                                 formattedIndex = string.Format("{0:D7}", startIndex);
                             }

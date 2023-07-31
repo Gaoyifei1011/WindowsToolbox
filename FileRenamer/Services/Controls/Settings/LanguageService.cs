@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Windows.Globalization;
 
 namespace FileRenamer.Services.Controls.Settings
@@ -18,13 +17,13 @@ namespace FileRenamer.Services.Controls.Settings
     {
         private static string SettingsKey { get; } = ConfigKey.LanguageKey;
 
-        public static LanguageModel DefaultAppLanguage { get; set; }
+        public static GroupOptionsModel DefaultAppLanguage { get; set; }
 
-        public static LanguageModel AppLanguage { get; set; }
+        public static GroupOptionsModel AppLanguage { get; set; }
 
         private static IReadOnlyList<string> AppLanguagesList { get; }
 
-        public static List<LanguageModel> LanguageList { get; set; } = new List<LanguageModel>();
+        public static List<GroupOptionsModel> LanguageList { get; set; } = new List<GroupOptionsModel>();
 
         static LanguageService()
         {
@@ -47,10 +46,10 @@ namespace FileRenamer.Services.Controls.Settings
             {
                 CultureInfo culture = CultureInfo.GetCultureInfo(applanguage);
 
-                LanguageList.Add(new LanguageModel()
+                LanguageList.Add(new GroupOptionsModel()
                 {
-                    DisplayName = culture.NativeName,
-                    InternalName = culture.Name,
+                    DisplayMember = culture.NativeName,
+                    SelectedValue = culture.Name,
                 });
             }
         }
@@ -60,9 +59,9 @@ namespace FileRenamer.Services.Controls.Settings
         /// </summary>
         private static bool IsExistsInLanguageList(string currentSystemLanguage)
         {
-            foreach (LanguageModel languageItem in LanguageList)
+            foreach (GroupOptionsModel languageItem in LanguageList)
             {
-                if (languageItem.InternalName == currentSystemLanguage)
+                if (languageItem.SelectedValue == currentSystemLanguage)
                 {
                     return true;
                 }
@@ -73,28 +72,28 @@ namespace FileRenamer.Services.Controls.Settings
         /// <summary>
         /// 应用在初始化前获取设置存储的语言值，如果设置值为空，设定默认的应用语言值
         /// </summary>
-        public static async Task InitializeLanguageAsync()
+        public static void InitializeLanguage()
         {
             InitializeLanguageList();
 
-            DefaultAppLanguage = LanguageList.Find(item => item.InternalName.Equals("en-US", StringComparison.OrdinalIgnoreCase));
+            DefaultAppLanguage = LanguageList.Find(item => item.SelectedValue.Equals("en-US", StringComparison.OrdinalIgnoreCase));
 
-            (bool, LanguageModel) LanguageValueResult = await GetLanguageAsync();
+            (bool, GroupOptionsModel) LanguageValueResult = GetLanguage();
 
             AppLanguage = LanguageValueResult.Item2;
 
             if (LanguageValueResult.Item1)
             {
-                await SetLanguageAsync(AppLanguage, false);
+                SetLanguage(AppLanguage, false);
             }
         }
 
         /// <summary>
         /// 获取设置存储的语言值，如果设置没有存储，使用默认值
         /// </summary>
-        private static async Task<(bool, LanguageModel)> GetLanguageAsync()
+        private static (bool, GroupOptionsModel) GetLanguage()
         {
-            string language = await ConfigService.ReadSettingAsync<string>(SettingsKey);
+            string language = ConfigService.ReadSetting<string>(SettingsKey);
 
             // 当前系统的语言值
             string CurrentSystemLanguage = CultureInfo.CurrentCulture.Parent.Parent.Name;
@@ -107,30 +106,30 @@ namespace FileRenamer.Services.Controls.Settings
                 // 如果存在，设置存储值和应用初次设置的语言为当前系统的语言
                 if (result)
                 {
-                    return (true, LanguageList.Find(item => item.InternalName.Equals(CurrentSystemLanguage, StringComparison.OrdinalIgnoreCase)));
+                    return (true, LanguageList.Find(item => item.SelectedValue.Equals(CurrentSystemLanguage, StringComparison.OrdinalIgnoreCase)));
                 }
 
                 // 不存在，设置存储值和应用初次设置的语言为默认语言：English(United States)
                 else
                 {
-                    return (true, LanguageList.Find(item => item.InternalName.Equals(DefaultAppLanguage.InternalName, StringComparison.OrdinalIgnoreCase)));
+                    return (true, LanguageList.Find(item => item.SelectedValue.Equals(DefaultAppLanguage.SelectedValue, StringComparison.OrdinalIgnoreCase)));
                 }
             }
 
-            return (false, LanguageList.Find(item => item.InternalName.Equals(language, StringComparison.OrdinalIgnoreCase)));
+            return (false, LanguageList.Find(item => item.SelectedValue.Equals(language, StringComparison.OrdinalIgnoreCase)));
         }
 
         /// <summary>
         /// 语言发生修改时修改设置存储的语言值
         /// </summary>
-        public static async Task SetLanguageAsync(LanguageModel language, [Optional, DefaultParameterValue(true)] bool isNotFirstSet)
+        public static void SetLanguage(GroupOptionsModel language, [Optional, DefaultParameterValue(true)] bool isNotFirstSet)
         {
             if (isNotFirstSet)
             {
                 AppLanguage = language;
             }
 
-            await ConfigService.SaveSettingAsync(SettingsKey, language.InternalName);
+            ConfigService.SaveSetting(SettingsKey, language.SelectedValue);
         }
     }
 }

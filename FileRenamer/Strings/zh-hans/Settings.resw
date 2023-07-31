@@ -144,8 +144,14 @@
   <data name="LanguageDescription" xml:space="preserve">
     <value>修改应用界面显示的语言</value>
   </data>
-  <data name="LanguageToolTip" xml:space="preserve">
-    <value>帮助</value>
+  <data name="SystemBackdropSettings" xml:space="preserve">
+    <value>系统背景色设置</value>
+  </data>
+  <data name="SystemColorSettings" xml:space="preserve">
+    <value>系统颜色设置</value>
+  </data>
+  <data name="SystemLanguageSettings" xml:space="preserve">
+    <value>系统语言设置</value>
   </data>
   <data name="ThemeDark" xml:space="preserve">
     <value>深色</value>
@@ -176,11 +182,5 @@
   </data>
   <data name="TopMostOnContent" xml:space="preserve">
     <value>置顶</value>
-  </data>
-  <data name="WindowsBackdropSettings" xml:space="preserve">
-    <value>Windows 背景色设置</value>
-  </data>
-  <data name="WindowsColorSettings" xml:space="preserve">
-    <value>Windows 颜色设置</value>
   </data>
 </root>

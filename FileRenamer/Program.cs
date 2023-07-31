@@ -10,7 +10,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Shell;
 using Windows.Storage;
@@ -51,7 +50,7 @@ namespace FileRenamer
                 }
             }
 
-            InitializeProgramResourcesAsync().Wait();
+            InitializeProgramResources();
             InitializeJumpList();
 
             if (RuntimeHelper.IsMSIX)
@@ -153,7 +152,7 @@ namespace FileRenamer
         /// <summary>
         /// 加载应用程序所需的资源
         /// </summary>
-        private static async Task InitializeProgramResourcesAsync()
+        private static void InitializeProgramResources()
         {
             if (!RuntimeHelper.IsMSIX)
             {
@@ -163,13 +162,13 @@ namespace FileRenamer
                     fileStream.Dispose();
                 }
             }
-            await LanguageService.InitializeLanguageAsync();
+            LanguageService.InitializeLanguage();
             ResourceService.InitializeResource(LanguageService.DefaultAppLanguage, LanguageService.AppLanguage);
             ResourceService.LocalizeReosurce();
 
-            await BackdropService.InitializeBackdropAsync();
-            await ThemeService.InitializeAsync();
-            await TopMostService.InitializeTopMostValueAsync();
+            BackdropService.InitializeBackdrop();
+            ThemeService.InitializeTheme();
+            TopMostService.InitializeTopMostValue();
         }
 
         /// <summary>

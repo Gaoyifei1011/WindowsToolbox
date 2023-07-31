@@ -253,6 +253,14 @@ namespace FileRenamer.Views.Pages
         }
 
         /// <summary>
+        /// 设置说明
+        /// </summary>
+        public void OnSettingsInstructionClicked(object sender, RoutedEventArgs args)
+        {
+            NavigationService.NavigateTo(typeof(AboutPage), AppNaviagtionArgs.SettingsHelp);
+        }
+
+        /// <summary>
         /// 创建应用的桌面快捷方式
         /// </summary>
         public async void OnCreateDesktopShortcutClicked(object sender, RoutedEventArgs args)

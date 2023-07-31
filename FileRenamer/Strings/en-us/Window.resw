@@ -171,6 +171,9 @@
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="SettingsInstruction" xml:space="preserve">
+    <value>Settings instruction</value>
+  </data>
   <data name="ShowLicense" xml:space="preserve">
     <value>Show License</value>
   </data>

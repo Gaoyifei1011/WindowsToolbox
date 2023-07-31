@@ -8,6 +8,7 @@ namespace FileRenamer.Helpers.Root
     public static class ResourceDictionaryHelper
     {
         public static ResourceDictionary ExpanderResourceDict { get; private set; }
+
         public static ResourceDictionary HyperlinkButtonResourceDict { get; private set; }
 
         public static ResourceDictionary InAppNotificationResourceDict { get; private set; }

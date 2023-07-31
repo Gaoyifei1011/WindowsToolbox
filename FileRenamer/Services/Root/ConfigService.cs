@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace FileRenamer.Services.Root
@@ -18,7 +17,7 @@ namespace FileRenamer.Services.Root
         /// <summary>
         /// 读取设置选项存储信息
         /// </summary>
-        public static async Task<T> ReadSettingAsync<T>(string key)
+        public static T ReadSetting<T>(string key)
         {
             if (RuntimeHelper.IsMSIX)
             {
@@ -27,7 +26,7 @@ namespace FileRenamer.Services.Root
                     return default;
                 }
 
-                return await Task.FromResult((T)ApplicationData.Current.LocalSettings.Values[key]);
+                return (T)ApplicationData.Current.LocalSettings.Values[key];
             }
             else
             {
@@ -46,7 +45,7 @@ namespace FileRenamer.Services.Root
 
                     if (configDict is not null && configDict.ContainsKey(key))
                     {
-                        return await Task.FromResult((T)configDict[key]);
+                        return (T)configDict[key];
                     }
                     else
                     {
@@ -63,11 +62,11 @@ namespace FileRenamer.Services.Root
         /// <summary>
         /// 保存设置选项存储信息
         /// </summary>
-        public static async Task SaveSettingAsync<T>(string key, T value)
+        public static void SaveSetting<T>(string key, T value)
         {
             if (RuntimeHelper.IsMSIX)
             {
-                ApplicationData.Current.LocalSettings.Values[key] = await Task.FromResult(value);
+                ApplicationData.Current.LocalSettings.Values[key] = value;
             }
             else
             {
@@ -88,7 +87,7 @@ namespace FileRenamer.Services.Root
                     {
                         if (configDict.ContainsKey(key))
                         {
-                            configDict[key] = await Task.FromResult(value);
+                            configDict[key] = value;
                         }
                         else
                         {
