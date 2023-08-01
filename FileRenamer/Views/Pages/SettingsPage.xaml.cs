@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace FileRenamer.Views.Pages
 {
@@ -94,6 +95,13 @@ namespace FileRenamer.Views.Pages
                     Style = ResourceDictionaryHelper.MenuFlyoutResourceDict["ToggleMenuFlyoutItemStyle"] as Style,
                     Tag = index
                 };
+
+                ToolTipService.SetToolTip(toggleMenuFlyoutItem, new ToolTip()
+                {
+                    Content = languageItem.DisplayMember,
+                    Placement = PlacementMode.Mouse
+                });
+
                 if (AppLanguage.SelectedValue == LanguageList[index].SelectedValue)
                 {
                     toggleMenuFlyoutItem.IsChecked = true;
@@ -146,7 +154,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 打开系统主题设置
         /// </summary>
-        public void OnSystemColorSettingsClicked(object sender, RoutedEventArgs args)
+        public void OnSystemThemeSettingsClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "ms-settings:colors");
         }

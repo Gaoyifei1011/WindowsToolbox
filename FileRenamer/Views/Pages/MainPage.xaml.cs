@@ -55,6 +55,19 @@ namespace FileRenamer.Views.Pages
             }
         }
 
+        private bool _isWindowMaximized;
+
+        public bool IsWindowMaximized
+        {
+            get { return _isWindowMaximized; }
+
+            set
+            {
+                _isWindowMaximized = value;
+                OnPropertyChanged();
+            }
+        }
+
         private NavigationViewItem _selectedItem;
 
         public NavigationViewItem SelectedItem
@@ -131,6 +144,14 @@ namespace FileRenamer.Views.Pages
         }
 
         /// <summary>
+        /// 窗口最大化
+        /// </summary>
+        public void OnMaximizeClicked(object sender, RoutedEventArgs args)
+        {
+            Program.MainWindow.WindowState = FormWindowState.Maximized;
+        }
+
+        /// <summary>
         /// 窗口最小化
         /// </summary>
         public void OnMinimizeClicked(object sender, RoutedEventArgs args)
@@ -149,6 +170,27 @@ namespace FileRenamer.Views.Pages
                 ((MenuFlyout)menuItem.Tag).Hide();
                 await Task.Delay(10);
                 User32Library.SendMessage(Program.MainWindow.Handle, WindowMessage.WM_SYSCOMMAND, 0xF010, IntPtr.Zero);
+            }
+        }
+
+        /// <summary>
+        /// 窗口还原
+        /// </summary>
+        public void OnRestoreClicked(object sender, RoutedEventArgs args)
+        {
+            Program.MainWindow.WindowState = FormWindowState.Normal;
+        }
+
+        /// <summary>
+        /// 窗口大小
+        /// </summary>
+        public void OnSizeClicked(object sender, RoutedEventArgs args)
+        {
+            MenuFlyoutItem menuItem = sender as MenuFlyoutItem;
+            if (menuItem.Tag is not null)
+            {
+                ((MenuFlyout)menuItem.Tag).Hide();
+                User32Library.SendMessage(Program.MainWindow.Handle, WindowMessage.WM_SYSCOMMAND, 0xF000, IntPtr.Zero);
             }
         }
 

@@ -32,6 +32,8 @@ namespace FileRenamer.Views.Forms
         private int windowWidth = 1000;
         private int windowHeight = 700;
 
+        private double RawWindowDPI = 1.0;
+
         private IContainer components = null;
         private WindowsXamlHost MileXamlHost = new WindowsXamlHost();
 
@@ -44,10 +46,16 @@ namespace FileRenamer.Views.Forms
             InitializeComponent();
 
             Controls.Add(MileXamlHost);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = Icon.ExtractAssociatedIcon(Process.GetCurrentProcess().MainModule.FileName);
-            MaximizeBox = false;
-            Size = new Size(Convert.ToInt32(windowWidth * DisplayInformation.RawPixelsPerViewPixel), Convert.ToInt32(windowHeight * DisplayInformation.RawPixelsPerViewPixel));
+            RawWindowDPI = DisplayInformation.RawPixelsPerViewPixel;
+            MinimumSize = new Size(
+                Convert.ToInt32(windowWidth * DisplayInformation.RawPixelsPerViewPixel),
+                Convert.ToInt32(windowHeight * DisplayInformation.RawPixelsPerViewPixel)
+                );
+            Size = new Size(
+                Convert.ToInt32(windowWidth * DisplayInformation.RawPixelsPerViewPixel),
+                Convert.ToInt32(windowHeight * DisplayInformation.RawPixelsPerViewPixel)
+                );
             StartPosition = FormStartPosition.CenterParent;
             Text = ResourceService.GetLocalized("Resources/AppDisplayName");
 
@@ -65,7 +73,7 @@ namespace FileRenamer.Views.Forms
         }
 
         /// <summary>
-        /// 处置由 MainForm 窗体占用的资源
+        /// 处置由主窗体占用的资源
         /// </summary>
         protected override void Dispose(bool disposing)
         {
@@ -147,6 +155,15 @@ namespace FileRenamer.Views.Forms
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 窗口大小改变时发生的事件
+        /// </summary>
+        protected override void OnSizeChanged(EventArgs args)
+        {
+            base.OnSizeChanged(args);
+            MainPage.IsWindowMaximized = WindowState == FormWindowState.Maximized;
         }
 
         /// <summary>
@@ -241,10 +258,15 @@ namespace FileRenamer.Views.Forms
         /// </summary>
         public void OnDpiChanged(DisplayInformation sender, object args)
         {
+            MinimumSize = new Size(
+                Convert.ToInt32(windowWidth * sender.RawPixelsPerViewPixel),
+                Convert.ToInt32(windowHeight * sender.RawPixelsPerViewPixel)
+                );
             Size = new Size(
-            Convert.ToInt32(windowWidth * sender.RawPixelsPerViewPixel),
-            Convert.ToInt32(windowHeight * sender.RawPixelsPerViewPixel)
-            );
+                Convert.ToInt32(Size.Width * sender.RawPixelsPerViewPixel / RawWindowDPI),
+                Convert.ToInt32(Size.Height * sender.RawPixelsPerViewPixel / RawWindowDPI)
+                );
+            RawWindowDPI = sender.RawPixelsPerViewPixel;
         }
 
         /// <summary>
