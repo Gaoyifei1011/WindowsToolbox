@@ -516,6 +516,9 @@ namespace FileRenamer.Views.Pages
                 int.TryParse(StartNumber, out startIndex);
             }
 
+            int endIndex = FileNameDataList.Count - startIndex;
+            int numberLength = endIndex.ToString().Length;
+
             foreach (OldAndNewNameModel item in FileNameDataList)
             {
                 string tempNewFileName = item.OriginalFileName;
@@ -530,35 +533,35 @@ namespace FileRenamer.Views.Pages
                             string formattedIndex = string.Empty;
                             if (SelectedNumberFormat.SelectedValue == NumberFormatList[0].SelectedValue)
                             {
-                                formattedIndex = startIndex.ToString();
+                                formattedIndex = startIndex.ToString().PadLeft(numberLength, '0');
                             }
                             else if (SelectedNumberFormat.SelectedValue == NumberFormatList[1].SelectedValue)
                             {
-                                formattedIndex = string.Format("{0:D1}", startIndex);
+                                formattedIndex = startIndex.ToString().PadLeft(1, '0');
                             }
                             else if (SelectedNumberFormat.SelectedValue == NumberFormatList[2].SelectedValue)
                             {
-                                formattedIndex = string.Format("{0:D2}", startIndex);
+                                formattedIndex = startIndex.ToString().PadLeft(2, '0');
                             }
                             else if (SelectedNumberFormat.SelectedValue == NumberFormatList[3].SelectedValue)
                             {
-                                formattedIndex = string.Format("{0:D3}", startIndex);
+                                formattedIndex = startIndex.ToString().PadLeft(3, '0');
                             }
                             else if (SelectedNumberFormat.SelectedValue == NumberFormatList[4].SelectedValue)
                             {
-                                formattedIndex = string.Format("{0:D4}", startIndex);
+                                formattedIndex = startIndex.ToString().PadLeft(4, '0');
                             }
                             else if (SelectedNumberFormat.SelectedValue == NumberFormatList[5].SelectedValue)
                             {
-                                formattedIndex = string.Format("{0:D5}", startIndex);
+                                formattedIndex = startIndex.ToString().PadLeft(5, '0');
                             }
                             else if (SelectedNumberFormat.SelectedValue == NumberFormatList[6].SelectedValue)
                             {
-                                formattedIndex = string.Format("{0:D6}", startIndex);
+                                formattedIndex = startIndex.ToString().PadLeft(6, '0');
                             }
                             else if (SelectedNumberFormat.SelectedValue == NumberFormatList[7].SelectedValue)
                             {
-                                formattedIndex = string.Format("{0:D7}", startIndex);
+                                formattedIndex = startIndex.ToString().PadLeft(7, '0');
                             }
 
                             tempFileName = tempFileName.Replace("<#>", formattedIndex);

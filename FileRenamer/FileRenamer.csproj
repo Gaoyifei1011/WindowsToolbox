@@ -105,7 +105,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     
     <Reference Include="Microsoft.CSharp" />
-    
     <Reference Include="PresentationFramework" />
 
     <EmbeddedResource Update="Properties\Resources.resx">

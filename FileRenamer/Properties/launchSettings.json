@@ -2,7 +2,6 @@
   "profiles": {
     "文件重命名工具": {
       "commandName": "Project",
-      "commandLineArgs": "FileProperties",
       "nativeDebugging": true
     }
   }

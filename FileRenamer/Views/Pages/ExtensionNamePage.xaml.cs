@@ -130,11 +130,14 @@ namespace FileRenamer.Views.Pages
                     IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
                     foreach (IStorageItem item in filesList)
                     {
-                        ExtensionNameDataList.Add(new OldAndNewNameModel()
+                        if (!IOHelper.IsDir(item.Path))
                         {
-                            OriginalFileName = item.Name,
-                            OriginalFilePath = item.Path
-                        });
+                            ExtensionNameDataList.Add(new OldAndNewNameModel()
+                            {
+                                OriginalFileName = item.Name,
+                                OriginalFilePath = item.Path
+                            });
+                        }
                     }
                 }
             }
@@ -244,11 +247,14 @@ namespace FileRenamer.Views.Pages
                         {
                             continue;
                         }
-                        ExtensionNameDataList.Add(new OldAndNewNameModel()
+                        if (!IOHelper.IsDir(file.FullName))
                         {
-                            OriginalFileName = file.Name,
-                            OriginalFilePath = file.FullName
-                        });
+                            ExtensionNameDataList.Add(new OldAndNewNameModel()
+                            {
+                                OriginalFileName = file.Name,
+                                OriginalFilePath = file.FullName
+                            });
+                        }
                     }
                     catch (Exception)
                     {
@@ -277,31 +283,13 @@ namespace FileRenamer.Views.Pages
 
                     try
                     {
-                        foreach (DirectoryInfo subFolder in currentFolder.GetDirectories())
-                        {
-                            if ((subFolder.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
-                            {
-                                continue;
-                            }
-                            ExtensionNameDataList.Add(new OldAndNewNameModel()
-                            {
-                                OriginalFileName = subFolder.Name,
-                                OriginalFilePath = subFolder.FullName
-                            });
-                        }
-                    }
-                    catch (Exception)
-                    {
-                    }
-
-                    try
-                    {
                         foreach (FileInfo subFile in currentFolder.GetFiles())
                         {
                             if ((subFile.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
                             }
+
                             ExtensionNameDataList.Add(new OldAndNewNameModel()
                             {
                                 OriginalFileName = subFile.Name,
@@ -423,37 +411,18 @@ namespace FileRenamer.Views.Pages
                 {
                     if (!string.IsNullOrEmpty(item.OriginalFileName) && !string.IsNullOrEmpty(item.OriginalFilePath))
                     {
-                        if (IOHelper.IsDir(item.OriginalFilePath))
+                        try
                         {
-                            try
-                            {
-                                Directory.Move(item.OriginalFilePath, item.NewFilePath);
-                            }
-                            catch (Exception e)
-                            {
-                                operationFailedList.Add(new OperationFailedModel()
-                                {
-                                    FileName = item.OriginalFileName,
-                                    FilePath = item.OriginalFilePath,
-                                    Exception = e
-                                });
-                            }
+                            File.Move(item.OriginalFilePath, item.NewFilePath);
                         }
-                        else
+                        catch (Exception e)
                         {
-                            try
+                            operationFailedList.Add(new OperationFailedModel()
                             {
-                                File.Move(item.OriginalFilePath, item.NewFilePath);
-                            }
-                            catch (Exception e)
-                            {
-                                operationFailedList.Add(new OperationFailedModel()
-                                {
-                                    FileName = item.OriginalFileName,
-                                    FilePath = item.OriginalFilePath,
-                                    Exception = e
-                                });
-                            }
+                                FileName = item.OriginalFileName,
+                                FilePath = item.OriginalFilePath,
+                                Exception = e
+                            });
                         }
                     }
                 }

@@ -33,14 +33,11 @@ namespace FileRenamer.Views.Forms
         private int windowHeight = 700;
 
         private IContainer components = null;
+        private WindowsXamlHost MileXamlHost = new WindowsXamlHost();
 
-        public WindowsXamlHost MileXamlHost = new WindowsXamlHost();
+        public MainPage MainPage { get; } = new MainPage();
 
-        public event Action<Message> MessageReceived;
-
-        public MainPage MainPage { get; private set; } = new MainPage();
-
-        public DisplayInformation DisplayInformation { get; private set; } = DisplayInformation.GetForCurrentView();
+        public DisplayInformation DisplayInformation { get; } = DisplayInformation.GetForCurrentView();
 
         public MainForm()
         {
@@ -50,7 +47,7 @@ namespace FileRenamer.Views.Forms
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = Icon.ExtractAssociatedIcon(Process.GetCurrentProcess().MainModule.FileName);
             MaximizeBox = false;
-            Size = new Size(Convert.ToInt32(windowWidth * DisplayInformation.LogicalDpi / 96), Convert.ToInt32(windowHeight * DisplayInformation.LogicalDpi / 96));
+            Size = new Size(Convert.ToInt32(windowWidth * DisplayInformation.RawPixelsPerViewPixel), Convert.ToInt32(windowHeight * DisplayInformation.RawPixelsPerViewPixel));
             StartPosition = FormStartPosition.CenterParent;
             Text = ResourceService.GetLocalized("Resources/AppDisplayName");
 
@@ -86,6 +83,7 @@ namespace FileRenamer.Views.Forms
         {
             base.OnFormClosing(args);
             AllowTransparency = false;
+            DisplayInformation.DpiChanged -= OnDpiChanged;
         }
 
         /// <summary>
@@ -163,7 +161,6 @@ namespace FileRenamer.Views.Forms
                     {
                         SetAppTheme();
                         RefreshWindowState();
-                        MessageReceived?.Invoke(m);
                         break;
                     }
                 // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
@@ -184,8 +181,8 @@ namespace FileRenamer.Views.Forms
                         options.ShowMode = FlyoutShowMode.Standard;
                         options.Position = InfoHelper.SystemVersion.Build >= 22000 ?
                             new Windows.Foundation.Point(
-                                (ms.X - Location.X - 8) / DisplayInformation.LogicalDpi * 96,
-                                (ms.Y - Location.Y - 32) / DisplayInformation.LogicalDpi * 96) :
+                                (ms.X - Location.X - 8) / DisplayInformation.RawPixelsPerViewPixel,
+                                (ms.Y - Location.Y - 32) / DisplayInformation.RawPixelsPerViewPixel) :
                             new Windows.Foundation.Point(ms.X - Location.X - 8, ms.Y - Location.Y - 32);
                         MainPage.TitlebarMenuFlyout.ShowAt(null, options);
                         return;
@@ -245,8 +242,8 @@ namespace FileRenamer.Views.Forms
         public void OnDpiChanged(DisplayInformation sender, object args)
         {
             Size = new Size(
-            Convert.ToInt32(windowWidth * sender.LogicalDpi / 96),
-            Convert.ToInt32(windowHeight * sender.LogicalDpi / 96)
+            Convert.ToInt32(windowWidth * sender.RawPixelsPerViewPixel),
+            Convert.ToInt32(windowHeight * sender.RawPixelsPerViewPixel)
             );
         }
 
