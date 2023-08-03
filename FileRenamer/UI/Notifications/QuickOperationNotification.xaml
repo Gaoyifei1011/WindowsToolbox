@@ -29,5 +29,15 @@
             x:Load="{x:Bind ControlLoad(OperationType, IsPinnedSuccessfully, 'StartScreenFailed'), Mode=OneWay}"
             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
             Text="{x:Bind root:ResourceService.GetLocalized('Notification/StartScreenFailed')}" />
+        <TextBlock
+            x:Name="TaskbarSuccess"
+            x:Load="{x:Bind ControlLoad(OperationType, IsPinnedSuccessfully, 'TaskbarSuccess'), Mode=OneWay}"
+            Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+            Text="{x:Bind root:ResourceService.GetLocalized('Notification/TaskbarSuccessfully')}" />
+        <TextBlock
+            x:Name="TaskbarFailed"
+            x:Load="{x:Bind ControlLoad(OperationType, IsPinnedSuccessfully, 'TaskbarFailed'), Mode=OneWay}"
+            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+            Text="{x:Bind root:ResourceService.GetLocalized('Notification/TaskbarFailed')}" />
     </Grid>
 </notification:InAppNotification>

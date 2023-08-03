@@ -159,6 +159,12 @@
   <data name="PinToStartScreenToolTip" xml:space="preserve">
     <value>Pin the app to Start screen</value>
   </data>
+  <data name="PinToTaskbar" xml:space="preserve">
+    <value>Pin to taskbar</value>
+  </data>
+  <data name="PinToTaskbarToolTip" xml:space="preserve">
+    <value>Pin the app to taskbar</value>
+  </data>
   <data name="RestartApp" xml:space="preserve">
     <value>Application restart</value>
   </data>

@@ -22,13 +22,25 @@ A simple tool to help users quickly rename a large number of files, providing a 
 ### Screenshot of the app
 
 #### <p align="center">File name page</p>
-![image](https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/b8b7e281-b653-4d0a-bf37-a2e03084a735)
+<div align="center">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/b8b7e281-b653-4d0a-bf37-a2e03084a735">
+</div>
+
 #### <p align="center">Extension name page</p>
-![image](https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/b7ffe444-6e98-4e8f-8f77-1ac9191bd522)
+<div align="center">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/b7ffe444-6e98-4e8f-8f77-1ac9191bd522">
+</div>
+
 #### <p align="center">Upper and lower case page</p>
-![image](https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/b565eeb6-ae61-4b9e-8d7b-d179a172fb25)
-#### <p align="center">File properties page</p>
-![image](https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/ff57ed81-1a1c-4ca3-9806-34c57b6e8cb6)
+<div align="center">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/b565eeb6-ae61-4b9e-8d7b-d179a172fb25">
+</div>
+
+#### <p align="center">File name page</p>
+<div align="center">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/ff57ed81-1a1c-4ca3-9806-34c57b6e8cb6">
+</div>
+
 
 ------
 
@@ -37,7 +49,7 @@ A simple tool to help users quickly rename a large number of files, providing a 
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [Newtonsoft.Json](https://www.newtonsoft.com/json)&emsp;
 
-[Code referenced or used during the learning process](https://github.com/Gaoyifei1011/FileRenamer/blob/master/Description/StudyReferenceCode.md)&emsp;
+[Code referenced or used during the learning process](https://github.com/Gaoyifei1011/FileRenamer/blob/main/Description/StudyReferenceCode.md)&emsp;
 
 ------
 
@@ -104,3 +116,4 @@ Unpackaged version
 
 > * The project began on March 20, 2023, and ended on July 29, 2023, lasting a total of 4 months and 9 days.
 > * This project is an open source project licensed under the MIT license, and you may modify, distribute, or merge copies with new copies. If you use the project, please do not use it for illegal purposes, and the developer will not be held responsible.
+> * [Tool prototype](https://github.com/Gaoyifei1011/FileRenamer/blob/main/Description/RawApplicationDescription.md)&emsp;

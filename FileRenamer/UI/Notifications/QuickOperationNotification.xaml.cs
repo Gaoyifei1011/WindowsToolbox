@@ -65,12 +65,23 @@ namespace FileRenamer.UI.Notifications
             {
                 return true;
             }
+            else if (controlName is "TaskbarSuccess" && operationType is QuickOperationType.Taskbar && isPinnedSuccessfully)
+            {
+                return true;
+            }
+            else if (controlName is "TaskbarFailed" && operationType is QuickOperationType.Taskbar && !isPinnedSuccessfully)
+            {
+                return true;
+            }
             else
             {
                 return false;
             }
         }
 
+        /// <summary>
+        /// 属性值发生变化时通知更改
+        /// </summary>
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

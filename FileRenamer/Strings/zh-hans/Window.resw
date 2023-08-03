@@ -159,6 +159,12 @@
   <data name="PinToStartScreenToolTip" xml:space="preserve">
     <value>将应用固定到“开始”屏幕</value>
   </data>
+  <data name="PinToTaskbar" xml:space="preserve">
+    <value>固定到任务栏</value>
+  </data>
+  <data name="PinToTaskbarToolTip" xml:space="preserve">
+    <value>将应用固定到任务栏</value>
+  </data>
   <data name="RestartApp" xml:space="preserve">
     <value>重启应用</value>
   </data>

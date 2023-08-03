@@ -22,13 +22,24 @@
 ### 应用截图
 
 #### <p align="center">文件名称页面</p>
-![image](https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/beef392a-cdd4-424f-ac6c-e1c411d41b8b)
+<div align="center">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/beef392a-cdd4-424f-ac6c-e1c411d41b8b">
+</div>
+
 #### <p align="center">扩展名称页面</p>
-![image](https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/5a87a68c-80f2-4e9a-8f6c-3bf9bd64d923)
+<div align="center">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/5a87a68c-80f2-4e9a-8f6c-3bf9bd64d923">
+</div>
+
 #### <p align="center">大写小写页面</p>
-![image](https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/d3925ada-e533-465d-95ed-cc253bbc6137)
+<div align="center">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/d3925ada-e533-465d-95ed-cc253bbc6137">
+</div>
+
 #### <p align="center">文件属性页面</p>
-![image](https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/21c739eb-3ceb-4f6b-95cf-1d7c8ef468ec)
+<div align="center">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/21c739eb-3ceb-4f6b-95cf-1d7c8ef468ec">
+</div>
 
 ------
 
@@ -37,7 +48,7 @@
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [Newtonsoft.Json](https://www.newtonsoft.com/json)&emsp;
 
-[学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/FileRenamer/blob/master/Description/StudyReferenceCode.md)&emsp;
+[学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/FileRenamer/blob/main/Description/StudyReferenceCode.md)&emsp;
 
 ------
 
@@ -104,3 +115,4 @@
 
 > * 该项目自2023年3月20日起，到2023年7月29日结束，共历时4个月零9天。
 > * 该项目是基于MIT协议许可的开源项目，您可以修改、分发该项目或将副本与新副本合并。如果您使用了该项目，请勿用于非法用途，本开发者不会承担任何责任。
+> * [工具原型](https://github.com/Gaoyifei1011/FileRenamer/blob/main/Description/RawApplicationDescription.md)&emsp;

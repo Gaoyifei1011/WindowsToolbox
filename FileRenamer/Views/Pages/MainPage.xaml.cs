@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Shell;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -363,6 +364,29 @@ namespace FileRenamer.Views.Pages
             finally
             {
                 new QuickOperationNotification(this, QuickOperationType.StartScreen, IsPinnedSuccessfully).Show();
+            }
+        }
+
+        // 将应用固定到任务栏
+        public async void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
+        {
+            bool IsPinnedSuccessfully = false;
+            try
+            {
+                string featureId = "com.microsoft.windows.taskbar.pin";
+                string token = FeatureAccessHelper.GenerateTokenFromFeatureId(featureId);
+                string attestation = FeatureAccessHelper.GenerateAttestation(featureId);
+                LimitedAccessFeatureRequestResult accessResult = LimitedAccessFeatures.TryUnlockFeature(featureId, token, attestation);
+
+                if (accessResult.Status is LimitedAccessFeatureStatus.Available)
+                {
+                    IsPinnedSuccessfully = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
+                }
+            }
+            catch (Exception) { }
+            finally
+            {
+                new QuickOperationNotification(this, QuickOperationType.Taskbar, IsPinnedSuccessfully).Show();
             }
         }
 
