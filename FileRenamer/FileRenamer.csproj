@@ -49,8 +49,6 @@
       <Isolated>false</Isolated>
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
-    
-    <Content Include="Assets\FileRenamer.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-125.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-150.png" CopyToOutputDirectory="Always" />

@@ -55,45 +55,29 @@
                     Grid.Column="0"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind root:ResourceService.GetLocalized('Dialog/FileName')}">
-
-                    <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Dialog/FileName')}" Placement="Mouse" />
-                    </ToolTipService.ToolTip>
-                </TextBlock>
+                    Text="{x:Bind root:ResourceService.GetLocalized('Dialog/FileName')}"
+                    ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Dialog/FileName')}" />
 
                 <TextBlock
                     Grid.Column="1"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind root:ResourceService.GetLocalized('Dialog/ErrorMessage')}">
-
-                    <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Dialog/ErrorMessage')}" Placement="Mouse" />
-                    </ToolTipService.ToolTip>
-                </TextBlock>
+                    Text="{x:Bind root:ResourceService.GetLocalized('Dialog/ErrorMessage')}"
+                    ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Dialog/ErrorMessage')}" />
 
                 <TextBlock
                     Grid.Column="2"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind root:ResourceService.GetLocalized('Dialog/ErrorCode')}">
-
-                    <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Dialog/ErrorCode')}" Placement="Mouse" />
-                    </ToolTipService.ToolTip>
-                </TextBlock>
+                    Text="{x:Bind root:ResourceService.GetLocalized('Dialog/ErrorCode')}"
+                    ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Dialog/ErrorCode')}" />
 
                 <TextBlock
                     Grid.Column="3"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind root:ResourceService.GetLocalized('Dialog/Operation')}">
-
-                    <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Dialog/Operation')}" Placement="Mouse" />
-                    </ToolTipService.ToolTip>
-                </TextBlock>
+                    Text="{x:Bind root:ResourceService.GetLocalized('Dialog/Operation')}"
+                    ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Dialog/Operation')}" />
             </Grid>
         </ListView.Header>
 
@@ -117,36 +101,24 @@
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
                         FontSize="14"
-                        Text="{x:Bind FileName}">
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind FilePath}" Placement="Mouse" />
-                        </ToolTipService.ToolTip>
-                    </TextBlock>
+                        Text="{x:Bind FileName}"
+                        ToolTipService.ToolTip="{x:Bind FilePath}" />
 
                     <TextBlock
                         Grid.Column="1"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
                         FontSize="14"
-                        Text="{x:Bind Exception.Message}">
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind Exception.Message}" Placement="Mouse" />
-                        </ToolTipService.ToolTip>
-                    </TextBlock>
+                        Text="{x:Bind Exception.Message}"
+                        ToolTipService.ToolTip="{x:Bind Exception.Message}" />
 
                     <TextBlock
                         Grid.Column="2"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
                         FontSize="14"
-                        Text="{x:Bind sys:Convert.ToString(Exception.HResult)}">
-
-                        <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind Exception.HResult}" Placement="Mouse" />
-                        </ToolTipService.ToolTip>
-                    </TextBlock>
+                        Text="{x:Bind sys:Convert.ToString(Exception.HResult)}"
+                        ToolTipService.ToolTip="{x:Bind Exception.HResult}" />
 
                     <HyperlinkButton
                         Grid.Column="3"
