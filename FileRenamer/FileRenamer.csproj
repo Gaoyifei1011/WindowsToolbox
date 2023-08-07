@@ -33,7 +33,7 @@
 
   <ItemGroup>
     <ApplicationDefinition Update="App.xaml" Generator="MSBuild:Compile" />
-
+    
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -118,4 +118,8 @@
 
     <None Update="Assets\FileRenamer.ico" />
   </ItemGroup>
+
+  <Target Name="SignExeFile" BeforeTargets="Build">
+    <Exec Command="$(ProjectDir)signtool.exe sign /f $(SolutionDir)$(AssemblyName)Package\$(AssemblyName)Package_SignKey.pfx /t http://timestamp.digicert.com /fd SHA256 $(ProjectDir)$(BaseOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).exe" />
+  </Target>
 </Project>
