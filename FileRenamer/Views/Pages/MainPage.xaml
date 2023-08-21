@@ -25,8 +25,8 @@
                 Click="{x:Bind OnRestoreClicked}"
                 IsEnabled="{x:Bind IsWindowMaximized, Mode=OneWay}"
                 Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
-                Text="{x:Bind root:ResourceService.GetLocalized('Window/Restore')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/Restore')}">
+                Text="{x:Bind root:ResourceService.GetLocalized('Window/Restore')}">
+
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE923;" />
                 </MenuFlyoutItem.Icon>
@@ -36,21 +36,18 @@
                 Click="{x:Bind OnMoveClicked}"
                 Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                 Tag="{x:Bind TitlebarMenuFlyout}"
-                Text="{x:Bind root:ResourceService.GetLocalized('Window/Move')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/Move')}" />
+                Text="{x:Bind root:ResourceService.GetLocalized('Window/Move')}" />
 
             <MenuFlyoutItem
                 Click="{x:Bind OnSizeClicked}"
                 Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                 Tag="{x:Bind TitlebarMenuFlyout}"
-                Text="{x:Bind root:ResourceService.GetLocalized('Window/Size')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/Size')}" />
+                Text="{x:Bind root:ResourceService.GetLocalized('Window/Size')}" />
 
             <MenuFlyoutItem
                 Click="{x:Bind OnMinimizeClicked}"
                 Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
-                Text="{x:Bind root:ResourceService.GetLocalized('Window/Minimize')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/Minimize')}">
+                Text="{x:Bind root:ResourceService.GetLocalized('Window/Minimize')}">
 
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE921;" />
@@ -61,8 +58,7 @@
                 Click="{x:Bind OnMaximizeClicked}"
                 IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsWindowMaximized), Mode=OneWay}"
                 Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
-                Text="{x:Bind root:ResourceService.GetLocalized('Window/Maximize')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/Maximize')}">
+                Text="{x:Bind root:ResourceService.GetLocalized('Window/Maximize')}">
 
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE922;" />
@@ -74,8 +70,8 @@
             <MenuFlyoutItem
                 Click="{x:Bind OnCloseClicked}"
                 Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
-                Text="{x:Bind root:ResourceService.GetLocalized('Window/Close')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/Close')}">
+                Text="{x:Bind root:ResourceService.GetLocalized('Window/Close')}">
+
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE8BB;" />
                 </MenuFlyoutItem.Icon>
@@ -105,10 +101,6 @@
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE8a5;" />
                 </NavigationViewItem.Icon>
-
-                <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Window/FileName')}" />
-                </ToolTipService.ToolTip>
             </NavigationViewItem>
 
             <NavigationViewItem Content="{x:Bind root:ResourceService.GetLocalized('Window/ExtensionName')}" Tag="{x:Bind TagList[1]}">
@@ -116,10 +108,6 @@
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE8a6;" />
                 </NavigationViewItem.Icon>
-
-                <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Window/ExtensionName')}" />
-                </ToolTipService.ToolTip>
             </NavigationViewItem>
 
             <NavigationViewItem Content="{x:Bind root:ResourceService.GetLocalized('Window/UpperAndLowerCase')}" Tag="{x:Bind TagList[2]}">
@@ -127,10 +115,6 @@
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE8e9;" />
                 </NavigationViewItem.Icon>
-
-                <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Window/UpperAndLowerCase')}" />
-                </ToolTipService.ToolTip>
             </NavigationViewItem>
 
             <NavigationViewItem Content="{x:Bind root:ResourceService.GetLocalized('Window/FileProperties')}" Tag="{x:Bind TagList[3]}">
@@ -138,10 +122,6 @@
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE90f;" />
                 </NavigationViewItem.Icon>
-
-                <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Window/FileProperties')}" />
-                </ToolTipService.ToolTip>
             </NavigationViewItem>
 
             <NavigationViewItemSeparator />
@@ -151,10 +131,6 @@
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE946;" />
                 </NavigationViewItem.Icon>
-
-                <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Window/About')}" />
-                </ToolTipService.ToolTip>
             </NavigationViewItem>
 
             <NavigationViewItem Content="{x:Bind root:ResourceService.GetLocalized('Window/Settings')}" Tag="{x:Bind TagList[5]}">
@@ -162,10 +138,6 @@
                 <NavigationViewItem.Icon>
                     <FontIcon FontSize="16" Glyph="&#xE713;" />
                 </NavigationViewItem.Icon>
-
-                <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Window/Settings')}" />
-                </ToolTipService.ToolTip>
             </NavigationViewItem>
         </NavigationView.MenuItems>
 
@@ -193,6 +165,14 @@
                                 Style="{StaticResource MenuFlyoutItemStyle}"
                                 Text="{x:Bind root:ResourceService.GetLocalized('Window/PinToStartScreen')}"
                                 ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/PinToStartScreenToolTip')}" />
+
+                            <MenuFlyoutItem
+                                x:Name="PinToTaskbar"
+                                x:Load="{x:Bind helper:RuntimeHelper.IsMSIX}"
+                                Click="{x:Bind OnPinToTaskbarClicked}"
+                                Style="{StaticResource MenuFlyoutItemStyle}"
+                                Text="{x:Bind root:ResourceService.GetLocalized('Window/PinToTaskbar')}"
+                                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/PinToTaskbarToolTip')}" />
 
                             <MenuFlyoutSeparator />
 
@@ -222,10 +202,7 @@
                         Content="{x:Bind root:ResourceService.GetLocalized('Window/RestartApp')}"
                         ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/RestartAppToolTip')}" />
 
-                    <Button
-                        Click="{x:Bind OnSettingsInstructionClicked}"
-                        Content="{x:Bind root:ResourceService.GetLocalized('Window/SettingsInstruction')}"
-                        ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Window/SettingsInstruction')}" />
+                    <Button Click="{x:Bind OnSettingsInstructionClicked}" Content="{x:Bind root:ResourceService.GetLocalized('Window/SettingsInstruction')}" />
                 </StackPanel>
             </Grid>
         </NavigationView.PaneFooter>

@@ -107,6 +107,7 @@
 ### 感谢（按英文首字母排序）
 
 > * [AndromedaMelody](https://github.com/AndromedaMelody)&emsp;
+> * [Microsoft.NETFramework.ReferenceAssemblies](https://github.com/Microsoft/dotnet/tree/master/releases/reference-assemblies)&emsp;
 > * [MouriNaruto](https://github.com/MouriNaruto)&emsp;
 
 ------

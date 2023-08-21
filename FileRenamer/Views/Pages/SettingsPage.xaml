@@ -65,14 +65,12 @@
                     Grid.Column="2"
                     Margin="0,0,6,0"
                     Click="{x:Bind OnSystemThemeSettingsClicked}"
-                    Content="{x:Bind root:ResourceService.GetLocalized('Settings/SystemThemeSettings')}"
-                    ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Settings/SystemThemeSettings')}" />
+                    Content="{x:Bind root:ResourceService.GetLocalized('Settings/SystemThemeSettings')}" />
 
                 <DropDownButton
                     Grid.Column="3"
                     VerticalAlignment="Center"
-                    Content="{x:Bind Theme.DisplayMember, Mode=OneWay}"
-                    ToolTipService.ToolTip="{x:Bind Theme.DisplayMember, Mode=OneWay}">
+                    Content="{x:Bind Theme.DisplayMember, Mode=OneWay}">
 
                     <DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
@@ -81,24 +79,21 @@
                                 IsChecked="{x:Bind IsItemChecked(Theme, ThemeList[0]), Mode=OneWay}"
                                 Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                 Tag="0"
-                                Text="{x:Bind ThemeList[0].DisplayMember}"
-                                ToolTipService.ToolTip="{x:Bind ThemeList[0].DisplayMember}" />
+                                Text="{x:Bind ThemeList[0].DisplayMember}" />
 
                             <ToggleMenuFlyoutItem
                                 Click="{x:Bind OnThemeSelectClicked}"
                                 IsChecked="{x:Bind IsItemChecked(Theme, ThemeList[1]), Mode=OneWay}"
                                 Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                 Tag="1"
-                                Text="{x:Bind ThemeList[1].DisplayMember}"
-                                ToolTipService.ToolTip="{x:Bind ThemeList[1].DisplayMember}" />
+                                Text="{x:Bind ThemeList[1].DisplayMember}" />
 
                             <ToggleMenuFlyoutItem
                                 Click="{x:Bind OnThemeSelectClicked}"
                                 IsChecked="{x:Bind IsItemChecked(Theme, ThemeList[2]), Mode=OneWay}"
                                 Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                 Tag="2"
-                                Text="{x:Bind ThemeList[2].DisplayMember}"
-                                ToolTipService.ToolTip="{x:Bind ThemeList[2].DisplayMember}" />
+                                Text="{x:Bind ThemeList[2].DisplayMember}" />
                         </MenuFlyout>
                     </DropDownButton.Flyout>
                 </DropDownButton>
@@ -145,14 +140,12 @@
                     Grid.Column="2"
                     Margin="0,0,6,0"
                     Click="{x:Bind OnSystemBackdropSettingsClicked}"
-                    Content="{x:Bind root:ResourceService.GetLocalized('Settings/SystemBackdropSettings')}"
-                    ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Settings/SystemBackdropSettings')}" />
+                    Content="{x:Bind root:ResourceService.GetLocalized('Settings/SystemBackdropSettings')}" />
 
                 <DropDownButton
                     Grid.Column="3"
                     VerticalAlignment="Center"
-                    Content="{x:Bind Backdrop.DisplayMember, Mode=OneWay}"
-                    ToolTipService.ToolTip="{x:Bind Backdrop.DisplayMember, Mode=OneWay}">
+                    Content="{x:Bind Backdrop.DisplayMember, Mode=OneWay}">
 
                     <DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
@@ -161,32 +154,28 @@
                                 IsChecked="{x:Bind IsItemChecked(Backdrop, BackdropList[0]), Mode=OneWay}"
                                 Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                 Tag="0"
-                                Text="{x:Bind BackdropList[0].DisplayMember}"
-                                ToolTipService.ToolTip="{x:Bind BackdropList[0].DisplayMember}" />
+                                Text="{x:Bind BackdropList[0].DisplayMember}" />
 
                             <ToggleMenuFlyoutItem
                                 Click="{x:Bind OnBackdropSelectClicked}"
                                 IsChecked="{x:Bind IsItemChecked(Backdrop, BackdropList[1]), Mode=OneWay}"
                                 Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                 Tag="1"
-                                Text="{x:Bind BackdropList[1].DisplayMember}"
-                                ToolTipService.ToolTip="{x:Bind BackdropList[1].DisplayMember}" />
+                                Text="{x:Bind BackdropList[1].DisplayMember}" />
 
                             <ToggleMenuFlyoutItem
                                 Click="{x:Bind OnBackdropSelectClicked}"
                                 IsChecked="{x:Bind IsItemChecked(Backdrop, BackdropList[2]), Mode=OneWay}"
                                 Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                 Tag="2"
-                                Text="{x:Bind BackdropList[2].DisplayMember}"
-                                ToolTipService.ToolTip="{x:Bind BackdropList[2].DisplayMember}" />
+                                Text="{x:Bind BackdropList[2].DisplayMember}" />
 
                             <ToggleMenuFlyoutItem
                                 Click="{x:Bind OnBackdropSelectClicked}"
                                 IsChecked="{x:Bind IsItemChecked(Backdrop, BackdropList[3]), Mode=OneWay}"
                                 Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                 Tag="3"
-                                Text="{x:Bind BackdropList[3].DisplayMember}"
-                                ToolTipService.ToolTip="{x:Bind BackdropList[3].DisplayMember}" />
+                                Text="{x:Bind BackdropList[3].DisplayMember}" />
                         </MenuFlyout>
                     </DropDownButton.Flyout>
                 </DropDownButton>
@@ -232,14 +221,12 @@
                     Margin="0,0,6,0"
                     VerticalAlignment="Center"
                     Click="{x:Bind OnSystemLanguageSettingsClicked}"
-                    Content="{x:Bind root:ResourceService.GetLocalized('Settings/SystemLanguageSettings')}"
-                    ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Settings/SystemLanguageSettings')}" />
+                    Content="{x:Bind root:ResourceService.GetLocalized('Settings/SystemLanguageSettings')}" />
 
                 <DropDownButton
                     Grid.Column="3"
                     VerticalAlignment="Center"
-                    Content="{x:Bind AppLanguage.DisplayMember, Mode=OneWay}"
-                    ToolTipService.ToolTip="{x:Bind AppLanguage.DisplayMember, Mode=OneWay}">
+                    Content="{x:Bind AppLanguage.DisplayMember, Mode=OneWay}">
 
                     <DropDownButton.Flyout>
                         <MenuFlyout x:Name="LanguageFlyout" Placement="Bottom">

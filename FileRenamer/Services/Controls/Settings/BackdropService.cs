@@ -59,7 +59,7 @@ namespace FileRenamer.Services.Controls.Settings
         /// <summary>
         /// 设置应用显示的背景色
         /// </summary>
-        public static void SetAppBackdrop(IntPtr handle)
+        public static void SetAppBackdrop()
         {
             Program.MainWindow.SetWindowBackdrop();
         }

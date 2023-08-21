@@ -306,71 +306,85 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 创建应用的桌面快捷方式
         /// </summary>
-        public async void OnCreateDesktopShortcutClicked(object sender, RoutedEventArgs args)
+        public void OnCreateDesktopShortcutClicked(object sender, RoutedEventArgs args)
         {
             bool IsCreatedSuccessfully = false;
-            try
+
+            Task.Run(async () =>
             {
-                IWshShell shell = new WshShell();
-                WshShortcut AppShortcut = (WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), ResourceService.GetLocalized("Resources/AppDisplayName")));
-                if (RuntimeHelper.IsMSIX)
+                try
                 {
-                    IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
-                    AppListEntry DefaultEntry = AppEntries[0];
-                    AppShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", DefaultEntry.AppUserModelId);
-                    AppShortcut.Save();
+                    IWshShell shell = new WshShell();
+                    WshShortcut AppShortcut = (WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), ResourceService.GetLocalized("Resources/AppDisplayName")));
+                    if (RuntimeHelper.IsMSIX)
+                    {
+                        IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
+                        AppListEntry DefaultEntry = AppEntries[0];
+                        AppShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", DefaultEntry.AppUserModelId);
+                        AppShortcut.Save();
+                    }
+                    else
+                    {
+                        AppShortcut.TargetPath = Process.GetCurrentProcess().MainModule.FileName;
+                        AppShortcut.Save();
+                    }
+                    IsCreatedSuccessfully = true;
                 }
-                else
+                catch (Exception) { }
+                finally
                 {
-                    AppShortcut.TargetPath = Process.GetCurrentProcess().MainModule.FileName;
-                    AppShortcut.Save();
+                    Program.MainWindow.BeginInvoke(() =>
+                    {
+                        new QuickOperationNotification(this, QuickOperationType.DesktopShortcut, IsCreatedSuccessfully).Show();
+                    });
                 }
-                IsCreatedSuccessfully = true;
-            }
-            catch (Exception) { }
-            finally
-            {
-                new QuickOperationNotification(this, QuickOperationType.DesktopShortcut, IsCreatedSuccessfully).Show();
-            }
+            });
         }
 
         /// <summary>
         /// 将应用固定到“开始”屏幕
         /// </summary>
-        public async void OnPinToStartScreenClicked(object sender, RoutedEventArgs args)
+        public void OnPinToStartScreenClicked(object sender, RoutedEventArgs args)
         {
             bool IsPinnedSuccessfully = false;
 
-            try
+            Task.Run(async () =>
             {
-                IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
-
-                AppListEntry DefaultEntry = AppEntries[0];
-
-                if (DefaultEntry is not null)
+                try
                 {
-                    StartScreenManager startScreenManager = StartScreenManager.GetDefault();
+                    IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
 
-                    bool containsEntry = await startScreenManager.ContainsAppListEntryAsync(DefaultEntry);
+                    AppListEntry DefaultEntry = AppEntries[0];
 
-                    if (!containsEntry)
+                    if (DefaultEntry is not null)
                     {
-                        await startScreenManager.RequestAddAppListEntryAsync(DefaultEntry);
+                        StartScreenManager startScreenManager = StartScreenManager.GetDefault();
+
+                        bool containsEntry = await startScreenManager.ContainsAppListEntryAsync(DefaultEntry);
+
+                        if (!containsEntry)
+                        {
+                            await startScreenManager.RequestAddAppListEntryAsync(DefaultEntry);
+                        }
                     }
+                    IsPinnedSuccessfully = true;
                 }
-                IsPinnedSuccessfully = true;
-            }
-            catch (Exception) { }
-            finally
-            {
-                new QuickOperationNotification(this, QuickOperationType.StartScreen, IsPinnedSuccessfully).Show();
-            }
+                catch (Exception) { }
+                finally
+                {
+                    Program.MainWindow.BeginInvoke(() =>
+                    {
+                        new QuickOperationNotification(this, QuickOperationType.StartScreen, IsPinnedSuccessfully).Show();
+                    });
+                }
+            });
         }
 
         // 将应用固定到任务栏
         public async void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
         {
             bool IsPinnedSuccessfully = false;
+
             try
             {
                 string featureId = "com.microsoft.windows.taskbar.pin";

@@ -152,18 +152,30 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock
+                x:Name="FileNameHeaderText"
                 Grid.Column="0"
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 Text="{x:Bind root:ResourceService.GetLocalized('FileProperties/FileName')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileProperties/FileName')}" />
+                TextTrimming="CharacterEllipsis">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/FileName')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(FileNameHeaderText.IsTextTrimmed), Mode=OneWay}" />
+                </ToolTipService.ToolTip>
+            </TextBlock>
 
             <TextBlock
+                x:Name="FilePropertiesHeaderText"
                 Grid.Column="1"
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 Text="{x:Bind root:ResourceService.GetLocalized('FileProperties/FileProperties')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileProperties/FileProperties')}" />
+                TextTrimming="CharacterEllipsis">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/FileProperties')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(FilePropertiesHeaderText.IsTextTrimmed), Mode=OneWay}" />
+                </ToolTipService.ToolTip>
+            </TextBlock>
         </Grid>
 
         <ListView
@@ -237,7 +249,6 @@
             VerticalAlignment="Top"
             Text="{x:Bind root:ResourceService.GetLocalized('FileProperties/EmptyList')}"
             TextAlignment="Center"
-            ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileProperties/EmptyList')}"
             Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FilePropertiesDataList.Count), Mode=OneWay}" />
 
         <Grid
@@ -259,27 +270,23 @@
             <Button
                 Grid.Column="0"
                 Click="{x:Bind OnSelectFileClicked}"
-                Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/SelectFile')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileProperties/SelectFile')}" />
+                Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/SelectFile')}" />
 
             <Button
                 Grid.Column="1"
                 Click="{x:Bind OnSelectFolderClicked}"
-                Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/SelectFolder')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileProperties/SelectFolder')}" />
+                Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/SelectFolder')}" />
 
             <Button
                 Grid.Column="2"
                 Click="{x:Bind OnClearListClicked}"
-                Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/ClearList')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileProperties/ClearList')}" />
+                Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/ClearList')}" />
 
             <TextBlock
                 Grid.Column="3"
                 VerticalAlignment="Center"
                 Text="{x:Bind LocalizeTotal(FilePropertiesDataList.Count), Mode=OneWay}"
-                TextAlignment="Center"
-                ToolTipService.ToolTip="{x:Bind LocalizeTotal(FilePropertiesDataList.Count), Mode=OneWay}" />
+                TextAlignment="Center" />
 
             <HyperlinkButton
                 Grid.Column="4"
@@ -287,7 +294,6 @@
                 Click="{x:Bind OnViewErrorInformationClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/ViewErrorInformation')}"
                 Style="{StaticResource ErrorHyperlinkButtonStyle}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileProperties/ViewErrorInformation')}"
                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedList.Count), Mode=OneWay}" />
 
             <ProgressRing
@@ -308,16 +314,14 @@
                 Grid.Column="7"
                 Click="{x:Bind OnPreviewClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/Preview')}"
-                IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileProperties/Preview')}" />
+                IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}" />
 
             <Button
                 Grid.Column="8"
                 Click="{x:Bind OnModifyClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/Modify')}"
                 IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}"
-                Style="{StaticResource AccentButtonStyle}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileProperties/Modify')}" />
+                Style="{StaticResource AccentButtonStyle}" />
         </Grid>
     </Grid>
 </Page>

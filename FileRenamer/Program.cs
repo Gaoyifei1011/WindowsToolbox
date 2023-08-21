@@ -183,7 +183,6 @@ namespace FileRenamer
             {
                 ApplicationPath = Process.GetCurrentProcess().MainModule.FileName,
                 Arguments = "FileName",
-                CustomCategory = ResourceService.GetLocalized("Resources/Task"),
                 Description = ResourceService.GetLocalized("Window/FileName"),
                 IconResourceIndex = 2,
                 IconResourcePath = Path.Combine(Environment.SystemDirectory, "Imageres.dll"),
@@ -193,7 +192,6 @@ namespace FileRenamer
             {
                 ApplicationPath = Process.GetCurrentProcess().MainModule.FileName,
                 Arguments = "ExtensionName",
-                CustomCategory = ResourceService.GetLocalized("Resources/Task"),
                 Description = ResourceService.GetLocalized("Window/ExtensionName"),
                 IconResourceIndex = 247,
                 IconResourcePath = Path.Combine(Environment.SystemDirectory, "Imageres.dll"),
@@ -203,7 +201,6 @@ namespace FileRenamer
             {
                 ApplicationPath = Process.GetCurrentProcess().MainModule.FileName,
                 Arguments = "UpperAndLowerCase",
-                CustomCategory = ResourceService.GetLocalized("Resources/Task"),
                 Description = ResourceService.GetLocalized("Window/UpperAndLowerCase"),
                 IconResourceIndex = 118,
                 IconResourcePath = Path.Combine(Environment.SystemDirectory, "Imageres.dll"),
@@ -213,7 +210,6 @@ namespace FileRenamer
             {
                 ApplicationPath = Process.GetCurrentProcess().MainModule.FileName,
                 Arguments = "FileProperties",
-                CustomCategory = ResourceService.GetLocalized("Resources/Task"),
                 Description = ResourceService.GetLocalized("Window/FileProperties"),
                 IconResourceIndex = 64,
                 IconResourcePath = Path.Combine(Environment.SystemDirectory, "Imageres.dll"),

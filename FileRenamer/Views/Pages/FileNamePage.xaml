@@ -81,10 +81,7 @@
                         VerticalAlignment="Center"
                         Text="{x:Bind root:ResourceService.GetLocalized('FileName/NumberFormat')}" />
 
-                    <DropDownButton
-                        Grid.Column="1"
-                        Content="{x:Bind SelectedNumberFormat.DisplayMember, Mode=OneWay}"
-                        ToolTipService.ToolTip="{x:Bind SelectedNumberFormat.DisplayMember, Mode=OneWay}">
+                    <DropDownButton Grid.Column="1" Content="{x:Bind SelectedNumberFormat.DisplayMember, Mode=OneWay}">
 
                         <DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
@@ -93,64 +90,56 @@
                                     IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[0]), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="0"
-                                    Text="{x:Bind NumberFormatList[0].DisplayMember}"
-                                    ToolTipService.ToolTip="{x:Bind NumberFormatList[0].DisplayMember}" />
+                                    Text="{x:Bind NumberFormatList[0].DisplayMember}" />
 
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[1]), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="1"
-                                    Text="{x:Bind NumberFormatList[1].DisplayMember}"
-                                    ToolTipService.ToolTip="{x:Bind NumberFormatList[1].DisplayMember}" />
+                                    Text="{x:Bind NumberFormatList[1].DisplayMember}" />
 
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[2]), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="2"
-                                    Text="{x:Bind NumberFormatList[2].DisplayMember}"
-                                    ToolTipService.ToolTip="{x:Bind NumberFormatList[2].DisplayMember}" />
+                                    Text="{x:Bind NumberFormatList[2].DisplayMember}" />
 
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[3]), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="3"
-                                    Text="{x:Bind NumberFormatList[3].DisplayMember}"
-                                    ToolTipService.ToolTip="{x:Bind NumberFormatList[3].DisplayMember}" />
+                                    Text="{x:Bind NumberFormatList[3].DisplayMember}" />
 
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[4]), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="4"
-                                    Text="{x:Bind NumberFormatList[4].DisplayMember}"
-                                    ToolTipService.ToolTip="{x:Bind NumberFormatList[4].DisplayMember}" />
+                                    Text="{x:Bind NumberFormatList[4].DisplayMember}" />
 
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[5]), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="5"
-                                    Text="{x:Bind NumberFormatList[5].DisplayMember}"
-                                    ToolTipService.ToolTip="{x:Bind NumberFormatList[5].DisplayMember}" />
+                                    Text="{x:Bind NumberFormatList[5].DisplayMember}" />
 
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[6]), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="6"
-                                    Text="{x:Bind NumberFormatList[6].DisplayMember}"
-                                    ToolTipService.ToolTip="{x:Bind NumberFormatList[6].DisplayMember}" />
+                                    Text="{x:Bind NumberFormatList[6].DisplayMember}" />
 
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[7]), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="7"
-                                    Text="{x:Bind NumberFormatList[7].DisplayMember}"
-                                    ToolTipService.ToolTip="{x:Bind NumberFormatList[7].DisplayMember}" />
+                                    Text="{x:Bind NumberFormatList[7].DisplayMember}" />
                             </MenuFlyout>
                         </DropDownButton.Flyout>
                     </DropDownButton>
@@ -206,10 +195,7 @@
                         Text="{x:Bind ReplaceString, Mode=TwoWay}" />
                 </Grid>
 
-                <Button
-                    HorizontalAlignment="Stretch"
-                    Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewNameChangeExample')}"
-                    ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/ViewNameChangeExample')}">
+                <Button HorizontalAlignment="Stretch" Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewNameChangeExample')}">
 
                     <Button.Flyout>
                         <Flyout Placement="RightEdgeAlignedTop" ShouldConstrainToRootBounds="False">
@@ -239,8 +225,7 @@
                                     <HyperlinkButton
                                         Grid.Column="1"
                                         VerticalAlignment="Center"
-                                        Content="{x:Bind root:ResourceService.GetLocalized('FileName/NameChangeTip')}"
-                                        ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/ChangeRuleDescription')}" />
+                                        Content="{x:Bind root:ResourceService.GetLocalized('FileName/NameChangeTip')}" />
                                 </Grid>
 
                                 <TextBlock
@@ -267,8 +252,7 @@
                                         Margin="0,0,0,5"
                                         Text="{x:Bind root:ResourceService.GetLocalized('FileName/NumberPlaceHolder')}"
                                         TextAlignment="Justify"
-                                        TextWrapping="Wrap"
-                                        ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/NumberPlaceHolder')}" />
+                                        TextWrapping="Wrap" />
 
                                     <TextBlock
                                         Grid.Row="0"
@@ -276,8 +260,7 @@
                                         Margin="0,0,0,5"
                                         Text="{x:Bind root:ResourceService.GetLocalized('FileName/TodayDatePlaceHolder')}"
                                         TextAlignment="Justify"
-                                        TextWrapping="Wrap"
-                                        ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/TodayDatePlaceHolder')}" />
+                                        TextWrapping="Wrap" />
 
                                     <TextBlock
                                         Grid.Row="0"
@@ -285,8 +268,7 @@
                                         Margin="0,0,0,5"
                                         Text="{x:Bind root:ResourceService.GetLocalized('FileName/OriginalNameChangeFileName')}"
                                         TextAlignment="Justify"
-                                        TextWrapping="Wrap"
-                                        ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/OriginalNameChangeFileName')}" />
+                                        TextWrapping="Wrap" />
 
                                     <TextBlock
                                         Grid.Row="1"
@@ -294,8 +276,7 @@
                                         Margin="0,0,0,5"
                                         Text="{x:Bind root:ResourceService.GetLocalized('FileName/ModifyDatePlaceHolder')}"
                                         TextAlignment="Justify"
-                                        TextWrapping="Wrap"
-                                        ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/ModifyDatePlaceHolder')}" />
+                                        TextWrapping="Wrap" />
 
                                     <TextBlock
                                         Grid.Row="1"
@@ -303,8 +284,7 @@
                                         Margin="0,0,0,5"
                                         Text="{x:Bind root:ResourceService.GetLocalized('FileName/BuildDatePlaceHolder')}"
                                         TextAlignment="Justify"
-                                        TextWrapping="Wrap"
-                                        ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/BuildDatePlaceHolder')}" />
+                                        TextWrapping="Wrap" />
                                 </Grid>
 
                                 <MenuFlyoutSeparator Margin="4,2,4,2" Background="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
@@ -320,8 +300,7 @@
                                             Margin="0,0,0,5"
                                             Text="{x:Bind root:ResourceService.GetLocalized('FileName/ReferenceSample')}"
                                             TextAlignment="Justify"
-                                            TextWrapping="Wrap"
-                                            ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/ReferenceSample')}" />
+                                            TextWrapping="Wrap" />
 
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock
@@ -390,18 +369,30 @@
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock
+                                                x:Name="OriginalNameHeaderText"
                                                 Grid.Column="0"
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
                                                 Text="{x:Bind root:ResourceService.GetLocalized('FileName/OriginalName')}"
-                                                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/OriginalName')}" />
+                                                TextTrimming="CharacterEllipsis">
+
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileName/OriginalName')}" Visibility="{Binding ElementName=OriginalNameHeaderText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                </ToolTipService.ToolTip>
+                                            </TextBlock>
 
                                             <TextBlock
+                                                x:Name="ChangedNameHeaderText"
                                                 Grid.Column="1"
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
                                                 Text="{x:Bind root:ResourceService.GetLocalized('FileName/ChangedName')}"
-                                                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/ChangedName')}" />
+                                                TextTrimming="CharacterEllipsis">
+
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileName/ChangedName')}" Visibility="{Binding ElementName=ChangedNameHeaderText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                </ToolTipService.ToolTip>
+                                            </TextBlock>
                                         </Grid>
                                     </ListView.Header>
 
@@ -419,6 +410,7 @@
                                                 </Grid.ColumnDefinitions>
 
                                                 <TextBlock
+                                                    x:Name="OriginalFileNameText"
                                                     Grid.Column="0"
                                                     MinWidth="50"
                                                     Margin="10,0,0,0"
@@ -426,9 +418,15 @@
                                                     FontSize="14"
                                                     Text="{x:Bind OriginalFileName, Mode=OneWay}"
                                                     TextAlignment="Left"
-                                                    ToolTipService.ToolTip="{x:Bind OriginalFileName, Mode=OneWay}" />
+                                                    TextTrimming="CharacterEllipsis">
+
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip Content="{x:Bind OriginalFileName}" Visibility="{Binding ElementName=OriginalFileNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    </ToolTipService.ToolTip>
+                                                </TextBlock>
 
                                                 <TextBlock
+                                                    x:Name="NewFileNameText"
                                                     Grid.Column="1"
                                                     MinWidth="50"
                                                     Margin="10,0,0,0"
@@ -436,7 +434,12 @@
                                                     FontSize="14"
                                                     Text="{x:Bind NewFileName, Mode=OneWay}"
                                                     TextAlignment="Left"
-                                                    ToolTipService.ToolTip="{x:Bind NewFileName, Mode=OneWay}" />
+                                                    TextTrimming="CharacterEllipsis">
+
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip Content="{x:Bind OriginalFileName}" Visibility="{Binding ElementName=NewFileNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    </ToolTipService.ToolTip>
+                                                </TextBlock>
                                             </Grid>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
@@ -463,18 +466,30 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock
+                x:Name="OriginalFileNameHeaderText"
                 Grid.Column="0"
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 Text="{x:Bind root:ResourceService.GetLocalized('FileName/OriginalFileName')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/OriginalFileName')}" />
+                TextTrimming="CharacterEllipsis">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileName/OriginalFileName')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(OriginalFileNameHeaderText.IsTextTrimmed), Mode=OneWay}" />
+                </ToolTipService.ToolTip>
+            </TextBlock>
 
             <TextBlock
+                x:Name="NewFileNameHeaderText"
                 Grid.Column="1"
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 Text="{x:Bind root:ResourceService.GetLocalized('FileName/NewFileName')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/NewFileName')}" />
+                TextTrimming="CharacterEllipsis">
+
+                <ToolTipService.ToolTip>
+                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileName/NewFileName')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(NewFileNameHeaderText.IsTextTrimmed), Mode=OneWay}" />
+                </ToolTipService.ToolTip>
+            </TextBlock>
         </Grid>
 
         <ListView
@@ -548,7 +563,6 @@
             VerticalAlignment="Top"
             Text="{x:Bind root:ResourceService.GetLocalized('FileName/EmptyList')}"
             TextAlignment="Center"
-            ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/EmptyList')}"
             Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FileNameDataList.Count), Mode=OneWay}" />
 
         <Grid
@@ -570,27 +584,23 @@
             <Button
                 Grid.Column="0"
                 Click="{x:Bind OnSelectFileClicked}"
-                Content="{x:Bind root:ResourceService.GetLocalized('FileName/SelectFile')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/SelectFile')}" />
+                Content="{x:Bind root:ResourceService.GetLocalized('FileName/SelectFile')}" />
 
             <Button
                 Grid.Column="1"
                 Click="{x:Bind OnSelectFolderClicked}"
-                Content="{x:Bind root:ResourceService.GetLocalized('FileName/SelectFolder')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/SelectFolder')}" />
+                Content="{x:Bind root:ResourceService.GetLocalized('FileName/SelectFolder')}" />
 
             <Button
                 Grid.Column="2"
                 Click="{x:Bind OnClearListClicked}"
-                Content="{x:Bind root:ResourceService.GetLocalized('FileName/ClearList')}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/ClearList')}" />
+                Content="{x:Bind root:ResourceService.GetLocalized('FileName/ClearList')}" />
 
             <TextBlock
                 Grid.Column="3"
                 VerticalAlignment="Center"
                 Text="{x:Bind LocalizeTotal(FileNameDataList.Count), Mode=OneWay}"
-                TextAlignment="Center"
-                ToolTipService.ToolTip="{x:Bind LocalizeTotal(FileNameDataList.Count), Mode=OneWay}" />
+                TextAlignment="Center" />
 
             <HyperlinkButton
                 Grid.Column="4"
@@ -598,7 +608,6 @@
                 Click="{x:Bind OnViewErrorInformationClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileName/ViewErrorInformation')}"
                 Style="{StaticResource ErrorHyperlinkButtonStyle}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/ViewErrorInformation')}"
                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedList.Count), Mode=OneWay}" />
 
             <ProgressRing
@@ -619,16 +628,14 @@
                 Grid.Column="7"
                 Click="{x:Bind OnPreviewClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileName/Preview')}"
-                IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/Preview')}" />
+                IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}" />
 
             <Button
                 Grid.Column="8"
                 Click="{x:Bind OnModifyClicked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('FileName/Modify')}"
                 IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}"
-                Style="{StaticResource AccentButtonStyle}"
-                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('FileName/Modify')}" />
+                Style="{StaticResource AccentButtonStyle}" />
         </Grid>
     </Grid>
 </Page>

@@ -42,6 +42,7 @@ namespace FileRenamer.Views.Pages
         public List<KeyValuePairModel> ReferenceDict = new List<KeyValuePairModel>()
         {
             new KeyValuePairModel() {Key = "Mile.Xaml" , Value = "https://github.com/ProjectMile/Mile.Xaml" },
+            new KeyValuePairModel() {Key = "Microsoft.NETFramework.ReferenceAssemblies" , Value = "https://github.com/Microsoft/dotnet/tree/master/releases/reference-assemblies" },
             new KeyValuePairModel() {Key = "Newtonsoft.Json" , Value = "https://www.newtonsoft.com/json" },
         };
 

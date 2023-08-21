@@ -141,9 +141,6 @@
   <data name="PackageDisplayName" xml:space="preserve">
     <value>FileRenamer</value>
   </data>
-  <data name="Task" xml:space="preserve">
-    <value>Tasks</value>
-  </data>
   <data name="Title" xml:space="preserve">
     <value>An exception occurred for the application</value>
   </data>

@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 
 namespace FileRenamer.Views.Pages
 {
@@ -96,12 +95,6 @@ namespace FileRenamer.Views.Pages
                     Tag = index
                 };
 
-                ToolTipService.SetToolTip(toggleMenuFlyoutItem, new ToolTip()
-                {
-                    Content = languageItem.DisplayMember,
-                    Placement = PlacementMode.Mouse
-                });
-
                 if (AppLanguage.SelectedValue == LanguageList[index].SelectedValue)
                 {
                     toggleMenuFlyoutItem.IsChecked = true;
@@ -147,7 +140,7 @@ namespace FileRenamer.Views.Pages
             {
                 Backdrop = BackdropList[Convert.ToInt32(item.Tag)];
                 BackdropService.SetBackdrop(Backdrop);
-                BackdropService.SetAppBackdrop(Program.MainWindow.Handle);
+                BackdropService.SetAppBackdrop();
             }
         }
 

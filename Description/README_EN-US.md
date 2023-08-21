@@ -47,6 +47,7 @@ A simple tool to help users quickly rename a large number of files, providing a 
 ### Project References (Sort by alphabetical order)
 
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
+> * [Microsoft.NETFramework.ReferenceAssemblies](https://github.com/Microsoft/dotnet/tree/master/releases/reference-assemblies)&emsp;
 > * [Newtonsoft.Json](https://www.newtonsoft.com/json)&emsp;
 
 [Code referenced or used during the learning process](https://github.com/Gaoyifei1011/FileRenamer/blob/main/Description/StudyReferenceCode.md)&emsp;

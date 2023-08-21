@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing.Printing;
 using System.Runtime.InteropServices;
 
 namespace FileRenamer.WindowsAPI.PInvoke.DwmApi
@@ -9,6 +10,9 @@ namespace FileRenamer.WindowsAPI.PInvoke.DwmApi
     public static class DwmApiLibrary
     {
         private const string DwmApi = "dwmapi.dll";
+
+        [DllImport(DwmApi, CharSet = CharSet.Unicode, EntryPoint = "DwmExtendFrameIntoClientArea", SetLastError = false)]
+        public static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, ref Margins margin);
 
         /// <summary>
         /// 设置桌面窗口管理器 (DWM) 窗口的非客户端呈现属性的值。

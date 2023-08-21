@@ -53,6 +53,7 @@
 ### 项目引用（按英文首字母排序）
 
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
+> * [Microsoft.NETFramework.ReferenceAssemblies](https://github.com/Microsoft/dotnet/tree/master/releases/reference-assemblies)&emsp;
 > * [Newtonsoft.Json](https://www.newtonsoft.com/json)&emsp;
 
 [学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/FileRenamer/blob/main/Description/StudyReferenceCode.md)&emsp;
