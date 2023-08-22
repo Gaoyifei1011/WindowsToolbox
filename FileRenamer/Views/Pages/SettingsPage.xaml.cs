@@ -125,11 +125,6 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        public bool IsItemChecked(GroupOptionsModel selectedMember, GroupOptionsModel comparedMember)
-        {
-            return selectedMember.SelectedValue == comparedMember.SelectedValue;
-        }
-
         /// <summary>
         /// 背景色修改设置
         /// </summary>

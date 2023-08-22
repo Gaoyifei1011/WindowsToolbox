@@ -148,11 +148,6 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        public bool IsItemChecked(ExtensionNameSelectedType selectedType, ExtensionNameSelectedType comparedType)
-        {
-            return selectedType == comparedType;
-        }
-
         public string LocalizeTotal(int count)
         {
             return string.Format(ResourceService.GetLocalized("ExtensionName/Total"), ExtensionNameDataList.Count);

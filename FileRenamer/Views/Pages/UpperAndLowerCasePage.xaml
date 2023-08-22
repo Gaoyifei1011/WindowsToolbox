@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
     xmlns:root="using:FileRenamer.Services.Root"
+    xmlns:sys="using:System"
     AllowDrop="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -45,7 +46,7 @@
                 Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/AllUppercase')}"
-                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.AllUppercase), Mode=OneWay}"
+                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedType.AllUppercase), Mode=OneWay}"
                 Tag="1"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -54,7 +55,7 @@
                 Grid.Column="1"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/FileNameUppercase')}"
-                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.FileNameUppercase), Mode=OneWay}"
+                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedType.FileNameUppercase), Mode=OneWay}"
                 Tag="2"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -63,7 +64,7 @@
                 Grid.Column="2"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/ExtensionNameUppercase')}"
-                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.ExtensionNameUppercase), Mode=OneWay}"
+                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedType.ExtensionNameUppercase), Mode=OneWay}"
                 Tag="3"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -72,7 +73,7 @@
                 Grid.Column="3"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/DeleteSpace')}"
-                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.DeleteSpace), Mode=OneWay}"
+                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedType.DeleteSpace), Mode=OneWay}"
                 Tag="4"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -81,7 +82,7 @@
                 Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/AllLowercase')}"
-                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.AllLowercase), Mode=OneWay}"
+                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedType.AllLowercase), Mode=OneWay}"
                 Tag="5"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -90,7 +91,7 @@
                 Grid.Column="1"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/FileNameLowercase')}"
-                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.FileNameLowercase), Mode=OneWay}"
+                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedType.FileNameLowercase), Mode=OneWay}"
                 Tag="6"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -99,7 +100,7 @@
                 Grid.Column="2"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/ExtensionNameLowercase')}"
-                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.ExtensionNameLowercase), Mode=OneWay}"
+                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedType.ExtensionNameLowercase), Mode=OneWay}"
                 Tag="7"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -108,7 +109,7 @@
                 Grid.Column="3"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('UpperAndLowerCase/ReplaceSpace')}"
-                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:UpperAndLowerSelectedType.ReplaceSpace), Mode=OneWay}"
+                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedType.ReplaceSpace), Mode=OneWay}"
                 Tag="8"
                 Unchecked="{x:Bind OnUnchecked}" />
         </Grid>
@@ -188,7 +189,8 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="{x:Bind OriginalFileName, Mode=OneWay}"
-                            TextAlignment="Left">
+                            TextAlignment="Left"
+                            TextTrimming="CharacterEllipsis">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
@@ -205,7 +207,8 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="{x:Bind NewFileName, Mode=OneWay}"
-                            TextAlignment="Left">
+                            TextAlignment="Left"
+                            TextTrimming="CharacterEllipsis">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip

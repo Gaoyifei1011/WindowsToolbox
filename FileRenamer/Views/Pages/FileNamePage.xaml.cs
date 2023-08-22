@@ -274,11 +274,6 @@ namespace FileRenamer.Views.Pages
             return string.Format(ResourceService.GetLocalized("Dialog/ChangeRule"), NameChangeRuleList[index]);
         }
 
-        public bool IsItemChecked(GroupOptionsModel selectedMember, GroupOptionsModel comparedMember)
-        {
-            return selectedMember.SelectedValue == comparedMember.SelectedValue;
-        }
-
         public string LocalizeTotal(int count)
         {
             return string.Format(ResourceService.GetLocalized("FileName/Total"), FileNameDataList.Count);

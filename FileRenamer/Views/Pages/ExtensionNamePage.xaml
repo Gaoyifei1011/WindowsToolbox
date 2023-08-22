@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
     xmlns:root="using:FileRenamer.Services.Root"
+    xmlns:sys="using:System"
     AllowDrop="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -44,7 +45,7 @@
                 Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/SameExtensionName')}"
-                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsSameExtensionName), Mode=OneWay}"
+                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedType.IsSameExtensionName), Mode=OneWay}"
                 Tag="1"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -61,7 +62,7 @@
                     Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/ChangeTo')}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsSameExtensionName), Mode=OneWay}"
+                    IsEnabled="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedType.IsSameExtensionName), Mode=OneWay}"
                     Text="{x:Bind ChangeToText, Mode=TwoWay}" />
             </Grid>
 
@@ -70,7 +71,7 @@
                 Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind root:ResourceService.GetLocalized('ExtensionName/FindAndReplaceExtensionName')}"
-                IsChecked="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
                 Tag="2"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -87,7 +88,7 @@
                     Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Search')}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                    IsEnabled="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
                     Text="{x:Bind SearchText, Mode=TwoWay}" />
             </Grid>
 
@@ -101,7 +102,7 @@
                 <TextBlock Grid.Column="0" Text="{x:Bind root:ResourceService.GetLocalized('ExtensionName/Replace')}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind IsItemChecked(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                    IsEnabled="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
                     Text="{x:Bind ReplaceText, Mode=TwoWay}" />
             </Grid>
         </Grid>
@@ -181,7 +182,8 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="{x:Bind OriginalFileName, Mode=OneWay}"
-                            TextAlignment="Left">
+                            TextAlignment="Left"
+                            TextTrimming="CharacterEllipsis">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
@@ -198,7 +200,8 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="{x:Bind NewFileName, Mode=OneWay}"
-                            TextAlignment="Left">
+                            TextAlignment="Left"
+                            TextTrimming="CharacterEllipsis">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip

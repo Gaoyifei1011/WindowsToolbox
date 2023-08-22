@@ -106,11 +106,6 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        public bool IsItemChecked(UpperAndLowerSelectedType selectedType, UpperAndLowerSelectedType comparedType)
-        {
-            return selectedType == comparedType;
-        }
-
         public string LocalizeTotal(int count)
         {
             return string.Format(ResourceService.GetLocalized("UpperAndLowerCase/Total"), UpperAndLowerCaseDataList.Count);

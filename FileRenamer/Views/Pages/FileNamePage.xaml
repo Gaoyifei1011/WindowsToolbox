@@ -87,56 +87,56 @@
                             <MenuFlyout Placement="Bottom">
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[0]), Mode=OneWay}"
+                                    IsChecked="{x:Bind SelectedNumberFormat.SelectedValue.Equals(NumberFormatList[0].SelectedValue), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="0"
                                     Text="{x:Bind NumberFormatList[0].DisplayMember}" />
 
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[1]), Mode=OneWay}"
+                                    IsChecked="{x:Bind SelectedNumberFormat.SelectedValue.Equals(NumberFormatList[1].SelectedValue), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="1"
                                     Text="{x:Bind NumberFormatList[1].DisplayMember}" />
 
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[2]), Mode=OneWay}"
+                                    IsChecked="{x:Bind SelectedNumberFormat.SelectedValue.Equals(NumberFormatList[2].SelectedValue), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="2"
                                     Text="{x:Bind NumberFormatList[2].DisplayMember}" />
 
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[3]), Mode=OneWay}"
+                                    IsChecked="{x:Bind SelectedNumberFormat.SelectedValue.Equals(NumberFormatList[3].SelectedValue), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="3"
                                     Text="{x:Bind NumberFormatList[3].DisplayMember}" />
 
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[4]), Mode=OneWay}"
+                                    IsChecked="{x:Bind SelectedNumberFormat.SelectedValue.Equals(NumberFormatList[4].SelectedValue), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="4"
                                     Text="{x:Bind NumberFormatList[4].DisplayMember}" />
 
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[5]), Mode=OneWay}"
+                                    IsChecked="{x:Bind SelectedNumberFormat.SelectedValue.Equals(NumberFormatList[5].SelectedValue), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="5"
                                     Text="{x:Bind NumberFormatList[5].DisplayMember}" />
 
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[6]), Mode=OneWay}"
+                                    IsChecked="{x:Bind SelectedNumberFormat.SelectedValue.Equals(NumberFormatList[6].SelectedValue), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="6"
                                     Text="{x:Bind NumberFormatList[6].DisplayMember}" />
 
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
-                                    IsChecked="{x:Bind IsItemChecked(SelectedNumberFormat, NumberFormatList[7]), Mode=OneWay}"
+                                    IsChecked="{x:Bind SelectedNumberFormat.SelectedValue.Equals(NumberFormatList[7].SelectedValue), Mode=OneWay}"
                                     Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="7"
                                     Text="{x:Bind NumberFormatList[7].DisplayMember}" />
@@ -526,7 +526,8 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="{x:Bind OriginalFileName, Mode=OneWay}"
-                            TextAlignment="Left">
+                            TextAlignment="Left"
+                            TextTrimming="CharacterEllipsis">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
@@ -543,7 +544,8 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="{x:Bind NewFileName, Mode=OneWay}"
-                            TextAlignment="Left">
+                            TextAlignment="Left"
+                            TextTrimming="CharacterEllipsis">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip

@@ -212,7 +212,8 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="{x:Bind FileName, Mode=OneWay}"
-                            TextAlignment="Left">
+                            TextAlignment="Left"
+                            TextTrimming="CharacterEllipsis">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
@@ -229,7 +230,8 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="{x:Bind FileProperties, Mode=OneWay}"
-                            TextAlignment="Left">
+                            TextAlignment="Left"
+                            TextTrimming="CharacterEllipsis">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
