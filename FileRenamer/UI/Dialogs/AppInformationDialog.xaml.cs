@@ -1,5 +1,6 @@
+using FileRenamer.Extensions.DataType.Enums;
 using FileRenamer.Helpers.Root;
-using FileRenamer.Services.Root;
+using FileRenamer.Strings;
 using FileRenamer.UI.Notifications;
 using System;
 using System.ComponentModel;
@@ -84,13 +85,13 @@ namespace FileRenamer.UI.Dialogs.About
             args.Cancel = true;
 
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine(ResourceService.GetLocalized("Dialog/WindowsUIVersion") + WindowsUIVersion);
-            stringBuilder.AppendLine(ResourceService.GetLocalized("Dialog/MileXamlVersion") + MileXamlVersion);
-            stringBuilder.AppendLine(ResourceService.GetLocalized("Dialog/DoNetVersion") + DoNetVersion);
+            stringBuilder.AppendLine(Dialog.WindowsUIVersion + WindowsUIVersion);
+            stringBuilder.AppendLine(Dialog.MileXamlVersion + MileXamlVersion);
+            stringBuilder.AppendLine(Dialog.DoNetVersion + DoNetVersion);
 
             CopyPasteHelper.CopyToClipBoard(stringBuilder.ToString());
             sender.Hide();
-            new AppInformationCopyNotification(this).Show();
+            new DataCopyNotification(this, DataCopyKind.AppInformation).Show();
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

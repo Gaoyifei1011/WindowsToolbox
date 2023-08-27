@@ -6,15 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
-    xmlns:root="using:FileRenamer.Services.Root"
+    xmlns:string="using:FileRenamer.Strings"
     xmlns:sys="using:System"
     x:Name="OperationFailedRoot"
-    Title="{x:Bind root:ResourceService.GetLocalized('Dialog/OperationFailed')}"
+    Title="{x:Bind string:Dialog.OperationFailed}"
     BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
-    CloseButtonText="{x:Bind root:ResourceService.GetLocalized('Dialog/CloseDialog')}"
+    CloseButtonText="{x:Bind string:Dialog.CloseDialog}"
     PrimaryButtonClick="{x:Bind OnCopyOperationFailedClicked}"
     PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
-    PrimaryButtonText="{x:Bind root:ResourceService.GetLocalized('Dialog/CopyAll')}"
+    PrimaryButtonText="{x:Bind string:Dialog.CopyAll}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
@@ -57,11 +57,11 @@
                     Grid.Column="0"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind root:ResourceService.GetLocalized('Dialog/FileName')}"
+                    Text="{x:Bind string:Dialog.FileName}"
                     TextTrimming="CharacterEllipsis">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Dialog/FileName')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(FileNameText.IsTextTrimmed), Mode=OneWay}" />
+                        <ToolTip Content="{x:Bind string:Dialog.FileName}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(FileNameText.IsTextTrimmed), Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -70,11 +70,11 @@
                     Grid.Column="1"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind root:ResourceService.GetLocalized('Dialog/ErrorMessage')}"
+                    Text="{x:Bind string:Dialog.ErrorMessage}"
                     TextTrimming="CharacterEllipsis">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Dialog/ErrorMessage')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(ErrorMessageText.IsTextTrimmed), Mode=OneWay}" />
+                        <ToolTip Content="{x:Bind string:Dialog.ErrorMessage}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(ErrorMessageText.IsTextTrimmed), Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -83,11 +83,11 @@
                     Grid.Column="2"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind root:ResourceService.GetLocalized('Dialog/ErrorCode')}"
+                    Text="{x:Bind string:Dialog.ErrorCode}"
                     TextTrimming="CharacterEllipsis">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Dialog/ErrorCode')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(ErrorCodeText.IsTextTrimmed), Mode=OneWay}" />
+                        <ToolTip Content="{x:Bind string:Dialog.ErrorCode}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(ErrorCodeText.IsTextTrimmed), Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -96,11 +96,11 @@
                     Grid.Column="3"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind root:ResourceService.GetLocalized('Dialog/Operation')}"
+                    Text="{x:Bind string:Dialog.Operation}"
                     TextTrimming="CharacterEllipsis">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Dialog/Operation')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(OperationText.IsTextTrimmed), Mode=OneWay}" />
+                        <ToolTip Content="{x:Bind string:Dialog.Operation}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(OperationText.IsTextTrimmed), Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
             </Grid>
@@ -173,11 +173,11 @@
                         <HyperlinkButton.Content>
                             <TextBlock
                                 x:Name="CopyText"
-                                Text="{x:Bind root:ResourceService.GetLocalized('Dialog/Copy')}"
+                                Text="{x:Bind string:Dialog.Copy}"
                                 TextTrimming="CharacterEllipsis">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('Dialog/Copy')}" Visibility="{Binding ElementName=CopyText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip Content="{x:Bind string:Dialog.Copy}" Visibility="{Binding ElementName=CopyText, Path=IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
                         </HyperlinkButton.Content>

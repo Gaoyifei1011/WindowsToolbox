@@ -28,7 +28,7 @@ namespace FileRenamer.UI.Dialogs
         public LicenseDialog()
         {
             InitializeComponent();
-            LicenseText = Encoding.UTF8.GetString(Properties.Resources.LICENSE);
+            LicenseText = Encoding.UTF8.GetString(Strings.Resources.LICENSE);
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

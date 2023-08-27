@@ -1,6 +1,7 @@
-﻿using FileRenamer.Helpers.Root;
+﻿using FileRenamer.Extensions.DataType.Enums;
+using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
-using FileRenamer.Services.Root;
+using FileRenamer.Strings;
 using FileRenamer.UI.Notifications;
 using System.Collections.ObjectModel;
 using System.Text;
@@ -29,16 +30,16 @@ namespace FileRenamer.UI.Dialogs
                 if (operationFailedItem is not null)
                 {
                     StringBuilder builder = new StringBuilder();
-                    builder.Append(ResourceService.GetLocalized("Dialog/FileNameCopy"));
+                    builder.Append(Dialog.FileNameCopy);
                     builder.AppendLine(operationFailedItem.FileName);
-                    builder.Append(ResourceService.GetLocalized("Dialog/FilePathCopy"));
+                    builder.Append(Dialog.FilePathCopy);
                     builder.AppendLine(operationFailedItem.FilePath);
-                    builder.Append(ResourceService.GetLocalized("Dialog/ExceptionMessage"));
+                    builder.Append(Dialog.ExceptionMessage);
                     builder.AppendLine(operationFailedItem.Exception.Message);
-                    builder.Append(ResourceService.GetLocalized("Dialog/ExceptionCode"));
+                    builder.Append(Dialog.ExceptionCode);
                     builder.AppendLine(operationFailedItem.Exception.HResult.ToString());
                     CopyPasteHelper.CopyToClipBoard(builder.ToString());
-                    new OperationFailedCopyNotification(this, false).Show();
+                    new DataCopyNotification(this, DataCopyKind.OperationFailed, false).Show();
                 }
             };
 
@@ -58,19 +59,19 @@ namespace FileRenamer.UI.Dialogs
             StringBuilder builder = new StringBuilder();
             foreach (OperationFailedModel operationFailedItem in OperationFailedList)
             {
-                builder.Append(ResourceService.GetLocalized("Dialog/FileNameCopy"));
+                builder.Append(Dialog.FileNameCopy);
                 builder.AppendLine(operationFailedItem.FileName);
-                builder.Append(ResourceService.GetLocalized("Dialog/FilePathCopy"));
+                builder.Append(Dialog.FilePathCopy);
                 builder.AppendLine(operationFailedItem.FilePath);
-                builder.Append(ResourceService.GetLocalized("Dialog/ExceptionMessage"));
+                builder.Append(Dialog.ExceptionMessage);
                 builder.AppendLine(operationFailedItem.Exception.Message);
-                builder.Append(ResourceService.GetLocalized("Dialog/ExceptionCode"));
+                builder.Append(Dialog.ExceptionCode);
                 builder.AppendLine(operationFailedItem.Exception.HResult.ToString());
                 builder.AppendLine();
             }
             CopyPasteHelper.CopyToClipBoard(builder.ToString());
             sender.Hide();
-            new OperationFailedCopyNotification(this, true, OperationFailedList.Count).Show();
+            new DataCopyNotification(this, DataCopyKind.OperationFailed, true, OperationFailedList.Count).Show();
         }
     }
 }

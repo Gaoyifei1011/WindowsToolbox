@@ -1,8 +1,9 @@
-﻿using FileRenamer.Helpers.Controls;
+﻿using FileReanmer.WindowsAPI.PInvoke.User32;
+using FileRenamer.Helpers.Controls;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Controls.Settings;
-using FileRenamer.Services.Root;
 using FileRenamer.Services.Window;
+using FileRenamer.Strings;
 using FileRenamer.UI.Dialogs;
 using FileRenamer.Views.Pages;
 using FileRenamer.WindowsAPI.PInvoke.DwmApi;
@@ -51,7 +52,14 @@ namespace FileRenamer.Views.Forms
             MinimumSize = new Size(Convert.ToInt32(windowWidth * WindowDPI), Convert.ToInt32(windowHeight * WindowDPI));
             Size = new Size(Convert.ToInt32(windowWidth * WindowDPI), Convert.ToInt32(windowHeight * WindowDPI));
             StartPosition = FormStartPosition.CenterParent;
-            Text = ResourceService.GetLocalized("Resources/AppDisplayName");
+            Text = Resources.AppDisplayName;
+
+            if (RuntimeHelper.IsElevated)
+            {
+                CHANGEFILTERSTRUCT changeFilterStatus = new CHANGEFILTERSTRUCT();
+                changeFilterStatus.cbSize = Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT));
+                User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_ALLOW, in changeFilterStatus);
+            }
 
             MainPage.ActualThemeChanged += OnActualThemeChanged;
 
@@ -94,6 +102,12 @@ namespace FileRenamer.Views.Forms
         {
             base.OnFormClosing(args);
             MainPage.ActualThemeChanged -= OnActualThemeChanged;
+            if (RuntimeHelper.IsElevated && Handle != IntPtr.Zero)
+            {
+                CHANGEFILTERSTRUCT changeFilterStatus = new CHANGEFILTERSTRUCT();
+                changeFilterStatus.cbSize = Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT));
+                User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_RESET, in changeFilterStatus);
+            }
         }
 
         /// <summary>

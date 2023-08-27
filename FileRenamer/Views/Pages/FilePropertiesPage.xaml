@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
-    xmlns:root="using:FileRenamer.Services.Root"
+    xmlns:string="using:FileRenamer.Strings"
     AllowDrop="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -46,19 +46,19 @@
                 <CheckBox
                     Grid.Row="0"
                     Grid.Column="0"
-                    Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/ReadOnly')}"
+                    Content="{x:Bind string:FileProperties.ReadOnly}"
                     IsChecked="{x:Bind IsReadOnlyChecked, Mode=TwoWay}" />
 
                 <CheckBox
                     Grid.Row="0"
                     Grid.Column="1"
-                    Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/Archive')}"
+                    Content="{x:Bind string:FileProperties.Archive}"
                     IsChecked="{x:Bind IsArchiveChecked, Mode=TwoWay}" />
 
                 <CheckBox
                     Grid.Row="0"
                     Grid.Column="3"
-                    Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/CreateDate')}"
+                    Content="{x:Bind string:FileProperties.CreateDate}"
                     IsChecked="{x:Bind IsCreateDateChecked, Mode=TwoWay}"
                     Tag="CreateDate"
                     Unchecked="{x:Bind OnUnchecked}" />
@@ -66,19 +66,19 @@
                 <CheckBox
                     Grid.Row="1"
                     Grid.Column="0"
-                    Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/Hide')}"
+                    Content="{x:Bind string:FileProperties.Hide}"
                     IsChecked="{x:Bind IsHideChecked, Mode=TwoWay}" />
 
                 <CheckBox
                     Grid.Row="1"
                     Grid.Column="1"
-                    Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/System')}"
+                    Content="{x:Bind string:FileProperties.System}"
                     IsChecked="{x:Bind IsSystemChecked, Mode=TwoWay}" />
 
                 <CheckBox
                     Grid.Row="1"
                     Grid.Column="3"
-                    Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/ModifyDate')}"
+                    Content="{x:Bind string:FileProperties.ModifyDate}"
                     IsChecked="{x:Bind IsModifyDateChecked, Mode=TwoWay}"
                     Tag="ModifyDate"
                     Unchecked="{x:Bind OnUnchecked}" />
@@ -156,11 +156,11 @@
                 Grid.Column="0"
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
-                Text="{x:Bind root:ResourceService.GetLocalized('FileProperties/FileName')}"
+                Text="{x:Bind string:FileProperties.FileName}"
                 TextTrimming="CharacterEllipsis">
 
                 <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/FileName')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(FileNameHeaderText.IsTextTrimmed), Mode=OneWay}" />
+                    <ToolTip Content="{x:Bind string:FileProperties.FileName}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(FileNameHeaderText.IsTextTrimmed), Mode=OneWay}" />
                 </ToolTipService.ToolTip>
             </TextBlock>
 
@@ -169,11 +169,11 @@
                 Grid.Column="1"
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
-                Text="{x:Bind root:ResourceService.GetLocalized('FileProperties/FileProperties')}"
+                Text="{x:Bind string:FileProperties.ChangedProperties}"
                 TextTrimming="CharacterEllipsis">
 
                 <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/FileProperties')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(FilePropertiesHeaderText.IsTextTrimmed), Mode=OneWay}" />
+                    <ToolTip Content="{x:Bind string:FileProperties.ChangedProperties}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(FilePropertiesHeaderText.IsTextTrimmed), Mode=OneWay}" />
                 </ToolTipService.ToolTip>
             </TextBlock>
         </Grid>
@@ -249,7 +249,7 @@
             Grid.Row="2"
             Margin="30,10,30,0"
             VerticalAlignment="Top"
-            Text="{x:Bind root:ResourceService.GetLocalized('FileProperties/EmptyList')}"
+            Text="{x:Bind string:FileProperties.EmptyList}"
             TextAlignment="Center"
             Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FilePropertiesDataList.Count), Mode=OneWay}" />
 
@@ -272,17 +272,17 @@
             <Button
                 Grid.Column="0"
                 Click="{x:Bind OnSelectFileClicked}"
-                Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/SelectFile')}" />
+                Content="{x:Bind string:FileProperties.SelectFile}" />
 
             <Button
                 Grid.Column="1"
                 Click="{x:Bind OnSelectFolderClicked}"
-                Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/SelectFolder')}" />
+                Content="{x:Bind string:FileProperties.SelectFolder}" />
 
             <Button
                 Grid.Column="2"
                 Click="{x:Bind OnClearListClicked}"
-                Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/ClearList')}" />
+                Content="{x:Bind string:FileProperties.ClearList}" />
 
             <TextBlock
                 Grid.Column="3"
@@ -294,7 +294,7 @@
                 Grid.Column="4"
                 Margin="0,0,10,0"
                 Click="{x:Bind OnViewErrorInformationClicked}"
-                Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/ViewErrorInformation')}"
+                Content="{x:Bind string:FileProperties.ViewErrorInformation}"
                 Style="{StaticResource ErrorHyperlinkButtonStyle}"
                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedList.Count), Mode=OneWay}" />
 
@@ -309,19 +309,19 @@
                 Grid.Column="6"
                 Margin="0,0,5,0"
                 VerticalAlignment="Center"
-                Text="{x:Bind root:ResourceService.GetLocalized('FileProperties/ModifyingNow')}"
+                Text="{x:Bind string:FileProperties.ModifyingNow}"
                 Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(IsModifyingNow), Mode=OneWay}" />
 
             <Button
                 Grid.Column="7"
                 Click="{x:Bind OnPreviewClicked}"
-                Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/Preview')}"
+                Content="{x:Bind string:FileProperties.Preview}"
                 IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}" />
 
             <Button
                 Grid.Column="8"
                 Click="{x:Bind OnModifyClicked}"
-                Content="{x:Bind root:ResourceService.GetLocalized('FileProperties/Modify')}"
+                Content="{x:Bind string:FileProperties.Modify}"
                 IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}"
                 Style="{StaticResource AccentButtonStyle}" />
         </Grid>

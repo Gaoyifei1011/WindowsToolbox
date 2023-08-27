@@ -2,7 +2,7 @@
 using FileRenamer.Helpers.Controls;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
-using FileRenamer.Services.Root;
+using FileRenamer.Strings;
 using FileRenamer.UI.Dialogs;
 using FileRenamer.UI.Notifications;
 using System;
@@ -111,7 +111,7 @@ namespace FileRenamer.Views.Pages
             args.DragUIOverride.IsCaptionVisible = true;
             args.DragUIOverride.IsContentVisible = false;
             args.DragUIOverride.IsGlyphVisible = true;
-            args.DragUIOverride.Caption = ResourceService.GetLocalized("ExtensionName/DragOverContent");
+            args.DragUIOverride.Caption = ExtensionName.DragOverContent;
             args.Handled = true;
         }
 
@@ -150,7 +150,7 @@ namespace FileRenamer.Views.Pages
 
         public string LocalizeTotal(int count)
         {
-            return string.Format(ResourceService.GetLocalized("ExtensionName/Total"), ExtensionNameDataList.Count);
+            return string.Format(ExtensionName.Total, ExtensionNameDataList.Count);
         }
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace FileRenamer.Views.Pages
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = true;
-            dialog.Title = ResourceService.GetLocalized("FileName/SelectFile");
+            dialog.Title = ExtensionName.SelectFile;
             if (dialog.ShowDialog() is DialogResult.OK)
             {
                 foreach (string fileName in dialog.FileNames)
@@ -265,7 +265,7 @@ namespace FileRenamer.Views.Pages
         public void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = ResourceService.GetLocalized("ExtensionName/SelectFolder");
+            dialog.Description = ExtensionName.SelectFolder;
             dialog.ShowNewFolderButton = true;
             dialog.RootFolder = Environment.SpecialFolder.Desktop;
             DialogResult result = dialog.ShowDialog();

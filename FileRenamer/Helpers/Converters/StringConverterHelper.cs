@@ -1,4 +1,4 @@
-﻿using FileRenamer.Services.Root;
+﻿using FileRenamer.Strings;
 
 namespace FileRenamer.Helpers.Converters
 {
@@ -12,7 +12,7 @@ namespace FileRenamer.Helpers.Converters
         /// </summary>
         public static string AboutReferenceToolTipFormat(string content)
         {
-            return string.Format("{0}\n{1}", content, ResourceService.GetLocalized("About/ReferenceToolTip"));
+            return string.Format("{0}\n{1}", content, About.ReferenceToolTip);
         }
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace FileRenamer.Helpers.Converters
         /// </summary>
         public static string AboutThanksToolTipFormat(string content)
         {
-            return string.Format("{0}\n{1}", content, ResourceService.GetLocalized("About/ThanksToolTip"));
+            return string.Format("{0}\n{1}", content, About.ThanksToolTip);
         }
     }
 }

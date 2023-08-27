@@ -1,6 +1,6 @@
 ﻿using FileRenamer.Helpers.Controls;
 using FileRenamer.Models;
-using FileRenamer.Services.Root;
+using FileRenamer.Strings;
 using FileRenamer.UI.Dialogs;
 using FileRenamer.UI.Notifications;
 using System;
@@ -188,7 +188,7 @@ namespace FileRenamer.Views.Pages
             args.DragUIOverride.IsCaptionVisible = true;
             args.DragUIOverride.IsContentVisible = false;
             args.DragUIOverride.IsGlyphVisible = true;
-            args.DragUIOverride.Caption = ResourceService.GetLocalized("FileProperties/DragOverContent");
+            args.DragUIOverride.Caption = FileProperties.DragOverContent;
             args.Handled = true;
         }
 
@@ -224,7 +224,7 @@ namespace FileRenamer.Views.Pages
 
         public string LocalizeTotal(int count)
         {
-            return string.Format(ResourceService.GetLocalized("FileProperties/Total"), FilePropertiesDataList.Count);
+            return string.Format(FileProperties.Total, FilePropertiesDataList.Count);
         }
 
         /// <summary>
@@ -311,7 +311,7 @@ namespace FileRenamer.Views.Pages
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = true;
-            dialog.Title = ResourceService.GetLocalized("FileName/SelectFile");
+            dialog.Title = FileProperties.SelectFile;
             if (dialog.ShowDialog() is DialogResult.OK)
             {
                 foreach (string fileName in dialog.FileNames)
@@ -343,7 +343,7 @@ namespace FileRenamer.Views.Pages
         public void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = ResourceService.GetLocalized("FileProperties/SelectFolder");
+            dialog.Description = FileProperties.SelectFolder;
             dialog.ShowNewFolderButton = true;
             dialog.RootFolder = Environment.SpecialFolder.Desktop;
             DialogResult result = dialog.ShowDialog();
@@ -471,32 +471,32 @@ namespace FileRenamer.Views.Pages
             StringBuilder stringBuilder = new StringBuilder();
             if (IsReadOnlyChecked)
             {
-                stringBuilder.Append(ResourceService.GetLocalized("FileProperties/ReadOnly"));
+                stringBuilder.Append(FileProperties.ReadOnly);
                 stringBuilder.Append(" ");
             }
             if (IsArchiveChecked)
             {
-                stringBuilder.Append(ResourceService.GetLocalized("FileProperties/Archive"));
+                stringBuilder.Append(FileProperties.Archive);
                 stringBuilder.Append(" ");
             }
             if (IsHideChecked)
             {
-                stringBuilder.Append(ResourceService.GetLocalized("FileProperties/Hide"));
+                stringBuilder.Append(FileProperties.Hide);
                 stringBuilder.Append(" ");
             }
             if (IsSystemChecked)
             {
-                stringBuilder.Append(ResourceService.GetLocalized("FileProperties/System"));
+                stringBuilder.Append(FileProperties.System);
                 stringBuilder.Append(" ");
             }
             if (IsCreateDateChecked)
             {
-                stringBuilder.Append(ResourceService.GetLocalized("FileProperties/CreateDate"));
+                stringBuilder.Append(FileProperties.CreateDate);
                 stringBuilder.Append(" ");
             }
             if (IsModifyDateChecked)
             {
-                stringBuilder.Append(ResourceService.GetLocalized("FileProperties/ModifyDate"));
+                stringBuilder.Append(FileProperties.ModifyDate);
                 stringBuilder.Append(" ");
             }
 

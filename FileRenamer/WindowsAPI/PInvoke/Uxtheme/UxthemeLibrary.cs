@@ -3,6 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace FileRenamer.WindowsAPI.PInvoke.Uxtheme
 {
+    /// <summary>
+    /// uxtheme.dll 函数库
+    /// </summary>
     public static partial class UxthemeLibrary
     {
         private const string Uxtheme = "uxtheme.dll";

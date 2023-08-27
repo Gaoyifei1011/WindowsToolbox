@@ -2,7 +2,6 @@
 using FileRenamer.Helpers.Controls;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
-using FileRenamer.Services.Root;
 using FileRenamer.Services.Window;
 using FileRenamer.UI.Dialogs;
 using FileRenamer.UI.Notifications;
@@ -141,7 +140,7 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         public void OnFrameNavgationFailed(object sender, NavigationFailedEventArgs args)
         {
-            throw new ApplicationException(string.Format(ResourceService.GetLocalized("Window/NavigationFailed"), args.SourcePageType.FullName));
+            throw new ApplicationException(string.Format(Strings.Window.NavigationFailed, args.SourcePageType.FullName));
         }
 
         /// <summary>
@@ -315,7 +314,7 @@ namespace FileRenamer.Views.Pages
                 try
                 {
                     IWshShell shell = new WshShell();
-                    WshShortcut AppShortcut = (WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), ResourceService.GetLocalized("Resources/AppDisplayName")));
+                    WshShortcut AppShortcut = (WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), Strings.Resources.AppDisplayName));
                     if (RuntimeHelper.IsMSIX)
                     {
                         IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
@@ -335,7 +334,7 @@ namespace FileRenamer.Views.Pages
                 {
                     Program.MainWindow.BeginInvoke(() =>
                     {
-                        new QuickOperationNotification(this, QuickOperationType.DesktopShortcut, IsCreatedSuccessfully).Show();
+                        new QuickOperationNotification(this, QuickOperationKind.DesktopShortcut, IsCreatedSuccessfully).Show();
                     });
                 }
             });
@@ -374,7 +373,7 @@ namespace FileRenamer.Views.Pages
                 {
                     Program.MainWindow.BeginInvoke(() =>
                     {
-                        new QuickOperationNotification(this, QuickOperationType.StartScreen, IsPinnedSuccessfully).Show();
+                        new QuickOperationNotification(this, QuickOperationKind.StartScreen, IsPinnedSuccessfully).Show();
                     });
                 }
             });
@@ -400,7 +399,7 @@ namespace FileRenamer.Views.Pages
             catch (Exception) { }
             finally
             {
-                new QuickOperationNotification(this, QuickOperationType.Taskbar, IsPinnedSuccessfully).Show();
+                new QuickOperationNotification(this, QuickOperationKind.Taskbar, IsPinnedSuccessfully).Show();
             }
         }
 

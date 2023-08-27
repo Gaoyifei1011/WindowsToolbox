@@ -1,5 +1,5 @@
-﻿using System;
-using Windows.ApplicationModel;
+﻿using FileRenamer.WindowsAPI.PInvoke.Kernel32;
+using System.Security.Principal;
 
 namespace FileRenamer.Helpers.Root
 {
@@ -8,29 +8,33 @@ namespace FileRenamer.Helpers.Root
     /// </summary>
     public static class RuntimeHelper
     {
-        public static bool IsMSIX { get; }
+        public static bool IsMSIX { get; private set; }
+
+        public static bool IsElevated { get; private set; }
+
+        static RuntimeHelper()
+        {
+            IsInMsixContainer();
+            IsRunningElevated();
+        }
 
         /// <summary>
         /// 判断应用是否在 Msix 容器中运行
         /// </summary>
-        static RuntimeHelper()
+        private static void IsInMsixContainer()
         {
-            try
-            {
-                Package currentPackage = Package.Current;
-                if (currentPackage is not null)
-                {
-                    IsMSIX = true;
-                }
-                else
-                {
-                    IsMSIX = false;
-                }
-            }
-            catch (Exception)
-            {
-                IsMSIX = false;
-            }
+            int length = 0;
+            IsMSIX = Kernel32Library.GetCurrentPackageFullName(ref length, null) != Kernel32Library.APPMODEL_ERROR_NO_PACKAGE;
+        }
+
+        /// <summary>
+        /// 判断应用是否以管理员身份运行
+        /// </summary>
+        private static void IsRunningElevated()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            IsElevated = principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
     }
 }

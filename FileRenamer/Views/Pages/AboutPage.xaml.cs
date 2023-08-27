@@ -1,12 +1,10 @@
 ﻿using FileRenamer.Helpers.Controls;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
-using FileRenamer.Services.Root;
+using FileRenamer.Strings;
 using FileRenamer.UI.Dialogs.About;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -15,7 +13,7 @@ namespace FileRenamer.Views.Pages
     /// <summary>
     /// 关于页面
     /// </summary>
-    public sealed partial class AboutPage : Page, INotifyPropertyChanged
+    public sealed partial class AboutPage : Page
     {
         private readonly int MajorVersion = InfoHelper.AppVersion.Major;
 
@@ -25,18 +23,7 @@ namespace FileRenamer.Views.Pages
 
         private readonly int RevisionVersion = InfoHelper.AppVersion.Revision;
 
-        private string _appVersion;
-
-        public string AppVersion
-        {
-            get { return _appVersion; }
-
-            set
-            {
-                _appVersion = value;
-                OnPropertyChanged();
-            }
-        }
+        public string AppVersion => string.Format(About.AppVersion, MajorVersion, MinorVersion, BuildVersion, RevisionVersion);
 
         //项目引用信息
         public List<KeyValuePairModel> ReferenceDict = new List<KeyValuePairModel>()
@@ -52,19 +39,9 @@ namespace FileRenamer.Views.Pages
             new KeyValuePairModel() { Key = "MouriNaruto" , Value = "https://github.com/MouriNaruto" }
         };
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public AboutPage()
         {
             InitializeComponent();
-        }
-
-        /// <summary>
-        /// 本地化应用版本信息
-        /// </summary>
-        private string LocalizeAppVersion(string appVersion)
-        {
-            return string.Format(ResourceService.GetLocalized("About/AppVersion"), appVersion);
         }
 
         /// <summary>
@@ -81,14 +58,6 @@ namespace FileRenamer.Views.Pages
         public void OnCheckUpdateClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "https://github.com/Gaoyifei1011/FileRenamer/releases");
-        }
-
-        /// <summary>
-        /// 初始化应用版本信息
-        /// </summary>
-        public void OnLoaded(object sender, RoutedEventArgs args)
-        {
-            AppVersion = string.Format("{0}.{1}.{2}.{3}", MajorVersion, MinorVersion, BuildVersion, RevisionVersion);
         }
 
         /// <summary>
@@ -113,11 +82,6 @@ namespace FileRenamer.Views.Pages
         public void OnSystemInformationClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "ms-settings:about");
-        }
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

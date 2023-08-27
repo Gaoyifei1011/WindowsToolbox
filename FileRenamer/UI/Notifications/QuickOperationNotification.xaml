@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:notification="using:FileRenamer.Views.CustomControls.Notifications"
-    xmlns:root="using:FileRenamer.Services.Root"
+    xmlns:string="using:FileRenamer.Strings"
     mc:Ignorable="d">
 
     <Grid>
@@ -13,31 +13,31 @@
             x:Name="DesktopShortcutSuccess"
             x:Load="{x:Bind ControlLoad(OperationType, IsPinnedSuccessfully, 'DesktopShortcutSuccess'), Mode=OneWay}"
             Foreground="{ThemeResource SystemFillColorSuccessBrush}"
-            Text="{x:Bind root:ResourceService.GetLocalized('Notification/DesktopShortcutSuccessfully')}" />
+            Text="{x:Bind string:Notification.DesktopShortcutSuccessfully}" />
         <TextBlock
             x:Name="DesktopShortcutFailed"
             x:Load="{x:Bind ControlLoad(OperationType, IsPinnedSuccessfully, 'DesktopShortcutFailed'), Mode=OneWay}"
             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-            Text="{x:Bind root:ResourceService.GetLocalized('Notification/DesktopShortFailed')}" />
+            Text="{x:Bind string:Notification.DesktopShortFailed}" />
         <TextBlock
             x:Name="StartScreenSuccess"
             x:Load="{x:Bind ControlLoad(OperationType, IsPinnedSuccessfully, 'StartScreenSuccess'), Mode=OneWay}"
             Foreground="{ThemeResource SystemFillColorSuccessBrush}"
-            Text="{x:Bind root:ResourceService.GetLocalized('Notification/StartScreenSuccessfully')}" />
+            Text="{x:Bind string:Notification.StartScreenSuccessfully}" />
         <TextBlock
             x:Name="StartScreenFailed"
             x:Load="{x:Bind ControlLoad(OperationType, IsPinnedSuccessfully, 'StartScreenFailed'), Mode=OneWay}"
             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-            Text="{x:Bind root:ResourceService.GetLocalized('Notification/StartScreenFailed')}" />
+            Text="{x:Bind string:Notification.StartScreenFailed}" />
         <TextBlock
             x:Name="TaskbarSuccess"
             x:Load="{x:Bind ControlLoad(OperationType, IsPinnedSuccessfully, 'TaskbarSuccess'), Mode=OneWay}"
             Foreground="{ThemeResource SystemFillColorSuccessBrush}"
-            Text="{x:Bind root:ResourceService.GetLocalized('Notification/TaskbarSuccessfully')}" />
+            Text="{x:Bind string:Notification.TaskbarSuccessfully}" />
         <TextBlock
             x:Name="TaskbarFailed"
             x:Load="{x:Bind ControlLoad(OperationType, IsPinnedSuccessfully, 'TaskbarFailed'), Mode=OneWay}"
             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-            Text="{x:Bind root:ResourceService.GetLocalized('Notification/TaskbarFailed')}" />
+            Text="{x:Bind string:Notification.TaskbarFailed}" />
     </Grid>
 </notification:InAppNotification>

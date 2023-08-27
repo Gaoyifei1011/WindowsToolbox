@@ -1,11 +1,27 @@
-﻿using System;
+﻿using FileReanmer.WindowsAPI.PInvoke.User32;
+using System;
 using System.Runtime.InteropServices;
 
 namespace FileRenamer.WindowsAPI.PInvoke.User32
 {
+    /// <summary>
+    /// user32.dll 函数库
+    /// </summary>
     public static class User32Library
     {
         private const string User32 = "user32.dll";
+
+        /// <summary>
+        /// 修改指定窗口的用户界面特权隔离 (UIPI) 消息筛选器。
+        /// </summary>
+        /// <param name="hWnd">要修改其 UIPI 消息筛选器的窗口的句柄。</param>
+        /// <param name="message">消息筛选器允许通过或阻止的消息。</param>
+        /// <param name="action">要执行的操作，可以执行以下值</param>
+        /// <param name="pChangeFilterStruct">指向 CHANGEFILTERSTRUCT 结构的可选指针。</param>
+        /// <returns>如果函数成功，则返回 TRUE;否则，它将返回 FALSE。</returns>
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilterEx", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ChangeWindowMessageFilterEx(IntPtr hWnd, WindowMessage message, ChangeFilterAction action, in CHANGEFILTERSTRUCT pChangeFilterStruct);
 
         /// <summary>
         /// 将指定的消息发送到窗口或窗口。 <see cref="SendMessage"> 函数调用指定窗口的窗口过程，在窗口过程处理消息之前不会返回。

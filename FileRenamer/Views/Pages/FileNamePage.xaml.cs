@@ -1,7 +1,7 @@
 ﻿using FileRenamer.Helpers.Controls;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
-using FileRenamer.Services.Root;
+using FileRenamer.Strings;
 using FileRenamer.UI.Dialogs;
 using FileRenamer.UI.Notifications;
 using System;
@@ -143,15 +143,15 @@ namespace FileRenamer.Views.Pages
 
         public List<string> NameChangeRuleList { get; } = new List<string>()
         {
-            ResourceService.GetLocalized("FileName/NameChangeRule1"),
-            ResourceService.GetLocalized("FileName/NameChangeRule2"),
-            ResourceService.GetLocalized("FileName/NameChangeRule3"),
-            ResourceService.GetLocalized("FileName/NameChangeRule4"),
+            FileName.NameChangeRule1,
+            FileName.NameChangeRule2,
+            FileName.NameChangeRule3,
+            FileName.NameChangeRule4,
         };
 
         public List<GroupOptionsModel> NumberFormatList { get; } = new List<GroupOptionsModel>
         {
-            new GroupOptionsModel(){ DisplayMember = ResourceService.GetLocalized("FileName/Auto"), SelectedValue = "Auto"},
+            new GroupOptionsModel(){ DisplayMember = FileName.Auto, SelectedValue = "Auto"},
             new GroupOptionsModel(){ DisplayMember = "0", SelectedValue = "0"},
             new GroupOptionsModel(){ DisplayMember = "00", SelectedValue = "00"},
             new GroupOptionsModel(){ DisplayMember = "000", SelectedValue = "000"},
@@ -173,34 +173,34 @@ namespace FileRenamer.Views.Pages
         {
             { 0, new List<OldAndNewNameModel>()
                 {
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName1"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList1ChangedName1") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName2"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList1ChangedName2") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName3"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList1ChangedName3") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName4"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList1ChangedName4") },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList1ChangedName1 },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList1ChangedName2 },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList1ChangedName3 },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList1ChangedName4 },
                 }
             },
             { 1, new List<OldAndNewNameModel>()
                 {
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName1"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList2ChangedName1") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName2"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList2ChangedName2") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName3"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList2ChangedName3") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName4"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList2ChangedName4") },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList2ChangedName1 },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList2ChangedName2 },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList2ChangedName3 },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList2ChangedName4 },
                 }
             },
             { 2, new List<OldAndNewNameModel>()
                 {
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName1"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList3ChangedName1") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName2"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList3ChangedName2") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName3"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList3ChangedName3") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName4"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList3ChangedName4") },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList3ChangedName1 },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList3ChangedName2 },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList3ChangedName3 },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList3ChangedName4 },
                 }
             },
             { 3, new List<OldAndNewNameModel>()
                 {
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName1"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList4ChangedName1") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName2"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList4ChangedName2") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName3"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList4ChangedName3") },
-                    new OldAndNewNameModel(){ OriginalFileName = ResourceService.GetLocalized("FileName/NameChangeOriginalName4"), NewFileName = ResourceService.GetLocalized("FileName/NameChangeList4ChangedName4") },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList4ChangedName1 },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList4ChangedName2 },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList4ChangedName3 },
+                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList4ChangedName4 },
                 }
             },
         };
@@ -235,7 +235,7 @@ namespace FileRenamer.Views.Pages
             args.DragUIOverride.IsCaptionVisible = true;
             args.DragUIOverride.IsContentVisible = false;
             args.DragUIOverride.IsGlyphVisible = true;
-            args.DragUIOverride.Caption = ResourceService.GetLocalized("FileName/DragOverContent");
+            args.DragUIOverride.Caption = FileName.DragOverContent;
             args.Handled = true;
         }
 
@@ -271,12 +271,12 @@ namespace FileRenamer.Views.Pages
 
         public string GetChangeRule(int index)
         {
-            return string.Format(ResourceService.GetLocalized("Dialog/ChangeRule"), NameChangeRuleList[index]);
+            return string.Format(FileName.ChangeRule, NameChangeRuleList[index]);
         }
 
         public string LocalizeTotal(int count)
         {
-            return string.Format(ResourceService.GetLocalized("FileName/Total"), FileNameDataList.Count);
+            return string.Format(FileName.Total, FileNameDataList.Count);
         }
 
         /// <summary>
@@ -384,7 +384,7 @@ namespace FileRenamer.Views.Pages
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = true;
-            dialog.Title = ResourceService.GetLocalized("FileName/SelectFile");
+            dialog.Title = FileName.SelectFile;
             if (dialog.ShowDialog() is DialogResult.OK)
             {
                 foreach (string fileName in dialog.FileNames)
@@ -416,7 +416,7 @@ namespace FileRenamer.Views.Pages
         public void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = ResourceService.GetLocalized("FileName/SelectFolder");
+            dialog.Description = FileName.SelectFolder;
             dialog.ShowNewFolderButton = true;
             dialog.RootFolder = Environment.SpecialFolder.Desktop;
             DialogResult result = dialog.ShowDialog();

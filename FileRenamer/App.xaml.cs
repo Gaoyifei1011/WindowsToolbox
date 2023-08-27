@@ -1,5 +1,4 @@
-﻿using FileRenamer.Services.Root;
-using Mile.Xaml;
+﻿using Mile.Xaml;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -34,10 +33,10 @@ namespace FileRenamer
             File.AppendAllText(Path.Combine(Program.ErrorFileFolderPath, "ErrorInformation.log"), stringBuilder.ToString());
 
             DialogResult Result = MessageBox.Show(
-                ResourceService.GetLocalized("Resources/Title") + Environment.NewLine +
-                ResourceService.GetLocalized("Resources/Content1") + Environment.NewLine +
-                ResourceService.GetLocalized("Resources/Content2"),
-                ResourceService.GetLocalized("Resources/AppDisplayName"),
+                Strings.Resources.Title + Environment.NewLine +
+                Strings.Resources.Content1 + Environment.NewLine +
+                Strings.Resources.Content2,
+                Strings.Resources.AppDisplayName,
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Error
                 );

@@ -4,13 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:root="using:FileRenamer.Services.Root"
-    Title="{x:Bind root:ResourceService.GetLocalized('Dialog/AppInformationTitle')}"
+    xmlns:string="using:FileRenamer.Strings"
+    Title="{x:Bind string:Dialog.AppInformationTitle}"
     BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
-    CloseButtonText="{x:Bind root:ResourceService.GetLocalized('Dialog/CloseDialog')}"
+    CloseButtonText="{x:Bind string:Dialog.CloseDialog}"
     PrimaryButtonClick="{x:Bind OnCopyAppInformationClicked}"
     PrimaryButtonStyle="{ThemeResource AccentButtonStyle}"
-    PrimaryButtonText="{x:Bind root:ResourceService.GetLocalized('Dialog/CopyAppInformation')}"
+    PrimaryButtonText="{x:Bind string:Dialog.CopyAppInformation}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
@@ -28,7 +28,7 @@
             <TextBlock
                 Grid.Column="0"
                 Margin="0,0,0,5"
-                Text="{x:Bind root:ResourceService.GetLocalized('Dialog/WindowsUIVersion')}"
+                Text="{x:Bind string:Dialog.WindowsUIVersion}"
                 TextAlignment="Justify"
                 TextWrapping="Wrap" />
             <TextBlock
@@ -47,7 +47,7 @@
             <TextBlock
                 Grid.Column="0"
                 Margin="0,0,0,5"
-                Text="{x:Bind root:ResourceService.GetLocalized('Dialog/MileXamlVersion')}"
+                Text="{x:Bind string:Dialog.MileXamlVersion}"
                 TextAlignment="Justify"
                 TextWrapping="Wrap" />
             <TextBlock
@@ -66,7 +66,7 @@
             <TextBlock
                 Grid.Column="0"
                 Margin="0,0,0,5"
-                Text="{x:Bind root:ResourceService.GetLocalized('Dialog/DoNetVersion')}"
+                Text="{x:Bind string:Dialog.DoNetVersion}"
                 TextAlignment="Justify"
                 TextWrapping="Wrap" />
             <TextBlock

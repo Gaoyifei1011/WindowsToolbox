@@ -1,6 +1,7 @@
 ﻿using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Controls.Settings;
 using FileRenamer.Services.Root;
+using FileRenamer.Strings;
 using FileRenamer.Views.Forms;
 using FileRenamer.WindowsAPI.PInvoke.User32;
 using System;
@@ -33,8 +34,6 @@ namespace FileRenamer
         [STAThread]
         public static void Main(string[] args)
         {
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(CultureInfo.CurrentCulture.Parent.Parent.Name);
-
             if (args.Length is 0)
             {
                 CheckProcessState();
@@ -99,10 +98,10 @@ namespace FileRenamer
             File.AppendAllText(Path.Combine(ErrorFileFolderPath, "ErrorInformation.log"), stringBuilder.ToString());
 
             DialogResult Result = MessageBox.Show(
-                ResourceService.GetLocalized("Resources/Title") + Environment.NewLine +
-                ResourceService.GetLocalized("Resources/Content1") + Environment.NewLine +
-                ResourceService.GetLocalized("Resources/Content2"),
-                ResourceService.GetLocalized("Resources/AppDisplayName"),
+                Resources.Title + Environment.NewLine +
+                Resources.Content1 + Environment.NewLine +
+                Resources.Content2,
+                Resources.AppDisplayName,
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Error
                 );
@@ -134,10 +133,10 @@ namespace FileRenamer
             File.AppendAllText(Path.Combine(ErrorFileFolderPath, "ErrorInformation.log"), stringBuilder.ToString());
 
             DialogResult Result = MessageBox.Show(
-                ResourceService.GetLocalized("Resources/Title") + Environment.NewLine +
-                ResourceService.GetLocalized("Resources/Content1") + Environment.NewLine +
-                ResourceService.GetLocalized("Resources/Content2"),
-                ResourceService.GetLocalized("Resources/AppDisplayName"),
+                Resources.Title + Environment.NewLine +
+                Resources.Content1 + Environment.NewLine +
+                Resources.Content2,
+                Resources.AppDisplayName,
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Error
                 );
@@ -163,7 +162,7 @@ namespace FileRenamer
                 }
             }
             LanguageService.InitializeLanguage();
-            ResourceService.InitializeResource(LanguageService.DefaultAppLanguage, LanguageService.AppLanguage);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(LanguageService.AppLanguage.SelectedValue);
             ResourceService.LocalizeReosurce();
 
             BackdropService.InitializeBackdrop();
@@ -183,37 +182,37 @@ namespace FileRenamer
             {
                 ApplicationPath = Process.GetCurrentProcess().MainModule.FileName,
                 Arguments = "FileName",
-                Description = ResourceService.GetLocalized("Window/FileName"),
+                Description = Window.FileName,
                 IconResourceIndex = 2,
                 IconResourcePath = Path.Combine(Environment.SystemDirectory, "Imageres.dll"),
-                Title = ResourceService.GetLocalized("Window/FileName"),
+                Title = Window.FileName,
             };
             JumpTask extensionNameTask = new JumpTask()
             {
                 ApplicationPath = Process.GetCurrentProcess().MainModule.FileName,
                 Arguments = "ExtensionName",
-                Description = ResourceService.GetLocalized("Window/ExtensionName"),
+                Description = Window.ExtensionName,
                 IconResourceIndex = 247,
                 IconResourcePath = Path.Combine(Environment.SystemDirectory, "Imageres.dll"),
-                Title = ResourceService.GetLocalized("Window/ExtensionName"),
+                Title = Window.ExtensionName,
             };
             JumpTask upperAndLowerCaseTask = new JumpTask()
             {
                 ApplicationPath = Process.GetCurrentProcess().MainModule.FileName,
                 Arguments = "UpperAndLowerCase",
-                Description = ResourceService.GetLocalized("Window/UpperAndLowerCase"),
+                Description = Window.UpperAndLowerCase,
                 IconResourceIndex = 118,
                 IconResourcePath = Path.Combine(Environment.SystemDirectory, "Imageres.dll"),
-                Title = ResourceService.GetLocalized("Window/UpperAndLowerCase"),
+                Title = Window.UpperAndLowerCase,
             };
             JumpTask filePropertiesTask = new JumpTask()
             {
                 ApplicationPath = Process.GetCurrentProcess().MainModule.FileName,
                 Arguments = "FileProperties",
-                Description = ResourceService.GetLocalized("Window/FileProperties"),
+                Description = Window.FileProperties,
                 IconResourceIndex = 64,
                 IconResourcePath = Path.Combine(Environment.SystemDirectory, "Imageres.dll"),
-                Title = ResourceService.GetLocalized("Window/FileProperties"),
+                Title = Window.FileProperties,
             };
             jumpList.JumpItems.Add(fileNameTask);
             jumpList.JumpItems.Add(extensionNameTask);

@@ -8,8 +8,7 @@
     xmlns:layout="using:FileRenamer.Views.CustomControls.Layout"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
-    xmlns:root="using:FileRenamer.Services.Root"
-    Loaded="{x:Bind OnLoaded}"
+    xmlns:string="using:FileRenamer.Strings"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -48,26 +47,26 @@
                     <TextBlock
                         Margin="0,0,0,10"
                         FontSize="30"
-                        Text="{x:Bind root:ResourceService.GetLocalized('Resources/AppDisplayName')}" />
+                        Text="{x:Bind string:Resources.AppDisplayName}" />
 
                     <TextBlock
                         Margin="0,0,0,10"
                         FontSize="15"
-                        Text="{x:Bind LocalizeAppVersion(AppVersion), Mode=OneWay}" />
+                        Text="{x:Bind AppVersion}" />
 
                     <StackPanel Orientation="Horizontal">
 
                         <TextBlock
                             VerticalAlignment="Center"
                             FontSize="15"
-                            Text="{x:Bind root:ResourceService.GetLocalized('About/Developer')}" />
+                            Text="{x:Bind string:About.Developer}" />
 
                         <HyperlinkButton
                             VerticalAlignment="Center"
-                            Content="{x:Bind root:ResourceService.GetLocalized('About/DeveloperName')}"
+                            Content="{x:Bind string:About.DeveloperName}"
                             NavigateUri="https://github.com/Gaoyifei1011"
                             Style="{StaticResource HyperlinkButtonStyle}"
-                            ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('About/DeveloperNameToolTip')}" />
+                            ToolTipService.ToolTip="{x:Bind string:About.DeveloperNameToolTip}" />
                     </StackPanel>
                 </StackPanel>
 
@@ -80,18 +79,18 @@
                     <Button
                         MinWidth="130"
                         Click="{x:Bind OnProjectDescriptionClicked}"
-                        Content="{x:Bind root:ResourceService.GetLocalized('About/ProjectHomePage')}"
+                        Content="{x:Bind string:About.ProjectHomePage}"
                         Style="{StaticResource AccentButtonStyle}" />
 
                     <Button
                         MinWidth="130"
                         Click="{x:Bind OnSendFeedbackClicked}"
-                        Content="{x:Bind root:ResourceService.GetLocalized('About/SendFeedback')}" />
+                        Content="{x:Bind string:About.SendFeedback}" />
 
                     <Button
                         MinWidth="130"
                         Click="{x:Bind OnCheckUpdateClicked}"
-                        Content="{x:Bind root:ResourceService.GetLocalized('About/CheckUpdate')}" />
+                        Content="{x:Bind string:About.CheckUpdate}" />
                 </StackPanel>
             </Grid>
 
@@ -102,7 +101,7 @@
                         Padding="15,0,0,0"
                         FontSize="15"
                         FontWeight="Medium"
-                        Text="{x:Bind root:ResourceService.GetLocalized('About/BriefIntroduction')}" />
+                        Text="{x:Bind string:About.BriefIntroduction}" />
                 </layout:Expander.Header>
             </layout:Expander>
 
@@ -113,7 +112,7 @@
                         Padding="15,0,0,0"
                         FontSize="15"
                         FontWeight="Medium"
-                        Text="{x:Bind root:ResourceService.GetLocalized('About/ReferenceTitle')}" />
+                        Text="{x:Bind string:About.ReferenceTitle}" />
                 </layout:Expander.Header>
 
                 <layout:Expander.Content>
@@ -149,7 +148,7 @@
                         Padding="15,0,0,0"
                         FontSize="15"
                         FontWeight="Medium"
-                        Text="{x:Bind root:ResourceService.GetLocalized('About/UseInstruction')}" />
+                        Text="{x:Bind string:About.UseInstruction}" />
                 </layout:Expander.Header>
             </layout:Expander>
 
@@ -160,7 +159,7 @@
                         Padding="15,0,0,0"
                         FontSize="15"
                         FontWeight="Medium"
-                        Text="{x:Bind root:ResourceService.GetLocalized('About/Precaution')}" />
+                        Text="{x:Bind string:About.Precaution}" />
                 </layout:Expander.Header>
             </layout:Expander>
 
@@ -171,7 +170,7 @@
                         Padding="15,0,0,0"
                         FontSize="15"
                         FontWeight="Medium"
-                        Text="{x:Bind root:ResourceService.GetLocalized('About/SettingsHelp')}" />
+                        Text="{x:Bind string:About.SettingsHelp}" />
                 </layout:Expander.Header>
 
                 <layout:Expander.Content>
@@ -180,14 +179,14 @@
                             Margin="0,0,0,10"
                             FontSize="15"
                             FontWeight="Normal"
-                            Text="{x:Bind root:ResourceService.GetLocalized('About/Backdrop')}"
+                            Text="{x:Bind string:About.Backdrop}"
                             TextAlignment="Left" />
                         <TextBlock
                             Margin="0,0,0,5"
                             Padding="0,0,2,0"
                             FontSize="13.5"
                             FontWeight="Normal"
-                            Text="{x:Bind root:ResourceService.GetLocalized('About/BackdropDescription')}"
+                            Text="{x:Bind string:About.BackdropDescription}"
                             TextAlignment="Justify"
                             TextWrapping="Wrap" />
 
@@ -196,7 +195,7 @@
                                 Margin="-5,0,10,0"
                                 Padding="5"
                                 Click="{x:Bind OnSystemInformationClicked}"
-                                Content="{x:Bind root:ResourceService.GetLocalized('About/SystemInformation')}" />
+                                Content="{x:Bind string:About.SystemInformation}" />
 
                             <HyperlinkButton
                                 x:Name="AppInformationUnPackaged"
@@ -204,7 +203,7 @@
                                 Padding="5"
                                 x:Load="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(helper:RuntimeHelper.IsMSIX)}"
                                 Click="{x:Bind OnAppInformationClicked}"
-                                Content="{x:Bind root:ResourceService.GetLocalized('About/AppInformation')}" />
+                                Content="{x:Bind string:About.AppInformation}" />
                         </StackPanel>
 
                         <StackPanel x:Name="LanguageDescription" x:Load="{x:Bind helper:RuntimeHelper.IsMSIX}">
@@ -215,14 +214,14 @@
                                 Margin="0,0,0,10"
                                 FontSize="15"
                                 FontWeight="Normal"
-                                Text="{x:Bind root:ResourceService.GetLocalized('About/Language')}"
+                                Text="{x:Bind string:About.Language}"
                                 TextAlignment="Left" />
                             <TextBlock
                                 Margin="0,0,0,5"
                                 Padding="0,0,2,0"
                                 FontSize="13.5"
                                 FontWeight="Normal"
-                                Text="{x:Bind root:ResourceService.GetLocalized('About/LanguageDescription')}"
+                                Text="{x:Bind string:About.LanguageDescription}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
 
@@ -231,12 +230,12 @@
                                     Margin="-5,0,10,0"
                                     Padding="5"
                                     Click="{x:Bind OnAppInformationClicked}"
-                                    Content="{x:Bind root:ResourceService.GetLocalized('About/AppInformation')}" />
+                                    Content="{x:Bind string:About.AppInformation}" />
 
                                 <HyperlinkButton
                                     Margin="-5,0,10,0"
                                     Padding="5"
-                                    Content="{x:Bind root:ResourceService.GetLocalized('About/AppSettings')}"
+                                    Content="{x:Bind string:About.AppSettings}"
                                     NavigateUri="ms-settings:appsfeatures-app" />
                             </StackPanel>
                         </StackPanel>
@@ -251,7 +250,7 @@
                         Padding="15,0,0,0"
                         FontSize="15"
                         FontWeight="Medium"
-                        Text="{x:Bind root:ResourceService.GetLocalized('About/ThanksTitle')}" />
+                        Text="{x:Bind string:About.ThanksTitle}" />
                 </layout:Expander.Header>
 
                 <layout:Expander.Content>

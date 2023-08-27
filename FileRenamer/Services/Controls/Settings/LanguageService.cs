@@ -1,12 +1,12 @@
 ﻿using FileRenamer.Extensions.DataType.Constant;
-using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Services.Root;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
-using Windows.Globalization;
 
 namespace FileRenamer.Services.Controls.Settings
 {
@@ -15,33 +15,38 @@ namespace FileRenamer.Services.Controls.Settings
     /// </summary>
     public static class LanguageService
     {
+        private static string resourceFileName = string.Format("{0}.resources.dll", Assembly.GetExecutingAssembly().GetName().Name);
+
         private static string SettingsKey { get; } = ConfigKey.LanguageKey;
 
         public static GroupOptionsModel DefaultAppLanguage { get; set; }
 
         public static GroupOptionsModel AppLanguage { get; set; }
 
-        private static IReadOnlyList<string> AppLanguagesList { get; }
+        private static List<string> AppLanguagesList { get; } = new List<string>();
 
         public static List<GroupOptionsModel> LanguageList { get; set; } = new List<GroupOptionsModel>();
-
-        static LanguageService()
-        {
-            if (RuntimeHelper.IsMSIX)
-            {
-                AppLanguagesList = ApplicationLanguages.ManifestLanguages;
-            }
-            else
-            {
-                AppLanguagesList = new List<string>() { "en-us", "zh-hans" };
-            }
-        }
 
         /// <summary>
         /// 初始化应用语言信息列表
         /// </summary>
         private static void InitializeLanguageList()
         {
+            try
+            {
+                string[] resourceFolder = Directory.GetFiles(AppContext.BaseDirectory, resourceFileName, SearchOption.AllDirectories);
+
+                foreach (string file in resourceFolder)
+                {
+                    AppLanguagesList.Add(Path.GetFileName(Path.GetDirectoryName(file)));
+                }
+            }
+            catch
+            {
+                AppLanguagesList.Clear();
+                AppLanguagesList.Add("en-us");
+            }
+
             foreach (string applanguage in AppLanguagesList)
             {
                 CultureInfo culture = CultureInfo.GetCultureInfo(applanguage);
