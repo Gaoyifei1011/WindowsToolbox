@@ -38,9 +38,9 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        private UpperAndLowerSelectedType _selectedType = UpperAndLowerSelectedType.None;
+        private UpperAndLowerSelectedKind _selectedType = UpperAndLowerSelectedKind.None;
 
-        public UpperAndLowerSelectedType SelectedType
+        public UpperAndLowerSelectedKind SelectedType
         {
             get { return _selectedType; }
 
@@ -119,7 +119,7 @@ namespace FileRenamer.Views.Pages
             Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
             if (checkBox is not null)
             {
-                SelectedType = (UpperAndLowerSelectedType)Convert.ToInt32(checkBox.Tag);
+                SelectedType = (UpperAndLowerSelectedKind)Convert.ToInt32(checkBox.Tag);
             }
         }
 
@@ -280,9 +280,9 @@ namespace FileRenamer.Views.Pages
             Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
             if (checkBox is not null)
             {
-                if (SelectedType == (UpperAndLowerSelectedType)Convert.ToInt32(checkBox.Tag))
+                if (SelectedType == (UpperAndLowerSelectedKind)Convert.ToInt32(checkBox.Tag))
                 {
-                    SelectedType = UpperAndLowerSelectedType.None;
+                    SelectedType = UpperAndLowerSelectedKind.None;
                 }
             }
         }
@@ -305,7 +305,7 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         private bool CheckOperationState()
         {
-            if (SelectedType is UpperAndLowerSelectedType.None)
+            if (SelectedType is UpperAndLowerSelectedKind.None)
             {
                 return false;
             }
@@ -322,7 +322,7 @@ namespace FileRenamer.Views.Pages
         {
             switch (SelectedType)
             {
-                case UpperAndLowerSelectedType.AllUppercase:
+                case UpperAndLowerSelectedKind.AllUppercase:
                     {
                         foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
                         {
@@ -334,7 +334,7 @@ namespace FileRenamer.Views.Pages
                         }
                         break;
                     }
-                case UpperAndLowerSelectedType.FileNameUppercase:
+                case UpperAndLowerSelectedKind.FileNameUppercase:
                     {
                         foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
                         {
@@ -348,7 +348,7 @@ namespace FileRenamer.Views.Pages
                         }
                         break;
                     }
-                case UpperAndLowerSelectedType.ExtensionNameUppercase:
+                case UpperAndLowerSelectedKind.ExtensionNameUppercase:
                     {
                         foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
                         {
@@ -362,7 +362,7 @@ namespace FileRenamer.Views.Pages
                         }
                         break;
                     }
-                case UpperAndLowerSelectedType.DeleteSpace:
+                case UpperAndLowerSelectedKind.DeleteSpace:
                     {
                         foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
                         {
@@ -374,7 +374,7 @@ namespace FileRenamer.Views.Pages
                         }
                         break;
                     }
-                case UpperAndLowerSelectedType.AllLowercase:
+                case UpperAndLowerSelectedKind.AllLowercase:
                     {
                         foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
                         {
@@ -386,7 +386,7 @@ namespace FileRenamer.Views.Pages
                         }
                         break;
                     }
-                case UpperAndLowerSelectedType.FileNameLowercase:
+                case UpperAndLowerSelectedKind.FileNameLowercase:
                     {
                         foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
                         {
@@ -400,7 +400,7 @@ namespace FileRenamer.Views.Pages
                         }
                         break;
                     }
-                case UpperAndLowerSelectedType.ExtensionNameLowercase:
+                case UpperAndLowerSelectedKind.ExtensionNameLowercase:
                     {
                         foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
                         {
@@ -414,7 +414,7 @@ namespace FileRenamer.Views.Pages
                         }
                         break;
                     }
-                case UpperAndLowerSelectedType.ReplaceSpace:
+                case UpperAndLowerSelectedKind.ReplaceSpace:
                     {
                         foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
                         {

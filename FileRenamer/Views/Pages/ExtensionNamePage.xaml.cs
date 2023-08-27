@@ -38,9 +38,9 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        private ExtensionNameSelectedType _selectedType = ExtensionNameSelectedType.None;
+        private ExtensionNameSelectedKind _selectedType = ExtensionNameSelectedKind.None;
 
-        public ExtensionNameSelectedType SelectedType
+        public ExtensionNameSelectedKind SelectedType
         {
             get { return _selectedType; }
 
@@ -161,7 +161,7 @@ namespace FileRenamer.Views.Pages
             Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
             if (checkBox is not null)
             {
-                SelectedType = (ExtensionNameSelectedType)Convert.ToInt32(checkBox.Tag);
+                SelectedType = (ExtensionNameSelectedKind)Convert.ToInt32(checkBox.Tag);
             }
         }
 
@@ -307,16 +307,16 @@ namespace FileRenamer.Views.Pages
             Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
             if (checkBox is not null)
             {
-                if (SelectedType == (ExtensionNameSelectedType)Convert.ToInt32(checkBox.Tag))
+                if (SelectedType == (ExtensionNameSelectedKind)Convert.ToInt32(checkBox.Tag))
                 {
-                    SelectedType = ExtensionNameSelectedType.None;
+                    SelectedType = ExtensionNameSelectedKind.None;
                 }
 
-                if ((ExtensionNameSelectedType)Convert.ToInt32(checkBox.Tag) is ExtensionNameSelectedType.IsSameExtensionName)
+                if ((ExtensionNameSelectedKind)Convert.ToInt32(checkBox.Tag) is ExtensionNameSelectedKind.IsSameExtensionName)
                 {
                     ChangeToText = string.Empty;
                 }
-                else if ((ExtensionNameSelectedType)Convert.ToInt32(checkBox.Tag) is ExtensionNameSelectedType.IsFindAndReplaceExtensionName)
+                else if ((ExtensionNameSelectedKind)Convert.ToInt32(checkBox.Tag) is ExtensionNameSelectedKind.IsFindAndReplaceExtensionName)
                 {
                     SearchText = string.Empty;
                     ReplaceText = string.Empty;
@@ -342,7 +342,7 @@ namespace FileRenamer.Views.Pages
         /// </summary>
         private bool CheckOperationState()
         {
-            if (SelectedType is ExtensionNameSelectedType.None)
+            if (SelectedType is ExtensionNameSelectedKind.None)
             {
                 return false;
             }
@@ -359,7 +359,7 @@ namespace FileRenamer.Views.Pages
         {
             switch (SelectedType)
             {
-                case ExtensionNameSelectedType.IsSameExtensionName:
+                case ExtensionNameSelectedKind.IsSameExtensionName:
                     {
                         foreach (OldAndNewNameModel item in ExtensionNameDataList)
                         {
@@ -372,7 +372,7 @@ namespace FileRenamer.Views.Pages
                         }
                         break;
                     }
-                case ExtensionNameSelectedType.IsFindAndReplaceExtensionName:
+                case ExtensionNameSelectedKind.IsFindAndReplaceExtensionName:
                     {
                         foreach (OldAndNewNameModel item in ExtensionNameDataList)
                         {

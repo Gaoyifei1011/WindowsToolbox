@@ -45,7 +45,7 @@
                 Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind string:ExtensionName.SameExtensionName}"
-                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedType.IsSameExtensionName), Mode=OneWay}"
+                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsSameExtensionName), Mode=OneWay}"
                 Tag="1"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -62,7 +62,7 @@
                     Text="{x:Bind string:ExtensionName.ChangeTo}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedType.IsSameExtensionName), Mode=OneWay}"
+                    IsEnabled="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsSameExtensionName), Mode=OneWay}"
                     Text="{x:Bind ChangeToText, Mode=TwoWay}" />
             </Grid>
 
@@ -71,7 +71,7 @@
                 Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind string:ExtensionName.FindAndReplaceExtensionName}"
-                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
                 Tag="2"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -88,7 +88,7 @@
                     Text="{x:Bind string:ExtensionName.Search}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                    IsEnabled="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
                     Text="{x:Bind SearchText, Mode=TwoWay}" />
             </Grid>
 
@@ -102,7 +102,7 @@
                 <TextBlock Grid.Column="0" Text="{x:Bind string:ExtensionName.Replace}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedType.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                    IsEnabled="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
                     Text="{x:Bind ReplaceText, Mode=TwoWay}" />
             </Grid>
         </Grid>

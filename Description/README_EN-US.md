@@ -91,7 +91,6 @@ Unpackaged version
 
 #### <p align="center">App localization</p>
 ##### The project was initially available in both Chinese Simplified and English formats, and if you want to translate your app into a language you are familiar with or correct errors in content that has been translated, please refer to the steps below.
-##### We recommend that you localize your app under the packaged version
 
 > * Look for readme template files in the DeScription folder, for example, the English version is a README_EN-US.md file, rename it to README_(corresponding language).md file.
 > * Open the renamed file, translate all the statements and save them. Please check it carefully after the translation is completed.
@@ -99,7 +98,7 @@ Unpackaged version
 > * README_ (corresponding language).The language screenshot added in the md file is replaced with the app screenshot in the language you are familiar with.
 > * Complete the translation steps described above to ensure that all steps run smoothly.
 > * Open the FileRenamerPackage packaging project, find the Package.appxmanifest file, right-click the file, click View Code, find the Sources tab, and add the corresponding language according to the template, such as "<Resource Language="EN-US"/>".
-> * Open the Strings folder of the FileRenamer project and create the language you are using, for example ( English (United States) folder name is en-us , you can refer to the Table of Indicating Language (Culture) Codes and Countries and Regions)
+> * Open the Strings folder of the FileRenamer project and create the language you are using, for example ( English (United States) file name is en-us , you can refer to the Table of Indicating Language (Culture) Codes and Countries and Regions)
 > * Open the resw file under the subfolder and translate each name.
 > * Compile and run the code and test your language, when the application is first opened if there is no language you use to display English (United States) by default, it needs to be dynamically adjusted in the settings.
 > * Create a PR after completing the above steps, then submit the modified content to this project and wait for the merge.
