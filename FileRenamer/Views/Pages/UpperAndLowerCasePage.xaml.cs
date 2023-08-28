@@ -17,6 +17,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace FileRenamer.Views.Pages
 {
@@ -103,6 +104,31 @@ namespace FileRenamer.Views.Pages
             {
                 deferral.Complete();
                 OperationFailedList.Clear();
+            }
+        }
+
+        /// <summary>
+        /// 按下 Enter 键发生的事件
+        /// </summary>
+        protected override void OnKeyDown(KeyRoutedEventArgs args)
+        {
+            base.OnKeyDown(args);
+            bool checkResult = CheckOperationState();
+            if (checkResult)
+            {
+                OperationFailedList.Clear();
+                if (UpperAndLowerCaseDataList.Count is 0)
+                {
+                    new ListEmptyNotification(this).Show();
+                }
+                else
+                {
+                    PreviewChangedFileName();
+                }
+            }
+            else
+            {
+                new NoOperationNotification(this).Show();
             }
         }
 

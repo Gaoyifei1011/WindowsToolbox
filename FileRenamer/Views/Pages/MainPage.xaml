@@ -2,7 +2,6 @@
     x:Class="FileRenamer.Views.Pages.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controlHelper="using:FileRenamer.Helpers.Controls"
     xmlns:converter="using:FileRenamer.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="using:FileRenamer.Helpers.Root"
@@ -145,7 +144,6 @@
             <Grid Margin="0,0,8,0">
                 <DropDownButton
                     x:Name="AboutButton"
-                    controlHelper:CursorHelper.Cursor="Hand"
                     x:Load="{x:Bind IsCurrentPage(SelectedItem.Tag, TagList[4]), Mode=OneWay}"
                     Content="{x:Bind string:Window.Others}"
                     ToolTipService.ToolTip="{x:Bind string:Window.OthersToolTip}">
