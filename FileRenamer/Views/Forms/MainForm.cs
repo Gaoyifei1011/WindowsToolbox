@@ -9,6 +9,7 @@ using FileRenamer.Views.Pages;
 using FileRenamer.WindowsAPI.PInvoke.DwmApi;
 using FileRenamer.WindowsAPI.PInvoke.User32;
 using FileRenamer.WindowsAPI.PInvoke.Uxtheme;
+using GetStoreApp.Services.Controls.Settings;
 using Mile.Xaml;
 using System;
 using System.Collections.Generic;
@@ -236,6 +237,7 @@ namespace FileRenamer.Views.Forms
                         MainPage.TitlebarMenuFlyout.ShowAt(null, options);
                         return;
                     }
+                // 窗口接收其他数据消息
                 case (int)WindowMessage.WM_COPYDATA:
                     {
                         COPYDATASTRUCT copyDataStruct = Marshal.PtrToStructure<COPYDATASTRUCT>(m.LParam);
@@ -265,6 +267,15 @@ namespace FileRenamer.Views.Forms
                         }
                         break;
                     };
+                // 窗口处理视觉样式对于此窗口是否处于活动状态
+                case (int)WindowMessage.WM_NCACTIVATE:
+                    {
+                        if (AlwaysShowBackdropService.AlwaysShowBackdropValue)
+                        {
+                            m.WParam = (IntPtr)1;
+                        }
+                        break;
+                    }
                 // 选择窗口右键菜单的条目时接收到的消息
                 case (int)WindowMessage.WM_SYSCOMMAND:
                     {

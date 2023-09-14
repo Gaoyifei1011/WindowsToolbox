@@ -15,6 +15,11 @@ namespace FileRenamer.Helpers.Converters
             return !value;
         }
 
+        public static bool StringCompareReverseConvert(string value, string comparedValue)
+        {
+            return !value.Equals(comparedValue);
+        }
+
         /// <summary>
         /// 整数值与控件显示值转换
         /// </summary>

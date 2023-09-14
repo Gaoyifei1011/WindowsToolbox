@@ -2,6 +2,7 @@
 using FileRenamer.Models;
 using FileRenamer.Services.Controls.Settings;
 using FileRenamer.UI.Notifications;
+using GetStoreApp.Services.Controls.Settings;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,6 +42,19 @@ namespace FileRenamer.Views.Pages
             set
             {
                 _backdrop = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _alwaysShowBackdropValue = AlwaysShowBackdropService.AlwaysShowBackdropValue;
+
+        public bool AlwaysShowBackdropValue
+        {
+            get { return _alwaysShowBackdropValue; }
+
+            set
+            {
+                _alwaysShowBackdropValue = value;
                 OnPropertyChanged();
             }
         }
@@ -175,6 +189,19 @@ namespace FileRenamer.Views.Pages
         }
 
         /// <summary>
+        /// 开关按钮切换时修改相应设置
+        /// </summary>
+        public void OnAlwaysShowBackdropToggled(object sender, RoutedEventArgs args)
+        {
+            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+            if (toggleSwitch is not null)
+            {
+                AlwaysShowBackdropService.SetAlwaysShowBackdrop(toggleSwitch.IsOn);
+                AlwaysShowBackdropValue = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
         /// 是否开启应用窗口置顶
         /// </summary>
         public void OnTopMostToggled(object sender, RoutedEventArgs args)
@@ -185,6 +212,19 @@ namespace FileRenamer.Views.Pages
                 TopMostService.SetTopMostValue(toggleSwitch.IsOn);
                 TopMostService.SetAppTopMost();
                 TopMostValue = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 当应用未启用背景色设置时，自动关闭始终显示背景色设置
+        /// </summary>
+        public void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs args)
+        {
+            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+            if (toggleSwitch is not null)
+            {
+                AlwaysShowBackdropService.SetAlwaysShowBackdrop(false);
+                AlwaysShowBackdropValue = false;
             }
         }
 

@@ -5,6 +5,8 @@
     /// </summary>
     public static class ConfigKey
     {
+        public const string AlwaysShowBackdropKey = "AlwaysShowBackdrop";
+
         public const string BackdropKey = "AppBackdrop";
 
         public const string LanguageKey = "AppLanguage";

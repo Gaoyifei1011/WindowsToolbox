@@ -61,6 +61,42 @@ namespace FileRenamer.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Always show backdrop 的本地化字符串。
+        /// </summary>
+        public static string AlwaysShowBackdrop {
+            get {
+                return ResourceManager.GetString("AlwaysShowBackdrop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The window does not fall back to a solid color when it loses focus 的本地化字符串。
+        /// </summary>
+        public static string AlwaysShowBackdropDescription {
+            get {
+                return ResourceManager.GetString("AlwaysShowBackdropDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Closed 的本地化字符串。
+        /// </summary>
+        public static string AlwaysShowBackdropOffContent {
+            get {
+                return ResourceManager.GetString("AlwaysShowBackdropOffContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Opened 的本地化字符串。
+        /// </summary>
+        public static string AlwaysShowBackdropOnContent {
+            get {
+                return ResourceManager.GetString("AlwaysShowBackdropOnContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Appearance 的本地化字符串。
         /// </summary>
         public static string Appearance {

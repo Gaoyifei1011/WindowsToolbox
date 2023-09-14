@@ -2,6 +2,7 @@
     x:Class="FileRenamer.Views.Pages.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="using:FileRenamer.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:string="using:FileRenamer.Strings"
@@ -25,7 +26,7 @@
                 Style="{StaticResource BodyTextBlockStyle}"
                 Text="{x:Bind string:Settings.Appearance}" />
 
-            <!--  应用主题设置用户控件  -->
+            <!--  应用主题设置  -->
             <Grid
                 Height="61"
                 Padding="16,12"
@@ -98,7 +99,7 @@
                 </DropDownButton>
             </Grid>
 
-            <!--  窗口背景材质设置用户控件  -->
+            <!--  窗口背景材质设置  -->
             <Grid
                 x:Name="BackdropSettings"
                 Height="61"
@@ -180,7 +181,56 @@
                 </DropDownButton>
             </Grid>
 
-            <!--  界面语言设置用户控件  -->
+            <!--  始终显示背景色设置  -->
+            <Grid
+                Height="61"
+                Padding="16,12"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <FontIcon
+                    Grid.Column="0"
+                    Margin="0,0,12,0"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    FontSize="16"
+                    Glyph="&#xE81E;" />
+
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+
+                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.AlwaysShowBackdrop}" />
+
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{x:Bind string:Settings.AlwaysShowBackdropDescription}" />
+                </StackPanel>
+
+                <ToggleSwitch
+                    Grid.Column="2"
+                    MinWidth="0"
+                    Margin="0,-2,0,0"
+                    FlowDirection="RightToLeft"
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.StringCompareReverseConvert(Backdrop.SelectedValue, BackdropList[0].SelectedValue), Mode=OneWay}"
+                    IsEnabledChanged="{x:Bind OnIsEnabledChanged}"
+                    IsOn="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}"
+                    OffContent="{x:Bind string:Settings.AlwaysShowBackdropOffContent}"
+                    OnContent="{x:Bind string:Settings.AlwaysShowBackdropOnContent}"
+                    Style="{StaticResource DefaultToggleSwitchStyle}"
+                    Toggled="{x:Bind OnAlwaysShowBackdropToggled}" />
+            </Grid>
+
+            <!--  界面语言设置  -->
             <Grid
                 Height="61"
                 Padding="16,12"
