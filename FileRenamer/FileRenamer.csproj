@@ -30,6 +30,9 @@
   <PropertyGroup Condition="'$(Platform)'=='ARM64'">
     <RuntimeIdentifier>win10-arm64</RuntimeIdentifier>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Assets\FileRenamer.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <ApplicationDefinition Update="App.xaml" Generator="MSBuild:Compile" />
@@ -101,6 +104,10 @@
       <Isolated>false</Isolated>
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
+
+    <Content Include="Assets\FileRenamer.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\LargeTile.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-125.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-150.png" CopyToOutputDirectory="Always" />
@@ -257,8 +264,6 @@
     <EmbeddedResource Update="Strings\Window.zh-hans.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-
-    <None Update="Assets\FileRenamer.ico" />
   </ItemGroup>
 
   <Target Name="SignExeFile" BeforeTargets="Build">

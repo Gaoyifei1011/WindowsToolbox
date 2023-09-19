@@ -162,6 +162,7 @@ namespace FileRenamer
                     fileStream.Dispose();
                 }
             }
+
             LanguageService.InitializeLanguage();
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(LanguageService.AppLanguage.SelectedValue);
             ResourceService.LocalizeReosurce();
@@ -170,6 +171,11 @@ namespace FileRenamer
             BackdropService.InitializeBackdrop();
             ThemeService.InitializeTheme();
             TopMostService.InitializeTopMostValue();
+
+            if (RuntimeHelper.IsMSIX)
+            {
+                FileShellMenuService.InitializeFileShellMenu();
+            }
         }
 
         /// <summary>

@@ -160,6 +160,51 @@ namespace FileRenamer.Strings {
         }
         
         /// <summary>
+        ///   查找类似 File right-click menu 的本地化字符串。
+        /// </summary>
+        public static string FileShellMenu {
+            get {
+                return ResourceManager.GetString("FileShellMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Whether to display the file right-click menu in the system 的本地化字符串。
+        /// </summary>
+        public static string FileShellMenuDescription {
+            get {
+                return ResourceManager.GetString("FileShellMenuDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Hide 的本地化字符串。
+        /// </summary>
+        public static string FileShellMenuOffContent {
+            get {
+                return ResourceManager.GetString("FileShellMenuOffContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show 的本地化字符串。
+        /// </summary>
+        public static string FileShellMenuOnContent {
+            get {
+                return ResourceManager.GetString("FileShellMenuOnContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 General Options 的本地化字符串。
+        /// </summary>
+        public static string General {
+            get {
+                return ResourceManager.GetString("General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Language 的本地化字符串。
         /// </summary>
         public static string Language {

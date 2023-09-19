@@ -34,7 +34,7 @@
   </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
-    <AssetTargetFallback>net481</AssetTargetFallback>
+    <AssetTargetFallback>$(AssetTargetFallback);net481;native</AssetTargetFallback>
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundleAutoResourcePackageQualifiers>DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
@@ -81,6 +81,7 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
     <ProjectReference Include="..\FileRenamer\FileRenamer.csproj" />
+    <ProjectReference Include="..\FileRenamerShellExtension\FileRenamerShellExtension.vcxproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FileRenamerPackage_SignKey.pfx" />

@@ -117,97 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AlwaysShowBackdrop" xml:space="preserve">
-    <value>Always show backdrop</value>
+  <data name="AddToExtensionNamePage" xml:space="preserve">
+    <value>添加到“扩展名称”页面</value>
   </data>
-  <data name="AlwaysShowBackdropDescription" xml:space="preserve">
-    <value>The window does not fall back to a solid color when it loses focus</value>
+  <data name="AddToFileNamePage" xml:space="preserve">
+    <value>添加到“文件名称”页面</value>
   </data>
-  <data name="AlwaysShowBackdropOffContent" xml:space="preserve">
-    <value>Closed</value>
+  <data name="AddToFilePropertiesPage" xml:space="preserve">
+    <value>添加到“文件属性”页面</value>
   </data>
-  <data name="AlwaysShowBackdropOnContent" xml:space="preserve">
-    <value>Opened</value>
+  <data name="AddToUpperAndLowerCasePage" xml:space="preserve">
+    <value>添加到“大写小写”页面</value>
   </data>
-  <data name="Appearance" xml:space="preserve">
-    <value>Appearance</value>
-  </data>
-  <data name="Backdrop" xml:space="preserve">
-    <value>Window background material</value>
-  </data>
-  <data name="BackdropAcrylic" xml:space="preserve">
-    <value>Acrylic</value>
-  </data>
-  <data name="BackdropDefault" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="BackdropDescription" xml:space="preserve">
-    <value>Sets the background color of the app's rendering</value>
-  </data>
-  <data name="BackdropMica" xml:space="preserve">
-    <value>Mica</value>
-  </data>
-  <data name="BackdropMicaAlt" xml:space="preserve">
-    <value>Mica alt</value>
-  </data>
-  <data name="FileShellMenu" xml:space="preserve">
-    <value>File right-click menu</value>
-  </data>
-  <data name="FileShellMenuDescription" xml:space="preserve">
-    <value>Whether to display the file right-click menu in the system</value>
-  </data>
-  <data name="FileShellMenuOffContent" xml:space="preserve">
-    <value>Hide</value>
-  </data>
-  <data name="FileShellMenuOnContent" xml:space="preserve">
-    <value>Show</value>
-  </data>
-  <data name="General" xml:space="preserve">
-    <value>General Options</value>
-  </data>
-  <data name="Language" xml:space="preserve">
-    <value>Language</value>
-  </data>
-  <data name="LanguageDescription" xml:space="preserve">
-    <value>Modify the language displayed in the app interface</value>
-  </data>
-  <data name="SystemBackdropSettings" xml:space="preserve">
-    <value>System backdrop settings</value>
-  </data>
-  <data name="SystemLanguageSettings" xml:space="preserve">
-    <value>System language settings</value>
-  </data>
-  <data name="SystemThemeSettings" xml:space="preserve">
-    <value>System theme settings</value>
-  </data>
-  <data name="ThemeDark" xml:space="preserve">
-    <value>Dark</value>
-  </data>
-  <data name="ThemeDefault" xml:space="preserve">
-    <value>Windows default</value>
-  </data>
-  <data name="ThemeLight" xml:space="preserve">
-    <value>Light</value>
-  </data>
-  <data name="ThemeMode" xml:space="preserve">
-    <value>Application theme</value>
-  </data>
-  <data name="ThemeModeDescription" xml:space="preserve">
-    <value>Select the application theme to display</value>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="TopMost" xml:space="preserve">
-    <value>Window set on top</value>
-  </data>
-  <data name="TopMostDescription" xml:space="preserve">
-    <value>Places the currently applied window at the very top</value>
-  </data>
-  <data name="TopMostOffContent" xml:space="preserve">
-    <value>Not pinned</value>
-  </data>
-  <data name="TopMostOnContent" xml:space="preserve">
-    <value>Pinned</value>
+  <data name="AppName" xml:space="preserve">
+    <value>文件重命名工具</value>
   </data>
 </root>

@@ -150,6 +150,21 @@
   <data name="BackdropMicaAlt" xml:space="preserve">
     <value>Mica alt</value>
   </data>
+  <data name="FileShellMenu" xml:space="preserve">
+    <value>File right-click menu</value>
+  </data>
+  <data name="FileShellMenuDescription" xml:space="preserve">
+    <value>Whether to display the file right-click menu in the system</value>
+  </data>
+  <data name="FileShellMenuOffContent" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="FileShellMenuOnContent" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General Options</value>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>

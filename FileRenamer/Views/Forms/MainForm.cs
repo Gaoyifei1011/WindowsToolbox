@@ -151,13 +151,6 @@ namespace FileRenamer.Views.Forms
                         break;
                     }
 
-                    // 关闭组合框弹出控件
-                    if (popup.Child as Canvas is not null)
-                    {
-                        popup.IsOpen = false;
-                        break;
-                    }
-
                     // 关闭日期选择器浮出控件
                     if (popup.Child as DatePickerFlyoutPresenter is not null)
                     {
@@ -182,6 +175,20 @@ namespace FileRenamer.Views.Forms
         {
             base.OnSizeChanged(args);
             MainPage.IsWindowMaximized = WindowState == FormWindowState.Maximized;
+
+            if (MainPage.XamlRoot is not null)
+            {
+                IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(MainPage.XamlRoot);
+                foreach (Popup popup in PopupRoot)
+                {
+                    // 关闭内容对话框
+                    if (popup.Child as ContentDialog is not null)
+                    {
+                        (popup.Child as ContentDialog).Hide();
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>

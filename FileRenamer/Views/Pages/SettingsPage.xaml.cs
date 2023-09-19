@@ -85,6 +85,19 @@ namespace FileRenamer.Views.Pages
             }
         }
 
+        private bool _fileShellMenuValue = FileShellMenuService.FileShellMenuValue;
+
+        public bool FileShellMenuValue
+        {
+            get { return _fileShellMenuValue; }
+
+            set
+            {
+                _fileShellMenuValue = value;
+                OnPropertyChanged();
+            }
+        }
+
         public List<GroupOptionsModel> ThemeList { get; } = ThemeService.ThemeList;
 
         public List<GroupOptionsModel> BackdropList { get; } = BackdropService.BackdropList;
@@ -189,7 +202,7 @@ namespace FileRenamer.Views.Pages
         }
 
         /// <summary>
-        /// 开关按钮切换时修改相应设置
+        /// 是否开启始终显示背景色
         /// </summary>
         public void OnAlwaysShowBackdropToggled(object sender, RoutedEventArgs args)
         {
@@ -198,6 +211,19 @@ namespace FileRenamer.Views.Pages
             {
                 AlwaysShowBackdropService.SetAlwaysShowBackdrop(toggleSwitch.IsOn);
                 AlwaysShowBackdropValue = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 是否开启显示文件右键菜单
+        /// </summary>
+        public void OnFileShellMenuToggled(object sender, RoutedEventArgs args)
+        {
+            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+            if (toggleSwitch is not null)
+            {
+                FileShellMenuService.SetFileShellMenu(toggleSwitch.IsOn);
+                FileShellMenuValue = toggleSwitch.IsOn;
             }
         }
 

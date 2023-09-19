@@ -28,9 +28,9 @@ namespace FileRenamer.Views.Pages
         //项目引用信息
         public List<KeyValuePairModel> ReferenceDict = new List<KeyValuePairModel>()
         {
-            new KeyValuePairModel() {Key = "Mile.Xaml" , Value = "https://github.com/ProjectMile/Mile.Xaml" },
-            new KeyValuePairModel() {Key = "Microsoft.NETFramework.ReferenceAssemblies" , Value = "https://github.com/Microsoft/dotnet/tree/master/releases/reference-assemblies" },
-            new KeyValuePairModel() {Key = "Newtonsoft.Json" , Value = "https://www.newtonsoft.com/json" },
+            new KeyValuePairModel() { Key = "Mile.Xaml" , Value = "https://github.com/ProjectMile/Mile.Xaml" },
+            new KeyValuePairModel() { Key = "Microsoft.Windows.CppWinRT" , Value = "https://github.com/Microsoft/cppwinrt" },
+            new KeyValuePairModel() { Key = "Newtonsoft.Json" , Value = "https://www.newtonsoft.com/json" },
         };
 
         public List<KeyValuePairModel> ThanksDict = new List<KeyValuePairModel>()
