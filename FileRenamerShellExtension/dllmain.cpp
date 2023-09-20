@@ -1,5 +1,4 @@
 ﻿#include "pch.h"
-#include <winrt/Windows.ApplicationModel.Core.h>
 #include "BaseExplorerCommand.h"
 #include <mutex>
 

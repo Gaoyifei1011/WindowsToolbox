@@ -357,6 +357,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <FontIcon
@@ -364,7 +365,7 @@
                     Margin="0,0,12,0"
                     FontFamily="{ThemeResource SymbolThemeFontFamily}"
                     FontSize="16"
-                    Glyph="&#xE840;" />
+                    Glyph="&#xE8FD;" />
 
                 <StackPanel
                     Grid.Column="1"
@@ -379,8 +380,15 @@
                         Text="{x:Bind string:Settings.FileShellMenuDescription}" />
                 </StackPanel>
 
-                <ToggleSwitch
+                <HyperlinkButton
                     Grid.Column="2"
+                    Margin="0,0,6,0"
+                    VerticalAlignment="Center"
+                    Click="{x:Bind OnRestartExplorerClicked}"
+                    Content="{x:Bind string:Settings.RestartExplorer}" />
+
+                <ToggleSwitch
+                    Grid.Column="3"
                     MinWidth="0"
                     Margin="0,-2,0,0"
                     FlowDirection="RightToLeft"

@@ -12,7 +12,7 @@
   <Identity
     Name="Gaoyifei1011.FileRenamer"
     Publisher="CN=高怡飞"
-    Version="1.1.919.0" />
+    Version="1.1.920.0" />
 
   <Properties>
     <DisplayName>ms-resource:PackageDisplayName</DisplayName>
@@ -52,8 +52,11 @@
       <Extensions>
         <desktop4:Extension Category="windows.fileExplorerContextMenus">
           <desktop4:FileExplorerContextMenus>
-            <desktop5:ItemType Type="Directory\Background">
-              <desktop5:Verb Id="TestCommand1" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
+            <desktop5:ItemType Type="*">
+              <desktop5:Verb Id="FileExplorerCommand" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
+            </desktop5:ItemType>
+            <desktop5:ItemType Type="Directory">
+              <desktop5:Verb Id="FileExplorerCommand" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
             </desktop5:ItemType>
           </desktop4:FileExplorerContextMenus>
         </desktop4:Extension>

@@ -21,7 +21,7 @@
     <ClInclude Include="BaseExplorerCommand.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ConfigService.h">
+    <ClInclude Include="resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,12 +35,6 @@
     <ClCompile Include="BaseExplorerCommand.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ConfigService.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source.def">
@@ -51,5 +45,10 @@
     <Midl Include="BaseExplorerCommand.idl">
       <Filter>源文件</Filter>
     </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

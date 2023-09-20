@@ -223,6 +223,15 @@ namespace FileRenamer.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Restart explorer 的本地化字符串。
+        /// </summary>
+        public static string RestartExplorer {
+            get {
+                return ResourceManager.GetString("RestartExplorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 System backdrop settings 的本地化字符串。
         /// </summary>
         public static string SystemBackdropSettings {

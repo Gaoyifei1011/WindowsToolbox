@@ -171,6 +171,9 @@
   <data name="LanguageDescription" xml:space="preserve">
     <value>Modify the language displayed in the app interface</value>
   </data>
+  <data name="RestartExplorer" xml:space="preserve">
+    <value>Restart explorer</value>
+  </data>
   <data name="SystemBackdropSettings" xml:space="preserve">
     <value>System backdrop settings</value>
   </data>

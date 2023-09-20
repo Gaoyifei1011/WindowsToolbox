@@ -1,25 +1,20 @@
 ﻿#pragma once
 
+#include "pch.h"
+#include <filesystem>
 #include <shobjidl_core.h>
 #include <shlwapi.h>
+#include <sstream>
 #include "BaseExplorerCommand.g.h"
 #include "FileRenamerCommand.g.h"
 #include "FileNameCommand.g.h"
 #include "ExtensionNameCommand.g.h"
 #include "FilePropertiesCommand.g.h"
 #include "UpperAndLowerCaseCommand.g.h"
-#include <filesystem>
-#include <sstream>
-#include <wil/resource.h>
-#include <wil/filesystem.h>
-#include <winrt/Windows.Foundation.Collections.h>
-#include <winrt/Windows.ApplicationModel.h>
-#include <winrt/Windows.ApplicationModel.Resources.h>
-#include <winrt/Windows.ApplicationModel.Resources.Core.h>
-#include <winrt/Windows.Storage.h>
 
 void InitializeResource();
 winrt::hstring GetLocalized(winrt::hstring resource);
+winrt::Windows::Foundation::IInspectable ReadSettings(winrt::hstring key);
 
 namespace winrt::FileRenamerShellExtension::implementation
 {

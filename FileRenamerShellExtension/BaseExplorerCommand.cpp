@@ -1,7 +1,6 @@
 ﻿#include "pch.h"
 #include "BaseExplorerCommand.h"
 #include "BaseExplorerCommand.g.cpp"
-#include "ConfigService.h"
 
 winrt::Windows::ApplicationModel::Resources::Core::ResourceContext resourceContext{ nullptr };
 winrt::Windows::ApplicationModel::Resources::Core::ResourceMap resourceMap{ nullptr };
@@ -24,7 +23,11 @@ namespace winrt::FileRenamerShellExtension::implementation
 		}
 
 		const uint32_t fetched = mIndex - oldIndex;
-		wil::assign_to_opt_param(pceltFetched, static_cast<ULONG>(fetched));
+		ULONG outParam = static_cast<ULONG>(fetched);
+		if (pceltFetched != nullptr)
+		{
+			*pceltFetched = outParam;
+		}
 		return (fetched == celt) ? S_OK : S_FALSE;
 	}
 
@@ -308,14 +311,14 @@ namespace winrt::FileRenamerShellExtension::implementation
 /// </summary>
 void InitializeResource()
 {
-	winrt::Windows::Foundation::IInspectable fileShellMenu = ConfigService::ReadSettings(L"FileShellMenu");
+	winrt::Windows::Foundation::IInspectable fileShellMenu = ReadSettings(L"FileShellMenu");
 	if (fileShellMenu != nullptr)
 	{
 		isAllowShowShellMenu = winrt::unbox_value<bool>(fileShellMenu);
 	}
 
 	resourceContext = winrt::Windows::ApplicationModel::Resources::Core::ResourceContext::GetForViewIndependentUse();
-	winrt::Windows::Foundation::IInspectable language = ConfigService::ReadSettings(L"AppLanguage");
+	winrt::Windows::Foundation::IInspectable language = ReadSettings(L"AppLanguage");
 
 	if (language == nullptr)
 	{
@@ -335,4 +338,17 @@ void InitializeResource()
 winrt::hstring GetLocalized(winrt::hstring resource)
 {
 	return resourceMap.GetValue(resource, resourceContext).ValueAsString();
+}
+
+/// <summary>
+/// 读取设置选项存储信息
+/// </summary>
+winrt::Windows::Foundation::IInspectable ReadSettings(winrt::hstring key)
+{
+	if (winrt::Windows::Storage::ApplicationData::Current().LocalSettings().Values().TryLookup(key) == nullptr)
+	{
+		return nullptr;
+	}
+
+	return winrt::Windows::Storage::ApplicationData::Current().LocalSettings().Values().Lookup(key);
 }

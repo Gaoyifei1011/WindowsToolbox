@@ -171,6 +171,9 @@
   <data name="LanguageDescription" xml:space="preserve">
     <value>修改应用界面显示的语言</value>
   </data>
+  <data name="RestartExplorer" xml:space="preserve">
+    <value>重启资源管理器</value>
+  </data>
   <data name="SystemBackdropSettings" xml:space="preserve">
     <value>系统背景色设置</value>
   </data>

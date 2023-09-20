@@ -22,8 +22,6 @@ namespace FileRenamer.Services.Controls.Settings
         public static void InitializeFileShellMenu()
         {
             FileShellMenuValue = GetFileShellMenuValue();
-
-            Debug.WriteLine("FileShellMenuValue" + Convert.ToString(FileShellMenuValue));
         }
 
         /// <summary>
@@ -35,6 +33,7 @@ namespace FileRenamer.Services.Controls.Settings
 
             if (!fileShellMenuValue.HasValue)
             {
+                SetFileShellMenu(DefaultFileShellMenuValue);
                 return DefaultFileShellMenuValue;
             }
 

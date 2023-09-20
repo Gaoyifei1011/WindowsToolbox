@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace FileRenamer.Services.Controls.Settings
 {
@@ -83,20 +82,13 @@ namespace FileRenamer.Services.Controls.Settings
 
             DefaultAppLanguage = LanguageList.Find(item => item.SelectedValue.Equals("en-US", StringComparison.OrdinalIgnoreCase));
 
-            (bool, GroupOptionsModel) LanguageValueResult = GetLanguage();
-
-            AppLanguage = LanguageValueResult.Item2;
-
-            if (LanguageValueResult.Item1)
-            {
-                SetLanguage(AppLanguage, false);
-            }
+            AppLanguage = GetLanguage();
         }
 
         /// <summary>
         /// 获取设置存储的语言值，如果设置没有存储，使用默认值
         /// </summary>
-        private static (bool, GroupOptionsModel) GetLanguage()
+        private static GroupOptionsModel GetLanguage()
         {
             string language = ConfigService.ReadSetting<string>(SettingsKey);
 
@@ -111,29 +103,27 @@ namespace FileRenamer.Services.Controls.Settings
                 // 如果存在，设置存储值和应用初次设置的语言为当前系统的语言
                 if (result)
                 {
-                    return (true, LanguageList.Find(item => item.SelectedValue.Equals(CurrentSystemLanguage, StringComparison.OrdinalIgnoreCase)));
+                    GroupOptionsModel currentSystemLanguage = LanguageList.Find(item => item.SelectedValue.Equals(CurrentSystemLanguage, StringComparison.OrdinalIgnoreCase));
+                    SetLanguage(currentSystemLanguage);
+                    return currentSystemLanguage;
                 }
 
                 // 不存在，设置存储值和应用初次设置的语言为默认语言：English(United States)
                 else
                 {
-                    return (true, LanguageList.Find(item => item.SelectedValue.Equals(DefaultAppLanguage.SelectedValue, StringComparison.OrdinalIgnoreCase)));
+                    SetLanguage(DefaultAppLanguage);
+                    return LanguageList.Find(item => item.SelectedValue.Equals(DefaultAppLanguage.SelectedValue, StringComparison.OrdinalIgnoreCase));
                 }
             }
 
-            return (false, LanguageList.Find(item => item.SelectedValue.Equals(language, StringComparison.OrdinalIgnoreCase)));
+            return LanguageList.Find(item => item.SelectedValue.Equals(language, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
         /// 语言发生修改时修改设置存储的语言值
         /// </summary>
-        public static void SetLanguage(GroupOptionsModel language, [Optional, DefaultParameterValue(true)] bool isNotFirstSet)
+        public static void SetLanguage(GroupOptionsModel language)
         {
-            if (isNotFirstSet)
-            {
-                AppLanguage = language;
-            }
-
             ConfigService.SaveSetting(SettingsKey, language.SelectedValue);
         }
     }

@@ -40,6 +40,7 @@ namespace FileRenamer.Services.Controls.Settings
 
             if (string.IsNullOrEmpty(backdrop))
             {
+                SetBackdrop(DefaultAppBackdrop);
                 return BackdropList.Find(item => item.SelectedValue.Equals(DefaultAppBackdrop.SelectedValue, StringComparison.OrdinalIgnoreCase));
             }
 

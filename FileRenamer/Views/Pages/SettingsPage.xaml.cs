@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -199,6 +200,23 @@ namespace FileRenamer.Views.Pages
                 ThemeService.SetTheme(Theme);
                 ThemeService.SetWindowTheme();
             }
+        }
+
+        /// <summary>
+        /// 重新启动资源管理器
+        /// </summary>
+        public void OnRestartExplorerClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                ProcessStartInfo restartInfo = new ProcessStartInfo
+                {
+                    FileName = "cmd.exe",
+                    Arguments = "/C taskkill /f /im explorer.exe & start \"\" explorer.exe",
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                };
+                Process.Start(restartInfo);
+            });
         }
 
         /// <summary>

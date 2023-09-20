@@ -13,7 +13,7 @@
     <Optimize>False</Optimize>
     <OutputType>WinExe</OutputType>
     <Platforms>x86;x64;ARM64</Platforms>
-    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win7-x86;win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     <StartupObject>FileRenamer.Program</StartupObject>
     <TargetFramework>net481</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
