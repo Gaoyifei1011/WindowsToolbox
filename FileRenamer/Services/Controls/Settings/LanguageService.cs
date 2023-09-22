@@ -124,6 +124,8 @@ namespace FileRenamer.Services.Controls.Settings
         /// </summary>
         public static void SetLanguage(GroupOptionsModel language)
         {
+            AppLanguage = language;
+
             ConfigService.SaveSetting(SettingsKey, language.SelectedValue);
         }
     }

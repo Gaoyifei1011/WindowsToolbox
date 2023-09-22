@@ -2,7 +2,6 @@
     x:Class="FileRenamer.UI.Dialogs.OperationFailedDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converter="using:FileRenamer.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
@@ -61,7 +60,7 @@
                     TextTrimming="CharacterEllipsis">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:Dialog.FileName}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(FileNameText.IsTextTrimmed), Mode=OneWay}" />
+                        <ToolTip Content="{x:Bind string:Dialog.FileName}" Visibility="{x:Bind FileNameText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -74,7 +73,7 @@
                     TextTrimming="CharacterEllipsis">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:Dialog.ErrorMessage}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(ErrorMessageText.IsTextTrimmed), Mode=OneWay}" />
+                        <ToolTip Content="{x:Bind string:Dialog.ErrorMessage}" Visibility="{x:Bind ErrorMessageText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -87,7 +86,7 @@
                     TextTrimming="CharacterEllipsis">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:Dialog.ErrorCode}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(ErrorCodeText.IsTextTrimmed), Mode=OneWay}" />
+                        <ToolTip Content="{x:Bind string:Dialog.ErrorCode}" Visibility="{x:Bind ErrorCodeText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -100,7 +99,7 @@
                     TextTrimming="CharacterEllipsis">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:Dialog.Operation}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(OperationText.IsTextTrimmed), Mode=OneWay}" />
+                        <ToolTip Content="{x:Bind string:Dialog.Operation}" Visibility="{x:Bind OperationText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
             </Grid>

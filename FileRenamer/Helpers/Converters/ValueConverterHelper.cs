@@ -37,13 +37,8 @@ namespace FileRenamer.Helpers.Converters
         }
 
         /// <summary>
-        /// 布尔值与控件显示值转换
+        /// 字符串与控件显示值转换
         /// </summary>
-        public static Visibility BooleanToVisibilityConvert(bool value)
-        {
-            return value is true ? Visibility.Visible : Visibility.Collapsed;
-        }
-
         public static Visibility StringToVisibilityConvert(string value)
         {
             if (string.IsNullOrEmpty(value))

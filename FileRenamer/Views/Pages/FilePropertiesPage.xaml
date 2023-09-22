@@ -160,7 +160,7 @@
                 TextTrimming="CharacterEllipsis">
 
                 <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind string:FileProperties.FileName}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(FileNameHeaderText.IsTextTrimmed), Mode=OneWay}" />
+                    <ToolTip Content="{x:Bind string:FileProperties.FileName}" Visibility="{x:Bind FileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                 </ToolTipService.ToolTip>
             </TextBlock>
 
@@ -173,7 +173,7 @@
                 TextTrimming="CharacterEllipsis">
 
                 <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind string:FileProperties.ChangedProperties}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(FilePropertiesHeaderText.IsTextTrimmed), Mode=OneWay}" />
+                    <ToolTip Content="{x:Bind string:FileProperties.ChangedProperties}" Visibility="{x:Bind FilePropertiesHeaderText.IsTextTrimmed, Mode=OneWay}" />
                 </ToolTipService.ToolTip>
             </TextBlock>
         </Grid>
@@ -303,14 +303,14 @@
                 Margin="0,0,5,0"
                 VerticalAlignment="Center"
                 IsActive="True"
-                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(IsModifyingNow), Mode=OneWay}" />
+                Visibility="{x:Bind IsModifyingNow, Mode=OneWay}" />
 
             <TextBlock
                 Grid.Column="6"
                 Margin="0,0,5,0"
                 VerticalAlignment="Center"
                 Text="{x:Bind string:FileProperties.ModifyingNow}"
-                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(IsModifyingNow), Mode=OneWay}" />
+                Visibility="{x:Bind IsModifyingNow, Mode=OneWay}" />
 
             <Button
                 Grid.Column="7"

@@ -280,14 +280,14 @@
                 Margin="0,0,5,0"
                 VerticalAlignment="Center"
                 IsActive="True"
-                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(IsModifyingNow), Mode=OneWay}" />
+                Visibility="{x:Bind IsModifyingNow, Mode=OneWay}" />
 
             <TextBlock
                 Grid.Column="6"
                 Margin="0,0,5,0"
                 VerticalAlignment="Center"
                 Text="{x:Bind string:UpperAndLowerCase.ModifyingNow}"
-                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityConvert(IsModifyingNow), Mode=OneWay}" />
+                Visibility="{x:Bind IsModifyingNow, Mode=OneWay}" />
 
             <Button
                 Grid.Column="7"

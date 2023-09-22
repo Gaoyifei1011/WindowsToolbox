@@ -57,9 +57,17 @@
                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.ThemeMode}" />
 
                     <TextBlock
+                        x:Name="ThemeModeDescription"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind string:Settings.ThemeModeDescription}" />
+                        Text="{x:Bind string:Settings.ThemeModeDescription}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:Settings.ThemeModeDescription}" Visibility="{x:Bind ThemeModeDescription.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
                 </StackPanel>
 
                 <HyperlinkButton
@@ -132,9 +140,17 @@
                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.Backdrop}" />
 
                     <TextBlock
+                        x:Name="BackdropDescription"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind string:Settings.BackdropDescription}" />
+                        Text="{x:Bind string:Settings.BackdropDescription}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:Settings.BackdropDescription}" Visibility="{x:Bind BackdropDescription.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
                 </StackPanel>
 
                 <HyperlinkButton
@@ -212,9 +228,17 @@
                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.AlwaysShowBackdrop}" />
 
                     <TextBlock
+                        x:Name="AlwaysShowBackdropDescription"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind string:Settings.AlwaysShowBackdropDescription}" />
+                        Text="{x:Bind string:Settings.AlwaysShowBackdropDescription}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:Settings.AlwaysShowBackdropDescription}" Visibility="{x:Bind AlwaysShowBackdropDescription.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
                 </StackPanel>
 
                 <ToggleSwitch
@@ -261,9 +285,17 @@
                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.Language}" />
 
                     <TextBlock
+                        x:Name="LanguageDescription"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind string:Settings.LanguageDescription}" />
+                        Text="{x:Bind string:Settings.LanguageDescription}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:Settings.LanguageDescription}" Visibility="{x:Bind LanguageDescription.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
                 </StackPanel>
 
                 <HyperlinkButton
@@ -319,9 +351,17 @@
                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.TopMost}" />
 
                     <TextBlock
+                        x:Name="TopMostDescription"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind string:Settings.TopMostDescription}" />
+                        Text="{x:Bind string:Settings.TopMostDescription}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:Settings.TopMostDescription}" Visibility="{x:Bind TopMostDescription.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
                 </StackPanel>
 
                 <ToggleSwitch
@@ -375,9 +415,17 @@
                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.FileShellMenu}" />
 
                     <TextBlock
+                        x:Name="FileShellMenuDescription"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind string:Settings.FileShellMenuDescription}" />
+                        Text="{x:Bind string:Settings.FileShellMenuDescription}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:Settings.FileShellMenuDescription}" Visibility="{x:Bind FileShellMenuDescription.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
                 </StackPanel>
 
                 <HyperlinkButton
