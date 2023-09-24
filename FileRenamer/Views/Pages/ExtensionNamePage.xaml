@@ -127,7 +127,8 @@
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 Text="{x:Bind string:ExtensionName.OriginalFileName}"
-                TextTrimming="CharacterEllipsis">
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap">
 
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind string:ExtensionName.OriginalFileName}" Visibility="{x:Bind OriginalFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
@@ -140,7 +141,8 @@
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 Text="{x:Bind string:ExtensionName.NewFileName}"
-                TextTrimming="CharacterEllipsis">
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap">
 
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind string:ExtensionName.NewFileName}" Visibility="{x:Bind NewFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
@@ -183,7 +185,8 @@
                             FontSize="14"
                             Text="{x:Bind OriginalFileName, Mode=OneWay}"
                             TextAlignment="Left"
-                            TextTrimming="CharacterEllipsis">
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
@@ -201,7 +204,8 @@
                             FontSize="14"
                             Text="{x:Bind NewFileName, Mode=OneWay}"
                             TextAlignment="Left"
-                            TextTrimming="CharacterEllipsis">
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip

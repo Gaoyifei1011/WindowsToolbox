@@ -57,7 +57,8 @@
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Text="{x:Bind string:Dialog.FileName}"
-                    TextTrimming="CharacterEllipsis">
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{x:Bind string:Dialog.FileName}" Visibility="{x:Bind FileNameText.IsTextTrimmed, Mode=OneWay}" />
@@ -70,7 +71,8 @@
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Text="{x:Bind string:Dialog.ErrorMessage}"
-                    TextTrimming="CharacterEllipsis">
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{x:Bind string:Dialog.ErrorMessage}" Visibility="{x:Bind ErrorMessageText.IsTextTrimmed, Mode=OneWay}" />
@@ -83,7 +85,8 @@
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Text="{x:Bind string:Dialog.ErrorCode}"
-                    TextTrimming="CharacterEllipsis">
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{x:Bind string:Dialog.ErrorCode}" Visibility="{x:Bind ErrorCodeText.IsTextTrimmed, Mode=OneWay}" />
@@ -96,7 +99,8 @@
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Text="{x:Bind string:Dialog.Operation}"
-                    TextTrimming="CharacterEllipsis">
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{x:Bind string:Dialog.Operation}" Visibility="{x:Bind OperationText.IsTextTrimmed, Mode=OneWay}" />
@@ -127,7 +131,8 @@
                         VerticalAlignment="Center"
                         FontSize="14"
                         Text="{x:Bind FileName}"
-                        TextTrimming="CharacterEllipsis">
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
                             <ToolTip Content="{x:Bind FileName}" Visibility="{Binding ElementName=FilePathText, Path=IsTextTrimmed, Mode=OneWay}" />
@@ -141,7 +146,8 @@
                         VerticalAlignment="Center"
                         FontSize="14"
                         Text="{x:Bind Exception.Message}"
-                        TextTrimming="CharacterEllipsis">
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
                             <ToolTip Content="{x:Bind Exception.Message}" Visibility="{Binding ElementName=MessageText, Path=IsTextTrimmed, Mode=OneWay}" />
@@ -155,7 +161,8 @@
                         VerticalAlignment="Center"
                         FontSize="14"
                         Text="{x:Bind sys:Convert.ToString(Exception.HResult)}"
-                        TextTrimming="CharacterEllipsis">
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
                             <ToolTip Content="{x:Bind sys:Convert.ToString(Exception.HResult)}" Visibility="{Binding ElementName=HResultText, Path=IsTextTrimmed, Mode=OneWay}" />
@@ -173,7 +180,8 @@
                             <TextBlock
                                 x:Name="CopyText"
                                 Text="{x:Bind string:Dialog.Copy}"
-                                TextTrimming="CharacterEllipsis">
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
                                     <ToolTip Content="{x:Bind string:Dialog.Copy}" Visibility="{Binding ElementName=CopyText, Path=IsTextTrimmed, Mode=OneWay}" />

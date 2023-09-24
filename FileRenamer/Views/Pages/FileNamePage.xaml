@@ -373,7 +373,8 @@
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
                                                 Text="{x:Bind string:FileName.OriginalName}"
-                                                TextTrimming="CharacterEllipsis">
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
                                                     <ToolTip Content="{x:Bind string:FileName.OriginalName}" Visibility="{Binding ElementName=OriginalNameHeaderText, Path=IsTextTrimmed, Mode=OneWay}" />
@@ -386,7 +387,8 @@
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
                                                 Text="{x:Bind string:FileName.ChangedName}"
-                                                TextTrimming="CharacterEllipsis">
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
                                                     <ToolTip Content="{x:Bind string:FileName.ChangedName}" Visibility="{Binding ElementName=ChangedNameHeaderText, Path=IsTextTrimmed, Mode=OneWay}" />
@@ -417,7 +419,8 @@
                                                     FontSize="14"
                                                     Text="{x:Bind OriginalFileName, Mode=OneWay}"
                                                     TextAlignment="Left"
-                                                    TextTrimming="CharacterEllipsis">
+                                                    TextTrimming="CharacterEllipsis"
+                                                    TextWrapping="NoWrap">
 
                                                     <ToolTipService.ToolTip>
                                                         <ToolTip Content="{x:Bind OriginalFileName}" Visibility="{Binding ElementName=OriginalFileNameText, Path=IsTextTrimmed, Mode=OneWay}" />
@@ -433,7 +436,8 @@
                                                     FontSize="14"
                                                     Text="{x:Bind NewFileName, Mode=OneWay}"
                                                     TextAlignment="Left"
-                                                    TextTrimming="CharacterEllipsis">
+                                                    TextTrimming="CharacterEllipsis"
+                                                    TextWrapping="NoWrap">
 
                                                     <ToolTipService.ToolTip>
                                                         <ToolTip Content="{x:Bind OriginalFileName}" Visibility="{Binding ElementName=NewFileNameText, Path=IsTextTrimmed, Mode=OneWay}" />
@@ -470,7 +474,8 @@
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 Text="{x:Bind string:FileName.OriginalFileName}"
-                TextTrimming="CharacterEllipsis">
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap">
 
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind string:FileName.OriginalFileName}" Visibility="{x:Bind OriginalFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
@@ -483,7 +488,8 @@
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 Text="{x:Bind string:FileName.NewFileName}"
-                TextTrimming="CharacterEllipsis">
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap">
 
                 <ToolTipService.ToolTip>
                     <ToolTip Content="{x:Bind string:FileName.NewFileName}" Visibility="{x:Bind NewFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
@@ -526,7 +532,8 @@
                             FontSize="14"
                             Text="{x:Bind OriginalFileName, Mode=OneWay}"
                             TextAlignment="Left"
-                            TextTrimming="CharacterEllipsis">
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
@@ -544,7 +551,8 @@
                             FontSize="14"
                             Text="{x:Bind NewFileName, Mode=OneWay}"
                             TextAlignment="Left"
-                            TextTrimming="CharacterEllipsis">
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
