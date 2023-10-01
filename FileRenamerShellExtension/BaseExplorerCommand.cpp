@@ -191,7 +191,10 @@ namespace winrt::FileRenamerShellExtension::implementation
 
 	IFACEMETHODIMP FileNameCommand::Invoke(_In_opt_ IShellItemArray* selection, _In_opt_ IBindCtx*)
 	{
-		constexpr winrt::guid uuid = winrt::guid_of<FileNameCommand>();
+		winrt::hstring exePath = winrt::Windows::ApplicationModel::Package::Current().InstalledLocation().Path() + L"\\FileRenamer.exe FileName";
+		OpenApplication(exePath);
+
+		CloseProcess();
 		return S_OK;
 	}
 
@@ -226,7 +229,10 @@ namespace winrt::FileRenamerShellExtension::implementation
 
 	IFACEMETHODIMP ExtensionNameCommand::Invoke(_In_opt_ IShellItemArray* selection, _In_opt_ IBindCtx*)
 	{
-		constexpr winrt::guid uuid = winrt::guid_of<ExtensionNameCommand>();
+		winrt::hstring exePath = winrt::Windows::ApplicationModel::Package::Current().InstalledLocation().Path() + L"\\FileRenamer.exe ExtensionName";
+		OpenApplication(exePath);
+
+		CloseProcess();
 		return S_OK;
 	}
 
@@ -261,7 +267,10 @@ namespace winrt::FileRenamerShellExtension::implementation
 
 	IFACEMETHODIMP UpperAndLowerCaseCommand::Invoke(_In_opt_ IShellItemArray* selection, _In_opt_ IBindCtx*)
 	{
-		constexpr winrt::guid uuid = winrt::guid_of<ExtensionNameCommand>();
+		winrt::hstring exePath = winrt::Windows::ApplicationModel::Package::Current().InstalledLocation().Path() + L"\\FileRenamer.exe UpperAndLowerCase";
+		OpenApplication(exePath);
+		
+		CloseProcess();
 		return S_OK;
 	}
 
@@ -296,7 +305,10 @@ namespace winrt::FileRenamerShellExtension::implementation
 
 	IFACEMETHODIMP FilePropertiesCommand::Invoke(_In_opt_ IShellItemArray* selection, _In_opt_ IBindCtx*)
 	{
-		constexpr winrt::guid uuid = winrt::guid_of<ExtensionNameCommand>();
+		winrt::hstring exePath = winrt::Windows::ApplicationModel::Package::Current().InstalledLocation().Path() + L"\\FileRenamer.exe FileProperties";
+		OpenApplication(exePath);
+
+		CloseProcess();
 		return S_OK;
 	}
 
@@ -351,4 +363,62 @@ winrt::Windows::Foundation::IInspectable ReadSettings(winrt::hstring key)
 	}
 
 	return winrt::Windows::Storage::ApplicationData::Current().LocalSettings().Values().Lookup(key);
+}
+
+
+
+/// <summary>
+/// 打开应用
+/// </summary>
+void OpenApplication(winrt::hstring exePath)
+{
+	STARTUPINFO startupInfo;
+	GetStartupInfo(&startupInfo);
+	startupInfo.lpReserved = nullptr;
+	startupInfo.lpDesktop = nullptr;
+	startupInfo.lpTitle = nullptr;
+	startupInfo.dwX = 0;
+	startupInfo.dwY = 0;
+	startupInfo.dwXSize = 0;
+	startupInfo.dwYSize = 0;
+	startupInfo.dwXCountChars = 500;
+	startupInfo.dwYCountChars = 500;
+	startupInfo.dwFlags = STARTF_USESHOWWINDOW;
+	startupInfo.wShowWindow = SW_SHOWNORMAL;
+	startupInfo.cbReserved2 = 0;
+	startupInfo.lpReserved2 = nullptr;
+	startupInfo.cb = sizeof(startupInfo);
+
+	PROCESS_INFORMATION processInformation;
+	std::wstring exePath_std = exePath.c_str();
+	LPWSTR lpCommandLine = const_cast<LPWSTR>(exePath_std.c_str());
+	bool createResult = CreateProcess(nullptr, lpCommandLine, nullptr, nullptr, false, 0, nullptr, nullptr, &startupInfo, &processInformation);
+
+	if (createResult)
+	{
+		if (processInformation.hProcess != nullptr)
+		{
+			CloseHandle(processInformation.hProcess);
+		}
+		if (processInformation.hThread != nullptr)
+		{
+			CloseHandle(processInformation.hThread);
+		}
+	}
+}
+
+/// <summary>
+/// 终止当前进程
+/// </summary>
+void CloseProcess()
+{
+	int currentProcessId = GetCurrentProcessId();
+	HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, currentProcessId);
+	if (hProcess != nullptr)
+	{
+		if (!TerminateProcess(hProcess, 0))
+		{
+			CloseHandle(hProcess);
+		}
+	}
 }

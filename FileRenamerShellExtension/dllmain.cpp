@@ -5,10 +5,7 @@
 // 导出的 GUID 值
 struct DECLSPEC_UUID("5A730150-DE8D-0C88-FD1A-99B7E954BDDB") ShellExtensionClassFactory : winrt::implements<ShellExtensionClassFactory, IClassFactory>
 {
-	HRESULT __stdcall CreateInstance(
-		IUnknown * outer,
-		GUID const& iid,
-		void** result) noexcept final
+	HRESULT __stdcall CreateInstance(IUnknown * outer, GUID const& iid, void** result) noexcept final
 	{
 		*result = nullptr;
 

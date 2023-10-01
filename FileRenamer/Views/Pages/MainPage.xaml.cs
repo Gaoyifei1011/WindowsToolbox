@@ -6,11 +6,11 @@ using FileRenamer.Services.Window;
 using FileRenamer.UI.Dialogs;
 using FileRenamer.UI.Notifications;
 using FileRenamer.WindowsAPI.PInvoke.User32;
-using IWshRuntimeLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -250,6 +250,7 @@ namespace FileRenamer.Views.Pages
             }
 
             string[] arguments = Environment.GetCommandLineArgs();
+
             if (arguments.Length is 2)
             {
                 if (arguments[1] is "ExtensionName")
@@ -263,6 +264,120 @@ namespace FileRenamer.Views.Pages
                 else if (arguments[1] is "FileProperties")
                 {
                     NavigationService.NavigateTo(typeof(FilePropertiesPage));
+                }
+            }
+            else if (arguments.Length is 3 && arguments[2] is "ShellContextMenu")
+            {
+                if (arguments[1] is "FileName")
+                {
+                    try
+                    {
+                        if (File.Exists(Program.TempFilePath))
+                        {
+                            string tempFileText = File.ReadAllText(Program.TempFilePath);
+                            File.Delete(tempFileText);
+
+                            FileNamePage fileNamePage = MainFrame.Content as FileNamePage;
+                            if (fileNamePage is not null)
+                            {
+                                string[] fileNamePathList = tempFileText.Split('\n');
+
+                                foreach (string fileNamePath in fileNamePathList)
+                                {
+                                    fileNamePage.FileNameDataList.Add(new OldAndNewNameModel()
+                                    {
+                                        OriginalFileName = Path.GetFileName(fileNamePath),
+                                        OriginalFilePath = fileNamePath
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception) { }
+                }
+                else if (arguments[1] is "ExtensionName")
+                {
+                    NavigationService.NavigateTo(typeof(ExtensionNamePage));
+                    try
+                    {
+                        if (File.Exists(Program.TempFilePath))
+                        {
+                            string tempFileText = File.ReadAllText(Program.TempFilePath);
+                            File.Delete(tempFileText);
+
+                            ExtensionNamePage extensionNamePage = MainFrame.Content as ExtensionNamePage;
+                            if (extensionNamePage is not null)
+                            {
+                                string[] extensionNamePathList = tempFileText.Split('\n');
+
+                                foreach (string extensionNamePath in extensionNamePathList)
+                                {
+                                    extensionNamePage.ExtensionNameDataList.Add(new OldAndNewNameModel()
+                                    {
+                                        OriginalFileName = Path.GetFileName(extensionNamePath),
+                                        OriginalFilePath = extensionNamePath
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception) { }
+                }
+                else if (arguments[1] is "UpperAndLowerCase")
+                {
+                    NavigationService.NavigateTo(typeof(UpperAndLowerCasePage));
+                    try
+                    {
+                        if (File.Exists(Program.TempFilePath))
+                        {
+                            string tempFileText = File.ReadAllText(Program.TempFilePath);
+                            File.Delete(tempFileText);
+
+                            UpperAndLowerCasePage upperAndLowerCasePage = MainFrame.Content as UpperAndLowerCasePage;
+                            if (upperAndLowerCasePage is not null)
+                            {
+                                string[] upperAndLowerCasePathList = tempFileText.Split('\n');
+
+                                foreach (string upperAndLowerCasePath in upperAndLowerCasePathList)
+                                {
+                                    upperAndLowerCasePage.UpperAndLowerCaseDataList.Add(new OldAndNewNameModel()
+                                    {
+                                        OriginalFileName = Path.GetFileName(upperAndLowerCasePath),
+                                        OriginalFilePath = upperAndLowerCasePath
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception) { }
+                }
+                else if (arguments[1] is "FileProperties")
+                {
+                    NavigationService.NavigateTo(typeof(FilePropertiesPage));
+                    try
+                    {
+                        if (File.Exists(Program.TempFilePath))
+                        {
+                            string tempFileText = File.ReadAllText(Program.TempFilePath);
+                            File.Delete(tempFileText);
+
+                            FilePropertiesPage filePropertiesPage = MainFrame.Content as FilePropertiesPage;
+                            if (filePropertiesPage is not null)
+                            {
+                                string[] filePropertiesPathList = tempFileText.Split('\n');
+
+                                foreach (string filePropertiesPath in filePropertiesPathList)
+                                {
+                                    filePropertiesPage.FilePropertiesDataList.Add(new OldAndNewPropertiesModel()
+                                    {
+                                        FileName = Path.GetFileName(filePropertiesPath),
+                                        FilePath = filePropertiesPath
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception) { }
                 }
             }
         }
@@ -313,8 +428,8 @@ namespace FileRenamer.Views.Pages
             {
                 try
                 {
-                    IWshShell shell = new WshShell();
-                    WshShortcut AppShortcut = (WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), Strings.Resources.AppDisplayName));
+                    IWshRuntimeLibrary.IWshShell shell = new IWshRuntimeLibrary.WshShell();
+                    IWshRuntimeLibrary.WshShortcut AppShortcut = (IWshRuntimeLibrary.WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), Strings.Resources.AppDisplayName));
                     if (RuntimeHelper.IsMSIX)
                     {
                         IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();

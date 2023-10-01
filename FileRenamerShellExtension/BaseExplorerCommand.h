@@ -15,6 +15,8 @@
 void InitializeResource();
 winrt::hstring GetLocalized(winrt::hstring resource);
 winrt::Windows::Foundation::IInspectable ReadSettings(winrt::hstring key);
+void OpenApplication(winrt::hstring exePath);
+void CloseProcess();
 
 namespace winrt::FileRenamerShellExtension::implementation
 {
