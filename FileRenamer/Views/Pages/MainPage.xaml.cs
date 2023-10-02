@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -270,114 +271,156 @@ namespace FileRenamer.Views.Pages
             {
                 if (arguments[1] is "FileName")
                 {
-                    try
+                    FileNamePage fileNamePage = MainFrame.Content as FileNamePage;
+
+                    if (fileNamePage is not null)
                     {
-                        if (File.Exists(Program.TempFilePath))
+                        Task.Run(() =>
                         {
-                            string tempFileText = File.ReadAllText(Program.TempFilePath);
-                            File.Delete(tempFileText);
-
-                            FileNamePage fileNamePage = MainFrame.Content as FileNamePage;
-                            if (fileNamePage is not null)
+                            try
                             {
-                                string[] fileNamePathList = tempFileText.Split('\n');
-
-                                foreach (string fileNamePath in fileNamePathList)
+                                if (File.Exists(Program.TempFilePath))
                                 {
-                                    fileNamePage.FileNameDataList.Add(new OldAndNewNameModel()
+                                    string tempFileText = File.ReadAllText(Program.TempFilePath);
+                                    File.Delete(Program.TempFilePath);
+
+                                    string[] fileNamePathList = tempFileText.Split('\n').Where(item => !string.IsNullOrWhiteSpace(item)).ToArray();
+
+                                    foreach (string fileNamePath in fileNamePathList)
                                     {
-                                        OriginalFileName = Path.GetFileName(fileNamePath),
-                                        OriginalFilePath = fileNamePath
-                                    });
+                                        string fileName = IOHelper.FilterInvalidPathChars(fileNamePath);
+
+                                        Program.MainWindow.BeginInvoke(() =>
+                                        {
+                                            fileNamePage.FileNameDataList.Add(new OldAndNewNameModel()
+                                            {
+                                                OriginalFileName = Path.GetFileName(fileName),
+                                                OriginalFilePath = fileName
+                                            });
+                                        });
+                                    }
                                 }
                             }
-                        }
+                            catch (Exception) { }
+                        });
                     }
-                    catch (Exception) { }
                 }
                 else if (arguments[1] is "ExtensionName")
                 {
                     NavigationService.NavigateTo(typeof(ExtensionNamePage));
-                    try
+
+                    ExtensionNamePage extensionNamePage = MainFrame.Content as ExtensionNamePage;
+
+                    if (extensionNamePage is not null)
                     {
-                        if (File.Exists(Program.TempFilePath))
+                        Task.Run(() =>
                         {
-                            string tempFileText = File.ReadAllText(Program.TempFilePath);
-                            File.Delete(tempFileText);
-
-                            ExtensionNamePage extensionNamePage = MainFrame.Content as ExtensionNamePage;
-                            if (extensionNamePage is not null)
+                            try
                             {
-                                string[] extensionNamePathList = tempFileText.Split('\n');
-
-                                foreach (string extensionNamePath in extensionNamePathList)
+                                if (File.Exists(Program.TempFilePath))
                                 {
-                                    extensionNamePage.ExtensionNameDataList.Add(new OldAndNewNameModel()
+                                    string tempFileText = File.ReadAllText(Program.TempFilePath);
+                                    File.Delete(Program.TempFilePath);
+
+                                    string[] extensionNamePathList = tempFileText.Split('\n').Where(item => !string.IsNullOrEmpty(item)).ToArray();
+
+                                    foreach (string extensionNamePath in extensionNamePathList)
                                     {
-                                        OriginalFileName = Path.GetFileName(extensionNamePath),
-                                        OriginalFilePath = extensionNamePath
-                                    });
+                                        string extensionName = IOHelper.FilterInvalidPathChars(extensionNamePath);
+
+                                        if (!IOHelper.IsDir(extensionName))
+                                        {
+                                            Program.MainWindow.BeginInvoke(() =>
+                                            {
+                                                extensionNamePage.ExtensionNameDataList.Add(new OldAndNewNameModel()
+                                                {
+                                                    OriginalFileName = Path.GetFileName(extensionName),
+                                                    OriginalFilePath = extensionName
+                                                });
+                                            });
+                                        }
+                                    }
                                 }
                             }
-                        }
+                            catch (Exception) { }
+                        });
                     }
-                    catch (Exception) { }
                 }
                 else if (arguments[1] is "UpperAndLowerCase")
                 {
                     NavigationService.NavigateTo(typeof(UpperAndLowerCasePage));
-                    try
+
+                    UpperAndLowerCasePage upperAndLowerCasePage = MainFrame.Content as UpperAndLowerCasePage;
+
+                    if (upperAndLowerCasePage is not null)
                     {
-                        if (File.Exists(Program.TempFilePath))
+                        Task.Run(() =>
                         {
-                            string tempFileText = File.ReadAllText(Program.TempFilePath);
-                            File.Delete(tempFileText);
-
-                            UpperAndLowerCasePage upperAndLowerCasePage = MainFrame.Content as UpperAndLowerCasePage;
-                            if (upperAndLowerCasePage is not null)
+                            try
                             {
-                                string[] upperAndLowerCasePathList = tempFileText.Split('\n');
-
-                                foreach (string upperAndLowerCasePath in upperAndLowerCasePathList)
+                                if (File.Exists(Program.TempFilePath))
                                 {
-                                    upperAndLowerCasePage.UpperAndLowerCaseDataList.Add(new OldAndNewNameModel()
+                                    string tempFileText = File.ReadAllText(Program.TempFilePath);
+                                    File.Delete(Program.TempFilePath);
+
+                                    string[] upperAndLowerCasePathList = tempFileText.Split('\n').Where(item => !string.IsNullOrEmpty(item)).ToArray();
+
+                                    foreach (string upperAndLowerCasePath in upperAndLowerCasePathList)
                                     {
-                                        OriginalFileName = Path.GetFileName(upperAndLowerCasePath),
-                                        OriginalFilePath = upperAndLowerCasePath
-                                    });
+                                        string upperAndLowerCase = IOHelper.FilterInvalidPathChars(upperAndLowerCasePath);
+
+                                        Program.MainWindow.BeginInvoke(() =>
+                                        {
+                                            upperAndLowerCasePage.UpperAndLowerCaseDataList.Add(new OldAndNewNameModel()
+                                            {
+                                                OriginalFileName = Path.GetFileName(upperAndLowerCase),
+                                                OriginalFilePath = upperAndLowerCase
+                                            });
+                                        });
+                                    }
                                 }
                             }
-                        }
+                            catch (Exception) { }
+                        });
                     }
-                    catch (Exception) { }
                 }
                 else if (arguments[1] is "FileProperties")
                 {
                     NavigationService.NavigateTo(typeof(FilePropertiesPage));
-                    try
+
+                    FilePropertiesPage filePropertiesPage = MainFrame.Content as FilePropertiesPage;
+
+                    if (filePropertiesPage is not null)
                     {
-                        if (File.Exists(Program.TempFilePath))
+                        Task.Run(() =>
                         {
-                            string tempFileText = File.ReadAllText(Program.TempFilePath);
-                            File.Delete(tempFileText);
-
-                            FilePropertiesPage filePropertiesPage = MainFrame.Content as FilePropertiesPage;
-                            if (filePropertiesPage is not null)
+                            try
                             {
-                                string[] filePropertiesPathList = tempFileText.Split('\n');
-
-                                foreach (string filePropertiesPath in filePropertiesPathList)
+                                if (File.Exists(Program.TempFilePath))
                                 {
-                                    filePropertiesPage.FilePropertiesDataList.Add(new OldAndNewPropertiesModel()
+                                    string tempFileText = File.ReadAllText(Program.TempFilePath);
+                                    File.Delete(Program.TempFilePath);
+
+                                    string[] filePropertiesPathList = tempFileText.Split('\n').Where(item => !string.IsNullOrEmpty(item)).ToArray();
+
+                                    foreach (string filePropertiesPath in filePropertiesPathList)
                                     {
-                                        FileName = Path.GetFileName(filePropertiesPath),
-                                        FilePath = filePropertiesPath
-                                    });
+                                        string fileProperties = IOHelper.FilterInvalidPathChars(filePropertiesPath);
+
+                                        Program.MainWindow.BeginInvoke(() =>
+                                        {
+                                            filePropertiesPage.FilePropertiesDataList.Add(new OldAndNewPropertiesModel()
+                                            {
+                                                FileName = Path.GetFileName(fileProperties),
+                                                FilePath = fileProperties
+                                            });
+                                        });
+                                    }
                                 }
                             }
-                        }
+                            catch (Exception) { }
+                        });
                     }
-                    catch (Exception) { }
                 }
             }
         }

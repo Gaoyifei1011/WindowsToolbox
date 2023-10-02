@@ -15,6 +15,7 @@
 void InitializeResource();
 winrt::hstring GetLocalized(winrt::hstring resource);
 winrt::Windows::Foundation::IInspectable ReadSettings(winrt::hstring key);
+void WriteToFile(_In_opt_ IShellItemArray* pShellItemArray);
 void OpenApplication(winrt::hstring exePath);
 void CloseProcess();
 

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 
 namespace FileRenamer.Helpers.Root
 {
@@ -18,6 +19,19 @@ namespace FileRenamer.Helpers.Root
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// 过滤不合法的文件路径字符
+        /// </summary>
+        public static string FilterInvalidPathChars(string path)
+        {
+            StringBuilder titleBuilder = new StringBuilder(path);
+            foreach (char rInvalidChar in Path.GetInvalidPathChars())
+            {
+                titleBuilder = titleBuilder.Replace(rInvalidChar.ToString(), string.Empty);
+            }
+            return titleBuilder.ToString();
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using FileRenamer.Extensions.DataType.Constant;
 using FileRenamer.Services.Root;
-using System;
-using System.Diagnostics;
 
 namespace FileRenamer.Services.Controls.Settings
 {

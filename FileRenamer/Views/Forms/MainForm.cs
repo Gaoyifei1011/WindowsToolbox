@@ -1,6 +1,7 @@
 ﻿using FileReanmer.WindowsAPI.PInvoke.User32;
 using FileRenamer.Helpers.Controls;
 using FileRenamer.Helpers.Root;
+using FileRenamer.Models;
 using FileRenamer.Services.Controls.Settings;
 using FileRenamer.Services.Window;
 using FileRenamer.Strings;
@@ -17,7 +18,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -200,11 +204,11 @@ namespace FileRenamer.Views.Forms
             {
                 if (sender.ActualTheme is ElementTheme.Light)
                 {
-                    MainPage.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 243, 243, 243));
+                    MainPage.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 240, 243, 249));
                 }
                 else
                 {
-                    MainPage.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 32, 32, 32));
+                    MainPage.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 20, 20, 20));
                 }
             }
         }
@@ -256,21 +260,184 @@ namespace FileRenamer.Views.Forms
                                 await ContentDialogHelper.ShowAsync(new AppRunningDialog(), MainPage);
                             });
                         }
-                        else if (copyDataStruct.lpData is "FileName")
+                        else if (copyDataStruct.lpData.Contains("FileName"))
                         {
-                            NavigationService.NavigateTo(typeof(FileNamePage));
+                            if (NavigationService.GetCurrentPageType() != typeof(FileNamePage))
+                            {
+                                NavigationService.NavigateTo(typeof(FileNamePage));
+                            }
+
+                            if (copyDataStruct.lpData.Contains("ShellContextMenu"))
+                            {
+                                FileNamePage fileNamePage = NavigationService.NavigationFrame.Content as FileNamePage;
+
+                                if (fileNamePage is not null)
+                                {
+                                    Task.Run(() =>
+                                    {
+                                        try
+                                        {
+                                            if (File.Exists(Program.TempFilePath))
+                                            {
+                                                string tempFileText = File.ReadAllText(Program.TempFilePath);
+                                                File.Delete(Program.TempFilePath);
+
+                                                string[] fileNamePathList = tempFileText.Split('\n').Where(item => !string.IsNullOrWhiteSpace(item)).ToArray();
+
+                                                foreach (string fileNamePath in fileNamePathList)
+                                                {
+                                                    string fileName = IOHelper.FilterInvalidPathChars(fileNamePath);
+
+                                                    BeginInvoke(() =>
+                                                    {
+                                                        fileNamePage.FileNameDataList.Add(new OldAndNewNameModel()
+                                                        {
+                                                            OriginalFileName = Path.GetFileName(fileName),
+                                                            OriginalFilePath = fileName
+                                                        });
+                                                    });
+                                                }
+                                            }
+                                        }
+                                        catch (Exception) { }
+                                    });
+                                }
+                            }
                         }
-                        else if (copyDataStruct.lpData is "ExtensionName")
+                        else if (copyDataStruct.lpData.Contains("ExtensionName"))
                         {
-                            NavigationService.NavigateTo(typeof(ExtensionNamePage));
+                            if (NavigationService.GetCurrentPageType() != typeof(ExtensionNamePage))
+                            {
+                                NavigationService.NavigateTo(typeof(ExtensionNamePage));
+                            }
+
+                            if (copyDataStruct.lpData.Contains("ShellContextMenu"))
+                            {
+                                ExtensionNamePage extensionNamePage = NavigationService.NavigationFrame.Content as ExtensionNamePage;
+
+                                if (extensionNamePage is not null)
+                                {
+                                    Task.Run(() =>
+                                    {
+                                        try
+                                        {
+                                            if (File.Exists(Program.TempFilePath))
+                                            {
+                                                string tempFileText = File.ReadAllText(Program.TempFilePath);
+                                                File.Delete(Program.TempFilePath);
+
+                                                string[] extensionNamePathList = tempFileText.Split('\n').Where(item => !string.IsNullOrEmpty(item)).ToArray();
+
+                                                foreach (string extensionNamePath in extensionNamePathList)
+                                                {
+                                                    string extensionName = IOHelper.FilterInvalidPathChars(extensionNamePath);
+
+                                                    if (!IOHelper.IsDir(extensionName))
+                                                    {
+                                                        BeginInvoke(() =>
+                                                        {
+                                                            extensionNamePage.ExtensionNameDataList.Add(new OldAndNewNameModel()
+                                                            {
+                                                                OriginalFileName = Path.GetFileName(extensionName),
+                                                                OriginalFilePath = extensionName
+                                                            });
+                                                        });
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        catch (Exception) { }
+                                    });
+                                }
+                            }
                         }
-                        else if (copyDataStruct.lpData is "UpperAndLowerCase")
+                        else if (copyDataStruct.lpData.Contains("UpperAndLowerCase"))
                         {
-                            NavigationService.NavigateTo(typeof(UpperAndLowerCasePage));
+                            if (NavigationService.GetCurrentPageType() != typeof(UpperAndLowerCase))
+                            {
+                                NavigationService.NavigateTo(typeof(UpperAndLowerCasePage));
+                            }
+
+                            if (copyDataStruct.lpData.Contains("ShellContextMenu"))
+                            {
+                                UpperAndLowerCasePage upperAndLowerCasePage = NavigationService.NavigationFrame.Content as UpperAndLowerCasePage;
+
+                                if (upperAndLowerCasePage is not null)
+                                {
+                                    Task.Run(() =>
+                                    {
+                                        try
+                                        {
+                                            if (File.Exists(Program.TempFilePath))
+                                            {
+                                                string tempFileText = File.ReadAllText(Program.TempFilePath);
+                                                File.Delete(Program.TempFilePath);
+
+                                                string[] upperAndLowerCasePathList = tempFileText.Split('\n').Where(item => !string.IsNullOrEmpty(item)).ToArray();
+
+                                                foreach (string upperAndLowerCasePath in upperAndLowerCasePathList)
+                                                {
+                                                    string upperAndLowerCase = IOHelper.FilterInvalidPathChars(upperAndLowerCasePath);
+
+                                                    BeginInvoke(() =>
+                                                    {
+                                                        upperAndLowerCasePage.UpperAndLowerCaseDataList.Add(new OldAndNewNameModel()
+                                                        {
+                                                            OriginalFileName = Path.GetFileName(upperAndLowerCase),
+                                                            OriginalFilePath = upperAndLowerCase
+                                                        });
+                                                    });
+                                                }
+                                            }
+                                        }
+                                        catch (Exception) { }
+                                    });
+                                }
+                            }
                         }
-                        else if (copyDataStruct.lpData is "FileProperties")
+                        else if (copyDataStruct.lpData.Contains("FileProperties"))
                         {
-                            NavigationService.NavigateTo(typeof(FilePropertiesPage));
+                            if (NavigationService.GetCurrentPageType() != typeof(FilePropertiesPage))
+                            {
+                                NavigationService.NavigateTo(typeof(FilePropertiesPage));
+                            }
+
+                            if (copyDataStruct.lpData.Contains("ShellContextMenu"))
+                            {
+                                FilePropertiesPage filePropertiesPage = NavigationService.NavigationFrame.Content as FilePropertiesPage;
+
+                                if (filePropertiesPage is not null)
+                                {
+                                    Task.Run(() =>
+                                    {
+                                        try
+                                        {
+                                            if (File.Exists(Program.TempFilePath))
+                                            {
+                                                string tempFileText = File.ReadAllText(Program.TempFilePath);
+                                                File.Delete(Program.TempFilePath);
+
+                                                string[] filePropertiesPathList = tempFileText.Split('\n').Where(item => !string.IsNullOrEmpty(item)).ToArray();
+
+                                                foreach (string filePropertiesPath in filePropertiesPathList)
+                                                {
+                                                    string fileProperties = IOHelper.FilterInvalidPathChars(filePropertiesPath);
+
+                                                    BeginInvoke(() =>
+                                                    {
+                                                        filePropertiesPage.FilePropertiesDataList.Add(new OldAndNewPropertiesModel()
+                                                        {
+                                                            FileName = Path.GetFileName(fileProperties),
+                                                            FilePath = fileProperties
+                                                        });
+                                                    });
+                                                }
+                                            }
+                                        }
+                                        catch (Exception) { }
+                                    });
+                                }
+                            }
                         }
                         break;
                     };
@@ -352,11 +519,11 @@ namespace FileRenamer.Views.Forms
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref noBackdrop, Marshal.SizeOf(typeof(int)));
                 if (MainPage.ActualTheme is ElementTheme.Light)
                 {
-                    MainPage.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 243, 243, 243));
+                    MainPage.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 240, 243, 249));
                 }
                 else
                 {
-                    MainPage.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 32, 32, 32));
+                    MainPage.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 20, 20, 20));
                 }
             }
             else if (BackdropService.AppBackdrop.SelectedValue == BackdropService.BackdropList[1].SelectedValue)

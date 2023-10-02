@@ -47,7 +47,14 @@ namespace FileRenamer
                 {
                     if (args[0] is "FileName" || args[0] is "ExtensionName" || args[0] is "UpperAndLowerCase" || args[0] is "FileProperties")
                     {
-                        CheckProcessState(args[0]);
+                        if (args.Length is 1)
+                        {
+                            CheckProcessState(args[0]);
+                        }
+                        else if (args.Length is 2)
+                        {
+                            CheckProcessState(string.Format("{0} {1}", args[0], args[1]));
+                        }
                     }
                 }
             }

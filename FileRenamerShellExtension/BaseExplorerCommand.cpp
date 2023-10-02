@@ -191,7 +191,9 @@ namespace winrt::FileRenamerShellExtension::implementation
 
 	IFACEMETHODIMP FileNameCommand::Invoke(_In_opt_ IShellItemArray* selection, _In_opt_ IBindCtx*)
 	{
-		winrt::hstring exePath = winrt::Windows::ApplicationModel::Package::Current().InstalledLocation().Path() + L"\\FileRenamer.exe FileName";
+		WriteToFile(selection);
+
+		winrt::hstring exePath = winrt::Windows::ApplicationModel::Package::Current().InstalledLocation().Path() + L"\\FileRenamer.exe FileName ShellContextMenu";
 		OpenApplication(exePath);
 
 		CloseProcess();
@@ -229,7 +231,9 @@ namespace winrt::FileRenamerShellExtension::implementation
 
 	IFACEMETHODIMP ExtensionNameCommand::Invoke(_In_opt_ IShellItemArray* selection, _In_opt_ IBindCtx*)
 	{
-		winrt::hstring exePath = winrt::Windows::ApplicationModel::Package::Current().InstalledLocation().Path() + L"\\FileRenamer.exe ExtensionName";
+		WriteToFile(selection);
+
+		winrt::hstring exePath = winrt::Windows::ApplicationModel::Package::Current().InstalledLocation().Path() + L"\\FileRenamer.exe ExtensionName ShellContextMenu";
 		OpenApplication(exePath);
 
 		CloseProcess();
@@ -267,9 +271,11 @@ namespace winrt::FileRenamerShellExtension::implementation
 
 	IFACEMETHODIMP UpperAndLowerCaseCommand::Invoke(_In_opt_ IShellItemArray* selection, _In_opt_ IBindCtx*)
 	{
-		winrt::hstring exePath = winrt::Windows::ApplicationModel::Package::Current().InstalledLocation().Path() + L"\\FileRenamer.exe UpperAndLowerCase";
+		WriteToFile(selection);
+
+		winrt::hstring exePath = winrt::Windows::ApplicationModel::Package::Current().InstalledLocation().Path() + L"\\FileRenamer.exe UpperAndLowerCase ShellContextMenu";
 		OpenApplication(exePath);
-		
+
 		CloseProcess();
 		return S_OK;
 	}
@@ -305,7 +311,9 @@ namespace winrt::FileRenamerShellExtension::implementation
 
 	IFACEMETHODIMP FilePropertiesCommand::Invoke(_In_opt_ IShellItemArray* selection, _In_opt_ IBindCtx*)
 	{
-		winrt::hstring exePath = winrt::Windows::ApplicationModel::Package::Current().InstalledLocation().Path() + L"\\FileRenamer.exe FileProperties";
+		WriteToFile(selection);
+
+		winrt::hstring exePath = winrt::Windows::ApplicationModel::Package::Current().InstalledLocation().Path() + L"\\FileRenamer.exe FileProperties ShellContextMenu";
 		OpenApplication(exePath);
 
 		CloseProcess();
@@ -365,7 +373,50 @@ winrt::Windows::Foundation::IInspectable ReadSettings(winrt::hstring key)
 	return winrt::Windows::Storage::ApplicationData::Current().LocalSettings().Values().Lookup(key);
 }
 
+/// <summary>
+/// 写入文件
+/// </summary>
+void WriteToFile(_In_opt_ IShellItemArray* pShellItemArray)
+{
+	wchar_t tempPath[MAX_PATH];
+	DWORD tempPathResult = GetTempPath(MAX_PATH, tempPath);
+	if (tempPathResult != 0)
+	{
+		wchar_t tempFileName[MAX_PATH];
+		wcscpy_s(tempFileName, tempPath);
+		wcscat_s(tempFileName, L"FileRenamer.txt");
 
+		HANDLE hFile = CreateFile(tempFileName, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+		if (hFile != INVALID_HANDLE_VALUE)
+		{
+			if (pShellItemArray != nullptr)
+			{
+				DWORD count = 0;
+				pShellItemArray->GetCount(&count);
+
+				for (DWORD index = 0; index < count; index++)
+				{
+					IShellItem* pShellItem;
+					pShellItemArray->GetItemAt(index, &pShellItem);
+
+					LPWSTR itemPath;
+					pShellItem->GetDisplayName(SIGDN_FILESYSPATH, &itemPath);
+					int byteLength = WideCharToMultiByte(CP_UTF8, 0, itemPath, -1, nullptr, 0, nullptr, nullptr);
+					char* buffer = new char[byteLength];
+					WideCharToMultiByte(CP_UTF8, 0, itemPath, -1, buffer, byteLength, nullptr, nullptr);
+
+					DWORD bytesWritten;
+					WriteFile(hFile, buffer, byteLength, &bytesWritten, nullptr);
+					WriteFile(hFile, L"\n", (DWORD)strlen("\n"), &bytesWritten, nullptr);
+
+					delete[] buffer;
+				}
+			}
+
+			CloseHandle(hFile);
+		}
+	}
+}
 
 /// <summary>
 /// 打开应用
