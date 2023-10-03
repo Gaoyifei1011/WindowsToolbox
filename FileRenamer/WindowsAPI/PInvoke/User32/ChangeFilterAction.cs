@@ -1,4 +1,4 @@
-﻿namespace FileReanmer.WindowsAPI.PInvoke.User32
+﻿namespace FileRenamer.WindowsAPI.PInvoke.User32
 {
     /// <summary>
     /// 过滤消息时指定的操作

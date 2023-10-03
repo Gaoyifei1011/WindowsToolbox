@@ -70,6 +70,15 @@ namespace FileRenamer.Strings {
         }
         
         /// <summary>
+        ///   查找类似 FileRenamer 的本地化字符串。
+        /// </summary>
+        public static string AppTitle {
+            get {
+                return ResourceManager.GetString("AppTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Close 的本地化字符串。
         /// </summary>
         public static string Close {

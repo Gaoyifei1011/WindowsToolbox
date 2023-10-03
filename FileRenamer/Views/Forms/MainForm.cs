@@ -1,5 +1,4 @@
-﻿using FileReanmer.WindowsAPI.PInvoke.User32;
-using FileRenamer.Helpers.Controls;
+﻿using FileRenamer.Helpers.Controls;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Services.Controls.Settings;
@@ -9,7 +8,7 @@ using FileRenamer.UI.Dialogs;
 using FileRenamer.Views.Pages;
 using FileRenamer.WindowsAPI.PInvoke.DwmApi;
 using FileRenamer.WindowsAPI.PInvoke.User32;
-using FileRenamer.WindowsAPI.PInvoke.Uxtheme;
+using FileRenamer.WindowsAPI.PInvoke.WASDK;
 using GetStoreApp.Services.Controls.Settings;
 using Mile.Xaml;
 using System;
@@ -44,6 +43,9 @@ namespace FileRenamer.Views.Forms
         private IContainer components = null;
         private WindowsXamlHost MileXamlHost = new WindowsXamlHost();
 
+        private WNDPROC newInputNonClientPointerSourceWndProc = null;
+        private IntPtr oldInputNonClientPointerSourceWndProc = IntPtr.Zero;
+
         public MainPage MainPage { get; } = new MainPage();
 
         public MainForm()
@@ -64,6 +66,24 @@ namespace FileRenamer.Views.Forms
                 CHANGEFILTERSTRUCT changeFilterStatus = new CHANGEFILTERSTRUCT();
                 changeFilterStatus.cbSize = Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT));
                 User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_ALLOW, in changeFilterStatus);
+            }
+
+            if (RuntimeHelper.IsMSIX)
+            {
+                WASDKLibrary.InitializeAppWindow(Handle);
+                WASDKLibrary.ExtendsContentToTitleBar(true);
+                WASDKLibrary.SetWindowTitleBarColor(MainPage.ActualTheme);
+
+                IntPtr inputNonClientPointerSourceHandle = User32Library.FindWindowEx(Handle, IntPtr.Zero, "InputNonClientPointerSource", null);
+
+                if (inputNonClientPointerSourceHandle != IntPtr.Zero)
+                {
+                    int style = GetWindowLongAuto(Handle, WindowLongIndexFlags.GWL_STYLE);
+                    SetWindowLongAuto(Handle, WindowLongIndexFlags.GWL_STYLE, (IntPtr)(style & ~(int)WindowStyle.WS_SYSMENU));
+
+                    newInputNonClientPointerSourceWndProc = new WNDPROC(InputNonClientPointerSourceWndProc);
+                    oldInputNonClientPointerSourceWndProc = SetWindowLongAuto(inputNonClientPointerSourceHandle, WindowLongIndexFlags.GWL_WNDPROC, Marshal.GetFunctionPointerForDelegate(newInputNonClientPointerSourceWndProc));
+                }
             }
 
             MainPage.ActualThemeChanged += OnActualThemeChanged;
@@ -112,6 +132,11 @@ namespace FileRenamer.Views.Forms
                 CHANGEFILTERSTRUCT changeFilterStatus = new CHANGEFILTERSTRUCT();
                 changeFilterStatus.cbSize = Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT));
                 User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_RESET, in changeFilterStatus);
+            }
+
+            if (RuntimeHelper.IsMSIX)
+            {
+                WASDKLibrary.UnInitializeAppWindow();
             }
         }
 
@@ -211,6 +236,41 @@ namespace FileRenamer.Views.Forms
                     MainPage.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 20, 20, 20));
                 }
             }
+
+            if (RuntimeHelper.IsMSIX)
+            {
+                WASDKLibrary.SetWindowTitleBarColor(sender.ActualTheme);
+            }
+        }
+
+        /// <summary>
+        /// 更改指定窗口的属性
+        /// </summary>
+        private int GetWindowLongAuto(IntPtr hWnd, WindowLongIndexFlags nIndex)
+        {
+            if (IntPtr.Size is 8)
+            {
+                return User32Library.GetWindowLongPtr(hWnd, nIndex);
+            }
+            else
+            {
+                return User32Library.GetWindowLong(hWnd, nIndex);
+            }
+        }
+
+        /// <summary>
+        /// 更改指定窗口的窗口属性
+        /// </summary>
+        private IntPtr SetWindowLongAuto(IntPtr hWnd, WindowLongIndexFlags nIndex, IntPtr dwNewLong)
+        {
+            if (IntPtr.Size is 8)
+            {
+                return User32Library.SetWindowLongPtr(hWnd, nIndex, dwNewLong);
+            }
+            else
+            {
+                return User32Library.SetWindowLong(hWnd, nIndex, dwNewLong);
+            }
         }
 
         /// <summary>
@@ -238,15 +298,22 @@ namespace FileRenamer.Views.Forms
                 // 当用户按下鼠标右键时，光标位于窗口的非工作区内的消息
                 case (int)WindowMessage.WM_NCRBUTTONDOWN:
                     {
-                        Point ms = MousePosition;
-                        FlyoutShowOptions options = new FlyoutShowOptions();
-                        options.Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft;
-                        options.ShowMode = FlyoutShowMode.Standard;
-                        options.Position = InfoHelper.SystemVersion.Build >= 22000 ?
-                            new Windows.Foundation.Point((ms.X - Location.X - 8) / WindowDPI, (ms.Y - Location.Y - 32) / WindowDPI) :
-                            new Windows.Foundation.Point(ms.X - Location.X - 8, ms.Y - Location.Y - 32);
-                        MainPage.TitlebarMenuFlyout.ShowAt(null, options);
-                        return;
+                        if (RuntimeHelper.IsMSIX)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Point ms = MousePosition;
+                            FlyoutShowOptions options = new FlyoutShowOptions();
+                            options.Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft;
+                            options.ShowMode = FlyoutShowMode.Standard;
+                            options.Position = InfoHelper.SystemVersion.Build >= 22000 ?
+                                new Windows.Foundation.Point((ms.X - Location.X - 8) / WindowDPI, (ms.Y - Location.Y - 32) / WindowDPI) :
+                                new Windows.Foundation.Point(ms.X - Location.X - 8, ms.Y - Location.Y - 32);
+                            MainPage.TitlebarMenuFlyout.ShowAt(null, options);
+                            return;
+                        }
                     }
                 // 窗口接收其他数据消息
                 case (int)WindowMessage.WM_COPYDATA:
@@ -465,9 +532,54 @@ namespace FileRenamer.Views.Forms
                         }
                         break;
                     }
+                // 任务栏窗口右键点击后的消息
+                case (int)WindowMessage.WM_SYSMENU:
+                    {
+                        if (WindowState is FormWindowState.Minimized)
+                        {
+                            WindowState = FormWindowState.Normal;
+                        }
+                        break;
+                    }
             }
 
             base.WndProc(ref m);
+        }
+
+        /// <summary>
+        /// 应用拖拽区域窗口消息处理
+        /// </summary>
+        private IntPtr InputNonClientPointerSourceWndProc(IntPtr hWnd, WindowMessage Msg, IntPtr wParam, IntPtr lParam)
+        {
+            switch (Msg)
+            {
+                // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
+                case WindowMessage.WM_NCLBUTTONDOWN:
+                    {
+                        if (MainPage.TitlebarMenuFlyout.IsOpen)
+                        {
+                            MainPage.TitlebarMenuFlyout.Hide();
+                        }
+                        break;
+                    }
+                // 当用户按下鼠标右键时，光标位于窗口的非工作区内的消息
+                case WindowMessage.WM_NCRBUTTONDOWN:
+                    {
+                        if (MainPage is not null && MainPage.XamlRoot is not null)
+                        {
+                            Point ms = MousePosition;
+                            FlyoutShowOptions options = new FlyoutShowOptions();
+                            options.Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft;
+                            options.ShowMode = FlyoutShowMode.Standard;
+                            options.Position = InfoHelper.SystemVersion.Build >= 22000 ?
+                                new Windows.Foundation.Point((ms.X - Location.X - 8) / WindowDPI, (ms.Y - Location.Y) / WindowDPI) :
+                                new Windows.Foundation.Point(ms.X - Location.X - 8, ms.Y - Location.Y);
+                            MainPage.TitlebarMenuFlyout.ShowAt(null, options);
+                        }
+                        return IntPtr.Zero;
+                    }
+            }
+            return User32Library.CallWindowProc(oldInputNonClientPointerSourceWndProc, hWnd, Msg, wParam, lParam);
         }
 
         /// <summary>
@@ -481,30 +593,22 @@ namespace FileRenamer.Views.Forms
                 {
                     int useLightMode = 0;
                     DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));
-                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
-                    UxthemeLibrary.FlushMenuThemes();
                 }
                 else
                 {
                     int useDarkMode = 1;
                     DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
-                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
-                    UxthemeLibrary.FlushMenuThemes();
                 }
             }
             else if (ThemeService.AppTheme.SelectedValue == ThemeService.ThemeList[1].SelectedValue)
             {
                 int useLightMode = 0;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));
-                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
-                UxthemeLibrary.FlushMenuThemes();
             }
             else if (ThemeService.AppTheme.SelectedValue == ThemeService.ThemeList[2].SelectedValue)
             {
                 int useDarkMode = 1;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
-                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
-                UxthemeLibrary.FlushMenuThemes();
             }
         }
 

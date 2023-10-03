@@ -42,6 +42,11 @@ namespace FileRenamer.Views.Pages
         public AboutPage()
         {
             InitializeComponent();
+
+            if (RuntimeHelper.IsMSIX)
+            {
+                ReferenceDict.Insert(2, new KeyValuePairModel() { Key = "Microsoft.WindowsAppSDK", Value = "https://github.com/microsoft/windowsappsdk" });
+            }
         }
 
         /// <summary>

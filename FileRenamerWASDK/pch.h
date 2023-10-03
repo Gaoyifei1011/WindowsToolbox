@@ -1,0 +1,12 @@
+﻿#pragma once
+#include <Unknwn.h>
+#include <Windows.h>
+#include <hstring.h>
+#include <winstring.h>
+#include <winrt/base.h>
+#include <winrt/Microsoft.UI.h>
+#include <winrt/Microsoft.UI.Interop.h>
+#include <winrt/Microsoft.UI.Windowing.h>
+#include <winrt/Microsoft.UI.Xaml.h>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.h>

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace FileReanmer.WindowsAPI.PInvoke.User32
+namespace FileRenamer.WindowsAPI.PInvoke.User32
 {
     /// <summary>
     /// 包含通过调用 ChangeWindowMessageFilterEx 函数获取的扩展结果信息。

@@ -120,6 +120,9 @@
   <data name="About" xml:space="preserve">
     <value>关于</value>
   </data>
+  <data name="AppTitle" xml:space="preserve">
+    <value>文件重命名工具</value>
+  </data>
   <data name="Close" xml:space="preserve">
     <value>关闭</value>
   </data>

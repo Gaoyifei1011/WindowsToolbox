@@ -268,6 +268,15 @@ namespace FileRenamer.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Windows App SDK version： 的本地化字符串。
+        /// </summary>
+        public static string WindowsAppSDKVersion {
+            get {
+                return ResourceManager.GetString("WindowsAppSDKVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Windows UI version: 的本地化字符串。
         /// </summary>
         public static string WindowsUIVersion {

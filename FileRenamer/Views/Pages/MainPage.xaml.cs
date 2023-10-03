@@ -30,6 +30,10 @@ namespace FileRenamer.Views.Pages
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
+        private Thickness NavigationViewMargin { get; set; } = new Thickness(0, 0, 0, 0);
+
+        private Thickness NavigationViewPaneHeaderMargin { get; set; } = new Thickness(0, 0, 8, 0);
+
         private ElementTheme _windowTheme;
 
         public ElementTheme WindowTheme
@@ -108,6 +112,12 @@ namespace FileRenamer.Views.Pages
         {
             InitializeComponent();
             NavigationService.NavigationFrame = MainFrame;
+
+            if (RuntimeHelper.IsMSIX)
+            {
+                NavigationViewMargin = new Thickness(0, 45, 0, 0);
+                NavigationViewPaneHeaderMargin = new Thickness(0, 0, 26, 0);
+            }
         }
 
         /// <summary>

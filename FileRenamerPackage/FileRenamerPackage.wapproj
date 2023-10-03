@@ -73,6 +73,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(WinUISDKReferences)'=='' and '$(TargetPlatformIdentifier)'=='UAP'">
+    <WinUISDKReferences>false</WinUISDKReferences>
+  </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
@@ -82,6 +85,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FileRenamer\FileRenamer.csproj" />
     <ProjectReference Include="..\FileRenamerShellExtension\FileRenamerShellExtension.vcxproj" />
+    <ProjectReference Include="..\FileRenamerWASDK\FileRenamerWASDK.vcxproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FileRenamerPackage_SignKey.pfx" />

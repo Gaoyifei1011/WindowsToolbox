@@ -186,6 +186,9 @@
   <data name="RestartContent" xml:space="preserve">
     <value>The app is about to restart, after the restart the app's data will be lost, make sure that your work has been saved in its entirety</value>
   </data>
+  <data name="WindowsAppSDKVersion" xml:space="preserve">
+    <value>Windows App SDK version：</value>
+  </data>
   <data name="WindowsUIVersion" xml:space="preserve">
     <value>Windows UI version:</value>
   </data>

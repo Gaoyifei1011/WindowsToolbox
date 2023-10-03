@@ -33,12 +33,14 @@
 
             <MenuFlyoutItem
                 Click="{x:Bind OnMoveClicked}"
+                IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsWindowMaximized), Mode=OneWay}"
                 Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                 Tag="{x:Bind TitlebarMenuFlyout}"
                 Text="{x:Bind string:Window.Move}" />
 
             <MenuFlyoutItem
                 Click="{x:Bind OnSizeClicked}"
+                IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsWindowMaximized), Mode=OneWay}"
                 Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                 Tag="{x:Bind TitlebarMenuFlyout}"
                 Text="{x:Bind string:Window.Size}" />
@@ -82,138 +84,176 @@
         </MenuFlyout>
     </Page.Resources>
 
-    <NavigationView
-        AlwaysShowHeader="False"
-        BackRequested="{x:Bind OnBackRequested}"
-        Canvas.ZIndex="0"
-        IsBackEnabled="{x:Bind IsBackEnabled, Mode=OneWay}"
-        IsSettingsVisible="False"
-        ItemInvoked="{x:Bind OnItemInvoked}"
-        Loaded="{x:Bind OnNavigationViewLoaded}"
-        PaneDisplayMode="Top"
-        SelectedItem="{x:Bind SelectedItem, Mode=OneWay}"
-        Unloaded="{x:Bind OnNavigationViewUnLoaded}">
+    <Grid>
+        <!--  应用标题栏内容  -->
+        <Grid
+            x:Name="AppTitlebar"
+            Height="45"
+            Margin="13,0,0,0"
+            VerticalAlignment="Top"
+            x:FieldModifier="public">
 
-        <NavigationView.MenuItems>
-            <NavigationViewItem Content="{x:Bind string:Window.FileName}" Tag="{x:Bind TagList[0]}">
-
-                <NavigationViewItem.Icon>
-                    <FontIcon FontSize="16" Glyph="&#xE8a5;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-
-            <NavigationViewItem Content="{x:Bind string:Window.ExtensionName}" Tag="{x:Bind TagList[1]}">
-
-                <NavigationViewItem.Icon>
-                    <FontIcon FontSize="16" Glyph="&#xE8a6;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-
-            <NavigationViewItem Content="{x:Bind string:Window.UpperAndLowerCase}" Tag="{x:Bind TagList[2]}">
-
-                <NavigationViewItem.Icon>
-                    <FontIcon FontSize="16" Glyph="&#xE8e9;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-
-            <NavigationViewItem Content="{x:Bind string:Window.FileProperties}" Tag="{x:Bind TagList[3]}">
-
-                <NavigationViewItem.Icon>
-                    <FontIcon FontSize="16" Glyph="&#xE90f;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-
-            <NavigationViewItemSeparator />
-
-            <NavigationViewItem Content="{x:Bind string:Window.About}" Tag="{x:Bind TagList[4]}">
-
-                <NavigationViewItem.Icon>
-                    <FontIcon FontSize="16" Glyph="&#xE946;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-
-            <NavigationViewItem Content="{x:Bind string:Window.Settings}" Tag="{x:Bind TagList[5]}">
-
-                <NavigationViewItem.Icon>
-                    <FontIcon FontSize="16" Glyph="&#xE713;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-        </NavigationView.MenuItems>
-
-        <NavigationView.PaneFooter>
-            <Grid Margin="0,0,8,0">
-                <DropDownButton
-                    x:Name="AboutButton"
-                    x:Load="{x:Bind IsCurrentPage(SelectedItem.Tag, TagList[4]), Mode=OneWay}"
-                    Content="{x:Bind string:Window.Others}"
-                    ToolTipService.ToolTip="{x:Bind string:Window.OthersToolTip}">
-
-                    <DropDownButton.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <MenuFlyoutItem
-                                Click="{x:Bind OnCreateDesktopShortcutClicked}"
-                                Style="{StaticResource MenuFlyoutItemStyle}"
-                                Text="{x:Bind string:Window.CreateDesktopShortcut}"
-                                ToolTipService.ToolTip="{x:Bind string:Window.CreateDesktopShortcutToolTip}" />
-
-                            <MenuFlyoutItem
-                                x:Name="PinToStartScreen"
-                                x:Load="{x:Bind helper:RuntimeHelper.IsMSIX}"
-                                Click="{x:Bind OnPinToStartScreenClicked}"
-                                Style="{StaticResource MenuFlyoutItemStyle}"
-                                Text="{x:Bind string:Window.PinToStartScreen}"
-                                ToolTipService.ToolTip="{x:Bind string:Window.PinToStartScreenToolTip}" />
-
-                            <MenuFlyoutItem
-                                x:Name="PinToTaskbar"
-                                x:Load="{x:Bind helper:RuntimeHelper.IsMSIX}"
-                                Click="{x:Bind OnPinToTaskbarClicked}"
-                                Style="{StaticResource MenuFlyoutItemStyle}"
-                                Text="{x:Bind string:Window.PinToTaskbar}"
-                                ToolTipService.ToolTip="{x:Bind string:Window.PinToTaskbarToolTip}" />
-
-                            <MenuFlyoutSeparator />
-
-                            <MenuFlyoutItem
-                                Click="{x:Bind OnShowReleaseNotesClicked}"
-                                Style="{StaticResource MenuFlyoutItemStyle}"
-                                Text="{x:Bind string:Window.ShowReleaseNotes}"
-                                ToolTipService.ToolTip="{x:Bind string:Window.ShowReleaseNotesToolTip}" />
-
-                            <MenuFlyoutItem
-                                Click="{x:Bind OnShowLicenseClicked}"
-                                Style="{StaticResource MenuFlyoutItemStyle}"
-                                Text="{x:Bind string:Window.ShowLicense}"
-                                ToolTipService.ToolTip="{x:Bind string:Window.ShowLicenseToolTip}" />
-                        </MenuFlyout>
-                    </DropDownButton.Flyout>
-                </DropDownButton>
-
-                <StackPanel
-                    x:Name="SettingsButtons"
-                    x:Load="{x:Bind IsCurrentPage(SelectedItem.Tag, TagList[5]), Mode=OneWay}"
-                    Orientation="Horizontal"
-                    Spacing="6">
-
-                    <Button
-                        Click="{x:Bind OnRestartAppsClicked}"
-                        Content="{x:Bind string:Window.RestartApp}"
-                        ToolTipService.ToolTip="{x:Bind string:Window.RestartAppToolTip}" />
-
-                    <Button Click="{x:Bind OnSettingsInstructionClicked}" Content="{x:Bind string:Window.SettingsInstruction}" />
-                </StackPanel>
+            <!--  标题栏图标和应用名称  -->
+            <Grid
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Canvas.ZIndex="2"
+                Visibility="{x:Bind helper:RuntimeHelper.IsMSIX}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="22" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image
+                    Grid.Column="0"
+                    Width="18"
+                    Height="18"
+                    Margin="2,3,0,0"
+                    HorizontalAlignment="Left"
+                    Source="ms-appx:///Assets/Square44x44Logo.altform-unplated_targetsize-256.png" />
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="12,2,0,0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind string:Window.AppTitle}"
+                    TextWrapping="NoWrap" />
             </Grid>
-        </NavigationView.PaneFooter>
+        </Grid>
 
-        <Frame
-            x:Name="MainFrame"
-            Navigated="{x:Bind OnFrameNavigated}"
-            NavigationFailed="{x:Bind OnFrameNavgationFailed}">
-            <Frame.ContentTransitions>
-                <TransitionCollection>
-                    <NavigationThemeTransition />
-                </TransitionCollection>
-            </Frame.ContentTransitions>
-        </Frame>
-    </NavigationView>
+        <NavigationView
+            Margin="{x:Bind NavigationViewMargin}"
+            AlwaysShowHeader="False"
+            BackRequested="{x:Bind OnBackRequested}"
+            Canvas.ZIndex="0"
+            IsBackEnabled="{x:Bind IsBackEnabled, Mode=OneWay}"
+            IsSettingsVisible="False"
+            ItemInvoked="{x:Bind OnItemInvoked}"
+            Loaded="{x:Bind OnNavigationViewLoaded}"
+            PaneDisplayMode="Top"
+            SelectedItem="{x:Bind SelectedItem, Mode=OneWay}"
+            Unloaded="{x:Bind OnNavigationViewUnLoaded}">
+
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="{x:Bind string:Window.FileName}" Tag="{x:Bind TagList[0]}">
+
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontSize="16" Glyph="&#xE8a5;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="{x:Bind string:Window.ExtensionName}" Tag="{x:Bind TagList[1]}">
+
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontSize="16" Glyph="&#xE8a6;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="{x:Bind string:Window.UpperAndLowerCase}" Tag="{x:Bind TagList[2]}">
+
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontSize="16" Glyph="&#xE8e9;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="{x:Bind string:Window.FileProperties}" Tag="{x:Bind TagList[3]}">
+
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontSize="16" Glyph="&#xE90f;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItemSeparator />
+
+                <NavigationViewItem Content="{x:Bind string:Window.About}" Tag="{x:Bind TagList[4]}">
+
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontSize="16" Glyph="&#xE946;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="{x:Bind string:Window.Settings}" Tag="{x:Bind TagList[5]}">
+
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontSize="16" Glyph="&#xE713;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+
+            <NavigationView.PaneFooter>
+                <Grid Margin="{x:Bind NavigationViewPaneHeaderMargin}">
+                    <DropDownButton
+                        x:Name="AboutButton"
+                        x:Load="{x:Bind IsCurrentPage(SelectedItem.Tag, TagList[4]), Mode=OneWay}"
+                        Content="{x:Bind string:Window.Others}"
+                        ToolTipService.ToolTip="{x:Bind string:Window.OthersToolTip}">
+
+                        <DropDownButton.Flyout>
+                            <MenuFlyout Placement="Bottom">
+                                <MenuFlyoutItem
+                                    Click="{x:Bind OnCreateDesktopShortcutClicked}"
+                                    Style="{StaticResource MenuFlyoutItemStyle}"
+                                    Text="{x:Bind string:Window.CreateDesktopShortcut}"
+                                    ToolTipService.ToolTip="{x:Bind string:Window.CreateDesktopShortcutToolTip}" />
+
+                                <MenuFlyoutItem
+                                    x:Name="PinToStartScreen"
+                                    x:Load="{x:Bind helper:RuntimeHelper.IsMSIX}"
+                                    Click="{x:Bind OnPinToStartScreenClicked}"
+                                    Style="{StaticResource MenuFlyoutItemStyle}"
+                                    Text="{x:Bind string:Window.PinToStartScreen}"
+                                    ToolTipService.ToolTip="{x:Bind string:Window.PinToStartScreenToolTip}" />
+
+                                <MenuFlyoutItem
+                                    x:Name="PinToTaskbar"
+                                    x:Load="{x:Bind helper:RuntimeHelper.IsMSIX}"
+                                    Click="{x:Bind OnPinToTaskbarClicked}"
+                                    Style="{StaticResource MenuFlyoutItemStyle}"
+                                    Text="{x:Bind string:Window.PinToTaskbar}"
+                                    ToolTipService.ToolTip="{x:Bind string:Window.PinToTaskbarToolTip}" />
+
+                                <MenuFlyoutSeparator />
+
+                                <MenuFlyoutItem
+                                    Click="{x:Bind OnShowReleaseNotesClicked}"
+                                    Style="{StaticResource MenuFlyoutItemStyle}"
+                                    Text="{x:Bind string:Window.ShowReleaseNotes}"
+                                    ToolTipService.ToolTip="{x:Bind string:Window.ShowReleaseNotesToolTip}" />
+
+                                <MenuFlyoutItem
+                                    Click="{x:Bind OnShowLicenseClicked}"
+                                    Style="{StaticResource MenuFlyoutItemStyle}"
+                                    Text="{x:Bind string:Window.ShowLicense}"
+                                    ToolTipService.ToolTip="{x:Bind string:Window.ShowLicenseToolTip}" />
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+
+                    <StackPanel
+                        x:Name="SettingsButtons"
+                        x:Load="{x:Bind IsCurrentPage(SelectedItem.Tag, TagList[5]), Mode=OneWay}"
+                        Orientation="Horizontal"
+                        Spacing="6">
+
+                        <Button
+                            Click="{x:Bind OnRestartAppsClicked}"
+                            Content="{x:Bind string:Window.RestartApp}"
+                            ToolTipService.ToolTip="{x:Bind string:Window.RestartAppToolTip}" />
+
+                        <Button Click="{x:Bind OnSettingsInstructionClicked}" Content="{x:Bind string:Window.SettingsInstruction}" />
+                    </StackPanel>
+                </Grid>
+            </NavigationView.PaneFooter>
+
+            <Frame
+                x:Name="MainFrame"
+                Navigated="{x:Bind OnFrameNavigated}"
+                NavigationFailed="{x:Bind OnFrameNavgationFailed}">
+                <Frame.ContentTransitions>
+                    <TransitionCollection>
+                        <NavigationThemeTransition />
+                    </TransitionCollection>
+                </Frame.ContentTransitions>
+            </Frame>
+        </NavigationView>
+    </Grid>
 </Page>

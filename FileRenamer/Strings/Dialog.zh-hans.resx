@@ -186,6 +186,9 @@
   <data name="RestartContent" xml:space="preserve">
     <value>应用即将重启，重启后应用的数据将会丢失，请确保您的工作内容已经全部保存。</value>
   </data>
+  <data name="WindowsAppSDKVersion" xml:space="preserve">
+    <value>Windows 应用 SDK 版本：</value>
+  </data>
   <data name="WindowsUIVersion" xml:space="preserve">
     <value>Windows UI 版本：</value>
   </data>
