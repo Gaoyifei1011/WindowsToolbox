@@ -23,22 +23,22 @@ A simple tool to help users quickly rename a large number of files, providing a 
 
 #### <p align="center">File name page</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/b8b7e281-b653-4d0a-bf37-a2e03084a735">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/b0e02784-9570-4cbe-9677-026fe9056cc5">
 </div>
 
 #### <p align="center">Extension name page</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/b7ffe444-6e98-4e8f-8f77-1ac9191bd522">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/e852e9eb-2e3f-4f07-8950-df63b6e637cb">
 </div>
 
 #### <p align="center">Upper and lower case page</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/b565eeb6-ae61-4b9e-8d7b-d179a172fb25">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/6b9aa536-1362-4a92-923c-a4e046753346">
 </div>
 
 #### <p align="center">File name page</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/ff57ed81-1a1c-4ca3-9806-34c57b6e8cb6">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/3cdf5dcd-8279-43e4-a14e-6f32dafb1422">
 </div>
 
 
@@ -47,7 +47,8 @@ A simple tool to help users quickly rename a large number of files, providing a 
 ### Project References (Sort by alphabetical order)
 
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
-> * [Microsoft.NETFramework.ReferenceAssemblies](https://github.com/Microsoft/dotnet/tree/master/releases/reference-assemblies)&emsp;
+> * [Microsoft.Windows.CppWinRT](https://github.com/Microsoft/cppwinrt)&emsp;
+> * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
 > * [Newtonsoft.Json](https://www.newtonsoft.com/json)&emsp;
 
 [Code referenced or used during the learning process](https://github.com/Gaoyifei1011/FileRenamer/blob/main/Description/StudyReferenceCode.md)&emsp;

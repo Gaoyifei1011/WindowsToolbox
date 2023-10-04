@@ -16,29 +16,29 @@
 > * 批量修改文件的扩展名称
 > * 批量修改文件的大写小写名称
 > * 批量修改文件的属性
-  * 
+
 ------
 
 ### 应用截图
 
 #### <p align="center">文件名称页面</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/beef392a-cdd4-424f-ac6c-e1c411d41b8b">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/34154185-1212-469c-88f5-64aa7df63e8d">
 </div>
 
 #### <p align="center">扩展名称页面</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/5a87a68c-80f2-4e9a-8f6c-3bf9bd64d923">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/d90e23db-1ee2-4160-a9cc-c0cd7ad508a2">
 </div>
 
 #### <p align="center">大写小写页面</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/d3925ada-e533-465d-95ed-cc253bbc6137">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/3af8df88-4fb1-4b68-8bce-d39795de39df">
 </div>
 
 #### <p align="center">文件属性页面</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/21c739eb-3ceb-4f6b-95cf-1d7c8ef468ec">
+<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/fb740e5d-6fce-4f5c-a18f-f94f982bd4e9">
 </div>
 
 ------
@@ -46,6 +46,8 @@
 ### 项目引用（按英文首字母排序）
 
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
+> * [Microsoft.Windows.CppWinRT](https://github.com/Microsoft/cppwinrt)&emsp;
+> * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
 > * [Newtonsoft.Json](https://www.newtonsoft.com/json)&emsp;
 
 [学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/FileRenamer/blob/main/Description/StudyReferenceCode.md)&emsp;
