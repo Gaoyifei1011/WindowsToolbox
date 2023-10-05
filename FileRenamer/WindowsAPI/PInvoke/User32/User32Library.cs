@@ -68,7 +68,7 @@ namespace FileRenamer.WindowsAPI.PInvoke.User32
         public static extern int GetWindowLongPtr(IntPtr hWnd, WindowLongIndexFlags nIndex);
 
         /// <summary>
-        /// 将指定的消息发送到窗口或窗口。 <see cref="SendMessage"> 函数调用指定窗口的窗口过程，在窗口过程处理消息之前不会返回。
+        /// 将指定的消息发送到窗口或窗口。SendMessage 函数调用指定窗口的窗口过程，在窗口过程处理消息之前不会返回。
         /// </summary>
         /// <param name="hWnd">
         /// 窗口过程的句柄将接收消息。 如果此参数 HWND_BROADCAST ( (HWND) 0xffff) ，则会将消息发送到系统中的所有顶级窗口，

@@ -15,7 +15,7 @@ namespace FileRenamer.WindowsAPI.PInvoke.WASDK
         /// 初始化 AppWindow 窗口辅助类
         /// </summary>
         /// <param name="hwnd">要输入的窗口句柄</param>
-        [DllImport(WASDK, EntryPoint = "InitializeAppWindow", SetLastError = false)]
+        [DllImport(WASDK, CharSet = CharSet.Unicode, EntryPoint = "InitializeAppWindow", SetLastError = false)]
         public static extern void InitializeAppWindow(IntPtr hwnd);
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace FileRenamer.WindowsAPI.PInvoke.WASDK
         /// </summary>
         /// <param name="value">是否要使用自定义的窗口标题栏</param>
         /// <returns>true 如果应隐藏默认标题栏，否则为 false。</returns>
-        [DllImport(WASDK, EntryPoint = "ExtendsContentToTitleBar", SetLastError = false)]
+        [DllImport(WASDK, CharSet = CharSet.Unicode, EntryPoint = "ExtendsContentToTitleBar", SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ExtendsContentToTitleBar(bool value);
 
@@ -31,13 +31,13 @@ namespace FileRenamer.WindowsAPI.PInvoke.WASDK
         /// 设置标题栏按钮的主题颜色
         /// </summary>
         /// <param name="theme">对应的主题值</param>
-        [DllImport(WASDK, EntryPoint = "SetWindowTitleBarColor", SetLastError = false)]
+        [DllImport(WASDK, CharSet = CharSet.Unicode, EntryPoint = "SetWindowTitleBarColor", SetLastError = false)]
         public static extern void SetWindowTitleBarColor(ElementTheme theme);
 
         /// <summary>
         /// 卸载 AppWindow 窗口辅助类
         /// </summary>
-        [DllImport(WASDK, EntryPoint = "UnInitializeAppWindow", SetLastError = false)]
+        [DllImport(WASDK, CharSet = CharSet.Unicode, EntryPoint = "UnInitializeAppWindow", SetLastError = false)]
         public static extern void UnInitializeAppWindow();
     }
 }

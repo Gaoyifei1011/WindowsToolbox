@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -108,27 +109,54 @@ namespace FileRenamer.Views.Pages
         }
 
         /// <summary>
-        /// 按下 Enter 键发生的事件
+        /// 按下 Enter 键发生的事件（预览修改内容）
+        /// 按下 Ctrl + Enter 键发生的事件（修改内容）
         /// </summary>
         protected override void OnKeyDown(KeyRoutedEventArgs args)
         {
             base.OnKeyDown(args);
-            bool checkResult = CheckOperationState();
-            if (checkResult)
+            if (args.Key is VirtualKey.Enter)
             {
-                OperationFailedList.Clear();
-                if (UpperAndLowerCaseDataList.Count is 0)
+                args.Handled = true;
+                bool checkResult = CheckOperationState();
+                if (checkResult)
                 {
-                    new ListEmptyNotification(this).Show();
+                    OperationFailedList.Clear();
+                    if (UpperAndLowerCaseDataList.Count is 0)
+                    {
+                        new ListEmptyNotification(this).Show();
+                    }
+                    else
+                    {
+                        PreviewChangedFileName();
+                    }
                 }
                 else
                 {
-                    PreviewChangedFileName();
+                    new NoOperationNotification(this).Show();
                 }
             }
-            else
+            else if (args.Key is VirtualKey.Control && args.Key is VirtualKey.Enter)
             {
-                new NoOperationNotification(this).Show();
+                args.Handled = true;
+                bool checkResult = CheckOperationState();
+                if (checkResult)
+                {
+                    OperationFailedList.Clear();
+                    if (UpperAndLowerCaseDataList.Count is 0)
+                    {
+                        new ListEmptyNotification(this).Show();
+                    }
+                    else
+                    {
+                        PreviewChangedFileName();
+                        ChangeFileName();
+                    }
+                }
+                else
+                {
+                    new NoOperationNotification(this).Show();
+                }
             }
         }
 

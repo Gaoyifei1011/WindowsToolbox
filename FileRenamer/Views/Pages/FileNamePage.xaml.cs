@@ -272,13 +272,15 @@ namespace FileRenamer.Views.Pages
         }
 
         /// <summary>
-        /// 按下 Enter 键发生的事件
+        /// 按下 Enter 键发生的事件（预览修改内容）
+        /// 按下 Ctrl + Enter 键发生的事件（修改内容）
         /// </summary>
         protected override void OnKeyDown(KeyRoutedEventArgs args)
         {
             base.OnKeyDown(args);
             if (args.Key is VirtualKey.Enter)
             {
+                args.Handled = true;
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
@@ -290,6 +292,28 @@ namespace FileRenamer.Views.Pages
                     else
                     {
                         PreviewChangedFileName();
+                    }
+                }
+                else
+                {
+                    new NoOperationNotification(this).Show();
+                }
+            }
+            else if (args.Key is VirtualKey.Control && args.Key is VirtualKey.Enter)
+            {
+                args.Handled = true;
+                bool checkResult = CheckOperationState();
+                if (checkResult)
+                {
+                    OperationFailedList.Clear();
+                    if (FileNameDataList.Count is 0)
+                    {
+                        new ListEmptyNotification(this).Show();
+                    }
+                    else
+                    {
+                        PreviewChangedFileName();
+                        ChangeFileName();
                     }
                 }
                 else

@@ -38,14 +38,36 @@ bool __stdcall winrt_can_unload_now() noexcept
 	return true;
 }
 
-STDAPI DllCanUnloadNow()
+EXTERN_C HRESULT STDAPICALLTYPE DllCanUnloadNow()
 {
 	return winrt_can_unload_now() ? S_OK : S_FALSE;
 }
 
-STDAPI DllGetClassObject(_In_ REFCLSID rclsid, _In_ REFIID riid, _COM_Outptr_ void** instance)
+EXTERN_C HRESULT STDAPICALLTYPE DllGetClassObject(_In_ REFCLSID rclsid, _In_ REFIID riid, _Outptr_ LPVOID* ppv)
 {
-	return winrt::make<ShellExtensionClassFactory>().as(riid, instance);
+	if (!ppv)
+	{
+		return E_POINTER;
+	}
+
+	if (riid != IID_IClassFactory && riid != IID_IUnknown)
+	{
+		return E_NOINTERFACE;
+	}
+
+	if (rclsid != __uuidof(ShellExtensionClassFactory))
+	{
+		return E_INVALIDARG;
+	}
+
+	try
+	{
+		return winrt::make<ShellExtensionClassFactory>()->QueryInterface(riid, ppv);
+	}
+	catch (...)
+	{
+		return winrt::to_hresult();
+	}
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule,

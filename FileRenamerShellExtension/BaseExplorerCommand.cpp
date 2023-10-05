@@ -382,7 +382,7 @@ void WriteToFile(_In_opt_ IShellItemArray* pShellItemArray)
 	DWORD tempPathResult = GetTempPath(MAX_PATH, tempPath);
 	if (tempPathResult != 0)
 	{
-		wchar_t tempFileName[MAX_PATH];
+		wchar_t tempFileName[MAX_PATH] = { 0 };
 		wcscpy_s(tempFileName, tempPath);
 		wcscat_s(tempFileName, L"FileRenamer.txt");
 
@@ -401,15 +401,19 @@ void WriteToFile(_In_opt_ IShellItemArray* pShellItemArray)
 
 					LPWSTR itemPath;
 					pShellItem->GetDisplayName(SIGDN_FILESYSPATH, &itemPath);
-					int byteLength = WideCharToMultiByte(CP_UTF8, 0, itemPath, -1, nullptr, 0, nullptr, nullptr);
-					char* buffer = new char[byteLength];
-					WideCharToMultiByte(CP_UTF8, 0, itemPath, -1, buffer, byteLength, nullptr, nullptr);
 
-					DWORD bytesWritten;
-					WriteFile(hFile, buffer, byteLength, &bytesWritten, nullptr);
-					WriteFile(hFile, L"\n", (DWORD)strlen("\n"), &bytesWritten, nullptr);
+					if (itemPath != nullptr)
+					{
+						int byteLength = WideCharToMultiByte(CP_UTF8, 0, itemPath, -1, nullptr, 0, nullptr, nullptr);
+						char* buffer = new char[byteLength];
+						WideCharToMultiByte(CP_UTF8, 0, itemPath, -1, buffer, byteLength, nullptr, nullptr);
 
-					delete[] buffer;
+						DWORD bytesWritten;
+						WriteFile(hFile, buffer, byteLength, &bytesWritten, nullptr);
+						WriteFile(hFile, L"\n", (DWORD)strlen("\n"), &bytesWritten, nullptr);
+
+						delete[] buffer;
+					}
 				}
 			}
 

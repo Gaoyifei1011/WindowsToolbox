@@ -18,7 +18,7 @@ namespace FileRenamer.WindowsAPI.PInvoke.Kernel32
         /// <param name="packageFullNameLength">输入时， packageFullName 缓冲区的大小（以字符为单位）。 输出时，返回包全名的大小（以字符为单位），包括 null 终止符。</param>
         /// <param name="packageFullName">包全名。</param>
         /// <returns>如果函数成功，则返回 ERROR_SUCCESS。 否则，函数将返回错误代码。</returns>
-        [DllImport(Kernel32, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Kernel32, CharSet = CharSet.Unicode, EntryPoint = "GetCurrentPackageFullName", SetLastError = true)]
         public static extern int GetCurrentPackageFullName(ref int packageFullNameLength, StringBuilder packageFullName);
     }
 }
