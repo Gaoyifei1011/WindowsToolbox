@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 
 // 程序集信息设置
+[assembly: AssemblyCompany("高怡飞")]
 [assembly: AssemblyCopyright("Copyright ©2023 高怡飞, All Rights Reserved.")]
 [assembly: AssemblyDescription("文件重命名工具")]
 [assembly: AssemblyFileVersion("1.2.1010.0")]
