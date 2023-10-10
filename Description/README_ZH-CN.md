@@ -48,7 +48,6 @@
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [Microsoft.Windows.CppWinRT](https://github.com/Microsoft/cppwinrt)&emsp;
 > * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
-> * [Newtonsoft.Json](https://www.newtonsoft.com/json)&emsp;
 
 [学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/FileRenamer/blob/main/Description/StudyReferenceCode.md)&emsp;
 

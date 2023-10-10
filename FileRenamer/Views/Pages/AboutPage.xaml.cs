@@ -30,7 +30,6 @@ namespace FileRenamer.Views.Pages
         {
             new KeyValuePairModel() { Key = "Mile.Xaml" , Value = "https://github.com/ProjectMile/Mile.Xaml" },
             new KeyValuePairModel() { Key = "Microsoft.Windows.CppWinRT" , Value = "https://github.com/Microsoft/cppwinrt" },
-            new KeyValuePairModel() { Key = "Newtonsoft.Json" , Value = "https://www.newtonsoft.com/json" },
         };
 
         public List<KeyValuePairModel> ThanksDict = new List<KeyValuePairModel>()
@@ -45,7 +44,7 @@ namespace FileRenamer.Views.Pages
 
             if (RuntimeHelper.IsMSIX)
             {
-                ReferenceDict.Insert(2, new KeyValuePairModel() { Key = "Microsoft.WindowsAppSDK", Value = "https://github.com/microsoft/windowsappsdk" });
+                ReferenceDict.Insert(1, new KeyValuePairModel() { Key = "Microsoft.WindowsAppSDK", Value = "https://github.com/microsoft/windowsappsdk" });
             }
         }
 
