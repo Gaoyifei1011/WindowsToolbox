@@ -7,7 +7,6 @@
     xmlns:model="using:FileRenamer.Models"
     xmlns:string="using:FileRenamer.Strings"
     xmlns:sys="using:System"
-    x:Name="OperationFailedRoot"
     Title="{x:Bind string:Dialog.OperationFailed}"
     BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
     CloseButtonText="{x:Bind string:Dialog.CloseDialog}"
@@ -20,6 +19,8 @@
     <ContentDialog.Resources>
         <x:Double x:Key="ContentDialogMaxWidth">1000</x:Double>
         <x:Double x:Key="ContentDialogMaxHeight">1000</x:Double>
+
+        <XamlUICommand x:Name="CopyCommand" ExecuteRequested="{x:Bind OnCopyExecuteRequested}" />
     </ContentDialog.Resources>
 
     <ListView
@@ -172,7 +173,7 @@
                     <HyperlinkButton
                         Grid.Column="3"
                         Margin="10,0,0,0"
-                        Command="{Binding ElementName=OperationFailedRoot, Path=CopyCommand}"
+                        Command="{StaticResource CopyCommand}"
                         CommandParameter="{Binding}"
                         Style="{StaticResource HyperlinkButtonStyle}">
 
