@@ -158,9 +158,16 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.5" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2045.28" IncludeAssets="build" ExcludeAssets="all" PrivateAssets="all" />
     <PackageReference Include="Mile.Xaml" Version="2.1.661" />
     
     <Reference Include="Microsoft.CSharp" />
+    
+    <Reference Include="Microsoft.UI.Xaml">
+      <HintPath>$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd</HintPath>
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
     <Reference Include="PresentationFramework" />
     <EmbeddedResource Update="Strings\ExtensionName.en-us.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -267,5 +274,14 @@
 
   <Target Name="SignExeFile" BeforeTargets="Build">
     <Exec Command="$(ProjectDir)signtool.exe sign /f $(SolutionDir)$(AssemblyName)Package\$(AssemblyName)Package_SignKey.pfx /t http://timestamp.digicert.com /fd SHA256 $(ProjectDir)$(BaseOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).exe" />
+  </Target>
+
+  <Target Name="_AddXamlWinmdToPackageLayoutRoot" AfterTargets="BuildNativePackage">
+    <ItemGroup>
+      <AppxPackagePayload Include="@(XamlWinmd)">
+        <TargetPath>Microsoft.UI.Xaml.winmd</TargetPath>
+      </AppxPackagePayload>
+    </ItemGroup>
+    <Copy SourceFiles="@(XamlWinmd)" DestinationFiles="@(XamlWinmd -> '$(OutDir)\%(Filename)%(Extension)')" />
   </Target>
 </Project>
