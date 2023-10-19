@@ -11,6 +11,7 @@ using FileRenamer.WindowsAPI.PInvoke.User32;
 using FileRenamer.WindowsAPI.PInvoke.WASDK;
 using GetStoreApp.Services.Controls.Settings;
 using Mile.Xaml;
+using Mile.Xaml.Interop;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,6 +49,8 @@ namespace FileRenamer.Views.Forms
 
         public MainPage MainPage { get; } = new MainPage();
 
+        public IntPtr UWPCoreHandle { get; }
+
         public MainForm()
         {
             InitializeComponent();
@@ -83,6 +86,12 @@ namespace FileRenamer.Views.Forms
 
                     newInputNonClientPointerSourceWndProc = new WNDPROC(InputNonClientPointerSourceWndProc);
                     oldInputNonClientPointerSourceWndProc = SetWindowLongAuto(inputNonClientPointerSourceHandle, WindowLongIndexFlags.GWL_WNDPROC, Marshal.GetFunctionPointerForDelegate(newInputNonClientPointerSourceWndProc));
+                }
+
+                UWPCoreHandle = InteropExtensions.GetInterop(Windows.UI.Xaml.Window.Current.CoreWindow).WindowHandle;
+                if (UWPCoreHandle != IntPtr.Zero)
+                {
+                    User32Library.SetWindowPos(UWPCoreHandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
                 }
             }
 
@@ -217,6 +226,11 @@ namespace FileRenamer.Views.Forms
                         break;
                     }
                 }
+            }
+
+            if (UWPCoreHandle != IntPtr.Zero)
+            {
+                User32Library.SetWindowPos(UWPCoreHandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
             }
         }
 
