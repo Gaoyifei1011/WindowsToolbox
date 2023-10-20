@@ -192,4 +192,7 @@
   <data name="WindowsUIVersion" xml:space="preserve">
     <value>Windows UI version:</value>
   </data>
+  <data name="WinUI2Version" xml:space="preserve">
+    <value>WinUI 2 Version:</value>
+  </data>
 </root>

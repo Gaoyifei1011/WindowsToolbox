@@ -8,8 +8,8 @@ using FileRenamer.UI.Dialogs;
 using FileRenamer.Views.Pages;
 using FileRenamer.WindowsAPI.PInvoke.DwmApi;
 using FileRenamer.WindowsAPI.PInvoke.User32;
-using FileRenamer.WindowsAPI.PInvoke.WASDK;
 using GetStoreApp.Services.Controls.Settings;
+using Microsoft.UI.Windowing;
 using Mile.Xaml;
 using Mile.Xaml.Interop;
 using System;
@@ -47,6 +47,8 @@ namespace FileRenamer.Views.Forms
         private WNDPROC newInputNonClientPointerSourceWndProc = null;
         private IntPtr oldInputNonClientPointerSourceWndProc = IntPtr.Zero;
 
+        public AppWindow AppWindow { get; }
+
         public MainPage MainPage { get; } = new MainPage();
 
         public IntPtr UWPCoreHandle { get; }
@@ -71,28 +73,27 @@ namespace FileRenamer.Views.Forms
                 User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_ALLOW, in changeFilterStatus);
             }
 
-            if (RuntimeHelper.IsMSIX)
+            Microsoft.UI.WindowId windowId = new Microsoft.UI.WindowId();
+            windowId.Value = (ulong)Handle;
+            AppWindow = AppWindow.GetFromWindowId(windowId);
+            AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+            SetTitleBarColor(MainPage.ActualTheme);
+
+            IntPtr inputNonClientPointerSourceHandle = User32Library.FindWindowEx(Handle, IntPtr.Zero, "InputNonClientPointerSource", null);
+
+            if (inputNonClientPointerSourceHandle != IntPtr.Zero)
             {
-                WASDKLibrary.InitializeAppWindow(Handle);
-                WASDKLibrary.ExtendsContentToTitleBar(true);
-                WASDKLibrary.SetWindowTitleBarColor(MainPage.ActualTheme);
+                int style = GetWindowLongAuto(Handle, WindowLongIndexFlags.GWL_STYLE);
+                SetWindowLongAuto(Handle, WindowLongIndexFlags.GWL_STYLE, (IntPtr)(style & ~(int)WindowStyle.WS_SYSMENU));
 
-                IntPtr inputNonClientPointerSourceHandle = User32Library.FindWindowEx(Handle, IntPtr.Zero, "InputNonClientPointerSource", null);
+                newInputNonClientPointerSourceWndProc = new WNDPROC(InputNonClientPointerSourceWndProc);
+                oldInputNonClientPointerSourceWndProc = SetWindowLongAuto(inputNonClientPointerSourceHandle, WindowLongIndexFlags.GWL_WNDPROC, Marshal.GetFunctionPointerForDelegate(newInputNonClientPointerSourceWndProc));
+            }
 
-                if (inputNonClientPointerSourceHandle != IntPtr.Zero)
-                {
-                    int style = GetWindowLongAuto(Handle, WindowLongIndexFlags.GWL_STYLE);
-                    SetWindowLongAuto(Handle, WindowLongIndexFlags.GWL_STYLE, (IntPtr)(style & ~(int)WindowStyle.WS_SYSMENU));
-
-                    newInputNonClientPointerSourceWndProc = new WNDPROC(InputNonClientPointerSourceWndProc);
-                    oldInputNonClientPointerSourceWndProc = SetWindowLongAuto(inputNonClientPointerSourceHandle, WindowLongIndexFlags.GWL_WNDPROC, Marshal.GetFunctionPointerForDelegate(newInputNonClientPointerSourceWndProc));
-                }
-
-                UWPCoreHandle = InteropExtensions.GetInterop(Windows.UI.Xaml.Window.Current.CoreWindow).WindowHandle;
-                if (UWPCoreHandle != IntPtr.Zero)
-                {
-                    User32Library.SetWindowPos(UWPCoreHandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
-                }
+            UWPCoreHandle = InteropExtensions.GetInterop(Windows.UI.Xaml.Window.Current.CoreWindow).WindowHandle;
+            if (UWPCoreHandle != IntPtr.Zero)
+            {
+                User32Library.SetWindowPos(UWPCoreHandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
             }
 
             MainPage.ActualThemeChanged += OnActualThemeChanged;
@@ -141,11 +142,6 @@ namespace FileRenamer.Views.Forms
                 CHANGEFILTERSTRUCT changeFilterStatus = new CHANGEFILTERSTRUCT();
                 changeFilterStatus.cbSize = Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT));
                 User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_RESET, in changeFilterStatus);
-            }
-
-            if (RuntimeHelper.IsMSIX)
-            {
-                WASDKLibrary.UnInitializeAppWindow();
             }
         }
 
@@ -251,10 +247,7 @@ namespace FileRenamer.Views.Forms
                 }
             }
 
-            if (RuntimeHelper.IsMSIX)
-            {
-                WASDKLibrary.SetWindowTitleBarColor(sender.ActualTheme);
-            }
+            SetTitleBarColor(sender.ActualTheme);
         }
 
         /// <summary>
@@ -308,26 +301,6 @@ namespace FileRenamer.Views.Forms
                             MainPage.TitlebarMenuFlyout.Hide();
                         }
                         break;
-                    }
-                // 当用户按下鼠标右键时，光标位于窗口的非工作区内的消息
-                case (int)WindowMessage.WM_NCRBUTTONDOWN:
-                    {
-                        if (RuntimeHelper.IsMSIX)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Point ms = MousePosition;
-                            FlyoutShowOptions options = new FlyoutShowOptions();
-                            options.Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft;
-                            options.ShowMode = FlyoutShowMode.Standard;
-                            options.Position = InfoHelper.SystemVersion.Build >= 22000 ?
-                                new Windows.Foundation.Point((ms.X - Location.X - 8) / WindowDPI, (ms.Y - Location.Y - 32) / WindowDPI) :
-                                new Windows.Foundation.Point(ms.X - Location.X - 8, ms.Y - Location.Y - 32);
-                            MainPage.TitlebarMenuFlyout.ShowAt(null, options);
-                            return;
-                        }
                     }
                 // 窗口接收其他数据消息
                 case (int)WindowMessage.WM_COPYDATA:
@@ -594,6 +567,42 @@ namespace FileRenamer.Views.Forms
                     }
             }
             return User32Library.CallWindowProc(oldInputNonClientPointerSourceWndProc, hWnd, Msg, wParam, lParam);
+        }
+
+        /// <summary>
+        /// 设置标题栏按钮的颜色
+        /// </summary>
+        private void SetTitleBarColor(ElementTheme theme)
+        {
+            AppWindowTitleBar titleBar = AppWindow.TitleBar;
+
+            titleBar.BackgroundColor = Colors.Transparent;
+            titleBar.ForegroundColor = Colors.Transparent;
+            titleBar.InactiveBackgroundColor = Colors.Transparent;
+            titleBar.InactiveForegroundColor = Colors.Transparent;
+
+            if (theme is ElementTheme.Light)
+            {
+                titleBar.ButtonBackgroundColor = Colors.Transparent;
+                titleBar.ButtonForegroundColor = Colors.Black;
+                titleBar.ButtonHoverBackgroundColor = Windows.UI.Color.FromArgb(20, 0, 0, 0);
+                titleBar.ButtonHoverForegroundColor = Colors.Black;
+                titleBar.ButtonPressedBackgroundColor = Windows.UI.Color.FromArgb(30, 0, 0, 0);
+                titleBar.ButtonPressedForegroundColor = Colors.Black;
+                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                titleBar.ButtonInactiveForegroundColor = Colors.Black;
+            }
+            else
+            {
+                titleBar.ButtonBackgroundColor = Colors.Transparent;
+                titleBar.ButtonForegroundColor = Colors.White;
+                titleBar.ButtonHoverBackgroundColor = Windows.UI.Color.FromArgb(20, 255, 255, 255);
+                titleBar.ButtonHoverForegroundColor = Colors.White;
+                titleBar.ButtonPressedBackgroundColor = Windows.UI.Color.FromArgb(30, 255, 255, 255);
+                titleBar.ButtonPressedForegroundColor = Colors.White;
+                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                titleBar.ButtonInactiveForegroundColor = Colors.White;
+            }
         }
 
         /// <summary>

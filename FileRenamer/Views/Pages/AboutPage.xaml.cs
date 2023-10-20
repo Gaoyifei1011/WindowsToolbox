@@ -29,6 +29,8 @@ namespace FileRenamer.Views.Pages
         public List<KeyValuePairModel> ReferenceDict = new List<KeyValuePairModel>()
         {
             new KeyValuePairModel() { Key = "Mile.Xaml" , Value = "https://github.com/ProjectMile/Mile.Xaml" },
+            new KeyValuePairModel() { Key = "Microsoft.UI.Xaml" , Value = "https://github.com/microsoft/microsoft-ui-xaml" },
+            new KeyValuePairModel() { Key = "Microsoft.WindowsAppSDK" , Value = "https://github.com/microsoft/windowsappsdk" },
             new KeyValuePairModel() { Key = "Microsoft.Windows.CppWinRT" , Value = "https://github.com/Microsoft/cppwinrt" },
         };
 
@@ -41,11 +43,6 @@ namespace FileRenamer.Views.Pages
         public AboutPage()
         {
             InitializeComponent();
-
-            if (RuntimeHelper.IsMSIX)
-            {
-                ReferenceDict.Insert(1, new KeyValuePairModel() { Key = "Microsoft.WindowsAppSDK", Value = "https://github.com/microsoft/windowsappsdk" });
-            }
         }
 
         /// <summary>

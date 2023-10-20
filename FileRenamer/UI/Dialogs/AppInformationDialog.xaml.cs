@@ -35,6 +35,19 @@ namespace FileRenamer.UI.Dialogs.About
             }
         }
 
+        private string _winUI2Version;
+
+        public string WinUI2Version
+        {
+            get { return _winUI2Version; }
+
+            set
+            {
+                _winUI2Version = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string _windowsUIVersion;
 
         public string WindowsUIVersion
@@ -88,24 +101,36 @@ namespace FileRenamer.UI.Dialogs.About
         {
             Task.Run(() =>
             {
-                if (RuntimeHelper.IsMSIX)
-                {
-                    IReadOnlyList<Package> DependencyList = Package.Current.Dependencies;
+                IReadOnlyList<Package> DependencyList = Package.Current.Dependencies;
 
-                    foreach (Package dependency in DependencyList)
+                foreach (Package dependency in DependencyList)
+                {
+                    if (dependency.DisplayName.Contains("WindowsAppRuntime"))
                     {
-                        if (dependency.DisplayName.Contains("WindowsAppRuntime"))
+                        // Windows 应用 SDK 版本信息
+                        Program.MainWindow.Invoke(() =>
                         {
-                            // Windows 应用 SDK 版本信息
-                            Program.MainWindow.Invoke(() =>
-                            {
-                                WindowsAppSDKVersion = string.Format("{0}.{1}.{2}.{3}",
-                                    dependency.Id.Version.Major,
-                                    dependency.Id.Version.Minor,
-                                    dependency.Id.Version.Build,
-                                    dependency.Id.Version.Revision);
-                            });
-                        }
+                            WindowsAppSDKVersion = string.Format("{0}.{1}.{2}.{3}",
+                                dependency.Id.Version.Major,
+                                dependency.Id.Version.Minor,
+                                dependency.Id.Version.Build,
+                                dependency.Id.Version.Revision);
+                        });
+                    }
+
+                    // WinUI 2 版本信息
+                    if (dependency.DisplayName.Contains("Microsoft.UI.Xaml.2.8"))
+                    {
+                        FileVersionInfo WinUI2File = FileVersionInfo.GetVersionInfo(Path.Combine(dependency.InstalledPath, "Microsoft.UI.Xaml.dll"));
+
+                        Program.MainWindow.Invoke(() =>
+                        {
+                            WinUI2Version = string.Format("{0}.{1}.{2}.{3}",
+                                WinUI2File.ProductMajorPart,
+                                WinUI2File.ProductMinorPart,
+                                WinUI2File.ProductBuildPart,
+                                WinUI2File.ProductPrivatePart);
+                        });
                     }
                 }
 
@@ -138,10 +163,7 @@ namespace FileRenamer.UI.Dialogs.About
             args.Cancel = true;
 
             StringBuilder stringBuilder = new StringBuilder();
-            if (RuntimeHelper.IsMSIX)
-            {
-                stringBuilder.AppendLine(Dialog.WindowsAppSDKVersion + WindowsAppSDKVersion);
-            }
+            stringBuilder.AppendLine(Dialog.WindowsAppSDKVersion + WindowsAppSDKVersion);
             stringBuilder.AppendLine(Dialog.WindowsUIVersion + WindowsUIVersion);
             stringBuilder.AppendLine(Dialog.MileXamlVersion + MileXamlVersion);
             stringBuilder.AppendLine(Dialog.DoNetVersion + DoNetVersion);

@@ -37,6 +37,12 @@ namespace FileRenamer
         [STAThread]
         public static void Main(string[] args)
         {
+            if (!RuntimeHelper.IsMSIX)
+            {
+                Process.Start("explorer.exe", "shell:AppsFolder\\Gaoyifei1011.FileRenamer_pystbwmrmew8c!FileRenamer");
+                return;
+            }
+
             if (args.Length is 0)
             {
                 CheckProcessState();
@@ -62,14 +68,7 @@ namespace FileRenamer
             InitializeProgramResources();
             InitializeJumpList();
 
-            if (RuntimeHelper.IsMSIX)
-            {
-                ErrorFileFolderPath = ApplicationData.Current.LocalCacheFolder.Path;
-            }
-            else
-            {
-                ErrorFileFolderPath = Process.GetCurrentProcess().MainModule.FileName;
-            }
+            ErrorFileFolderPath = ApplicationData.Current.LocalCacheFolder.Path;
 
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ApplicationExit += OnApplicationExit;
@@ -163,15 +162,6 @@ namespace FileRenamer
         /// </summary>
         private static void InitializeProgramResources()
         {
-            if (!RuntimeHelper.IsMSIX)
-            {
-                if (!File.Exists(ConfigService.UnPackagedConfigFile))
-                {
-                    FileStream fileStream = File.Create(ConfigService.UnPackagedConfigFile);
-                    fileStream.Dispose();
-                }
-            }
-
             LanguageService.InitializeLanguage();
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(LanguageService.AppLanguage.SelectedValue);
             ResourceService.LocalizeReosurce();
@@ -181,10 +171,7 @@ namespace FileRenamer
             ThemeService.InitializeTheme();
             TopMostService.InitializeTopMostValue();
 
-            if (RuntimeHelper.IsMSIX)
-            {
-                FileShellMenuService.InitializeFileShellMenu();
-            }
+            FileShellMenuService.InitializeFileShellMenu();
         }
 
         /// <summary>

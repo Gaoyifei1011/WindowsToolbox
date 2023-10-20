@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using Microsoft.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 
 namespace FileRenamer.Helpers.Root
 {
@@ -7,8 +8,6 @@ namespace FileRenamer.Helpers.Root
     /// </summary>
     public static class ResourceDictionaryHelper
     {
-        public static ResourceDictionary ExpanderResourceDict { get; private set; }
-
         public static ResourceDictionary HyperlinkButtonResourceDict { get; private set; }
 
         public static ResourceDictionary InAppNotificationResourceDict { get; private set; }
@@ -24,12 +23,13 @@ namespace FileRenamer.Helpers.Root
         /// </summary>
         public static void InitializeResourceDictionary()
         {
-            ExpanderResourceDict = Application.Current.Resources.MergedDictionaries[1];
-            HyperlinkButtonResourceDict = Application.Current.Resources.MergedDictionaries[2];
-            InAppNotificationResourceDict = Application.Current.Resources.MergedDictionaries[3];
-            ListViewResourceDict = Application.Current.Resources.MergedDictionaries[4];
-            MenuFlyoutResourceDict = Application.Current.Resources.MergedDictionaries[5];
-            ScrollBarResourceDict = Application.Current.Resources.MergedDictionaries[6];
+            XamlControlsResources xamlControlsResources = Application.Current.Resources as XamlControlsResources;
+
+            HyperlinkButtonResourceDict = xamlControlsResources.MergedDictionaries[1];
+            InAppNotificationResourceDict = xamlControlsResources.MergedDictionaries[2];
+            ListViewResourceDict = xamlControlsResources.MergedDictionaries[3];
+            MenuFlyoutResourceDict = xamlControlsResources.MergedDictionaries[4];
+            ScrollBarResourceDict = xamlControlsResources.MergedDictionaries[5];
         }
     }
 }

@@ -284,5 +284,14 @@ namespace FileRenamer.Strings {
                 return ResourceManager.GetString("WindowsUIVersion", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 WinUI 2 Version: 的本地化字符串。
+        /// </summary>
+        public static string WinUI2Version {
+            get {
+                return ResourceManager.GetString("WinUI2Version", resourceCulture);
+            }
+        }
     }
 }

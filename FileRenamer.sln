@@ -27,8 +27,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileRenamerShellExtension",
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "FileRenamerPackage", "FileRenamerPackage\FileRenamerPackage.wapproj", "{67832EC5-E851-4B6F-A452-70CBEA98DE44}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileRenamerWASDK", "FileRenamerWASDK\FileRenamerWASDK.vcxproj", "{C313971B-9510-4DB7-B25C-ED31701B94D9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64
@@ -87,18 +85,6 @@ Global
 		{67832EC5-E851-4B6F-A452-70CBEA98DE44}.Release|x86.ActiveCfg = Release|x86
 		{67832EC5-E851-4B6F-A452-70CBEA98DE44}.Release|x86.Build.0 = Release|x86
 		{67832EC5-E851-4B6F-A452-70CBEA98DE44}.Release|x86.Deploy.0 = Release|x86
-		{C313971B-9510-4DB7-B25C-ED31701B94D9}.Debug|ARM64.ActiveCfg = Debug|x64
-		{C313971B-9510-4DB7-B25C-ED31701B94D9}.Debug|ARM64.Build.0 = Debug|x64
-		{C313971B-9510-4DB7-B25C-ED31701B94D9}.Debug|x64.ActiveCfg = Debug|x64
-		{C313971B-9510-4DB7-B25C-ED31701B94D9}.Debug|x64.Build.0 = Debug|x64
-		{C313971B-9510-4DB7-B25C-ED31701B94D9}.Debug|x86.ActiveCfg = Debug|Win32
-		{C313971B-9510-4DB7-B25C-ED31701B94D9}.Debug|x86.Build.0 = Debug|Win32
-		{C313971B-9510-4DB7-B25C-ED31701B94D9}.Release|ARM64.ActiveCfg = Release|x64
-		{C313971B-9510-4DB7-B25C-ED31701B94D9}.Release|ARM64.Build.0 = Release|x64
-		{C313971B-9510-4DB7-B25C-ED31701B94D9}.Release|x64.ActiveCfg = Release|x64
-		{C313971B-9510-4DB7-B25C-ED31701B94D9}.Release|x64.Build.0 = Release|x64
-		{C313971B-9510-4DB7-B25C-ED31701B94D9}.Release|x86.ActiveCfg = Release|Win32
-		{C313971B-9510-4DB7-B25C-ED31701B94D9}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

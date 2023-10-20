@@ -85,10 +85,12 @@
   <ItemGroup>
     <ProjectReference Include="..\FileRenamer\FileRenamer.csproj" />
     <ProjectReference Include="..\FileRenamerShellExtension\FileRenamerShellExtension.vcxproj" />
-    <ProjectReference Include="..\FileRenamerWASDK\FileRenamerWASDK.vcxproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FileRenamerPackage_SignKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
   </ItemGroup>
   <Target Name="FileRenamerStompSourceProjectForWapProject" BeforeTargets="_ConvertItems">
     <ItemGroup>

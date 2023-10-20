@@ -4,10 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converter="using:FileRenamer.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helper="using:FileRenamer.Helpers.Root"
-    xmlns:layout="using:FileRenamer.Views.CustomControls.Layout"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
+    xmlns:mxuc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:FileRenamer.Strings"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -115,27 +114,36 @@
             </Grid>
 
             <!--  应用简介用户控件  -->
-            <layout:Expander Style="{StaticResource ExpanderAboutStyle}" Visibility="Collapsed">
-                <layout:Expander.Header>
+            <mxuc:Expander
+                Padding="16,5,0,5"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                IsExpanded="True"
+                Visibility="Collapsed">
+                <mxuc:Expander.Header>
                     <TextBlock
                         Padding="15,0,0,0"
                         FontSize="15"
                         FontWeight="Medium"
                         Text="{x:Bind string:About.BriefIntroduction}" />
-                </layout:Expander.Header>
-            </layout:Expander>
+                </mxuc:Expander.Header>
+            </mxuc:Expander>
 
             <!--  项目引用用户控件  -->
-            <layout:Expander Style="{StaticResource ExpanderAboutStyle}">
-                <layout:Expander.Header>
+            <mxuc:Expander
+                Padding="16,5,0,5"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                IsExpanded="True">
+                <mxuc:Expander.Header>
                     <TextBlock
                         Padding="15,0,0,0"
                         FontSize="15"
                         FontWeight="Medium"
                         Text="{x:Bind string:About.ReferenceTitle}" />
-                </layout:Expander.Header>
+                </mxuc:Expander.Header>
 
-                <layout:Expander.Content>
+                <mxuc:Expander.Content>
                     <GridView
                         Margin="14,0"
                         Padding="5,3,0,0"
@@ -158,42 +166,56 @@
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
-                </layout:Expander.Content>
-            </layout:Expander>
+                </mxuc:Expander.Content>
+            </mxuc:Expander>
 
             <!--  使用说明控件  -->
-            <layout:Expander Style="{StaticResource ExpanderAboutStyle}" Visibility="Collapsed">
-                <layout:Expander.Header>
+            <mxuc:Expander
+                Padding="16,5,0,5"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                IsExpanded="True"
+                Visibility="Collapsed">
+                <mxuc:Expander.Header>
                     <TextBlock
                         Padding="15,0,0,0"
                         FontSize="15"
                         FontWeight="Medium"
                         Text="{x:Bind string:About.UseInstruction}" />
-                </layout:Expander.Header>
-            </layout:Expander>
+                </mxuc:Expander.Header>
+            </mxuc:Expander>
 
             <!--  注意事项用户控件  -->
-            <layout:Expander Style="{StaticResource ExpanderAboutStyle}" Visibility="Collapsed">
-                <layout:Expander.Header>
+            <mxuc:Expander
+                Padding="16,5,0,5"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                IsExpanded="True"
+                Visibility="Collapsed">
+                <mxuc:Expander.Header>
                     <TextBlock
                         Padding="15,0,0,0"
                         FontSize="15"
                         FontWeight="Medium"
                         Text="{x:Bind string:About.Precaution}" />
-                </layout:Expander.Header>
-            </layout:Expander>
+                </mxuc:Expander.Header>
+            </mxuc:Expander>
 
             <!--  设置选项说明用户控件  -->
-            <layout:Expander Style="{StaticResource ExpanderAboutStyle}">
-                <layout:Expander.Header>
+            <mxuc:Expander
+                Padding="16,5,0,5"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                IsExpanded="True">
+                <mxuc:Expander.Header>
                     <TextBlock
                         Padding="15,0,0,0"
                         FontSize="15"
                         FontWeight="Medium"
                         Text="{x:Bind string:About.SettingsHelp}" />
-                </layout:Expander.Header>
+                </mxuc:Expander.Header>
 
-                <layout:Expander.Content>
+                <mxuc:Expander.Content>
                     <StackPanel Margin="14,0,10,0">
                         <TextBlock
                             Margin="0,0,0,10"
@@ -201,6 +223,7 @@
                             FontWeight="Normal"
                             Text="{x:Bind string:About.Backdrop}"
                             TextAlignment="Left" />
+
                         <TextBlock
                             Margin="0,0,0,5"
                             Padding="0,0,2,0"
@@ -210,24 +233,13 @@
                             TextAlignment="Justify"
                             TextWrapping="Wrap" />
 
-                        <StackPanel Orientation="Horizontal">
-                            <HyperlinkButton
-                                Margin="-5,0,10,0"
-                                Padding="5"
-                                Click="{x:Bind OnSystemInformationClicked}"
-                                Content="{x:Bind string:About.SystemInformation}" />
+                        <HyperlinkButton
+                            Margin="-5,0,10,0"
+                            Padding="5"
+                            Click="{x:Bind OnSystemInformationClicked}"
+                            Content="{x:Bind string:About.SystemInformation}" />
 
-                            <HyperlinkButton
-                                x:Name="AppInformationUnPackaged"
-                                Margin="-5,0,10,0"
-                                Padding="5"
-                                x:Load="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(helper:RuntimeHelper.IsMSIX)}"
-                                Click="{x:Bind OnAppInformationClicked}"
-                                Content="{x:Bind string:About.AppInformation}" />
-                        </StackPanel>
-
-                        <StackPanel x:Name="LanguageDescription" x:Load="{x:Bind helper:RuntimeHelper.IsMSIX}">
-
+                        <StackPanel>
                             <MenuFlyoutSeparator Margin="0,0,0,8" />
 
                             <TextBlock
@@ -260,20 +272,24 @@
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
-                </layout:Expander.Content>
-            </layout:Expander>
+                </mxuc:Expander.Content>
+            </mxuc:Expander>
 
             <!--  感谢用户控件  -->
-            <layout:Expander Style="{StaticResource ExpanderAboutStyle}">
-                <layout:Expander.Header>
+            <mxuc:Expander
+                Padding="16,5,0,5"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                IsExpanded="True">
+                <mxuc:Expander.Header>
                     <TextBlock
                         Padding="15,0,0,0"
                         FontSize="15"
                         FontWeight="Medium"
                         Text="{x:Bind string:About.ThanksTitle}" />
-                </layout:Expander.Header>
+                </mxuc:Expander.Header>
 
-                <layout:Expander.Content>
+                <mxuc:Expander.Content>
                     <GridView
                         Margin="14,0"
                         Padding="5,3,0,0"
@@ -296,8 +312,8 @@
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
-                </layout:Expander.Content>
-            </layout:Expander>
+                </mxuc:Expander.Content>
+            </mxuc:Expander>
         </StackPanel>
     </ScrollViewer>
 </Page>
