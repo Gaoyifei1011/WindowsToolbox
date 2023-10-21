@@ -73,9 +73,9 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        private NavigationViewItem _selectedItem;
+        private Microsoft.UI.Xaml.Controls.NavigationViewItem _selectedItem;
 
-        public NavigationViewItem SelectedItem
+        public Microsoft.UI.Xaml.Controls.NavigationViewItem SelectedItem
         {
             get { return _selectedItem; }
 
@@ -208,7 +208,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 当后退按钮收到交互（如单击或点击）时发生
         /// </summary>
-        public void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        public void OnBackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
         {
             NavigationService.NavigationFrom();
         }
@@ -216,9 +216,9 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 当菜单中的项收到交互（如单击或点击）时发生
         /// </summary>
-        public void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        public void OnItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            NavigationViewItemBase navigationViewItem = args.InvokedItemContainer;
+            Microsoft.UI.Xaml.Controls.NavigationViewItemBase navigationViewItem = args.InvokedItemContainer;
             if (navigationViewItem.Tag is not null)
             {
                 NavigationModel navigationItem = NavigationService.NavigationItemList.Find(item => item.NavigationTag == Convert.ToString(navigationViewItem.Tag));
@@ -236,12 +236,12 @@ namespace FileRenamer.Views.Pages
         {
             PropertyChanged += OnPropertyChanged;
 
-            NavigationView navigationView = sender as NavigationView;
+            Microsoft.UI.Xaml.Controls.NavigationView navigationView = sender as Microsoft.UI.Xaml.Controls.NavigationView;
             if (navigationView is not null)
             {
                 foreach (object item in navigationView.MenuItems)
                 {
-                    NavigationViewItem navigationViewItem = item as NavigationViewItem;
+                    Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem = item as Microsoft.UI.Xaml.Controls.NavigationViewItem;
                     if (navigationViewItem is not null)
                     {
                         string Tag = Convert.ToString(navigationViewItem.Tag);

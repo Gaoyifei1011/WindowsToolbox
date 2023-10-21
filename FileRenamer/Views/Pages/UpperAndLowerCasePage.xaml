@@ -7,6 +7,7 @@
     xmlns:enum="using:FileRenamer.Extensions.DataType.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
+    xmlns:mxuc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:FileRenamer.Strings"
     xmlns:sys="using:System"
     AllowDrop="True"
@@ -279,11 +280,14 @@
                 Style="{StaticResource ErrorHyperlinkButtonStyle}"
                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedList.Count), Mode=OneWay}" />
 
-            <ProgressRing
+            <mxuc:ProgressRing
                 Grid.Column="5"
+                Width="25"
+                Height="25"
                 Margin="0,0,5,0"
                 VerticalAlignment="Center"
                 IsActive="True"
+                IsIndeterminate="True"
                 Visibility="{x:Bind IsModifyingNow, Mode=OneWay}" />
 
             <TextBlock

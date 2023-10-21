@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="using:FileRenamer.Helpers.Root"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxuc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:FileRenamer.Strings"
     RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}"
     mc:Ignorable="d">
@@ -120,7 +121,7 @@
             </Grid>
         </Grid>
 
-        <NavigationView
+        <mxuc:NavigationView
             Margin="{x:Bind NavigationViewMargin}"
             AlwaysShowHeader="False"
             BackRequested="{x:Bind OnBackRequested}"
@@ -133,53 +134,53 @@
             SelectedItem="{x:Bind SelectedItem, Mode=OneWay}"
             Unloaded="{x:Bind OnNavigationViewUnLoaded}">
 
-            <NavigationView.MenuItems>
-                <NavigationViewItem Content="{x:Bind string:Window.FileName}" Tag="{x:Bind TagList[0]}">
+            <mxuc:NavigationView.MenuItems>
+                <mxuc:NavigationViewItem Content="{x:Bind string:Window.FileName}" Tag="{x:Bind TagList[0]}">
 
-                    <NavigationViewItem.Icon>
+                    <mxuc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE8a5;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                    </mxuc:NavigationViewItem.Icon>
+                </mxuc:NavigationViewItem>
 
-                <NavigationViewItem Content="{x:Bind string:Window.ExtensionName}" Tag="{x:Bind TagList[1]}">
+                <mxuc:NavigationViewItem Content="{x:Bind string:Window.ExtensionName}" Tag="{x:Bind TagList[1]}">
 
-                    <NavigationViewItem.Icon>
+                    <mxuc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE8a6;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                    </mxuc:NavigationViewItem.Icon>
+                </mxuc:NavigationViewItem>
 
-                <NavigationViewItem Content="{x:Bind string:Window.UpperAndLowerCase}" Tag="{x:Bind TagList[2]}">
+                <mxuc:NavigationViewItem Content="{x:Bind string:Window.UpperAndLowerCase}" Tag="{x:Bind TagList[2]}">
 
-                    <NavigationViewItem.Icon>
+                    <mxuc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE8e9;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                    </mxuc:NavigationViewItem.Icon>
+                </mxuc:NavigationViewItem>
 
-                <NavigationViewItem Content="{x:Bind string:Window.FileProperties}" Tag="{x:Bind TagList[3]}">
+                <mxuc:NavigationViewItem Content="{x:Bind string:Window.FileProperties}" Tag="{x:Bind TagList[3]}">
 
-                    <NavigationViewItem.Icon>
+                    <mxuc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE90f;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                    </mxuc:NavigationViewItem.Icon>
+                </mxuc:NavigationViewItem>
 
-                <NavigationViewItemSeparator />
+                <mxuc:NavigationViewItemSeparator />
 
-                <NavigationViewItem Content="{x:Bind string:Window.About}" Tag="{x:Bind TagList[4]}">
+                <mxuc:NavigationViewItem Content="{x:Bind string:Window.About}" Tag="{x:Bind TagList[4]}">
 
-                    <NavigationViewItem.Icon>
+                    <mxuc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE946;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                    </mxuc:NavigationViewItem.Icon>
+                </mxuc:NavigationViewItem>
 
-                <NavigationViewItem Content="{x:Bind string:Window.Settings}" Tag="{x:Bind TagList[5]}">
+                <mxuc:NavigationViewItem Content="{x:Bind string:Window.Settings}" Tag="{x:Bind TagList[5]}">
 
-                    <NavigationViewItem.Icon>
+                    <mxuc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE713;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-            </NavigationView.MenuItems>
+                    </mxuc:NavigationViewItem.Icon>
+                </mxuc:NavigationViewItem>
+            </mxuc:NavigationView.MenuItems>
 
-            <NavigationView.PaneFooter>
+            <mxuc:NavigationView.PaneFooter>
                 <Grid Margin="{x:Bind NavigationViewPaneHeaderMargin}">
                     <DropDownButton
                         x:Name="AboutButton"
@@ -242,7 +243,7 @@
                         <Button Click="{x:Bind OnSettingsInstructionClicked}" Content="{x:Bind string:Window.SettingsInstruction}" />
                     </StackPanel>
                 </Grid>
-            </NavigationView.PaneFooter>
+            </mxuc:NavigationView.PaneFooter>
 
             <Frame
                 x:Name="MainFrame"
@@ -254,6 +255,6 @@
                     </TransitionCollection>
                 </Frame.ContentTransitions>
             </Frame>
-        </NavigationView>
+        </mxuc:NavigationView>
     </Grid>
 </Page>

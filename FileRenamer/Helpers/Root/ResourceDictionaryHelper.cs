@@ -25,11 +25,11 @@ namespace FileRenamer.Helpers.Root
         {
             XamlControlsResources xamlControlsResources = Application.Current.Resources as XamlControlsResources;
 
-            HyperlinkButtonResourceDict = xamlControlsResources.MergedDictionaries[1];
-            InAppNotificationResourceDict = xamlControlsResources.MergedDictionaries[2];
-            ListViewResourceDict = xamlControlsResources.MergedDictionaries[3];
-            MenuFlyoutResourceDict = xamlControlsResources.MergedDictionaries[4];
-            ScrollBarResourceDict = xamlControlsResources.MergedDictionaries[5];
+            HyperlinkButtonResourceDict = xamlControlsResources.MergedDictionaries[0];
+            InAppNotificationResourceDict = xamlControlsResources.MergedDictionaries[1];
+            ListViewResourceDict = xamlControlsResources.MergedDictionaries[2];
+            MenuFlyoutResourceDict = xamlControlsResources.MergedDictionaries[3];
+            ScrollBarResourceDict = xamlControlsResources.MergedDictionaries[4];
         }
     }
 }

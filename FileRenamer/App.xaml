@@ -7,8 +7,6 @@
         <controls:XamlControlsResources>
             <controls:XamlControlsResources.MergedDictionaries>
                 <!--  资源字典顺序发生变化时，需要修改 ResourceDictionaryHelper 静态类的资源字典顺序  -->
-                <ResourceDictionary Source="ms-appx:///Mile.Xaml.Styles.SunValley.xbf" />
-
                 <ResourceDictionary Source="ms-appx:///Styles/HyperlinkButton.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/InAppNotification.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/ListView.xaml" />
