@@ -1,15 +1,5 @@
 namespace FileRenamerShellExtension
 {
-	enum ExplorerCommandState
-	{
-		Enabled = 0,
-		Disabled = 0x1,
-		Hidden = 0x2,
-		Checkbox = 0x4,
-		Checked = 0x8,
-		RadioChecked = 0x10
-	};
-
 	unsealed runtimeclass BaseExplorerCommand
 	{
 		BaseExplorerCommand();

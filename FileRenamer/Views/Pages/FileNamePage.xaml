@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:FileRenamer.Models"
-    xmlns:mxuc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:FileRenamer.Strings"
     AllowDrop="True"
     NavigationCacheMode="Enabled"
@@ -82,9 +82,9 @@
                         VerticalAlignment="Center"
                         Text="{x:Bind string:FileName.NumberFormat}" />
 
-                    <DropDownButton Grid.Column="1" Content="{x:Bind SelectedNumberFormat.DisplayMember, Mode=OneWay}">
+                    <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedNumberFormat.DisplayMember, Mode=OneWay}">
 
-                        <DropDownButton.Flyout>
+                        <muxc:DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
                                 <ToggleMenuFlyoutItem
                                     Click="{x:Bind OnNumberFormatClicked}"
@@ -142,8 +142,8 @@
                                     Tag="7"
                                     Text="{x:Bind NumberFormatList[7].DisplayMember}" />
                             </MenuFlyout>
-                        </DropDownButton.Flyout>
-                    </DropDownButton>
+                        </muxc:DropDownButton.Flyout>
+                    </muxc:DropDownButton>
 
                     <CheckBox
                         Grid.Column="2"
@@ -620,7 +620,7 @@
                 Style="{StaticResource ErrorHyperlinkButtonStyle}"
                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedList.Count), Mode=OneWay}" />
 
-            <mxuc:ProgressRing
+            <muxc:ProgressRing
                 Grid.Column="5"
                 Width="25"
                 Height="25"

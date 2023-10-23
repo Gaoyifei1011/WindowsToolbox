@@ -5,6 +5,7 @@
     xmlns:converter="using:FileRenamer.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:FileRenamer.Strings"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
@@ -75,12 +76,12 @@
                     Click="{x:Bind OnSystemThemeSettingsClicked}"
                     Content="{x:Bind string:Settings.SystemThemeSettings}" />
 
-                <DropDownButton
+                <muxc:DropDownButton
                     Grid.Column="3"
                     VerticalAlignment="Center"
                     Content="{x:Bind Theme.DisplayMember, Mode=OneWay}">
 
-                    <DropDownButton.Flyout>
+                    <muxc:DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <ToggleMenuFlyoutItem
                                 Click="{x:Bind OnThemeSelectClicked}"
@@ -103,8 +104,8 @@
                                 Tag="2"
                                 Text="{x:Bind ThemeList[2].DisplayMember}" />
                         </MenuFlyout>
-                    </DropDownButton.Flyout>
-                </DropDownButton>
+                    </muxc:DropDownButton.Flyout>
+                </muxc:DropDownButton>
             </Grid>
 
             <!--  窗口背景材质设置  -->
@@ -158,12 +159,12 @@
                     Click="{x:Bind OnSystemBackdropSettingsClicked}"
                     Content="{x:Bind string:Settings.SystemBackdropSettings}" />
 
-                <DropDownButton
+                <muxc:DropDownButton
                     Grid.Column="3"
                     VerticalAlignment="Center"
                     Content="{x:Bind Backdrop.DisplayMember, Mode=OneWay}">
 
-                    <DropDownButton.Flyout>
+                    <muxc:DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <ToggleMenuFlyoutItem
                                 Click="{x:Bind OnBackdropSelectClicked}"
@@ -193,8 +194,8 @@
                                 Tag="3"
                                 Text="{x:Bind BackdropList[3].DisplayMember}" />
                         </MenuFlyout>
-                    </DropDownButton.Flyout>
-                </DropDownButton>
+                    </muxc:DropDownButton.Flyout>
+                </muxc:DropDownButton>
             </Grid>
 
             <!--  始终显示背景色设置  -->
@@ -304,12 +305,12 @@
                     Click="{x:Bind OnSystemLanguageSettingsClicked}"
                     Content="{x:Bind string:Settings.SystemLanguageSettings}" />
 
-                <DropDownButton
+                <muxc:DropDownButton
                     Grid.Column="3"
                     VerticalAlignment="Center"
                     Content="{x:Bind AppLanguage.DisplayMember, Mode=OneWay}">
 
-                    <DropDownButton.Flyout>
+                    <muxc:DropDownButton.Flyout>
                         <MenuFlyout x:Name="LanguageFlyout" Placement="Bottom">
                             <MenuFlyout.MenuFlyoutPresenterStyle>
                                 <Style BasedOn="{StaticResource DefaultMenuFlyoutPresenterStyle}" TargetType="MenuFlyoutPresenter">
@@ -317,8 +318,8 @@
                                 </Style>
                             </MenuFlyout.MenuFlyoutPresenterStyle>
                         </MenuFlyout>
-                    </DropDownButton.Flyout>
-                </DropDownButton>
+                    </muxc:DropDownButton.Flyout>
+                </muxc:DropDownButton>
             </Grid>
 
             <Grid

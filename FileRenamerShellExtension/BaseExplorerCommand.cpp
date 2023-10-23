@@ -78,8 +78,7 @@ namespace winrt::FileRenamerShellExtension::implementation
 
 	IFACEMETHODIMP BaseExplorerCommand::GetState(_In_opt_ IShellItemArray* selection, _In_ BOOL okToBeSlow, _Out_ EXPCMDSTATE* cmdState)
 	{
-		ExplorerCommandState state = ExplorerCommandState::Disabled;
-		*cmdState = static_cast<EXPCMDSTATE>(state);
+		*cmdState = ECS_DISABLED;
 		return S_OK;
 	}
 
@@ -136,13 +135,11 @@ namespace winrt::FileRenamerShellExtension::implementation
 	{
 		if (isAllowShowShellMenu)
 		{
-			ExplorerCommandState state = ExplorerCommandState::Enabled;
-			*cmdState = static_cast<EXPCMDSTATE>(state);
+			*cmdState = ECS_ENABLED;
 		}
 		else
 		{
-			ExplorerCommandState state = ExplorerCommandState::Hidden;
-			*cmdState = static_cast<EXPCMDSTATE>(state);
+			*cmdState = ECS_HIDDEN;
 		}
 
 		return S_OK;
@@ -184,8 +181,7 @@ namespace winrt::FileRenamerShellExtension::implementation
 
 	IFACEMETHODIMP FileNameCommand::GetState(_In_opt_ IShellItemArray* selection, _In_ BOOL okToBeSlow, _Out_ EXPCMDSTATE* cmdState)
 	{
-		ExplorerCommandState state = ExplorerCommandState::Enabled;
-		*cmdState = static_cast<EXPCMDSTATE>(state);
+		*cmdState = ECS_ENABLED;
 		return S_OK;
 	}
 
@@ -224,8 +220,7 @@ namespace winrt::FileRenamerShellExtension::implementation
 
 	IFACEMETHODIMP ExtensionNameCommand::GetState(_In_opt_ IShellItemArray* selection, _In_ BOOL okToBeSlow, _Out_ EXPCMDSTATE* cmdState)
 	{
-		ExplorerCommandState state = ExplorerCommandState::Enabled;
-		*cmdState = static_cast<EXPCMDSTATE>(state);
+		*cmdState = ECS_ENABLED;
 		return S_OK;
 	}
 
@@ -264,8 +259,7 @@ namespace winrt::FileRenamerShellExtension::implementation
 
 	IFACEMETHODIMP UpperAndLowerCaseCommand::GetState(_In_opt_ IShellItemArray* selection, _In_ BOOL okToBeSlow, _Out_ EXPCMDSTATE* cmdState)
 	{
-		ExplorerCommandState state = ExplorerCommandState::Enabled;
-		*cmdState = static_cast<EXPCMDSTATE>(state);
+		*cmdState = ECS_ENABLED;
 		return S_OK;
 	}
 
@@ -304,8 +298,7 @@ namespace winrt::FileRenamerShellExtension::implementation
 
 	IFACEMETHODIMP FilePropertiesCommand::GetState(_In_opt_ IShellItemArray* selection, _In_ BOOL okToBeSlow, _Out_ EXPCMDSTATE* cmdState)
 	{
-		ExplorerCommandState state = ExplorerCommandState::Enabled;
-		*cmdState = static_cast<EXPCMDSTATE>(state);
+		*cmdState = ECS_ENABLED;
 		return S_OK;
 	}
 

@@ -132,9 +132,6 @@
   <data name="BackdropDescription" xml:space="preserve">
     <value>Windows 10 (earlier than 22000) does not support mica backdrop</value>
   </data>
-  <data name="BriefIntroduction" xml:space="preserve">
-    <value>App brief introduction</value>
-  </data>
   <data name="CheckUpdate" xml:space="preserve">
     <value>Check Update</value>
   </data>
@@ -152,9 +149,6 @@
   </data>
   <data name="LanguageDescription" xml:space="preserve">
     <value>The name of the Start menu app doesn't change with the app language setting. Find the app in settings and click the Repair button and the app name changes without clearing your app's data.</value>
-  </data>
-  <data name="Precaution" xml:space="preserve">
-    <value>Precautions</value>
   </data>
   <data name="ProjectHomePage" xml:space="preserve">
     <value>Project home page</value>
@@ -194,8 +188,5 @@
   </data>
   <data name="UpdateAndLicensing" xml:space="preserve">
     <value>Update and licensing</value>
-  </data>
-  <data name="UseInstruction" xml:space="preserve">
-    <value>Direction for use</value>
   </data>
 </root>

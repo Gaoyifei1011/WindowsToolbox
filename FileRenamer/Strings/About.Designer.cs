@@ -106,15 +106,6 @@ namespace FileRenamer.Strings {
         }
         
         /// <summary>
-        ///   查找类似 App brief introduction 的本地化字符串。
-        /// </summary>
-        public static string BriefIntroduction {
-            get {
-                return ResourceManager.GetString("BriefIntroduction", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Check Update 的本地化字符串。
         /// </summary>
         public static string CheckUpdate {
@@ -165,15 +156,6 @@ namespace FileRenamer.Strings {
         public static string LanguageDescription {
             get {
                 return ResourceManager.GetString("LanguageDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Precautions 的本地化字符串。
-        /// </summary>
-        public static string Precaution {
-            get {
-                return ResourceManager.GetString("Precaution", resourceCulture);
             }
         }
         
@@ -291,15 +273,6 @@ namespace FileRenamer.Strings {
         public static string UpdateAndLicensing {
             get {
                 return ResourceManager.GetString("UpdateAndLicensing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Direction for use 的本地化字符串。
-        /// </summary>
-        public static string UseInstruction {
-            get {
-                return ResourceManager.GetString("UseInstruction", resourceCulture);
             }
         }
     }
