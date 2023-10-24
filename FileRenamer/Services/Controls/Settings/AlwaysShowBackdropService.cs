@@ -1,7 +1,7 @@
 ﻿using FileRenamer.Extensions.DataType.Constant;
 using FileRenamer.Services.Root;
 
-namespace GetStoreApp.Services.Controls.Settings
+namespace FileRenamer.Services.Controls.Settings
 {
     /// <summary>
     /// 始终显示背景色设置服务

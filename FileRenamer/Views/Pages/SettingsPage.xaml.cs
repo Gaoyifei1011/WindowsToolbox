@@ -2,7 +2,6 @@
 using FileRenamer.Models;
 using FileRenamer.Services.Controls.Settings;
 using FileRenamer.UI.Notifications;
-using GetStoreApp.Services.Controls.Settings;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -4,7 +4,6 @@ using FileRenamer.Services.Root;
 using FileRenamer.Strings;
 using FileRenamer.Views.Forms;
 using FileRenamer.WindowsAPI.PInvoke.User32;
-using GetStoreApp.Services.Controls.Settings;
 using System;
 using System.Diagnostics;
 using System.Globalization;

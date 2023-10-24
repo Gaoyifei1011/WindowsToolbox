@@ -8,7 +8,6 @@ using FileRenamer.UI.Dialogs;
 using FileRenamer.Views.Pages;
 using FileRenamer.WindowsAPI.PInvoke.DwmApi;
 using FileRenamer.WindowsAPI.PInvoke.User32;
-using GetStoreApp.Services.Controls.Settings;
 using Microsoft.UI.Windowing;
 using Mile.Xaml;
 using Mile.Xaml.Interop;
@@ -156,7 +155,6 @@ namespace FileRenamer.Views.Forms
             TopMostService.SetAppTopMost();
             Margins FormMargin = new Margins();
             DwmApiLibrary.DwmExtendFrameIntoClientArea(Handle, ref FormMargin);
-            SetAppTheme();
             Invalidate();
         }
 
