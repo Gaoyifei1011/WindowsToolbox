@@ -97,7 +97,7 @@ namespace FileRenamer.UI.Dialogs.About
         /// <summary>
         /// 初始化应用信息
         /// </summary>
-        public void OnLoaded(object sender, RoutedEventArgs args)
+        private void OnLoaded(object sender, RoutedEventArgs args)
         {
             Task.Run(() =>
             {
@@ -158,7 +158,7 @@ namespace FileRenamer.UI.Dialogs.About
         /// <summary>
         /// 复制应用信息
         /// </summary>
-        public void OnCopyAppInformationClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void OnCopyAppInformationClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             args.Cancel = true;
 
@@ -173,6 +173,9 @@ namespace FileRenamer.UI.Dialogs.About
             new DataCopyNotification(this, DataCopyKind.AppInformation).Show();
         }
 
+        /// <summary>
+        /// 属性值发生变化时通知更改
+        /// </summary>
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

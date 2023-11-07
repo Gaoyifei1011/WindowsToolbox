@@ -1,7 +1,7 @@
 ﻿using FileRenamer.Extensions.DataType.Constant;
-using FileRenamer.Models;
 using FileRenamer.Services.Root;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace FileRenamer.Services.Controls.Settings
@@ -11,13 +11,13 @@ namespace FileRenamer.Services.Controls.Settings
     /// </summary>
     public static class BackdropService
     {
-        private static string SettingsKey { get; } = ConfigKey.BackdropKey;
+        private static string SettingsKey = ConfigKey.BackdropKey;
 
-        private static GroupOptionsModel DefaultAppBackdrop { get; set; }
+        private static DictionaryEntry DefaultAppBackdrop;
 
-        public static GroupOptionsModel AppBackdrop { get; set; }
+        public static DictionaryEntry AppBackdrop { get; private set; }
 
-        public static List<GroupOptionsModel> BackdropList { get; set; }
+        public static List<DictionaryEntry> BackdropList { get; private set; }
 
         /// <summary>
         /// 应用在初始化前获取设置存储的背景色值
@@ -26,7 +26,7 @@ namespace FileRenamer.Services.Controls.Settings
         {
             BackdropList = ResourceService.BackdropList;
 
-            DefaultAppBackdrop = BackdropList.Find(item => item.SelectedValue.Equals("Default", StringComparison.OrdinalIgnoreCase));
+            DefaultAppBackdrop = BackdropList.Find(item => item.Value.ToString().Equals("Default", StringComparison.OrdinalIgnoreCase));
 
             AppBackdrop = GetBackdrop();
         }
@@ -34,27 +34,29 @@ namespace FileRenamer.Services.Controls.Settings
         /// <summary>
         /// 获取设置存储的背景色值，如果设置没有存储，使用默认值
         /// </summary>
-        private static GroupOptionsModel GetBackdrop()
+        private static DictionaryEntry GetBackdrop()
         {
-            string backdrop = ConfigService.ReadSetting<string>(SettingsKey);
+            object backdrop = LocalSettingsService.ReadSetting<object>(SettingsKey);
 
-            if (string.IsNullOrEmpty(backdrop))
+            if (backdrop is null)
             {
                 SetBackdrop(DefaultAppBackdrop);
-                return BackdropList.Find(item => item.SelectedValue.Equals(DefaultAppBackdrop.SelectedValue, StringComparison.OrdinalIgnoreCase));
+                return DefaultAppBackdrop;
             }
 
-            return BackdropList.Find(item => item.SelectedValue.Equals(backdrop, StringComparison.OrdinalIgnoreCase));
+            DictionaryEntry selectedBackdrop = BackdropList.Find(item => item.Value.Equals(backdrop));
+
+            return selectedBackdrop.Key is null ? DefaultAppBackdrop : selectedBackdrop;
         }
 
         /// <summary>
         /// 应用背景色发生修改时修改设置存储的背景色值
         /// </summary>
-        public static void SetBackdrop(GroupOptionsModel backdrop)
+        public static void SetBackdrop(DictionaryEntry backdrop)
         {
             AppBackdrop = backdrop;
 
-            ConfigService.SaveSetting(SettingsKey, backdrop.SelectedValue);
+            LocalSettingsService.SaveSetting(SettingsKey, backdrop.Value);
         }
 
         /// <summary>

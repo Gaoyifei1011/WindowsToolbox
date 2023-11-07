@@ -9,11 +9,11 @@ namespace FileRenamer.Services.Controls.Settings
     /// </summary>
     public static class TopMostService
     {
-        private static string SettingsKey { get; } = ConfigKey.TopMostKey;
+        private static string SettingsKey = ConfigKey.TopMostKey;
 
-        private static bool DefaultTopMostValue { get; } = false;
+        private static bool DefaultTopMostValue = false;
 
-        public static bool TopMostValue { get; set; }
+        public static bool TopMostValue { get; private set; }
 
         /// <summary>
         /// 应用在初始化前获取设置存储的窗口置顶值
@@ -28,7 +28,7 @@ namespace FileRenamer.Services.Controls.Settings
         /// </summary>
         private static bool GetTopMostValue()
         {
-            bool? topMostValue = ConfigService.ReadSetting<bool?>(SettingsKey);
+            bool? topMostValue = LocalSettingsService.ReadSetting<bool?>(SettingsKey);
 
             if (!topMostValue.HasValue)
             {
@@ -46,7 +46,7 @@ namespace FileRenamer.Services.Controls.Settings
         {
             TopMostValue = topMostValue;
 
-            ConfigService.SaveSetting(SettingsKey, topMostValue);
+            LocalSettingsService.SaveSetting(SettingsKey, topMostValue);
         }
 
         /// <summary>

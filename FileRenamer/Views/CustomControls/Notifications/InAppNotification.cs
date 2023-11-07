@@ -12,13 +12,11 @@ namespace FileRenamer.Views.CustomControls.Notifications
     /// </summary>
     public class InAppNotification : ContentControl
     {
-        private Popup popup = new Popup();
-
         private Grid gridRoot;
-
         private Storyboard popupIn;
-
         private Storyboard popupOut;
+
+        private Popup popup = new Popup();
 
         public int Duration
         {

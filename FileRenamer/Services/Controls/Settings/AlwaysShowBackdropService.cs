@@ -8,11 +8,11 @@ namespace FileRenamer.Services.Controls.Settings
     /// </summary>
     public static class AlwaysShowBackdropService
     {
-        private static string SettingsKey { get; } = ConfigKey.AlwaysShowBackdropKey;
+        private static string SettingsKey = ConfigKey.AlwaysShowBackdropKey;
 
         private static bool DefaultAlwaysShowBackdropValue = false;
 
-        public static bool AlwaysShowBackdropValue { get; set; }
+        public static bool AlwaysShowBackdropValue { get; private set; }
 
         /// <summary>
         /// 应用在初始化前获取设置存储的始终显示背景色值
@@ -27,7 +27,7 @@ namespace FileRenamer.Services.Controls.Settings
         /// </summary>
         private static bool GetAlwaysShowBackdropValue()
         {
-            bool? alwaysShowBackdropValue = ConfigService.ReadSetting<bool?>(SettingsKey);
+            bool? alwaysShowBackdropValue = LocalSettingsService.ReadSetting<bool?>(SettingsKey);
 
             if (!alwaysShowBackdropValue.HasValue)
             {
@@ -45,7 +45,7 @@ namespace FileRenamer.Services.Controls.Settings
         {
             AlwaysShowBackdropValue = alwaysShowBackdropValue;
 
-            ConfigService.SaveSetting(SettingsKey, alwaysShowBackdropValue);
+            LocalSettingsService.SaveSetting(SettingsKey, alwaysShowBackdropValue);
         }
     }
 }

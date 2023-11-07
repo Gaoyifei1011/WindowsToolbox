@@ -8,11 +8,11 @@ namespace FileRenamer.Services.Controls.Settings
     /// </summary>
     public static class FileShellMenuService
     {
-        private static string SettingsKey { get; } = ConfigKey.FileShellMenuKey;
+        private static string SettingsKey = ConfigKey.FileShellMenuKey;
 
         private static bool DefaultFileShellMenuValue = true;
 
-        public static bool FileShellMenuValue { get; set; }
+        public static bool FileShellMenuValue { get; private set; }
 
         /// <summary>
         /// 应用在初始化前获取设置存储的文件右键菜单显示值
@@ -27,7 +27,7 @@ namespace FileRenamer.Services.Controls.Settings
         /// </summary>
         private static bool GetFileShellMenuValue()
         {
-            bool? fileShellMenuValue = ConfigService.ReadSetting<bool?>(SettingsKey);
+            bool? fileShellMenuValue = LocalSettingsService.ReadSetting<bool?>(SettingsKey);
 
             if (!fileShellMenuValue.HasValue)
             {
@@ -45,7 +45,7 @@ namespace FileRenamer.Services.Controls.Settings
         {
             FileShellMenuValue = fileShellMenuValue;
 
-            ConfigService.SaveSetting(SettingsKey, fileShellMenuValue);
+            LocalSettingsService.SaveSetting(SettingsKey, fileShellMenuValue);
         }
     }
 }

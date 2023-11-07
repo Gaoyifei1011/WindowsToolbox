@@ -1,8 +1,8 @@
 ﻿using FileRenamer.Helpers.Root;
-using FileRenamer.Models;
 using FileRenamer.Services.Controls.Settings;
 using FileRenamer.UI.Notifications;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -18,11 +18,11 @@ namespace FileRenamer.Views.Pages
     /// </summary>
     public sealed partial class SettingsPage : Page, INotifyPropertyChanged
     {
-        public bool CanUseBackdrop { get; set; }
+        private bool CanUseBackdrop = InfoHelper.SystemVersion.Build >= 22621;
 
-        private GroupOptionsModel _theme = ThemeService.AppTheme;
+        private DictionaryEntry _theme = ThemeService.AppTheme;
 
-        public GroupOptionsModel Theme
+        public DictionaryEntry Theme
         {
             get { return _theme; }
 
@@ -33,9 +33,9 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        private GroupOptionsModel _backdrop = BackdropService.AppBackdrop;
+        private DictionaryEntry _backdrop = BackdropService.AppBackdrop;
 
-        public GroupOptionsModel Backdrop
+        public DictionaryEntry Backdrop
         {
             get { return _backdrop; }
 
@@ -59,9 +59,9 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        private GroupOptionsModel _appLanguage = LanguageService.AppLanguage;
+        private DictionaryEntry _appLanguage = LanguageService.AppLanguage;
 
-        public GroupOptionsModel AppLanguage
+        public DictionaryEntry AppLanguage
         {
             get { return _appLanguage; }
 
@@ -98,31 +98,29 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        public List<GroupOptionsModel> ThemeList { get; } = ThemeService.ThemeList;
+        private List<DictionaryEntry> ThemeList { get; } = ThemeService.ThemeList;
 
-        public List<GroupOptionsModel> BackdropList { get; } = BackdropService.BackdropList;
+        private List<DictionaryEntry> BackdropList { get; } = BackdropService.BackdropList;
 
-        public List<GroupOptionsModel> LanguageList { get; } = LanguageService.LanguageList;
+        private List<DictionaryEntry> LanguageList { get; } = LanguageService.LanguageList;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public SettingsPage()
         {
             InitializeComponent();
-            int BuildNumber = InfoHelper.SystemVersion.Build;
-            CanUseBackdrop = BuildNumber >= 22621;
 
             for (int index = 0; index < LanguageList.Count; index++)
             {
-                GroupOptionsModel languageItem = LanguageList[index];
+                DictionaryEntry languageItem = LanguageList[index];
                 ToggleMenuFlyoutItem toggleMenuFlyoutItem = new ToggleMenuFlyoutItem()
                 {
-                    Text = languageItem.DisplayMember,
+                    Text = languageItem.Key.ToString(),
                     Style = ResourceDictionaryHelper.MenuFlyoutResourceDict["ToggleMenuFlyoutItemStyle"] as Style,
                     Tag = index
                 };
 
-                if (AppLanguage.SelectedValue == LanguageList[index].SelectedValue)
+                if (AppLanguage.Value.Equals(LanguageList[index].Value))
                 {
                     toggleMenuFlyoutItem.IsChecked = true;
                 }
@@ -141,7 +139,7 @@ namespace FileRenamer.Views.Pages
                     int selectedIndex = Convert.ToInt32((sender as ToggleMenuFlyoutItem).Tag);
                     (LanguageFlyout.Items[selectedIndex] as ToggleMenuFlyoutItem).IsChecked = true;
 
-                    if (AppLanguage.SelectedValue != LanguageList[selectedIndex].SelectedValue)
+                    if (AppLanguage.Value.ToString() != LanguageList[selectedIndex].Value.ToString())
                     {
                         AppLanguage = LanguageList[selectedIndex];
                         LanguageService.SetLanguage(AppLanguage);
@@ -155,7 +153,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 背景色修改设置
         /// </summary>
-        public void OnBackdropSelectClicked(object sender, RoutedEventArgs args)
+        private void OnBackdropSelectClicked(object sender, RoutedEventArgs args)
         {
             ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
@@ -169,7 +167,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 打开系统主题设置
         /// </summary>
-        public void OnSystemThemeSettingsClicked(object sender, RoutedEventArgs args)
+        private void OnSystemThemeSettingsClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "ms-settings:colors");
         }
@@ -177,12 +175,12 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 打开系统主题色设置
         /// </summary>
-        public void OnSystemBackdropSettingsClicked(object sender, RoutedEventArgs args)
+        private void OnSystemBackdropSettingsClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "ms-settings:easeofaccess-visualeffects");
         }
 
-        public void OnSystemLanguageSettingsClicked(object sender, RoutedEventArgs args)
+        private void OnSystemLanguageSettingsClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "ms-settings:regionlanguage-languageoptions");
         }
@@ -190,7 +188,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 主题修改设置
         /// </summary>
-        public void OnThemeSelectClicked(object sender, RoutedEventArgs args)
+        private void OnThemeSelectClicked(object sender, RoutedEventArgs args)
         {
             ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
@@ -204,7 +202,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 重新启动资源管理器
         /// </summary>
-        public void OnRestartExplorerClicked(object sender, RoutedEventArgs args)
+        private void OnRestartExplorerClicked(object sender, RoutedEventArgs args)
         {
             Task.Run(() =>
             {
@@ -221,7 +219,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 是否开启始终显示背景色
         /// </summary>
-        public void OnAlwaysShowBackdropToggled(object sender, RoutedEventArgs args)
+        private void OnAlwaysShowBackdropToggled(object sender, RoutedEventArgs args)
         {
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
@@ -234,7 +232,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 是否开启显示文件右键菜单
         /// </summary>
-        public void OnFileShellMenuToggled(object sender, RoutedEventArgs args)
+        private void OnFileShellMenuToggled(object sender, RoutedEventArgs args)
         {
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
@@ -247,7 +245,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 是否开启应用窗口置顶
         /// </summary>
-        public void OnTopMostToggled(object sender, RoutedEventArgs args)
+        private void OnTopMostToggled(object sender, RoutedEventArgs args)
         {
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
@@ -261,7 +259,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 当应用未启用背景色设置时，自动关闭始终显示背景色设置
         /// </summary>
-        public void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs args)
+        private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs args)
         {
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
@@ -271,6 +269,9 @@ namespace FileRenamer.Views.Pages
             }
         }
 
+        /// <summary>
+        /// 属性值发生变化时通知更改
+        /// </summary>
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

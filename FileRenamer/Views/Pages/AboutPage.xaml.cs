@@ -1,9 +1,8 @@
 ﻿using FileRenamer.Helpers.Controls;
 using FileRenamer.Helpers.Root;
-using FileRenamer.Models;
 using FileRenamer.Strings;
 using FileRenamer.UI.Dialogs.About;
-using System.Collections.Generic;
+using System.Collections;
 using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,29 +14,22 @@ namespace FileRenamer.Views.Pages
     /// </summary>
     public sealed partial class AboutPage : Page
     {
-        private readonly int MajorVersion = InfoHelper.AppVersion.Major;
-
-        private readonly int MinorVersion = InfoHelper.AppVersion.Minor;
-
-        private readonly int BuildVersion = InfoHelper.AppVersion.Build;
-
-        private readonly int RevisionVersion = InfoHelper.AppVersion.Revision;
-
-        public string AppVersion => string.Format(About.AppVersion, MajorVersion, MinorVersion, BuildVersion, RevisionVersion);
+        private string AppVersion = string.Format(About.AppVersion, InfoHelper.AppVersion.ToString());
 
         //项目引用信息
-        public List<KeyValuePairModel> ReferenceDict = new List<KeyValuePairModel>()
+        private Hashtable ReferenceDict = new Hashtable()
         {
-            new KeyValuePairModel() { Key = "Mile.Xaml" , Value = "https://github.com/ProjectMile/Mile.Xaml" },
-            new KeyValuePairModel() { Key = "Microsoft.UI.Xaml" , Value = "https://github.com/microsoft/microsoft-ui-xaml" },
-            new KeyValuePairModel() { Key = "Microsoft.WindowsAppSDK" , Value = "https://github.com/microsoft/windowsappsdk" },
-            new KeyValuePairModel() { Key = "Microsoft.Windows.CppWinRT" , Value = "https://github.com/Microsoft/cppwinrt" },
+            { "Mile.Xaml","https://github.com/ProjectMile/Mile.Xaml" },
+            { "Microsoft.UI.Xaml","https://github.com/microsoft/microsoft-ui-xaml" },
+            { "Microsoft.WindowsAppSDK","https://github.com/microsoft/windowsappsdk" },
+            { "Microsoft.Windows.CppWinRT","https://github.com/Microsoft/cppwinrt" },
         };
 
-        public List<KeyValuePairModel> ThanksDict = new List<KeyValuePairModel>()
+        //项目感谢者信息
+        private Hashtable ThanksDict = new Hashtable()
         {
-            new KeyValuePairModel() { Key ="AndromedaMelody", Value="https://github.com/AndromedaMelody"},
-            new KeyValuePairModel() { Key = "MouriNaruto" , Value = "https://github.com/MouriNaruto" }
+            { "AndromedaMelody","https://github.com/AndromedaMelody" },
+            { "MouriNaruto" , "https://github.com/MouriNaruto" }
         };
 
         public AboutPage()
@@ -48,7 +40,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 应用信息
         /// </summary>
-        public async void OnAppInformationClicked(object sender, RoutedEventArgs args)
+        private async void OnAppInformationClicked(object sender, RoutedEventArgs args)
         {
             await ContentDialogHelper.ShowAsync(new AppInformationDialog(), this);
         }
@@ -56,7 +48,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 检查更新
         /// </summary>
-        public void OnCheckUpdateClicked(object sender, RoutedEventArgs args)
+        private void OnCheckUpdateClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "https://github.com/Gaoyifei1011/FileRenamer/releases");
         }
@@ -64,7 +56,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 项目主页
         /// </summary>
-        public void OnProjectDescriptionClicked(object sender, RoutedEventArgs args)
+        private void OnProjectDescriptionClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "https://github.com/Gaoyifei1011/FileRenamer");
         }
@@ -72,7 +64,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 发送反馈
         /// </summary>
-        public void OnSendFeedbackClicked(object sender, RoutedEventArgs args)
+        private void OnSendFeedbackClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "https://github.com/Gaoyifei1011/FileRenamer/issues");
         }
@@ -80,7 +72,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 系统信息
         /// </summary>
-        public void OnSystemInformationClicked(object sender, RoutedEventArgs args)
+        private void OnSystemInformationClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "ms-settings:about");
         }

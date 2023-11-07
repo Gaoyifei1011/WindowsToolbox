@@ -30,10 +30,6 @@ namespace FileRenamer.Views.Pages
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
-        private Thickness NavigationViewMargin { get; set; } = new Thickness(0, 0, 0, 0);
-
-        private Thickness NavigationViewPaneHeaderMargin { get; set; } = new Thickness(0, 0, 8, 0);
-
         private ElementTheme _windowTheme;
 
         public ElementTheme WindowTheme
@@ -86,24 +82,14 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        private Dictionary<string, Type> PageDict { get; } = new Dictionary<string, Type>()
+        private List<KeyValuePair<string, Type>> PageList = new List<KeyValuePair<string, Type>>()
         {
-            {"FileName",typeof(FileNamePage) },
-            {"ExtensionName",typeof(ExtensionNamePage) },
-            {"UpperAndLowerCase",typeof(UpperAndLowerCasePage) },
-            {"FileProperties",typeof(FilePropertiesPage) },
-            {"About",typeof(AboutPage) },
-            {"Settings",typeof(SettingsPage) }
-        };
-
-        public List<string> TagList { get; } = new List<string>()
-        {
-            "FileName",
-            "ExtensionName",
-            "UpperAndLowerCase",
-            "FileProperties",
-            "About",
-            "Settings"
+            new KeyValuePair<string, Type>("FileName",typeof(FileNamePage)),
+            new KeyValuePair<string, Type>("ExtensionName", typeof(ExtensionNamePage)),
+            new KeyValuePair<string, Type>("UpperAndLowerCase", typeof(UpperAndLowerCasePage)),
+            new KeyValuePair<string, Type>("FileProperties", typeof(FilePropertiesPage)),
+            new KeyValuePair<string, Type>("About", typeof(AboutPage)),
+            new KeyValuePair<string, Type>("Settings",typeof(SettingsPage) ),
         };
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -112,26 +98,12 @@ namespace FileRenamer.Views.Pages
         {
             InitializeComponent();
             NavigationService.NavigationFrame = MainFrame;
-
-            if (RuntimeHelper.IsMSIX)
-            {
-                NavigationViewMargin = new Thickness(0, 45, 0, 0);
-                NavigationViewPaneHeaderMargin = new Thickness(0, 0, 26, 0);
-            }
-        }
-
-        /// <summary>
-        /// 检查当前页面是否为目标页面
-        /// </summary>
-        public bool IsCurrentPage(object selectedItem, string pageName)
-        {
-            return selectedItem.ToString() == pageName;
         }
 
         /// <summary>
         /// 窗口关闭
         /// </summary>
-        public void OnCloseClicked(object sender, RoutedEventArgs args)
+        private void OnCloseClicked(object sender, RoutedEventArgs args)
         {
             Program.ApplicationRoot.Dispose();
         }
@@ -139,7 +111,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 导航完成后发生
         /// </summary>
-        public void OnFrameNavigated(object sender, NavigationEventArgs args)
+        private void OnFrameNavigated(object sender, NavigationEventArgs args)
         {
             Type CurrentPageType = NavigationService.GetCurrentPageType();
             SelectedItem = NavigationService.NavigationItemList.Find(item => item.NavigationPage == CurrentPageType).NavigationItem;
@@ -149,7 +121,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 导航失败时发生
         /// </summary>
-        public void OnFrameNavgationFailed(object sender, NavigationFailedEventArgs args)
+        private void OnFrameNavgationFailed(object sender, NavigationFailedEventArgs args)
         {
             throw new ApplicationException(string.Format(Strings.Window.NavigationFailed, args.SourcePageType.FullName));
         }
@@ -157,7 +129,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 窗口最大化
         /// </summary>
-        public void OnMaximizeClicked(object sender, RoutedEventArgs args)
+        private void OnMaximizeClicked(object sender, RoutedEventArgs args)
         {
             Program.MainWindow.WindowState = FormWindowState.Maximized;
         }
@@ -165,7 +137,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 窗口最小化
         /// </summary>
-        public void OnMinimizeClicked(object sender, RoutedEventArgs args)
+        private void OnMinimizeClicked(object sender, RoutedEventArgs args)
         {
             Program.MainWindow.WindowState = FormWindowState.Minimized;
         }
@@ -173,7 +145,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 窗口移动
         /// </summary>
-        public async void OnMoveClicked(object sender, RoutedEventArgs args)
+        private async void OnMoveClicked(object sender, RoutedEventArgs args)
         {
             MenuFlyoutItem menuItem = sender as MenuFlyoutItem;
             if (menuItem.Tag is not null)
@@ -187,7 +159,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 窗口还原
         /// </summary>
-        public void OnRestoreClicked(object sender, RoutedEventArgs args)
+        private void OnRestoreClicked(object sender, RoutedEventArgs args)
         {
             Program.MainWindow.WindowState = FormWindowState.Normal;
         }
@@ -195,7 +167,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 窗口大小
         /// </summary>
-        public void OnSizeClicked(object sender, RoutedEventArgs args)
+        private void OnSizeClicked(object sender, RoutedEventArgs args)
         {
             MenuFlyoutItem menuItem = sender as MenuFlyoutItem;
             if (menuItem.Tag is not null)
@@ -208,7 +180,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 当后退按钮收到交互（如单击或点击）时发生
         /// </summary>
-        public void OnBackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
+        private void OnBackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
         {
             NavigationService.NavigationFrom();
         }
@@ -216,12 +188,13 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 当菜单中的项收到交互（如单击或点击）时发生
         /// </summary>
-        public void OnItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+        private void OnItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItemBase navigationViewItem = args.InvokedItemContainer;
             if (navigationViewItem.Tag is not null)
             {
-                NavigationModel navigationItem = NavigationService.NavigationItemList.Find(item => item.NavigationTag == Convert.ToString(navigationViewItem.Tag));
+                NavigationModel navigationItem = NavigationService.NavigationItemList.Find(item => item.NavigationTag == PageList[Convert.ToInt32(navigationViewItem.Tag)].Key);
+
                 if (SelectedItem != navigationItem.NavigationItem)
                 {
                     NavigationService.NavigateTo(navigationItem.NavigationPage);
@@ -232,7 +205,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 导航控件加载完成后初始化内容，初始化导航控件属性和应用的背景色
         /// </summary>
-        public void OnNavigationViewLoaded(object sender, RoutedEventArgs args)
+        private void OnNavigationViewLoaded(object sender, RoutedEventArgs args)
         {
             PropertyChanged += OnPropertyChanged;
 
@@ -244,13 +217,13 @@ namespace FileRenamer.Views.Pages
                     Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem = item as Microsoft.UI.Xaml.Controls.NavigationViewItem;
                     if (navigationViewItem is not null)
                     {
-                        string Tag = Convert.ToString(navigationViewItem.Tag);
+                        int TagIndex = Convert.ToInt32(navigationViewItem.Tag);
 
                         NavigationService.NavigationItemList.Add(new NavigationModel()
                         {
-                            NavigationTag = Tag,
+                            NavigationTag = PageList[TagIndex].Key,
                             NavigationItem = navigationViewItem,
-                            NavigationPage = PageDict[Tag],
+                            NavigationPage = PageList[TagIndex].Value,
                         });
                     }
                 }
@@ -438,26 +411,15 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 窗口被卸载时，注销所有事件
         /// </summary>
-        public void OnNavigationViewUnLoaded(object sender, RoutedEventArgs args)
+        private void OnNavigationViewUnLoaded(object sender, RoutedEventArgs args)
         {
             PropertyChanged -= OnPropertyChanged;
         }
 
         /// <summary>
-        /// 可通知的属性发生更改时的事件处理
-        /// </summary>
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            if (args.PropertyName == nameof(WindowTheme))
-            {
-                Program.MainWindow.SetAppTheme();
-            }
-        }
-
-        /// <summary>
         /// 打开重启应用确认的窗口对话框
         /// </summary>
-        public async void OnRestartAppsClicked(object sender, RoutedEventArgs args)
+        private async void OnRestartAppsClicked(object sender, RoutedEventArgs args)
         {
             await ContentDialogHelper.ShowAsync(new RestartAppsDialog(), this);
         }
@@ -465,7 +427,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 设置说明
         /// </summary>
-        public void OnSettingsInstructionClicked(object sender, RoutedEventArgs args)
+        private void OnSettingsInstructionClicked(object sender, RoutedEventArgs args)
         {
             NavigationService.NavigateTo(typeof(AboutPage), AppNaviagtionArgs.SettingsHelp);
         }
@@ -473,7 +435,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 创建应用的桌面快捷方式
         /// </summary>
-        public void OnCreateDesktopShortcutClicked(object sender, RoutedEventArgs args)
+        private void OnCreateDesktopShortcutClicked(object sender, RoutedEventArgs args)
         {
             bool IsCreatedSuccessfully = false;
 
@@ -511,7 +473,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 将应用固定到“开始”屏幕
         /// </summary>
-        public void OnPinToStartScreenClicked(object sender, RoutedEventArgs args)
+        private void OnPinToStartScreenClicked(object sender, RoutedEventArgs args)
         {
             bool IsPinnedSuccessfully = false;
 
@@ -548,7 +510,7 @@ namespace FileRenamer.Views.Pages
         }
 
         // 将应用固定到任务栏
-        public async void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
+        private async void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
         {
             bool IsPinnedSuccessfully = false;
 
@@ -574,7 +536,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 查看许可证
         /// </summary>
-        public async void OnShowLicenseClicked(object sender, RoutedEventArgs args)
+        private async void OnShowLicenseClicked(object sender, RoutedEventArgs args)
         {
             await ContentDialogHelper.ShowAsync(new LicenseDialog(), this);
         }
@@ -582,14 +544,36 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 查看更新日志
         /// </summary>
-        public void OnShowReleaseNotesClicked(object sender, RoutedEventArgs args)
+        private void OnShowReleaseNotesClicked(object sender, RoutedEventArgs args)
         {
             Process.Start("explorer.exe", "https://github.com/Gaoyifei1011/FileRenamer/releases");
         }
 
+        /// <summary>
+        /// 可通知的属性发生更改时的事件处理
+        /// </summary>
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName == nameof(WindowTheme))
+            {
+                Program.MainWindow.SetAppTheme();
+            }
+        }
+
+        /// <summary>
+        /// 属性值发生变化时通知更改
+        /// </summary>
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// 检查当前页面是否为目标页面
+        /// </summary>
+        public bool IsCurrentPage(object selectedItem, int pageIndex)
+        {
+            return selectedItem.ToString().Equals(pageIndex.ToString(), StringComparison.OrdinalIgnoreCase);
         }
     }
 }

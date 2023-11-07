@@ -49,16 +49,6 @@ namespace FileRenamer
         }
 
         /// <summary>
-        /// 关闭应用并释放所有资源
-        /// </summary>
-        public void CloseApp()
-        {
-            Program.MainWindow.Close();
-            this.ThreadUninitialize();
-            Environment.Exit(0);
-        }
-
-        /// <summary>
         /// 释放资源
         /// </summary>
         public void Dispose()
@@ -81,7 +71,9 @@ namespace FileRenamer
             {
                 if (disposing)
                 {
-                    CloseApp();
+                    Program.MainWindow.Close();
+                    this.ThreadUninitialize();
+                    Environment.Exit(0);
                 }
 
                 isDisposed = true;

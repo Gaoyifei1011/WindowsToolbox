@@ -23,6 +23,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -37,25 +38,24 @@ namespace FileRenamer.Views.Forms
     {
         private int windowWidth = 1000;
         private int windowHeight = 700;
-
         private double WindowDPI;
 
-        private IContainer components = null;
+        private IntPtr UWPCoreHandle;
+        private IContainer components = new Container();
         private WindowsXamlHost MileXamlHost = new WindowsXamlHost();
 
         private WNDPROC newInputNonClientPointerSourceWndProc = null;
         private IntPtr oldInputNonClientPointerSourceWndProc = IntPtr.Zero;
 
+        private UISettings UISettings = new UISettings();
+
         public AppWindow AppWindow { get; }
 
         public MainPage MainPage { get; } = new MainPage();
 
-        public IntPtr UWPCoreHandle { get; }
-
         public MainForm()
         {
-            InitializeComponent();
-
+            AutoScaleMode = AutoScaleMode.Font;
             BackColor = System.Drawing.Color.Black;
             Controls.Add(MileXamlHost);
             Icon = Icon.ExtractAssociatedIcon(Process.GetCurrentProcess().MainModule.FileName);
@@ -95,17 +95,12 @@ namespace FileRenamer.Views.Forms
                 User32Library.SetWindowPos(UWPCoreHandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
             }
 
+            UISettings.ColorValuesChanged += OnColorValuesChanged;
             MainPage.ActualThemeChanged += OnActualThemeChanged;
 
             MileXamlHost.AutoSize = true;
             MileXamlHost.Dock = DockStyle.Fill;
             MileXamlHost.Child = MainPage;
-        }
-
-        private void InitializeComponent()
-        {
-            components = new Container();
-            AutoScaleMode = AutoScaleMode.Font;
         }
 
         /// <summary>
@@ -136,6 +131,7 @@ namespace FileRenamer.Views.Forms
         {
             base.OnFormClosing(args);
             MainPage.ActualThemeChanged -= OnActualThemeChanged;
+            UISettings.ColorValuesChanged -= OnColorValuesChanged;
             if (RuntimeHelper.IsElevated && Handle != IntPtr.Zero)
             {
                 CHANGEFILTERSTRUCT changeFilterStatus = new CHANGEFILTERSTRUCT();
@@ -229,11 +225,19 @@ namespace FileRenamer.Views.Forms
         }
 
         /// <summary>
+        /// 应用主题设置跟随系统发生变化时，当系统主题设置发生变化时修改修改应用背景色
+        /// </summary>
+        private void OnColorValuesChanged(UISettings sender, object args)
+        {
+            BeginInvoke(SetAppTheme);
+        }
+
+        /// <summary>
         /// 应用主题发生变化时修改应用的背景色
         /// </summary>
         private void OnActualThemeChanged(FrameworkElement sender, object args)
         {
-            if (BackdropService.AppBackdrop.SelectedValue == BackdropService.BackdropList[0].SelectedValue)
+            if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[0].Value))
             {
                 if (sender.ActualTheme is ElementTheme.Light)
                 {
@@ -285,12 +289,6 @@ namespace FileRenamer.Views.Forms
         {
             switch (m.Msg)
             {
-                // 系统设置发生变化时的消息
-                case (int)WindowMessage.WM_SETTINGCHANGE:
-                    {
-                        SetAppTheme();
-                        break;
-                    }
                 // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
                 case (int)WindowMessage.WM_NCLBUTTONDOWN:
                     {
@@ -608,7 +606,7 @@ namespace FileRenamer.Views.Forms
         /// </summary>
         public void SetAppTheme()
         {
-            if (ThemeService.AppTheme.SelectedValue == ThemeService.ThemeList[0].SelectedValue)
+            if (ThemeService.AppTheme.Value.Equals(ThemeService.ThemeList[0].Value))
             {
                 if (Windows.UI.Xaml.Application.Current.RequestedTheme is ApplicationTheme.Light)
                 {
@@ -621,12 +619,12 @@ namespace FileRenamer.Views.Forms
                     DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
                 }
             }
-            else if (ThemeService.AppTheme.SelectedValue == ThemeService.ThemeList[1].SelectedValue)
+            else if (ThemeService.AppTheme.Value.Equals(ThemeService.ThemeList[1].Value))
             {
                 int useLightMode = 0;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useLightMode, Marshal.SizeOf(typeof(int)));
             }
-            else if (ThemeService.AppTheme.SelectedValue == ThemeService.ThemeList[2].SelectedValue)
+            else if (ThemeService.AppTheme.Value.Equals(ThemeService.ThemeList[2].Value))
             {
                 int useDarkMode = 1;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ref useDarkMode, Marshal.SizeOf(typeof(int)));
@@ -638,7 +636,7 @@ namespace FileRenamer.Views.Forms
         /// </summary>
         public void SetWindowBackdrop()
         {
-            if (BackdropService.AppBackdrop.SelectedValue == BackdropService.BackdropList[0].SelectedValue)
+            if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[0].Value))
             {
                 int noBackdrop = 0;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref noBackdrop, Marshal.SizeOf(typeof(int)));
@@ -651,19 +649,19 @@ namespace FileRenamer.Views.Forms
                     MainPage.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 20, 20, 20));
                 }
             }
-            else if (BackdropService.AppBackdrop.SelectedValue == BackdropService.BackdropList[1].SelectedValue)
+            else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[1].Value))
             {
                 int micaBackdrop = 2;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref micaBackdrop, Marshal.SizeOf(typeof(int)));
                 MainPage.Background = new SolidColorBrush(Colors.Transparent);
             }
-            else if (BackdropService.AppBackdrop.SelectedValue == BackdropService.BackdropList[2].SelectedValue)
+            else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[2].Value))
             {
                 int micaAltBackdrop = 4;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref micaAltBackdrop, Marshal.SizeOf(typeof(int)));
                 MainPage.Background = new SolidColorBrush(Colors.Transparent);
             }
-            else if (BackdropService.AppBackdrop.SelectedValue == BackdropService.BackdropList[3].SelectedValue)
+            else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[3].Value))
             {
                 int acrylicBackdrop = 3;
                 DwmApiLibrary.DwmSetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE, ref acrylicBackdrop, Marshal.SizeOf(typeof(int)));

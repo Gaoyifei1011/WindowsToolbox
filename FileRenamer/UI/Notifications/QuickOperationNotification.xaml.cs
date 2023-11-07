@@ -47,7 +47,7 @@ namespace FileRenamer.UI.Notifications
             IsPinnedSuccessfully = isPinnedSuccessfully;
         }
 
-        public bool ControlLoad(QuickOperationKind operationKind, bool isPinnedSuccessfully, string controlName)
+        private bool ControlLoad(QuickOperationKind operationKind, bool isPinnedSuccessfully, string controlName)
         {
             if (controlName is "DesktopShortcutSuccess" && operationKind is QuickOperationKind.DesktopShortcut && isPinnedSuccessfully)
             {

@@ -16,7 +16,7 @@ namespace FileRenamer.UI.Dialogs
         /// <summary>
         /// 重启应用，并关闭其他进程
         /// </summary>
-        public void OnRestartAppsClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void OnRestartAppsClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             Process.Start(Process.GetCurrentProcess().MainModule.FileName, "Restart");
             Program.ApplicationRoot.Dispose();

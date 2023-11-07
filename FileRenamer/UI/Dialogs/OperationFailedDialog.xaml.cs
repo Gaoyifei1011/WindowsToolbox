@@ -15,7 +15,7 @@ namespace FileRenamer.UI.Dialogs
     /// </summary>
     public sealed partial class OperationFailedDialog : ContentDialog
     {
-        public ObservableCollection<OperationFailedModel> OperationFailedList { get; } = new ObservableCollection<OperationFailedModel>();
+        private ObservableCollection<OperationFailedModel> OperationFailedList { get; } = new ObservableCollection<OperationFailedModel>();
 
         public OperationFailedDialog(ObservableCollection<OperationFailedModel> operationFailedList)
         {
@@ -30,7 +30,7 @@ namespace FileRenamer.UI.Dialogs
         /// <summary>
         /// 复制异常信息
         /// </summary>
-        public void OnCopyExecuteRequested(XamlUICommand command, ExecuteRequestedEventArgs args)
+        private void OnCopyExecuteRequested(XamlUICommand command, ExecuteRequestedEventArgs args)
         {
             OperationFailedModel operationFailedItem = args.Parameter as OperationFailedModel;
             if (operationFailedItem is not null)
@@ -52,7 +52,7 @@ namespace FileRenamer.UI.Dialogs
         /// <summary>
         /// 复制所有的错误内容到剪贴板
         /// </summary>
-        public void OnCopyOperationFailedClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void OnCopyOperationFailedClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             args.Cancel = true;
 

@@ -10,7 +10,7 @@ namespace FileRenamer.Helpers.Controls
     /// </summary>
     public static class ContentDialogHelper
     {
-        private static bool IsDialogOpening { get; set; } = false;
+        private static bool IsDialogOpening = false;
 
         /// <summary>
         /// 显示对话框
@@ -25,7 +25,7 @@ namespace FileRenamer.Helpers.Controls
                 dialog.RequestedTheme = element.ActualTheme;
                 element.ActualThemeChanged += (sender, args) =>
                 {
-                    dialog.RequestedTheme = sender.ActualTheme;
+                    dialog.RequestedTheme = element.ActualTheme;
                 };
                 dialogResult = await dialog.ShowAsync();
                 IsDialogOpening = false;

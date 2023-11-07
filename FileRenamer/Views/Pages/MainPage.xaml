@@ -122,7 +122,7 @@
         </Grid>
 
         <muxc:NavigationView
-            Margin="{x:Bind NavigationViewMargin}"
+            Margin="0,45,0,0"
             AlwaysShowHeader="False"
             BackRequested="{x:Bind OnBackRequested}"
             Canvas.ZIndex="0"
@@ -135,28 +135,28 @@
             Unloaded="{x:Bind OnNavigationViewUnLoaded}">
 
             <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.FileName}" Tag="{x:Bind TagList[0]}">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.FileName}" Tag="0">
 
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE8a5;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
 
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.ExtensionName}" Tag="{x:Bind TagList[1]}">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.ExtensionName}" Tag="1">
 
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE8a6;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
 
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.UpperAndLowerCase}" Tag="{x:Bind TagList[2]}">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.UpperAndLowerCase}" Tag="2">
 
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE8e9;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
 
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.FileProperties}" Tag="{x:Bind TagList[3]}">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.FileProperties}" Tag="3">
 
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE90f;" />
@@ -165,14 +165,14 @@
 
                 <muxc:NavigationViewItemSeparator />
 
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.About}" Tag="{x:Bind TagList[4]}">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.About}" Tag="4">
 
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE946;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
 
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.Settings}" Tag="{x:Bind TagList[5]}">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.Settings}" Tag="5">
 
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontSize="16" Glyph="&#xE713;" />
@@ -181,10 +181,10 @@
             </muxc:NavigationView.MenuItems>
 
             <muxc:NavigationView.PaneFooter>
-                <Grid Margin="{x:Bind NavigationViewPaneHeaderMargin}">
+                <Grid Margin="0,0,26,0">
                     <muxc:DropDownButton
                         x:Name="AboutButton"
-                        x:Load="{x:Bind IsCurrentPage(SelectedItem.Tag, TagList[4]), Mode=OneWay}"
+                        x:Load="{x:Bind IsCurrentPage(SelectedItem.Tag, 4), Mode=OneWay}"
                         Content="{x:Bind string:Window.Others}"
                         ToolTipService.ToolTip="{x:Bind string:Window.OthersToolTip}">
 
@@ -231,7 +231,7 @@
 
                     <StackPanel
                         x:Name="SettingsButtons"
-                        x:Load="{x:Bind IsCurrentPage(SelectedItem.Tag, TagList[5]), Mode=OneWay}"
+                        x:Load="{x:Bind IsCurrentPage(SelectedItem.Tag, 5), Mode=OneWay}"
                         Orientation="Horizontal"
                         Spacing="6">
 

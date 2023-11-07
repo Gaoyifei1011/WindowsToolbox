@@ -5,6 +5,7 @@ using FileRenamer.Strings;
 using FileRenamer.UI.Dialogs;
 using FileRenamer.UI.Notifications;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -130,9 +131,9 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        private GroupOptionsModel _selectedNumberFormat;
+        private DictionaryEntry _selectedNumberFormat;
 
-        public GroupOptionsModel SelectedNumberFormat
+        public DictionaryEntry SelectedNumberFormat
         {
             get { return _selectedNumberFormat; }
 
@@ -143,7 +144,7 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        public List<string> NameChangeRuleList { get; } = new List<string>()
+        private List<string> NameChangeRuleList { get; } = new List<string>()
         {
             FileName.NameChangeRule1,
             FileName.NameChangeRule2,
@@ -151,19 +152,19 @@ namespace FileRenamer.Views.Pages
             FileName.NameChangeRule4,
         };
 
-        public List<GroupOptionsModel> NumberFormatList { get; } = new List<GroupOptionsModel>
+        private List<DictionaryEntry> NumberFormatList = new List<DictionaryEntry>
         {
-            new GroupOptionsModel(){ DisplayMember = FileName.Auto, SelectedValue = "Auto"},
-            new GroupOptionsModel(){ DisplayMember = "0", SelectedValue = "0"},
-            new GroupOptionsModel(){ DisplayMember = "00", SelectedValue = "00"},
-            new GroupOptionsModel(){ DisplayMember = "000", SelectedValue = "000"},
-            new GroupOptionsModel(){ DisplayMember = "0000", SelectedValue = "0000"},
-            new GroupOptionsModel(){ DisplayMember = "00000", SelectedValue = "00000"},
-            new GroupOptionsModel(){ DisplayMember = "000000", SelectedValue = "000000"},
-            new GroupOptionsModel(){ DisplayMember = "0000000", SelectedValue = "0000000"},
+            new DictionaryEntry( FileName.Auto, "Auto"),
+            new DictionaryEntry( "0", "0"),
+            new DictionaryEntry( "00", "00"),
+            new DictionaryEntry( "000", "000"),
+            new DictionaryEntry( "0000", "0000"),
+            new DictionaryEntry( "00000", "00000"),
+            new DictionaryEntry( "000000", "000000"),
+            new DictionaryEntry( "0000000", "0000000"),
         };
 
-        public List<OldAndNewNameModel> NameChangeList { get; } = new List<OldAndNewNameModel>()
+        private List<OldAndNewNameModel> NameChangeList = new List<OldAndNewNameModel>()
         {
             new OldAndNewNameModel(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
             new OldAndNewNameModel(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
@@ -171,7 +172,7 @@ namespace FileRenamer.Views.Pages
             new OldAndNewNameModel(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
         };
 
-        public Dictionary<int, List<OldAndNewNameModel>> NameChangeDict = new Dictionary<int, List<OldAndNewNameModel>>()
+        private Dictionary<int, List<OldAndNewNameModel>> NameChangeDict = new Dictionary<int, List<OldAndNewNameModel>>()
         {
             { 0, new List<OldAndNewNameModel>()
                 {
@@ -209,7 +210,7 @@ namespace FileRenamer.Views.Pages
 
         public ObservableCollection<OldAndNewNameModel> FileNameDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
 
-        public ObservableCollection<OperationFailedModel> OperationFailedList { get; } = new ObservableCollection<OperationFailedModel>();
+        private ObservableCollection<OperationFailedModel> OperationFailedList { get; } = new ObservableCollection<OperationFailedModel>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -323,20 +324,10 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        public string GetChangeRule(int index)
-        {
-            return string.Format(FileName.ChangeRule, NameChangeRuleList[index]);
-        }
-
-        public string LocalizeTotal(int count)
-        {
-            return string.Format(FileName.Total, FileNameDataList.Count);
-        }
-
         /// <summary>
         /// 清空列表
         /// </summary>
-        public void OnClearListClicked(object sender, RoutedEventArgs args)
+        private void OnClearListClicked(object sender, RoutedEventArgs args)
         {
             FileNameDataList.Clear();
             OperationFailedList.Clear();
@@ -345,7 +336,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 向前导航
         /// </summary>
-        public void OnForwardNavigateClicked(object sender, RoutedEventArgs args)
+        private void OnForwardNavigateClicked(object sender, RoutedEventArgs args)
         {
             CurrentIndex = CurrentIndex == 0 ? 3 : CurrentIndex - 1;
 
@@ -359,7 +350,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 向后导航
         /// </summary>
-        public void OnNextNavigateClicked(object sender, RoutedEventArgs args)
+        private void OnNextNavigateClicked(object sender, RoutedEventArgs args)
         {
             CurrentIndex = CurrentIndex == 3 ? 0 : CurrentIndex + 1;
 
@@ -373,7 +364,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 选择编号格式
         /// </summary>
-        public void OnNumberFormatClicked(object sender, RoutedEventArgs args)
+        private void OnNumberFormatClicked(object sender, RoutedEventArgs args)
         {
             ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
@@ -385,7 +376,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 预览修改的内容
         /// </summary>
-        public void OnPreviewClicked(object sender, RoutedEventArgs args)
+        private void OnPreviewClicked(object sender, RoutedEventArgs args)
         {
             bool checkResult = CheckOperationState();
             if (checkResult)
@@ -409,7 +400,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 修改内容
         /// </summary>
-        public void OnModifyClicked(object sender, RoutedEventArgs args)
+        private void OnModifyClicked(object sender, RoutedEventArgs args)
         {
             bool checkResult = CheckOperationState();
             if (checkResult)
@@ -434,7 +425,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 选择文件
         /// </summary>
-        public void OnSelectFileClicked(object sender, RoutedEventArgs args)
+        private void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = true;
@@ -467,7 +458,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 选择文件夹
         /// </summary>
-        public void OnSelectFolderClicked(object sender, RoutedEventArgs args)
+        private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.Description = FileName.SelectFolder;
@@ -521,7 +512,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 取消选中时触发的事件
         /// </summary>
-        public void OnUnchecked(object sender, RoutedEventArgs args)
+        private void OnUnchecked(object sender, RoutedEventArgs args)
         {
             ExtensionName = string.Empty;
         }
@@ -529,14 +520,27 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 查看修改失败的文件错误信息
         /// </summary>
-        public async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
+        private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
             await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedList), this);
         }
 
+        /// <summary>
+        /// 属性值发生变化时通知更改
+        /// </summary>
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private string GetChangeRule(int index)
+        {
+            return string.Format(FileName.ChangeRule, NameChangeRuleList[index]);
+        }
+
+        private string LocalizeTotal(int count)
+        {
+            return string.Format(FileName.Total, FileNameDataList.Count);
         }
 
         /// <summary>
@@ -580,35 +584,35 @@ namespace FileRenamer.Views.Pages
                         if (tempFileName.Contains("<#>"))
                         {
                             string formattedIndex = string.Empty;
-                            if (SelectedNumberFormat.SelectedValue == NumberFormatList[0].SelectedValue)
+                            if (SelectedNumberFormat.Value.Equals(NumberFormatList[0].Value))
                             {
                                 formattedIndex = startIndex.ToString().PadLeft(numberLength, '0');
                             }
-                            else if (SelectedNumberFormat.SelectedValue == NumberFormatList[1].SelectedValue)
+                            else if (SelectedNumberFormat.Value.Equals(NumberFormatList[1].Value))
                             {
                                 formattedIndex = startIndex.ToString().PadLeft(1, '0');
                             }
-                            else if (SelectedNumberFormat.SelectedValue == NumberFormatList[2].SelectedValue)
+                            else if (SelectedNumberFormat.Value.Equals(NumberFormatList[2].Value))
                             {
                                 formattedIndex = startIndex.ToString().PadLeft(2, '0');
                             }
-                            else if (SelectedNumberFormat.SelectedValue == NumberFormatList[3].SelectedValue)
+                            else if (SelectedNumberFormat.Value.Equals(NumberFormatList[3].Value))
                             {
                                 formattedIndex = startIndex.ToString().PadLeft(3, '0');
                             }
-                            else if (SelectedNumberFormat.SelectedValue == NumberFormatList[4].SelectedValue)
+                            else if (SelectedNumberFormat.Value.Equals(NumberFormatList[4].Value))
                             {
                                 formattedIndex = startIndex.ToString().PadLeft(4, '0');
                             }
-                            else if (SelectedNumberFormat.SelectedValue == NumberFormatList[5].SelectedValue)
+                            else if (SelectedNumberFormat.Value.Equals(NumberFormatList[5].Value))
                             {
                                 formattedIndex = startIndex.ToString().PadLeft(5, '0');
                             }
-                            else if (SelectedNumberFormat.SelectedValue == NumberFormatList[6].SelectedValue)
+                            else if (SelectedNumberFormat.Value.Equals(NumberFormatList[6].Value))
                             {
                                 formattedIndex = startIndex.ToString().PadLeft(6, '0');
                             }
-                            else if (SelectedNumberFormat.SelectedValue == NumberFormatList[7].SelectedValue)
+                            else if (SelectedNumberFormat.Value.Equals(NumberFormatList[7].Value))
                             {
                                 formattedIndex = startIndex.ToString().PadLeft(7, '0');
                             }

@@ -55,7 +55,7 @@ namespace FileRenamer.Views.Pages
 
         public ObservableCollection<OldAndNewNameModel> UpperAndLowerCaseDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
 
-        public ObservableCollection<OperationFailedModel> OperationFailedList { get; } = new ObservableCollection<OperationFailedModel>();
+        private ObservableCollection<OperationFailedModel> OperationFailedList { get; } = new ObservableCollection<OperationFailedModel>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -160,15 +160,10 @@ namespace FileRenamer.Views.Pages
             }
         }
 
-        public string LocalizeTotal(int count)
-        {
-            return string.Format(UpperAndLowerCase.Total, UpperAndLowerCaseDataList.Count);
-        }
-
         /// <summary>
         /// 选中时触发的事件
         /// </summary>
-        public void OnChecked(object sender, RoutedEventArgs args)
+        private void OnChecked(object sender, RoutedEventArgs args)
         {
             Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
             if (checkBox is not null)
@@ -180,7 +175,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 清空列表
         /// </summary>
-        public void OnClearListClicked(object sender, RoutedEventArgs args)
+        private void OnClearListClicked(object sender, RoutedEventArgs args)
         {
             UpperAndLowerCaseDataList.Clear();
             OperationFailedList.Clear();
@@ -189,7 +184,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 预览修改的内容
         /// </summary>
-        public void OnPreviewClicked(object sender, RoutedEventArgs args)
+        private void OnPreviewClicked(object sender, RoutedEventArgs args)
         {
             bool checkResult = CheckOperationState();
             if (checkResult)
@@ -213,7 +208,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 修改内容
         /// </summary>
-        public void OnModifyClicked(object sender, RoutedEventArgs args)
+        private void OnModifyClicked(object sender, RoutedEventArgs args)
         {
             bool checkResult = CheckOperationState();
             if (checkResult)
@@ -238,7 +233,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 选择文件
         /// </summary>
-        public void OnSelectFileClicked(object sender, RoutedEventArgs args)
+        private void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = true;
@@ -271,7 +266,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 选择文件夹
         /// </summary>
-        public void OnSelectFolderClicked(object sender, RoutedEventArgs args)
+        private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.Description = UpperAndLowerCase.SelectFolder;
@@ -329,7 +324,7 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 取消选中时触发的事件
         /// </summary>
-        public void OnUnchecked(object sender, RoutedEventArgs args)
+        private void OnUnchecked(object sender, RoutedEventArgs args)
         {
             Windows.UI.Xaml.Controls.CheckBox checkBox = sender as Windows.UI.Xaml.Controls.CheckBox;
             if (checkBox is not null)
@@ -344,14 +339,22 @@ namespace FileRenamer.Views.Pages
         /// <summary>
         /// 查看修改失败的文件错误信息
         /// </summary>
-        public async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
+        private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
             await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedList), this);
         }
 
+        /// <summary>
+        /// 属性值发生变化时通知更改
+        /// </summary>
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private string LocalizeTotal(int count)
+        {
+            return string.Format(UpperAndLowerCase.Total, UpperAndLowerCaseDataList.Count);
         }
 
         /// <summary>

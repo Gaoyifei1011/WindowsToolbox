@@ -1,6 +1,6 @@
-﻿using FileRenamer.Models;
-using FileRenamer.Strings;
+﻿using FileRenamer.Strings;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 
@@ -11,9 +11,9 @@ namespace FileRenamer.Services.Root
     /// </summary>
     public static class ResourceService
     {
-        public static List<GroupOptionsModel> BackdropList { get; } = new List<GroupOptionsModel>();
+        public static List<DictionaryEntry> ThemeList { get; } = new List<DictionaryEntry>();
 
-        public static List<GroupOptionsModel> ThemeList { get; } = new List<GroupOptionsModel>();
+        public static List<DictionaryEntry> BackdropList { get; } = new List<DictionaryEntry>();
 
         /// <summary>
         /// 初始化应用本地化信息
@@ -29,20 +29,20 @@ namespace FileRenamer.Services.Root
         /// </summary>
         private static void InitializeThemeList()
         {
-            ThemeList.Add(new GroupOptionsModel
+            ThemeList.Add(new DictionaryEntry
             {
-                DisplayMember = Settings.ThemeDefault,
-                SelectedValue = Convert.ToString(ElementTheme.Default)
+                Key = Settings.ThemeDefault,
+                Value = Convert.ToString(ElementTheme.Default)
             });
-            ThemeList.Add(new GroupOptionsModel
+            ThemeList.Add(new DictionaryEntry
             {
-                DisplayMember = Settings.ThemeLight,
-                SelectedValue = Convert.ToString(ElementTheme.Light)
+                Key = Settings.ThemeLight,
+                Value = Convert.ToString(ElementTheme.Light)
             });
-            ThemeList.Add(new GroupOptionsModel
+            ThemeList.Add(new DictionaryEntry
             {
-                DisplayMember = Settings.ThemeDark,
-                SelectedValue = Convert.ToString(ElementTheme.Dark)
+                Key = Settings.ThemeDark,
+                Value = Convert.ToString(ElementTheme.Dark)
             });
         }
 
@@ -51,28 +51,28 @@ namespace FileRenamer.Services.Root
         /// </summary>
         private static void InitializeBackdropList()
         {
-            BackdropList.Add(new GroupOptionsModel
+            BackdropList.Add(new DictionaryEntry
             {
-                DisplayMember = Settings.BackdropDefault,
-                SelectedValue = "Default"
+                Key = Settings.BackdropDefault,
+                Value = "Default"
             });
 
-            BackdropList.Add(new GroupOptionsModel
+            BackdropList.Add(new DictionaryEntry
             {
-                DisplayMember = Settings.BackdropMica,
-                SelectedValue = "Mica"
+                Key = Settings.BackdropMica,
+                Value = "Mica"
             });
 
-            BackdropList.Add(new GroupOptionsModel
+            BackdropList.Add(new DictionaryEntry
             {
-                DisplayMember = Settings.BackdropMicaAlt,
-                SelectedValue = "MicaAlt"
+                Key = Settings.BackdropMicaAlt,
+                Value = "MicaAlt"
             });
 
-            BackdropList.Add(new GroupOptionsModel
+            BackdropList.Add(new DictionaryEntry
             {
-                DisplayMember = Settings.BackdropAcrylic,
-                SelectedValue = "Acrylic"
+                Key = Settings.BackdropAcrylic,
+                Value = "Acrylic"
             });
         }
     }

@@ -1,7 +1,7 @@
 ﻿using FileRenamer.Extensions.DataType.Constant;
-using FileRenamer.Models;
 using FileRenamer.Services.Root;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -15,16 +15,15 @@ namespace FileRenamer.Services.Controls.Settings
     public static class LanguageService
     {
         private static string resourceFileName = string.Format("{0}.resources.dll", Assembly.GetExecutingAssembly().GetName().Name);
+        private static string SettingsKey = ConfigKey.LanguageKey;
 
-        private static string SettingsKey { get; } = ConfigKey.LanguageKey;
+        public static DictionaryEntry DefaultAppLanguage { get; private set; }
 
-        public static GroupOptionsModel DefaultAppLanguage { get; set; }
+        public static DictionaryEntry AppLanguage { get; private set; }
 
-        public static GroupOptionsModel AppLanguage { get; set; }
+        private static List<string> AppLanguagesList = new List<string>();
 
-        private static List<string> AppLanguagesList { get; } = new List<string>();
-
-        public static List<GroupOptionsModel> LanguageList { get; set; } = new List<GroupOptionsModel>();
+        public static List<DictionaryEntry> LanguageList { get; } = new List<DictionaryEntry>();
 
         /// <summary>
         /// 初始化应用语言信息列表
@@ -50,10 +49,10 @@ namespace FileRenamer.Services.Controls.Settings
             {
                 CultureInfo culture = CultureInfo.GetCultureInfo(applanguage);
 
-                LanguageList.Add(new GroupOptionsModel()
+                LanguageList.Add(new DictionaryEntry()
                 {
-                    DisplayMember = culture.NativeName,
-                    SelectedValue = culture.Name,
+                    Key = culture.NativeName,
+                    Value = culture.Name,
                 });
             }
         }
@@ -63,9 +62,9 @@ namespace FileRenamer.Services.Controls.Settings
         /// </summary>
         private static bool IsExistsInLanguageList(string currentSystemLanguage)
         {
-            foreach (GroupOptionsModel languageItem in LanguageList)
+            foreach (DictionaryEntry languageItem in LanguageList)
             {
-                if (languageItem.SelectedValue == currentSystemLanguage)
+                if (languageItem.Value.ToString().Equals(currentSystemLanguage))
                 {
                     return true;
                 }
@@ -80,7 +79,7 @@ namespace FileRenamer.Services.Controls.Settings
         {
             InitializeLanguageList();
 
-            DefaultAppLanguage = LanguageList.Find(item => item.SelectedValue.Equals("en-US", StringComparison.OrdinalIgnoreCase));
+            DefaultAppLanguage = LanguageList.Find(item => item.Value.ToString().Equals("en-US", StringComparison.OrdinalIgnoreCase));
 
             AppLanguage = GetLanguage();
         }
@@ -88,14 +87,14 @@ namespace FileRenamer.Services.Controls.Settings
         /// <summary>
         /// 获取设置存储的语言值，如果设置没有存储，使用默认值
         /// </summary>
-        private static GroupOptionsModel GetLanguage()
+        private static DictionaryEntry GetLanguage()
         {
-            string language = ConfigService.ReadSetting<string>(SettingsKey);
+            object language = LocalSettingsService.ReadSetting<object>(SettingsKey);
 
             // 当前系统的语言值
-            string CurrentSystemLanguage = CultureInfo.CurrentCulture.Parent.Parent.Name;
+            string CurrentSystemLanguage = CultureInfo.CurrentCulture.Parent.Name;
 
-            if (string.IsNullOrEmpty(language))
+            if (language is null)
             {
                 // 判断当前系统语言是否存在应用默认添加的语言列表中
                 bool result = IsExistsInLanguageList(CurrentSystemLanguage);
@@ -103,7 +102,7 @@ namespace FileRenamer.Services.Controls.Settings
                 // 如果存在，设置存储值和应用初次设置的语言为当前系统的语言
                 if (result)
                 {
-                    GroupOptionsModel currentSystemLanguage = LanguageList.Find(item => item.SelectedValue.Equals(CurrentSystemLanguage, StringComparison.OrdinalIgnoreCase));
+                    DictionaryEntry currentSystemLanguage = LanguageList.Find(item => item.Value.Equals(CurrentSystemLanguage));
                     SetLanguage(currentSystemLanguage);
                     return currentSystemLanguage;
                 }
@@ -112,21 +111,21 @@ namespace FileRenamer.Services.Controls.Settings
                 else
                 {
                     SetLanguage(DefaultAppLanguage);
-                    return LanguageList.Find(item => item.SelectedValue.Equals(DefaultAppLanguage.SelectedValue, StringComparison.OrdinalIgnoreCase));
+                    return LanguageList.Find(item => item.Value.Equals(DefaultAppLanguage.Value));
                 }
             }
 
-            return LanguageList.Find(item => item.SelectedValue.Equals(language, StringComparison.OrdinalIgnoreCase));
+            return LanguageList.Find(item => item.Value.Equals(language));
         }
 
         /// <summary>
         /// 语言发生修改时修改设置存储的语言值
         /// </summary>
-        public static void SetLanguage(GroupOptionsModel language)
+        public static void SetLanguage(DictionaryEntry language)
         {
             AppLanguage = language;
 
-            ConfigService.SaveSetting(SettingsKey, language.SelectedValue);
+            LocalSettingsService.SaveSetting(SettingsKey, language.Value.ToString());
         }
     }
 }

@@ -26,9 +26,9 @@ namespace FileRenamer
 
         public static MainForm MainWindow { get; private set; }
 
-        public static string ErrorFileFolderPath { get; set; }
+        public static string ErrorFileFolderPath { get; } = ApplicationData.Current.LocalCacheFolder.Path;
 
-        public static string TempFilePath = Path.Combine(Path.GetTempPath(), "FileRenamer.txt");
+        public static string TempFilePath { get; } = Path.Combine(Path.GetTempPath(), "FileRenamer.txt");
 
         /// <summary>
         /// 应用程序的主入口点
@@ -66,8 +66,6 @@ namespace FileRenamer
 
             InitializeProgramResources();
             InitializeJumpList();
-
-            ErrorFileFolderPath = ApplicationData.Current.LocalCacheFolder.Path;
 
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ApplicationExit += OnApplicationExit;
@@ -162,7 +160,7 @@ namespace FileRenamer
         private static void InitializeProgramResources()
         {
             LanguageService.InitializeLanguage();
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(LanguageService.AppLanguage.SelectedValue);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(LanguageService.AppLanguage.Value.ToString());
             ResourceService.LocalizeReosurce();
 
             AlwaysShowBackdropService.InitializeAlwaysShowBackdrop();

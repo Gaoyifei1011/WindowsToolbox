@@ -31,9 +31,6 @@
   <PropertyGroup Condition="'$(Platform)'=='ARM64'">
     <RuntimeIdentifier>win10-arm64</RuntimeIdentifier>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Assets\FileRenamer.ico" />
-  </ItemGroup>
 
   <ItemGroup>
     <ApplicationDefinition Update="App.xaml" Generator="MSBuild:Compile" />
@@ -106,9 +103,7 @@
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
 
-    <Content Include="Assets\FileRenamer.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Assets\FileRenamer.ico" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-125.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-150.png" CopyToOutputDirectory="Always" />
@@ -159,132 +154,51 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.5" GeneratePathProperty="true" IncludeAssets="build" ExcludeAssets="all" PrivateAssets="all" />
+
+    <None Remove="Assets\FileRenamer.ico" />
+    
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" IncludeAssets="none" ExcludeAssets="all" PrivateAssets="all" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" GeneratePathProperty="true" IncludeAssets="build" ExcludeAssets="all" PrivateAssets="all" />
     <PackageReference Include="Mile.Xaml" Version="2.1.661" />
     
     <Reference Include="Microsoft.CSharp" />
-    
-    <Reference Include="Microsoft.UI.Xaml">
-      <HintPath>$(TargetDir)\Microsoft.UI.Xaml.winmd</HintPath>
-      <IsWinMDFile>true</IsWinMDFile>
-    </Reference>
-    
-    <Reference Include="Microsoft.UI.Windowing">
-      <HintPath>$(TargetDir)\Microsoft.UI.winmd</HintPath>
-      <IsWinMDFile>true</IsWinMDFile>
-    </Reference>
-      
+    <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />
+    <Reference Include="Microsoft.UI.Windowing" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0.18362\Microsoft.UI.winmd" IsWinMDFile="true" Private="false" />
     <Reference Include="PresentationFramework" />
-    <EmbeddedResource Update="Strings\ExtensionName.en-us.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\ExtensionName.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ExtensionName.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\ExtensionName.zh-hans.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\FileProperties.en-us.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\FileProperties.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>FileProperties.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\FileProperties.zh-hans.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-
-    <EmbeddedResource Update="Strings\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Resources.en-us.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Resources.zh-hans.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\About.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>About.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\About.en-us.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\About.zh-hans.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Dialog.en-us.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Dialog.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Dialog.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Dialog.zh-hans.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\FileName.en-us.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\FileName.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>FileName.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\FileName.zh-hans.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Notification.en-us.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Notification.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Notification.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Notification.zh-hans.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Settings.en-us.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Settings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Settings.zh-hans.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\UpperAndLowerCase.en-us.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\UpperAndLowerCase.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>UpperAndLowerCase.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\UpperAndLowerCase.zh-hans.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Window.en-us.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Window.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Window.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Window.zh-hans.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
+    
+    <EmbeddedResource Update="Strings\ExtensionName.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\ExtensionName.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ExtensionName.Designer.cs" />
+    <EmbeddedResource Update="Strings\ExtensionName.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\FileProperties.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\FileProperties.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="FileProperties.Designer.cs" />
+    <EmbeddedResource Update="Strings\FileProperties.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
+    <EmbeddedResource Update="Strings\Resources.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\Resources.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\About.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="About.Designer.cs" /> 
+    <EmbeddedResource Update="Strings\About.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\About.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\Dialog.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\Dialog.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Dialog.Designer.cs" />
+    <EmbeddedResource Update="Strings\Dialog.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\FileName.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\FileName.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="FileName.Designer.cs" />
+    <EmbeddedResource Update="Strings\FileName.zh-hans.resx" Generator="PublicResXFileCodeGenerator"/>
+    <EmbeddedResource Update="Strings\Notification.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\Notification.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Notification.Designer.cs" />
+    <EmbeddedResource Update="Strings\Notification.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\Settings.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\Settings.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Settings.Designer.cs" />
+    <EmbeddedResource Update="Strings\Settings.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\UpperAndLowerCase.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\UpperAndLowerCase.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="UpperAndLowerCase.Designer.cs" />
+    <EmbeddedResource Update="Strings\UpperAndLowerCase.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\Window.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\Window.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Window.Designer.cs" />
+    <EmbeddedResource Update="Strings\Window.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
   </ItemGroup>
 
   <Target Name="SignExeFile" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">
     <Exec Command="$(ProjectDir)signtool.exe sign /f $(SolutionDir)$(AssemblyName)Package\$(AssemblyName)Package_SignKey.pfx /t http://timestamp.digicert.com /fd SHA256 $(ProjectDir)$(BaseOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).exe" />
-  </Target>
-  
-  <Target Name="CopyWinmdToTargetDir" BeforeTargets="BeforeBuild">
-    <Copy SourceFiles="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" DestinationFolder="$(TargetDir)" />
-    <Copy SourceFiles="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0.18362\Microsoft.UI.winmd" DestinationFolder="$(TargetDir)" />
   </Target>
 </Project>

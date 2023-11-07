@@ -11,14 +11,14 @@ namespace FileRenamer.Services.Window
     /// </summary>
     public static class NavigationService
     {
-        public static Frame NavigationFrame { get; set; }
-
-        private static SlideNavigationTransitionInfo NavigationTransition { get; } = new SlideNavigationTransitionInfo()
+        private static SlideNavigationTransitionInfo NavigationTransition = new SlideNavigationTransitionInfo()
         {
             Effect = SlideNavigationTransitionEffect.FromRight
         };
 
-        public static List<NavigationModel> NavigationItemList { get; set; } = new List<NavigationModel>();
+        public static Frame NavigationFrame { get; set; }
+
+        public static List<NavigationModel> NavigationItemList { get; private set; } = new List<NavigationModel>();
 
         /// <summary>
         /// 页面向前导航

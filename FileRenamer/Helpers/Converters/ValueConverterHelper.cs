@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using Windows.UI.Xaml;
 
 namespace FileRenamer.Helpers.Converters
 {
@@ -15,9 +16,14 @@ namespace FileRenamer.Helpers.Converters
             return !value;
         }
 
-        public static bool StringCompareReverseConvert(string value, string comparedValue)
+        public static bool StringCompareReverseConvert(object value, object comparedValue)
         {
             return !value.Equals(comparedValue);
+        }
+
+        public static Uri UriConvert(object uri)
+        {
+            return new Uri(uri.ToString());
         }
 
         /// <summary>
