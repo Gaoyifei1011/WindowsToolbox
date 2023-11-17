@@ -80,12 +80,9 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-
     <None Include="FileRenamerPackage_SignKey.pfx" />
-
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
-
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
     <ProjectReference Include="..\FileRenamer\FileRenamer.csproj" />
     <ProjectReference Include="..\FileRenamerShellExtension\FileRenamerShellExtension.vcxproj" />
   </ItemGroup>
@@ -110,8 +107,8 @@
   -->
   <Target Name="_RemoveXrXmlFromPayload" AfterTargets="_CalculateInputsForGenerateAppxPackageRecipe" Condition="'$(MSBuildProjectExtension)' == '.wapproj'">
     <ItemGroup>
-      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('.xr.xml'))"/>
-      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('Microsoft.UI.Xaml.pri'))"/>
+      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('.xr.xml'))" />
+      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('Microsoft.UI.Xaml.pri'))" />
     </ItemGroup>
   </Target>
 </Project>

@@ -8,6 +8,7 @@ using FileRenamer.UI.Dialogs;
 using FileRenamer.Views.Pages;
 using FileRenamer.WindowsAPI.PInvoke.DwmApi;
 using FileRenamer.WindowsAPI.PInvoke.User32;
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Mile.Xaml;
 using Mile.Xaml.Interop;
@@ -78,7 +79,7 @@ namespace FileRenamer.Views.Forms
             AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
             SetTitleBarColor(MainPage.ActualTheme);
 
-            IntPtr inputNonClientPointerSourceHandle = User32Library.FindWindowEx(Handle, IntPtr.Zero, "InputNonClientPointerSource", null);
+            IntPtr inputNonClientPointerSourceHandle = User32Library.FindWindowEx(Handle, IntPtr.Zero, typeof(InputNonClientPointerSource).Name, null);
 
             if (inputNonClientPointerSourceHandle != IntPtr.Zero)
             {

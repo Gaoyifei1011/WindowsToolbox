@@ -158,7 +158,7 @@
     <None Remove="Assets\FileRenamer.ico" />
     
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" IncludeAssets="none" ExcludeAssets="all" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" GeneratePathProperty="true" IncludeAssets="build" ExcludeAssets="all" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" GeneratePathProperty="true" IncludeAssets="none" ExcludeAssets="all" PrivateAssets="all" />
     <PackageReference Include="Mile.Xaml" Version="2.1.661" />
     
     <Reference Include="Microsoft.CSharp" />
@@ -183,7 +183,7 @@
     <EmbeddedResource Update="Strings\Dialog.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\FileName.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\FileName.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="FileName.Designer.cs" />
-    <EmbeddedResource Update="Strings\FileName.zh-hans.resx" Generator="PublicResXFileCodeGenerator"/>
+    <EmbeddedResource Update="Strings\FileName.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Notification.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Notification.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Notification.Designer.cs" />
     <EmbeddedResource Update="Strings\Notification.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
