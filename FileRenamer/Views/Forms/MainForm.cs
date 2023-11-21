@@ -551,13 +551,14 @@ namespace FileRenamer.Views.Forms
                     {
                         if (MainPage is not null && MainPage.XamlRoot is not null)
                         {
-                            Point ms = MousePosition;
+                            Point clientPoint = PointToClient(MousePosition);
+
                             FlyoutShowOptions options = new FlyoutShowOptions();
                             options.Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft;
                             options.ShowMode = FlyoutShowMode.Standard;
                             options.Position = InfoHelper.SystemVersion.Build >= 22000 ?
-                                new Windows.Foundation.Point((ms.X - Location.X - 8) / WindowDPI, (ms.Y - Location.Y) / WindowDPI) :
-                                new Windows.Foundation.Point(ms.X - Location.X - 8, ms.Y - Location.Y);
+                                new Windows.Foundation.Point(clientPoint.X / WindowDPI, clientPoint.Y / WindowDPI) :
+                                new Windows.Foundation.Point(clientPoint.X, clientPoint.Y);
                             MainPage.TitlebarMenuFlyout.ShowAt(null, options);
                         }
                         return IntPtr.Zero;
