@@ -124,6 +124,15 @@ namespace FileRenamer.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Close 的本地化字符串。
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Copy the file to the File Name page 的本地化字符串。
         /// </summary>
         public static string DragOverContent {
@@ -408,15 +417,6 @@ namespace FileRenamer.Strings {
         public static string NameChangeRule4 {
             get {
                 return ResourceManager.GetString("NameChangeRule4", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Tips 的本地化字符串。
-        /// </summary>
-        public static string NameChangeTip {
-            get {
-                return ResourceManager.GetString("NameChangeTip", resourceCulture);
             }
         }
         

@@ -138,6 +138,9 @@
   <data name="ClearList" xml:space="preserve">
     <value>清空列表</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
   <data name="DragOverContent" xml:space="preserve">
     <value>复制到“文件名称”页面中</value>
   </data>
@@ -233,9 +236,6 @@
   </data>
   <data name="NameChangeRule4" xml:space="preserve">
     <value>我的音乐(&lt;#&gt;)，同时更改扩展名称：MP3</value>
-  </data>
-  <data name="NameChangeTip" xml:space="preserve">
-    <value>提示</value>
   </data>
   <data name="NameChangeTitle" xml:space="preserve">
     <value>改名示例</value>

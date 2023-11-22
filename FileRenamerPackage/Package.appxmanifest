@@ -12,7 +12,7 @@
   <Identity
     Name="Gaoyifei1011.FileRenamer"
     Publisher="CN=高怡飞"
-    Version="1.4.1121.0" />
+    Version="1.4.1122.0" />
 
   <Properties>
     <DisplayName>ms-resource:PackageDisplayName</DisplayName>

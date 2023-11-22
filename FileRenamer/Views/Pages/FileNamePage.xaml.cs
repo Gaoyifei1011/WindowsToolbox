@@ -333,6 +333,14 @@ namespace FileRenamer.Views.Pages
             OperationFailedList.Clear();
         }
 
+        private void OnCloseClicked(object sender, RoutedEventArgs args)
+        {
+            if (NameChangeFlyout.IsOpen)
+            {
+                NameChangeFlyout.Hide();
+            }
+        }
+
         /// <summary>
         /// 向前导航
         /// </summary>

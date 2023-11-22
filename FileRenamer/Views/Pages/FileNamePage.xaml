@@ -199,7 +199,10 @@
 
                 <Button HorizontalAlignment="Stretch" Content="{x:Bind string:FileName.ViewNameChangeExample}">
                     <Button.Flyout>
-                        <Flyout Placement="RightEdgeAlignedTop" ShouldConstrainToRootBounds="False">
+                        <Flyout
+                            x:Name="NameChangeFlyout"
+                            Placement="RightEdgeAlignedTop"
+                            ShouldConstrainToRootBounds="False">
 
                             <Flyout.FlyoutPresenterStyle>
                                 <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
@@ -223,10 +226,19 @@
                                         TextAlignment="Justify"
                                         TextWrapping="Wrap" />
 
-                                    <HyperlinkButton
+                                    <Button
                                         Grid.Column="1"
-                                        VerticalAlignment="Center"
-                                        Content="{x:Bind string:FileName.NameChangeTip}" />
+                                        Width="32"
+                                        Height="32"
+                                        Padding="0"
+                                        Click="{x:Bind OnCloseClicked}"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
+                                        ToolTipService.ToolTip="{x:Bind string:FileName.Close}">
+
+                                        <Button.Content>
+                                            <FontIcon FontSize="16" Glyph="&#xE711;" />
+                                        </Button.Content>
+                                    </Button>
                                 </Grid>
 
                                 <TextBlock

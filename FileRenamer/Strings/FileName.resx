@@ -138,6 +138,9 @@
   <data name="ClearList" xml:space="preserve">
     <value>Clear list</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="DragOverContent" xml:space="preserve">
     <value>Copy the file to the File Name page</value>
   </data>
@@ -233,9 +236,6 @@
   </data>
   <data name="NameChangeRule4" xml:space="preserve">
     <value>My music (&lt;#&gt;),and change the extension name:MP3</value>
-  </data>
-  <data name="NameChangeTip" xml:space="preserve">
-    <value>Tips</value>
   </data>
   <data name="NameChangeTitle" xml:space="preserve">
     <value>Name change example</value>
