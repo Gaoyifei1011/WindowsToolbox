@@ -98,8 +98,7 @@
             <Grid
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Canvas.ZIndex="2"
-                Visibility="{x:Bind helper:RuntimeHelper.IsMSIX}">
+                Canvas.ZIndex="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="22" />
                     <ColumnDefinition Width="*" />
@@ -191,14 +190,13 @@
                         <muxc:DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
                                 <MenuFlyoutItem
-                                    Click="{x:Bind OnCreateDesktopShortcutClicked}"
+                                    Click="{x:Bind OnPinToDesktopClicked}"
                                     Style="{StaticResource MenuFlyoutItemStyle}"
-                                    Text="{x:Bind string:Window.CreateDesktopShortcut}"
-                                    ToolTipService.ToolTip="{x:Bind string:Window.CreateDesktopShortcutToolTip}" />
+                                    Text="{x:Bind string:Window.PinToDesktop}"
+                                    ToolTipService.ToolTip="{x:Bind string:Window.PinToDesktopToolTip}" />
 
                                 <MenuFlyoutItem
                                     x:Name="PinToStartScreen"
-                                    x:Load="{x:Bind helper:RuntimeHelper.IsMSIX}"
                                     Click="{x:Bind OnPinToStartScreenClicked}"
                                     Style="{StaticResource MenuFlyoutItemStyle}"
                                     Text="{x:Bind string:Window.PinToStartScreen}"
@@ -206,7 +204,6 @@
 
                                 <MenuFlyoutItem
                                     x:Name="PinToTaskbar"
-                                    x:Load="{x:Bind helper:RuntimeHelper.IsMSIX}"
                                     Click="{x:Bind OnPinToTaskbarClicked}"
                                     Style="{StaticResource MenuFlyoutItemStyle}"
                                     Text="{x:Bind string:Window.PinToTaskbar}"

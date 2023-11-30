@@ -126,12 +126,6 @@
   <data name="Close" xml:space="preserve">
     <value>关闭</value>
   </data>
-  <data name="CreateDesktopShortcut" xml:space="preserve">
-    <value>创建快捷方式</value>
-  </data>
-  <data name="CreateDesktopShortcutToolTip" xml:space="preserve">
-    <value>在电脑桌面创建此应用的快捷方式</value>
-  </data>
   <data name="ExtensionName" xml:space="preserve">
     <value>扩展名称</value>
   </data>
@@ -158,6 +152,12 @@
   </data>
   <data name="OthersToolTip" xml:space="preserve">
     <value>其他选项</value>
+  </data>
+  <data name="PinToDesktop" xml:space="preserve">
+    <value>固定到桌面</value>
+  </data>
+  <data name="PinToDesktopToolTip" xml:space="preserve">
+    <value>将应用固定到桌面</value>
   </data>
   <data name="PinToStartScreen" xml:space="preserve">
     <value>固定到”开始“屏幕</value>

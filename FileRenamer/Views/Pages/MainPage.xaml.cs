@@ -433,9 +433,9 @@ namespace FileRenamer.Views.Pages
         }
 
         /// <summary>
-        /// 创建应用的桌面快捷方式
+        /// 固定应用到桌面
         /// </summary>
-        private void OnCreateDesktopShortcutClicked(object sender, RoutedEventArgs args)
+        private void OnPinToDesktopClicked(object sender, RoutedEventArgs args)
         {
             bool IsCreatedSuccessfully = false;
 
@@ -445,18 +445,10 @@ namespace FileRenamer.Views.Pages
                 {
                     IWshRuntimeLibrary.IWshShell shell = new IWshRuntimeLibrary.WshShell();
                     IWshRuntimeLibrary.WshShortcut AppShortcut = (IWshRuntimeLibrary.WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), Strings.Resources.AppDisplayName));
-                    if (RuntimeHelper.IsMSIX)
-                    {
-                        IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
-                        AppListEntry DefaultEntry = AppEntries[0];
-                        AppShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", DefaultEntry.AppUserModelId);
-                        AppShortcut.Save();
-                    }
-                    else
-                    {
-                        AppShortcut.TargetPath = Process.GetCurrentProcess().MainModule.FileName;
-                        AppShortcut.Save();
-                    }
+                    IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
+                    AppListEntry DefaultEntry = AppEntries[0];
+                    AppShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", DefaultEntry.AppUserModelId);
+                    AppShortcut.Save();
                     IsCreatedSuccessfully = true;
                 }
                 catch (Exception) { }
@@ -509,7 +501,9 @@ namespace FileRenamer.Views.Pages
             });
         }
 
-        // 将应用固定到任务栏
+        /// <summary>
+        /// 将应用固定到任务栏
+        /// </summary>
         private async void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
         {
             bool IsPinnedSuccessfully = false;

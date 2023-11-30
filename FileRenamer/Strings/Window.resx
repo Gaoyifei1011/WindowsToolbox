@@ -126,12 +126,6 @@
   <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="CreateDesktopShortcut" xml:space="preserve">
-    <value>Create desktop shortcut</value>
-  </data>
-  <data name="CreateDesktopShortcutToolTip" xml:space="preserve">
-    <value>Create a shortcut to this app on your desktop</value>
-  </data>
   <data name="ExtensionName" xml:space="preserve">
     <value>Extension Name</value>
   </data>
@@ -158,6 +152,12 @@
   </data>
   <data name="OthersToolTip" xml:space="preserve">
     <value>Other options</value>
+  </data>
+  <data name="PinToDesktop" xml:space="preserve">
+    <value>Pin to desktop</value>
+  </data>
+  <data name="PinToDesktopToolTip" xml:space="preserve">
+    <value>Pin the app to desktop</value>
   </data>
   <data name="PinToStartScreen" xml:space="preserve">
     <value>Pin to the Start screen</value>

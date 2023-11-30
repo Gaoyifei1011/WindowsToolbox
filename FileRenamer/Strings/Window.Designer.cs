@@ -88,24 +88,6 @@ namespace FileRenamer.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Create desktop shortcut 的本地化字符串。
-        /// </summary>
-        public static string CreateDesktopShortcut {
-            get {
-                return ResourceManager.GetString("CreateDesktopShortcut", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Create a shortcut to this app on your desktop 的本地化字符串。
-        /// </summary>
-        public static string CreateDesktopShortcutToolTip {
-            get {
-                return ResourceManager.GetString("CreateDesktopShortcutToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Extension Name 的本地化字符串。
         /// </summary>
         public static string ExtensionName {
@@ -183,6 +165,24 @@ namespace FileRenamer.Strings {
         public static string OthersToolTip {
             get {
                 return ResourceManager.GetString("OthersToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Pin to desktop 的本地化字符串。
+        /// </summary>
+        public static string PinToDesktop {
+            get {
+                return ResourceManager.GetString("PinToDesktop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Pin the app to desktop 的本地化字符串。
+        /// </summary>
+        public static string PinToDesktopToolTip {
+            get {
+                return ResourceManager.GetString("PinToDesktopToolTip", resourceCulture);
             }
         }
         
