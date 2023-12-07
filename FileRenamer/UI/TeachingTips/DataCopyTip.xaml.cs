@@ -1,35 +1,26 @@
 using FileRenamer.Extensions.DataType.Enums;
 using FileRenamer.Strings;
-using FileRenamer.Views.CustomControls.Notifications;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
-namespace FileRenamer.UI.Notifications
+namespace FileRenamer.UI.TeachingTips
 {
     /// <summary>
     /// 数据复制应用内通知
     /// </summary>
-    public sealed partial class DataCopyNotification : InAppNotification
+    public sealed partial class DataCopyTip : TeachingTip
     {
-        private bool IsMultiSelected;
-        private int Count;
-        private DataCopyKind DataCopyType;
-
-        public DataCopyNotification(FrameworkElement element, DataCopyKind copyType, bool isMultiSelected = false, int count = 0) : base(element)
+        public DataCopyTip(DataCopyKind dataCopyKind, bool isMultiSelected = false, int count = 0)
         {
             InitializeComponent();
-            DataCopyType = copyType;
-            IsMultiSelected = isMultiSelected;
-            Count = count;
-
-            InitializeContent();
+            InitializeContent(dataCopyKind, isMultiSelected, count);
         }
 
         /// <summary>
         /// 初始化内容
         /// </summary>
-        private void InitializeContent()
+        private void InitializeContent(DataCopyKind dataCopyKind, bool isMultiSelected, int count)
         {
-            switch (DataCopyType)
+            switch (dataCopyKind)
             {
                 case DataCopyKind.AppInformation:
                     {
@@ -38,9 +29,9 @@ namespace FileRenamer.UI.Notifications
                     }
                 case DataCopyKind.OperationFailed:
                     {
-                        if (IsMultiSelected)
+                        if (isMultiSelected)
                         {
-                            Content = string.Format(Notification.OperationFailedSelectedCopy, Count);
+                            Content = string.Format(Notification.OperationFailedSelectedCopy, count);
                         }
                         else
                         {

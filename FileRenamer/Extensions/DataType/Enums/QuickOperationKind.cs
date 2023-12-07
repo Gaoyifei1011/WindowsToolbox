@@ -2,7 +2,7 @@
 {
     public enum QuickOperationKind
     {
-        DesktopShortcut = 0,
+        Desktop = 0,
         StartScreen = 1,
         Taskbar = 2,
     }

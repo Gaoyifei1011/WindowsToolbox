@@ -1,7 +1,8 @@
 using FileRenamer.Extensions.DataType.Enums;
+using FileRenamer.Helpers.Controls.Extensions;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Strings;
-using FileRenamer.UI.Notifications;
+using FileRenamer.UI.TeachingTips;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -170,7 +171,7 @@ namespace FileRenamer.UI.Dialogs.About
 
             CopyPasteHelper.CopyToClipBoard(stringBuilder.ToString());
             sender.Hide();
-            new DataCopyNotification(this, DataCopyKind.AppInformation).Show();
+            TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.AppInformation));
         }
 
         /// <summary>

@@ -1,0 +1,17 @@
+﻿using FileRenamer.Strings;
+using Microsoft.UI.Xaml.Controls;
+
+namespace FileRenamer.UI.TeachingTips
+{
+    /// <summary>
+    /// 语言设置修改应用内通知
+    /// </summary>
+    public sealed partial class LanguageChangeTip : TeachingTip
+    {
+        public LanguageChangeTip()
+        {
+            InitializeComponent();
+            Content = Notification.LanguageChange;
+        }
+    }
+}

@@ -1,8 +1,9 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
+using FileRenamer.Helpers.Controls.Extensions;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Strings;
-using FileRenamer.UI.Notifications;
+using FileRenamer.UI.TeachingTips;
 using System.Collections.ObjectModel;
 using System.Text;
 using Windows.UI.Xaml.Controls;
@@ -45,7 +46,7 @@ namespace FileRenamer.UI.Dialogs
                 builder.Append(Dialog.ExceptionCode);
                 builder.AppendLine(operationFailedItem.Exception.HResult.ToString());
                 CopyPasteHelper.CopyToClipBoard(builder.ToString());
-                new DataCopyNotification(this, DataCopyKind.OperationFailed, false).Show();
+                TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.OperationFailed, false));
             }
         }
 
@@ -71,7 +72,7 @@ namespace FileRenamer.UI.Dialogs
             }
             CopyPasteHelper.CopyToClipBoard(builder.ToString());
             sender.Hide();
-            new DataCopyNotification(this, DataCopyKind.OperationFailed, true, OperationFailedList.Count).Show();
+            TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.OperationFailed, true, OperationFailedList.Count));
         }
     }
 }

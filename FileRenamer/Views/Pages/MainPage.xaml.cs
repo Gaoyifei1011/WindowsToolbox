@@ -1,10 +1,11 @@
 ﻿using FileRenamer.Extensions.DataType.Enums;
 using FileRenamer.Helpers.Controls;
+using FileRenamer.Helpers.Controls.Extensions;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Services.Window;
 using FileRenamer.UI.Dialogs;
-using FileRenamer.UI.Notifications;
+using FileRenamer.UI.TeachingTips;
 using FileRenamer.WindowsAPI.PInvoke.User32;
 using System;
 using System.Collections.Generic;
@@ -456,7 +457,7 @@ namespace FileRenamer.Views.Pages
                 {
                     Program.MainWindow.BeginInvoke(() =>
                     {
-                        new QuickOperationNotification(this, QuickOperationKind.DesktopShortcut, IsCreatedSuccessfully).Show();
+                        TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.Desktop, IsCreatedSuccessfully));
                     });
                 }
             });
@@ -495,7 +496,7 @@ namespace FileRenamer.Views.Pages
                 {
                     Program.MainWindow.BeginInvoke(() =>
                     {
-                        new QuickOperationNotification(this, QuickOperationKind.StartScreen, IsPinnedSuccessfully).Show();
+                        TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.StartScreen, IsPinnedSuccessfully));
                     });
                 }
             });
@@ -523,7 +524,7 @@ namespace FileRenamer.Views.Pages
             catch (Exception) { }
             finally
             {
-                new QuickOperationNotification(this, QuickOperationKind.Taskbar, IsPinnedSuccessfully).Show();
+                TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.Taskbar, IsPinnedSuccessfully));
             }
         }
 

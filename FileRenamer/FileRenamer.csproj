@@ -44,49 +44,49 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>FileProperties.resx</DependentUpon>
     </Compile>
-    
+
     <Compile Update="Strings\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    
+
     <Compile Update="Strings\About.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>About.resx</DependentUpon>
     </Compile>
-    
+
     <Compile Update="Strings\Dialog.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Dialog.resx</DependentUpon>
     </Compile>
-    
+
     <Compile Update="Strings\FileName.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>FileName.resx</DependentUpon>
     </Compile>
-    
+
     <Compile Update="Strings\Notification.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Notification.resx</DependentUpon>
     </Compile>
-    
+
     <Compile Update="Strings\Settings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.resx</DependentUpon>
     </Compile>
-    
+
     <Compile Update="Strings\UpperAndLowerCase.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>UpperAndLowerCase.resx</DependentUpon>
     </Compile>
-    
+
     <Compile Update="Strings\Window.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -156,16 +156,16 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
 
     <None Remove="Assets\FileRenamer.ico" />
-    
+
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" IncludeAssets="none" ExcludeAssets="all" PrivateAssets="all" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" GeneratePathProperty="true" IncludeAssets="none" ExcludeAssets="all" PrivateAssets="all" />
     <PackageReference Include="Mile.Xaml" Version="2.1.661" />
-    
+
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />
     <Reference Include="Microsoft.UI.Windowing" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0.18362\Microsoft.UI.winmd" IsWinMDFile="true" Private="false" />
     <Reference Include="PresentationFramework" />
-    
+
     <EmbeddedResource Update="Strings\ExtensionName.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\ExtensionName.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ExtensionName.Designer.cs" />
     <EmbeddedResource Update="Strings\ExtensionName.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
@@ -175,7 +175,7 @@
     <EmbeddedResource Update="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
     <EmbeddedResource Update="Strings\Resources.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Resources.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\About.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="About.Designer.cs" /> 
+    <EmbeddedResource Update="Strings\About.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="About.Designer.cs" />
     <EmbeddedResource Update="Strings\About.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\About.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Dialog.en-us.resx" Generator="PublicResXFileCodeGenerator" />

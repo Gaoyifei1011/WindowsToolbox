@@ -1,15 +1,14 @@
 ﻿using FileRenamer.Strings;
-using FileRenamer.Views.CustomControls.Notifications;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
-namespace FileRenamer.UI.Notifications
+namespace FileRenamer.UI.TeachingTips
 {
     /// <summary>
     /// 操作完成后应用内通知
     /// </summary>
-    public sealed partial class OperationResultNotification : InAppNotification
+    public sealed partial class OperationResultTip : TeachingTip
     {
-        public OperationResultNotification(FrameworkElement element, int successItems, int failedItems) : base(element)
+        public OperationResultTip(int successItems, int failedItems)
         {
             InitializeComponent();
             Content = failedItems is 0 ?

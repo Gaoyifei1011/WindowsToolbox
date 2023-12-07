@@ -1,6 +1,7 @@
-﻿using FileRenamer.Helpers.Root;
+﻿using FileRenamer.Helpers.Controls.Extensions;
+using FileRenamer.Helpers.Root;
 using FileRenamer.Services.Controls.Settings;
-using FileRenamer.UI.Notifications;
+using FileRenamer.UI.TeachingTips;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -143,7 +144,7 @@ namespace FileRenamer.Views.Pages
                     {
                         AppLanguage = LanguageList[selectedIndex];
                         LanguageService.SetLanguage(AppLanguage);
-                        new LanguageChangeNotification(this).Show();
+                        TeachingTipHelper.Show(new LanguageChangeTip());
                     }
                 };
                 LanguageFlyout.Items.Add(toggleMenuFlyoutItem);

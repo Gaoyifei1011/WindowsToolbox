@@ -1,9 +1,10 @@
 ﻿using FileRenamer.Helpers.Controls;
+using FileRenamer.Helpers.Controls.Extensions;
 using FileRenamer.Helpers.Root;
 using FileRenamer.Models;
 using FileRenamer.Strings;
 using FileRenamer.UI.Dialogs;
-using FileRenamer.UI.Notifications;
+using FileRenamer.UI.TeachingTips;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -288,7 +289,7 @@ namespace FileRenamer.Views.Pages
                     OperationFailedList.Clear();
                     if (FileNameDataList.Count is 0)
                     {
-                        new ListEmptyNotification(this).Show();
+                        TeachingTipHelper.Show(new ListEmptyTip());
                     }
                     else
                     {
@@ -297,7 +298,7 @@ namespace FileRenamer.Views.Pages
                 }
                 else
                 {
-                    new NoOperationNotification(this).Show();
+                    TeachingTipHelper.Show(new NoOperationTip());
                 }
             }
             else if (args.Key is VirtualKey.Control && args.Key is VirtualKey.Enter)
@@ -309,7 +310,7 @@ namespace FileRenamer.Views.Pages
                     OperationFailedList.Clear();
                     if (FileNameDataList.Count is 0)
                     {
-                        new ListEmptyNotification(this).Show();
+                        TeachingTipHelper.Show(new ListEmptyTip());
                     }
                     else
                     {
@@ -319,7 +320,7 @@ namespace FileRenamer.Views.Pages
                 }
                 else
                 {
-                    new NoOperationNotification(this).Show();
+                    TeachingTipHelper.Show(new NoOperationTip());
                 }
             }
         }
@@ -392,7 +393,7 @@ namespace FileRenamer.Views.Pages
                 OperationFailedList.Clear();
                 if (FileNameDataList.Count is 0)
                 {
-                    new ListEmptyNotification(this).Show();
+                    TeachingTipHelper.Show(new ListEmptyTip());
                 }
                 else
                 {
@@ -401,7 +402,7 @@ namespace FileRenamer.Views.Pages
             }
             else
             {
-                new NoOperationNotification(this).Show();
+                TeachingTipHelper.Show(new NoOperationTip());
             }
         }
 
@@ -416,7 +417,7 @@ namespace FileRenamer.Views.Pages
                 OperationFailedList.Clear();
                 if (FileNameDataList.Count is 0)
                 {
-                    new ListEmptyNotification(this).Show();
+                    TeachingTipHelper.Show(new ListEmptyTip());
                 }
                 else
                 {
@@ -426,7 +427,7 @@ namespace FileRenamer.Views.Pages
             }
             else
             {
-                new NoOperationNotification(this).Show();
+                TeachingTipHelper.Show(new NoOperationTip());
             }
         }
 
@@ -746,7 +747,7 @@ namespace FileRenamer.Views.Pages
                         OperationFailedList.Add(item);
                     }
 
-                    new OperationResultNotification(this, FileNameDataList.Count - OperationFailedList.Count, OperationFailedList.Count).Show();
+                    TeachingTipHelper.Show(new OperationResultTip(FileNameDataList.Count - OperationFailedList.Count, OperationFailedList.Count));
                     FileNameDataList.Clear();
                 });
             });
