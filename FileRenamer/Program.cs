@@ -73,7 +73,6 @@ namespace FileRenamer
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
             ApplicationRoot = new App();
-            ResourceDictionaryHelper.InitializeResourceDictionary();
 
             Application.SetCompatibleTextRenderingDefault(false);
 

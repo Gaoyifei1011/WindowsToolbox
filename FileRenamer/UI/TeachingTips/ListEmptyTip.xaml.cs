@@ -1,5 +1,4 @@
-﻿using FileRenamer.Strings;
-using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml.Controls;
 
 namespace FileRenamer.UI.TeachingTips
 {
@@ -11,7 +10,6 @@ namespace FileRenamer.UI.TeachingTips
         public ListEmptyTip()
         {
             InitializeComponent();
-            Content = Notification.ListEmpty;
         }
     }
 }
