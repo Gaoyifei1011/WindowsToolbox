@@ -1,8 +1,8 @@
 <div align=center>
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/5f1dce26-8767-439e-8211-98cb0182acdf" width="140" height="140"/>
+<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/016c7974-b154-47c0-b813-6169f4f49609" width="140" height="140"/>
 </div>
 
-# <p align="center">欢迎访问 文件重命名工具</p>
+# <p align="center">欢迎访问 Windows 工具箱</p>
 
 ### 应用简介
 
@@ -50,7 +50,7 @@
 > * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
 > * [Microsoft.Windows.CppWinRT](https://github.com/Microsoft/cppwinrt)&emsp;
 
-[学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/FileRenamer/blob/main/Description/StudyReferenceCode.md)&emsp;
+[学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;
 
 ------
 
@@ -59,7 +59,7 @@
 > * 该程序使用的是Mile.Xaml（Xaml Islands）构建的，建议您的系统版本为Windows 11（代号 21H2 / 内部版本号 22000）或更高版本，最低版本为Windows 10（代号2004 / 内部版本号19041）或更高版本。
 > * 如果您的系统低于Windows 11（代号 22H2 / 内部版本号 22621），应用功能存在一些限制：
     不支持设置背景色
-> * [Release](https://github.com/Gaoyifei1011/FileRenamer/releases)页面的二进制安装文件已经打包成压缩包。请解压压缩包并使用Powershell管理员模式（必要情况下）运行install.ps1文件方可实现快速安装。
+> * [Release](https://github.com/Gaoyifei1011/WindowsToolbox/releases)页面的二进制安装文件已经打包成压缩包。请解压压缩包并使用Powershell管理员模式（必要情况下）运行install.ps1文件方可实现快速安装。
 > * 自行下载项目源代码并编译。（请仔细阅读下面的项目编译步骤）
 
 ------
@@ -75,19 +75,19 @@
 
 打包版本
 > * 克隆项目并下载代码到本地
-> * 使用Visual Studio 2022打开FileRenamer.sln文件，如果解决方案提示部分工具没有安装，请完成安装工具步骤后再次打开该解决方案。
+> * 使用Visual Studio 2022打开WindowsToolbox.sln文件，如果解决方案提示部分工具没有安装，请完成安装工具步骤后再次打开该解决方案。
 > * 还原项目的Nuget包。
-> * 还原完成后，右键FileRenamerPackage，将该项目设为启动项目，并点击部署。
+> * 还原完成后，右键WindowsToolboxPackage，将该项目设为启动项目，并点击部署。
 > * 部署完成后打开“开始”菜单即可运行应用。
 
 未打包版本
 > * 克隆项目并下载代码到本地
-> * 使用Visual Studio 2022打开FileRenamer.sln文件，如果解决方案提示部分工具没有安装，请完成安装工具步骤后再次打开该解决方案。
+> * 使用Visual Studio 2022打开WindowsToolbox.sln文件，如果解决方案提示部分工具没有安装，请完成安装工具步骤后再次打开该解决方案。
 > * 还原项目的Nuget包。
-> * 还原完成后，右键FileRenamerPackage，并点击生成（不要部署）。
-> * FileRenamerPackage项目生成完成后，右键FileRenamer，将该项目设为启动项目，并点击生成。
-  * FileRenamer项目生成完成后，打开本地生成的目录（相对路径：FileRenamer\bin\x64\Debug(Release)\net481\win10-x64）,并同时打开FileRenamerPackage项目生成的目录（相对路径：FileRenamerPackage\bin\x64\Debug(Release)）,将该目录下的resources.pri文件拷贝到FileRenamer项目生成的目录下。
-  * 拷贝完成后即可运行未打包的FileRenamer.exe程序。
+> * 还原完成后，右键WindowsToolboxPackage，并点击生成（不要部署）。
+> * WindowsToolboxPackage项目生成完成后，右键WindowsToolbox，将该项目设为启动项目，并点击生成。
+  * WindowsToolbox项目生成完成后，打开本地生成的目录（相对路径：WindowsToolbox\bin\x64\Debug(Release)\net481\win10-x64）,并同时打开WindowsToolboxPackage项目生成的目录（相对路径：WindowsToolboxPackage\bin\x64\Debug(Release)）,将该目录下的resources.pri文件拷贝到WindowsToolbox项目生成的目录下。
+  * 拷贝完成后即可运行未打包的WindowsToolbox.exe程序。
 
 #### <p align="center">应用本地化</p>
 ##### 项目在最初仅提供简体中文和英文两种语言格式，如果您想将应用翻译到您熟悉的语言或纠正已完成翻译的内容中存在的错误，请参考下面的步骤。
@@ -97,8 +97,8 @@
 > * 打开项目主页面的README.md，在最上方的“语言选择”中添加您对应的语言。例如“英文”，注意该文字附带超链接。
 > * README_(对应的语言).md文件中添加的语言截图替换为您熟悉的语言的应用截图。
 > * 完成上面所述的翻译步骤，确保所有步骤能够顺利运行。
-> * 打开FileRenamerPackage打包项目，找到Package.appxmanifest文件，右键该文件，点击查看代码，找到Resources标签，根据模板添加相对应的语言，例如“<Resource Language="EN-US"/>”。
-> * 打开FileRenamer项目的Strings文件夹，并创建您使用的语言，比如（English(United States)）文件名称为*.en-us.resx，具体可以参考表示语言(文化)代码与国家地区对照表）。
+> * 打开WindowsToolboxPackage打包项目，找到Package.appxmanifest文件，右键该文件，点击查看代码，找到Resources标签，根据模板添加相对应的语言，例如“<Resource Language="EN-US"/>”。
+> * 打开WindowsToolbox项目的Strings文件夹，并创建您使用的语言，比如（English(United States)）文件名称为*.en-us.resx，具体可以参考表示语言(文化)代码与国家地区对照表）。
 > * 打开子文件夹下的resx文件，对每一个名称进行翻译。
 > * 编译运行代码并测试您的语言，应用在初次打开的时候如果没有您使用的语言默认显示English(United States)，需要在设置中动态调整。
 > * 完成上述步骤后创建PR，然后将修改的内容提交到本项目，等待合并即可。
@@ -117,4 +117,4 @@
 
 > * 该项目自2023年3月20日起，到2023年7月29日结束，共历时4个月零9天。
 > * 该项目是基于MIT协议许可的开源项目，您可以修改、分发该项目或将副本与新副本合并。如果您使用了该项目，请勿用于非法用途，本开发者不会承担任何责任。
-> * [工具原型](https://github.com/Gaoyifei1011/FileRenamer/blob/main/Description/RawApplicationDescription.md)&emsp;
+> * [工具原型](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/RawApplicationDescription.md)&emsp;
