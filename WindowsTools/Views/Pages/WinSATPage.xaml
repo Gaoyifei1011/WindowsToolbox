@@ -1,0 +1,541 @@
+<Page
+    x:Class="WindowsTools.Views.Pages.WinSATPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helper="using:WindowsTools.Helpers.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:string="using:WindowsTools.Strings"
+    Loaded="{x:Bind OnLoaded}"
+    NavigationCacheMode="Enabled"
+    mc:Ignorable="d">
+
+    <Grid Padding="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Margin="30,15,30,6"
+            FontSize="22"
+            Text="{x:Bind string:WinSAT.Title}" />
+
+        <TextBlock
+            Grid.Row="1"
+            Margin="32,0,32,3"
+            FontSize="14"
+            Text="{x:Bind string:WinSAT.Description}" />
+
+        <Grid Grid.Row="2" Margin="30,0,30,3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid
+                Grid.Row="0"
+                Height="35"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="175" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Name="ComponentHeaderText"
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:WinSAT.Component}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:WinSAT.Component}" Visibility="{x:Bind ComponentHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="AssessmentItemsHeaderText"
+                    Grid.Column="1"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:WinSAT.AssessmentItems}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:WinSAT.AssessmentItems}" Visibility="{x:Bind AssessmentItemsHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="SubScoreHeaderText"
+                    Grid.Column="2"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:WinSAT.SubScore}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:WinSAT.SubScore}" Visibility="{x:Bind SubScoreHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="BasicScoreHeaderText"
+                    Grid.Column="3"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:WinSAT.BasicScore}"
+                    TextAlignment="Center"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:WinSAT.BasicScore}" Visibility="{x:Bind BasicScoreHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+            </Grid>
+
+            <Grid
+                Grid.Row="1"
+                Height="35"
+                Margin="0,0,175,0"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1,0,1,1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Name="ProcessorText"
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:WinSAT.Processor}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:WinSAT.Processor}" Visibility="{x:Bind ProcessorText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="ProcessorItemText"
+                    Grid.Column="1"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:WinSAT.ProcessorItem}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:WinSAT.ProcessorItem}" Visibility="{x:Bind ProcessorItemText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="ProcessorSubScoreText"
+                    Grid.Column="2"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind ProcessorSubScore, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind ProcessorSubScore, Mode=OneWay}" Visibility="{x:Bind ProcessorSubScoreText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+            </Grid>
+
+            <Grid
+                Grid.Row="2"
+                Height="35"
+                Margin="0,0,175,0"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1,0,1,1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Name="MemoryText"
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:WinSAT.Memory}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:WinSAT.Memory}" Visibility="{x:Bind MemoryText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="MemoryItemText"
+                    Grid.Column="1"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:WinSAT.MemoryItem}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:WinSAT.MemoryItem}" Visibility="{x:Bind MemoryItemText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="MemorySubScoreText"
+                    Grid.Column="2"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind MemorySubScore, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind MemorySubScore, Mode=OneWay}" Visibility="{x:Bind MemorySubScoreText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+            </Grid>
+
+            <Grid
+                Grid.Row="3"
+                Height="35"
+                Margin="0,0,175,0"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1,0,1,1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Name="GraphicsText"
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:WinSAT.Graphics}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:WinSAT.Graphics}" Visibility="{x:Bind GraphicsText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="GraphicsItemText"
+                    Grid.Column="1"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:WinSAT.GraphicsItem}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:WinSAT.GraphicsItem}" Visibility="{x:Bind GraphicsItemText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="GraphicsSubScoreText"
+                    Grid.Column="2"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind GraphicsSubScore, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind GraphicsSubScore, Mode=OneWay}" Visibility="{x:Bind GraphicsSubScoreText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+            </Grid>
+
+            <Grid
+                Grid.Row="4"
+                Height="35"
+                Margin="0,0,175,0"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1,0,1,1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Name="GamingGraphicsText"
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:WinSAT.GamingGraphics}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:WinSAT.GamingGraphics}" Visibility="{x:Bind GamingGraphicsText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="GamingGraphicsItemText"
+                    Grid.Column="1"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:WinSAT.GamingGraphicsItem}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:WinSAT.GamingGraphicsItem}" Visibility="{x:Bind GamingGraphicsItemText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="GamingGraphicsSubScoreText"
+                    Grid.Column="2"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind GamingGraphicsSubScore, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind GamingGraphicsSubScore, Mode=OneWay}" Visibility="{x:Bind GamingGraphicsSubScoreText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+            </Grid>
+
+            <Grid
+                Grid.Row="5"
+                Height="35"
+                Margin="0,0,175,0"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1,0,1,1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Name="PrimaryDiskText"
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:WinSAT.PrimaryDisk}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:WinSAT.PrimaryDisk}" Visibility="{x:Bind PrimaryDiskText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="PrimaryDiskItemText"
+                    Grid.Column="1"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:WinSAT.PrimaryDiskItem}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:WinSAT.PrimaryDiskItem}" Visibility="{x:Bind PrimaryDiskItemText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="PrimaryDiskSubScoreText"
+                    Grid.Column="2"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind PrimaryDiskSubScore, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind PrimaryDiskSubScore, Mode=OneWay}" Visibility="{x:Bind PrimaryDiskSubScoreText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+            </Grid>
+
+            <Grid
+                Grid.Row="1"
+                Grid.RowSpan="5"
+                Width="175"
+                Height="175"
+                HorizontalAlignment="Right"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,0,1,1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    x:Name="BasicScoreText"
+                    Grid.Row="0"
+                    Margin="0,0,0,15"
+                    VerticalAlignment="Center"
+                    FontSize="80"
+                    Foreground="{ThemeResource SystemAccentColor}"
+                    Text="{x:Bind BasicScore, Mode=OneWay}"
+                    TextAlignment="Center"
+                    Visibility="{x:Bind BasicScoreExisted, Mode=OneWay}" />
+
+                <TextBlock
+                    Grid.Row="0"
+                    Margin="0,0,0,15"
+                    VerticalAlignment="Center"
+                    FontSize="60"
+                    Foreground="{ThemeResource SystemErrorTextColor}"
+                    Text="{x:Bind BasicScore, Mode=OneWay}"
+                    TextAlignment="Center"
+                    Visibility="{x:Bind helper:ValueConverterHelper.BooleanToVisibilityReverseConvert(BasicScoreExisted), Mode=OneWay}" />
+
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="0,0,0,10"
+                    Text="{x:Bind string:WinSAT.LowestSubScore}"
+                    TextAlignment="Center" />
+            </Grid>
+        </Grid>
+
+        <muxc:InfoBar
+            Grid.Row="3"
+            Margin="30,0,30,3"
+            IsClosable="False"
+            IsIconVisible="True"
+            IsOpen="True"
+            Message="{x:Bind ResultMessage, Mode=OneWay}"
+            Severity="{x:Bind ResultServerity, Mode=OneWay}" />
+
+        <Grid
+            Grid.Row="4"
+            Height="61"
+            Margin="30,0,30,3"
+            Padding="16,12"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{StaticResource ControlCornerRadius}">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <FontIcon
+                Grid.Column="0"
+                Margin="0,0,12,0"
+                FontSize="16"
+                Glyph="&#xE74C;" />
+
+            <TextBlock
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Text="{x:Bind string:WinSAT.Operation}" />
+
+            <StackPanel
+                Grid.Column="2"
+                Orientation="Horizontal"
+                Spacing="5">
+
+                <Button
+                    Click="{x:Bind OnRunAssesssmentClicked}"
+                    Content="{x:Bind string:WinSAT.RunAssessment}"
+                    IsEnabled="{x:Bind IsNotRunningAssessment, Mode=OneWay}"
+                    Style="{StaticResource AccentButtonStyle}" />
+
+                <Button Click="{x:Bind OnOpenAssessmentLogFolderClicked}" Content="{x:Bind string:WinSAT.OpenAssessmentLogFolder}" />
+                <Button Click="{x:Bind OnLearnSystemAssessmentClicked}" Content="{x:Bind string:WinSAT.LearnSystemAssessment}" />
+            </StackPanel>
+        </Grid>
+
+        <muxc:Expander
+            Grid.Row="5"
+            Margin="30,0,30,3"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            IsExpanded="True">
+
+            <muxc:Expander.Header>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <FontIcon
+                        Grid.Column="0"
+                        Margin="0,0,12,0"
+                        FontSize="16"
+                        Glyph="&#xE82F;" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind string:WinSAT.Tips}" />
+                </Grid>
+            </muxc:Expander.Header>
+
+            <muxc:Expander.Content>
+                <StackPanel Margin="14,0,10,0">
+                    <TextBlock
+                        Margin="0,0,0,5"
+                        FontSize="13.5"
+                        FontWeight="Normal"
+                        Text="{x:Bind string:WinSAT.TipsContent1}"
+                        TextAlignment="Justify"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        FontSize="13.5"
+                        FontWeight="Normal"
+                        Text="{x:Bind string:WinSAT.TipsContent2}"
+                        TextAlignment="Justify"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </muxc:Expander.Content>
+        </muxc:Expander>
+    </Grid>
+</Page>
