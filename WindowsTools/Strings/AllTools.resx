@@ -123,6 +123,15 @@
   <data name="ExtensionNameDescription" xml:space="preserve">
     <value>Batch change file (folder) extension names</value>
   </data>
+  <data name="File" xml:space="preserve">
+    <value>File tools</value>
+  </data>
+  <data name="FileCertificate" xml:space="preserve">
+    <value>File certificate</value>
+  </data>
+  <data name="FileCertificateDescription" xml:space="preserve">
+    <value>Performs operations on the certificate of the signed file</value>
+  </data>
   <data name="FileName" xml:space="preserve">
     <value>File name</value>
   </data>
@@ -134,9 +143,6 @@
   </data>
   <data name="FilePropertiesDescription" xml:space="preserve">
     <value>Batch modify file (folder) properties</value>
-  </data>
-  <data name="FileRenamer" xml:space="preserve">
-    <value>File renamer tools</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>System tools</value>

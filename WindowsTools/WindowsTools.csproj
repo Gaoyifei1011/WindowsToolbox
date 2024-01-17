@@ -33,6 +33,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Update="Strings\FileCertificate.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FileCertificate.resx</DependentUpon>
+    </Compile>
     <Compile Update="Strings\AllTools.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -132,9 +137,10 @@
     <Content Include="Assets\ControlIcon\About.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\AllTools.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ExtensionName.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\File.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\FileCertificate.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileName.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileProperties.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\FileRenamer.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Settings.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\System.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\SystemInfo.png" CopyToOutputDirectory="Always" />
@@ -199,7 +205,10 @@
     <Reference Include="Microsoft.UI.Windowing" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0.18362\Microsoft.UI.winmd" IsWinMDFile="true" Private="false" />
 
     <Reference Include="Microsoft.CSharp" />
-    
+
+    <EmbeddedResource Update="Strings\FileCertificate.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\FileCertificate.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="FileCertificate.Designer.cs" />
+    <EmbeddedResource Update="Strings\FileCertificate.zh-hans.resx" Generator="PublicResXFileCodeGenerator" /> 
     <EmbeddedResource Update="Strings\AllTools.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\AllTools.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="AllTools.Designer.cs" />
     <EmbeddedResource Update="Strings\AllTools.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />

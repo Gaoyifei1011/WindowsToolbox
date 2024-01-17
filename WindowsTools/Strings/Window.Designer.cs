@@ -97,7 +97,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Extension Name 的本地化字符串。
+        ///   查找类似 Extension name 的本地化字符串。
         /// </summary>
         public static string ExtensionName {
             get {
@@ -106,7 +106,25 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 File Name 的本地化字符串。
+        ///   查找类似 File tools 的本地化字符串。
+        /// </summary>
+        public static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File certificate 的本地化字符串。
+        /// </summary>
+        public static string FileCertificate {
+            get {
+                return ResourceManager.GetString("FileCertificate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File name 的本地化字符串。
         /// </summary>
         public static string FileName {
             get {
@@ -115,20 +133,11 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 File Properties 的本地化字符串。
+        ///   查找类似 File properties 的本地化字符串。
         /// </summary>
         public static string FileProperties {
             get {
                 return ResourceManager.GetString("FileProperties", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 File renamer tools 的本地化字符串。
-        /// </summary>
-        public static string FileRenamer {
-            get {
-                return ResourceManager.GetString("FileRenamer", resourceCulture);
             }
         }
         
@@ -214,7 +223,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Upper and Lower Case 的本地化字符串。
+        ///   查找类似 Upper and lower case 的本地化字符串。
         /// </summary>
         public static string UpperAndLowerCase {
             get {
@@ -223,7 +232,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 System Assessment 的本地化字符串。
+        ///   查找类似 System assessment 的本地化字符串。
         /// </summary>
         public static string WinSAT {
             get {

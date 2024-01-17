@@ -115,14 +115,14 @@
                     VerticalAlignment="Center"
                     FontSize="18"
                     Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{x:Bind string:AllTools.FileRenamer}" />
+                    Text="{x:Bind string:AllTools.File}" />
 
                 <GridView
                     IsItemClickEnabled="True"
                     IsSwipeEnabled="False"
                     ItemClick="{x:Bind OnItemClicked}"
                     ItemTemplate="{StaticResource ControlItemTemplate}"
-                    ItemsSource="{x:Bind FileRenamerToolsList}"
+                    ItemsSource="{x:Bind FileToolsList}"
                     SelectionMode="None"
                     TabIndex="1">
 

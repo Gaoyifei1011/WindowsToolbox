@@ -150,10 +150,10 @@
 
                 <muxc:NavigationViewItemSeparator />
 
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.FileRenamer}" Tag="1">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.File}" Tag="1">
 
                     <muxc:NavigationViewItem.Icon>
-                        <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/FileRenamer.png" />
+                        <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/File.png" />
                     </muxc:NavigationViewItem.Icon>
 
                     <muxc:NavigationViewItem.MenuItems>
@@ -184,24 +184,31 @@
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/FileProperties.png" />
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
+
+                        <muxc:NavigationViewItem Content="{x:Bind string:Window.FileCertificate}" Tag="6">
+
+                            <muxc:NavigationViewItem.Icon>
+                                <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/FileCertificate.png" />
+                            </muxc:NavigationViewItem.Icon>
+                        </muxc:NavigationViewItem>
                     </muxc:NavigationViewItem.MenuItems>
                 </muxc:NavigationViewItem>
 
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.System}" Tag="6">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.System}" Tag="7">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/System.png" />
                     </muxc:NavigationViewItem.Icon>
 
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.SystemInfo}" Tag="7">
+                        <muxc:NavigationViewItem Content="{x:Bind string:Window.SystemInfo}" Tag="8">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/SystemInfo.png" />
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.WinSAT}" Tag="8">
+                        <muxc:NavigationViewItem Content="{x:Bind string:Window.WinSAT}" Tag="9">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/WinSAT.png" />
@@ -212,14 +219,14 @@
             </muxc:NavigationView.MenuItems>
 
             <muxc:NavigationView.FooterMenuItems>
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.About}" Tag="9">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.About}" Tag="10">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/About.png" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
 
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.Settings}" Tag="10">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.Settings}" Tag="11">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Settings.png" />

@@ -130,16 +130,19 @@
     <value>Close</value>
   </data>
   <data name="ExtensionName" xml:space="preserve">
-    <value>Extension Name</value>
+    <value>Extension name</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File tools</value>
+  </data>
+  <data name="FileCertificate" xml:space="preserve">
+    <value>File certificate</value>
   </data>
   <data name="FileName" xml:space="preserve">
-    <value>File Name</value>
+    <value>File name</value>
   </data>
   <data name="FileProperties" xml:space="preserve">
-    <value>File Properties</value>
-  </data>
-  <data name="FileRenamer" xml:space="preserve">
-    <value>File renamer tools</value>
+    <value>File properties</value>
   </data>
   <data name="Maximize" xml:space="preserve">
     <value>Maximize</value>
@@ -169,9 +172,9 @@
     <value>System information</value>
   </data>
   <data name="UpperAndLowerCase" xml:space="preserve">
-    <value>Upper and Lower Case</value>
+    <value>Upper and lower case</value>
   </data>
   <data name="WinSAT" xml:space="preserve">
-    <value>System Assessment</value>
+    <value>System assessment</value>
   </data>
 </root>

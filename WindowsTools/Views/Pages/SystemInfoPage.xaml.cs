@@ -18,7 +18,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 打开计算机管理
         /// </summary>
-        public void OnComputerManagementClicked(object sender, RoutedEventArgs args)
+        private void OnComputerManagementClicked(object sender, RoutedEventArgs args)
         {
             Task.Run(() =>
             {
@@ -29,7 +29,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 打开 Microsoft 管理控制台
         /// </summary>
-        public void OnManagementConsoleClicked(object sender, RoutedEventArgs args)
+        private void OnManagementConsoleClicked(object sender, RoutedEventArgs args)
         {
             Task.Run(() =>
             {
@@ -40,7 +40,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 打开注册表编辑器
         /// </summary>
-        public void OnRegistryEditorClicked(object sender, RoutedEventArgs args)
+        private void OnRegistryEditorClicked(object sender, RoutedEventArgs args)
         {
             Task.Run(() =>
             {

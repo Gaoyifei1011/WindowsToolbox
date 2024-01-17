@@ -79,11 +79,12 @@ namespace WindowsTools.Views.Pages
         private List<KeyValuePair<string, Type>> PageList { get; } = new List<KeyValuePair<string, Type>>()
         {
             new KeyValuePair<string, Type>("AllTools",typeof(AllToolsPage)),
-            new KeyValuePair<string, Type>("FileRenamer",null),
+            new KeyValuePair<string, Type>("File",null),
             new KeyValuePair<string, Type>("FileName",typeof(FileNamePage)),
             new KeyValuePair<string, Type>("ExtensionName", typeof(ExtensionNamePage)),
             new KeyValuePair<string, Type>("UpperAndLowerCase", typeof(UpperAndLowerCasePage)),
             new KeyValuePair<string, Type>("FileProperties", typeof(FilePropertiesPage)),
+            new KeyValuePair<string, Type>("FileCertificate",typeof(FileCertificatePage)),
             new KeyValuePair<string, Type>("System",null),
             new KeyValuePair<string, Type>("SystemInfo",typeof(SystemInfoPage)),
             new KeyValuePair<string, Type>("WinSAT",typeof(WinSATPage)),

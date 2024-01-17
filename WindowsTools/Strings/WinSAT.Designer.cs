@@ -88,7 +88,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 The Windows Experience Index evaluates major system components with scores ranging from 1.0 to 7.9 的本地化字符串。
+        ///   查找类似 The Windows Experience Index evaluates major system components with scores ranging from 1.0 to 9.9 的本地化字符串。
         /// </summary>
         public static string Description {
             get {

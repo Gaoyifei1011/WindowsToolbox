@@ -127,7 +127,7 @@
     <value>组件</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Windows 体验指数评估主要系统组件，分数范围从 1.0 到 7.9</value>
+    <value>Windows 体验指数评估主要系统组件，分数范围从 1.0 到 9.9</value>
   </data>
   <data name="ErrorMessage" xml:space="preserve">
     <value>尚未建立 Windows 体验指数</value>

@@ -123,6 +123,15 @@
   <data name="ExtensionNameDescription" xml:space="preserve">
     <value>批量修改文件（夹）扩展名称</value>
   </data>
+  <data name="File" xml:space="preserve">
+    <value>文件工具</value>
+  </data>
+  <data name="FileCertificate" xml:space="preserve">
+    <value>文件证书</value>
+  </data>
+  <data name="FileCertificateDescription" xml:space="preserve">
+    <value>对已签名文件的证书进行操作</value>
+  </data>
   <data name="FileName" xml:space="preserve">
     <value>文件名称</value>
   </data>
@@ -134,9 +143,6 @@
   </data>
   <data name="FilePropertiesDescription" xml:space="preserve">
     <value>批量修改文件（夹）属性</value>
-  </data>
-  <data name="FileRenamer" xml:space="preserve">
-    <value>文件重命名工具</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>系统工具</value>

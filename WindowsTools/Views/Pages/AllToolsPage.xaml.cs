@@ -13,7 +13,7 @@ namespace WindowsTools.Views.Pages
     public sealed partial class AllToolsPage : Page
     {
         // 文件重命名工具列表
-        private List<ControlItemModel> FileRenamerToolsList { get; } = new List<ControlItemModel>()
+        private List<ControlItemModel> FileToolsList { get; } = new List<ControlItemModel>()
         {
             new ControlItemModel()
             {
@@ -42,6 +42,13 @@ namespace WindowsTools.Views.Pages
                 Description = AllTools.FilePropertiesDescription,
                 ImagePath = "ms-appx:///Assets/ControlIcon/FileProperties.png",
                 Tag = "FileProperties"
+            },
+            new ControlItemModel()
+            {
+                Title = AllTools.FileCertificate,
+                Description = AllTools.FileCertificateDescription,
+                ImagePath = "ms-appx:///Assets/ControlIcon/FileCertificate.png",
+                Tag = "FileCertificate"
             },
         };
 

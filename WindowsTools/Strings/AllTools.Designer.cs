@@ -79,6 +79,33 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 File tools 的本地化字符串。
+        /// </summary>
+        public static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File certificate 的本地化字符串。
+        /// </summary>
+        public static string FileCertificate {
+            get {
+                return ResourceManager.GetString("FileCertificate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Performs operations on the certificate of the signed file 的本地化字符串。
+        /// </summary>
+        public static string FileCertificateDescription {
+            get {
+                return ResourceManager.GetString("FileCertificateDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 File name 的本地化字符串。
         /// </summary>
         public static string FileName {
@@ -111,15 +138,6 @@ namespace WindowsTools.Strings {
         public static string FilePropertiesDescription {
             get {
                 return ResourceManager.GetString("FilePropertiesDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 File renamer tools 的本地化字符串。
-        /// </summary>
-        public static string FileRenamer {
-            get {
-                return ResourceManager.GetString("FileRenamer", resourceCulture);
             }
         }
         

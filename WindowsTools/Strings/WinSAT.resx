@@ -127,7 +127,7 @@
     <value>Component</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>The Windows Experience Index evaluates major system components with scores ranging from 1.0 to 7.9</value>
+    <value>The Windows Experience Index evaluates major system components with scores ranging from 1.0 to 9.9</value>
   </data>
   <data name="ErrorMessage" xml:space="preserve">
     <value>The Windows experience score has not been established</value>
