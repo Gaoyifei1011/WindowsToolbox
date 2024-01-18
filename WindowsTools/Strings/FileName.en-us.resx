@@ -142,7 +142,7 @@
     <value>Close</value>
   </data>
   <data name="DragOverContent" xml:space="preserve">
-    <value>Copy the file to the File Name page</value>
+    <value>Add to the File Name page</value>
   </data>
   <data name="EmptyList" xml:space="preserve">
     <value>There is no content</value>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WindowsTools.Models;
 using WindowsTools.Services.Controls.Settings;
+using WindowsTools.Services.Root;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
@@ -325,8 +327,9 @@ namespace WindowsTools.Views.Pages
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                LogService.WriteLog(EventLogEntryType.Error, string.Format(Strings.Window.NavigationFailed, args.SourcePageType.FullName), e);
             }
         }
 
@@ -370,8 +373,9 @@ namespace WindowsTools.Views.Pages
                     (MainNavigationView.Content as Frame).Navigate(navigationItem.NavigationPage, parameter);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                LogService.WriteLog(EventLogEntryType.Error, string.Format(Strings.Window.NavigationFailed, navigationPageType.FullName), e);
             }
         }
 

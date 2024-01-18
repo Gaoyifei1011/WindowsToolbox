@@ -13,6 +13,7 @@ using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Controls.Extensions;
 using WindowsTools.Helpers.Root;
+using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.Dialogs.About;
@@ -70,7 +71,10 @@ namespace WindowsTools.Views.Pages
                     AppShortcut.Save();
                     IsCreatedSuccessfully = true;
                 }
-                catch (Exception) { }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLogEntryType.Error, "Create desktop shortcut failed.", e);
+                }
                 finally
                 {
                     MainWindow.Current.BeginInvoke(() =>
@@ -109,7 +113,10 @@ namespace WindowsTools.Views.Pages
                     }
                     IsPinnedSuccessfully = true;
                 }
-                catch (Exception) { }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLogEntryType.Error, "Pin app to startscreen failed.", e);
+                }
                 finally
                 {
                     MainWindow.Current.BeginInvoke(() =>
@@ -139,7 +146,10 @@ namespace WindowsTools.Views.Pages
                     IsPinnedSuccessfully = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
                 }
             }
-            catch (Exception) { }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLogEntryType.Error, "Pin app to taskbar failed.", e);
+            }
             finally
             {
                 TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.Taskbar, IsPinnedSuccessfully));

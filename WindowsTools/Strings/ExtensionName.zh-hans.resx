@@ -124,7 +124,7 @@
     <value>清空列表</value>
   </data>
   <data name="DragOverContent" xml:space="preserve">
-    <value>复制到“扩展名称”页面中</value>
+    <value>添加到“扩展名称”页面中</value>
   </data>
   <data name="EmptyList" xml:space="preserve">
     <value>没有任何内容</value>

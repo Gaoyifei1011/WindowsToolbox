@@ -130,7 +130,7 @@
     <value>创建日期</value>
   </data>
   <data name="DragOverContent" xml:space="preserve">
-    <value>复制到“文件属性”页面中</value>
+    <value>添加到“文件属性”页面中</value>
   </data>
   <data name="EmptyList" xml:space="preserve">
     <value>没有任何内容</value>

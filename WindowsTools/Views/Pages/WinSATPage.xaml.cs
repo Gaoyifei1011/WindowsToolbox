@@ -163,6 +163,8 @@ namespace WindowsTools.Views.Pages
             InitializeComponent();
         }
 
+        #region 第一部分：系统评估页面——挂载的事件
+
         /// <summary>
         /// 初始化系统评估信息
         /// </summary>
@@ -205,6 +207,32 @@ namespace WindowsTools.Views.Pages
                 progressDialog = null;
             }
         }
+
+        /// <summary>
+        /// 打开评估日志目录
+        /// </summary>
+        private void OnOpenAssessmentLogFolderClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                Process.Start(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), @"performance\winsat\datastore"));
+            });
+        }
+
+        /// <summary>
+        /// 了解系统评估
+        /// </summary>
+        private void OnLearnSystemAssessmentClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                Process.Start("https://learn.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/configure-windows-system-assessment-test-scores");
+            });
+        }
+
+        #endregion 第一部分：系统评估页面——挂载的事件
+
+        #region 第二部分：自定义事件
 
         /// <summary>
         /// 评估取得进展时触发的事件
@@ -274,27 +302,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        /// <summary>
-        /// 打开评估日志目录
-        /// </summary>
-        private void OnOpenAssessmentLogFolderClicked(object sender, RoutedEventArgs args)
-        {
-            Task.Run(() =>
-            {
-                Process.Start(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), @"performance\winsat\datastore"));
-            });
-        }
-
-        /// <summary>
-        /// 了解系统评估
-        /// </summary>
-        private void OnLearnSystemAssessmentClicked(object sender, RoutedEventArgs args)
-        {
-            Task.Run(() =>
-            {
-                Process.Start("https://learn.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/configure-windows-system-assessment-test-scores");
-            });
-        }
+        #endregion 第二部分：自定义事件
 
         /// <summary>
         /// 属性值发生变化时通知更改

@@ -61,11 +61,110 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Clear list 的本地化字符串。
+        /// </summary>
+        public static string ClearList {
+            get {
+                return ResourceManager.GetString("ClearList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 This tool can help you remove digital signatures of files that cannot be signed with one click 的本地化字符串。
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Add to the File Certificate page 的本地化字符串。
+        /// </summary>
+        public static string DragOverContent {
+            get {
+                return ResourceManager.GetString("DragOverContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 There is no content 的本地化字符串。
+        /// </summary>
+        public static string EmptyList {
+            get {
+                return ResourceManager.GetString("EmptyList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File name 的本地化字符串。
+        /// </summary>
+        public static string FileName {
+            get {
+                return ResourceManager.GetString("FileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Modify 的本地化字符串。
+        /// </summary>
+        public static string Modify {
+            get {
+                return ResourceManager.GetString("Modify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Modifying now,please wait...... 的本地化字符串。
+        /// </summary>
+        public static string ModifyingNow {
+            get {
+                return ResourceManager.GetString("ModifyingNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select file 的本地化字符串。
+        /// </summary>
+        public static string SelectFile {
+            get {
+                return ResourceManager.GetString("SelectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select folder 的本地化字符串。
+        /// </summary>
+        public static string SelectFolder {
+            get {
+                return ResourceManager.GetString("SelectFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 File certificate 的本地化字符串。
         /// </summary>
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Total：{0} 的本地化字符串。
+        /// </summary>
+        public static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 View error information 的本地化字符串。
+        /// </summary>
+        public static string ViewErrorInformation {
+            get {
+                return ResourceManager.GetString("ViewErrorInformation", resourceCulture);
             }
         }
     }

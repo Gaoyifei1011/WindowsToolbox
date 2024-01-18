@@ -79,7 +79,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Copy the file to the Extension Name page 的本地化字符串。
+        ///   查找类似 Add to the Extension Name page 的本地化字符串。
         /// </summary>
         public static string DragOverContent {
             get {

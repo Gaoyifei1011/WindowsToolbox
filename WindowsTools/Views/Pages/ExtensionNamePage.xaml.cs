@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Controls.Extensions;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
+using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
@@ -308,8 +310,9 @@ namespace WindowsTools.Views.Pages
                             });
                         }
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", fileName), e);
                         continue;
                     }
                 }
@@ -349,8 +352,9 @@ namespace WindowsTools.Views.Pages
                             });
                         }
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} information failed", dialog.SelectedPath), e);
                     }
                 }
             }
