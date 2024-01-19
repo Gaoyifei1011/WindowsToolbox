@@ -98,9 +98,9 @@ namespace WindowsTools.Views.Pages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<OldAndNewNameModel> ExtensionNameDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
+        public ObservableCollection<OldAndNewNameModel> ExtensionNameCollection { get; } = new ObservableCollection<OldAndNewNameModel>();
 
-        private ObservableCollection<OperationFailedModel> OperationFailedList { get; } = new ObservableCollection<OperationFailedModel>();
+        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = new ObservableCollection<OperationFailedModel>();
 
         public ExtensionNamePage()
         {
@@ -140,7 +140,7 @@ namespace WindowsTools.Views.Pages
                     {
                         if (!IOHelper.IsDir(item.Path))
                         {
-                            ExtensionNameDataList.Add(new OldAndNewNameModel()
+                            ExtensionNameCollection.Add(new OldAndNewNameModel()
                             {
                                 OriginalFileName = item.Name,
                                 OriginalFilePath = item.Path
@@ -152,7 +152,7 @@ namespace WindowsTools.Views.Pages
             finally
             {
                 deferral.Complete();
-                OperationFailedList.Clear();
+                OperationFailedCollection.Clear();
             }
         }
 
@@ -169,8 +169,8 @@ namespace WindowsTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedList.Clear();
-                    if (ExtensionNameDataList.Count is 0)
+                    OperationFailedCollection.Clear();
+                    if (ExtensionNameCollection.Count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -190,8 +190,8 @@ namespace WindowsTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedList.Clear();
-                    if (ExtensionNameDataList.Count is 0)
+                    OperationFailedCollection.Clear();
+                    if (ExtensionNameCollection.Count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -229,8 +229,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearListClicked(object sender, RoutedEventArgs args)
         {
-            ExtensionNameDataList.Clear();
-            OperationFailedList.Clear();
+            ExtensionNameCollection.Clear();
+            OperationFailedCollection.Clear();
         }
 
         /// <summary>
@@ -241,8 +241,8 @@ namespace WindowsTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedList.Clear();
-                if (ExtensionNameDataList.Count is 0)
+                OperationFailedCollection.Clear();
+                if (ExtensionNameCollection.Count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -265,8 +265,8 @@ namespace WindowsTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedList.Clear();
-                if (ExtensionNameDataList.Count is 0)
+                OperationFailedCollection.Clear();
+                if (ExtensionNameCollection.Count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -303,7 +303,7 @@ namespace WindowsTools.Views.Pages
                         }
                         if (!IOHelper.IsDir(file.FullName))
                         {
-                            ExtensionNameDataList.Add(new OldAndNewNameModel()
+                            ExtensionNameCollection.Add(new OldAndNewNameModel()
                             {
                                 OriginalFileName = file.Name,
                                 OriginalFilePath = file.FullName
@@ -331,7 +331,7 @@ namespace WindowsTools.Views.Pages
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
-                OperationFailedList.Clear();
+                OperationFailedCollection.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
                     DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
@@ -345,7 +345,7 @@ namespace WindowsTools.Views.Pages
                                 continue;
                             }
 
-                            ExtensionNameDataList.Add(new OldAndNewNameModel()
+                            ExtensionNameCollection.Add(new OldAndNewNameModel()
                             {
                                 OriginalFileName = subFile.Name,
                                 OriginalFilePath = subFile.FullName
@@ -390,7 +390,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
-            await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedList), this);
+            await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedCollection), this);
         }
 
         #endregion 第二部分：扩展名称页面——挂载的事件
@@ -405,7 +405,7 @@ namespace WindowsTools.Views.Pages
 
         private string LocalizeTotal(int count)
         {
-            return string.Format(ExtensionName.Total, ExtensionNameDataList.Count);
+            return string.Format(ExtensionName.Total, ExtensionNameCollection.Count);
         }
 
         /// <summary>
@@ -432,7 +432,7 @@ namespace WindowsTools.Views.Pages
             {
                 case ExtensionNameSelectedKind.IsSameExtensionName:
                     {
-                        foreach (OldAndNewNameModel item in ExtensionNameDataList)
+                        foreach (OldAndNewNameModel item in ExtensionNameCollection)
                         {
                             if (!string.IsNullOrEmpty(item.OriginalFileName))
                             {
@@ -445,7 +445,7 @@ namespace WindowsTools.Views.Pages
                     }
                 case ExtensionNameSelectedKind.IsFindAndReplaceExtensionName:
                     {
-                        foreach (OldAndNewNameModel item in ExtensionNameDataList)
+                        foreach (OldAndNewNameModel item in ExtensionNameCollection)
                         {
                             if (!string.IsNullOrEmpty(item.OriginalFileName))
                             {
@@ -473,7 +473,7 @@ namespace WindowsTools.Views.Pages
             IsModifyingNow = true;
             Task.Run(async () =>
             {
-                foreach (OldAndNewNameModel item in ExtensionNameDataList)
+                foreach (OldAndNewNameModel item in ExtensionNameCollection)
                 {
                     if (!string.IsNullOrEmpty(item.OriginalFileName) && !string.IsNullOrEmpty(item.OriginalFilePath))
                     {
@@ -500,11 +500,11 @@ namespace WindowsTools.Views.Pages
                     IsModifyingNow = false;
                     foreach (OperationFailedModel item in operationFailedList)
                     {
-                        OperationFailedList.Add(item);
+                        OperationFailedCollection.Add(item);
                     }
 
-                    TeachingTipHelper.Show(new OperationResultTip(ExtensionNameDataList.Count - OperationFailedList.Count, OperationFailedList.Count));
-                    ExtensionNameDataList.Clear();
+                    TeachingTipHelper.Show(new OperationResultTip(ExtensionNameCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+                    ExtensionNameCollection.Clear();
                 });
             });
         }

@@ -163,34 +163,34 @@ namespace WindowsTools.Views.Windows
             base.OnMove(args);
             if ((Content as FrameworkElement).XamlRoot is not null)
             {
-                IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot((Content as FrameworkElement).XamlRoot);
-                foreach (Popup popup in PopupRoot)
+                IReadOnlyList<Popup> popupRootList = VisualTreeHelper.GetOpenPopupsForXamlRoot((Content as FrameworkElement).XamlRoot);
+                foreach (Popup popupRoot in popupRootList)
                 {
                     // 关闭浮出控件
-                    if (popup.Child as FlyoutPresenter is not null)
+                    if (popupRoot.Child as FlyoutPresenter is not null)
                     {
-                        popup.IsOpen = false;
+                        popupRoot.IsOpen = false;
                         break;
                     }
 
                     // 关闭菜单浮出控件
-                    if (popup.Child as MenuFlyoutPresenter is not null)
+                    if (popupRoot.Child as MenuFlyoutPresenter is not null)
                     {
-                        popup.IsOpen = false;
+                        popupRoot.IsOpen = false;
                         break;
                     }
 
                     // 关闭日期选择器浮出控件
-                    if (popup.Child as DatePickerFlyoutPresenter is not null)
+                    if (popupRoot.Child as DatePickerFlyoutPresenter is not null)
                     {
-                        popup.IsOpen = false;
+                        popupRoot.IsOpen = false;
                         break;
                     }
 
                     // 关闭时间选择器浮出控件
-                    if (popup.Child as TimePickerFlyoutPresenter is not null)
+                    if (popupRoot.Child as TimePickerFlyoutPresenter is not null)
                     {
-                        popup.IsOpen = false;
+                        popupRoot.IsOpen = false;
                         break;
                     }
                 }

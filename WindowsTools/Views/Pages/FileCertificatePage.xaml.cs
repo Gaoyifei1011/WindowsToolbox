@@ -45,9 +45,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        public ObservableCollection<CertificateResultModel> FileCertificateDataList { get; } = new ObservableCollection<CertificateResultModel>();
+        public ObservableCollection<CertificateResultModel> FileCertificateCollection { get; } = new ObservableCollection<CertificateResultModel>();
 
-        private ObservableCollection<OperationFailedModel> OperationFailedList { get; } = new ObservableCollection<OperationFailedModel>();
+        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = new ObservableCollection<OperationFailedModel>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -89,7 +89,7 @@ namespace WindowsTools.Views.Pages
                     {
                         if (!IOHelper.IsDir(item.Path))
                         {
-                            FileCertificateDataList.Add(new CertificateResultModel()
+                            FileCertificateCollection.Add(new CertificateResultModel()
                             {
                                 FileName = item.Name,
                                 FilePath = item.Path
@@ -101,7 +101,7 @@ namespace WindowsTools.Views.Pages
             finally
             {
                 deferral.Complete();
-                OperationFailedList.Clear();
+                OperationFailedCollection.Clear();
             }
         }
 
@@ -115,8 +115,8 @@ namespace WindowsTools.Views.Pages
             if (args.Key is VirtualKey.Enter)
             {
                 args.Handled = true;
-                OperationFailedList.Clear();
-                if (FileCertificateDataList.Count is 0)
+                OperationFailedCollection.Clear();
+                if (FileCertificateCollection.Count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -136,8 +136,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearListClicked(object sender, RoutedEventArgs args)
         {
-            FileCertificateDataList.Clear();
-            OperationFailedList.Clear();
+            FileCertificateCollection.Clear();
+            OperationFailedCollection.Clear();
         }
 
         /// <summary>
@@ -145,8 +145,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnModifyClicked(object sender, RoutedEventArgs args)
         {
-            OperationFailedList.Clear();
-            if (FileCertificateDataList.Count is 0)
+            OperationFailedCollection.Clear();
+            if (FileCertificateCollection.Count is 0)
             {
                 TeachingTipHelper.Show(new ListEmptyTip());
             }
@@ -177,7 +177,7 @@ namespace WindowsTools.Views.Pages
                         }
                         if (!IOHelper.IsDir(file.FullName))
                         {
-                            FileCertificateDataList.Add(new CertificateResultModel()
+                            FileCertificateCollection.Add(new CertificateResultModel()
                             {
                                 FileName = file.Name,
                                 FilePath = file.FullName
@@ -205,7 +205,7 @@ namespace WindowsTools.Views.Pages
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
-                OperationFailedList.Clear();
+                OperationFailedCollection.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
                     DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
@@ -218,7 +218,7 @@ namespace WindowsTools.Views.Pages
                             {
                                 continue;
                             }
-                            FileCertificateDataList.Add(new CertificateResultModel()
+                            FileCertificateCollection.Add(new CertificateResultModel()
                             {
                                 FileName = subFolder.Name,
                                 FilePath = subFolder.FullName
@@ -238,7 +238,7 @@ namespace WindowsTools.Views.Pages
                             {
                                 continue;
                             }
-                            FileCertificateDataList.Add(new CertificateResultModel()
+                            FileCertificateCollection.Add(new CertificateResultModel()
                             {
                                 FileName = subFile.Name,
                                 FilePath = subFile.FullName
@@ -258,7 +258,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
-            await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedList), this);
+            await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedCollection), this);
         }
 
         #endregion 第二部分：文件证书页面——挂载的事件
@@ -273,7 +273,7 @@ namespace WindowsTools.Views.Pages
 
         private string LocalizeTotal(int count)
         {
-            return string.Format(FileCertificate.Total, FileCertificateDataList.Count);
+            return string.Format(FileCertificate.Total, FileCertificateCollection.Count);
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace WindowsTools.Views.Pages
             IsModifyingNow = true;
             Task.Run(async () =>
             {
-                foreach (CertificateResultModel item in FileCertificateDataList)
+                foreach (CertificateResultModel item in FileCertificateCollection)
                 {
                     if (!string.IsNullOrEmpty(item.FileName) && !string.IsNullOrEmpty(item.FilePath))
                     {
@@ -324,11 +324,11 @@ namespace WindowsTools.Views.Pages
                     IsModifyingNow = false;
                     foreach (OperationFailedModel item in operationFailedList)
                     {
-                        OperationFailedList.Add(item);
+                        OperationFailedCollection.Add(item);
                     }
 
-                    TeachingTipHelper.Show(new OperationResultTip(FileCertificateDataList.Count - OperationFailedList.Count, OperationFailedList.Count));
-                    FileCertificateDataList.Clear();
+                    TeachingTipHelper.Show(new OperationResultTip(FileCertificateCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+                    FileCertificateCollection.Clear();
                 });
             });
         }

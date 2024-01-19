@@ -117,11 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DriverManager" xml:space="preserve">
+    <value>Driver manager</value>
+  </data>
+  <data name="DriverManagerDescription" xml:space="preserve">
+    <value>View and manage device driver software</value>
+  </data>
   <data name="ExtensionName" xml:space="preserve">
     <value>Extension name</value>
   </data>
   <data name="ExtensionNameDescription" xml:space="preserve">
     <value>Batch change file (folder) extension names</value>
+  </data>
+  <data name="ExtractIcon" xml:space="preserve">
+    <value>Extract icon</value>
+  </data>
+  <data name="ExtractIconDescription" xml:space="preserve">
+    <value>Extract the icon embedded in the file</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>File tools</value>
@@ -143,6 +155,9 @@
   </data>
   <data name="FilePropertiesDescription" xml:space="preserve">
     <value>Batch modify file (folder) properties</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image tools</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>System tools</value>

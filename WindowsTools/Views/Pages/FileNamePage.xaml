@@ -524,7 +524,7 @@
             Padding="30,0"
             IsItemClickEnabled="True"
             ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
-            ItemsSource="{x:Bind FileNameDataList, Mode=OneWay}"
+            ItemsSource="{x:Bind FileNameCollection, Mode=OneWay}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             ScrollViewer.HorizontalScrollMode="Disabled"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -593,7 +593,7 @@
             VerticalAlignment="Top"
             Text="{x:Bind string:FileName.EmptyList}"
             TextAlignment="Center"
-            Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FileNameDataList.Count), Mode=OneWay}" />
+            Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FileNameCollection.Count), Mode=OneWay}" />
 
         <Grid
             Grid.Row="4"
@@ -629,7 +629,7 @@
             <TextBlock
                 Grid.Column="3"
                 VerticalAlignment="Center"
-                Text="{x:Bind LocalizeTotal(FileNameDataList.Count), Mode=OneWay}"
+                Text="{x:Bind LocalizeTotal(FileNameCollection.Count), Mode=OneWay}"
                 TextAlignment="Center" />
 
             <HyperlinkButton
@@ -638,7 +638,7 @@
                 Click="{x:Bind OnViewErrorInformationClicked}"
                 Content="{x:Bind string:FileName.ViewErrorInformation}"
                 Style="{StaticResource ErrorHyperlinkButtonStyle}"
-                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedList.Count), Mode=OneWay}" />
+                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedCollection.Count), Mode=OneWay}" />
 
             <muxc:ProgressRing
                 Grid.Column="5"

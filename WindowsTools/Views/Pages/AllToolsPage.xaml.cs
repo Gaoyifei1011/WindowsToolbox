@@ -52,6 +52,18 @@ namespace WindowsTools.Views.Pages
             },
         };
 
+        // 图像工具列表
+        private List<ControlItemModel> ImageToolsList { get; } = new List<ControlItemModel>()
+        {
+            new ControlItemModel()
+            {
+                Title = AllTools.ExtractIcon,
+                Description = AllTools.ExtractIconDescription,
+                ImagePath = "ms-appx:///Assets/ControlIcon/ExtractIcon.png",
+                Tag = "ExtractIcon"
+            },
+        };
+
         // 系统工具列表
         private List<ControlItemModel> SystemToolsList { get; } = new List<ControlItemModel>()
         {
@@ -61,6 +73,13 @@ namespace WindowsTools.Views.Pages
                 Description = AllTools.SystemInfoDescription,
                 ImagePath = "ms-appx:///Assets/ControlIcon/SystemInfo.png",
                 Tag = "SystemInfo"
+            },
+            new ControlItemModel()
+            {
+                Title = AllTools.DriverManager,
+                Description = AllTools.DriverManagerDescription,
+                ImagePath = "ms-appx:///Assets/ControlIcon/DriverManager.png",
+                Tag = "DriverManager"
             },
             new ControlItemModel()
             {
@@ -75,6 +94,8 @@ namespace WindowsTools.Views.Pages
         {
             InitializeComponent();
         }
+
+        #region 第一部分：所有工具页面——挂载的事件
 
         /// <summary>
         /// 点击条目时进入条目对应的页面
@@ -93,5 +114,7 @@ namespace WindowsTools.Views.Pages
                 }
             }
         }
+
+        #endregion 第一部分：所有工具页面——挂载的事件
     }
 }

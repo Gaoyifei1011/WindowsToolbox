@@ -212,9 +212,9 @@ namespace WindowsTools.Views.Pages
             },
         };
 
-        public ObservableCollection<OldAndNewNameModel> FileNameDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
+        public ObservableCollection<OldAndNewNameModel> FileNameCollection { get; } = new ObservableCollection<OldAndNewNameModel>();
 
-        private ObservableCollection<OperationFailedModel> OperationFailedList { get; } = new ObservableCollection<OperationFailedModel>();
+        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = new ObservableCollection<OperationFailedModel>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -263,7 +263,7 @@ namespace WindowsTools.Views.Pages
                     IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
                     foreach (IStorageItem item in filesList)
                     {
-                        FileNameDataList.Add(new OldAndNewNameModel()
+                        FileNameCollection.Add(new OldAndNewNameModel()
                         {
                             OriginalFileName = item.Name,
                             OriginalFilePath = item.Path
@@ -274,7 +274,7 @@ namespace WindowsTools.Views.Pages
             finally
             {
                 deferral.Complete();
-                OperationFailedList.Clear();
+                OperationFailedCollection.Clear();
             }
         }
 
@@ -291,8 +291,8 @@ namespace WindowsTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedList.Clear();
-                    if (FileNameDataList.Count is 0)
+                    OperationFailedCollection.Clear();
+                    if (FileNameCollection.Count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -312,8 +312,8 @@ namespace WindowsTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedList.Clear();
-                    if (FileNameDataList.Count is 0)
+                    OperationFailedCollection.Clear();
+                    if (FileNameCollection.Count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -339,8 +339,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearListClicked(object sender, RoutedEventArgs args)
         {
-            FileNameDataList.Clear();
-            OperationFailedList.Clear();
+            FileNameCollection.Clear();
+            OperationFailedCollection.Clear();
         }
 
         private void OnCloseClicked(object sender, RoutedEventArgs args)
@@ -399,8 +399,8 @@ namespace WindowsTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedList.Clear();
-                if (FileNameDataList.Count is 0)
+                OperationFailedCollection.Clear();
+                if (FileNameCollection.Count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -423,8 +423,8 @@ namespace WindowsTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedList.Clear();
-                if (FileNameDataList.Count is 0)
+                OperationFailedCollection.Clear();
+                if (FileNameCollection.Count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -459,7 +459,7 @@ namespace WindowsTools.Views.Pages
                         {
                             continue;
                         }
-                        FileNameDataList.Add(new OldAndNewNameModel()
+                        FileNameCollection.Add(new OldAndNewNameModel()
                         {
                             OriginalFileName = file.Name,
                             OriginalFilePath = file.FullName
@@ -486,7 +486,7 @@ namespace WindowsTools.Views.Pages
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
-                OperationFailedList.Clear();
+                OperationFailedCollection.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
                     DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
@@ -499,7 +499,7 @@ namespace WindowsTools.Views.Pages
                             {
                                 continue;
                             }
-                            FileNameDataList.Add(new OldAndNewNameModel()
+                            FileNameCollection.Add(new OldAndNewNameModel()
                             {
                                 OriginalFileName = subFolder.Name,
                                 OriginalFilePath = subFolder.FullName
@@ -519,7 +519,7 @@ namespace WindowsTools.Views.Pages
                             {
                                 continue;
                             }
-                            FileNameDataList.Add(new OldAndNewNameModel()
+                            FileNameCollection.Add(new OldAndNewNameModel()
                             {
                                 OriginalFileName = subFile.Name,
                                 OriginalFilePath = subFile.FullName
@@ -547,7 +547,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
-            await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedList), this);
+            await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedCollection), this);
         }
 
         #endregion 第二部分：文件名称页面——挂载的事件
@@ -567,7 +567,7 @@ namespace WindowsTools.Views.Pages
 
         private string LocalizeTotal(int count)
         {
-            return string.Format(FileName.Total, FileNameDataList.Count);
+            return string.Format(FileName.Total, FileNameCollection.Count);
         }
 
         /// <summary>
@@ -596,10 +596,10 @@ namespace WindowsTools.Views.Pages
                 int.TryParse(StartNumber, out startIndex);
             }
 
-            int endIndex = FileNameDataList.Count - startIndex;
+            int endIndex = FileNameCollection.Count - startIndex;
             int numberLength = endIndex.ToString().Length;
 
-            foreach (OldAndNewNameModel item in FileNameDataList)
+            foreach (OldAndNewNameModel item in FileNameCollection)
             {
                 string tempNewFileName = item.OriginalFileName;
                 // 根据改名规则替换
@@ -716,7 +716,7 @@ namespace WindowsTools.Views.Pages
             IsModifyingNow = true;
             Task.Run(async () =>
             {
-                foreach (OldAndNewNameModel item in FileNameDataList)
+                foreach (OldAndNewNameModel item in FileNameCollection)
                 {
                     if (!string.IsNullOrEmpty(item.OriginalFileName) && !string.IsNullOrEmpty(item.OriginalFilePath))
                     {
@@ -762,11 +762,11 @@ namespace WindowsTools.Views.Pages
                     IsModifyingNow = false;
                     foreach (OperationFailedModel item in operationFailedList)
                     {
-                        OperationFailedList.Add(item);
+                        OperationFailedCollection.Add(item);
                     }
 
-                    TeachingTipHelper.Show(new OperationResultTip(FileNameDataList.Count - OperationFailedList.Count, OperationFailedList.Count));
-                    FileNameDataList.Clear();
+                    TeachingTipHelper.Show(new OperationResultTip(FileNameCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+                    FileNameCollection.Clear();
                 });
             });
         }

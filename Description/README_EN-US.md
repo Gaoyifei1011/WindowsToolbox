@@ -49,7 +49,6 @@ A simple tool to help users quickly rename a large number of files, providing a 
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [Microsoft.UI.Xaml](https://github.com/microsoft/microsoft-ui-xaml)&emsp;
 > * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
-> * [Microsoft.Windows.CppWinRT](https://github.com/Microsoft/cppwinrt)&emsp;
 
 [Code referenced or used during the learning process](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;
 

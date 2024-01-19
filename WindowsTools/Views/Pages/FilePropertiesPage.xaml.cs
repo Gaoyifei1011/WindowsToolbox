@@ -173,9 +173,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        public ObservableCollection<OldAndNewPropertiesModel> FilePropertiesDataList { get; } = new ObservableCollection<OldAndNewPropertiesModel>();
+        public ObservableCollection<OldAndNewPropertiesModel> FilePropertiesCollection { get; } = new ObservableCollection<OldAndNewPropertiesModel>();
 
-        private ObservableCollection<OperationFailedModel> OperationFailedList { get; } = new ObservableCollection<OperationFailedModel>();
+        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = new ObservableCollection<OperationFailedModel>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -215,7 +215,7 @@ namespace WindowsTools.Views.Pages
                     IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
                     foreach (IStorageItem item in filesList)
                     {
-                        FilePropertiesDataList.Add(new OldAndNewPropertiesModel()
+                        FilePropertiesCollection.Add(new OldAndNewPropertiesModel()
                         {
                             FileName = item.Name,
                             FilePath = item.Path
@@ -226,7 +226,7 @@ namespace WindowsTools.Views.Pages
             finally
             {
                 deferral.Complete();
-                OperationFailedList.Clear();
+                OperationFailedCollection.Clear();
             }
         }
 
@@ -243,8 +243,8 @@ namespace WindowsTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedList.Clear();
-                    if (FilePropertiesDataList.Count is 0)
+                    OperationFailedCollection.Clear();
+                    if (FilePropertiesCollection.Count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -264,8 +264,8 @@ namespace WindowsTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedList.Clear();
-                    if (FilePropertiesDataList.Count is 0)
+                    OperationFailedCollection.Clear();
+                    if (FilePropertiesCollection.Count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -291,8 +291,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearListClicked(object sender, RoutedEventArgs args)
         {
-            FilePropertiesDataList.Clear();
-            OperationFailedList.Clear();
+            FilePropertiesCollection.Clear();
+            OperationFailedCollection.Clear();
         }
 
         /// <summary>
@@ -322,8 +322,8 @@ namespace WindowsTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedList.Clear();
-                if (FilePropertiesDataList.Count is 0)
+                OperationFailedCollection.Clear();
+                if (FilePropertiesCollection.Count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -346,8 +346,8 @@ namespace WindowsTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedList.Clear();
-                if (FilePropertiesDataList.Count is 0)
+                OperationFailedCollection.Clear();
+                if (FilePropertiesCollection.Count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -382,7 +382,7 @@ namespace WindowsTools.Views.Pages
                         {
                             continue;
                         }
-                        FilePropertiesDataList.Add(new OldAndNewPropertiesModel()
+                        FilePropertiesCollection.Add(new OldAndNewPropertiesModel()
                         {
                             FileName = file.Name,
                             FilePath = file.FullName
@@ -409,7 +409,7 @@ namespace WindowsTools.Views.Pages
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
-                OperationFailedList.Clear();
+                OperationFailedCollection.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
                     DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
@@ -422,7 +422,7 @@ namespace WindowsTools.Views.Pages
                             {
                                 continue;
                             }
-                            FilePropertiesDataList.Add(new OldAndNewPropertiesModel()
+                            FilePropertiesCollection.Add(new OldAndNewPropertiesModel()
                             {
                                 FileName = subFolder.Name,
                                 FilePath = subFolder.FullName
@@ -442,7 +442,7 @@ namespace WindowsTools.Views.Pages
                             {
                                 continue;
                             }
-                            FilePropertiesDataList.Add(new OldAndNewPropertiesModel()
+                            FilePropertiesCollection.Add(new OldAndNewPropertiesModel()
                             {
                                 FileName = subFile.Name,
                                 FilePath = subFile.FullName
@@ -502,7 +502,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
-            await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedList), this);
+            await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedCollection), this);
         }
 
         #endregion 第二部分：文件属性页面——挂载的事件
@@ -517,7 +517,7 @@ namespace WindowsTools.Views.Pages
 
         private string LocalizeTotal(int count)
         {
-            return string.Format(FileProperties.Total, FilePropertiesDataList.Count);
+            return string.Format(FileProperties.Total, FilePropertiesCollection.Count);
         }
 
         /// <summary>
@@ -572,7 +572,7 @@ namespace WindowsTools.Views.Pages
                 stringBuilder.Append(" ");
             }
 
-            foreach (OldAndNewPropertiesModel item in FilePropertiesDataList)
+            foreach (OldAndNewPropertiesModel item in FilePropertiesCollection)
             {
                 item.FileProperties = stringBuilder.ToString();
             }
@@ -587,7 +587,7 @@ namespace WindowsTools.Views.Pages
             IsModifyingNow = true;
             Task.Run(async () =>
             {
-                foreach (OldAndNewPropertiesModel item in FilePropertiesDataList)
+                foreach (OldAndNewPropertiesModel item in FilePropertiesCollection)
                 {
                     if (!string.IsNullOrEmpty(item.FileName) && !string.IsNullOrEmpty(item.FilePath))
                     {
@@ -628,11 +628,11 @@ namespace WindowsTools.Views.Pages
                     IsModifyingNow = false;
                     foreach (OperationFailedModel item in operationFailedList)
                     {
-                        OperationFailedList.Add(item);
+                        OperationFailedCollection.Add(item);
                     }
 
-                    TeachingTipHelper.Show(new OperationResultTip(FilePropertiesDataList.Count - OperationFailedList.Count, OperationFailedList.Count));
-                    FilePropertiesDataList.Clear();
+                    TeachingTipHelper.Show(new OperationResultTip(FilePropertiesCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+                    FilePropertiesCollection.Clear();
                 });
             });
         }

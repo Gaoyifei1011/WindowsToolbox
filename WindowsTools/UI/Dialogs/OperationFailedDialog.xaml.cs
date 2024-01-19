@@ -16,15 +16,15 @@ namespace WindowsTools.UI.Dialogs
     /// </summary>
     public sealed partial class OperationFailedDialog : ContentDialog
     {
-        private ObservableCollection<OperationFailedModel> OperationFailedList { get; } = new ObservableCollection<OperationFailedModel>();
+        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = new ObservableCollection<OperationFailedModel>();
 
-        public OperationFailedDialog(ObservableCollection<OperationFailedModel> operationFailedList)
+        public OperationFailedDialog(ObservableCollection<OperationFailedModel> operationFailedCollection)
         {
             InitializeComponent();
 
-            foreach (OperationFailedModel operationFailedItem in operationFailedList)
+            foreach (OperationFailedModel operationFailedItem in operationFailedCollection)
             {
-                OperationFailedList.Add(operationFailedItem);
+                OperationFailedCollection.Add(operationFailedItem);
             }
         }
 
@@ -58,7 +58,7 @@ namespace WindowsTools.UI.Dialogs
             args.Cancel = true;
 
             StringBuilder builder = new StringBuilder();
-            foreach (OperationFailedModel operationFailedItem in OperationFailedList)
+            foreach (OperationFailedModel operationFailedItem in OperationFailedCollection)
             {
                 builder.Append(Dialog.FileNameCopy);
                 builder.AppendLine(operationFailedItem.FileName);
@@ -72,7 +72,7 @@ namespace WindowsTools.UI.Dialogs
             }
             CopyPasteHelper.CopyToClipBoard(builder.ToString());
             sender.Hide();
-            TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.OperationFailed, true, OperationFailedList.Count));
+            TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.OperationFailed, true, OperationFailedCollection.Count));
         }
     }
 }

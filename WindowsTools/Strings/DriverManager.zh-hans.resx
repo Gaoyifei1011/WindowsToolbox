@@ -117,73 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="About" xml:space="preserve">
-    <value>关于</value>
-  </data>
-  <data name="AllTools" xml:space="preserve">
-    <value>所有工具</value>
-  </data>
-  <data name="AppTitle" xml:space="preserve">
-    <value>Windows 工具箱</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>关闭</value>
-  </data>
-  <data name="DriverManager" xml:space="preserve">
+  <data name="Title" xml:space="preserve">
     <value>驱动管理</value>
-  </data>
-  <data name="ExtensionName" xml:space="preserve">
-    <value>扩展名称</value>
-  </data>
-  <data name="ExtractIcon" xml:space="preserve">
-    <value>提取图标</value>
-  </data>
-  <data name="File" xml:space="preserve">
-    <value>文件工具</value>
-  </data>
-  <data name="FileCertificate" xml:space="preserve">
-    <value>文件证书</value>
-  </data>
-  <data name="FileName" xml:space="preserve">
-    <value>文件名称</value>
-  </data>
-  <data name="FileProperties" xml:space="preserve">
-    <value>文件属性</value>
-  </data>
-  <data name="Image" xml:space="preserve">
-    <value>图像工具</value>
-  </data>
-  <data name="Maximize" xml:space="preserve">
-    <value>最大化</value>
-  </data>
-  <data name="Minimize" xml:space="preserve">
-    <value>最小化</value>
-  </data>
-  <data name="Move" xml:space="preserve">
-    <value>移动</value>
-  </data>
-  <data name="NavigationFailed" xml:space="preserve">
-    <value>页面{0}导航失败</value>
-  </data>
-  <data name="Restore" xml:space="preserve">
-    <value>还原</value>
-  </data>
-  <data name="Settings" xml:space="preserve">
-    <value>设置</value>
-  </data>
-  <data name="Size" xml:space="preserve">
-    <value>大小</value>
-  </data>
-  <data name="System" xml:space="preserve">
-    <value>系统工具</value>
-  </data>
-  <data name="SystemInfo" xml:space="preserve">
-    <value>系统信息</value>
-  </data>
-  <data name="UpperAndLowerCase" xml:space="preserve">
-    <value>大写小写</value>
-  </data>
-  <data name="WinSAT" xml:space="preserve">
-    <value>系统评估</value>
   </data>
 </root>

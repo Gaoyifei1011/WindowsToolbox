@@ -138,6 +138,29 @@
                     VerticalAlignment="Center"
                     FontSize="18"
                     Style="{StaticResource BodyTextBlockStyle}"
+                    Text="{x:Bind string:AllTools.Image}" />
+
+                <GridView
+                    IsItemClickEnabled="True"
+                    IsSwipeEnabled="False"
+                    ItemClick="{x:Bind OnItemClicked}"
+                    ItemTemplate="{StaticResource ControlItemTemplate}"
+                    ItemsSource="{x:Bind ImageToolsList}"
+                    SelectionMode="None"
+                    TabIndex="1">
+
+                    <GridView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                            <Setter Property="Margin" Value="12,0,0,12" />
+                        </Style>
+                    </GridView.ItemContainerStyle>
+                </GridView>
+
+                <TextBlock
+                    Margin="12,0,12,6"
+                    VerticalAlignment="Center"
+                    FontSize="18"
+                    Style="{StaticResource BodyTextBlockStyle}"
                     Text="{x:Bind string:AllTools.System}" />
 
                 <GridView

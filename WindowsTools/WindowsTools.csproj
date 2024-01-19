@@ -33,6 +33,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Update="Strings\DriverManager.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DriverManager.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings\ExtractIcon.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ExtractIcon.resx</DependentUpon>
+    </Compile>
     <Compile Update="Strings\FileCertificate.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -136,11 +146,14 @@
 
     <Content Include="Assets\ControlIcon\About.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\AllTools.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\DriverManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ExtensionName.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\ExtractIcon.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\File.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileCertificate.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileName.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileProperties.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\Image.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Settings.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\System.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\SystemInfo.png" CopyToOutputDirectory="Always" />
@@ -203,30 +216,35 @@
 
     <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />
     <Reference Include="Microsoft.UI.Windowing" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0.18362\Microsoft.UI.winmd" IsWinMDFile="true" Private="false" />
-
     <Reference Include="Microsoft.CSharp" />
 
-    <EmbeddedResource Update="Strings\FileCertificate.en-us.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\FileCertificate.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="FileCertificate.Designer.cs" />
-    <EmbeddedResource Update="Strings\FileCertificate.zh-hans.resx" Generator="PublicResXFileCodeGenerator" /> 
-    <EmbeddedResource Update="Strings\AllTools.en-us.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\AllTools.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="AllTools.Designer.cs" />
-    <EmbeddedResource Update="Strings\AllTools.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\ExtensionName.en-us.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\ExtensionName.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ExtensionName.Designer.cs" />
-    <EmbeddedResource Update="Strings\ExtensionName.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\FileProperties.en-us.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\FileProperties.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="FileProperties.Designer.cs" />
-    <EmbeddedResource Update="Strings\FileProperties.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\About.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\About.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="About.Designer.cs" />
     <EmbeddedResource Update="Strings\About.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\AllTools.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\AllTools.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="AllTools.Designer.cs" />
+    <EmbeddedResource Update="Strings\AllTools.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Dialog.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Dialog.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Dialog.Designer.cs" />
     <EmbeddedResource Update="Strings\Dialog.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\DriverManager.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\DriverManager.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="DriverManager.Designer.cs" />
+    <EmbeddedResource Update="Strings\DriverManager.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\ExtensionName.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\ExtensionName.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ExtensionName.Designer.cs" />
+    <EmbeddedResource Update="Strings\ExtensionName.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\ExtractIcon.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\ExtractIcon.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ExtractIcon.Designer.cs" />
+    <EmbeddedResource Update="Strings\ExtractIcon.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\FileCertificate.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\FileCertificate.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="FileCertificate.Designer.cs" />
+    <EmbeddedResource Update="Strings\FileCertificate.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\FileName.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\FileName.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="FileName.Designer.cs" />
     <EmbeddedResource Update="Strings\FileName.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\FileProperties.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\FileProperties.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="FileProperties.Designer.cs" />
+    <EmbeddedResource Update="Strings\FileProperties.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Notification.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Notification.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Notification.Designer.cs" />
     <EmbeddedResource Update="Strings\Notification.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />

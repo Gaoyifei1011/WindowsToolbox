@@ -61,6 +61,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Driver manager 的本地化字符串。
+        /// </summary>
+        public static string DriverManager {
+            get {
+                return ResourceManager.GetString("DriverManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 View and manage device driver software 的本地化字符串。
+        /// </summary>
+        public static string DriverManagerDescription {
+            get {
+                return ResourceManager.GetString("DriverManagerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Extension name 的本地化字符串。
         /// </summary>
         public static string ExtensionName {
@@ -75,6 +93,24 @@ namespace WindowsTools.Strings {
         public static string ExtensionNameDescription {
             get {
                 return ResourceManager.GetString("ExtensionNameDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extract icon 的本地化字符串。
+        /// </summary>
+        public static string ExtractIcon {
+            get {
+                return ResourceManager.GetString("ExtractIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extract the icon embedded in the file 的本地化字符串。
+        /// </summary>
+        public static string ExtractIconDescription {
+            get {
+                return ResourceManager.GetString("ExtractIconDescription", resourceCulture);
             }
         }
         
@@ -138,6 +174,15 @@ namespace WindowsTools.Strings {
         public static string FilePropertiesDescription {
             get {
                 return ResourceManager.GetString("FilePropertiesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Image tools 的本地化字符串。
+        /// </summary>
+        public static string Image {
+            get {
+                return ResourceManager.GetString("Image", resourceCulture);
             }
         }
         

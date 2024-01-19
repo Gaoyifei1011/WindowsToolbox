@@ -57,9 +57,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        public ObservableCollection<OldAndNewNameModel> UpperAndLowerCaseDataList { get; } = new ObservableCollection<OldAndNewNameModel>();
+        public ObservableCollection<OldAndNewNameModel> UpperAndLowerCaseCollection { get; } = new ObservableCollection<OldAndNewNameModel>();
 
-        private ObservableCollection<OperationFailedModel> OperationFailedList { get; } = new ObservableCollection<OperationFailedModel>();
+        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = new ObservableCollection<OperationFailedModel>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -99,7 +99,7 @@ namespace WindowsTools.Views.Pages
                     IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
                     foreach (IStorageItem item in filesList)
                     {
-                        UpperAndLowerCaseDataList.Add(new OldAndNewNameModel()
+                        UpperAndLowerCaseCollection.Add(new OldAndNewNameModel()
                         {
                             OriginalFileName = item.Name,
                             OriginalFilePath = item.Path
@@ -110,7 +110,7 @@ namespace WindowsTools.Views.Pages
             finally
             {
                 deferral.Complete();
-                OperationFailedList.Clear();
+                OperationFailedCollection.Clear();
             }
         }
 
@@ -127,8 +127,8 @@ namespace WindowsTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedList.Clear();
-                    if (UpperAndLowerCaseDataList.Count is 0)
+                    OperationFailedCollection.Clear();
+                    if (UpperAndLowerCaseCollection.Count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -148,8 +148,8 @@ namespace WindowsTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedList.Clear();
-                    if (UpperAndLowerCaseDataList.Count is 0)
+                    OperationFailedCollection.Clear();
+                    if (UpperAndLowerCaseCollection.Count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -187,8 +187,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearListClicked(object sender, RoutedEventArgs args)
         {
-            UpperAndLowerCaseDataList.Clear();
-            OperationFailedList.Clear();
+            UpperAndLowerCaseCollection.Clear();
+            OperationFailedCollection.Clear();
         }
 
         /// <summary>
@@ -199,8 +199,8 @@ namespace WindowsTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedList.Clear();
-                if (UpperAndLowerCaseDataList.Count is 0)
+                OperationFailedCollection.Clear();
+                if (UpperAndLowerCaseCollection.Count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -223,8 +223,8 @@ namespace WindowsTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedList.Clear();
-                if (UpperAndLowerCaseDataList.Count is 0)
+                OperationFailedCollection.Clear();
+                if (UpperAndLowerCaseCollection.Count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -259,7 +259,7 @@ namespace WindowsTools.Views.Pages
                         {
                             continue;
                         }
-                        UpperAndLowerCaseDataList.Add(new OldAndNewNameModel()
+                        UpperAndLowerCaseCollection.Add(new OldAndNewNameModel()
                         {
                             OriginalFileName = file.Name,
                             OriginalFilePath = file.FullName
@@ -286,7 +286,7 @@ namespace WindowsTools.Views.Pages
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
-                OperationFailedList.Clear();
+                OperationFailedCollection.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
                     DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
@@ -299,7 +299,7 @@ namespace WindowsTools.Views.Pages
                             {
                                 continue;
                             }
-                            UpperAndLowerCaseDataList.Add(new OldAndNewNameModel()
+                            UpperAndLowerCaseCollection.Add(new OldAndNewNameModel()
                             {
                                 OriginalFileName = subFolder.Name,
                                 OriginalFilePath = subFolder.FullName
@@ -319,7 +319,7 @@ namespace WindowsTools.Views.Pages
                             {
                                 continue;
                             }
-                            UpperAndLowerCaseDataList.Add(new OldAndNewNameModel()
+                            UpperAndLowerCaseCollection.Add(new OldAndNewNameModel()
                             {
                                 OriginalFileName = subFile.Name,
                                 OriginalFilePath = subFile.FullName
@@ -354,7 +354,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
-            await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedList), this);
+            await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedCollection), this);
         }
 
         #endregion 第二部分：大写小写页面——挂载的事件
@@ -369,7 +369,7 @@ namespace WindowsTools.Views.Pages
 
         private string LocalizeTotal(int count)
         {
-            return string.Format(UpperAndLowerCase.Total, UpperAndLowerCaseDataList.Count);
+            return string.Format(UpperAndLowerCase.Total, UpperAndLowerCaseCollection.Count);
         }
 
         /// <summary>
@@ -396,7 +396,7 @@ namespace WindowsTools.Views.Pages
             {
                 case UpperAndLowerSelectedKind.AllUppercase:
                     {
-                        foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
+                        foreach (OldAndNewNameModel item in UpperAndLowerCaseCollection)
                         {
                             if (!string.IsNullOrEmpty(item.OriginalFileName))
                             {
@@ -408,7 +408,7 @@ namespace WindowsTools.Views.Pages
                     }
                 case UpperAndLowerSelectedKind.FileNameUppercase:
                     {
-                        foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
+                        foreach (OldAndNewNameModel item in UpperAndLowerCaseCollection)
                         {
                             if (!string.IsNullOrEmpty(item.OriginalFileName))
                             {
@@ -422,7 +422,7 @@ namespace WindowsTools.Views.Pages
                     }
                 case UpperAndLowerSelectedKind.ExtensionNameUppercase:
                     {
-                        foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
+                        foreach (OldAndNewNameModel item in UpperAndLowerCaseCollection)
                         {
                             if (!string.IsNullOrEmpty(item.OriginalFileName))
                             {
@@ -436,7 +436,7 @@ namespace WindowsTools.Views.Pages
                     }
                 case UpperAndLowerSelectedKind.DeleteSpace:
                     {
-                        foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
+                        foreach (OldAndNewNameModel item in UpperAndLowerCaseCollection)
                         {
                             if (!string.IsNullOrEmpty(item.OriginalFileName))
                             {
@@ -448,7 +448,7 @@ namespace WindowsTools.Views.Pages
                     }
                 case UpperAndLowerSelectedKind.AllLowercase:
                     {
-                        foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
+                        foreach (OldAndNewNameModel item in UpperAndLowerCaseCollection)
                         {
                             if (!string.IsNullOrEmpty(item.OriginalFileName))
                             {
@@ -460,7 +460,7 @@ namespace WindowsTools.Views.Pages
                     }
                 case UpperAndLowerSelectedKind.FileNameLowercase:
                     {
-                        foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
+                        foreach (OldAndNewNameModel item in UpperAndLowerCaseCollection)
                         {
                             if (!string.IsNullOrEmpty(item.OriginalFileName))
                             {
@@ -474,7 +474,7 @@ namespace WindowsTools.Views.Pages
                     }
                 case UpperAndLowerSelectedKind.ExtensionNameLowercase:
                     {
-                        foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
+                        foreach (OldAndNewNameModel item in UpperAndLowerCaseCollection)
                         {
                             if (!string.IsNullOrEmpty(item.OriginalFileName))
                             {
@@ -488,7 +488,7 @@ namespace WindowsTools.Views.Pages
                     }
                 case UpperAndLowerSelectedKind.ReplaceSpace:
                     {
-                        foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
+                        foreach (OldAndNewNameModel item in UpperAndLowerCaseCollection)
                         {
                             if (!string.IsNullOrEmpty(item.OriginalFileName))
                             {
@@ -510,7 +510,7 @@ namespace WindowsTools.Views.Pages
             IsModifyingNow = true;
             Task.Run(async () =>
             {
-                foreach (OldAndNewNameModel item in UpperAndLowerCaseDataList)
+                foreach (OldAndNewNameModel item in UpperAndLowerCaseCollection)
                 {
                     if (!string.IsNullOrEmpty(item.OriginalFileName) && !string.IsNullOrEmpty(item.OriginalFilePath))
                     {
@@ -556,11 +556,11 @@ namespace WindowsTools.Views.Pages
                     IsModifyingNow = false;
                     foreach (OperationFailedModel item in operationFailedList)
                     {
-                        OperationFailedList.Add(item);
+                        OperationFailedCollection.Add(item);
                     }
 
-                    TeachingTipHelper.Show(new OperationResultTip(UpperAndLowerCaseDataList.Count - OperationFailedList.Count, OperationFailedList.Count));
-                    UpperAndLowerCaseDataList.Clear();
+                    TeachingTipHelper.Show(new OperationResultTip(UpperAndLowerCaseCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+                    UpperAndLowerCaseCollection.Clear();
                 });
             });
         }

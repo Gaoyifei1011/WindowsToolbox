@@ -117,11 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DriverManager" xml:space="preserve">
+    <value>驱动管理</value>
+  </data>
+  <data name="DriverManagerDescription" xml:space="preserve">
+    <value>查看和管理设备的驱动程序软件</value>
+  </data>
   <data name="ExtensionName" xml:space="preserve">
     <value>扩展名称</value>
   </data>
   <data name="ExtensionNameDescription" xml:space="preserve">
     <value>批量修改文件（夹）扩展名称</value>
+  </data>
+  <data name="ExtractIcon" xml:space="preserve">
+    <value>提取图标</value>
+  </data>
+  <data name="ExtractIconDescription" xml:space="preserve">
+    <value>提取文件内嵌的图标</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>文件工具</value>
@@ -143,6 +155,9 @@
   </data>
   <data name="FilePropertiesDescription" xml:space="preserve">
     <value>批量修改文件（夹）属性</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>图像工具</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>系统工具</value>

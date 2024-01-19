@@ -62,7 +62,7 @@
             Padding="30,0"
             IsItemClickEnabled="True"
             ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
-            ItemsSource="{x:Bind FileCertificateDataList, Mode=OneWay}"
+            ItemsSource="{x:Bind FileCertificateCollection, Mode=OneWay}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             ScrollViewer.HorizontalScrollMode="Disabled"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -106,7 +106,7 @@
             VerticalAlignment="Top"
             Text="{x:Bind string:FileCertificate.EmptyList}"
             TextAlignment="Center"
-            Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FileCertificateDataList.Count), Mode=OneWay}" />
+            Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FileCertificateCollection.Count), Mode=OneWay}" />
 
         <Grid
             Grid.Row="4"
@@ -141,7 +141,7 @@
             <TextBlock
                 Grid.Column="3"
                 VerticalAlignment="Center"
-                Text="{x:Bind LocalizeTotal(FileCertificateDataList.Count), Mode=OneWay}"
+                Text="{x:Bind LocalizeTotal(FileCertificateCollection.Count), Mode=OneWay}"
                 TextAlignment="Center" />
 
             <HyperlinkButton
@@ -150,7 +150,7 @@
                 Click="{x:Bind OnViewErrorInformationClicked}"
                 Content="{x:Bind string:FileCertificate.ViewErrorInformation}"
                 Style="{StaticResource ErrorHyperlinkButtonStyle}"
-                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedList.Count), Mode=OneWay}" />
+                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedCollection.Count), Mode=OneWay}" />
 
             <mxuc:ProgressRing
                 Grid.Column="5"

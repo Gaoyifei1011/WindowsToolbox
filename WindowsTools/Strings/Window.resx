@@ -129,8 +129,14 @@
   <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="DriverManager" xml:space="preserve">
+    <value>Driver manager</value>
+  </data>
   <data name="ExtensionName" xml:space="preserve">
     <value>Extension name</value>
+  </data>
+  <data name="ExtractIcon" xml:space="preserve">
+    <value>Extract icon</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>File tools</value>
@@ -143,6 +149,9 @@
   </data>
   <data name="FileProperties" xml:space="preserve">
     <value>File properties</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image tools</value>
   </data>
   <data name="Maximize" xml:space="preserve">
     <value>Maximize</value>

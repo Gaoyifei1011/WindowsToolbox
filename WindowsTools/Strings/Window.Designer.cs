@@ -97,11 +97,29 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Driver manager 的本地化字符串。
+        /// </summary>
+        public static string DriverManager {
+            get {
+                return ResourceManager.GetString("DriverManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Extension name 的本地化字符串。
         /// </summary>
         public static string ExtensionName {
             get {
                 return ResourceManager.GetString("ExtensionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extract icon 的本地化字符串。
+        /// </summary>
+        public static string ExtractIcon {
+            get {
+                return ResourceManager.GetString("ExtractIcon", resourceCulture);
             }
         }
         
@@ -138,6 +156,15 @@ namespace WindowsTools.Strings {
         public static string FileProperties {
             get {
                 return ResourceManager.GetString("FileProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Image tools 的本地化字符串。
+        /// </summary>
+        public static string Image {
+            get {
+                return ResourceManager.GetString("Image", resourceCulture);
             }
         }
         

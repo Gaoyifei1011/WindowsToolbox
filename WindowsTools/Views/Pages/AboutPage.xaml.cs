@@ -35,7 +35,6 @@ namespace WindowsTools.Views.Pages
             { "Mile.Xaml","https://github.com/ProjectMile/Mile.Xaml" },
             { "Microsoft.UI.Xaml","https://github.com/microsoft/microsoft-ui-xaml" },
             { "Microsoft.WindowsAppSDK","https://github.com/microsoft/windowsappsdk" },
-            { "Microsoft.Windows.CppWinRT","https://github.com/Microsoft/cppwinrt" },
         };
 
         //项目感谢者信息
@@ -65,8 +64,8 @@ namespace WindowsTools.Views.Pages
                 {
                     IWshRuntimeLibrary.IWshShell shell = new IWshRuntimeLibrary.WshShell();
                     IWshRuntimeLibrary.WshShortcut AppShortcut = (IWshRuntimeLibrary.WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), About.AppName));
-                    IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
-                    AppListEntry DefaultEntry = AppEntries[0];
+                    IReadOnlyList<AppListEntry> AppEntriesList = await Package.Current.GetAppListEntriesAsync();
+                    AppListEntry DefaultEntry = AppEntriesList[0];
                     AppShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", DefaultEntry.AppUserModelId);
                     AppShortcut.Save();
                     IsCreatedSuccessfully = true;
