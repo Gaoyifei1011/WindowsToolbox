@@ -236,20 +236,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <Style
-        x:Key="MenuFlyoutItemStyle"
-        BasedOn="{StaticResource DefaultMenuFlyoutItemStyle}"
-        TargetType="MenuFlyoutItem">
-        <Setter Property="Height" Value="32" />
-        <Setter Property="Padding" Value="11,0,11,0" />
-    </Style>
-
-    <Style
-        x:Key="ToggleMenuFlyoutItemStyle"
-        BasedOn="{StaticResource DefaultToggleMenuFlyoutItemStyle}"
-        TargetType="ToggleMenuFlyoutItem">
-        <Setter Property="Height" Value="32" />
-        <Setter Property="Padding" Value="11,0,11,0" />
-    </Style>
 </ResourceDictionary>

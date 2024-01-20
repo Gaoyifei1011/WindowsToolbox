@@ -37,6 +37,15 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         public static extern bool ChangeWindowMessageFilterEx(IntPtr hWnd, WindowMessage message, ChangeFilterAction action, in CHANGEFILTERSTRUCT pChangeFilterStruct);
 
         /// <summary>
+        /// 销毁图标并释放图标占用的任何内存。
+        /// </summary>
+        /// <param name="hIcon">要销毁的图标的句柄。 图标不得处于使用中。</param>
+        /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。 </returns>
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "DestoryIcon", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DestroyIcon(IntPtr hIcon);
+
+        /// <summary>
         /// 检索一个窗口的句柄，该窗口的类名和窗口名称与指定的字符串匹配。 该函数搜索子窗口，从指定子窗口后面的子窗口开始。 此函数不执行区分大小写的搜索。
         /// </summary>
         /// <param name="hWndParent">要搜索其子窗口的父窗口的句柄。如果 hwndParent 为 NULL，则该函数使用桌面窗口作为父窗口。 函数在桌面的子窗口之间搜索。 如果 hwndParent 为HWND_MESSAGE，则函数将搜索所有 仅消息窗口。</param>
@@ -66,6 +75,23 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <returns>如果函数成功，则返回值是请求的值。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "GetWindowLongPtrW", SetLastError = false)]
         public static extern IntPtr GetWindowLongPtr(IntPtr hWnd, WindowLongIndexFlags nIndex);
+
+        /// <summary>
+        /// 创建从指定文件中提取的图标的句柄数组。
+        /// </summary>
+        /// <param name="lpszFile">要从中提取图标的文件的路径和名称。</param>
+        /// <param name="nIconIndex">要提取的第一个图标的从零开始的索引。 例如，如果此值为零，则函数提取指定文件中的第一个图标。</param>
+        /// <param name="cxIcon">所需的水平图标大小。</param>
+        /// <param name="cyIcon">所需的垂直图标大小。 </param>
+        /// <param name="phicon">指向返回的图标句柄数组的指针。</param>
+        /// <param name="piconid">指向图标返回的资源标识符的指针，该图标最适合当前显示设备。 如果标识符不可用于此格式，则返回的标识符0xFFFFFFFF。 如果无法以其他方式获取标识符，则返回的标识符为 0。</param>
+        /// <param name="nIcons">要从文件中提取的图标数。 仅当从 .exe 和 .dll 文件中提取时，此参数才有效。</param>
+        /// <param name="flags">指定控制此函数的标志。 这些标志是 LoadImage 函数使用的LR_* 标志。</param>
+        /// <returns>
+        /// 如果 phicon 参数为 NULL 并且此函数成功，则返回值是文件中的图标数。 如果函数失败，则返回值为 0。如果 phicon 参数不为 NULL 且函数成功，则返回值是提取的图标数。 否则，如果未找到该文件，则返回值0xFFFFFFFF。
+        /// </returns>
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "PrivateExtractIconsW", SetLastError = false)]
+        public static extern int PrivateExtractIcons(string lpszFile, int nIconIndex, int cxIcon, int cyIcon, IntPtr[] phicon, IntPtr[] piconid, int nIcons, int flags);
 
         /// <summary>
         /// 将指定的消息发送到窗口或窗口。SendMessage 函数调用指定窗口的窗口过程，在窗口过程处理消息之前不会返回。

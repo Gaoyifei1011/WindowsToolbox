@@ -2,15 +2,21 @@
     x:Class="WindowsTools.Views.Pages.ExtractIconPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:WindowsTools.Models"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:WindowsTools.Strings"
+    xmlns:sys="using:System"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Grid Padding="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <TextBlock
@@ -18,5 +24,281 @@
             Margin="30,15,30,6"
             FontSize="22"
             Text="{x:Bind string:ExtractIcon.Title}" />
+
+        <TextBlock
+            Grid.Row="1"
+            Margin="32,0,32,3"
+            FontSize="14"
+            Text="{x:Bind GetResults, Mode=OneWay}" />
+
+        <Grid Grid.Row="2" Margin="30,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="256" />
+            </Grid.ColumnDefinitions>
+
+            <GridView
+                Grid.Column="0"
+                Margin="0,0,0,5"
+                Padding="5"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                Canvas.ZIndex="0"
+                IsSwipeEnabled="False"
+                ItemsSource="{x:Bind IconCollection, Mode=OneWay}"
+                SelectionMode="Extended"
+                TabIndex="1">
+
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="model:IconModel">
+                        <Grid
+                            Width="90"
+                            Padding="8"
+                            HorizontalAlignment="Stretch"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource ControlCornerRadius}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid
+                                Grid.Row="0"
+                                Width="72"
+                                Margin="0,10"
+                                CornerRadius="{ThemeResource ControlCornerRadius}">
+                                <Image
+                                    Width="48"
+                                    HorizontalAlignment="Center"
+                                    AutomationProperties.Name="{x:Bind IconIndex}"
+                                    Source="{x:Bind IconImage}"
+                                    Stretch="Uniform" />
+                            </Grid>
+
+                            <TextBlock
+                                Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                FontSize="16"
+                                Text="{x:Bind IconIndex}"
+                                TextLineBounds="TrimToCapHeight"
+                                TextWrapping="NoWrap" />
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+
+                <GridView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                        <Setter Property="Margin" Value="0,0,6,6" />
+                    </Style>
+                </GridView.ItemContainerStyle>
+            </GridView>
+
+            <TextBlock
+                Grid.Column="0"
+                Margin="0,0,0,5"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Canvas.ZIndex="1"
+                FontSize="20"
+                Text="{x:Bind NoResources, Mode=OneWay}"
+                TextAlignment="Center"
+                TextWrapping="Wrap"
+                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(IconCollection.Count), Mode=OneWay}" />
+
+            <AppBarSeparator Grid.Column="1" Margin="10,0" />
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" RowSpacing="3">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind string:ExtractIcon.SaveIconFormat}" />
+
+                        <muxc:DropDownButton
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="0,0,0,3"
+                            HorizontalAlignment="Stretch"
+                            Content="{x:Bind SelectedIconFormat.Key, Mode=OneWay}">
+
+                            <muxc:DropDownButton.Flyout>
+                                <MenuFlyout Placement="Bottom">
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnIconFormatClicked}"
+                                        IsChecked="{x:Bind SelectedIconFormat.Value.Equals(IconFormatList[0].Value), Mode=OneWay}"
+                                        Tag="0"
+                                        Text="{x:Bind sys:Convert.ToString(IconFormatList[0].Key)}" />
+
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnIconFormatClicked}"
+                                        IsChecked="{x:Bind SelectedIconFormat.Value.Equals(IconFormatList[1].Value), Mode=OneWay}"
+                                        Tag="1"
+                                        Text="{x:Bind sys:Convert.ToString(IconFormatList[1].Key)}" />
+                                </MenuFlyout>
+                            </muxc:DropDownButton.Flyout>
+                        </muxc:DropDownButton>
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind string:ExtractIcon.SaveIconSize}" />
+
+                        <muxc:DropDownButton
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            Content="{x:Bind SelectedIconSize.Key, Mode=OneWay}">
+
+                            <muxc:DropDownButton.Flyout>
+                                <MenuFlyout Placement="Bottom">
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnIconSizeClicked}"
+                                        IsChecked="{x:Bind SelectedIconSize.Value.Equals(IconSizeList[0].Value), Mode=OneWay}"
+                                        Tag="0"
+                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[0].Key)}" />
+
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnIconSizeClicked}"
+                                        IsChecked="{x:Bind SelectedIconSize.Value.Equals(IconSizeList[1].Value), Mode=OneWay}"
+                                        Tag="1"
+                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[1].Key)}" />
+
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnIconSizeClicked}"
+                                        IsChecked="{x:Bind SelectedIconSize.Value.Equals(IconSizeList[2].Value), Mode=OneWay}"
+                                        Tag="2"
+                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[2].Key)}" />
+
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnIconSizeClicked}"
+                                        IsChecked="{x:Bind SelectedIconSize.Value.Equals(IconSizeList[3].Value), Mode=OneWay}"
+                                        Tag="3"
+                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[3].Key)}" />
+
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnIconSizeClicked}"
+                                        IsChecked="{x:Bind SelectedIconSize.Value.Equals(IconSizeList[4].Value), Mode=OneWay}"
+                                        Tag="4"
+                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[4].Key)}" />
+
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnIconSizeClicked}"
+                                        IsChecked="{x:Bind SelectedIconSize.Value.Equals(IconSizeList[5].Value), Mode=OneWay}"
+                                        Tag="5"
+                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[5].Key)}" />
+
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnIconSizeClicked}"
+                                        IsChecked="{x:Bind SelectedIconSize.Value.Equals(IconSizeList[6].Value), Mode=OneWay}"
+                                        Tag="6"
+                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[6].Key)}" />
+
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnIconSizeClicked}"
+                                        IsChecked="{x:Bind SelectedIconSize.Value.Equals(IconSizeList[7].Value), Mode=OneWay}"
+                                        Tag="7"
+                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[7].Key)}" />
+                                </MenuFlyout>
+                            </muxc:DropDownButton.Flyout>
+                        </muxc:DropDownButton>
+                    </Grid>
+                </Grid>
+
+                <MenuFlyoutSeparator Grid.Row="1" Margin="5,3" />
+
+                <Grid
+                    Grid.Row="2"
+                    Width="256"
+                    Height="256"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                    <Image
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{x:Bind ImageSource, Mode=OneWay}" />
+
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Text="{x:Bind string:ExtractIcon.NoPreviewResources}"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <MenuFlyoutSeparator Grid.Row="3" Margin="5,3" />
+
+                <Button
+                    Grid.Row="4"
+                    Margin="0,0,0,3"
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnSelectFileClicked}"
+                    Content="{x:Bind string:ExtractIcon.SelectFile}" />
+
+                <Button
+                    Grid.Row="5"
+                    Margin="0,0,0,3"
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnExportSelectedIconsClicked}"
+                    Content="{x:Bind string:ExtractIcon.ExportSelectedIcons}" />
+
+                <Button
+                    Grid.Row="6"
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnExportAllIconsClicked}"
+                    Content="{x:Bind string:ExtractIcon.ExportAllIcons}" />
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

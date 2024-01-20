@@ -132,23 +132,26 @@
                         <muxc:DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Margin="11,0"
                                     Click="{x:Bind OnThemeSelectClicked}"
                                     IsChecked="{x:Bind Theme.Value.Equals(ThemeList[0].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="0"
                                     Text="{x:Bind sys:Convert.ToString(ThemeList[0].Key)}" />
 
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Margin="11,0"
                                     Click="{x:Bind OnThemeSelectClicked}"
                                     IsChecked="{x:Bind Theme.Value.Equals(ThemeList[1].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="1"
                                     Text="{x:Bind sys:Convert.ToString(ThemeList[1].Key)}" />
 
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Margin="11,0"
                                     Click="{x:Bind OnThemeSelectClicked}"
                                     IsChecked="{x:Bind Theme.Value.Equals(ThemeList[2].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="2"
                                     Text="{x:Bind sys:Convert.ToString(ThemeList[2].Key)}" />
                             </MenuFlyout>
@@ -215,30 +218,34 @@
                         <muxc:DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Margin="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
                                     IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[0].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="0"
                                     Text="{x:Bind sys:Convert.ToString(BackdropList[0].Key)}" />
 
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Margin="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
                                     IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[1].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="1"
                                     Text="{x:Bind sys:Convert.ToString(BackdropList[1].Key)}" />
 
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Margin="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
                                     IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[2].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="2"
                                     Text="{x:Bind sys:Convert.ToString(BackdropList[2].Key)}" />
 
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Margin="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
                                     IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[3].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="3"
                                     Text="{x:Bind sys:Convert.ToString(BackdropList[3].Key)}" />
                             </MenuFlyout>

@@ -95,58 +95,66 @@
                         <muxc:DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind SelectedNumberFormat.Value.Equals(NumberFormatList[0].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="0"
                                     Text="{x:Bind sys:Convert.ToString(NumberFormatList[0].Key)}" />
 
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind SelectedNumberFormat.Value.Equals(NumberFormatList[1].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="1"
                                     Text="{x:Bind sys:Convert.ToString(NumberFormatList[1].Key)}" />
 
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind SelectedNumberFormat.Value.Equals(NumberFormatList[2].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="2"
                                     Text="{x:Bind sys:Convert.ToString(NumberFormatList[2].Key)}" />
 
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind SelectedNumberFormat.Value.Equals(NumberFormatList[3].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="3"
                                     Text="{x:Bind sys:Convert.ToString(NumberFormatList[3].Key)}" />
 
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind SelectedNumberFormat.Value.Equals(NumberFormatList[4].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="4"
                                     Text="{x:Bind sys:Convert.ToString(NumberFormatList[4].Key)}" />
 
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind SelectedNumberFormat.Value.Equals(NumberFormatList[5].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="5"
                                     Text="{x:Bind sys:Convert.ToString(NumberFormatList[5].Key)}" />
 
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind SelectedNumberFormat.Value.Equals(NumberFormatList[6].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="6"
                                     Text="{x:Bind sys:Convert.ToString(NumberFormatList[6].Key)}" />
 
                                 <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     IsChecked="{x:Bind SelectedNumberFormat.Value.Equals(NumberFormatList[7].Value), Mode=OneWay}"
-                                    Style="{StaticResource ToggleMenuFlyoutItemStyle}"
                                     Tag="7"
                                     Text="{x:Bind sys:Convert.ToString(NumberFormatList[7].Key)}" />
                             </MenuFlyout>
