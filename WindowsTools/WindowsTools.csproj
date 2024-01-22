@@ -38,10 +38,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DriverManager.resx</DependentUpon>
     </Compile>
-    <Compile Update="Strings\ExtractIcon.Designer.cs">
+    <Compile Update="Strings\IconExtract.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ExtractIcon.resx</DependentUpon>
+      <DependentUpon>IconExtract.resx</DependentUpon>
     </Compile>
     <Compile Update="Strings\FileCertificate.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -86,6 +86,12 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Notification.resx</DependentUpon>
+    </Compile>
+
+    <Compile Update="Strings\PriExtract.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PriExtract.resx</DependentUpon>
     </Compile>
 
     <Compile Update="Strings\Resources.Designer.cs">
@@ -148,12 +154,13 @@
     <Content Include="Assets\ControlIcon\AllTools.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\DriverManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ExtensionName.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\ExtractIcon.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\File.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileCertificate.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileName.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileProperties.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\Image.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\IconExtract.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\PriExtract.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\Resource.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Settings.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\System.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\SystemInfo.png" CopyToOutputDirectory="Always" />
@@ -233,9 +240,9 @@
     <EmbeddedResource Update="Strings\ExtensionName.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\ExtensionName.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ExtensionName.Designer.cs" />
     <EmbeddedResource Update="Strings\ExtensionName.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\ExtractIcon.en-us.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\ExtractIcon.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ExtractIcon.Designer.cs" />
-    <EmbeddedResource Update="Strings\ExtractIcon.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\IconExtract.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\IconExtract.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="IconExtract.Designer.cs" />
+    <EmbeddedResource Update="Strings\IconExtract.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\FileCertificate.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\FileCertificate.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="FileCertificate.Designer.cs" />
     <EmbeddedResource Update="Strings\FileCertificate.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
@@ -248,6 +255,9 @@
     <EmbeddedResource Update="Strings\Notification.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Notification.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Notification.Designer.cs" />
     <EmbeddedResource Update="Strings\Notification.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\PriExtract.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\PriExtract.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="PriExtract.Designer.cs" />
+    <EmbeddedResource Update="Strings\PriExtract.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
     <EmbeddedResource Update="Strings\Settings.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Settings.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Settings.Designer.cs" />

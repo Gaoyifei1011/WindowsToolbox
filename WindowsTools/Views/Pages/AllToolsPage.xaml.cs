@@ -12,7 +12,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class AllToolsPage : Page
     {
-        // 文件重命名工具列表
+        // 文件工具列表
         private List<ControlItemModel> FileToolsList { get; } = new List<ControlItemModel>()
         {
             new ControlItemModel()
@@ -49,19 +49,26 @@ namespace WindowsTools.Views.Pages
                 Description = AllTools.FileCertificateDescription,
                 ImagePath = "ms-appx:///Assets/ControlIcon/FileCertificate.png",
                 Tag = "FileCertificate"
-            },
+            }
         };
 
-        // 图像工具列表
-        private List<ControlItemModel> ImageToolsList { get; } = new List<ControlItemModel>()
+        // 资源工具列表
+        private List<ControlItemModel> ResourceToolsList { get; } = new List<ControlItemModel>()
         {
             new ControlItemModel()
             {
-                Title = AllTools.ExtractIcon,
-                Description = AllTools.ExtractIconDescription,
-                ImagePath = "ms-appx:///Assets/ControlIcon/ExtractIcon.png",
-                Tag = "ExtractIcon"
+                Title = AllTools.IconExtract,
+                Description = AllTools.IconExtractDescription,
+                ImagePath = "ms-appx:///Assets/ControlIcon/IconExtract.png",
+                Tag = "IconExtract"
             },
+            new ControlItemModel()
+            {
+                Title = AllTools.PriExtract,
+                Description = AllTools.PriExtractDescription,
+                ImagePath = "ms-appx:///Assets/ControlIcon/PriExtract.png",
+                Tag = "PriExtract"
+            }
         };
 
         // 系统工具列表
@@ -87,7 +94,7 @@ namespace WindowsTools.Views.Pages
                 Description = AllTools.WinSATDescription,
                 ImagePath = "ms-appx:///Assets/ControlIcon/WinSAT.png",
                 Tag = "WinSAT"
-            },
+            }
         };
 
         public AllToolsPage()

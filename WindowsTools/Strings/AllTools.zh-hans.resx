@@ -129,12 +129,6 @@
   <data name="ExtensionNameDescription" xml:space="preserve">
     <value>批量修改文件（夹）扩展名称</value>
   </data>
-  <data name="ExtractIcon" xml:space="preserve">
-    <value>提取图标</value>
-  </data>
-  <data name="ExtractIconDescription" xml:space="preserve">
-    <value>提取文件内嵌的图标</value>
-  </data>
   <data name="File" xml:space="preserve">
     <value>文件工具</value>
   </data>
@@ -156,8 +150,20 @@
   <data name="FilePropertiesDescription" xml:space="preserve">
     <value>批量修改文件（夹）属性</value>
   </data>
-  <data name="Image" xml:space="preserve">
-    <value>图像工具</value>
+  <data name="IconExtract" xml:space="preserve">
+    <value>图标提取</value>
+  </data>
+  <data name="IconExtractDescription" xml:space="preserve">
+    <value>提取文件内嵌的图标</value>
+  </data>
+  <data name="PriExtract" xml:space="preserve">
+    <value>包资源索引提取</value>
+  </data>
+  <data name="PriExtractDescription" xml:space="preserve">
+    <value>提取包资源索引文件（Pri）里面包含的资源</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>资源工具</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>系统工具</value>

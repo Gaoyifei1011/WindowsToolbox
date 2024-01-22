@@ -1,5 +1,5 @@
 <Page
-    x:Class="WindowsTools.Views.Pages.ExtractIconPage"
+    x:Class="WindowsTools.Views.Pages.IconExtractPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converter="using:WindowsTools.Helpers.Converters"
@@ -9,6 +9,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
+    AllowDrop="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -23,7 +24,7 @@
             Grid.Row="0"
             Margin="30,15,30,6"
             FontSize="22"
-            Text="{x:Bind string:ExtractIcon.Title}" />
+            Text="{x:Bind string:IconExtract.Title}" />
 
         <TextBlock
             Grid.Row="1"
@@ -35,10 +36,11 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="256" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <GridView
+                x:Name="IconsGridView"
                 Grid.Column="0"
                 Margin="0,0,0,5"
                 Padding="5"
@@ -48,6 +50,7 @@
                 Canvas.ZIndex="0"
                 IsSwipeEnabled="False"
                 ItemsSource="{x:Bind IconCollection, Mode=OneWay}"
+                SelectionChanged="{x:Bind OnSelectionChanged}"
                 SelectionMode="Extended"
                 TabIndex="1">
 
@@ -74,7 +77,6 @@
                                 <Image
                                     Width="48"
                                     HorizontalAlignment="Center"
-                                    AutomationProperties.Name="{x:Bind IconIndex}"
                                     Source="{x:Bind IconImage}"
                                     Stretch="Uniform" />
                             </Grid>
@@ -83,7 +85,7 @@
                                 Grid.Row="1"
                                 HorizontalAlignment="Center"
                                 FontSize="16"
-                                Text="{x:Bind IconIndex}"
+                                Text="{x:Bind DisplayIndex}"
                                 TextLineBounds="TrimToCapHeight"
                                 TextWrapping="NoWrap" />
                         </Grid>
@@ -99,7 +101,7 @@
 
             <TextBlock
                 Grid.Column="0"
-                Margin="0,0,0,5"
+                Margin="20,0,20,5"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Canvas.ZIndex="1"
@@ -120,6 +122,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" RowSpacing="3">
@@ -138,7 +141,7 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             VerticalAlignment="Center"
-                            Text="{x:Bind string:ExtractIcon.SaveIconFormat}" />
+                            Text="{x:Bind string:IconExtract.SaveIconFormat}" />
 
                         <muxc:DropDownButton
                             Grid.Row="0"
@@ -172,7 +175,7 @@
                             Grid.Row="1"
                             Grid.Column="0"
                             VerticalAlignment="Center"
-                            Text="{x:Bind string:ExtractIcon.SaveIconSize}" />
+                            Text="{x:Bind string:IconExtract.SaveIconSize}" />
 
                         <muxc:DropDownButton
                             Grid.Row="1"
@@ -255,8 +258,8 @@
 
                 <Grid
                     Grid.Row="2"
-                    Width="256"
-                    Height="256"
+                    Width="260"
+                    Height="260"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -265,16 +268,20 @@
                     CornerRadius="{StaticResource ControlCornerRadius}">
 
                     <Image
+                        MaxWidth="256"
+                        MaxHeight="256"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Source="{x:Bind ImageSource, Mode=OneWay}" />
+                        Source="{x:Bind ImageSource, Mode=OneWay}"
+                        Stretch="None" />
 
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontSize="20"
-                        Text="{x:Bind string:ExtractIcon.NoPreviewResources}"
-                        TextWrapping="Wrap" />
+                        Text="{x:Bind string:IconExtract.NoPreviewResources}"
+                        TextWrapping="Wrap"
+                        Visibility="{x:Bind IsImageEmpty, Mode=OneWay}" />
                 </Grid>
 
                 <MenuFlyoutSeparator Grid.Row="3" Margin="5,3" />
@@ -284,20 +291,38 @@
                     Margin="0,0,0,3"
                     HorizontalAlignment="Stretch"
                     Click="{x:Bind OnSelectFileClicked}"
-                    Content="{x:Bind string:ExtractIcon.SelectFile}" />
+                    Content="{x:Bind string:IconExtract.SelectFile}" />
 
                 <Button
                     Grid.Row="5"
                     Margin="0,0,0,3"
                     HorizontalAlignment="Stretch"
                     Click="{x:Bind OnExportSelectedIconsClicked}"
-                    Content="{x:Bind string:ExtractIcon.ExportSelectedIcons}" />
+                    Content="{x:Bind string:IconExtract.ExportSelectedIcons}"
+                    IsEnabled="{x:Bind IsSelected, Mode=OneWay}" />
 
                 <Button
                     Grid.Row="6"
                     HorizontalAlignment="Stretch"
                     Click="{x:Bind OnExportAllIconsClicked}"
-                    Content="{x:Bind string:ExtractIcon.ExportAllIcons}" />
+                    Content="{x:Bind string:IconExtract.ExportAllIcons}"
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(IconCollection.Count), Mode=OneWay}" />
+
+                <StackPanel
+                    Grid.Row="7"
+                    Margin="0,0,0,5"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal"
+                    Spacing="5"
+                    Visibility="{x:Bind IsSaving, Mode=OneWay}">
+                    <muxc:ProgressRing
+                        Width="20"
+                        Height="20"
+                        IsActive="{x:Bind IsSaving, Mode=OneWay}" />
+
+                    <TextBlock Text="{x:Bind string:IconExtract.SavingNow}" />
+                </StackPanel>
             </Grid>
         </Grid>
     </Grid>

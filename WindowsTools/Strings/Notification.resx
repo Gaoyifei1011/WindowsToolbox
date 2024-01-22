@@ -126,6 +126,12 @@
   <data name="DesktopShortFailed" xml:space="preserve">
     <value>The app's desktop shortcut failed to create, please create it manually</value>
   </data>
+  <data name="IconExtractFailed" xml:space="preserve">
+    <value>The icon failed to be saved. Please check the access permission of the local directory</value>
+  </data>
+  <data name="IconExtractSuccessfully" xml:space="preserve">
+    <value>The icon has been saved successfully</value>
+  </data>
   <data name="LanguageChange" xml:space="preserve">
     <value>The language setting is modified successfully and takes effect after restarting the application</value>
   </data>

@@ -27,6 +27,22 @@ namespace WindowsTools.Helpers.Converters
         }
 
         /// <summary>
+        /// 整数值与布尔值转换
+        /// </summary>
+        public static bool IntToBooleanConvert(int value)
+        {
+            return value is not 0;
+        }
+
+        /// <summary>
+        /// 布尔值与控件显示值转换（判断结果相反）
+        /// </summary>
+        public static Visibility BooleanToVisibilityReverseConvert(bool value)
+        {
+            return value is false ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        /// <summary>
         /// 整数值与控件显示值转换
         /// </summary>
         public static Visibility IntToVisibilityConvert(int value)
@@ -40,14 +56,6 @@ namespace WindowsTools.Helpers.Converters
         public static Visibility IntToVisibilityReverseConvert(int value)
         {
             return value is 0 ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        /// <summary>
-        /// 布尔值与控件显示值转换（判断结果相反）
-        /// </summary>
-        public static Visibility BooleanToVisibilityReverseConvert(bool value)
-        {
-            return value is false ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>

@@ -117,76 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DriverManager" xml:space="preserve">
-    <value>Driver manager</value>
+  <data name="DragOverContent" xml:space="preserve">
+    <value>Add to the Extract Icon page</value>
   </data>
-  <data name="DriverManagerDescription" xml:space="preserve">
-    <value>View and manage device driver software</value>
+  <data name="ExportAllIcons" xml:space="preserve">
+    <value>Export all icons</value>
   </data>
-  <data name="ExtensionName" xml:space="preserve">
-    <value>Extension name</value>
+  <data name="ExportSelectedIcons" xml:space="preserve">
+    <value>Export selected icons</value>
   </data>
-  <data name="ExtensionNameDescription" xml:space="preserve">
-    <value>Batch change file (folder) extension names</value>
+  <data name="FilterCondition" xml:space="preserve">
+    <value>Executable file(*.exe)|*.exe|Dynamic link library file(*.dll)|*.dll</value>
   </data>
-  <data name="File" xml:space="preserve">
-    <value>File tools</value>
+  <data name="GetResults" xml:space="preserve">
+    <value>Got {1} icons from file {0}</value>
   </data>
-  <data name="FileCertificate" xml:space="preserve">
-    <value>File certificate</value>
+  <data name="NoMultiFile" xml:space="preserve">
+    <value>Please do not select multiple files</value>
   </data>
-  <data name="FileCertificateDescription" xml:space="preserve">
-    <value>Performs operations on the certificate of the signed file</value>
+  <data name="NoPreviewResources" xml:space="preserve">
+    <value>No preview icon resources</value>
   </data>
-  <data name="FileName" xml:space="preserve">
-    <value>File name</value>
+  <data name="NoResources" xml:space="preserve">
+    <value>File {0} does not have any icon resources</value>
   </data>
-  <data name="FileNameDescription" xml:space="preserve">
-    <value>Batch change file (folder) names</value>
+  <data name="NoSelectedFile" xml:space="preserve">
+    <value>No file is selected</value>
   </data>
-  <data name="FileProperties" xml:space="preserve">
-    <value>File properties</value>
+  <data name="PleaseSelectFile" xml:space="preserve">
+    <value>Please select file</value>
   </data>
-  <data name="FilePropertiesDescription" xml:space="preserve">
-    <value>Batch modify file (folder) properties</value>
+  <data name="SaveIconFormat" xml:space="preserve">
+    <value>Save icon format</value>
   </data>
-  <data name="IconExtract" xml:space="preserve">
-    <value>Icon extract</value>
+  <data name="SaveIconSize" xml:space="preserve">
+    <value>Save icon size</value>
   </data>
-  <data name="IconExtractDescription" xml:space="preserve">
-    <value>Extract the icon embedded in the file</value>
+  <data name="SavingNow" xml:space="preserve">
+    <value>Saving now</value>
   </data>
-  <data name="PriExtract" xml:space="preserve">
-    <value>Pri extract</value>
+  <data name="SelectFile" xml:space="preserve">
+    <value>Select file</value>
   </data>
-  <data name="PriExtractDescription" xml:space="preserve">
-    <value>Extract the resources contained in the package resource index file (Pri)</value>
-  </data>
-  <data name="Resource" xml:space="preserve">
-    <value>Resource tools</value>
-  </data>
-  <data name="System" xml:space="preserve">
-    <value>System tools</value>
-  </data>
-  <data name="SystemInfo" xml:space="preserve">
-    <value>System information</value>
-  </data>
-  <data name="SystemInfoDescription" xml:space="preserve">
-    <value>View detailed information about the current system</value>
+  <data name="SelectFolder" xml:space="preserve">
+    <value>Select folder</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>All tools</value>
-  </data>
-  <data name="UpperAndLowerCase" xml:space="preserve">
-    <value>Upper and lower case page</value>
-  </data>
-  <data name="UpperAndLowerCaseDescription" xml:space="preserve">
-    <value>Batch change the upper and lower case names of files (folders)</value>
-  </data>
-  <data name="WinSAT" xml:space="preserve">
-    <value>System assessment</value>
-  </data>
-  <data name="WinSATDescription" xml:space="preserve">
-    <value>Benchmarking using system evaluation tools</value>
+    <value>Icon extract</value>
   </data>
 </root>

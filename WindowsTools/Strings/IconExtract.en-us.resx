@@ -117,14 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DragOverContent" xml:space="preserve">
+    <value>Add to the Extract Icon page</value>
+  </data>
   <data name="ExportAllIcons" xml:space="preserve">
     <value>Export all icons</value>
   </data>
   <data name="ExportSelectedIcons" xml:space="preserve">
     <value>Export selected icons</value>
   </data>
+  <data name="FilterCondition" xml:space="preserve">
+    <value>Executable file(*.exe)|*.exe|Dynamic link library file(*.dll)|*.dll</value>
+  </data>
   <data name="GetResults" xml:space="preserve">
     <value>Got {1} icons from file {0}</value>
+  </data>
+  <data name="NoMultiFile" xml:space="preserve">
+    <value>Please do not select multiple files</value>
   </data>
   <data name="NoPreviewResources" xml:space="preserve">
     <value>No preview icon resources</value>
@@ -132,16 +141,28 @@
   <data name="NoResources" xml:space="preserve">
     <value>File {0} does not have any icon resources</value>
   </data>
+  <data name="NoSelectedFile" xml:space="preserve">
+    <value>No file is selected</value>
+  </data>
+  <data name="PleaseSelectFile" xml:space="preserve">
+    <value>Please select file</value>
+  </data>
   <data name="SaveIconFormat" xml:space="preserve">
     <value>Save icon format</value>
   </data>
   <data name="SaveIconSize" xml:space="preserve">
     <value>Save icon size</value>
   </data>
+  <data name="SavingNow" xml:space="preserve">
+    <value>Saving now</value>
+  </data>
   <data name="SelectFile" xml:space="preserve">
     <value>Select file</value>
   </data>
+  <data name="SelectFolder" xml:space="preserve">
+    <value>Select folder</value>
+  </data>
   <data name="Title" xml:space="preserve">
-    <value>Extract icon</value>
+    <value>Icon extract</value>
   </data>
 </root>

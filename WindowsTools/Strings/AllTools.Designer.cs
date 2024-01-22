@@ -97,24 +97,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Extract icon 的本地化字符串。
-        /// </summary>
-        public static string ExtractIcon {
-            get {
-                return ResourceManager.GetString("ExtractIcon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Extract the icon embedded in the file 的本地化字符串。
-        /// </summary>
-        public static string ExtractIconDescription {
-            get {
-                return ResourceManager.GetString("ExtractIconDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 File tools 的本地化字符串。
         /// </summary>
         public static string File {
@@ -178,11 +160,47 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Image tools 的本地化字符串。
+        ///   查找类似 Icon extract 的本地化字符串。
         /// </summary>
-        public static string Image {
+        public static string IconExtract {
             get {
-                return ResourceManager.GetString("Image", resourceCulture);
+                return ResourceManager.GetString("IconExtract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extract the icon embedded in the file 的本地化字符串。
+        /// </summary>
+        public static string IconExtractDescription {
+            get {
+                return ResourceManager.GetString("IconExtractDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Pri extract 的本地化字符串。
+        /// </summary>
+        public static string PriExtract {
+            get {
+                return ResourceManager.GetString("PriExtract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extract the resources contained in the package resource index file (Pri) 的本地化字符串。
+        /// </summary>
+        public static string PriExtractDescription {
+            get {
+                return ResourceManager.GetString("PriExtractDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Resource tools 的本地化字符串。
+        /// </summary>
+        public static string Resource {
+            get {
+                return ResourceManager.GetString("Resource", resourceCulture);
             }
         }
         

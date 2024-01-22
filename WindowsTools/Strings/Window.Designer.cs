@@ -115,15 +115,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Extract icon 的本地化字符串。
-        /// </summary>
-        public static string ExtractIcon {
-            get {
-                return ResourceManager.GetString("ExtractIcon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 File tools 的本地化字符串。
         /// </summary>
         public static string File {
@@ -160,11 +151,11 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Image tools 的本地化字符串。
+        ///   查找类似 Icon extract 的本地化字符串。
         /// </summary>
-        public static string Image {
+        public static string IconExtract {
             get {
-                return ResourceManager.GetString("Image", resourceCulture);
+                return ResourceManager.GetString("IconExtract", resourceCulture);
             }
         }
         
@@ -201,6 +192,24 @@ namespace WindowsTools.Strings {
         public static string NavigationFailed {
             get {
                 return ResourceManager.GetString("NavigationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Pri extract 的本地化字符串。
+        /// </summary>
+        public static string PriExtract {
+            get {
+                return ResourceManager.GetString("PriExtract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Resource tools 的本地化字符串。
+        /// </summary>
+        public static string Resource {
+            get {
+                return ResourceManager.GetString("Resource", resourceCulture);
             }
         }
         

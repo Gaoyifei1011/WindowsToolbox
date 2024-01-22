@@ -138,14 +138,14 @@
                     VerticalAlignment="Center"
                     FontSize="18"
                     Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{x:Bind string:AllTools.Image}" />
+                    Text="{x:Bind string:AllTools.Resource}" />
 
                 <GridView
                     IsItemClickEnabled="True"
                     IsSwipeEnabled="False"
                     ItemClick="{x:Bind OnItemClicked}"
                     ItemTemplate="{StaticResource ControlItemTemplate}"
-                    ItemsSource="{x:Bind ImageToolsList}"
+                    ItemsSource="{x:Bind ResourceToolsList}"
                     SelectionMode="None"
                     TabIndex="1">
 

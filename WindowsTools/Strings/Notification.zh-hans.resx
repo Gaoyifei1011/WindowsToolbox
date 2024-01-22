@@ -126,6 +126,12 @@
   <data name="DesktopShortFailed" xml:space="preserve">
     <value>应用的桌面快捷方式创建失败，请手动创建</value>
   </data>
+  <data name="IconExtractFailed" xml:space="preserve">
+    <value>图标保存失败，请检查本地目录的访问权限</value>
+  </data>
+  <data name="IconExtractSuccessfully" xml:space="preserve">
+    <value>图标已成功保存</value>
+  </data>
   <data name="LanguageChange" xml:space="preserve">
     <value>语言设置修改成功，重启应用后生效</value>
   </data>

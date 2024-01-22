@@ -117,76 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DriverManager" xml:space="preserve">
-    <value>Driver manager</value>
-  </data>
-  <data name="DriverManagerDescription" xml:space="preserve">
-    <value>View and manage device driver software</value>
-  </data>
-  <data name="ExtensionName" xml:space="preserve">
-    <value>Extension name</value>
-  </data>
-  <data name="ExtensionNameDescription" xml:space="preserve">
-    <value>Batch change file (folder) extension names</value>
-  </data>
-  <data name="File" xml:space="preserve">
-    <value>File tools</value>
-  </data>
-  <data name="FileCertificate" xml:space="preserve">
-    <value>File certificate</value>
-  </data>
-  <data name="FileCertificateDescription" xml:space="preserve">
-    <value>Performs operations on the certificate of the signed file</value>
-  </data>
-  <data name="FileName" xml:space="preserve">
-    <value>File name</value>
-  </data>
-  <data name="FileNameDescription" xml:space="preserve">
-    <value>Batch change file (folder) names</value>
-  </data>
-  <data name="FileProperties" xml:space="preserve">
-    <value>File properties</value>
-  </data>
-  <data name="FilePropertiesDescription" xml:space="preserve">
-    <value>Batch modify file (folder) properties</value>
-  </data>
-  <data name="IconExtract" xml:space="preserve">
-    <value>Icon extract</value>
-  </data>
-  <data name="IconExtractDescription" xml:space="preserve">
-    <value>Extract the icon embedded in the file</value>
-  </data>
-  <data name="PriExtract" xml:space="preserve">
-    <value>Pri extract</value>
-  </data>
-  <data name="PriExtractDescription" xml:space="preserve">
-    <value>Extract the resources contained in the package resource index file (Pri)</value>
-  </data>
-  <data name="Resource" xml:space="preserve">
-    <value>Resource tools</value>
-  </data>
-  <data name="System" xml:space="preserve">
-    <value>System tools</value>
-  </data>
-  <data name="SystemInfo" xml:space="preserve">
-    <value>System information</value>
-  </data>
-  <data name="SystemInfoDescription" xml:space="preserve">
-    <value>View detailed information about the current system</value>
-  </data>
   <data name="Title" xml:space="preserve">
-    <value>All tools</value>
-  </data>
-  <data name="UpperAndLowerCase" xml:space="preserve">
-    <value>Upper and lower case page</value>
-  </data>
-  <data name="UpperAndLowerCaseDescription" xml:space="preserve">
-    <value>Batch change the upper and lower case names of files (folders)</value>
-  </data>
-  <data name="WinSAT" xml:space="preserve">
-    <value>System assessment</value>
-  </data>
-  <data name="WinSATDescription" xml:space="preserve">
-    <value>Benchmarking using system evaluation tools</value>
+    <value>Pri extract</value>
   </data>
 </root>

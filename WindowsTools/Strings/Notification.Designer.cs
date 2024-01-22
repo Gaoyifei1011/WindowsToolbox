@@ -88,6 +88,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 The icon failed to be saved. Please check the access permission of the local directory 的本地化字符串。
+        /// </summary>
+        public static string IconExtractFailed {
+            get {
+                return ResourceManager.GetString("IconExtractFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The icon has been saved successfully 的本地化字符串。
+        /// </summary>
+        public static string IconExtractSuccessfully {
+            get {
+                return ResourceManager.GetString("IconExtractSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The language setting is modified successfully and takes effect after restarting the application 的本地化字符串。
         /// </summary>
         public static string LanguageChange {

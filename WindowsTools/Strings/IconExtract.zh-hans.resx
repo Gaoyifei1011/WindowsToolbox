@@ -117,14 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DragOverContent" xml:space="preserve">
+    <value>添加到“提取图标”页面</value>
+  </data>
   <data name="ExportAllIcons" xml:space="preserve">
     <value>导出所有图标</value>
   </data>
   <data name="ExportSelectedIcons" xml:space="preserve">
     <value>导出选择的图标</value>
   </data>
+  <data name="FilterCondition" xml:space="preserve">
+    <value>可执行文件(*.exe)|*.exe|动态链接库文件(*.dll)|*.dll</value>
+  </data>
   <data name="GetResults" xml:space="preserve">
     <value>从文件 {0} 中获取到 {1} 个图标</value>
+  </data>
+  <data name="NoMultiFile" xml:space="preserve">
+    <value>请不要选择多个文件</value>
   </data>
   <data name="NoPreviewResources" xml:space="preserve">
     <value>没有预览图标资源</value>
@@ -132,16 +141,28 @@
   <data name="NoResources" xml:space="preserve">
     <value>文件 {0} 中没有任何图标资源</value>
   </data>
+  <data name="NoSelectedFile" xml:space="preserve">
+    <value>没有选择任何文件</value>
+  </data>
+  <data name="PleaseSelectFile" xml:space="preserve">
+    <value>请选择文件</value>
+  </data>
   <data name="SaveIconFormat" xml:space="preserve">
     <value>保存的图标格式</value>
   </data>
   <data name="SaveIconSize" xml:space="preserve">
     <value>保存的图标大小</value>
   </data>
+  <data name="SavingNow" xml:space="preserve">
+    <value>正在保存中</value>
+  </data>
   <data name="SelectFile" xml:space="preserve">
     <value>选择文件</value>
   </data>
+  <data name="SelectFolder" xml:space="preserve">
+    <value>选择文件夹</value>
+  </data>
   <data name="Title" xml:space="preserve">
-    <value>提取图标</value>
+    <value>图标提取</value>
   </data>
 </root>

@@ -129,12 +129,6 @@
   <data name="ExtensionNameDescription" xml:space="preserve">
     <value>Batch change file (folder) extension names</value>
   </data>
-  <data name="ExtractIcon" xml:space="preserve">
-    <value>Extract icon</value>
-  </data>
-  <data name="ExtractIconDescription" xml:space="preserve">
-    <value>Extract the icon embedded in the file</value>
-  </data>
   <data name="File" xml:space="preserve">
     <value>File tools</value>
   </data>
@@ -156,8 +150,20 @@
   <data name="FilePropertiesDescription" xml:space="preserve">
     <value>Batch modify file (folder) properties</value>
   </data>
-  <data name="Image" xml:space="preserve">
-    <value>Image tools</value>
+  <data name="IconExtract" xml:space="preserve">
+    <value>Icon extract</value>
+  </data>
+  <data name="IconExtractDescription" xml:space="preserve">
+    <value>Extract the icon embedded in the file</value>
+  </data>
+  <data name="PriExtract" xml:space="preserve">
+    <value>Pri extract</value>
+  </data>
+  <data name="PriExtractDescription" xml:space="preserve">
+    <value>Extract the resources contained in the package resource index file (Pri)</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Resource tools</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>System tools</value>

@@ -117,31 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ExportAllIcons" xml:space="preserve">
-    <value>Export all icons</value>
-  </data>
-  <data name="ExportSelectedIcons" xml:space="preserve">
-    <value>Export selected icons</value>
-  </data>
-  <data name="GetResults" xml:space="preserve">
-    <value>Got {1} icons from file {0}</value>
-  </data>
-  <data name="NoPreviewResources" xml:space="preserve">
-    <value>No preview icon resources</value>
-  </data>
-  <data name="NoResources" xml:space="preserve">
-    <value>File {0} does not have any icon resources</value>
-  </data>
-  <data name="SaveIconFormat" xml:space="preserve">
-    <value>Save icon format</value>
-  </data>
-  <data name="SaveIconSize" xml:space="preserve">
-    <value>Save icon size</value>
-  </data>
-  <data name="SelectFile" xml:space="preserve">
-    <value>Select file</value>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>Extract icon</value>
+  <data name="String1" xml:space="preserve">
+    <value>Pri extract</value>
   </data>
 </root>

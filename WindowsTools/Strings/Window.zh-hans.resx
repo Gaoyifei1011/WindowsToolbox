@@ -135,9 +135,6 @@
   <data name="ExtensionName" xml:space="preserve">
     <value>扩展名称</value>
   </data>
-  <data name="ExtractIcon" xml:space="preserve">
-    <value>提取图标</value>
-  </data>
   <data name="File" xml:space="preserve">
     <value>文件工具</value>
   </data>
@@ -150,8 +147,8 @@
   <data name="FileProperties" xml:space="preserve">
     <value>文件属性</value>
   </data>
-  <data name="Image" xml:space="preserve">
-    <value>图像工具</value>
+  <data name="IconExtract" xml:space="preserve">
+    <value>图标提取</value>
   </data>
   <data name="Maximize" xml:space="preserve">
     <value>最大化</value>
@@ -164,6 +161,12 @@
   </data>
   <data name="NavigationFailed" xml:space="preserve">
     <value>页面{0}导航失败</value>
+  </data>
+  <data name="PriExtract" xml:space="preserve">
+    <value>包资源索引提取</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>资源工具</value>
   </data>
   <data name="Restore" xml:space="preserve">
     <value>还原</value>

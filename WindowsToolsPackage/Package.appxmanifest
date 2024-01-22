@@ -9,7 +9,7 @@
   <Identity
     Name="Gaoyifei1011.WindowsTools"
     Publisher="CN=高怡飞"
-    Version="1.5.119.0" />
+    Version="1.5.122.0" />
 
   <Properties>
     <DisplayName>ms-resource:PackageDisplayName</DisplayName>

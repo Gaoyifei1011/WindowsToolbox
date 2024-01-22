@@ -135,9 +135,6 @@
   <data name="ExtensionName" xml:space="preserve">
     <value>Extension name</value>
   </data>
-  <data name="ExtractIcon" xml:space="preserve">
-    <value>Extract icon</value>
-  </data>
   <data name="File" xml:space="preserve">
     <value>File tools</value>
   </data>
@@ -150,8 +147,8 @@
   <data name="FileProperties" xml:space="preserve">
     <value>File properties</value>
   </data>
-  <data name="Image" xml:space="preserve">
-    <value>Image tools</value>
+  <data name="IconExtract" xml:space="preserve">
+    <value>Icon extract</value>
   </data>
   <data name="Maximize" xml:space="preserve">
     <value>Maximize</value>
@@ -164,6 +161,12 @@
   </data>
   <data name="NavigationFailed" xml:space="preserve">
     <value>Page {0} navigation failed</value>
+  </data>
+  <data name="PriExtract" xml:space="preserve">
+    <value>Pri extract</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Resource tools</value>
   </data>
   <data name="Restore" xml:space="preserve">
     <value>Restore</value>

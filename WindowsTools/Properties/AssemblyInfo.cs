@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("高怡飞")]
 [assembly: AssemblyCopyright("Copyright ©2023 高怡飞, All Rights Reserved.")]
 [assembly: AssemblyDescription("Windows 工具箱")]
-[assembly: AssemblyFileVersion("1.5.119.0")]
-[assembly: AssemblyInformationalVersion("1.5.119.0")]
+[assembly: AssemblyFileVersion("1.5.122.0")]
+[assembly: AssemblyInformationalVersion("1.5.122.0")]
 [assembly: AssemblyProduct("Windows 工具箱")]
 [assembly: AssemblyTitle("Windows 工具箱")]
-[assembly: AssemblyVersion("1.5.119.0")]
+[assembly: AssemblyVersion("1.5.122.0")]
 
 // 设置程序集对COM组件的访问权限
 [assembly: ComVisible(false)]

@@ -22,14 +22,14 @@ namespace WindowsTools.Strings {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ExtractIcon {
+    public class PriExtract {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ExtractIcon() {
+        internal PriExtract() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace WindowsTools.Strings {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WindowsTools.Strings.ExtractIcon", typeof(ExtractIcon).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WindowsTools.Strings.PriExtract", typeof(PriExtract).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,79 +61,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Export all icons 的本地化字符串。
-        /// </summary>
-        public static string ExportAllIcons {
-            get {
-                return ResourceManager.GetString("ExportAllIcons", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Export selected icons 的本地化字符串。
-        /// </summary>
-        public static string ExportSelectedIcons {
-            get {
-                return ResourceManager.GetString("ExportSelectedIcons", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Got {1} icons from file {0} 的本地化字符串。
-        /// </summary>
-        public static string GetResults {
-            get {
-                return ResourceManager.GetString("GetResults", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 No preview icon resources 的本地化字符串。
-        /// </summary>
-        public static string NoPreviewResources {
-            get {
-                return ResourceManager.GetString("NoPreviewResources", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 File {0} does not have any icon resources 的本地化字符串。
-        /// </summary>
-        public static string NoResources {
-            get {
-                return ResourceManager.GetString("NoResources", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Save icon format 的本地化字符串。
-        /// </summary>
-        public static string SaveIconFormat {
-            get {
-                return ResourceManager.GetString("SaveIconFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Save icon size 的本地化字符串。
-        /// </summary>
-        public static string SaveIconSize {
-            get {
-                return ResourceManager.GetString("SaveIconSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Select file 的本地化字符串。
-        /// </summary>
-        public static string SelectFile {
-            get {
-                return ResourceManager.GetString("SelectFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Extract icon 的本地化字符串。
+        ///   查找类似 Pri extract 的本地化字符串。
         /// </summary>
         public static string Title {
             get {
