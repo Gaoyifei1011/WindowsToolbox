@@ -72,5 +72,13 @@ namespace WindowsTools.Helpers.Converters
                 return Visibility.Visible;
             }
         }
+
+        /// <summary>
+        /// 对象值与控件显示值转换
+        /// </summary>
+        public static Visibility ObjectToVisibilityConvert(object value, object comparedValue)
+        {
+            return value.Equals(comparedValue) ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 }

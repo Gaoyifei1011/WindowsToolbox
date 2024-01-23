@@ -47,7 +47,7 @@
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
-                Canvas.ZIndex="0"
+                CornerRadius="{StaticResource ControlCornerRadius}"
                 IsSwipeEnabled="False"
                 ItemsSource="{x:Bind IconCollection, Mode=OneWay}"
                 SelectionChanged="{x:Bind OnSelectionChanged}"

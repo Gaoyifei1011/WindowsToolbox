@@ -61,6 +61,186 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Copy all file path 的本地化字符串。
+        /// </summary>
+        public static string CopyAllFilePath {
+            get {
+                return ResourceManager.GetString("CopyAllFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copy all string 的本地化字符串。
+        /// </summary>
+        public static string CopyAllString {
+            get {
+                return ResourceManager.GetString("CopyAllString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copy selected file path 的本地化字符串。
+        /// </summary>
+        public static string CopySelectedFilePath {
+            get {
+                return ResourceManager.GetString("CopySelectedFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copy selected string 的本地化字符串。
+        /// </summary>
+        public static string CopySelectedString {
+            get {
+                return ResourceManager.GetString("CopySelectedString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Add to the Pri Extract page 的本地化字符串。
+        /// </summary>
+        public static string DragOverContent {
+            get {
+                return ResourceManager.GetString("DragOverContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Embedded data 的本地化字符串。
+        /// </summary>
+        public static string EmbeddedData {
+            get {
+                return ResourceManager.GetString("EmbeddedData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Export all embedded data 的本地化字符串。
+        /// </summary>
+        public static string ExportAllEmbeddedData {
+            get {
+                return ResourceManager.GetString("ExportAllEmbeddedData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Export selected embedded data 的本地化字符串。
+        /// </summary>
+        public static string ExportSelectedEmbeddedData {
+            get {
+                return ResourceManager.GetString("ExportSelectedEmbeddedData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extract options 的本地化字符串。
+        /// </summary>
+        public static string ExtractOptions {
+            get {
+                return ResourceManager.GetString("ExtractOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Save the extracted embedded data 的本地化字符串。
+        /// </summary>
+        public static string ExtractSaveEmbeddedData {
+            get {
+                return ResourceManager.GetString("ExtractSaveEmbeddedData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Save while extracting 的本地化字符串。
+        /// </summary>
+        public static string ExtractSaveSamely {
+            get {
+                return ResourceManager.GetString("ExtractSaveSamely", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Save the extracted string 的本地化字符串。
+        /// </summary>
+        public static string ExtractSaveString {
+            get {
+                return ResourceManager.GetString("ExtractSaveString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File path 的本地化字符串。
+        /// </summary>
+        public static string FilePath {
+            get {
+                return ResourceManager.GetString("FilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Package resources index(*.pri)|*.pri 的本地化字符串。
+        /// </summary>
+        public static string FilterCondition {
+            get {
+                return ResourceManager.GetString("FilterCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Get {1} datas from file {0} 的本地化字符串。
+        /// </summary>
+        public static string GetResults {
+            get {
+                return ResourceManager.GetString("GetResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please do not select multiple files 的本地化字符串。
+        /// </summary>
+        public static string NoMultiFile {
+            get {
+                return ResourceManager.GetString("NoMultiFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Only files with extensions &quot;.pri&quot; are allowed 的本地化字符串。
+        /// </summary>
+        public static string NoOtherExtensionNameFile {
+            get {
+                return ResourceManager.GetString("NoOtherExtensionNameFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No file is selected 的本地化字符串。
+        /// </summary>
+        public static string NoSelectedFile {
+            get {
+                return ResourceManager.GetString("NoSelectedFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select file 的本地化字符串。
+        /// </summary>
+        public static string SelectFile {
+            get {
+                return ResourceManager.GetString("SelectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 String 的本地化字符串。
+        /// </summary>
+        public static string String {
+            get {
+                return ResourceManager.GetString("String", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Pri extract 的本地化字符串。
         /// </summary>
         public static string Title {

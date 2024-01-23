@@ -15,7 +15,7 @@ namespace WindowsTools.Services.Root
     {
         private static readonly object logLock = new object();
 
-        private static bool IsInitialized = false;
+        private static bool isInitialized = false;
 
         private static string logName = Assembly.GetExecutingAssembly().GetName().Name;
 
@@ -34,11 +34,11 @@ namespace WindowsTools.Services.Root
                 {
                     Directory.CreateDirectory(LogFolderPath);
                 }
-                IsInitialized = true;
+                isInitialized = true;
             }
             catch (Exception)
             {
-                IsInitialized = false;
+                isInitialized = false;
             }
         }
 
@@ -47,7 +47,7 @@ namespace WindowsTools.Services.Root
         /// </summary>
         public static void WriteLog(EventLogEntryType logType, string logContent, StringBuilder logBuilder)
         {
-            if (IsInitialized)
+            if (isInitialized)
             {
                 try
                 {
@@ -83,7 +83,7 @@ namespace WindowsTools.Services.Root
         /// </summary>
         public static void WriteLog(EventLogEntryType logType, string logContent, Exception exception)
         {
-            if (IsInitialized)
+            if (isInitialized)
             {
                 try
                 {
@@ -130,7 +130,7 @@ namespace WindowsTools.Services.Root
         /// </summary>
         public static void OpenLogFolder()
         {
-            if (IsInitialized)
+            if (isInitialized)
             {
                 Task.Run(() =>
                 {

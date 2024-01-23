@@ -503,7 +503,7 @@ namespace WindowsTools.Views.Pages
                         OperationFailedCollection.Add(item);
                     }
 
-                    TeachingTipHelper.Show(new OperationResultTip(ExtensionNameCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, ExtensionNameCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
                     ExtensionNameCollection.Clear();
                 });
             });

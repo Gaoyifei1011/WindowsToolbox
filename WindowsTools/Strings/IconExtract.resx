@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DragOverContent" xml:space="preserve">
-    <value>Add to the Extract Icon page</value>
+    <value>Add to the Icon Extract page</value>
   </data>
   <data name="ExportAllIcons" xml:space="preserve">
     <value>Export all icons</value>
@@ -130,10 +130,13 @@
     <value>Executable file(*.exe)|*.exe|Dynamic link library file(*.dll)|*.dll</value>
   </data>
   <data name="GetResults" xml:space="preserve">
-    <value>Got {1} icons from file {0}</value>
+    <value>Get {1} icons from file {0}</value>
   </data>
   <data name="NoMultiFile" xml:space="preserve">
     <value>Please do not select multiple files</value>
+  </data>
+  <data name="NoOtherExtensionNameFile" xml:space="preserve">
+    <value>Only files with extensions ".exe" and ".dll" are allowed</value>
   </data>
   <data name="NoPreviewResources" xml:space="preserve">
     <value>No preview icon resources</value>

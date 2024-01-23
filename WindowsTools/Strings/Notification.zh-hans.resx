@@ -126,11 +126,17 @@
   <data name="DesktopShortFailed" xml:space="preserve">
     <value>应用的桌面快捷方式创建失败，请手动创建</value>
   </data>
+  <data name="FileResultFailed" xml:space="preserve">
+    <value>列表中的{0}个文件修改成功，{1}个文件修改失败</value>
+  </data>
+  <data name="FileResultSuccessfully" xml:space="preserve">
+    <value>列表中的{0}个文件修改成功</value>
+  </data>
   <data name="IconExtractFailed" xml:space="preserve">
-    <value>图标保存失败，请检查本地目录的访问权限</value>
+    <value>{0}个图标保存成功，{1}个图标保存失败</value>
   </data>
   <data name="IconExtractSuccessfully" xml:space="preserve">
-    <value>图标已成功保存</value>
+    <value>{0}个图标保存成功</value>
   </data>
   <data name="LanguageChange" xml:space="preserve">
     <value>语言设置修改成功，重启应用后生效</value>
@@ -152,12 +158,6 @@
   </data>
   <data name="OperationFailedSelectedCopy" xml:space="preserve">
     <value>{0}条错误信息已经成功复制到剪贴板</value>
-  </data>
-  <data name="OperationResultFailed" xml:space="preserve">
-    <value>列表中的{0}个文件修改成功，{1}个文件修改失败</value>
-  </data>
-  <data name="OperationResultSuccessfully" xml:space="preserve">
-    <value>列表中的{0}个文件修改成功</value>
   </data>
   <data name="StartScreenFailed" xml:space="preserve">
     <value>应用固定到“开始”屏幕失败，请手动固定</value>

@@ -126,11 +126,17 @@
   <data name="DesktopShortFailed" xml:space="preserve">
     <value>The app's desktop shortcut failed to create, please create it manually</value>
   </data>
+  <data name="FileResultFailed" xml:space="preserve">
+    <value>{0} files in the list were modified successfully, and {1} files failed to be modified</value>
+  </data>
+  <data name="FileResultSuccessfully" xml:space="preserve">
+    <value>{0} files in the list are modified successfully</value>
+  </data>
   <data name="IconExtractFailed" xml:space="preserve">
-    <value>The icon failed to be saved. Please check the access permission of the local directory</value>
+    <value>{0} icons were saved successfully and {1} icons failed to be saved</value>
   </data>
   <data name="IconExtractSuccessfully" xml:space="preserve">
-    <value>The icon has been saved successfully</value>
+    <value>{0} icons saved successfully</value>
   </data>
   <data name="LanguageChange" xml:space="preserve">
     <value>The language setting is modified successfully and takes effect after restarting the application</value>
@@ -152,12 +158,6 @@
   </data>
   <data name="OperationFailedSelectedCopy" xml:space="preserve">
     <value>The {0} error message was successfully copied to the clipboard</value>
-  </data>
-  <data name="OperationResultFailed" xml:space="preserve">
-    <value>{0} files in the list were modified successfully, and {1} files failed to be modified</value>
-  </data>
-  <data name="OperationResultSuccessfully" xml:space="preserve">
-    <value>{0} files in the list are modified successfully</value>
   </data>
   <data name="StartScreenFailed" xml:space="preserve">
     <value>App pinning to Start screen failed, please pin it manually</value>

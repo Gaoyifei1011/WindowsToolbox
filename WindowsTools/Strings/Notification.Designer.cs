@@ -88,7 +88,25 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 The icon failed to be saved. Please check the access permission of the local directory 的本地化字符串。
+        ///   查找类似 {0} files in the list were modified successfully, and {1} files failed to be modified 的本地化字符串。
+        /// </summary>
+        public static string FileResultFailed {
+            get {
+                return ResourceManager.GetString("FileResultFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} files in the list are modified successfully 的本地化字符串。
+        /// </summary>
+        public static string FileResultSuccessfully {
+            get {
+                return ResourceManager.GetString("FileResultSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} icons were saved successfully and {1} icons failed to be saved 的本地化字符串。
         /// </summary>
         public static string IconExtractFailed {
             get {
@@ -97,7 +115,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 The icon has been saved successfully 的本地化字符串。
+        ///   查找类似 {0} icons saved successfully 的本地化字符串。
         /// </summary>
         public static string IconExtractSuccessfully {
             get {
@@ -165,24 +183,6 @@ namespace WindowsTools.Strings {
         public static string OperationFailedSelectedCopy {
             get {
                 return ResourceManager.GetString("OperationFailedSelectedCopy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 {0} files in the list were modified successfully, and {1} files failed to be modified 的本地化字符串。
-        /// </summary>
-        public static string OperationResultFailed {
-            get {
-                return ResourceManager.GetString("OperationResultFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 {0} files in the list are modified successfully 的本地化字符串。
-        /// </summary>
-        public static string OperationResultSuccessfully {
-            get {
-                return ResourceManager.GetString("OperationResultSuccessfully", resourceCulture);
             }
         }
         

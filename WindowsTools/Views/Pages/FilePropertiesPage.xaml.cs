@@ -14,6 +14,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Controls.Extensions;
 using WindowsTools.Models;
@@ -631,7 +632,7 @@ namespace WindowsTools.Views.Pages
                         OperationFailedCollection.Add(item);
                     }
 
-                    TeachingTipHelper.Show(new OperationResultTip(FilePropertiesCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, FilePropertiesCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
                     FilePropertiesCollection.Clear();
                 });
             });

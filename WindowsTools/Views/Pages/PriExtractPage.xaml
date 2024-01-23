@@ -2,15 +2,21 @@
     x:Class="WindowsTools.Views.Pages.PriExtractPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:WindowsTools.Strings"
+    xmlns:sys="using:System"
+    AllowDrop="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Grid Padding="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <TextBlock
@@ -18,5 +24,164 @@
             Margin="30,15,30,6"
             FontSize="22"
             Text="{x:Bind string:PriExtract.Title}" />
+
+        <TextBlock
+            Grid.Row="1"
+            Margin="32,0,32,3"
+            FontSize="14"
+            Text="{x:Bind GetResults, Mode=OneWay}" />
+
+        <Grid Grid.Row="2" Margin="30,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid
+                Grid.Column="0"
+                Margin="0,0,0,5"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource ControlCornerRadius}" />
+
+            <AppBarSeparator Grid.Column="1" Margin="10,0" />
+
+            <Grid Grid.Column="2" Width="260">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    Grid.Row="0"
+                    Margin="0,0,0,3"
+                    FontSize="16"
+                    Text="{x:Bind string:PriExtract.ExtractOptions}" />
+
+                <CheckBox
+                    Grid.Row="1"
+                    Click="{x:Bind OnExtractSaveSamelyClicked}"
+                    Content="{x:Bind string:PriExtract.ExtractSaveSamely}"
+                    IsChecked="{x:Bind IsExtractSaveSamely, Mode=TwoWay}" />
+
+                <CheckBox
+                    Grid.Row="2"
+                    Content="{x:Bind string:PriExtract.ExtractSaveString}"
+                    IsChecked="{x:Bind IsExtractSaveString, Mode=TwoWay}"
+                    IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}" />
+
+                <CheckBox
+                    Grid.Row="3"
+                    Content="{x:Bind string:PriExtract.ExtractSaveEmbeddedData}"
+                    IsChecked="{x:Bind IsExtractSaveEmbeddedData, Mode=TwoWay}"
+                    IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}" />
+
+                <MenuFlyoutSeparator Grid.Row="4" Margin="5,3" />
+
+                <Button
+                    Grid.Row="5"
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnSelectFileClicked}"
+                    Content="{x:Bind string:PriExtract.SelectFile}" />
+
+                <MenuFlyoutSeparator Grid.Row="6" Margin="5,3" />
+
+                <muxc:DropDownButton
+                    Grid.Row="7"
+                    Margin="0,0,0,3"
+                    HorizontalAlignment="Stretch"
+                    Content="{x:Bind SelectedResourceCandidateKind.Key, Mode=OneWay}">
+
+                    <muxc:DropDownButton.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyout.MenuFlyoutPresenterStyle>
+                                <Style BasedOn="{StaticResource DefaultMenuFlyoutPresenterStyle}" TargetType="MenuFlyoutPresenter">
+                                    <Setter Property="MinWidth" Value="260" />
+                                </Style>
+                            </MenuFlyout.MenuFlyoutPresenterStyle>
+
+                            <ToggleMenuFlyoutItem
+                                Height="32"
+                                Padding="11,0"
+                                Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
+                                IsChecked="{x:Bind SelectedResourceCandidateKind.Value.Equals(ResourceCandidateKindList[0].Value), Mode=OneWay}"
+                                Tag="0"
+                                Text="{x:Bind sys:Convert.ToString(ResourceCandidateKindList[0].Key)}" />
+
+                            <ToggleMenuFlyoutItem
+                                Height="32"
+                                Padding="11,0"
+                                Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
+                                IsChecked="{x:Bind SelectedResourceCandidateKind.Value.Equals(ResourceCandidateKindList[1].Value), Mode=OneWay}"
+                                Tag="1"
+                                Text="{x:Bind sys:Convert.ToString(ResourceCandidateKindList[1].Key)}" />
+
+                            <ToggleMenuFlyoutItem
+                                Height="32"
+                                Padding="11,0"
+                                Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
+                                IsChecked="{x:Bind SelectedResourceCandidateKind.Value.Equals(ResourceCandidateKindList[2].Value), Mode=OneWay}"
+                                Tag="2"
+                                Text="{x:Bind sys:Convert.ToString(ResourceCandidateKindList[2].Key)}" />
+                        </MenuFlyout>
+                    </muxc:DropDownButton.Flyout>
+                </muxc:DropDownButton>
+
+                <Button
+                    Grid.Row="8"
+                    Margin="0,0,0,3"
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnSelectFileClicked}"
+                    Content="{x:Bind string:PriExtract.CopySelectedString}"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}" />
+
+                <Button
+                    Grid.Row="8"
+                    Margin="0,0,0,3"
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnSelectFileClicked}"
+                    Content="{x:Bind string:PriExtract.CopySelectedFilePath}"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}" />
+
+                <Button
+                    Grid.Row="8"
+                    Margin="0,0,0,3"
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnSelectFileClicked}"
+                    Content="{x:Bind string:PriExtract.ExportSelectedEmbeddedData}"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}" />
+
+                <Button
+                    Grid.Row="9"
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnSelectFileClicked}"
+                    Content="{x:Bind string:PriExtract.CopyAllString}"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}" />
+
+                <Button
+                    Grid.Row="9"
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnSelectFileClicked}"
+                    Content="{x:Bind string:PriExtract.CopyAllFilePath}"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}" />
+
+                <Button
+                    Grid.Row="9"
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnSelectFileClicked}"
+                    Content="{x:Bind string:PriExtract.ExportAllEmbeddedData}"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}" />
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

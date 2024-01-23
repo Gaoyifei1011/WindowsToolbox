@@ -17,6 +17,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls.Extensions;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
@@ -160,14 +161,6 @@ namespace WindowsTools.Views.Pages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// 属性值发生变化时通知更改
-        /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public IconExtractPage()
         {
             InitializeComponent();
@@ -193,11 +186,24 @@ namespace WindowsTools.Views.Pages
 
             if (dragItemsList.Count is 1)
             {
-                args.AcceptedOperation = DataPackageOperation.Copy;
-                args.DragUIOverride.IsCaptionVisible = true;
-                args.DragUIOverride.IsContentVisible = false;
-                args.DragUIOverride.IsGlyphVisible = true;
-                args.DragUIOverride.Caption = IconExtract.DragOverContent;
+                string extensionName = Path.GetExtension(dragItemsList[0].Name);
+
+                if (extensionName.Equals(".exe", StringComparison.OrdinalIgnoreCase) || extensionName.Equals(".dll", StringComparison.OrdinalIgnoreCase))
+                {
+                    args.AcceptedOperation = DataPackageOperation.Copy;
+                    args.DragUIOverride.IsCaptionVisible = true;
+                    args.DragUIOverride.IsContentVisible = false;
+                    args.DragUIOverride.IsGlyphVisible = true;
+                    args.DragUIOverride.Caption = IconExtract.DragOverContent;
+                }
+                else
+                {
+                    args.AcceptedOperation = DataPackageOperation.None;
+                    args.DragUIOverride.IsCaptionVisible = true;
+                    args.DragUIOverride.IsContentVisible = false;
+                    args.DragUIOverride.IsGlyphVisible = true;
+                    args.DragUIOverride.Caption = IconExtract.NoOtherExtensionNameFile;
+                }
             }
             else
             {
@@ -512,7 +518,7 @@ namespace WindowsTools.Views.Pages
                     IsSaving = true;
                     Task.Run(async () =>
                     {
-                        bool saveResult = false;
+                        int saveFailedCount = 0;
 
                         for (int index = 0; index < selectedItemsList.Count; index++)
                         {
@@ -536,18 +542,21 @@ namespace WindowsTools.Views.Pages
                                         {
                                             if (SelectedIconFormat.Value == IconFormatList[0].Value)
                                             {
-                                                SaveIcon(icon, Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value))));
+                                                bool result = SaveIcon(icon, Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value))));
+                                                if (!result)
+                                                {
+                                                    saveFailedCount++;
+                                                }
                                             }
                                             else
                                             {
                                                 icon.ToBitmap().Save(Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.png", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value))), ImageFormat.Png);
                                             }
                                         }
-
-                                        if (!saveResult) saveResult = true;
                                     }
                                     catch (Exception e)
                                     {
+                                        saveFailedCount++;
                                         LogService.WriteLog(EventLogEntryType.Error, string.Format("Save icon {0} failed", Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value)))), e);
                                     }
                                 }
@@ -559,7 +568,7 @@ namespace WindowsTools.Views.Pages
                         MainWindow.Current.BeginInvoke(() =>
                         {
                             IsSaving = false;
-                            TeachingTipHelper.Show(new IconExtractTip(saveResult));
+                            TeachingTipHelper.Show(new OperationResultTip(OperationKind.IconExtract, selectedItemsList.Count - saveFailedCount, saveFailedCount));
                         });
                     });
                 }
@@ -583,7 +592,7 @@ namespace WindowsTools.Views.Pages
                     IsSaving = true;
                     Task.Run(async () =>
                     {
-                        bool saveResult = false;
+                        int saveFailedCount = 0;
 
                         for (int index = 0; index < IconCollection.Count; index++)
                         {
@@ -607,18 +616,21 @@ namespace WindowsTools.Views.Pages
                                         {
                                             if (SelectedIconFormat.Value == IconFormatList[0].Value)
                                             {
-                                                SaveIcon(icon, Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value))));
+                                                bool result = SaveIcon(icon, Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value))));
+                                                if (!result)
+                                                {
+                                                    saveFailedCount++;
+                                                }
                                             }
                                             else
                                             {
                                                 icon.ToBitmap().Save(Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.png", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value))), ImageFormat.Png);
                                             }
                                         }
-
-                                        if (!saveResult) saveResult = true;
                                     }
                                     catch (Exception e)
                                     {
+                                        saveFailedCount++;
                                         LogService.WriteLog(EventLogEntryType.Error, string.Format("Save icon {0} failed", Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value)))), e);
                                     }
                                 }
@@ -630,7 +642,7 @@ namespace WindowsTools.Views.Pages
                         MainWindow.Current.BeginInvoke(() =>
                         {
                             IsSaving = false;
-                            TeachingTipHelper.Show(new IconExtractTip(saveResult));
+                            TeachingTipHelper.Show(new OperationResultTip(OperationKind.IconExtract, IconCollection.Count - saveFailedCount, saveFailedCount));
                         });
                     });
                 }
@@ -638,6 +650,14 @@ namespace WindowsTools.Views.Pages
         }
 
         #endregion 第二部分：提取图标页面——挂载的事件
+
+        /// <summary>
+        /// 属性值发生变化时通知更改
+        /// </summary>
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         /// <summary>
         /// 保存获取到的 ico 图片到 Icon 文件

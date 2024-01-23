@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Controls;
+using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Strings;
 
 namespace WindowsTools.UI.TeachingTips
@@ -8,12 +9,22 @@ namespace WindowsTools.UI.TeachingTips
     /// </summary>
     public sealed partial class OperationResultTip : TeachingTip
     {
-        public OperationResultTip(int successItems, int failedItems)
+        public OperationResultTip(OperationKind operationKind, int successItems, int failedItems)
         {
             InitializeComponent();
-            Content = failedItems is 0 ?
-                string.Format(Notification.OperationResultSuccessfully, successItems) :
-                string.Format(Notification.OperationResultFailed, successItems, failedItems);
+
+            if (operationKind is OperationKind.File)
+            {
+                Content = failedItems is 0 ?
+                    string.Format(Notification.FileResultSuccessfully, successItems) :
+                    string.Format(Notification.FileResultFailed, successItems, failedItems);
+            }
+            else if (operationKind is OperationKind.IconExtract)
+            {
+                Content = failedItems is 0 ?
+                    string.Format(Notification.IconExtractSuccessfully, successItems) :
+                    string.Format(Notification.IconExtractFailed, successItems, failedItems);
+            }
         }
     }
 }

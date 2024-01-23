@@ -135,6 +135,9 @@
   <data name="NoMultiFile" xml:space="preserve">
     <value>请不要选择多个文件</value>
   </data>
+  <data name="NoOtherExtensionNameFile" xml:space="preserve">
+    <value>只允许扩展名为".exe" 和 ".dll" 的文件</value>
+  </data>
   <data name="NoPreviewResources" xml:space="preserve">
     <value>没有预览图标资源</value>
   </data>

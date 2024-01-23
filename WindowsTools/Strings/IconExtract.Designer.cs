@@ -61,7 +61,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Add to the Extract Icon page 的本地化字符串。
+        ///   查找类似 Add to the Icon Extract page 的本地化字符串。
         /// </summary>
         public static string DragOverContent {
             get {
@@ -97,7 +97,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Got {1} icons from file {0} 的本地化字符串。
+        ///   查找类似 Get {1} icons from file {0} 的本地化字符串。
         /// </summary>
         public static string GetResults {
             get {
@@ -111,6 +111,15 @@ namespace WindowsTools.Strings {
         public static string NoMultiFile {
             get {
                 return ResourceManager.GetString("NoMultiFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Only files with extensions &quot;.exe&quot; and &quot;.dll&quot; are allowed 的本地化字符串。
+        /// </summary>
+        public static string NoOtherExtensionNameFile {
+            get {
+                return ResourceManager.GetString("NoOtherExtensionNameFile", resourceCulture);
             }
         }
         
