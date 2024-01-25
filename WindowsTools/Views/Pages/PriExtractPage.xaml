@@ -5,12 +5,19 @@
     xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
     AllowDrop="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <XamlUICommand x:Name="StringCommand" ExecuteRequested="{x:Bind OnStringExecuteRequested}" />
+        <XamlUICommand x:Name="FilePathCommand" ExecuteRequested="{x:Bind OnFilePathExecuteRequested}" />
+        <XamlUICommand x:Name="EmbeddedDataCommand" ExecuteRequested="{x:Bind OnEmbeddedDataExecuteRequested}" />
+    </Page.Resources>
 
     <Grid Padding="0">
         <Grid.RowDefinitions>
@@ -26,10 +33,18 @@
             Text="{x:Bind string:PriExtract.Title}" />
 
         <TextBlock
+            x:Name="GetResultsText"
             Grid.Row="1"
             Margin="32,0,32,3"
             FontSize="14"
-            Text="{x:Bind GetResults, Mode=OneWay}" />
+            Text="{x:Bind GetResults, Mode=OneWay}"
+            TextTrimming="CharacterEllipsis"
+            TextWrapping="NoWrap">
+
+            <ToolTipService.ToolTip>
+                <ToolTip Content="{x:Bind GetResults, Mode=OneWay}" Visibility="{x:Bind GetResultsText.IsTextTrimmed, Mode=OneWay}" />
+            </ToolTipService.ToolTip>
+        </TextBlock>
 
         <Grid Grid.Row="2" Margin="30,0">
             <Grid.ColumnDefinitions>
@@ -38,13 +53,505 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
+            <!--  字符串资源  -->
             <Grid
                 Grid.Column="0"
                 Margin="0,0,0,5"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
-                CornerRadius="{StaticResource ControlCornerRadius}" />
+                CornerRadius="{StaticResource ControlCornerRadius}">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid
+                    Grid.Row="0"
+                    Height="35"
+                    Padding="6,0,0,0"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="0,0,0,1"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="70" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        x:Name="StringSelectHeaderText"
+                        Grid.Column="0"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind string:PriExtract.Select}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:PriExtract.Select}" Visibility="{x:Bind StringSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+
+                    <TextBlock
+                        x:Name="StringKeyHeaderText"
+                        Grid.Column="1"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind string:PriExtract.Key}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:PriExtract.Key}" Visibility="{x:Bind StringKeyHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+
+                    <TextBlock
+                        x:Name="StringContentHeaderText"
+                        Grid.Column="2"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind string:PriExtract.Content}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:PriExtract.Content}" Visibility="{x:Bind StringContentHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+
+                    <TextBlock
+                        x:Name="StringOperationHeaderText"
+                        Grid.Column="3"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind string:PriExtract.Operation}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:PriExtract.Operation}" Visibility="{x:Bind StringOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+                </Grid>
+
+                <ListView
+                    Grid.Row="1"
+                    Margin="0,0,0,3"
+                    IsItemClickEnabled="True"
+                    ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
+                    ItemsSource="{x:Bind StringCollection, Mode=OneWay}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.HorizontalScrollMode="Disabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.VerticalScrollMode="Enabled"
+                    SelectionMode="None"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="model:StringModel">
+                            <Grid
+                                Height="35"
+                                Padding="6,0,0,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,0,1">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="70" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="70" />
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox
+                                    Grid.Column="0"
+                                    Width="50"
+                                    MinWidth="0"
+                                    Margin="10,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
+                                    IsThreeState="False"
+                                    ToolTipService.ToolTip="{x:Bind converter:StringConverterHelper.CheckBoxToolTipFormat(IsSelected,'PriExtract'), Mode=OneWay}" />
+
+                                <TextBlock
+                                    x:Name="StringKeyText"
+                                    Grid.Column="1"
+                                    MinWidth="50"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{x:Bind Key}"
+                                    TextAlignment="Left"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="{x:Bind Key}" Visibility="{Binding ElementName=StringKeyText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+
+                                <TextBlock
+                                    x:Name="StringContentText"
+                                    Grid.Column="2"
+                                    MinWidth="50"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{x:Bind Content}"
+                                    TextAlignment="Left"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="{x:Bind Content}" Visibility="{Binding ElementName=StringContentText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+
+                                <HyperlinkButton
+                                    Grid.Column="3"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Command="{StaticResource StringCommand}"
+                                    CommandParameter="{Binding}"
+                                    Content="{x:Bind string:PriExtract.Copy}"
+                                    Style="{StaticResource HyperlinkButtonStyle}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Grid
+                    Grid.Row="1"
+                    Margin="0,10,0,0"
+                    VerticalAlignment="Top"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}">
+
+                    <TextBlock
+                        Text="{x:Bind string:PriExtract.EmptyList}"
+                        TextAlignment="Center"
+                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(StringCollection.Count), Mode=OneWay}" />
+                </Grid>
+
+                <!--  文件路径资源  -->
+                <Grid
+                    Grid.Row="0"
+                    Height="35"
+                    Padding="6,0,0,0"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="0,0,0,1"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="70" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        x:Name="FilePathSelectHeaderText"
+                        Grid.Column="0"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind string:PriExtract.Select}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:PriExtract.Select}" Visibility="{x:Bind FilePathSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+
+                    <TextBlock
+                        x:Name="FilePathKeyHeaderText"
+                        Grid.Column="1"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind string:PriExtract.Key}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:PriExtract.Key}" Visibility="{x:Bind FilePathKeyHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+
+                    <TextBlock
+                        x:Name="FilePathAbsolutePathHeaderText"
+                        Grid.Column="2"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind string:PriExtract.AbsolutePath}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:PriExtract.AbsolutePath}" Visibility="{x:Bind FilePathAbsolutePathHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+
+                    <TextBlock
+                        x:Name="FilePathOperationHeaderText"
+                        Grid.Column="3"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind string:PriExtract.Operation}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:PriExtract.Operation}" Visibility="{x:Bind FilePathOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+                </Grid>
+
+                <ListView
+                    Grid.Row="1"
+                    Margin="0,0,0,3"
+                    IsItemClickEnabled="True"
+                    ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
+                    ItemsSource="{x:Bind FilePathCollection, Mode=OneWay}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.HorizontalScrollMode="Disabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.VerticalScrollMode="Enabled"
+                    SelectionMode="None"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="model:FilePathModel">
+                            <Grid
+                                Height="35"
+                                Padding="6,0,0,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,0,1">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="70" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="70" />
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox
+                                    Grid.Column="0"
+                                    Width="50"
+                                    MinWidth="0"
+                                    Margin="10,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
+                                    IsThreeState="False"
+                                    ToolTipService.ToolTip="{x:Bind converter:StringConverterHelper.CheckBoxToolTipFormat(IsSelected,'PriExtract'), Mode=OneWay}" />
+
+                                <TextBlock
+                                    x:Name="FilePathKeyText"
+                                    Grid.Column="1"
+                                    MinWidth="50"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{x:Bind Key}"
+                                    TextAlignment="Left"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="{x:Bind Key}" Visibility="{Binding ElementName=FilePathKeyText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+
+                                <TextBlock
+                                    x:Name="FilePathAbsolutePathText"
+                                    Grid.Column="2"
+                                    MinWidth="50"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{x:Bind AbsolutePath}"
+                                    TextAlignment="Left"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="{x:Bind AbsolutePath}" Visibility="{Binding ElementName=FilePathAbsolutePathText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+
+                                <HyperlinkButton
+                                    Grid.Column="3"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Command="{StaticResource FilePathCommand}"
+                                    CommandParameter="{Binding}"
+                                    Content="{x:Bind string:PriExtract.Copy}"
+                                    Style="{StaticResource HyperlinkButtonStyle}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Grid
+                    Grid.Row="1"
+                    Margin="0,10,0,0"
+                    VerticalAlignment="Top"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}">
+
+                    <TextBlock
+                        Text="{x:Bind string:PriExtract.EmptyList}"
+                        TextAlignment="Center"
+                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FilePathCollection.Count), Mode=OneWay}" />
+                </Grid>
+
+                <!--  嵌入数据资源  -->
+                <Grid
+                    Grid.Row="0"
+                    Height="35"
+                    Padding="6,0,0,0"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="0,0,0,1"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="70" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        x:Name="EmbeddedDataSelectHeaderText"
+                        Grid.Column="0"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind string:PriExtract.Select}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:PriExtract.Select}" Visibility="{x:Bind EmbeddedDataSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+
+                    <TextBlock
+                        x:Name="EmbeddedDataKeyHeaderText"
+                        Grid.Column="1"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind string:PriExtract.Key}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:PriExtract.Key}" Visibility="{x:Bind EmbeddedDataKeyHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+
+                    <TextBlock
+                        x:Name="EmbeddedDataOperationHeaderText"
+                        Grid.Column="2"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind string:PriExtract.Operation}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind string:PriExtract.Operation}" Visibility="{x:Bind EmbeddedDataOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+                </Grid>
+
+                <ListView
+                    Grid.Row="1"
+                    Margin="0,0,0,3"
+                    IsItemClickEnabled="True"
+                    ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
+                    ItemsSource="{x:Bind EmbeddedDataCollection, Mode=OneWay}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.HorizontalScrollMode="Disabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.VerticalScrollMode="Enabled"
+                    SelectionMode="None"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="model:EmbeddedDataModel">
+                            <Grid
+                                Height="35"
+                                Padding="6,0,0,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,0,1">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="70" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="70" />
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox
+                                    Grid.Column="0"
+                                    Width="50"
+                                    MinWidth="0"
+                                    Margin="10,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
+                                    IsThreeState="False"
+                                    ToolTipService.ToolTip="{x:Bind converter:StringConverterHelper.CheckBoxToolTipFormat(IsSelected,'PriExtract'), Mode=OneWay}" />
+
+                                <TextBlock
+                                    x:Name="EmbeddedDataKeyText"
+                                    Grid.Column="1"
+                                    MinWidth="50"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{x:Bind Key}"
+                                    TextAlignment="Left"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="{x:Bind Key}" Visibility="{Binding ElementName=EmbeddedDataKeyText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+
+                                <HyperlinkButton
+                                    Grid.Column="2"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Command="{StaticResource EmbeddedDataCommand}"
+                                    CommandParameter="{Binding}"
+                                    Content="{x:Bind string:PriExtract.Extract}"
+                                    Style="{StaticResource HyperlinkButtonStyle}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Grid
+                    Grid.Row="1"
+                    Margin="0,10,0,0"
+                    VerticalAlignment="Top"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}">
+
+                    <TextBlock
+                        Text="{x:Bind string:PriExtract.EmptyList}"
+                        TextAlignment="Center"
+                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(EmbeddedDataCollection.Count), Mode=OneWay}" />
+                </Grid>
+            </Grid>
 
             <AppBarSeparator Grid.Column="1" Margin="10,0" />
 
@@ -60,6 +567,11 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <TextBlock
@@ -82,22 +594,47 @@
 
                 <CheckBox
                     Grid.Row="3"
+                    Content="{x:Bind string:PriExtract.ExtractSaveFilePath}"
+                    IsChecked="{x:Bind IsExtractSaveFilePath, Mode=TwoWay}"
+                    IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}" />
+
+                <CheckBox
+                    Grid.Row="4"
                     Content="{x:Bind string:PriExtract.ExtractSaveEmbeddedData}"
                     IsChecked="{x:Bind IsExtractSaveEmbeddedData, Mode=TwoWay}"
                     IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}" />
 
-                <MenuFlyoutSeparator Grid.Row="4" Margin="5,3" />
+                <MenuFlyoutSeparator Grid.Row="5" Margin="5,3" />
 
                 <Button
-                    Grid.Row="5"
+                    Grid.Row="6"
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnSelectSaveFolderClicked}"
+                    Content="{x:Bind string:PriExtract.SelectSaveFolder}"
+                    IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}"
+                    ToolTipService.ToolTip="{x:Bind LocalizeSelectedFolder(SelectedSaveFolder), Mode=OneWay}" />
+
+                <MenuFlyoutSeparator Grid.Row="7" Margin="5,3" />
+
+                <Button
+                    Grid.Row="8"
+                    Margin="0,0,0,3"
                     HorizontalAlignment="Stretch"
                     Click="{x:Bind OnSelectFileClicked}"
                     Content="{x:Bind string:PriExtract.SelectFile}" />
 
-                <MenuFlyoutSeparator Grid.Row="6" Margin="5,3" />
+                <TextBox
+                    Grid.Row="9"
+                    HorizontalAlignment="Stretch"
+                    PlaceholderText="{x:Bind string:PriExtract.PlaceHolderText}"
+                    Text="{x:Bind InputLanguage, Mode=OneWay}"
+                    TextChanged="{x:Bind OnInputLanguageTextChanged}"
+                    ToolTipService.ToolTip="{x:Bind string:PriExtract.InputLanguageToolTip}" />
+
+                <MenuFlyoutSeparator Grid.Row="10" Margin="5,3" />
 
                 <muxc:DropDownButton
-                    Grid.Row="7"
+                    Grid.Row="11"
                     Margin="0,0,0,3"
                     HorizontalAlignment="Stretch"
                     Content="{x:Bind SelectedResourceCandidateKind.Key, Mode=OneWay}">
@@ -138,49 +675,71 @@
                 </muxc:DropDownButton>
 
                 <Button
-                    Grid.Row="8"
+                    Grid.Row="12"
                     Margin="0,0,0,3"
                     HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnSelectFileClicked}"
+                    Click="{x:Bind OnCopySelectedStringClicked}"
                     Content="{x:Bind string:PriExtract.CopySelectedString}"
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(StringCollection.Count), Mode=OneWay}"
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}" />
 
                 <Button
-                    Grid.Row="8"
+                    Grid.Row="12"
                     Margin="0,0,0,3"
                     HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnSelectFileClicked}"
+                    Click="{x:Bind OnCopySelectedFilePathClicked}"
                     Content="{x:Bind string:PriExtract.CopySelectedFilePath}"
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(FilePathCollection.Count), Mode=OneWay}"
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}" />
 
                 <Button
-                    Grid.Row="8"
+                    Grid.Row="12"
                     Margin="0,0,0,3"
                     HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnSelectFileClicked}"
+                    Click="{x:Bind OnExportSelectedEmbeddedDataClicked}"
                     Content="{x:Bind string:PriExtract.ExportSelectedEmbeddedData}"
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(EmbeddedDataCollection.Count), Mode=OneWay}"
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}" />
 
                 <Button
-                    Grid.Row="9"
+                    Grid.Row="13"
                     HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnSelectFileClicked}"
+                    Click="{x:Bind OnCopyAllStringClicked}"
                     Content="{x:Bind string:PriExtract.CopyAllString}"
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(StringCollection.Count), Mode=OneWay}"
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}" />
 
                 <Button
-                    Grid.Row="9"
+                    Grid.Row="13"
                     HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnSelectFileClicked}"
+                    Click="{x:Bind OnCopyAllFilePathClicked}"
                     Content="{x:Bind string:PriExtract.CopyAllFilePath}"
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(FilePathCollection.Count), Mode=OneWay}"
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}" />
 
                 <Button
-                    Grid.Row="9"
+                    Grid.Row="13"
                     HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnSelectFileClicked}"
+                    Click="{x:Bind OnExportAllEmbeddedDataClicked}"
                     Content="{x:Bind string:PriExtract.ExportAllEmbeddedData}"
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(EmbeddedDataCollection.Count), Mode=OneWay}"
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}" />
+
+                <StackPanel
+                    Grid.Row="14"
+                    Margin="0,0,0,5"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal"
+                    Spacing="5"
+                    Visibility="{x:Bind IsProcessing, Mode=OneWay}">
+                    <muxc:ProgressRing
+                        Width="20"
+                        Height="20"
+                        IsActive="{x:Bind IsProcessing, Mode=OneWay}" />
+
+                    <TextBlock Text="{x:Bind string:PriExtract.ProcessingNow}" />
+                </StackPanel>
             </Grid>
         </Grid>
     </Grid>

@@ -272,6 +272,10 @@ namespace WindowsTools.Views.Pages
                     }
                 }
             }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLogEntryType.Warning, "Drop file in file name page failed", e);
+            }
             finally
             {
                 deferral.Complete();

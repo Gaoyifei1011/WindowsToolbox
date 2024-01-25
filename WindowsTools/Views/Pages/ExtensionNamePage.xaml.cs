@@ -149,6 +149,10 @@ namespace WindowsTools.Views.Pages
                     }
                 }
             }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLogEntryType.Warning, "Drop file in extension name page failed", e);
+            }
             finally
             {
                 deferral.Complete();

@@ -61,6 +61,33 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Absolute path 的本地化字符串。
+        /// </summary>
+        public static string AbsolutePath {
+            get {
+                return ResourceManager.GetString("AbsolutePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Content 的本地化字符串。
+        /// </summary>
+        public static string Content {
+            get {
+                return ResourceManager.GetString("Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copy 的本地化字符串。
+        /// </summary>
+        public static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Copy all file path 的本地化字符串。
         /// </summary>
         public static string CopyAllFilePath {
@@ -115,6 +142,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 There is no content 的本地化字符串。
+        /// </summary>
+        public static string EmptyList {
+            get {
+                return ResourceManager.GetString("EmptyList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Export all embedded data 的本地化字符串。
         /// </summary>
         public static string ExportAllEmbeddedData {
@@ -133,6 +169,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Extract 的本地化字符串。
+        /// </summary>
+        public static string Extract {
+            get {
+                return ResourceManager.GetString("Extract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Extract options 的本地化字符串。
         /// </summary>
         public static string ExtractOptions {
@@ -147,6 +192,15 @@ namespace WindowsTools.Strings {
         public static string ExtractSaveEmbeddedData {
             get {
                 return ResourceManager.GetString("ExtractSaveEmbeddedData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Save the extracted file path 的本地化字符串。
+        /// </summary>
+        public static string ExtractSaveFilePath {
+            get {
+                return ResourceManager.GetString("ExtractSaveFilePath", resourceCulture);
             }
         }
         
@@ -196,6 +250,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 If not inputed, the system default language is used 的本地化字符串。
+        /// </summary>
+        public static string InputLanguageToolTip {
+            get {
+                return ResourceManager.GetString("InputLanguageToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Key 的本地化字符串。
+        /// </summary>
+        public static string Key {
+            get {
+                return ResourceManager.GetString("Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please do not select multiple files 的本地化字符串。
         /// </summary>
         public static string NoMultiFile {
@@ -223,11 +295,83 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Operation 的本地化字符串。
+        /// </summary>
+        public static string Operation {
+            get {
+                return ResourceManager.GetString("Operation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Optional:Input language 的本地化字符串。
+        /// </summary>
+        public static string PlaceHolderText {
+            get {
+                return ResourceManager.GetString("PlaceHolderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Processing now 的本地化字符串。
+        /// </summary>
+        public static string ProcessingNow {
+            get {
+                return ResourceManager.GetString("ProcessingNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select 的本地化字符串。
+        /// </summary>
+        public static string Select {
+            get {
+                return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Selected folder: {0} 的本地化字符串。
+        /// </summary>
+        public static string SelectedFolder {
+            get {
+                return ResourceManager.GetString("SelectedFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Selected 的本地化字符串。
+        /// </summary>
+        public static string SelectedToolTip {
+            get {
+                return ResourceManager.GetString("SelectedToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Select file 的本地化字符串。
         /// </summary>
         public static string SelectFile {
             get {
                 return ResourceManager.GetString("SelectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select folder 的本地化字符串。
+        /// </summary>
+        public static string SelectFolder {
+            get {
+                return ResourceManager.GetString("SelectFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select save folder 的本地化字符串。
+        /// </summary>
+        public static string SelectSaveFolder {
+            get {
+                return ResourceManager.GetString("SelectSaveFolder", resourceCulture);
             }
         }
         
@@ -246,6 +390,15 @@ namespace WindowsTools.Strings {
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 UnSelected 的本地化字符串。
+        /// </summary>
+        public static string UnSelectedToolTip {
+            get {
+                return ResourceManager.GetString("UnSelectedToolTip", resourceCulture);
             }
         }
     }

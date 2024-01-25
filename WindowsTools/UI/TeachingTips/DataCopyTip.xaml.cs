@@ -1,4 +1,5 @@
 using Microsoft.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Strings;
 
@@ -9,36 +10,73 @@ namespace WindowsTools.UI.TeachingTips
     /// </summary>
     public sealed partial class DataCopyTip : TeachingTip
     {
-        public DataCopyTip(DataCopyKind dataCopyKind, bool isMultiSelected = false, int count = 0)
+        public DataCopyTip(DataCopyKind dataCopyKind, bool isSuccessfully, bool isMultiSelected = false, int count = 0)
         {
             InitializeComponent();
-            InitializeContent(dataCopyKind, isMultiSelected, count);
+            InitializeContent(dataCopyKind, isSuccessfully, isMultiSelected, count);
         }
 
         /// <summary>
         /// 初始化内容
         /// </summary>
-        private void InitializeContent(DataCopyKind dataCopyKind, bool isMultiSelected, int count)
+        private void InitializeContent(DataCopyKind dataCopyKind, bool isSuccessfully, bool isMultiSelected, int count)
         {
-            switch (dataCopyKind)
+            if (isSuccessfully)
             {
-                case DataCopyKind.AppInformation:
-                    {
-                        Content = Notification.AppInformationCopy;
-                        break;
-                    }
-                case DataCopyKind.OperationFailed:
-                    {
-                        if (isMultiSelected)
+                CopySuccess.Visibility = Visibility.Visible;
+                CopyFailed.Visibility = Visibility.Collapsed;
+
+                switch (dataCopyKind)
+                {
+                    case DataCopyKind.AppInformation:
                         {
-                            Content = string.Format(Notification.OperationFailedSelectedCopy, count);
+                            Content = Notification.AppInformationCopy;
+                            break;
                         }
-                        else
+                    case DataCopyKind.FilePath:
                         {
-                            Content = Notification.OperationFailedCopy;
+                            if (isMultiSelected)
+                            {
+                                Content = string.Format(Notification.FilePathSelectedCopy, count);
+                            }
+                            else
+                            {
+                                Content = Notification.FilePathCopy;
+                            }
+
+                            break;
                         }
-                        break;
-                    }
+                    case DataCopyKind.OperationFailed:
+                        {
+                            if (isMultiSelected)
+                            {
+                                Content = string.Format(Notification.OperationFailedSelectedCopy, count);
+                            }
+                            else
+                            {
+                                Content = Notification.OperationFailedCopy;
+                            }
+                            break;
+                        }
+                    case DataCopyKind.String:
+                        {
+                            if (isMultiSelected)
+                            {
+                                Content = string.Format(Notification.StringSelectedCopy, count);
+                            }
+                            else
+                            {
+                                Content = Notification.StringCopy;
+                            }
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                CopySuccess.Visibility = Visibility.Collapsed;
+                CopyFailed.Visibility = Visibility.Visible;
+                CopyFailed.Text = Notification.CopyToClipboardFailed;
             }
         }
     }

@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AbsolutePath" xml:space="preserve">
+    <value>Absolute path</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
   <data name="CopyAllFilePath" xml:space="preserve">
     <value>Copy all file path</value>
   </data>
@@ -135,17 +144,26 @@
   <data name="EmbeddedData" xml:space="preserve">
     <value>Embedded data</value>
   </data>
+  <data name="EmptyList" xml:space="preserve">
+    <value>There is no content</value>
+  </data>
   <data name="ExportAllEmbeddedData" xml:space="preserve">
     <value>Export all embedded data</value>
   </data>
   <data name="ExportSelectedEmbeddedData" xml:space="preserve">
     <value>Export selected embedded data</value>
   </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Extract</value>
+  </data>
   <data name="ExtractOptions" xml:space="preserve">
     <value>Extract options</value>
   </data>
   <data name="ExtractSaveEmbeddedData" xml:space="preserve">
     <value>Save the extracted embedded data</value>
+  </data>
+  <data name="ExtractSaveFilePath" xml:space="preserve">
+    <value>Save the extracted file path</value>
   </data>
   <data name="ExtractSaveSamely" xml:space="preserve">
     <value>Save while extracting</value>
@@ -162,6 +180,12 @@
   <data name="GetResults" xml:space="preserve">
     <value>Get {1} datas from file {0}</value>
   </data>
+  <data name="InputLanguageToolTip" xml:space="preserve">
+    <value>If not inputed, the system default language is used</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
   <data name="NoMultiFile" xml:space="preserve">
     <value>Please do not select multiple files</value>
   </data>
@@ -171,13 +195,40 @@
   <data name="NoSelectedFile" xml:space="preserve">
     <value>No file is selected</value>
   </data>
+  <data name="Operation" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="PlaceHolderText" xml:space="preserve">
+    <value>Optional:Input language</value>
+  </data>
+  <data name="ProcessingNow" xml:space="preserve">
+    <value>Processing now</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="SelectedFolder" xml:space="preserve">
+    <value>Selected folder: {0}</value>
+  </data>
+  <data name="SelectedToolTip" xml:space="preserve">
+    <value>Selected</value>
+  </data>
   <data name="SelectFile" xml:space="preserve">
     <value>Select file</value>
+  </data>
+  <data name="SelectFolder" xml:space="preserve">
+    <value>Select folder</value>
+  </data>
+  <data name="SelectSaveFolder" xml:space="preserve">
+    <value>Select save folder</value>
   </data>
   <data name="String" xml:space="preserve">
     <value>String</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Pri extract</value>
+  </data>
+  <data name="UnSelectedToolTip" xml:space="preserve">
+    <value>UnSelected</value>
   </data>
 </root>

@@ -3,22 +3,26 @@ using System.Runtime.CompilerServices;
 
 namespace WindowsTools.Models
 {
-    public class StringsModel : INotifyPropertyChanged
+    public class StringModel : INotifyPropertyChanged
     {
-        private bool _isChecked;
+        private bool _isSelected;
 
-        public bool IsChecked
+        public bool IsSelected
         {
-            get { return _isChecked; }
+            get { return _isSelected; }
 
             set
             {
-                _isChecked = value;
+                _isSelected = value;
                 OnPropertyChanged();
             }
         }
 
-        public int StringIndex { get; set; }
+        public uint StringIndex { get; set; }
+
+        public string Key { get; set; }
+
+        public string Content { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -107,6 +107,10 @@ namespace WindowsTools.Views.Pages
                     }
                 }
             }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLogEntryType.Warning, "Drop file in upper and lower case page failed", e);
+            }
             finally
             {
                 deferral.Complete();

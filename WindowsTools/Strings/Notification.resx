@@ -120,11 +120,20 @@
   <data name="AppInformationCopy" xml:space="preserve">
     <value>The app information has been successfully copied to the clipboard</value>
   </data>
+  <data name="CopyToClipboardFailed" xml:space="preserve">
+    <value>Failed to copy the content to the clipboard. Please check the access permission of the clipboard</value>
+  </data>
   <data name="DesktopShortcutSuccessfully" xml:space="preserve">
     <value>The desktop shortcut for the app was created successfully</value>
   </data>
   <data name="DesktopShortFailed" xml:space="preserve">
     <value>The app's desktop shortcut failed to create, please create it manually</value>
+  </data>
+  <data name="FilePathCopy" xml:space="preserve">
+    <value>The file path information has been successfully copied to the clipboard</value>
+  </data>
+  <data name="FilePathSelectedCopy" xml:space="preserve">
+    <value>{0} file path informations was successfully copied to the clipboard</value>
   </data>
   <data name="FileResultFailed" xml:space="preserve">
     <value>{0} files in the list were modified successfully, and {1} files failed to be modified</value>
@@ -164,6 +173,12 @@
   </data>
   <data name="StartScreenSuccessfully" xml:space="preserve">
     <value>You successfully pinned the app to the Start screen</value>
+  </data>
+  <data name="StringCopy" xml:space="preserve">
+    <value>The string information has been successfully copied to the clipboard</value>
+  </data>
+  <data name="StringSelectedCopy" xml:space="preserve">
+    <value>{0} string information was successfully copied to the clipboard</value>
   </data>
   <data name="TaskbarFailed" xml:space="preserve">
     <value>App pinning to taskbar failed. Please pin manually</value>

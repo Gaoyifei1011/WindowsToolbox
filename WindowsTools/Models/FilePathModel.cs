@@ -5,20 +5,24 @@ namespace WindowsTools.Models
 {
     public class FilePathModel : INotifyPropertyChanged
     {
-        private bool _isChecked;
+        private bool _isSelected;
 
-        public bool IsChecked
+        public bool IsSelected
         {
-            get { return _isChecked; }
+            get { return _isSelected; }
 
             set
             {
-                _isChecked = value;
+                _isSelected = value;
                 OnPropertyChanged();
             }
         }
 
-        public int FilePathIndex { get; set; }
+        public uint FilePathIndex { get; set; }
+
+        public string Key { get; set; }
+
+        public string AbsolutePath { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

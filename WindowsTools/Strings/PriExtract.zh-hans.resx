@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AbsolutePath" xml:space="preserve">
+    <value>绝对路径</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>内容</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
   <data name="CopyAllFilePath" xml:space="preserve">
     <value>复制所有的文件路径</value>
   </data>
@@ -135,17 +144,26 @@
   <data name="EmbeddedData" xml:space="preserve">
     <value>嵌入的数据</value>
   </data>
+  <data name="EmptyList" xml:space="preserve">
+    <value>没有任何内容</value>
+  </data>
   <data name="ExportAllEmbeddedData" xml:space="preserve">
     <value>导出所有的嵌入数据</value>
   </data>
   <data name="ExportSelectedEmbeddedData" xml:space="preserve">
     <value>导出选中的嵌入数据</value>
   </data>
+  <data name="Extract" xml:space="preserve">
+    <value>提取</value>
+  </data>
   <data name="ExtractOptions" xml:space="preserve">
     <value>提取选项</value>
   </data>
   <data name="ExtractSaveEmbeddedData" xml:space="preserve">
     <value>保存提取的嵌入数据</value>
+  </data>
+  <data name="ExtractSaveFilePath" xml:space="preserve">
+    <value>保存提取的文件路径</value>
   </data>
   <data name="ExtractSaveSamely" xml:space="preserve">
     <value>提取时同时保存</value>
@@ -162,6 +180,12 @@
   <data name="GetResults" xml:space="preserve">
     <value>从文件 {0} 中获取到 {1} 条数据</value>
   </data>
+  <data name="InputLanguageToolTip" xml:space="preserve">
+    <value>未填入时则使用系统默认的语言</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>键</value>
+  </data>
   <data name="NoMultiFile" xml:space="preserve">
     <value>请不要选择多个文件</value>
   </data>
@@ -171,13 +195,40 @@
   <data name="NoSelectedFile" xml:space="preserve">
     <value>没有选择任何文件</value>
   </data>
+  <data name="Operation" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="PlaceHolderText" xml:space="preserve">
+    <value>选填：输入语言</value>
+  </data>
+  <data name="ProcessingNow" xml:space="preserve">
+    <value>正在进行中</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>选择</value>
+  </data>
+  <data name="SelectedFolder" xml:space="preserve">
+    <value>已选择的文件夹：{0}</value>
+  </data>
+  <data name="SelectedToolTip" xml:space="preserve">
+    <value>已选择</value>
+  </data>
   <data name="SelectFile" xml:space="preserve">
     <value>选择文件</value>
+  </data>
+  <data name="SelectFolder" xml:space="preserve">
+    <value>选择文件夹</value>
+  </data>
+  <data name="SelectSaveFolder" xml:space="preserve">
+    <value>选择保存的文件夹</value>
   </data>
   <data name="String" xml:space="preserve">
     <value>字符串</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>包资源索引提取</value>
+  </data>
+  <data name="UnSelectedToolTip" xml:space="preserve">
+    <value>未选择</value>
   </data>
 </root>

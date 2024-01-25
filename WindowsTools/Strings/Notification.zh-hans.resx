@@ -120,11 +120,20 @@
   <data name="AppInformationCopy" xml:space="preserve">
     <value>应用信息信息已成功复制到剪贴板</value>
   </data>
+  <data name="CopyToClipboardFailed" xml:space="preserve">
+    <value>复制内容到剪贴板失败，请检查剪贴板的访问权限</value>
+  </data>
   <data name="DesktopShortcutSuccessfully" xml:space="preserve">
     <value>应用的桌面快捷方式已成功创建</value>
   </data>
   <data name="DesktopShortFailed" xml:space="preserve">
     <value>应用的桌面快捷方式创建失败，请手动创建</value>
+  </data>
+  <data name="FilePathCopy" xml:space="preserve">
+    <value>该条文件路径信息已成功复制到剪贴板</value>
+  </data>
+  <data name="FilePathSelectedCopy" xml:space="preserve">
+    <value>{0}条文件路径信息已成功复制到剪贴板</value>
   </data>
   <data name="FileResultFailed" xml:space="preserve">
     <value>列表中的{0}个文件修改成功，{1}个文件修改失败</value>
@@ -164,6 +173,12 @@
   </data>
   <data name="StartScreenSuccessfully" xml:space="preserve">
     <value>已成功将应用固定到“开始”屏幕</value>
+  </data>
+  <data name="StringCopy" xml:space="preserve">
+    <value>该条字符串信息已成功复制到剪贴板</value>
+  </data>
+  <data name="StringSelectedCopy" xml:space="preserve">
+    <value>{0}条字符串信息已成功复制到剪贴板</value>
   </data>
   <data name="TaskbarFailed" xml:space="preserve">
     <value>应用固定到任务栏失败，请手动固定</value>

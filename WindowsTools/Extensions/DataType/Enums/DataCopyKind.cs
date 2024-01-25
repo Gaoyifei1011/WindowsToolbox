@@ -6,6 +6,8 @@
     public enum DataCopyKind
     {
         AppInformation = 0,
-        OperationFailed = 1
+        FilePath = 1,
+        OperationFailed = 2,
+        String = 3
     }
 }

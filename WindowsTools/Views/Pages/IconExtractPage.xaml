@@ -27,10 +27,18 @@
             Text="{x:Bind string:IconExtract.Title}" />
 
         <TextBlock
+            x:Name="GetResultsText"
             Grid.Row="1"
             Margin="32,0,32,3"
             FontSize="14"
-            Text="{x:Bind GetResults, Mode=OneWay}" />
+            Text="{x:Bind GetResults, Mode=OneWay}"
+            TextTrimming="CharacterEllipsis"
+            TextWrapping="NoWrap">
+
+            <ToolTipService.ToolTip>
+                <ToolTip Content="{x:Bind GetResults, Mode=OneWay}" Visibility="{x:Bind GetResultsText.IsTextTrimmed, Mode=OneWay}" />
+            </ToolTipService.ToolTip>
+        </TextBlock>
 
         <Grid Grid.Row="2" Margin="30,0">
             <Grid.ColumnDefinitions>

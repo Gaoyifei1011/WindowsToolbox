@@ -16,7 +16,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -35,81 +34,93 @@
 
         <Grid
             Grid.Row="2"
-            Height="35"
-            Margin="30,0"
-            Padding="6,0,0,0"
-            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            Margin="30,0,30,3"
+            Background="{ThemeResource LayerFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-            BorderThickness="1">
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid
+                Grid.Row="0"
+                Height="35"
+                Padding="6,0,0,0"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,0,0,1">
+
+                <TextBlock
+                    x:Name="FileNameHeaderText"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind string:FileCertificate.FileName}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{x:Bind string:FileCertificate.FileName}" Visibility="{x:Bind FileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+            </Grid>
+
+            <ListView
+                Grid.Row="1"
+                Margin="0,0,0,3"
+                IsItemClickEnabled="True"
+                ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
+                ItemsSource="{x:Bind FileCertificateCollection, Mode=OneWay}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                ScrollViewer.HorizontalScrollMode="Disabled"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollMode="Enabled"
+                SelectionMode="None">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="model:CertificateResultModel">
+                        <Grid
+                            Height="35"
+                            Padding="6,0,0,0"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="0,0,0,1">
+
+                            <TextBlock
+                                MinWidth="50"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Text="{x:Bind FileName, Mode=OneWay}"
+                                TextAlignment="Left"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap">
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        Content="{x:Bind FilePath, Mode=OneWay}"
+                                        Placement="Mouse"
+                                        Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(FilePath), Mode=OneWay}" />
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
             <TextBlock
-                x:Name="FileNameHeaderText"
-                Margin="10,0,0,0"
-                VerticalAlignment="Center"
-                Text="{x:Bind string:FileCertificate.FileName}"
-                TextTrimming="CharacterEllipsis"
-                TextWrapping="NoWrap">
-
-                <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind string:FileCertificate.FileName}" Visibility="{x:Bind FileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
-                </ToolTipService.ToolTip>
-            </TextBlock>
+                Grid.Row="1"
+                Margin="0,10,0,0"
+                VerticalAlignment="Top"
+                Text="{x:Bind string:FileCertificate.EmptyList}"
+                TextAlignment="Center"
+                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FileCertificateCollection.Count), Mode=OneWay}" />
         </Grid>
 
-        <ListView
-            Grid.Row="3"
-            Margin="0,0,0,3"
-            Padding="30,0"
-            IsItemClickEnabled="True"
-            ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
-            ItemsSource="{x:Bind FileCertificateCollection, Mode=OneWay}"
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-            ScrollViewer.HorizontalScrollMode="Disabled"
-            ScrollViewer.VerticalScrollBarVisibility="Auto"
-            ScrollViewer.VerticalScrollMode="Enabled"
-            SelectionMode="None">
-
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="model:CertificateResultModel">
-                    <Grid
-                        Height="35"
-                        Padding="6,0,0,0"
-                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                        BorderThickness="1,0,1,1">
-
-                        <TextBlock
-                            MinWidth="50"
-                            Margin="10,0,0,0"
-                            VerticalAlignment="Center"
-                            FontSize="14"
-                            Text="{x:Bind FileName, Mode=OneWay}"
-                            TextAlignment="Left"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap">
-
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    Content="{x:Bind FilePath, Mode=OneWay}"
-                                    Placement="Mouse"
-                                    Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(FilePath), Mode=OneWay}" />
-                            </ToolTipService.ToolTip>
-                        </TextBlock>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <TextBlock
-            Grid.Row="3"
-            Margin="30,10,30,0"
-            VerticalAlignment="Top"
-            Text="{x:Bind string:FileCertificate.EmptyList}"
-            TextAlignment="Center"
-            Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FileCertificateCollection.Count), Mode=OneWay}" />
-
         <Grid
-            Grid.Row="4"
+            Grid.Row="3"
             Margin="30,0,30,3"
             ColumnSpacing="5">
             <Grid.ColumnDefinitions>

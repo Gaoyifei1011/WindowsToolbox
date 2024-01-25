@@ -23,5 +23,27 @@ namespace WindowsTools.Helpers.Converters
         {
             return string.Format("{0}{1}{2}", content, Environment.NewLine, About.ThanksToolTip);
         }
+
+        /// <summary>
+        /// 复选框状态文字提示
+        /// </summary>
+        public static string CheckBoxToolTipFormat(bool isSelected, string content)
+        {
+            if (isSelected)
+            {
+                if (content.Equals("PriExtract", StringComparison.OrdinalIgnoreCase))
+                {
+                    return string.Format(PriExtract.SelectedToolTip, content);
+                }
+                else
+                {
+                    return string.Format(PriExtract.UnSelectedToolTip, content);
+                }
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
     }
 }

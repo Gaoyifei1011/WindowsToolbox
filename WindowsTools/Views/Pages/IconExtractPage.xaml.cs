@@ -296,7 +296,7 @@ namespace WindowsTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLogEntryType.Error, "Read file from dragover failed", e);
+                    LogService.WriteLog(EventLogEntryType.Warning, "Drop file in icon extract page failed", e);
                 }
             });
             deferral.Complete();

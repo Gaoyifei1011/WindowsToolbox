@@ -70,6 +70,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Failed to copy the content to the clipboard. Please check the access permission of the clipboard 的本地化字符串。
+        /// </summary>
+        public static string CopyToClipboardFailed {
+            get {
+                return ResourceManager.GetString("CopyToClipboardFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The desktop shortcut for the app was created successfully 的本地化字符串。
         /// </summary>
         public static string DesktopShortcutSuccessfully {
@@ -84,6 +93,24 @@ namespace WindowsTools.Strings {
         public static string DesktopShortFailed {
             get {
                 return ResourceManager.GetString("DesktopShortFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The file path information has been successfully copied to the clipboard 的本地化字符串。
+        /// </summary>
+        public static string FilePathCopy {
+            get {
+                return ResourceManager.GetString("FilePathCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} file path informations was successfully copied to the clipboard 的本地化字符串。
+        /// </summary>
+        public static string FilePathSelectedCopy {
+            get {
+                return ResourceManager.GetString("FilePathSelectedCopy", resourceCulture);
             }
         }
         
@@ -201,6 +228,24 @@ namespace WindowsTools.Strings {
         public static string StartScreenSuccessfully {
             get {
                 return ResourceManager.GetString("StartScreenSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The string information has been successfully copied to the clipboard 的本地化字符串。
+        /// </summary>
+        public static string StringCopy {
+            get {
+                return ResourceManager.GetString("StringCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} string information was successfully copied to the clipboard 的本地化字符串。
+        /// </summary>
+        public static string StringSelectedCopy {
+            get {
+                return ResourceManager.GetString("StringSelectedCopy", resourceCulture);
             }
         }
         

@@ -5,20 +5,22 @@ namespace WindowsTools.Models
 {
     public class EmbeddedDataModel : INotifyPropertyChanged
     {
-        private bool _isChecked;
+        private bool _isSelected;
 
-        public bool IsChecked
+        public bool IsSelected
         {
-            get { return _isChecked; }
+            get { return _isSelected; }
 
             set
             {
-                _isChecked = value;
+                _isSelected = value;
                 OnPropertyChanged();
             }
         }
 
-        public int EmbeddedDataIndex { get; set; }
+        public string Key { get; set; }
+
+        public uint EmbeddedDataIndex { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
