@@ -76,14 +76,11 @@ namespace WindowsTools.Views.Windows
 
             if (InputNonClientPointerSourceHandle != IntPtr.Zero)
             {
-                int style = (int)GetWindowLongAuto(Handle, WindowLongIndexFlags.GWL_STYLE);
-                SetWindowLongAuto(Handle, WindowLongIndexFlags.GWL_STYLE, (IntPtr)(style & ~(int)WindowStyle.WS_SYSMENU));
-
                 newInputNonClientPointerSourceWndProc = new WNDPROC(InputNonClientPointerSourceWndProc);
                 oldInputNonClientPointerSourceWndProc = SetWindowLongAuto(InputNonClientPointerSourceHandle, WindowLongIndexFlags.GWL_WNDPROC, Marshal.GetFunctionPointerForDelegate(newInputNonClientPointerSourceWndProc));
             }
 
-            UWPCoreHandle = InteropExtensions.GetInterop(global::Windows.UI.Xaml.Window.Current.CoreWindow).WindowHandle;
+            UWPCoreHandle = InteropExtensions.GetInterop(Window.Current.CoreWindow).WindowHandle;
             if (UWPCoreHandle != IntPtr.Zero)
             {
                 User32Library.SetWindowPos(UWPCoreHandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
@@ -271,15 +268,6 @@ namespace WindowsTools.Views.Windows
                         }
                         break;
                     }
-                // 任务栏窗口右键点击后的消息
-                case (int)WindowMessage.WM_SYSMENU:
-                    {
-                        if (WindowState is FormWindowState.Minimized)
-                        {
-                            WindowState = FormWindowState.Normal;
-                        }
-                        break;
-                    }
             }
 
             base.WndProc(ref m);
@@ -313,8 +301,8 @@ namespace WindowsTools.Views.Windows
                         }
                         break;
                     }
-                // 当用户按下鼠标右键时，光标位于窗口的非工作区内的消息
-                case WindowMessage.WM_NCRBUTTONDOWN:
+                // 当用户按下鼠标右键并释放时，光标位于窗口的非工作区内的消息
+                case WindowMessage.WM_NCRBUTTONUP:
                     {
                         if (Content is not null && Content.XamlRoot is not null)
                         {

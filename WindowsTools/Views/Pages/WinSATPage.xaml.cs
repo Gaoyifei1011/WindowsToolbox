@@ -197,7 +197,7 @@ namespace WindowsTools.Views.Pages
                 {
                     progressDialog.SetTitle(WinSAT.WEI);
                     progressDialog.SetLine(2, WinSAT.WEITipContent, false, IntPtr.Zero);
-                    progressDialog.StartProgressDialog(IntPtr.Zero, null, 0, IntPtr.Zero);
+                    progressDialog.StartProgressDialog(IntPtr.Zero, null, PROGDLG.PROGDLG_NOMINIMIZE, IntPtr.Zero);
                 }
             }
             catch (Exception e)

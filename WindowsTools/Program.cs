@@ -79,6 +79,7 @@ namespace WindowsTools
         private static void InitializeProgramResources()
         {
             LogService.Initialize();
+            LocalSettingsService.Initialize();
             LanguageService.InitializeLanguage();
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(LanguageService.AppLanguage.Value.ToString());
             ResourceService.LocalizeReosurce();
