@@ -71,6 +71,17 @@ namespace WindowsTools.Views.Pages
             }
         };
 
+        private List<ControlItemModel> PersonalizeToolsList { get; } = new List<ControlItemModel>()
+        {
+            new ControlItemModel()
+            {
+                Title = AllTools.ShellMenu,
+                Description = AllTools.ShellMenuDescription,
+                ImagePath = "ms-appx:///Assets/ControlIcon/ShellMenu.png",
+                Tag = "ShellMenu"
+            }
+        };
+
         // 系统工具列表
         private List<ControlItemModel> SystemToolsList { get; } = new List<ControlItemModel>()
         {

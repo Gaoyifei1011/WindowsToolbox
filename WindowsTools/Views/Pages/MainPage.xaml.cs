@@ -90,6 +90,8 @@ namespace WindowsTools.Views.Pages
             new KeyValuePair<string, Type>("Resource",null),
             new KeyValuePair<string, Type>("IconExtract",typeof(IconExtractPage)),
             new KeyValuePair<string, Type>("PriExtract",typeof(PriExtractPage)),
+            new KeyValuePair<string, Type>("Personalize",null),
+            new KeyValuePair<string, Type>("ShellMenu",typeof(ShellMenuPage)),
             new KeyValuePair<string, Type>("System",null),
             new KeyValuePair<string, Type>("SystemInfo",typeof(SystemInfoPage)),
             new KeyValuePair<string, Type>("DriverManager",typeof(DriverManagerPage)),

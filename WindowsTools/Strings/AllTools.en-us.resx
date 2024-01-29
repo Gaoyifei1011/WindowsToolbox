@@ -156,6 +156,9 @@
   <data name="IconExtractDescription" xml:space="preserve">
     <value>Extract the icon embedded in the file</value>
   </data>
+  <data name="Personalize" xml:space="preserve">
+    <value>Personalization tools</value>
+  </data>
   <data name="PriExtract" xml:space="preserve">
     <value>Pri extract</value>
   </data>
@@ -164,6 +167,12 @@
   </data>
   <data name="Resource" xml:space="preserve">
     <value>Resource tools</value>
+  </data>
+  <data name="ShellMenu" xml:space="preserve">
+    <value>Custom shell menu</value>
+  </data>
+  <data name="ShellMenuDescription" xml:space="preserve">
+    <value>Customize the Windows 11 new right-click shell menu</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>System tools</value>

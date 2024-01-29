@@ -162,6 +162,9 @@
   <data name="NavigationFailed" xml:space="preserve">
     <value>页面{0}导航失败</value>
   </data>
+  <data name="Personalize" xml:space="preserve">
+    <value>个性化工具</value>
+  </data>
   <data name="PriExtract" xml:space="preserve">
     <value>包资源索引提取</value>
   </data>
@@ -173,6 +176,9 @@
   </data>
   <data name="Settings" xml:space="preserve">
     <value>设置</value>
+  </data>
+  <data name="ShellMenu" xml:space="preserve">
+    <value>自定义扩展菜单</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>大小</value>

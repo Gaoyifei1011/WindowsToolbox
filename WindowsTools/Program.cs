@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -92,36 +94,20 @@ namespace WindowsTools
             FileShellMenuService.InitializeFileShellMenu();
         }
 
-        private static void CheckProcessState(string arguments = null)
+        private static void CheckProcessState()
         {
-            Process[] WindowsToolsProcessList = Process.GetProcessesByName("WindowsTools");
-
-            foreach (Process processItem in WindowsToolsProcessList)
+            List<Process> windowsToolsList = Process.GetProcessesByName("WindowsTools").Where(item => item.MainWindowHandle != IntPtr.Zero).ToList();
+            if (windowsToolsList.Count() is 1)
             {
-                if (processItem.MainWindowHandle != IntPtr.Zero)
-                {
-                    COPYDATASTRUCT copyDataStruct = new COPYDATASTRUCT();
-                    if (string.IsNullOrEmpty(arguments))
-                    {
-                        copyDataStruct.dwData = IntPtr.Zero;
-                        copyDataStruct.cbData = Encoding.Default.GetBytes("AppIsRunning").Length + 1;
-                        copyDataStruct.lpData = "AppIsRunning";
-                    }
-                    else
-                    {
-                        copyDataStruct.dwData = IntPtr.Zero;
-                        copyDataStruct.cbData = Encoding.Default.GetBytes(arguments).Length + 1;
-                        copyDataStruct.lpData = arguments;
-                    }
+                COPYDATASTRUCT copyDataStruct = new COPYDATASTRUCT();
+                copyDataStruct.dwData = IntPtr.Zero;
+                copyDataStruct.cbData = Encoding.Default.GetBytes("AppIsRunning").Length + 1;
+                copyDataStruct.lpData = "AppIsRunning";
+                IntPtr ptrCopyDataStruct = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(COPYDATASTRUCT)));
+                Marshal.StructureToPtr(copyDataStruct, ptrCopyDataStruct, false);
+                User32Library.SendMessage(windowsToolsList[0].MainWindowHandle, WindowMessage.WM_COPYDATA, 0, ptrCopyDataStruct);
 
-                    IntPtr ptrCopyDataStruct = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(COPYDATASTRUCT)));
-                    Marshal.StructureToPtr(copyDataStruct, ptrCopyDataStruct, false);
-                    User32Library.SendMessage(processItem.MainWindowHandle, WindowMessage.WM_COPYDATA, 0, ptrCopyDataStruct);
-                    Marshal.FreeHGlobal(ptrCopyDataStruct);
-                    User32Library.SetForegroundWindow(processItem.MainWindowHandle);
-
-                    Environment.Exit(0);
-                }
+                Environment.Exit(0);
             }
         }
     }

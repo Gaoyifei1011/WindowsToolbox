@@ -220,29 +220,46 @@
                     </muxc:NavigationViewItem.MenuItems>
                 </muxc:NavigationViewItem>
 
+                <!--  个性化工具  -->
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.Personalize}" Tag="10">
+
+                    <muxc:NavigationViewItem.Icon>
+                        <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Personalize.png" />
+                    </muxc:NavigationViewItem.Icon>
+
+                    <muxc:NavigationViewItem.MenuItems>
+                        <muxc:NavigationViewItem Content="{x:Bind string:Window.ShellMenu}" Tag="11">
+
+                            <muxc:NavigationViewItem.Icon>
+                                <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/ShellMenu.png" />
+                            </muxc:NavigationViewItem.Icon>
+                        </muxc:NavigationViewItem>
+                    </muxc:NavigationViewItem.MenuItems>
+                </muxc:NavigationViewItem>
+
                 <!--  系统工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.System}" Tag="10">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.System}" Tag="12">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/System.png" />
                     </muxc:NavigationViewItem.Icon>
 
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.SystemInfo}" Tag="11">
+                        <muxc:NavigationViewItem Content="{x:Bind string:Window.SystemInfo}" Tag="13">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/SystemInfo.png" />
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.DriverManager}" Tag="12">
+                        <muxc:NavigationViewItem Content="{x:Bind string:Window.DriverManager}" Tag="14">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/DriverManager.png" />
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.WinSAT}" Tag="13">
+                        <muxc:NavigationViewItem Content="{x:Bind string:Window.WinSAT}" Tag="15">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/WinSAT.png" />
@@ -253,14 +270,14 @@
             </muxc:NavigationView.MenuItems>
 
             <muxc:NavigationView.FooterMenuItems>
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.About}" Tag="14">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.About}" Tag="16">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/About.png" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
 
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.Settings}" Tag="15">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.Settings}" Tag="17">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Settings.png" />

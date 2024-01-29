@@ -106,6 +106,12 @@
       <DependentUpon>Settings.resx</DependentUpon>
     </Compile>
 
+    <Compile Update="Strings\ShellMenu.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ShellMenu.resx</DependentUpon>
+    </Compile>
+
     <Compile Update="Strings\SystemInfo.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -159,9 +165,12 @@
     <Content Include="Assets\ControlIcon\FileName.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileProperties.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\IconExtract.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\Memory.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\Personalize.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\PriExtract.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Resource.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Settings.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\ShellMenu.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\System.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\SystemInfo.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\UpperAndLowerCase.png" CopyToOutputDirectory="Always" />
@@ -263,6 +272,9 @@
     <EmbeddedResource Update="Strings\Settings.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Settings.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Settings.Designer.cs" />
     <EmbeddedResource Update="Strings\Settings.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\ShellMenu.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\ShellMenu.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ShellMenu.Designer.cs" />
+    <EmbeddedResource Update="Strings\ShellMenu.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\SystemInfo.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\SystemInfo.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="SystemInfo.Designer.cs" />
     <EmbeddedResource Update="Strings\SystemInfo.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />

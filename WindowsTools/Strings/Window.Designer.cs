@@ -196,6 +196,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Personalization tools 的本地化字符串。
+        /// </summary>
+        public static string Personalize {
+            get {
+                return ResourceManager.GetString("Personalize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Pri extract 的本地化字符串。
         /// </summary>
         public static string PriExtract {
@@ -228,6 +237,15 @@ namespace WindowsTools.Strings {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Custom shell menu 的本地化字符串。
+        /// </summary>
+        public static string ShellMenu {
+            get {
+                return ResourceManager.GetString("ShellMenu", resourceCulture);
             }
         }
         

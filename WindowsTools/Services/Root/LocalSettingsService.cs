@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using Windows.Storage;
 
 namespace WindowsTools.Services.Root
 {
@@ -20,7 +21,10 @@ namespace WindowsTools.Services.Root
         {
             try
             {
-                Registry.CurrentUser.CreateSubKey(windowsToolsKey).Close();
+                RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(windowsToolsKey);
+                registryKey.SetValue("ApplicationDataPath", ApplicationData.Current.LocalCacheFolder.Path, RegistryValueKind.String);
+                registryKey.Close();
+                registryKey.Dispose();
                 isInitialized = true;
             }
             catch (Exception e)
