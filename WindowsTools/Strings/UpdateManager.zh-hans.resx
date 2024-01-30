@@ -117,91 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DriverManager" xml:space="preserve">
-    <value>驱动管理</value>
-  </data>
-  <data name="DriverManagerDescription" xml:space="preserve">
-    <value>查看和管理设备的驱动程序软件</value>
-  </data>
-  <data name="ExtensionName" xml:space="preserve">
-    <value>扩展名称</value>
-  </data>
-  <data name="ExtensionNameDescription" xml:space="preserve">
-    <value>批量修改文件（夹）扩展名称</value>
-  </data>
-  <data name="File" xml:space="preserve">
-    <value>文件工具</value>
-  </data>
-  <data name="FileCertificate" xml:space="preserve">
-    <value>文件证书</value>
-  </data>
-  <data name="FileCertificateDescription" xml:space="preserve">
-    <value>对已签名文件的证书进行操作</value>
-  </data>
-  <data name="FileName" xml:space="preserve">
-    <value>文件名称</value>
-  </data>
-  <data name="FileNameDescription" xml:space="preserve">
-    <value>批量修改文件（夹）名称</value>
-  </data>
-  <data name="FileProperties" xml:space="preserve">
-    <value>文件属性</value>
-  </data>
-  <data name="FilePropertiesDescription" xml:space="preserve">
-    <value>批量修改文件（夹）属性</value>
-  </data>
-  <data name="IconExtract" xml:space="preserve">
-    <value>图标提取</value>
-  </data>
-  <data name="IconExtractDescription" xml:space="preserve">
-    <value>提取文件内嵌的图标</value>
-  </data>
-  <data name="Personalize" xml:space="preserve">
-    <value>个性化工具</value>
-  </data>
-  <data name="PriExtract" xml:space="preserve">
-    <value>包资源索引提取</value>
-  </data>
-  <data name="PriExtractDescription" xml:space="preserve">
-    <value>提取包资源索引文件（Pri）里面包含的资源</value>
-  </data>
-  <data name="Resource" xml:space="preserve">
-    <value>资源工具</value>
-  </data>
-  <data name="ShellMenu" xml:space="preserve">
-    <value>自定义扩展菜单</value>
-  </data>
-  <data name="ShellMenuDescription" xml:space="preserve">
-    <value>自定义 Windows 11 新版扩展菜单</value>
-  </data>
-  <data name="System" xml:space="preserve">
-    <value>系统工具</value>
-  </data>
-  <data name="SystemInfo" xml:space="preserve">
-    <value>系统信息</value>
-  </data>
-  <data name="SystemInfoDescription" xml:space="preserve">
-    <value>查看当前系统的具体详细信息</value>
-  </data>
   <data name="Title" xml:space="preserve">
-    <value>所有工具</value>
-  </data>
-  <data name="UpdateManager" xml:space="preserve">
     <value>更新管理</value>
   </data>
-  <data name="UpdateManagerDescription" xml:space="preserve">
-    <value>手动下载和安装操作系统更新</value>
+  <data name="Unknown" xml:space="preserve">
+    <value>未知</value>
   </data>
-  <data name="UpperAndLowerCase" xml:space="preserve">
-    <value>大写小写</value>
+  <data name="WindowsUpdate" xml:space="preserve">
+    <value>Windows 更新</value>
   </data>
-  <data name="UpperAndLowerCaseDescription" xml:space="preserve">
-    <value>批量修改文件（夹）大写小写名称</value>
+  <data name="WIPSettings" xml:space="preserve">
+    <value>预览体验计划设置</value>
   </data>
-  <data name="WinSAT" xml:space="preserve">
-    <value>系统评估</value>
-  </data>
-  <data name="WinSATDescription" xml:space="preserve">
-    <value>使用系统评估工具进行基准测试</value>
+  <data name="WIPSettingsToolTip" xml:space="preserve">
+    <value>打开 Windows 预览体验计划设置</value>
   </data>
 </root>

@@ -38,26 +38,31 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DriverManager.resx</DependentUpon>
     </Compile>
+    
     <Compile Update="Strings\IconExtract.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>IconExtract.resx</DependentUpon>
     </Compile>
+    
     <Compile Update="Strings\FileCertificate.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>FileCertificate.resx</DependentUpon>
     </Compile>
+    
     <Compile Update="Strings\AllTools.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>AllTools.resx</DependentUpon>
     </Compile>
+    
     <Compile Update="Strings\ExtensionName.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ExtensionName.resx</DependentUpon>
     </Compile>
+    
     <Compile Update="Strings\FileProperties.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -118,6 +123,12 @@
       <DependentUpon>SystemInfo.resx</DependentUpon>
     </Compile>
 
+    <Compile Update="Strings\UpdateManager.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UpdateManager.resx</DependentUpon>
+    </Compile>
+
     <Compile Update="Strings\UpperAndLowerCase.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -156,6 +167,16 @@
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
 
+    <COMReference Include="WUApiLib">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>2</VersionMajor>
+      <Guid>b596cc9f-56e5-419e-a622-e01bb457431e</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
+
     <Content Include="Assets\ControlIcon\About.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\AllTools.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\DriverManager.png" CopyToOutputDirectory="Always" />
@@ -165,7 +186,6 @@
     <Content Include="Assets\ControlIcon\FileName.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileProperties.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\IconExtract.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\Memory.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Personalize.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\PriExtract.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Resource.png" CopyToOutputDirectory="Always" />
@@ -173,6 +193,7 @@
     <Content Include="Assets\ControlIcon\ShellMenu.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\System.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\SystemInfo.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\UpdateManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\UpperAndLowerCase.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\WinSAT.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-100.png" CopyToOutputDirectory="Always" />
@@ -278,6 +299,9 @@
     <EmbeddedResource Update="Strings\SystemInfo.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\SystemInfo.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="SystemInfo.Designer.cs" />
     <EmbeddedResource Update="Strings\SystemInfo.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\UpdateManager.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\UpdateManager.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="UpdateManager.Designer.cs" />
+    <EmbeddedResource Update="Strings\UpdateManager.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\UpperAndLowerCase.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\UpperAndLowerCase.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="UpperAndLowerCase.Designer.cs" />
     <EmbeddedResource Update="Strings\UpperAndLowerCase.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />

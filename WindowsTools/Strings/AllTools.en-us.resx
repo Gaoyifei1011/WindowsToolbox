@@ -186,6 +186,12 @@
   <data name="Title" xml:space="preserve">
     <value>All tools</value>
   </data>
+  <data name="UpdateManager" xml:space="preserve">
+    <value>Update manager</value>
+  </data>
+  <data name="UpdateManagerDescription" xml:space="preserve">
+    <value>Download and install operating system updates manually</value>
+  </data>
   <data name="UpperAndLowerCase" xml:space="preserve">
     <value>Upper and lower case page</value>
   </data>

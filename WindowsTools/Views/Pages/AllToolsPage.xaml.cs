@@ -101,6 +101,13 @@ namespace WindowsTools.Views.Pages
             },
             new ControlItemModel()
             {
+                Title = AllTools.UpdateManager,
+                Description = AllTools.UpdateManagerDescription,
+                ImagePath = "ms-appx:///Assets/ControlIcon/UpdateManager.png",
+                Tag = "UpdateManager"
+            },
+            new ControlItemModel()
+            {
                 Title = AllTools.WinSAT,
                 Description = AllTools.WinSATDescription,
                 ImagePath = "ms-appx:///Assets/ControlIcon/WinSAT.png",

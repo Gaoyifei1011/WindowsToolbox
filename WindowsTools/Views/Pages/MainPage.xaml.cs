@@ -95,6 +95,7 @@ namespace WindowsTools.Views.Pages
             new KeyValuePair<string, Type>("System",null),
             new KeyValuePair<string, Type>("SystemInfo",typeof(SystemInfoPage)),
             new KeyValuePair<string, Type>("DriverManager",typeof(DriverManagerPage)),
+            new KeyValuePair<string, Type>("UpdateManager",typeof(UpdateManagerPage)),
             new KeyValuePair<string, Type>("WinSAT",typeof(WinSATPage)),
             new KeyValuePair<string, Type>("About", typeof(AboutPage)),
             new KeyValuePair<string, Type>("Settings",typeof(SettingsPage)),

@@ -268,6 +268,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Update manager 的本地化字符串。
+        /// </summary>
+        public static string UpdateManager {
+            get {
+                return ResourceManager.GetString("UpdateManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download and install operating system updates manually 的本地化字符串。
+        /// </summary>
+        public static string UpdateManagerDescription {
+            get {
+                return ResourceManager.GetString("UpdateManagerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Upper and lower case page 的本地化字符串。
         /// </summary>
         public static string UpperAndLowerCase {

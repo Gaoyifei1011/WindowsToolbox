@@ -189,6 +189,9 @@
   <data name="SystemInfo" xml:space="preserve">
     <value>System information</value>
   </data>
+  <data name="UpdateManager" xml:space="preserve">
+    <value>Update manager</value>
+  </data>
   <data name="UpperAndLowerCase" xml:space="preserve">
     <value>Upper and lower case</value>
   </data>
