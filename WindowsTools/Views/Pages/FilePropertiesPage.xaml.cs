@@ -520,11 +520,6 @@ namespace WindowsTools.Views.Pages
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private string LocalizeTotal(int count)
-        {
-            return string.Format(FileProperties.Total, FilePropertiesCollection.Count);
-        }
-
         /// <summary>
         /// 检查用户是否指定了操作过程
         /// </summary>

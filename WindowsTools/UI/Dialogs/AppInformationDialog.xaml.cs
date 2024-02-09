@@ -103,9 +103,9 @@ namespace WindowsTools.UI.Dialogs.About
         {
             Task.Run(() =>
             {
-                IReadOnlyList<Package> DependencyList = Package.Current.Dependencies;
+                IReadOnlyList<Package> dependencyList = Package.Current.Dependencies;
 
-                foreach (Package dependency in DependencyList)
+                foreach (Package dependency in dependencyList)
                 {
                     if (dependency.DisplayName.Contains("WindowsAppRuntime"))
                     {
@@ -123,33 +123,33 @@ namespace WindowsTools.UI.Dialogs.About
                     // WinUI 2 版本信息
                     if (dependency.DisplayName.Contains("Microsoft.UI.Xaml.2.8"))
                     {
-                        FileVersionInfo WinUI2File = FileVersionInfo.GetVersionInfo(Path.Combine(dependency.InstalledPath, "Microsoft.UI.Xaml.dll"));
+                        FileVersionInfo winUI2File = FileVersionInfo.GetVersionInfo(Path.Combine(dependency.InstalledPath, "Microsoft.UI.Xaml.dll"));
 
                         MainWindow.Current.Invoke(() =>
                         {
                             WinUI2Version = string.Format("{0}.{1}.{2}.{3}",
-                                WinUI2File.ProductMajorPart,
-                                WinUI2File.ProductMinorPart,
-                                WinUI2File.ProductBuildPart,
-                                WinUI2File.ProductPrivatePart);
+                                winUI2File.ProductMajorPart,
+                                winUI2File.ProductMinorPart,
+                                winUI2File.ProductBuildPart,
+                                winUI2File.ProductPrivatePart);
                         });
                     }
                 }
 
-                FileVersionInfo WindowsUIFile = FileVersionInfo.GetVersionInfo(string.Format(@"{0}\{1}", Environment.SystemDirectory, "Windows.UI.Xaml.dll"));
+                FileVersionInfo windowsUIFile = FileVersionInfo.GetVersionInfo(string.Format(@"{0}\{1}", Environment.SystemDirectory, "Windows.UI.Xaml.dll"));
 
-                FileVersionInfo MileXamlFile = FileVersionInfo.GetVersionInfo(Path.Combine(AppContext.BaseDirectory, @"Mile.Xaml.Managed.dll"));
+                FileVersionInfo mileXamlFile = FileVersionInfo.GetVersionInfo(Path.Combine(AppContext.BaseDirectory, @"Mile.Xaml.Managed.dll"));
 
                 MainWindow.Current.Invoke(() =>
                 {
                     WindowsUIVersion = string.Format("{0}.{1}.{2}.{3}",
-                        WindowsUIFile.ProductMajorPart,
-                        WindowsUIFile.ProductMinorPart,
-                        WindowsUIFile.ProductBuildPart,
-                        WindowsUIFile.ProductPrivatePart
+                        windowsUIFile.ProductMajorPart,
+                        windowsUIFile.ProductMinorPart,
+                        windowsUIFile.ProductBuildPart,
+                        windowsUIFile.ProductPrivatePart
                         );
 
-                    MileXamlVersion = MileXamlFile.FileVersion;
+                    MileXamlVersion = mileXamlFile.FileVersion;
 
                     // .NET 版本信息
                     DoNetVersion = Convert.ToString(RuntimeInformation.FrameworkDescription.Remove(0, 15));

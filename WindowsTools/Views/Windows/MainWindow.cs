@@ -33,10 +33,10 @@ namespace WindowsTools.Views.Windows
         private int windowHeight = 768;
         private double WindowDPI;
 
-        private IntPtr UWPCoreHandle;
-        private IntPtr InputNonClientPointerSourceHandle;
+        private IntPtr uwpCoreHandle;
+        private IntPtr inputNonClientPointerSourceHandle;
         private IContainer components = new Container();
-        private WindowsXamlHost WindowsXamlHost = new WindowsXamlHost();
+        private WindowsXamlHost windowsXamlHost = new WindowsXamlHost();
 
         private WNDPROC newInputNonClientPointerSourceWndProc = null;
         private IntPtr oldInputNonClientPointerSourceWndProc = IntPtr.Zero;
@@ -52,16 +52,16 @@ namespace WindowsTools.Views.Windows
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = System.Drawing.Color.Black;
             Current = this;
-            Controls.Add(WindowsXamlHost);
+            Controls.Add(windowsXamlHost);
             WindowDPI = (double)DeviceDpi / 96;
             Icon = System.Drawing.Icon.ExtractAssociatedIcon(Process.GetCurrentProcess().MainModule.FileName);
             MinimumSize = new System.Drawing.Size(Convert.ToInt32(windowWidth * WindowDPI), Convert.ToInt32(windowHeight * WindowDPI));
             Size = new System.Drawing.Size(Convert.ToInt32(windowWidth * WindowDPI), Convert.ToInt32(windowHeight * WindowDPI));
             StartPosition = FormStartPosition.CenterParent;
             Text = Strings.Window.AppTitle;
-            WindowsXamlHost.AutoSize = true;
-            WindowsXamlHost.Dock = DockStyle.Fill;
-            WindowsXamlHost.Child = Content;
+            windowsXamlHost.AutoSize = true;
+            windowsXamlHost.Dock = DockStyle.Fill;
+            windowsXamlHost.Child = Content;
 
             if (RuntimeHelper.IsElevated)
             {
@@ -74,22 +74,22 @@ namespace WindowsTools.Views.Windows
             AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
             SetTitleBarColor((Content as FrameworkElement).ActualTheme);
 
-            InputNonClientPointerSourceHandle = User32Library.FindWindowEx(Handle, IntPtr.Zero, typeof(InputNonClientPointerSource).Name, null);
+            inputNonClientPointerSourceHandle = User32Library.FindWindowEx(Handle, IntPtr.Zero, typeof(InputNonClientPointerSource).Name, null);
 
-            if (InputNonClientPointerSourceHandle != IntPtr.Zero)
+            if (inputNonClientPointerSourceHandle != IntPtr.Zero)
             {
                 newInputNonClientPointerSourceWndProc = new WNDPROC(InputNonClientPointerSourceWndProc);
-                oldInputNonClientPointerSourceWndProc = SetWindowLongAuto(InputNonClientPointerSourceHandle, WindowLongIndexFlags.GWL_WNDPROC, Marshal.GetFunctionPointerForDelegate(newInputNonClientPointerSourceWndProc));
+                oldInputNonClientPointerSourceWndProc = SetWindowLongAuto(inputNonClientPointerSourceHandle, WindowLongIndexFlags.GWL_WNDPROC, Marshal.GetFunctionPointerForDelegate(newInputNonClientPointerSourceWndProc));
             }
 
-            UWPCoreHandle = InteropExtensions.GetInterop(Window.Current.CoreWindow).WindowHandle;
-            if (UWPCoreHandle != IntPtr.Zero)
+            uwpCoreHandle = InteropExtensions.GetInterop(Window.Current.CoreWindow).WindowHandle;
+            if (uwpCoreHandle != IntPtr.Zero)
             {
-                User32Library.SetWindowPos(UWPCoreHandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
-                long style = (long)GetWindowLongAuto(UWPCoreHandle, WindowLongIndexFlags.GWL_STYLE);
+                User32Library.SetWindowPos(uwpCoreHandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
+                long style = (long)GetWindowLongAuto(uwpCoreHandle, WindowLongIndexFlags.GWL_STYLE);
                 style &= ~(long)WindowStyle.WS_POPUP;
-                SetWindowLongAuto(UWPCoreHandle, WindowLongIndexFlags.GWL_STYLE, (nint)(style | (long)WindowStyle.WS_CHILDWINDOW | (long)WindowStyle.WS_VISIBLE));
-                SetWindowLongAuto(UWPCoreHandle, WindowLongIndexFlags.GWL_EXSTYLE, (IntPtr)((int)GetWindowLongAuto(UWPCoreHandle, WindowLongIndexFlags.GWL_EXSTYLE) | (int)WindowStyleEx.WS_EX_TOOLWINDOW | (int)WindowStyleEx.WS_EX_TRANSPARENT));
+                SetWindowLongAuto(uwpCoreHandle, WindowLongIndexFlags.GWL_STYLE, (nint)(style | (long)WindowStyle.WS_CHILDWINDOW | (long)WindowStyle.WS_VISIBLE));
+                SetWindowLongAuto(uwpCoreHandle, WindowLongIndexFlags.GWL_EXSTYLE, (IntPtr)((int)GetWindowLongAuto(uwpCoreHandle, WindowLongIndexFlags.GWL_EXSTYLE) | (int)WindowStyleEx.WS_EX_TOOLWINDOW | (int)WindowStyleEx.WS_EX_TRANSPARENT));
             }
         }
 
@@ -115,9 +115,9 @@ namespace WindowsTools.Views.Windows
             base.OnDpiChanged(args);
             WindowDPI = (double)args.DeviceDpiNew / 96;
 
-            if (InputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
+            if (inputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
             {
-                User32Library.SetWindowPos(InputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * WindowDPI), 0, (int)((Width - 45) * WindowDPI), (int)(45 * WindowDPI), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
+                User32Library.SetWindowPos(inputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * WindowDPI), 0, (int)((Width - 45) * WindowDPI), (int)(45 * WindowDPI), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
             }
         }
 
@@ -148,9 +148,9 @@ namespace WindowsTools.Views.Windows
             DwmApiLibrary.DwmExtendFrameIntoClientArea(Handle, ref FormMargin);
             Invalidate();
 
-            if (InputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
+            if (inputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
             {
-                User32Library.SetWindowPos(InputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * WindowDPI), 0, (int)((Width - 45) * WindowDPI), (int)(45 * WindowDPI), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
+                User32Library.SetWindowPos(inputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * WindowDPI), 0, (int)((Width - 45) * WindowDPI), (int)(45 * WindowDPI), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
             }
         }
 
@@ -218,14 +218,14 @@ namespace WindowsTools.Views.Windows
                 }
             }
 
-            if (InputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
+            if (inputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
             {
-                User32Library.SetWindowPos(InputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * WindowDPI), 0, (int)((Width - 45) * WindowDPI), (int)(45 * WindowDPI), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
+                User32Library.SetWindowPos(inputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * WindowDPI), 0, (int)((Width - 45) * WindowDPI), (int)(45 * WindowDPI), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
             }
 
-            if (UWPCoreHandle != IntPtr.Zero)
+            if (uwpCoreHandle != IntPtr.Zero)
             {
-                User32Library.SetWindowPos(UWPCoreHandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
+                User32Library.SetWindowPos(uwpCoreHandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
             }
         }
 

@@ -414,9 +414,7 @@ namespace WindowsTools.Views.Pages
                         }
                     }
                 }
-                catch (Exception)
-                {
-                }
+                catch (Exception) { }
 
                 (MainNavigationView.Content as Frame).GoBack();
             }

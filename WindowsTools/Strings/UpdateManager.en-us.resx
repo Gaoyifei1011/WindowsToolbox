@@ -117,14 +117,107 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AvailableUpdate" xml:space="preserve">
+    <value>Available update</value>
+  </data>
+  <data name="Beta" xml:space="preserve">
+    <value>Beta channel</value>
+  </data>
+  <data name="Canary" xml:space="preserve">
+    <value>Canary channel</value>
+  </data>
+  <data name="ChcekUpdate" xml:space="preserve">
+    <value>Chcek update</value>
+  </data>
+  <data name="CheckingUpdate" xml:space="preserve">
+    <value>Checking updates...</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Dev" xml:space="preserve">
+    <value>Dev channel</value>
+  </data>
+  <data name="DonotEnter" xml:space="preserve">
+    <value>Do not enter</value>
+  </data>
+  <data name="ExcludeDrivers" xml:space="preserve">
+    <value>Windows update does not include drivers</value>
+  </data>
+  <data name="ExcludeDriversOffContent" xml:space="preserve">
+    <value>Exclude</value>
+  </data>
+  <data name="ExcludeDriversOnContent" xml:space="preserve">
+    <value>Include</value>
+  </data>
+  <data name="ForceAccessWIP" xml:space="preserve">
+    <value>Force access to Windows insider program</value>
+  </data>
+  <data name="HiddenUpdate" xml:space="preserve">
+    <value>Hidden update</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="InstalledUpdate" xml:space="preserve">
+    <value>Installed update</value>
+  </data>
+  <data name="NoAvailableUpdate" xml:space="preserve">
+    <value>No available update</value>
+  </data>
+  <data name="NoHiddenUpdate" xml:space="preserve">
+    <value>No hidden update</value>
+  </data>
+  <data name="NoInstalledUpdate" xml:space="preserve">
+    <value>No installed update</value>
+  </data>
+  <data name="NoUpdateHistory" xml:space="preserve">
+    <value>Update history is empty</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="ReleasePreview" xml:space="preserve">
+    <value>Release preview</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="SelectNone" xml:space="preserve">
+    <value>Select none</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Update manager</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Unknown</value>
   </data>
+  <data name="UpdateHistory" xml:space="preserve">
+    <value>Update history</value>
+  </data>
+  <data name="UpdateName" xml:space="preserve">
+    <value>Update name</value>
+  </data>
+  <data name="UpdatePolicy" xml:space="preserve">
+    <value>Update policy</value>
+  </data>
   <data name="WindowsUpdate" xml:space="preserve">
     <value>Windows update</value>
+  </data>
+  <data name="WIP" xml:space="preserve">
+    <value>Windows insider program</value>
   </data>
   <data name="WIPSettings" xml:space="preserve">
     <value>WIP Settings</value>

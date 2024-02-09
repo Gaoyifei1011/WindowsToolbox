@@ -61,6 +61,249 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Available update 的本地化字符串。
+        /// </summary>
+        public static string AvailableUpdate {
+            get {
+                return ResourceManager.GetString("AvailableUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Beta channel 的本地化字符串。
+        /// </summary>
+        public static string Beta {
+            get {
+                return ResourceManager.GetString("Beta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Canary channel 的本地化字符串。
+        /// </summary>
+        public static string Canary {
+            get {
+                return ResourceManager.GetString("Canary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Chcek update 的本地化字符串。
+        /// </summary>
+        public static string ChcekUpdate {
+            get {
+                return ResourceManager.GetString("ChcekUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Checking updates... 的本地化字符串。
+        /// </summary>
+        public static string CheckingUpdate {
+            get {
+                return ResourceManager.GetString("CheckingUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Date 的本地化字符串。
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Dev channel 的本地化字符串。
+        /// </summary>
+        public static string Dev {
+            get {
+                return ResourceManager.GetString("Dev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Do not enter 的本地化字符串。
+        /// </summary>
+        public static string DonotEnter {
+            get {
+                return ResourceManager.GetString("DonotEnter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Windows update does not include drivers 的本地化字符串。
+        /// </summary>
+        public static string ExcludeDrivers {
+            get {
+                return ResourceManager.GetString("ExcludeDrivers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Exclude 的本地化字符串。
+        /// </summary>
+        public static string ExcludeDriversOffContent {
+            get {
+                return ResourceManager.GetString("ExcludeDriversOffContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Include 的本地化字符串。
+        /// </summary>
+        public static string ExcludeDriversOnContent {
+            get {
+                return ResourceManager.GetString("ExcludeDriversOnContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Force access to Windows insider program 的本地化字符串。
+        /// </summary>
+        public static string ForceAccessWIP {
+            get {
+                return ResourceManager.GetString("ForceAccessWIP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Hidden update 的本地化字符串。
+        /// </summary>
+        public static string HiddenUpdate {
+            get {
+                return ResourceManager.GetString("HiddenUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Install 的本地化字符串。
+        /// </summary>
+        public static string Install {
+            get {
+                return ResourceManager.GetString("Install", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Installed update 的本地化字符串。
+        /// </summary>
+        public static string InstalledUpdate {
+            get {
+                return ResourceManager.GetString("InstalledUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No available update 的本地化字符串。
+        /// </summary>
+        public static string NoAvailableUpdate {
+            get {
+                return ResourceManager.GetString("NoAvailableUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No hidden update 的本地化字符串。
+        /// </summary>
+        public static string NoHiddenUpdate {
+            get {
+                return ResourceManager.GetString("NoHiddenUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No installed update 的本地化字符串。
+        /// </summary>
+        public static string NoInstalledUpdate {
+            get {
+                return ResourceManager.GetString("NoInstalledUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Update history is empty 的本地化字符串。
+        /// </summary>
+        public static string NoUpdateHistory {
+            get {
+                return ResourceManager.GetString("NoUpdateHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Operation 的本地化字符串。
+        /// </summary>
+        public static string Operation {
+            get {
+                return ResourceManager.GetString("Operation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Options 的本地化字符串。
+        /// </summary>
+        public static string Options {
+            get {
+                return ResourceManager.GetString("Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Release preview 的本地化字符串。
+        /// </summary>
+        public static string ReleasePreview {
+            get {
+                return ResourceManager.GetString("ReleasePreview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select 的本地化字符串。
+        /// </summary>
+        public static string Select {
+            get {
+                return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select all 的本地化字符串。
+        /// </summary>
+        public static string SelectAll {
+            get {
+                return ResourceManager.GetString("SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select none 的本地化字符串。
+        /// </summary>
+        public static string SelectNone {
+            get {
+                return ResourceManager.GetString("SelectNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Size 的本地化字符串。
+        /// </summary>
+        public static string Size {
+            get {
+                return ResourceManager.GetString("Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Status 的本地化字符串。
+        /// </summary>
+        public static string Status {
+            get {
+                return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Update manager 的本地化字符串。
         /// </summary>
         public static string Title {
@@ -79,11 +322,47 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Update history 的本地化字符串。
+        /// </summary>
+        public static string UpdateHistory {
+            get {
+                return ResourceManager.GetString("UpdateHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Update name 的本地化字符串。
+        /// </summary>
+        public static string UpdateName {
+            get {
+                return ResourceManager.GetString("UpdateName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Update policy 的本地化字符串。
+        /// </summary>
+        public static string UpdatePolicy {
+            get {
+                return ResourceManager.GetString("UpdatePolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Windows update 的本地化字符串。
         /// </summary>
         public static string WindowsUpdate {
             get {
                 return ResourceManager.GetString("WindowsUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Windows insider program 的本地化字符串。
+        /// </summary>
+        public static string WIP {
+            get {
+                return ResourceManager.GetString("WIP", resourceCulture);
             }
         }
         

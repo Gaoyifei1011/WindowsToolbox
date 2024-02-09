@@ -177,8 +177,17 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
-                                    IsThreeState="False"
-                                    ToolTipService.ToolTip="{x:Bind converter:StringConverterHelper.CheckBoxToolTipFormat(IsSelected,'PriExtract'), Mode=OneWay}" />
+                                    IsThreeState="False">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip>
+                                            <Grid>
+                                                <TextBlock Text="{x:Bind string:PriExtract.SelectedToolTip}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind string:PriExtract.UnSelectedToolTip}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
+                                            </Grid>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </CheckBox>
 
                                 <TextBlock
                                     x:Name="StringKeyText"
@@ -350,8 +359,17 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
-                                    IsThreeState="False"
-                                    ToolTipService.ToolTip="{x:Bind converter:StringConverterHelper.CheckBoxToolTipFormat(IsSelected,'PriExtract'), Mode=OneWay}" />
+                                    IsThreeState="False">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip>
+                                            <Grid>
+                                                <TextBlock Text="{x:Bind string:PriExtract.SelectedToolTip}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind string:PriExtract.UnSelectedToolTip}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
+                                            </Grid>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </CheckBox>
 
                                 <TextBlock
                                     x:Name="FilePathKeyText"
@@ -507,8 +525,17 @@
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
-                                    IsThreeState="False"
-                                    ToolTipService.ToolTip="{x:Bind converter:StringConverterHelper.CheckBoxToolTipFormat(IsSelected,'PriExtract'), Mode=OneWay}" />
+                                    IsThreeState="False">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip>
+                                            <Grid>
+                                                <TextBlock Text="{x:Bind string:PriExtract.SelectedToolTip}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind string:PriExtract.UnSelectedToolTip}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
+                                            </Grid>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </CheckBox>
 
                                 <TextBlock
                                     x:Name="EmbeddedDataKeyText"
@@ -612,7 +639,7 @@
                     Click="{x:Bind OnSelectSaveFolderClicked}"
                     Content="{x:Bind string:PriExtract.SelectSaveFolder}"
                     IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}"
-                    ToolTipService.ToolTip="{x:Bind LocalizeSelectedFolder(SelectedSaveFolder), Mode=OneWay}" />
+                    ToolTipService.ToolTip="{x:Bind sys:String.Format(string:PriExtract.SelectedFolder, SelectedSaveFolder), Mode=OneWay}" />
 
                 <MenuFlyoutSeparator Grid.Row="7" Margin="5,3" />
 

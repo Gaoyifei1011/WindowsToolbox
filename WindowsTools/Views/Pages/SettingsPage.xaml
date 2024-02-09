@@ -306,7 +306,6 @@
                         IsOn="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}"
                         OffContent="{x:Bind string:Settings.AlwaysShowBackdropOffContent}"
                         OnContent="{x:Bind string:Settings.AlwaysShowBackdropOnContent}"
-                        Style="{StaticResource DefaultToggleSwitchStyle}"
                         Toggled="{x:Bind OnAlwaysShowBackdropToggled}" />
                 </Grid>
 

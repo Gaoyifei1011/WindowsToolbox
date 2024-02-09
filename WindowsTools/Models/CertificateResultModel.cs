@@ -3,6 +3,9 @@ using System.Runtime.CompilerServices;
 
 namespace WindowsTools.Models
 {
+    /// <summary>
+    /// 文件操作结果数据模型
+    /// </summary>
     public class CertificateResultModel : INotifyPropertyChanged
     {
         /// <summary>

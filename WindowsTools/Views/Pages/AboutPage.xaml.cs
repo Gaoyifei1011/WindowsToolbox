@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
-using Windows.UI.Shell;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -19,6 +18,7 @@ using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.Dialogs.About;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
+using WindowsTools.WindowsAPI.ComTypes;
 
 namespace WindowsTools.Views.Pages
 {
@@ -27,10 +27,11 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class AboutPage : Page
     {
-        private string AppVersion = string.Format(About.AppVersion, InfoHelper.AppVersion.ToString());
+        private static Guid taskbarPinCLSID = new Guid("90AA3A4E-1CBA-4233-B8BB-535773D48449");
+        private static Guid ishellLinkCLSID = new Guid("00021401-0000-0000-C000-000000000046");
 
         //项目引用信息
-        private Hashtable ReferenceDict = new Hashtable()
+        private Hashtable ReferenceDict { get; } = new Hashtable()
         {
             { "Mile.Xaml","https://github.com/ProjectMile/Mile.Xaml" },
             { "Microsoft.UI.Xaml","https://github.com/microsoft/microsoft-ui-xaml" },
@@ -38,7 +39,7 @@ namespace WindowsTools.Views.Pages
         };
 
         //项目感谢者信息
-        private Hashtable ThanksDict = new Hashtable()
+        private Hashtable ThanksDict { get; } = new Hashtable()
         {
             { "AndromedaMelody","https://github.com/AndromedaMelody" },
             { "MouriNaruto" , "https://github.com/MouriNaruto" }
@@ -56,19 +57,19 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnPinToDesktopClicked(object sender, RoutedEventArgs args)
         {
-            bool IsCreatedSuccessfully = false;
+            bool isCreatedSuccessfully = false;
 
             Task.Run(async () =>
             {
                 try
                 {
                     IWshRuntimeLibrary.IWshShell shell = new IWshRuntimeLibrary.WshShell();
-                    IWshRuntimeLibrary.WshShortcut AppShortcut = (IWshRuntimeLibrary.WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), About.AppName));
-                    IReadOnlyList<AppListEntry> AppEntriesList = await Package.Current.GetAppListEntriesAsync();
-                    AppListEntry DefaultEntry = AppEntriesList[0];
-                    AppShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", DefaultEntry.AppUserModelId);
-                    AppShortcut.Save();
-                    IsCreatedSuccessfully = true;
+                    IWshRuntimeLibrary.WshShortcut appShortcut = (IWshRuntimeLibrary.WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), About.AppName));
+                    IReadOnlyList<AppListEntry> appEntriesList = await Package.Current.GetAppListEntriesAsync();
+                    AppListEntry defaultEntry = appEntriesList[0];
+                    appShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", defaultEntry.AppUserModelId);
+                    appShortcut.Save();
+                    isCreatedSuccessfully = true;
                 }
                 catch (Exception e)
                 {
@@ -78,7 +79,7 @@ namespace WindowsTools.Views.Pages
                 {
                     MainWindow.Current.BeginInvoke(() =>
                     {
-                        TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.Desktop, IsCreatedSuccessfully));
+                        TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.Desktop, isCreatedSuccessfully));
                     });
                 }
             });
@@ -89,28 +90,27 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnPinToStartScreenClicked(object sender, RoutedEventArgs args)
         {
-            bool IsPinnedSuccessfully = false;
+            bool isPinnedSuccessfully = false;
 
             Task.Run(async () =>
             {
                 try
                 {
-                    IReadOnlyList<AppListEntry> AppEntries = await Package.Current.GetAppListEntriesAsync();
+                    IReadOnlyList<AppListEntry> appEntries = await Package.Current.GetAppListEntriesAsync();
 
-                    AppListEntry DefaultEntry = AppEntries[0];
+                    AppListEntry defaultEntry = appEntries[0];
 
-                    if (DefaultEntry is not null)
+                    if (defaultEntry is not null)
                     {
                         StartScreenManager startScreenManager = StartScreenManager.GetDefault();
 
-                        bool containsEntry = await startScreenManager.ContainsAppListEntryAsync(DefaultEntry);
+                        bool containsEntry = await startScreenManager.ContainsAppListEntryAsync(defaultEntry);
 
                         if (!containsEntry)
                         {
-                            await startScreenManager.RequestAddAppListEntryAsync(DefaultEntry);
+                            await startScreenManager.RequestAddAppListEntryAsync(defaultEntry);
                         }
                     }
-                    IsPinnedSuccessfully = true;
                 }
                 catch (Exception e)
                 {
@@ -120,7 +120,7 @@ namespace WindowsTools.Views.Pages
                 {
                     MainWindow.Current.BeginInvoke(() =>
                     {
-                        TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.StartScreen, IsPinnedSuccessfully));
+                        TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.StartScreen, isPinnedSuccessfully));
                     });
                 }
             });
@@ -131,18 +131,21 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
         {
-            bool IsPinnedSuccessfully = false;
+            bool isPinnedSuccessfully = false;
 
             try
             {
-                string featureId = "com.microsoft.windows.taskbar.pin";
-                string token = FeatureAccessHelper.GenerateTokenFromFeatureId(featureId);
-                string attestation = FeatureAccessHelper.GenerateAttestation(featureId);
-                LimitedAccessFeatureRequestResult accessResult = LimitedAccessFeatures.TryUnlockFeature(featureId, token, attestation);
+                IShellLink appLink = (IShellLink)Activator.CreateInstance(Type.GetTypeFromCLSID(ishellLinkCLSID));
+                IReadOnlyList<AppListEntry> appEntries = await Package.Current.GetAppListEntriesAsync();
+                AppListEntry defaultEntry = appEntries[0];
+                appLink.SetPath(string.Format(@"shell:AppsFolder\{0}", defaultEntry.AppUserModelId));
+                appLink.GetIDList(out IntPtr pidl);
 
-                if (accessResult.Status is LimitedAccessFeatureStatus.Available)
+                IPinnedList3 pinnedList = (IPinnedList3)Activator.CreateInstance(Type.GetTypeFromCLSID(taskbarPinCLSID));
+
+                if (pinnedList is not null)
                 {
-                    IsPinnedSuccessfully = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
+                    isPinnedSuccessfully = pinnedList.Modify(IntPtr.Zero, pidl, PLMC.PLMC_EXPLORER) is 0;
                 }
             }
             catch (Exception e)
@@ -151,7 +154,7 @@ namespace WindowsTools.Views.Pages
             }
             finally
             {
-                TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.Taskbar, IsPinnedSuccessfully));
+                TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.Taskbar, isPinnedSuccessfully));
             }
         }
 

@@ -5,9 +5,11 @@
     xmlns:collection="using:System.Collections"
     xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helper="using:WindowsTools.Helpers.Root"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:WindowsTools.Strings"
+    xmlns:sys="using:System"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -165,7 +167,7 @@
                         <TextBlock
                             Margin="0,0,0,10"
                             FontSize="15"
-                            Text="{x:Bind AppVersion}" />
+                            Text="{x:Bind sys:String.Format(string:About.AppVersion, helper:InfoHelper.AppVersion)}" />
 
                         <StackPanel Orientation="Horizontal">
 
@@ -246,8 +248,7 @@
                                         Width="320"
                                         Padding="5,8"
                                         HorizontalContentAlignment="Center"
-                                        NavigateUri="{x:Bind converter:ValueConverterHelper.UriConvert(Value)}"
-                                        ToolTipService.ToolTip="{x:Bind converter:StringConverterHelper.AboutReferenceToolTipFormat(Key)}">
+                                        NavigateUri="{x:Bind converter:ValueConverterHelper.UriConvert(Value)}">
 
                                         <HyperlinkButton.Content>
                                             <TextBlock
@@ -255,6 +256,15 @@
                                                 TextTrimming="CharacterEllipsis"
                                                 TextWrapping="NoWrap" />
                                         </HyperlinkButton.Content>
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip>
+                                                <StackPanel>
+                                                    <TextBlock Text="{x:Bind sys:Convert.ToString(Key)}" />
+                                                    <TextBlock Text="{x:Bind string:About.ReferenceToolTip}" />
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </ToolTipService.ToolTip>
                                     </HyperlinkButton>
                                 </DataTemplate>
                             </GridView.ItemTemplate>
@@ -376,8 +386,7 @@
                                         Width="150"
                                         Padding="5,8"
                                         HorizontalContentAlignment="Center"
-                                        NavigateUri="{x:Bind converter:ValueConverterHelper.UriConvert(Value)}"
-                                        ToolTipService.ToolTip="{x:Bind converter:StringConverterHelper.AboutThanksToolTipFormat(Key)}">
+                                        NavigateUri="{x:Bind converter:ValueConverterHelper.UriConvert(Value)}">
 
                                         <HyperlinkButton.Content>
                                             <TextBlock
@@ -385,6 +394,15 @@
                                                 TextTrimming="CharacterEllipsis"
                                                 TextWrapping="NoWrap" />
                                         </HyperlinkButton.Content>
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip>
+                                                <StackPanel>
+                                                    <TextBlock Text="{x:Bind sys:Convert.ToString(Key)}" />
+                                                    <TextBlock Text="{x:Bind string:About.ThanksToolTip}" />
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </ToolTipService.ToolTip>
                                     </HyperlinkButton>
                                 </DataTemplate>
                             </GridView.ItemTemplate>

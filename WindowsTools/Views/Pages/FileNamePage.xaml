@@ -648,7 +648,7 @@
             <TextBlock
                 Grid.Column="3"
                 VerticalAlignment="Center"
-                Text="{x:Bind LocalizeTotal(FileNameCollection.Count), Mode=OneWay}"
+                Text="{x:Bind sys:String.Format(string:FileName.Total, FileNameCollection.Count), Mode=OneWay}"
                 TextAlignment="Center" />
 
             <HyperlinkButton

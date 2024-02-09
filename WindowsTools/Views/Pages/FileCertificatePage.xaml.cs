@@ -272,11 +272,6 @@ namespace WindowsTools.Views.Pages
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private string LocalizeTotal(int count)
-        {
-            return string.Format(FileCertificate.Total, FileCertificateCollection.Count);
-        }
-
         /// <summary>
         /// 移除文件证书
         /// </summary>

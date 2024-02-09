@@ -644,120 +644,122 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void ParseResourceFile(string filePath)
         {
+            resourceManager = null;
             stringFileName = string.Format("{0} - {1}.txt", Path.GetFileName(filePath), "Strings.txt");
             filePathFileName = string.Format("{0} - {1}.txt", Path.GetFileName(filePath), "FilePath.txt");
             resourceManager = new ResourceManager(filePath);
-            resourceContext = resourceManager.CreateResourceContext();
-            if (!string.IsNullOrEmpty(InputLanguage))
-            {
-                resourceContext.QualifierValues["language"] = InputLanguage;
-            }
-
-            ResourceMap mainResourceMap = resourceManager.MainResourceMap;
-            int collectedIndex = 0;
-
-            List<StringModel> stringList = new List<StringModel>();
-            List<FilePathModel> filePathList = new List<FilePathModel>();
-            List<EmbeddedDataModel> embeddedDataList = new List<EmbeddedDataModel>();
-
-            for (uint index = 0; index < mainResourceMap.ResourceCount; index++)
-            {
-                try
-                {
-                    KeyValuePair<string, ResourceCandidate> resourceCandidateItem = mainResourceMap.GetValueByIndex(index, resourceContext);
-
-                    // 资源是字符串
-                    if (resourceCandidateItem.Value.Kind is ResourceCandidateKind.String)
-                    {
-                        StringModel stringItem = new StringModel()
-                        {
-                            IsSelected = false,
-                            Key = resourceCandidateItem.Key,
-                            Content = resourceCandidateItem.Value.ValueAsString,
-                            StringIndex = index
-                        };
-                        stringList.Add(stringItem);
-
-                        // 自动保存字符串
-                        if (IsExtractSaveString)
-                        {
-                            try
-                            {
-                                File.AppendAllText(Path.Combine(SelectedSaveFolder, stringFileName), string.Format("Key: {0} - Content:{1}{2}", stringItem.Key, stringItem.Content, Environment.NewLine));
-                            }
-                            catch (Exception e)
-                            {
-                                LogService.WriteLog(EventLogEntryType.Error, string.Format("Save resourceCandidate string(key:{0},Content:{1}) failed", stringItem.Key, stringItem.Content), e);
-                            }
-                        }
-                    }
-
-                    // 资源是位于指定位置的文件
-                    else if (resourceCandidateItem.Value.Kind is ResourceCandidateKind.FilePath)
-                    {
-                        FilePathModel filePathItem = new FilePathModel()
-                        {
-                            IsSelected = false,
-                            Key = resourceCandidateItem.Key,
-                            AbsolutePath = resourceCandidateItem.Value.ValueAsString,
-                            FilePathIndex = index
-                        };
-                        filePathList.Add(filePathItem);
-
-                        // 自动保存文件路径
-                        if (IsExtractSaveFilePath)
-                        {
-                            try
-                            {
-                                File.AppendAllText(Path.Combine(SelectedSaveFolder, filePathFileName), string.Format("Key: {0} - AbsolutePath:{1}{2}", filePathItem.Key, filePathItem.AbsolutePath, Environment.NewLine));
-                            }
-                            catch (Exception e)
-                            {
-                                LogService.WriteLog(EventLogEntryType.Error, string.Format("Save resourceCandidate filePath(key:{0},AbsolutePath:{1}) failed", filePathItem.Key, filePathItem.AbsolutePath), e);
-                            }
-                        }
-                    }
-
-                    // 资源是某些包含资源文件 (（如 .resw 文件) ）中的嵌入数据
-                    else if (resourceCandidateItem.Value.Kind is ResourceCandidateKind.EmbeddedData)
-                    {
-                        EmbeddedDataModel embeddedDataItem = new EmbeddedDataModel()
-                        {
-                            IsSelected = false,
-                            Key = resourceCandidateItem.Key,
-                            EmbeddedDataIndex = index
-                        };
-                        embeddedDataList.Add(embeddedDataItem);
-
-                        // 自动保存资源文件嵌入数据
-                        if (IsExtractSaveEmbeddedData)
-                        {
-                            try
-                            {
-                                byte[] byteArray = resourceCandidateItem.Value.ValueAsBytes;
-
-                                FileStream fileStream = new FileStream(Path.Combine(SelectedSaveFolder, Path.GetFileName(embeddedDataItem.Key)), FileMode.OpenOrCreate, FileAccess.Write);
-                                fileStream.Write(byteArray, 0, byteArray.Length);
-                                fileStream.Close();
-                                fileStream.Dispose();
-                            }
-                            catch (Exception e)
-                            {
-                                LogService.WriteLog(EventLogEntryType.Error, string.Format("Save resourceCandidate embedded data(key:{0}) failed", resourceCandidateItem.Key), e);
-                            }
-                        }
-                    }
-
-                    collectedIndex++;
-                }
-                catch (Exception)
-                {
-                    continue;
-                }
-            }
 
             if (resourceManager is not null)
             {
+                resourceContext = resourceManager.CreateResourceContext();
+                if (!string.IsNullOrEmpty(InputLanguage))
+                {
+                    resourceContext.QualifierValues["language"] = InputLanguage;
+                }
+
+                ResourceMap mainResourceMap = resourceManager.MainResourceMap;
+                int collectedIndex = 0;
+
+                List<StringModel> stringList = new List<StringModel>();
+                List<FilePathModel> filePathList = new List<FilePathModel>();
+                List<EmbeddedDataModel> embeddedDataList = new List<EmbeddedDataModel>();
+
+                for (uint index = 0; index < mainResourceMap.ResourceCount; index++)
+                {
+                    try
+                    {
+                        KeyValuePair<string, ResourceCandidate> resourceCandidateItem = mainResourceMap.GetValueByIndex(index, resourceContext);
+
+                        // 资源是字符串
+                        if (resourceCandidateItem.Value.Kind is ResourceCandidateKind.String)
+                        {
+                            StringModel stringItem = new StringModel()
+                            {
+                                IsSelected = false,
+                                Key = resourceCandidateItem.Key,
+                                Content = resourceCandidateItem.Value.ValueAsString,
+                                StringIndex = index
+                            };
+                            stringList.Add(stringItem);
+
+                            // 自动保存字符串
+                            if (IsExtractSaveString)
+                            {
+                                try
+                                {
+                                    File.AppendAllText(Path.Combine(SelectedSaveFolder, stringFileName), string.Format("Key: {0} - Content:{1}{2}", stringItem.Key, stringItem.Content, Environment.NewLine));
+                                }
+                                catch (Exception e)
+                                {
+                                    LogService.WriteLog(EventLogEntryType.Error, string.Format("Save resourceCandidate string(key:{0},Content:{1}) failed", stringItem.Key, stringItem.Content), e);
+                                }
+                            }
+                        }
+
+                        // 资源是位于指定位置的文件
+                        else if (resourceCandidateItem.Value.Kind is ResourceCandidateKind.FilePath)
+                        {
+                            FilePathModel filePathItem = new FilePathModel()
+                            {
+                                IsSelected = false,
+                                Key = resourceCandidateItem.Key,
+                                AbsolutePath = resourceCandidateItem.Value.ValueAsString,
+                                FilePathIndex = index
+                            };
+                            filePathList.Add(filePathItem);
+
+                            // 自动保存文件路径
+                            if (IsExtractSaveFilePath)
+                            {
+                                try
+                                {
+                                    File.AppendAllText(Path.Combine(SelectedSaveFolder, filePathFileName), string.Format("Key: {0} - AbsolutePath:{1}{2}", filePathItem.Key, filePathItem.AbsolutePath, Environment.NewLine));
+                                }
+                                catch (Exception e)
+                                {
+                                    LogService.WriteLog(EventLogEntryType.Error, string.Format("Save resourceCandidate filePath(key:{0},AbsolutePath:{1}) failed", filePathItem.Key, filePathItem.AbsolutePath), e);
+                                }
+                            }
+                        }
+
+                        // 资源是某些包含资源文件 (（如 .resw 文件) ）中的嵌入数据
+                        else if (resourceCandidateItem.Value.Kind is ResourceCandidateKind.EmbeddedData)
+                        {
+                            EmbeddedDataModel embeddedDataItem = new EmbeddedDataModel()
+                            {
+                                IsSelected = false,
+                                Key = resourceCandidateItem.Key,
+                                EmbeddedDataIndex = index
+                            };
+                            embeddedDataList.Add(embeddedDataItem);
+
+                            // 自动保存资源文件嵌入数据
+                            if (IsExtractSaveEmbeddedData)
+                            {
+                                try
+                                {
+                                    byte[] byteArray = resourceCandidateItem.Value.ValueAsBytes;
+
+                                    FileStream fileStream = new FileStream(Path.Combine(SelectedSaveFolder, Path.GetFileName(embeddedDataItem.Key)), FileMode.OpenOrCreate, FileAccess.Write);
+                                    fileStream.Write(byteArray, 0, byteArray.Length);
+                                    fileStream.Close();
+                                    fileStream.Dispose();
+                                }
+                                catch (Exception e)
+                                {
+                                    LogService.WriteLog(EventLogEntryType.Error, string.Format("Save resourceCandidate embedded data(key:{0}) failed", resourceCandidateItem.Key), e);
+                                }
+                            }
+                        }
+
+                        collectedIndex++;
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                }
+
                 Task.Delay(300);
                 MainWindow.Current.BeginInvoke(() =>
                 {
@@ -785,14 +787,13 @@ namespace WindowsTools.Views.Pages
                     }
                 });
             }
-        }
-
-        /// <summary>
-        /// 已选择的文件夹路径工具提示
-        /// </summary>
-        private string LocalizeSelectedFolder(string selectedFolder)
-        {
-            return string.Format(PriExtract.SelectedFolder, SelectedSaveFolder);
+            else
+            {
+                MainWindow.Current.BeginInvoke(() =>
+                {
+                    GetResults = string.Format(PriExtract.GetResults, Path.GetFileName(filePath), 0);
+                });
+            }
         }
 
         /// <summary>

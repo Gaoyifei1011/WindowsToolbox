@@ -23,7 +23,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class SettingsPage : Page, INotifyPropertyChanged
     {
-        private bool CanUseBackdrop = InfoHelper.SystemVersion.Build >= 22621;
+        private bool CanUseBackdrop { get; } = InfoHelper.SystemVersion.Build >= 22621;
 
         private DictionaryEntry _theme = ThemeService.AppTheme;
 

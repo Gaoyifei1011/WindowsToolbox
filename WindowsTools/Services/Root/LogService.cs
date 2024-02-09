@@ -21,7 +21,7 @@ namespace WindowsTools.Services.Root
 
         private static string unknown = "unknown";
 
-        private static string LogFolderPath = Path.Combine(ApplicationData.Current.LocalCacheFolder.Path, "Logs");
+        private static string logFolderPath = Path.Combine(ApplicationData.Current.LocalCacheFolder.Path, "Logs");
 
         /// <summary>
         /// 初始化日志记录
@@ -30,9 +30,9 @@ namespace WindowsTools.Services.Root
         {
             try
             {
-                if (!Directory.Exists(LogFolderPath))
+                if (!Directory.Exists(logFolderPath))
                 {
-                    Directory.CreateDirectory(LogFolderPath);
+                    Directory.CreateDirectory(logFolderPath);
                 }
                 isInitialized = true;
             }
@@ -56,7 +56,7 @@ namespace WindowsTools.Services.Root
                         lock (logLock)
                         {
                             File.AppendAllText(
-                                Path.Combine(LogFolderPath, string.Format("{0}_{1}.log", logName, DateTime.Now.ToString("yyyy_MM_dd"))),
+                                Path.Combine(logFolderPath, string.Format("{0}_{1}.log", logName, DateTime.Now.ToString("yyyy_MM_dd"))),
                                 string.Format("{0}\t{1}:{2}{3}{4}{5}{6}{7}{8}",
                                     DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                                     "LogType",
@@ -106,7 +106,7 @@ namespace WindowsTools.Services.Root
                         lock (logLock)
                         {
                             File.AppendAllText(
-                                Path.Combine(LogFolderPath, string.Format("{0}_{1}.log", logName, DateTime.Now.ToString("yyyy_MM_dd"))),
+                                Path.Combine(logFolderPath, string.Format("{0}_{1}.log", logName, DateTime.Now.ToString("yyyy_MM_dd"))),
                                 string.Format("{0}\t{1}:{2}{3}{4}{5}",
                                     DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                                     "LogType",
@@ -134,7 +134,7 @@ namespace WindowsTools.Services.Root
             {
                 Task.Run(() =>
                 {
-                    Process.Start(LogFolderPath);
+                    Process.Start(logFolderPath);
                 });
             }
         }
@@ -148,7 +148,7 @@ namespace WindowsTools.Services.Root
             {
                 Task.Run(() =>
                 {
-                    string[] logFiles = Directory.GetFiles(LogFolderPath, "*.log");
+                    string[] logFiles = Directory.GetFiles(logFolderPath, "*.log");
                     foreach (string logFile in logFiles)
                     {
                         File.Delete(logFile);

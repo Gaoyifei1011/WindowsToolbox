@@ -570,11 +570,6 @@ namespace WindowsTools.Views.Pages
             return string.Format(FileName.ChangeRule, NameChangeRuleList[index]);
         }
 
-        private string LocalizeTotal(int count)
-        {
-            return string.Format(FileName.Total, FileNameCollection.Count);
-        }
-
         /// <summary>
         /// 检查用户是否指定了操作过程
         /// </summary>

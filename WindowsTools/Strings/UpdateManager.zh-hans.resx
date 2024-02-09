@@ -117,14 +117,107 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AvailableUpdate" xml:space="preserve">
+    <value>可用更新</value>
+  </data>
+  <data name="Beta" xml:space="preserve">
+    <value>Beta 频道</value>
+  </data>
+  <data name="Canary" xml:space="preserve">
+    <value>Canary 通道</value>
+  </data>
+  <data name="ChcekUpdate" xml:space="preserve">
+    <value>检查更新</value>
+  </data>
+  <data name="CheckingUpdate" xml:space="preserve">
+    <value>检查更新中...</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="Dev" xml:space="preserve">
+    <value>开发人员频道</value>
+  </data>
+  <data name="DonotEnter" xml:space="preserve">
+    <value>不进入</value>
+  </data>
+  <data name="ExcludeDrivers" xml:space="preserve">
+    <value>Windows 更新不包括驱动程序</value>
+  </data>
+  <data name="ExcludeDriversOffContent" xml:space="preserve">
+    <value>排除</value>
+  </data>
+  <data name="ExcludeDriversOnContent" xml:space="preserve">
+    <value>包括</value>
+  </data>
+  <data name="ForceAccessWIP" xml:space="preserve">
+    <value>强制进入 Windows 预览体验计划</value>
+  </data>
+  <data name="HiddenUpdate" xml:space="preserve">
+    <value>隐藏更新</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>安装</value>
+  </data>
+  <data name="InstalledUpdate" xml:space="preserve">
+    <value>已安装更新</value>
+  </data>
+  <data name="NoAvailableUpdate" xml:space="preserve">
+    <value>没有可用的更新</value>
+  </data>
+  <data name="NoHiddenUpdate" xml:space="preserve">
+    <value>没有隐藏的更新</value>
+  </data>
+  <data name="NoInstalledUpdate" xml:space="preserve">
+    <value>没有已安装的更新</value>
+  </data>
+  <data name="NoUpdateHistory" xml:space="preserve">
+    <value>更新历史记录为空</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>选项</value>
+  </data>
+  <data name="ReleasePreview" xml:space="preserve">
+    <value>发布预览</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>选择</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>全选</value>
+  </data>
+  <data name="SelectNone" xml:space="preserve">
+    <value>全部不选</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>状态</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>更新管理</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>未知</value>
   </data>
+  <data name="UpdateHistory" xml:space="preserve">
+    <value>更新历史记录</value>
+  </data>
+  <data name="UpdateName" xml:space="preserve">
+    <value>更新名称</value>
+  </data>
+  <data name="UpdatePolicy" xml:space="preserve">
+    <value>更新策略</value>
+  </data>
   <data name="WindowsUpdate" xml:space="preserve">
     <value>Windows 更新</value>
+  </data>
+  <data name="WIP" xml:space="preserve">
+    <value>Windows 预览体验计划</value>
   </data>
   <data name="WIPSettings" xml:space="preserve">
     <value>预览体验计划设置</value>

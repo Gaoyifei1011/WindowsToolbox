@@ -1,5 +1,5 @@
 ﻿using System;
-using Windows.ApplicationModel;
+using System.Reflection;
 
 namespace WindowsTools.Helpers.Root
 {
@@ -8,12 +8,7 @@ namespace WindowsTools.Helpers.Root
     /// </summary>
     public static class InfoHelper
     {
-        public static Version AppVersion { get; } = new Version(
-            Package.Current.Id.Version.Major,
-            Package.Current.Id.Version.Minor,
-            Package.Current.Id.Version.Build,
-            Package.Current.Id.Version.Revision
-            );
+        public static Version AppVersion { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 
         public static Version SystemVersion { get; } = Environment.OSVersion.Version;
     }

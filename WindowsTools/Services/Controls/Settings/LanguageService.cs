@@ -15,7 +15,7 @@ namespace WindowsTools.Services.Controls.Settings
     public static class LanguageService
     {
         private static string resourceFileName = string.Format("{0}.resources.dll", Assembly.GetExecutingAssembly().GetName().Name);
-        private static string SettingsKey = ConfigKey.LanguageKey;
+        private static string settingsKey = ConfigKey.LanguageKey;
 
         public static DictionaryEntry DefaultAppLanguage { get; private set; }
 
@@ -89,7 +89,7 @@ namespace WindowsTools.Services.Controls.Settings
         /// </summary>
         private static DictionaryEntry GetLanguage()
         {
-            object language = LocalSettingsService.ReadSetting<object>(SettingsKey);
+            object language = LocalSettingsService.ReadSetting<object>(settingsKey);
 
             // 当前系统的语言值
             string CurrentSystemLanguage = CultureInfo.CurrentCulture.Parent.Parent.Name;
@@ -125,7 +125,7 @@ namespace WindowsTools.Services.Controls.Settings
         {
             AppLanguage = language;
 
-            LocalSettingsService.SaveSetting(SettingsKey, language.Value.ToString());
+            LocalSettingsService.SaveSetting(settingsKey, language.Value.ToString());
         }
     }
 }

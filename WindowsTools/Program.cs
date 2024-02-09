@@ -94,6 +94,9 @@ namespace WindowsTools
             FileShellMenuService.InitializeFileShellMenu();
         }
 
+        /// <summary>
+        /// 检查是否有已经运行的实例程序
+        /// </summary>
         private static void CheckProcessState()
         {
             List<Process> windowsToolsList = Process.GetProcessesByName("WindowsTools").Where(item => item.MainWindowHandle != IntPtr.Zero).ToList();
@@ -107,7 +110,7 @@ namespace WindowsTools
                 Marshal.StructureToPtr(copyDataStruct, ptrCopyDataStruct, false);
                 User32Library.SendMessage(windowsToolsList[0].MainWindowHandle, WindowMessage.WM_COPYDATA, 0, ptrCopyDataStruct);
 
-                Environment.Exit(0);
+                Environment.Exit(Environment.ExitCode);
             }
         }
     }

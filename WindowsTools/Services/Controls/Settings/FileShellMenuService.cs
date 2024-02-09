@@ -8,9 +8,9 @@ namespace WindowsTools.Services.Controls.Settings
     /// </summary>
     public static class FileShellMenuService
     {
-        private static string SettingsKey = ConfigKey.FileShellMenuKey;
+        private static string settingsKey = ConfigKey.FileShellMenuKey;
 
-        private static bool DefaultFileShellMenuValue = true;
+        private static bool defaultFileShellMenuValue = true;
 
         public static bool FileShellMenuValue { get; private set; }
 
@@ -27,12 +27,12 @@ namespace WindowsTools.Services.Controls.Settings
         /// </summary>
         private static bool GetFileShellMenuValue()
         {
-            bool? fileShellMenuValue = LocalSettingsService.ReadSetting<bool?>(SettingsKey);
+            bool? fileShellMenuValue = LocalSettingsService.ReadSetting<bool?>(settingsKey);
 
             if (!fileShellMenuValue.HasValue)
             {
-                SetFileShellMenu(DefaultFileShellMenuValue);
-                return DefaultFileShellMenuValue;
+                SetFileShellMenu(defaultFileShellMenuValue);
+                return defaultFileShellMenuValue;
             }
 
             return fileShellMenuValue.Value;
@@ -45,7 +45,7 @@ namespace WindowsTools.Services.Controls.Settings
         {
             FileShellMenuValue = fileShellMenuValue;
 
-            LocalSettingsService.SaveSetting(SettingsKey, fileShellMenuValue);
+            LocalSettingsService.SaveSetting(settingsKey, fileShellMenuValue);
         }
     }
 }

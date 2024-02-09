@@ -5,15 +5,22 @@ using WUApiLib;
 
 namespace WindowsTools.Models
 {
+    /// <summary>
+    /// Windows 更新数据模型
+    /// </summary>
     public class UpdateModel : INotifyPropertyChanged
     {
-        public string Title { get; set; }
+        public string UpdateName { get; set; }
 
         public string KBNumber { get; set; }
 
         public string Description { get; set; }
 
         public string SupportURL { get; set; }
+
+        public string Size { get; set; }
+
+        public string Status { get; set; }
 
         public string UpdateID { get; set; }
 
@@ -28,6 +35,19 @@ namespace WindowsTools.Models
         public string ELProvider { get; set; }
 
         public DateTime ELDate { get; set; }
+
+        private bool _isSelected;
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+
+            set
+            {
+                _isSelected = value;
+                OnPropertyChanged();
+            }
+        }
 
         private OperationResultCode _resultCode;
 
