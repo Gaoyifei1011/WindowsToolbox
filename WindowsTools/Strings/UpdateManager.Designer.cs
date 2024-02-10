@@ -178,6 +178,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 HIde 的本地化字符串。
+        /// </summary>
+        public static string Hide {
+            get {
+                return ResourceManager.GetString("Hide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Install 的本地化字符串。
         /// </summary>
         public static string Install {
@@ -286,6 +295,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Show 的本地化字符串。
+        /// </summary>
+        public static string Show {
+            get {
+                return ResourceManager.GetString("Show", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Size 的本地化字符串。
         /// </summary>
         public static string Size {
@@ -309,6 +327,15 @@ namespace WindowsTools.Strings {
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Uninstall 的本地化字符串。
+        /// </summary>
+        public static string UnInstall {
+            get {
+                return ResourceManager.GetString("UnInstall", resourceCulture);
             }
         }
         

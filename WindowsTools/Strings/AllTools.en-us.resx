@@ -172,7 +172,7 @@
     <value>Custom shell menu</value>
   </data>
   <data name="ShellMenuDescription" xml:space="preserve">
-    <value>Customize the Windows 11 new right-click shell menu</value>
+    <value>Customize the Windows shell menu</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>System tools</value>

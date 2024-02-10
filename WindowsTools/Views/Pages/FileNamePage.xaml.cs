@@ -32,6 +32,8 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class FileNamePage : Page, INotifyPropertyChanged
     {
+        private readonly object fileNameLock = new object();
+
         private bool _isChecked = false;
 
         public bool IsChecked
@@ -262,13 +264,16 @@ namespace WindowsTools.Views.Pages
                 if (view.Contains(StandardDataFormats.StorageItems))
                 {
                     IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
-                    foreach (IStorageItem item in filesList)
+                    foreach (IStorageItem storageItem in filesList)
                     {
-                        FileNameCollection.Add(new OldAndNewNameModel()
+                        lock (fileNameLock)
                         {
-                            OriginalFileName = item.Name,
-                            OriginalFilePath = item.Path
-                        });
+                            FileNameCollection.Add(new OldAndNewNameModel()
+                            {
+                                OriginalFileName = storageItem.Name,
+                                OriginalFilePath = storageItem.Path
+                            });
+                        }
                     }
                 }
             }
@@ -344,8 +349,11 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearListClicked(object sender, RoutedEventArgs args)
         {
-            FileNameCollection.Clear();
-            OperationFailedCollection.Clear();
+            lock (fileNameLock)
+            {
+                FileNameCollection.Clear();
+                OperationFailedCollection.Clear();
+            }
         }
 
         private void OnCloseClicked(object sender, RoutedEventArgs args)
@@ -464,11 +472,15 @@ namespace WindowsTools.Views.Pages
                         {
                             continue;
                         }
-                        FileNameCollection.Add(new OldAndNewNameModel()
+
+                        lock (fileNameLock)
                         {
-                            OriginalFileName = file.Name,
-                            OriginalFilePath = file.FullName
-                        });
+                            FileNameCollection.Add(new OldAndNewNameModel()
+                            {
+                                OriginalFileName = file.Name,
+                                OriginalFilePath = file.FullName
+                            });
+                        }
                     }
                     catch (Exception e)
                     {
@@ -498,42 +510,50 @@ namespace WindowsTools.Views.Pages
 
                     try
                     {
-                        foreach (DirectoryInfo subFolder in currentFolder.GetDirectories())
+                        foreach (DirectoryInfo directoryInfo in currentFolder.GetDirectories())
                         {
-                            if ((subFolder.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                            if ((directoryInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
                             }
-                            FileNameCollection.Add(new OldAndNewNameModel()
+
+                            lock (fileNameLock)
                             {
-                                OriginalFileName = subFolder.Name,
-                                OriginalFilePath = subFolder.FullName
-                            });
+                                FileNameCollection.Add(new OldAndNewNameModel()
+                                {
+                                    OriginalFileName = directoryInfo.Name,
+                                    OriginalFilePath = directoryInfo.FullName
+                                });
+                            }
                         }
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} subFolder information failed", dialog.SelectedPath), e);
+                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} directoryInfo information failed", dialog.SelectedPath), e);
                     }
 
                     try
                     {
-                        foreach (FileInfo subFile in currentFolder.GetFiles())
+                        foreach (FileInfo fileInfo in currentFolder.GetFiles())
                         {
-                            if ((subFile.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                            if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
                             }
-                            FileNameCollection.Add(new OldAndNewNameModel()
+
+                            lock (fileNameLock)
                             {
-                                OriginalFileName = subFile.Name,
-                                OriginalFilePath = subFile.FullName
-                            });
+                                FileNameCollection.Add(new OldAndNewNameModel()
+                                {
+                                    OriginalFileName = fileInfo.Name,
+                                    OriginalFilePath = fileInfo.FullName
+                                });
+                            }
                         }
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} subFile information failed", dialog.SelectedPath), e);
+                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} fileInfo information failed", dialog.SelectedPath), e);
                     }
                 }
             }
@@ -599,9 +619,9 @@ namespace WindowsTools.Views.Pages
             int endIndex = FileNameCollection.Count - startIndex;
             int numberLength = endIndex.ToString().Length;
 
-            foreach (OldAndNewNameModel item in FileNameCollection)
+            foreach (OldAndNewNameModel oldAndNewNameItem in FileNameCollection)
             {
-                string tempNewFileName = item.OriginalFileName;
+                string tempNewFileName = oldAndNewNameItem.OriginalFileName;
                 // 根据改名规则替换
                 if (!string.IsNullOrEmpty(RenameRule))
                 {
@@ -653,39 +673,39 @@ namespace WindowsTools.Views.Pages
                         }
                         if (tempFileName.Contains("<&>"))
                         {
-                            tempFileName = tempFileName.Replace("<&>", item.OriginalFileName);
+                            tempFileName = tempFileName.Replace("<&>", oldAndNewNameItem.OriginalFileName);
                         }
                         if (tempFileName.Contains("<N>"))
                         {
-                            if (IOHelper.IsDir(item.OriginalFilePath))
+                            if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
                             {
-                                DirectoryInfo directoryInfo = new DirectoryInfo(item.OriginalFilePath);
+                                DirectoryInfo directoryInfo = new DirectoryInfo(oldAndNewNameItem.OriginalFilePath);
                                 tempFileName = tempFileName.Replace("<N>", directoryInfo.LastWriteTime.ToString("yyyy-MM-dd"));
                             }
                             else
                             {
-                                FileInfo fileInfo = new FileInfo(item.OriginalFilePath);
+                                FileInfo fileInfo = new FileInfo(oldAndNewNameItem.OriginalFilePath);
                                 tempFileName = tempFileName.Replace("<N>", fileInfo.LastWriteTime.ToString("yyyy-MM-dd"));
                             }
                         }
                         if (tempFileName.Contains("<C>"))
                         {
-                            if (IOHelper.IsDir(item.OriginalFilePath))
+                            if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
                             {
-                                DirectoryInfo directoryInfo = new DirectoryInfo(item.OriginalFilePath);
+                                DirectoryInfo directoryInfo = new DirectoryInfo(oldAndNewNameItem.OriginalFilePath);
                                 tempFileName = tempFileName.Replace("<C>", directoryInfo.CreationTime.ToString("yyyy-MM-dd"));
                             }
                             else
                             {
-                                FileInfo fileInfo = new FileInfo(item.OriginalFilePath);
+                                FileInfo fileInfo = new FileInfo(oldAndNewNameItem.OriginalFilePath);
                                 tempFileName = tempFileName.Replace("<C>", fileInfo.CreationTime.ToString("yyyy-MM-dd"));
                             }
                         }
-                        tempNewFileName = tempFileName + Path.GetExtension(item.OriginalFileName);
+                        tempNewFileName = tempFileName + Path.GetExtension(oldAndNewNameItem.OriginalFileName);
                     }
                     catch (Exception)
                     {
-                        tempNewFileName = item.OriginalFileName;
+                        tempNewFileName = oldAndNewNameItem.OriginalFileName;
                     }
                 }
 
@@ -702,8 +722,8 @@ namespace WindowsTools.Views.Pages
                     tempNewFileName = tempNewFileName.Replace(LookUpString, ReplaceString);
                 }
 
-                item.NewFileName = tempNewFileName;
-                item.NewFilePath = item.OriginalFilePath.Replace(item.OriginalFileName, item.NewFileName);
+                oldAndNewNameItem.NewFileName = tempNewFileName;
+                oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
             }
         }
 
@@ -716,22 +736,22 @@ namespace WindowsTools.Views.Pages
             IsModifyingNow = true;
             Task.Run(async () =>
             {
-                foreach (OldAndNewNameModel item in FileNameCollection)
+                foreach (OldAndNewNameModel oldAndNewNameItem in FileNameCollection)
                 {
-                    if (!string.IsNullOrEmpty(item.OriginalFileName) && !string.IsNullOrEmpty(item.OriginalFilePath))
+                    if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName) && !string.IsNullOrEmpty(oldAndNewNameItem.OriginalFilePath))
                     {
-                        if (IOHelper.IsDir(item.OriginalFilePath))
+                        if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
                         {
                             try
                             {
-                                Directory.Move(item.OriginalFilePath, item.NewFilePath);
+                                Directory.Move(oldAndNewNameItem.OriginalFilePath, oldAndNewNameItem.NewFilePath);
                             }
                             catch (Exception e)
                             {
                                 operationFailedList.Add(new OperationFailedModel()
                                 {
-                                    FileName = item.OriginalFileName,
-                                    FilePath = item.OriginalFilePath,
+                                    FileName = oldAndNewNameItem.OriginalFileName,
+                                    FilePath = oldAndNewNameItem.OriginalFilePath,
                                     Exception = e
                                 });
                             }
@@ -740,14 +760,14 @@ namespace WindowsTools.Views.Pages
                         {
                             try
                             {
-                                File.Move(item.OriginalFilePath, item.NewFilePath);
+                                File.Move(oldAndNewNameItem.OriginalFilePath, oldAndNewNameItem.NewFilePath);
                             }
                             catch (Exception e)
                             {
                                 operationFailedList.Add(new OperationFailedModel()
                                 {
-                                    FileName = item.OriginalFileName,
-                                    FilePath = item.OriginalFilePath,
+                                    FileName = oldAndNewNameItem.OriginalFileName,
+                                    FilePath = oldAndNewNameItem.OriginalFilePath,
                                     Exception = e
                                 });
                             }
@@ -760,13 +780,16 @@ namespace WindowsTools.Views.Pages
                 MainWindow.Current.BeginInvoke(() =>
                 {
                     IsModifyingNow = false;
-                    foreach (OperationFailedModel item in operationFailedList)
+                    foreach (OperationFailedModel operationFailedItem in operationFailedList)
                     {
-                        OperationFailedCollection.Add(item);
+                        OperationFailedCollection.Add(operationFailedItem);
                     }
 
                     TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, FileNameCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
-                    FileNameCollection.Clear();
+                    lock (fileNameLock)
+                    {
+                        FileNameCollection.Clear();
+                    }
                 });
             });
         }

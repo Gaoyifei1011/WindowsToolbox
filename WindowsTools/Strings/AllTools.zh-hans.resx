@@ -172,7 +172,7 @@
     <value>自定义扩展菜单</value>
   </data>
   <data name="ShellMenuDescription" xml:space="preserve">
-    <value>自定义 Windows 11 新版扩展菜单</value>
+    <value>自定义 Windows 扩展菜单</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>系统工具</value>

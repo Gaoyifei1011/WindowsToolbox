@@ -31,6 +31,8 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class ExtensionNamePage : Page, INotifyPropertyChanged
     {
+        private readonly object extensionNameLock = new object();
+
         private bool _isModifyingNow = false;
 
         public bool IsModifyingNow
@@ -136,15 +138,18 @@ namespace WindowsTools.Views.Pages
                 if (view.Contains(StandardDataFormats.StorageItems))
                 {
                     IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
-                    foreach (IStorageItem item in filesList)
+                    foreach (IStorageItem storageItem in filesList)
                     {
-                        if (!IOHelper.IsDir(item.Path))
+                        if (!IOHelper.IsDir(storageItem.Path))
                         {
-                            ExtensionNameCollection.Add(new OldAndNewNameModel()
+                            lock (extensionNameLock)
                             {
-                                OriginalFileName = item.Name,
-                                OriginalFilePath = item.Path
-                            });
+                                ExtensionNameCollection.Add(new OldAndNewNameModel()
+                                {
+                                    OriginalFileName = storageItem.Name,
+                                    OriginalFilePath = storageItem.Path
+                                });
+                            }
                         }
                     }
                 }
@@ -233,8 +238,11 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearListClicked(object sender, RoutedEventArgs args)
         {
-            ExtensionNameCollection.Clear();
-            OperationFailedCollection.Clear();
+            lock (extensionNameLock)
+            {
+                ExtensionNameCollection.Clear();
+                OperationFailedCollection.Clear();
+            }
         }
 
         /// <summary>
@@ -307,11 +315,14 @@ namespace WindowsTools.Views.Pages
                         }
                         if (!IOHelper.IsDir(file.FullName))
                         {
-                            ExtensionNameCollection.Add(new OldAndNewNameModel()
+                            lock (extensionNameLock)
                             {
-                                OriginalFileName = file.Name,
-                                OriginalFilePath = file.FullName
-                            });
+                                ExtensionNameCollection.Add(new OldAndNewNameModel()
+                                {
+                                    OriginalFileName = file.Name,
+                                    OriginalFilePath = file.FullName
+                                });
+                            }
                         }
                     }
                     catch (Exception e)
@@ -342,18 +353,21 @@ namespace WindowsTools.Views.Pages
 
                     try
                     {
-                        foreach (FileInfo subFile in currentFolder.GetFiles())
+                        foreach (FileInfo fileInfo in currentFolder.GetFiles())
                         {
-                            if ((subFile.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                            if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
                             }
 
-                            ExtensionNameCollection.Add(new OldAndNewNameModel()
+                            lock (extensionNameLock)
                             {
-                                OriginalFileName = subFile.Name,
-                                OriginalFilePath = subFile.FullName
-                            });
+                                ExtensionNameCollection.Add(new OldAndNewNameModel()
+                                {
+                                    OriginalFileName = fileInfo.Name,
+                                    OriginalFilePath = fileInfo.FullName
+                                });
+                            }
                         }
                     }
                     catch (Exception e)
@@ -407,11 +421,6 @@ namespace WindowsTools.Views.Pages
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private string LocalizeTotal(int count)
-        {
-            return string.Format(ExtensionName.Total, ExtensionNameCollection.Count);
-        }
-
         /// <summary>
         /// 检查用户是否指定了操作过程
         /// </summary>
@@ -436,31 +445,31 @@ namespace WindowsTools.Views.Pages
             {
                 case ExtensionNameSelectedKind.IsSameExtensionName:
                     {
-                        foreach (OldAndNewNameModel item in ExtensionNameCollection)
+                        foreach (OldAndNewNameModel oldAndNewNameItem in ExtensionNameCollection)
                         {
-                            if (!string.IsNullOrEmpty(item.OriginalFileName))
+                            if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
                             {
-                                string fileName = Path.GetFileNameWithoutExtension(item.OriginalFileName);
-                                item.NewFileName = fileName + "." + ChangeToText;
-                                item.NewFilePath = item.OriginalFilePath.Replace(item.OriginalFileName, item.NewFileName);
+                                string fileName = Path.GetFileNameWithoutExtension(oldAndNewNameItem.OriginalFileName);
+                                oldAndNewNameItem.NewFileName = fileName + "." + ChangeToText;
+                                oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
                             }
                         }
                         break;
                     }
                 case ExtensionNameSelectedKind.IsFindAndReplaceExtensionName:
                     {
-                        foreach (OldAndNewNameModel item in ExtensionNameCollection)
+                        foreach (OldAndNewNameModel oldAndNewNameItem in ExtensionNameCollection)
                         {
-                            if (!string.IsNullOrEmpty(item.OriginalFileName))
+                            if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
                             {
-                                string fileName = Path.GetFileNameWithoutExtension(item.OriginalFileName);
-                                string extensionName = Path.GetExtension(item.OriginalFileName);
+                                string fileName = Path.GetFileNameWithoutExtension(oldAndNewNameItem.OriginalFileName);
+                                string extensionName = Path.GetExtension(oldAndNewNameItem.OriginalFileName);
                                 if (extensionName.Contains(SearchText))
                                 {
                                     extensionName = extensionName.Replace(SearchText, ReplaceText);
                                 }
-                                item.NewFileName = fileName + extensionName;
-                                item.NewFilePath = item.OriginalFilePath.Replace(item.OriginalFileName, item.NewFileName);
+                                oldAndNewNameItem.NewFileName = fileName + extensionName;
+                                oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
                             }
                         }
                         break;
@@ -477,20 +486,20 @@ namespace WindowsTools.Views.Pages
             IsModifyingNow = true;
             Task.Run(async () =>
             {
-                foreach (OldAndNewNameModel item in ExtensionNameCollection)
+                foreach (OldAndNewNameModel oldAndNewNameItem in ExtensionNameCollection)
                 {
-                    if (!string.IsNullOrEmpty(item.OriginalFileName) && !string.IsNullOrEmpty(item.OriginalFilePath))
+                    if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName) && !string.IsNullOrEmpty(oldAndNewNameItem.OriginalFilePath))
                     {
                         try
                         {
-                            File.Move(item.OriginalFilePath, item.NewFilePath);
+                            File.Move(oldAndNewNameItem.OriginalFilePath, oldAndNewNameItem.NewFilePath);
                         }
                         catch (Exception e)
                         {
                             operationFailedList.Add(new OperationFailedModel()
                             {
-                                FileName = item.OriginalFileName,
-                                FilePath = item.OriginalFilePath,
+                                FileName = oldAndNewNameItem.OriginalFileName,
+                                FilePath = oldAndNewNameItem.OriginalFilePath,
                                 Exception = e
                             });
                         }
@@ -502,13 +511,17 @@ namespace WindowsTools.Views.Pages
                 MainWindow.Current.BeginInvoke(() =>
                 {
                     IsModifyingNow = false;
-                    foreach (OperationFailedModel item in operationFailedList)
+                    foreach (OperationFailedModel operationFailedItem in operationFailedList)
                     {
-                        OperationFailedCollection.Add(item);
+                        OperationFailedCollection.Add(operationFailedItem);
                     }
 
                     TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, ExtensionNameCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
-                    ExtensionNameCollection.Clear();
+
+                    lock (extensionNameLock)
+                    {
+                        ExtensionNameCollection.Clear();
+                    }
                 });
             });
         }

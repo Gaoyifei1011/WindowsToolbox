@@ -13,6 +13,13 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <XamlUICommand x:Name="AvailableHideCommand" ExecuteRequested="{x:Bind OnAvailableHideExecuteRequested}" />
+        <XamlUICommand x:Name="AvailableInstallCommand" ExecuteRequested="{x:Bind OnAvailableInstallExecuteRequested}" />
+        <XamlUICommand x:Name="InstalledUnInstallCommand" ExecuteRequested="{x:Bind OnInstalledUnInstallExecuteRequested}" />
+        <XamlUICommand x:Name="HiddenShowCommand" ExecuteRequested="{x:Bind OnHiddenShowExecuteRequested}" />
+    </Page.Resources>
+
     <Grid Padding="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -74,11 +81,12 @@
                     </muxc:Expander.Resources>
 
                     <muxc:Expander.Header>
-                        <Grid>
+                        <Grid Margin="0,0,-10,0">
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
@@ -97,9 +105,12 @@
 
                             <AppBarButton
                                 Grid.Column="2"
-                                Margin="0,0,5,0"
+                                Margin="0,0,3,0"
                                 VerticalAlignment="Center"
-                                Label="{x:Bind string:UpdateManager.SelectAll}">
+                                Click="{x:Bind OnAvailableSelectAllClicked}"
+                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(AvailableUpdateCollection.Count), Mode=OneWay}"
+                                Label="{x:Bind string:UpdateManager.SelectAll}"
+                                Style="{StaticResource AppBarButtonStyle}">
 
                                 <AppBarButton.Icon>
                                     <FontIcon Glyph="&#xE8B3;" />
@@ -107,10 +118,13 @@
                             </AppBarButton>
 
                             <AppBarButton
-                                Grid.Column="2"
-                                Margin="0,0,5,0"
+                                Grid.Column="3"
+                                Margin="0,0,3,0"
                                 VerticalAlignment="Center"
-                                Label="{x:Bind string:UpdateManager.SelectNone}">
+                                Click="{x:Bind OnAvailableSelectNoneClicked}"
+                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(AvailableUpdateCollection.Count), Mode=OneWay}"
+                                Label="{x:Bind string:UpdateManager.SelectNone}"
+                                Style="{StaticResource AppBarButtonStyle}">
 
                                 <AppBarButton.Icon>
                                     <FontIcon Glyph="&#xEA48;" />
@@ -118,10 +132,26 @@
                             </AppBarButton>
 
                             <AppBarButton
-                                Grid.Column="2"
-                                Margin="0,0,5,0"
+                                Grid.Column="4"
+                                Margin="0,0,3,0"
                                 VerticalAlignment="Center"
-                                Content="{x:Bind string:UpdateManager.Install}">
+                                Click="{x:Bind OnAvailableHideClicked}"
+                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(AvailableUpdateCollection.Count), Mode=OneWay}"
+                                Label="{x:Bind string:UpdateManager.Hide}"
+                                Style="{StaticResource AppBarButtonStyle}">
+
+                                <AppBarButton.Icon>
+                                    <FontIcon Glyph="&#xED1A;" />
+                                </AppBarButton.Icon>
+                            </AppBarButton>
+
+                            <AppBarButton
+                                Grid.Column="5"
+                                VerticalAlignment="Center"
+                                Click="{x:Bind OnAvailableInstallClicked}"
+                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(AvailableUpdateCollection.Count), Mode=OneWay}"
+                                Label="{x:Bind string:UpdateManager.Install}"
+                                Style="{StaticResource AppBarButtonStyle}">
 
                                 <AppBarButton.Icon>
                                     <FontIcon Glyph="&#xE896;" />
@@ -140,7 +170,7 @@
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="140" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock
@@ -252,7 +282,8 @@
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width="80" />
-                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition Width="70" />
+                                                <ColumnDefinition Width="70" />
                                             </Grid.ColumnDefinitions>
 
                                             <CheckBox
@@ -335,6 +366,13 @@
 
                                             <HyperlinkButton
                                                 Grid.Column="5"
+                                                Command="{StaticResource AvailableHideCommand}"
+                                                Content="{x:Bind string:UpdateManager.Hide}"
+                                                Style="{StaticResource HyperlinkButtonStyle}" />
+
+                                            <HyperlinkButton
+                                                Grid.Column="6"
+                                                Command="{StaticResource AvailableInstallCommand}"
                                                 Content="{x:Bind string:UpdateManager.Install}"
                                                 Style="{StaticResource HyperlinkButtonStyle}" />
                                         </Grid>
@@ -372,10 +410,13 @@
                     </muxc:Expander.Resources>
 
                     <muxc:Expander.Header>
-                        <Grid>
+                        <Grid Margin="0,0,-10,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
                             <FontIcon
@@ -388,6 +429,47 @@
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
                                 Text="{x:Bind string:UpdateManager.InstalledUpdate}" />
+
+                            <AppBarButton
+                                Grid.Column="2"
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Click="{x:Bind OnInstalledSelectAllClicked}"
+                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(InstalledUpdateCollection.Count), Mode=OneWay}"
+                                Label="{x:Bind string:UpdateManager.SelectAll}"
+                                Style="{StaticResource AppBarButtonStyle}">
+
+                                <AppBarButton.Icon>
+                                    <FontIcon Glyph="&#xE8B3;" />
+                                </AppBarButton.Icon>
+                            </AppBarButton>
+
+                            <AppBarButton
+                                Grid.Column="3"
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Click="{x:Bind OnInstalledSelectNoneClicked}"
+                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(InstalledUpdateCollection.Count), Mode=OneWay}"
+                                Label="{x:Bind string:UpdateManager.SelectNone}"
+                                Style="{StaticResource AppBarButtonStyle}">
+
+                                <AppBarButton.Icon>
+                                    <FontIcon Glyph="&#xEA48;" />
+                                </AppBarButton.Icon>
+                            </AppBarButton>
+
+                            <AppBarButton
+                                Grid.Column="4"
+                                VerticalAlignment="Center"
+                                Click="{x:Bind OnInstalledUnInstallClicked}"
+                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(InstalledUpdateCollection.Count), Mode=OneWay}"
+                                Label="{x:Bind string:UpdateManager.UnInstall}"
+                                Style="{StaticResource AppBarButtonStyle}">
+
+                                <AppBarButton.Icon>
+                                    <FontIcon Glyph="&#xE74D;" />
+                                </AppBarButton.Icon>
+                            </AppBarButton>
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -570,7 +652,8 @@
 
                                             <HyperlinkButton
                                                 Grid.Column="4"
-                                                Content="{x:Bind string:UpdateManager.Install}"
+                                                Command="{StaticResource InstalledUnInstallCommand}"
+                                                Content="{x:Bind string:UpdateManager.UnInstall}"
                                                 Style="{StaticResource HyperlinkButtonStyle}" />
                                         </Grid>
                                     </DataTemplate>
@@ -607,10 +690,13 @@
                     </muxc:Expander.Resources>
 
                     <muxc:Expander.Header>
-                        <Grid>
+                        <Grid Margin="0,0,-10,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
                             <FontIcon
@@ -623,6 +709,47 @@
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
                                 Text="{x:Bind string:UpdateManager.HiddenUpdate}" />
+
+                            <AppBarButton
+                                Grid.Column="2"
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Click="{x:Bind OnHiddenSelectAllClicked}"
+                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(HiddenUpdateCollection.Count), Mode=OneWay}"
+                                Label="{x:Bind string:UpdateManager.SelectAll}"
+                                Style="{StaticResource AppBarButtonStyle}">
+
+                                <AppBarButton.Icon>
+                                    <FontIcon Glyph="&#xE8B3;" />
+                                </AppBarButton.Icon>
+                            </AppBarButton>
+
+                            <AppBarButton
+                                Grid.Column="3"
+                                Margin="0,0,3,0"
+                                VerticalAlignment="Center"
+                                Click="{x:Bind OnHiddenSelectNoneClicked}"
+                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(HiddenUpdateCollection.Count), Mode=OneWay}"
+                                Label="{x:Bind string:UpdateManager.SelectNone}"
+                                Style="{StaticResource AppBarButtonStyle}">
+
+                                <AppBarButton.Icon>
+                                    <FontIcon Glyph="&#xEA48;" />
+                                </AppBarButton.Icon>
+                            </AppBarButton>
+
+                            <AppBarButton
+                                Grid.Column="4"
+                                VerticalAlignment="Center"
+                                Click="{x:Bind OnHiddenShowClicked}"
+                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(HiddenUpdateCollection.Count), Mode=OneWay}"
+                                Label="{x:Bind string:UpdateManager.Show}"
+                                Style="{StaticResource AppBarButtonStyle}">
+
+                                <AppBarButton.Icon>
+                                    <FontIcon Glyph="&#xE890;" />
+                                </AppBarButton.Icon>
+                            </AppBarButton>
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -805,7 +932,8 @@
 
                                             <HyperlinkButton
                                                 Grid.Column="4"
-                                                Content="{x:Bind string:UpdateManager.Install}"
+                                                Command="{StaticResource HiddenShowCommand}"
+                                                Content="{x:Bind string:UpdateManager.Show}"
                                                 Style="{StaticResource HyperlinkButtonStyle}" />
                                         </Grid>
                                     </DataTemplate>
@@ -1020,11 +1148,6 @@
                                                     <ToolTip Content="{x:Bind Status, Mode=OneWay}" Visibility="{Binding ElementName=HistoryStatusText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
-
-                                            <HyperlinkButton
-                                                Grid.Column="4"
-                                                Content="{x:Bind string:UpdateManager.Install}"
-                                                Style="{StaticResource HyperlinkButtonStyle}" />
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -1084,7 +1207,8 @@
                         <TextBlock
                             Margin="0,0,8,0"
                             VerticalAlignment="Center"
-                            Text="{x:Bind string:UpdateManager.CheckingUpdate}" />
+                            Text="{x:Bind string:UpdateManager.CheckingUpdate}"
+                            Visibility="{x:Bind IsChecking, Mode=OneWay}" />
 
                         <Button
                             Click="{x:Bind OnCheckUpdateClicked}"

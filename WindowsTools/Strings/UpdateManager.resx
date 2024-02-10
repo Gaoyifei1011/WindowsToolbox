@@ -156,6 +156,9 @@
   <data name="HiddenUpdate" xml:space="preserve">
     <value>Hidden update</value>
   </data>
+  <data name="Hide" xml:space="preserve">
+    <value>HIde</value>
+  </data>
   <data name="Install" xml:space="preserve">
     <value>Install</value>
   </data>
@@ -192,6 +195,9 @@
   <data name="SelectNone" xml:space="preserve">
     <value>Select none</value>
   </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
   <data name="Size" xml:space="preserve">
     <value>Size</value>
   </data>
@@ -200,6 +206,9 @@
   </data>
   <data name="Title" xml:space="preserve">
     <value>Update manager</value>
+  </data>
+  <data name="UnInstall" xml:space="preserve">
+    <value>Uninstall</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Unknown</value>

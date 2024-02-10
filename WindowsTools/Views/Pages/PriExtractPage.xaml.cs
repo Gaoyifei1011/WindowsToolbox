@@ -37,6 +37,7 @@ namespace WindowsTools.Views.Pages
         private string filePathFileName;
         private ResourceManager resourceManager;
         private ResourceContext resourceContext;
+        private readonly object priExtractLock = new object();
 
         private bool _isExtractSaveSamely;
 
@@ -234,9 +235,13 @@ namespace WindowsTools.Views.Pages
             DataPackageView view = args.DataView;
 
             IsProcessing = true;
-            StringCollection.Clear();
-            FilePathCollection.Clear();
-            EmbeddedDataCollection.Clear();
+            lock (priExtractLock)
+            {
+                StringCollection.Clear();
+                FilePathCollection.Clear();
+                EmbeddedDataCollection.Clear();
+            }
+
             Task.Run(async () =>
             {
                 try
@@ -407,9 +412,13 @@ namespace WindowsTools.Views.Pages
             if (dialog.ShowDialog() is DialogResult.OK)
             {
                 IsProcessing = true;
-                StringCollection.Clear();
-                FilePathCollection.Clear();
-                EmbeddedDataCollection.Clear();
+                lock (priExtractLock)
+                {
+                    StringCollection.Clear();
+                    FilePathCollection.Clear();
+                    EmbeddedDataCollection.Clear();
+                }
+
                 Task.Run(() =>
                 {
                     try
@@ -766,19 +775,23 @@ namespace WindowsTools.Views.Pages
                     try
                     {
                         GetResults = string.Format(PriExtract.GetResults, Path.GetFileName(filePath), stringList.Count + filePathList.Count + embeddedDataList.Count);
-                        foreach (StringModel stringItem in stringList)
-                        {
-                            StringCollection.Add(stringItem);
-                        }
 
-                        foreach (FilePathModel filePathItem in filePathList)
+                        lock (priExtractLock)
                         {
-                            FilePathCollection.Add(filePathItem);
-                        }
+                            foreach (StringModel stringItem in stringList)
+                            {
+                                StringCollection.Add(stringItem);
+                            }
 
-                        foreach (EmbeddedDataModel embeddedDataItem in embeddedDataList)
-                        {
-                            EmbeddedDataCollection.Add(embeddedDataItem);
+                            foreach (FilePathModel filePathItem in filePathList)
+                            {
+                                FilePathCollection.Add(filePathItem);
+                            }
+
+                            foreach (EmbeddedDataModel embeddedDataItem in embeddedDataList)
+                            {
+                                EmbeddedDataCollection.Add(embeddedDataItem);
+                            }
                         }
                     }
                     catch (Exception e)

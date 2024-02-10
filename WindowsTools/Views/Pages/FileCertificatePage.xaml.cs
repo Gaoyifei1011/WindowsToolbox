@@ -33,6 +33,8 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class FileCertificatePage : Page, INotifyPropertyChanged
     {
+        private readonly object fileCertificateLock = new object();
+
         private bool _isModifyingNow = false;
 
         public bool IsModifyingNow
@@ -86,15 +88,18 @@ namespace WindowsTools.Views.Pages
                 if (view.Contains(StandardDataFormats.StorageItems))
                 {
                     IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
-                    foreach (IStorageItem item in filesList)
+                    foreach (IStorageItem storageItem in filesList)
                     {
-                        if (!IOHelper.IsDir(item.Path))
+                        if (!IOHelper.IsDir(storageItem.Path))
                         {
-                            FileCertificateCollection.Add(new CertificateResultModel()
+                            lock (fileCertificateLock)
                             {
-                                FileName = item.Name,
-                                FilePath = item.Path
-                            });
+                                FileCertificateCollection.Add(new CertificateResultModel()
+                                {
+                                    FileName = storageItem.Name,
+                                    FilePath = storageItem.Path
+                                });
+                            }
                         }
                     }
                 }
@@ -137,8 +142,11 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearListClicked(object sender, RoutedEventArgs args)
         {
-            FileCertificateCollection.Clear();
-            OperationFailedCollection.Clear();
+            lock (fileCertificateLock)
+            {
+                FileCertificateCollection.Clear();
+                OperationFailedCollection.Clear();
+            }
         }
 
         /// <summary>
@@ -178,11 +186,14 @@ namespace WindowsTools.Views.Pages
                         }
                         if (!IOHelper.IsDir(file.FullName))
                         {
-                            FileCertificateCollection.Add(new CertificateResultModel()
+                            lock (fileCertificateLock)
                             {
-                                FileName = file.Name,
-                                FilePath = file.FullName
-                            });
+                                FileCertificateCollection.Add(new CertificateResultModel()
+                                {
+                                    FileName = file.Name,
+                                    FilePath = file.FullName
+                                });
+                            }
                         }
                     }
                     catch (Exception e)
@@ -213,42 +224,50 @@ namespace WindowsTools.Views.Pages
 
                     try
                     {
-                        foreach (DirectoryInfo subFolder in currentFolder.GetDirectories())
+                        foreach (DirectoryInfo directoryInfo in currentFolder.GetDirectories())
                         {
-                            if ((subFolder.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                            if ((directoryInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
                             }
-                            FileCertificateCollection.Add(new CertificateResultModel()
+
+                            lock (fileCertificateLock)
                             {
-                                FileName = subFolder.Name,
-                                FilePath = subFolder.FullName
-                            });
+                                FileCertificateCollection.Add(new CertificateResultModel()
+                                {
+                                    FileName = directoryInfo.Name,
+                                    FilePath = directoryInfo.FullName
+                                });
+                            }
                         }
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} subFolder information failed", dialog.SelectedPath), e);
+                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} directoryInfo information failed", dialog.SelectedPath), e);
                     }
 
                     try
                     {
-                        foreach (FileInfo subFile in currentFolder.GetFiles())
+                        foreach (FileInfo fileInfo in currentFolder.GetFiles())
                         {
-                            if ((subFile.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                            if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
                             }
-                            FileCertificateCollection.Add(new CertificateResultModel()
+
+                            lock (fileCertificateLock)
                             {
-                                FileName = subFile.Name,
-                                FilePath = subFile.FullName
-                            });
+                                FileCertificateCollection.Add(new CertificateResultModel()
+                                {
+                                    FileName = fileInfo.Name,
+                                    FilePath = fileInfo.FullName
+                                });
+                            }
                         }
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} subFile information failed", dialog.SelectedPath), e);
+                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} fileInfo information failed", dialog.SelectedPath), e);
                     }
                 }
             }
@@ -281,13 +300,13 @@ namespace WindowsTools.Views.Pages
             IsModifyingNow = true;
             Task.Run(async () =>
             {
-                foreach (CertificateResultModel item in FileCertificateCollection)
+                foreach (CertificateResultModel certificateResultItem in FileCertificateCollection)
                 {
-                    if (!string.IsNullOrEmpty(item.FileName) && !string.IsNullOrEmpty(item.FilePath))
+                    if (!string.IsNullOrEmpty(certificateResultItem.FileName) && !string.IsNullOrEmpty(certificateResultItem.FilePath))
                     {
                         try
                         {
-                            using FileStream fileStream = new FileStream(item.FilePath, FileMode.Open, FileAccess.ReadWrite);
+                            using FileStream fileStream = new FileStream(certificateResultItem.FilePath, FileMode.Open, FileAccess.ReadWrite);
                             bool result = ImagehlpLibrary.ImageRemoveCertificate(fileStream.SafeFileHandle.DangerousGetHandle(), 0);
                             fileStream.Close();
 
@@ -295,8 +314,8 @@ namespace WindowsTools.Views.Pages
                             {
                                 operationFailedList.Add(new OperationFailedModel()
                                 {
-                                    FileName = item.FileName,
-                                    FilePath = item.FilePath,
+                                    FileName = certificateResultItem.FileName,
+                                    FilePath = certificateResultItem.FilePath,
                                     Exception = Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error())
                                 });
                             }
@@ -305,8 +324,8 @@ namespace WindowsTools.Views.Pages
                         {
                             operationFailedList.Add(new OperationFailedModel()
                             {
-                                FileName = item.FileName,
-                                FilePath = item.FilePath,
+                                FileName = certificateResultItem.FileName,
+                                FilePath = certificateResultItem.FilePath,
                                 Exception = e
                             });
                         }
@@ -318,13 +337,16 @@ namespace WindowsTools.Views.Pages
                 MainWindow.Current.BeginInvoke(() =>
                 {
                     IsModifyingNow = false;
-                    foreach (OperationFailedModel item in operationFailedList)
+                    foreach (OperationFailedModel operationFailedItem in operationFailedList)
                     {
-                        OperationFailedCollection.Add(item);
+                        OperationFailedCollection.Add(operationFailedItem);
                     }
 
                     TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, FileCertificateCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
-                    FileCertificateCollection.Clear();
+                    lock (fileCertificateLock)
+                    {
+                        FileCertificateCollection.Clear();
+                    }
                 });
             });
         }

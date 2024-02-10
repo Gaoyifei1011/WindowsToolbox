@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using WindowsTools.Models;
 using WindowsTools.Strings;
 using WUApiLib;
@@ -85,10 +87,41 @@ namespace WindowsTools.Views.Pages
         {
             InitializeComponent();
             SelectedPreviewChannel = PreviewChannelList[0];
-            IsChecking = true;
         }
 
-        #region 第一部分：Windows 更新管理页面——挂载的事件
+        #region 第一部分：XamlUICommand 命令调用时挂载的事件
+
+        /// <summary>
+        /// 可用更新：隐藏
+        /// </summary>
+        private void OnAvailableHideExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        {
+        }
+
+        /// <summary>
+        /// 可用更新：安装
+        /// </summary>
+        private void OnAvailableInstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        {
+        }
+
+        /// <summary>
+        /// 已安装更新：卸载
+        /// </summary>
+        private void OnInstalledUnInstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        {
+        }
+
+        /// <summary>
+        /// 隐藏更新：显示
+        /// </summary>
+        private void OnHiddenShowExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        {
+        }
+
+        #endregion 第一部分：XamlUICommand 命令调用时挂载的事件
+
+        #region 第二部分：Windows 更新管理页面——挂载的事件
 
         /// <summary>
         /// 第一次加载时初始化更新内容
@@ -120,6 +153,116 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
+        /// 可用更新：全选
+        /// </summary>
+        private void OnAvailableSelectAllClicked(object sender, RoutedEventArgs args)
+        {
+            foreach (UpdateModel updateItem in AvailableUpdateCollection)
+            {
+                updateItem.IsSelected = true;
+            }
+        }
+
+        /// <summary>
+        /// 可用更新：全部不选
+        /// </summary>
+        private void OnAvailableSelectNoneClicked(object sender, RoutedEventArgs args)
+        {
+            foreach (UpdateModel updateItem in AvailableUpdateCollection)
+            {
+                updateItem.IsSelected = false;
+            }
+        }
+
+        /// <summary>
+        /// 可用更新：隐藏
+        /// </summary>
+        private void OnAvailableHideClicked(object sender, RoutedEventArgs args)
+        {
+            List<UpdateModel> hideList = AvailableUpdateCollection.Where(item => item.IsSelected is true).ToList();
+            foreach (UpdateModel hideItem in hideList)
+            {
+            }
+        }
+
+        /// <summary>
+        /// 可用更新：安装
+        /// </summary>
+        private void OnAvailableInstallClicked(object sender, RoutedEventArgs args)
+        {
+            List<UpdateModel> hideList = AvailableUpdateCollection.Where(item => item.IsSelected is true).ToList();
+            foreach (UpdateModel hideItem in hideList)
+            {
+            }
+        }
+
+        /// <summary>
+        /// 已安装更新：全选
+        /// </summary>
+        private void OnInstalledSelectAllClicked(object sender, RoutedEventArgs args)
+        {
+            foreach (UpdateModel updateItem in InstalledUpdateCollection)
+            {
+                updateItem.IsSelected = true;
+            }
+        }
+
+        /// <summary>
+        /// 已安装更新：全部不选
+        /// </summary>
+        private void OnInstalledSelectNoneClicked(object sender, RoutedEventArgs args)
+        {
+            foreach (UpdateModel updateItem in InstalledUpdateCollection)
+            {
+                updateItem.IsSelected = false;
+            }
+        }
+
+        /// <summary>
+        /// 已安装更新：隐藏
+        /// </summary>
+        private void OnInstalledUnInstallClicked(object sender, RoutedEventArgs args)
+        {
+            List<UpdateModel> unInstallList = InstalledUpdateCollection.Where(item => item.IsSelected is true).ToList();
+            foreach (UpdateModel unInstallItem in unInstallList)
+            {
+            }
+        }
+
+        /// <summary>
+        /// 隐藏更新：全选
+        /// </summary>
+        private void OnHiddenSelectAllClicked(object sender, RoutedEventArgs args)
+        {
+            foreach (UpdateModel updateItem in HiddenUpdateCollection)
+            {
+                updateItem.IsSelected = true;
+            }
+        }
+
+        /// <summary>
+        /// 隐藏更新：全部不选
+        /// </summary>
+        private void OnHiddenSelectNoneClicked(object sender, RoutedEventArgs args)
+        {
+            foreach (UpdateModel updateItem in HiddenUpdateCollection)
+            {
+                updateItem.IsSelected = false;
+            }
+        }
+
+        /// <summary>
+        /// 隐藏更新：显示
+        /// </summary>
+        private void OnHiddenShowClicked(object sender, RoutedEventArgs args)
+        {
+            List<UpdateModel> showList = HiddenUpdateCollection.Where(item => item.IsSelected is true).ToList();
+            foreach (UpdateModel showItem in showList)
+            {
+            }
+        }
+
+        /// <summary>
         /// 检查更新
         /// </summary>
         private void OnCheckUpdateClicked(object sender, RoutedEventArgs args)
@@ -140,7 +283,7 @@ namespace WindowsTools.Views.Pages
         {
         }
 
-        #endregion 第一部分：Windows 更新管理页面——挂载的事件
+        #endregion 第二部分：Windows 更新管理页面——挂载的事件
 
         /// <summary>
         /// 检查更新

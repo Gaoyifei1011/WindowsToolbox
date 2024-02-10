@@ -29,10 +29,6 @@ namespace WindowsTools.Views.Windows
     /// </summary>
     public class MainWindow : Form
     {
-        private int windowWidth = 1024;
-        private int windowHeight = 768;
-        private double WindowDPI;
-
         private IntPtr uwpCoreHandle;
         private IntPtr inputNonClientPointerSourceHandle;
         private IContainer components = new Container();
@@ -53,10 +49,9 @@ namespace WindowsTools.Views.Windows
             BackColor = System.Drawing.Color.Black;
             Current = this;
             Controls.Add(windowsXamlHost);
-            WindowDPI = (double)DeviceDpi / 96;
             Icon = System.Drawing.Icon.ExtractAssociatedIcon(Process.GetCurrentProcess().MainModule.FileName);
-            MinimumSize = new System.Drawing.Size(Convert.ToInt32(windowWidth * WindowDPI), Convert.ToInt32(windowHeight * WindowDPI));
-            Size = new System.Drawing.Size(Convert.ToInt32(windowWidth * WindowDPI), Convert.ToInt32(windowHeight * WindowDPI));
+            MinimumSize = new System.Drawing.Size(Convert.ToInt32(1024 * ((double)DeviceDpi) / 96), Convert.ToInt32(768 * ((double)DeviceDpi / 96)));
+            Size = new System.Drawing.Size(Convert.ToInt32(1024 * ((double)DeviceDpi) / 96), Convert.ToInt32(768 * ((double)DeviceDpi / 96)));
             StartPosition = FormStartPosition.CenterParent;
             Text = Strings.Window.AppTitle;
             windowsXamlHost.AutoSize = true;
@@ -113,11 +108,10 @@ namespace WindowsTools.Views.Windows
         protected override void OnDpiChanged(DpiChangedEventArgs args)
         {
             base.OnDpiChanged(args);
-            WindowDPI = (double)args.DeviceDpiNew / 96;
 
             if (inputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
             {
-                User32Library.SetWindowPos(inputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * WindowDPI), 0, (int)((Width - 45) * WindowDPI), (int)(45 * WindowDPI), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
+                User32Library.SetWindowPos(inputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * ((double)DeviceDpi / 96)), 0, (int)((Width - 45) * ((double)DeviceDpi / 96)), (int)(45 * ((double)DeviceDpi / 96)), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
             }
         }
 
@@ -150,7 +144,7 @@ namespace WindowsTools.Views.Windows
 
             if (inputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
             {
-                User32Library.SetWindowPos(inputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * WindowDPI), 0, (int)((Width - 45) * WindowDPI), (int)(45 * WindowDPI), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
+                User32Library.SetWindowPos(inputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * ((double)DeviceDpi / 96)), 0, (int)((Width - 45) * ((double)DeviceDpi / 96)), (int)(45 * ((double)DeviceDpi / 96)), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
             }
         }
 
@@ -220,7 +214,7 @@ namespace WindowsTools.Views.Windows
 
             if (inputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
             {
-                User32Library.SetWindowPos(inputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * WindowDPI), 0, (int)((Width - 45) * WindowDPI), (int)(45 * WindowDPI), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
+                User32Library.SetWindowPos(inputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * ((double)DeviceDpi / 96)), 0, (int)((Width - 45) * ((double)DeviceDpi / 96)), (int)(45 * ((double)DeviceDpi / 96)), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
             }
 
             if (uwpCoreHandle != IntPtr.Zero)
@@ -325,7 +319,7 @@ namespace WindowsTools.Views.Windows
                             options.Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft;
                             options.ShowMode = FlyoutShowMode.Standard;
                             options.Position = InfoHelper.SystemVersion.Build >= 22000 ?
-                                new global::Windows.Foundation.Point(clientPoint.X / WindowDPI, clientPoint.Y / WindowDPI) :
+                                new global::Windows.Foundation.Point(clientPoint.X / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96)) :
                                 new global::Windows.Foundation.Point(clientPoint.X, clientPoint.Y);
                             (Content as MainPage).TitlebarMenuFlyout.ShowAt(null, options);
                         }

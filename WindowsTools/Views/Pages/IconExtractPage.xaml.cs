@@ -33,6 +33,8 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class IconExtractPage : Page, INotifyPropertyChanged
     {
+        private readonly object iconExtractLock = new object();
+
         private string filePath;
 
         private bool _isSelected;
@@ -224,7 +226,10 @@ namespace WindowsTools.Views.Pages
         {
             base.OnDrop(args);
             DragOperationDeferral deferral = args.GetDeferral();
-            IconCollection.Clear();
+            lock (iconExtractLock)
+            {
+                IconCollection.Clear();
+            }
             DataPackageView view = args.DataView;
 
             Task.Run(async () =>
@@ -277,11 +282,14 @@ namespace WindowsTools.Views.Pages
                                         BitmapImage bitmapImage = new BitmapImage();
                                         bitmapImage.SetSource(iconItem.IconMemoryStream.AsRandomAccessStream());
 
-                                        IconCollection.Add(new IconModel()
+                                        lock (iconExtractLock)
                                         {
-                                            DisplayIndex = iconItem.DisplayIndex,
-                                            IconImage = bitmapImage
-                                        });
+                                            IconCollection.Add(new IconModel()
+                                            {
+                                                DisplayIndex = iconItem.DisplayIndex,
+                                                IconImage = bitmapImage
+                                            });
+                                        }
 
                                         iconItem.IconMemoryStream.Dispose();
                                     }
@@ -427,7 +435,10 @@ namespace WindowsTools.Views.Pages
             {
                 try
                 {
-                    IconCollection.Clear();
+                    lock (iconExtractLock)
+                    {
+                        IconCollection.Clear();
+                    }
 
                     Task.Run(() =>
                     {
@@ -475,11 +486,14 @@ namespace WindowsTools.Views.Pages
                                         BitmapImage bitmapImage = new BitmapImage();
                                         bitmapImage.SetSource(iconItem.IconMemoryStream.AsRandomAccessStream());
 
-                                        IconCollection.Add(new IconModel()
+                                        lock (iconExtractLock)
                                         {
-                                            DisplayIndex = iconItem.DisplayIndex,
-                                            IconImage = bitmapImage
-                                        });
+                                            IconCollection.Add(new IconModel()
+                                            {
+                                                DisplayIndex = iconItem.DisplayIndex,
+                                                IconImage = bitmapImage
+                                            });
+                                        }
 
                                         iconItem.IconMemoryStream.Dispose();
                                     }
