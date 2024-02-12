@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Aborted" xml:space="preserve">
+    <value>中断</value>
+  </data>
+  <data name="ApplicationID" xml:space="preserve">
+    <value>应用ID</value>
+  </data>
   <data name="AvailableUpdate" xml:space="preserve">
     <value>可用更新</value>
   </data>
@@ -132,8 +138,17 @@
   <data name="CheckingUpdate" xml:space="preserve">
     <value>检查更新中...</value>
   </data>
+  <data name="CopyInformation" xml:space="preserve">
+    <value>复制更新信息</value>
+  </data>
   <data name="Date" xml:space="preserve">
     <value>日期</value>
+  </data>
+  <data name="DCatFlightingProd" xml:space="preserve">
+    <value>DCat 外部测试版 Prod</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>更新描述</value>
   </data>
   <data name="Dev" xml:space="preserve">
     <value>开发人员频道</value>
@@ -150,6 +165,9 @@
   <data name="ExcludeDriversOnContent" xml:space="preserve">
     <value>包括</value>
   </data>
+  <data name="Failed" xml:space="preserve">
+    <value>失败</value>
+  </data>
   <data name="ForceAccessWIP" xml:space="preserve">
     <value>强制进入 Windows 预览体验计划</value>
   </data>
@@ -159,11 +177,29 @@
   <data name="Hide" xml:space="preserve">
     <value>隐藏</value>
   </data>
+  <data name="HideUpdateToolTip" xml:space="preserve">
+    <value>隐藏更新：只有管理员模式下可隐藏更新</value>
+  </data>
+  <data name="IncludePotentiallySupersededUpdate" xml:space="preserve">
+    <value>搜索结果中是否包含被取代的更新</value>
+  </data>
+  <data name="IncludePotentiallySupersededUpdateOffContent" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="IncludePotentiallySupersededUpdateOnContent" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>进行中</value>
+  </data>
   <data name="Install" xml:space="preserve">
     <value>安装</value>
   </data>
   <data name="InstalledUpdate" xml:space="preserve">
     <value>已安装更新</value>
+  </data>
+  <data name="MicrosoftUpdate" xml:space="preserve">
+    <value>Microsoft 更新</value>
   </data>
   <data name="NoAvailableUpdate" xml:space="preserve">
     <value>没有可用的更新</value>
@@ -174,8 +210,14 @@
   <data name="NoInstalledUpdate" xml:space="preserve">
     <value>没有已安装的更新</value>
   </data>
+  <data name="NotStarted" xml:space="preserve">
+    <value>未开始</value>
+  </data>
   <data name="NoUpdateHistory" xml:space="preserve">
     <value>更新历史记录为空</value>
+  </data>
+  <data name="OpenSupportUrl" xml:space="preserve">
+    <value>打开支持的链接</value>
   </data>
   <data name="Operation" xml:space="preserve">
     <value>操作</value>
@@ -198,11 +240,20 @@
   <data name="Show" xml:space="preserve">
     <value>显示</value>
   </data>
+  <data name="ShowUpdateToolTip" xml:space="preserve">
+    <value>显示更新：只有管理员模式下可隐藏更新</value>
+  </data>
   <data name="Size" xml:space="preserve">
     <value>大小</value>
   </data>
   <data name="Status" xml:space="preserve">
     <value>状态</value>
+  </data>
+  <data name="Succeeded" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="SucceedWithErrors" xml:space="preserve">
+    <value>成功，但有错误</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>更新管理</value>
@@ -221,6 +272,12 @@
   </data>
   <data name="UpdatePolicy" xml:space="preserve">
     <value>更新策略</value>
+  </data>
+  <data name="UpdateSource" xml:space="preserve">
+    <value>更新源</value>
+  </data>
+  <data name="WindowsStore" xml:space="preserve">
+    <value>Windows 应用商店 (DCat Prod)</value>
   </data>
   <data name="WindowsUpdate" xml:space="preserve">
     <value>Windows 更新</value>

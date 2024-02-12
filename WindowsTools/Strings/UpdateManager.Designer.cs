@@ -61,6 +61,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Aborted 的本地化字符串。
+        /// </summary>
+        public static string Aborted {
+            get {
+                return ResourceManager.GetString("Aborted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Application ID 的本地化字符串。
+        /// </summary>
+        public static string ApplicationID {
+            get {
+                return ResourceManager.GetString("ApplicationID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Available update 的本地化字符串。
         /// </summary>
         public static string AvailableUpdate {
@@ -106,11 +124,38 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Copy update information 的本地化字符串。
+        /// </summary>
+        public static string CopyInformation {
+            get {
+                return ResourceManager.GetString("CopyInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Date 的本地化字符串。
         /// </summary>
         public static string Date {
             get {
                 return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 DCat Flighting Prod 的本地化字符串。
+        /// </summary>
+        public static string DCatFlightingProd {
+            get {
+                return ResourceManager.GetString("DCatFlightingProd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Update description 的本地化字符串。
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
             }
         }
         
@@ -160,6 +205,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Failed 的本地化字符串。
+        /// </summary>
+        public static string Failed {
+            get {
+                return ResourceManager.GetString("Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Force access to Windows insider program 的本地化字符串。
         /// </summary>
         public static string ForceAccessWIP {
@@ -187,6 +241,51 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Hide updates: Only in Administrator mode can hide updates 的本地化字符串。
+        /// </summary>
+        public static string HideUpdateToolTip {
+            get {
+                return ResourceManager.GetString("HideUpdateToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Whether the search results contain replaced updates 的本地化字符串。
+        /// </summary>
+        public static string IncludePotentiallySupersededUpdate {
+            get {
+                return ResourceManager.GetString("IncludePotentiallySupersededUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No 的本地化字符串。
+        /// </summary>
+        public static string IncludePotentiallySupersededUpdateOffContent {
+            get {
+                return ResourceManager.GetString("IncludePotentiallySupersededUpdateOffContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Yes 的本地化字符串。
+        /// </summary>
+        public static string IncludePotentiallySupersededUpdateOnContent {
+            get {
+                return ResourceManager.GetString("IncludePotentiallySupersededUpdateOnContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 In progress 的本地化字符串。
+        /// </summary>
+        public static string InProgress {
+            get {
+                return ResourceManager.GetString("InProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Install 的本地化字符串。
         /// </summary>
         public static string Install {
@@ -201,6 +300,15 @@ namespace WindowsTools.Strings {
         public static string InstalledUpdate {
             get {
                 return ResourceManager.GetString("InstalledUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Microsoft update 的本地化字符串。
+        /// </summary>
+        public static string MicrosoftUpdate {
+            get {
+                return ResourceManager.GetString("MicrosoftUpdate", resourceCulture);
             }
         }
         
@@ -232,11 +340,29 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Not started 的本地化字符串。
+        /// </summary>
+        public static string NotStarted {
+            get {
+                return ResourceManager.GetString("NotStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Update history is empty 的本地化字符串。
         /// </summary>
         public static string NoUpdateHistory {
             get {
                 return ResourceManager.GetString("NoUpdateHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open support url 的本地化字符串。
+        /// </summary>
+        public static string OpenSupportUrl {
+            get {
+                return ResourceManager.GetString("OpenSupportUrl", resourceCulture);
             }
         }
         
@@ -304,6 +430,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Show updates: Only in Administrator mode can hide updates 的本地化字符串。
+        /// </summary>
+        public static string ShowUpdateToolTip {
+            get {
+                return ResourceManager.GetString("ShowUpdateToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Size 的本地化字符串。
         /// </summary>
         public static string Size {
@@ -318,6 +453,24 @@ namespace WindowsTools.Strings {
         public static string Status {
             get {
                 return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Succeeded 的本地化字符串。
+        /// </summary>
+        public static string Succeeded {
+            get {
+                return ResourceManager.GetString("Succeeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Succeed with errors 的本地化字符串。
+        /// </summary>
+        public static string SucceedWithErrors {
+            get {
+                return ResourceManager.GetString("SucceedWithErrors", resourceCulture);
             }
         }
         
@@ -372,6 +525,24 @@ namespace WindowsTools.Strings {
         public static string UpdatePolicy {
             get {
                 return ResourceManager.GetString("UpdatePolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Update source 的本地化字符串。
+        /// </summary>
+        public static string UpdateSource {
+            get {
+                return ResourceManager.GetString("UpdateSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Windows store (DCat Prod) 的本地化字符串。
+        /// </summary>
+        public static string WindowsStore {
+            get {
+                return ResourceManager.GetString("WindowsStore", resourceCulture);
             }
         }
         

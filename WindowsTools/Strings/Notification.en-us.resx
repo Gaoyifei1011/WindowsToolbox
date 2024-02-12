@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppInformationCopy" xml:space="preserve">
-    <value>The app information has been successfully copied to the clipboard</value>
+    <value>The app information was successfully copied to the clipboard</value>
   </data>
   <data name="CopyToClipboardFailed" xml:space="preserve">
     <value>Failed to copy the content to the clipboard. Please check the access permission of the clipboard</value>
@@ -130,7 +130,7 @@
     <value>The app's desktop shortcut failed to create, please create it manually</value>
   </data>
   <data name="FilePathCopy" xml:space="preserve">
-    <value>The file path information has been successfully copied to the clipboard</value>
+    <value>The file path information was successfully copied to the clipboard</value>
   </data>
   <data name="FilePathSelectedCopy" xml:space="preserve">
     <value>{0} file path informations was successfully copied to the clipboard</value>
@@ -163,7 +163,7 @@
     <value>Please select at least one option or enter the content before proceeding</value>
   </data>
   <data name="OperationFailedCopy" xml:space="preserve">
-    <value>This error message has been successfully copied to the clipboard</value>
+    <value>This error message was successfully copied to the clipboard</value>
   </data>
   <data name="OperationFailedSelectedCopy" xml:space="preserve">
     <value>The {0} error message was successfully copied to the clipboard</value>
@@ -175,7 +175,7 @@
     <value>You successfully pinned the app to the Start screen</value>
   </data>
   <data name="StringCopy" xml:space="preserve">
-    <value>The string information has been successfully copied to the clipboard</value>
+    <value>The string information was successfully copied to the clipboard</value>
   </data>
   <data name="StringSelectedCopy" xml:space="preserve">
     <value>{0} string information was successfully copied to the clipboard</value>
@@ -185,5 +185,8 @@
   </data>
   <data name="TaskbarSuccessfully" xml:space="preserve">
     <value>The app was successfully pinned to the taskbar</value>
+  </data>
+  <data name="UpdateInformationCopy" xml:space="preserve">
+    <value>The update information was successfully copied to the clipboard</value>
   </data>
 </root>

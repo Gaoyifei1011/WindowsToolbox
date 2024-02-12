@@ -8,6 +8,7 @@
         AppInformation = 0,
         FilePath = 1,
         OperationFailed = 2,
-        String = 3
+        String = 3,
+        UpdateInformation = 4
     }
 }

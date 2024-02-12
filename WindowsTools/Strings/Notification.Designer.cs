@@ -61,7 +61,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 The app information has been successfully copied to the clipboard 的本地化字符串。
+        ///   查找类似 The app information was successfully copied to the clipboard 的本地化字符串。
         /// </summary>
         public static string AppInformationCopy {
             get {
@@ -97,7 +97,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 The file path information has been successfully copied to the clipboard 的本地化字符串。
+        ///   查找类似 The file path information was successfully copied to the clipboard 的本地化字符串。
         /// </summary>
         public static string FilePathCopy {
             get {
@@ -196,7 +196,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 This error message has been successfully copied to the clipboard 的本地化字符串。
+        ///   查找类似 This error message was successfully copied to the clipboard 的本地化字符串。
         /// </summary>
         public static string OperationFailedCopy {
             get {
@@ -232,7 +232,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 The string information has been successfully copied to the clipboard 的本地化字符串。
+        ///   查找类似 The string information was successfully copied to the clipboard 的本地化字符串。
         /// </summary>
         public static string StringCopy {
             get {
@@ -264,6 +264,15 @@ namespace WindowsTools.Strings {
         public static string TaskbarSuccessfully {
             get {
                 return ResourceManager.GetString("TaskbarSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The update information was successfully copied to the clipboard 的本地化字符串。
+        /// </summary>
+        public static string UpdateInformationCopy {
+            get {
+                return ResourceManager.GetString("UpdateInformationCopy", resourceCulture);
             }
         }
     }

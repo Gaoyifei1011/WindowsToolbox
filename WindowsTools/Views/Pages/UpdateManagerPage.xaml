@@ -9,7 +9,6 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
-    Loaded="{x:Bind OnLoaded}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -18,6 +17,8 @@
         <XamlUICommand x:Name="AvailableInstallCommand" ExecuteRequested="{x:Bind OnAvailableInstallExecuteRequested}" />
         <XamlUICommand x:Name="InstalledUnInstallCommand" ExecuteRequested="{x:Bind OnInstalledUnInstallExecuteRequested}" />
         <XamlUICommand x:Name="HiddenShowCommand" ExecuteRequested="{x:Bind OnHiddenShowExecuteRequested}" />
+        <XamlUICommand x:Name="OpenSupportUrlCommand" ExecuteRequested="{x:Bind OnOpenSupportUrlExecuteRequested}" />
+        <XamlUICommand x:Name="CopyInformationCommand" ExecuteRequested="{x:Bind OnCopyInformationExecuteRequested}" />
     </Page.Resources>
 
     <Grid Padding="0">
@@ -72,7 +73,7 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Background="{ThemeResource LayerFillColorDefaultBrush}"
-                    IsExpanded="True">
+                    IsExpanded="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(AvailableUpdateCollection.Count), Mode=OneWay}">
 
                     <muxc:Expander.Resources>
                         <SolidColorBrush x:Key="ExpanderChevronBackground" Color="Transparent" />
@@ -138,7 +139,8 @@
                                 Click="{x:Bind OnAvailableHideClicked}"
                                 IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(AvailableUpdateCollection.Count), Mode=OneWay}"
                                 Label="{x:Bind string:UpdateManager.Hide}"
-                                Style="{StaticResource AppBarButtonStyle}">
+                                Style="{StaticResource AppBarButtonStyle}"
+                                ToolTipService.ToolTip="{x:Bind string:UpdateManager.HideUpdateToolTip}">
 
                                 <AppBarButton.Icon>
                                     <FontIcon Glyph="&#xED1A;" />
@@ -167,16 +169,15 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
                                     <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="140" />
+                                    <ColumnDefinition Width="130" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock
                                     x:Name="AvailableSelectHeaderText"
                                     Grid.Column="0"
-                                    Margin="0,10,0,0"
+                                    Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind string:UpdateManager.Select}"
                                     TextTrimming="CharacterEllipsis"
@@ -230,27 +231,12 @@
                                 </TextBlock>
 
                                 <TextBlock
-                                    x:Name="AvailableStatusHeaderText"
+                                    x:Name="AvailableOperationHeaderText"
                                     Grid.Column="4"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Status}"
-                                    TextAlignment="Left"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap">
-
-                                    <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Status}" Visibility="{x:Bind AvailableStatusHeaderText.IsTextTrimmed, Mode=OneWay}" />
-                                    </ToolTipService.ToolTip>
-                                </TextBlock>
-
-                                <TextBlock
-                                    x:Name="AvailableOperationHeaderText"
-                                    Grid.Column="5"
-                                    Margin="10,0,0,0"
-                                    VerticalAlignment="Center"
                                     Text="{x:Bind string:UpdateManager.Operation}"
-                                    TextAlignment="Center"
+                                    TextAlignment="Left"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
@@ -279,11 +265,10 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="60" />
                                                 <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="100" />
                                                 <ColumnDefinition Width="80" />
-                                                <ColumnDefinition Width="80" />
-                                                <ColumnDefinition Width="80" />
-                                                <ColumnDefinition Width="70" />
-                                                <ColumnDefinition Width="70" />
+                                                <ColumnDefinition Width="65" />
+                                                <ColumnDefinition Width="65" />
                                             </Grid.ColumnDefinitions>
 
                                             <CheckBox
@@ -309,7 +294,15 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind UpdateName, Mode=OneWay}" Visibility="{Binding ElementName=AvailableUpdateNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock Text="{x:Bind string:UpdateManager.Title}" />
+                                                            <TextBlock Text="{x:Bind UpdateName}" TextWrapping="Wrap" />
+                                                            <MenuFlyoutSeparator />
+                                                            <TextBlock Text="{x:Bind string:UpdateManager.Description}" />
+                                                            <TextBlock Text="{x:Bind Description}" TextWrapping="Wrap" />
+                                                        </StackPanel>
+                                                    </ToolTip>
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
@@ -320,13 +313,13 @@
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
                                                 FontSize="14"
-                                                Text="{x:Bind Date.ToString('F'), Mode=OneWay}"
+                                                Text="{x:Bind Date.ToString('yyyy/MM/dd')}"
                                                 TextAlignment="Left"
                                                 TextTrimming="CharacterEllipsis"
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Date.ToString('F'), Mode=OneWay}" Visibility="{Binding ElementName=AvailableDateText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip Content="{x:Bind Date.ToString('yyyy/MM/dd')}" Visibility="{Binding ElementName=AvailableDateText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
@@ -347,34 +340,36 @@
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
-                                            <TextBlock
-                                                x:Name="AvailableStatusText"
+                                            <HyperlinkButton
                                                 Grid.Column="4"
-                                                MinWidth="50"
                                                 Margin="10,0,0,0"
-                                                VerticalAlignment="Center"
-                                                FontSize="14"
-                                                Text="{x:Bind Status, Mode=OneWay}"
-                                                TextAlignment="Left"
-                                                TextTrimming="CharacterEllipsis"
-                                                TextWrapping="NoWrap">
-
-                                                <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Status, Mode=OneWay}" Visibility="{Binding ElementName=AvailableStatusText, Path=IsTextTrimmed, Mode=OneWay}" />
-                                                </ToolTipService.ToolTip>
-                                            </TextBlock>
+                                                Command="{StaticResource AvailableHideCommand}"
+                                                CommandParameter="{Binding}"
+                                                Content="{x:Bind string:UpdateManager.Hide}"
+                                                Style="{StaticResource HyperlinkButtonStyle}"
+                                                ToolTipService.ToolTip="{x:Bind string:UpdateManager.HideUpdateToolTip}" />
 
                                             <HyperlinkButton
                                                 Grid.Column="5"
-                                                Command="{StaticResource AvailableHideCommand}"
-                                                Content="{x:Bind string:UpdateManager.Hide}"
-                                                Style="{StaticResource HyperlinkButtonStyle}" />
-
-                                            <HyperlinkButton
-                                                Grid.Column="6"
+                                                Margin="10,0,0,0"
                                                 Command="{StaticResource AvailableInstallCommand}"
                                                 Content="{x:Bind string:UpdateManager.Install}"
                                                 Style="{StaticResource HyperlinkButtonStyle}" />
+
+                                            <Grid.ContextFlyout>
+                                                <MenuFlyout Placement="Bottom">
+                                                    <MenuFlyoutItem
+                                                        Command="{StaticResource CopyInformationCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        Text="{x:Bind string:UpdateManager.CopyInformation}" />
+
+                                                    <MenuFlyoutItem
+                                                        Command="{StaticResource OpenSupportUrlCommand}"
+                                                        CommandParameter="{x:Bind SupportURL}"
+                                                        IsEnabled="{x:Bind converter:ValueConverterHelper.StringToBooleanConvert(SupportURL)}"
+                                                        Text="{x:Bind string:UpdateManager.OpenSupportUrl}" />
+                                                </MenuFlyout>
+                                            </Grid.ContextFlyout>
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -401,7 +396,7 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Background="{ThemeResource LayerFillColorDefaultBrush}"
-                    IsExpanded="False">
+                    IsExpanded="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(InstalledUpdateCollection.Count), Mode=OneWay}">
 
                     <muxc:Expander.Resources>
                         <SolidColorBrush x:Key="ExpanderChevronBackground" Color="Transparent" />
@@ -478,16 +473,30 @@
                             <Grid Height="35" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(InstalledUpdateCollection.Count), Mode=OneWay}">
 
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="100" />
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition Width="80" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock
-                                    x:Name="InstalledUpdateNameHeaderText"
+                                    x:Name="InstalledSelectHeaderText"
                                     Grid.Column="0"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind string:UpdateManager.Select}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="{x:Bind string:UpdateManager.Select}" Visibility="{x:Bind InstalledSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+
+                                <TextBlock
+                                    x:Name="InstalledUpdateNameHeaderText"
+                                    Grid.Column="1"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind string:UpdateManager.UpdateName}"
@@ -501,7 +510,7 @@
 
                                 <TextBlock
                                     x:Name="InstalledDateHeaderText"
-                                    Grid.Column="1"
+                                    Grid.Column="2"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind string:UpdateManager.Date}"
@@ -515,7 +524,7 @@
 
                                 <TextBlock
                                     x:Name="InstalledSizeHeaderText"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind string:UpdateManager.Size}"
@@ -528,27 +537,12 @@
                                 </TextBlock>
 
                                 <TextBlock
-                                    x:Name="InstalledStatusHeaderText"
-                                    Grid.Column="3"
-                                    Margin="10,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Status}"
-                                    TextAlignment="Left"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap">
-
-                                    <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Status}" Visibility="{x:Bind InstalledStatusHeaderText.IsTextTrimmed, Mode=OneWay}" />
-                                    </ToolTipService.ToolTip>
-                                </TextBlock>
-
-                                <TextBlock
                                     x:Name="InstalledOperationHeaderText"
                                     Grid.Column="4"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind string:UpdateManager.Operation}"
-                                    TextAlignment="Center"
+                                    TextAlignment="Left"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
@@ -575,16 +569,26 @@
                                             BorderThickness="0,0,0,1">
 
                                             <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="60" />
                                                 <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="80" />
-                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition Width="100" />
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width="80" />
                                             </Grid.ColumnDefinitions>
 
+                                            <CheckBox
+                                                Grid.Column="0"
+                                                Width="50"
+                                                MinWidth="0"
+                                                Margin="10,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
+                                                IsThreeState="False" />
+
                                             <TextBlock
                                                 x:Name="InstalledUpdateNameText"
-                                                Grid.Column="0"
+                                                Grid.Column="1"
                                                 MinWidth="50"
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
@@ -595,66 +599,73 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind UpdateName, Mode=OneWay}" Visibility="{Binding ElementName=InstalledUpdateNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock Text="{x:Bind string:UpdateManager.Title}" />
+                                                            <TextBlock Text="{x:Bind UpdateName}" TextWrapping="Wrap" />
+                                                            <MenuFlyoutSeparator />
+                                                            <TextBlock Text="{x:Bind string:UpdateManager.Description}" />
+                                                            <TextBlock Text="{x:Bind Description}" TextWrapping="Wrap" />
+                                                        </StackPanel>
+                                                    </ToolTip>
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
                                             <TextBlock
                                                 x:Name="InstalledDateText"
-                                                Grid.Column="1"
-                                                MinWidth="50"
-                                                Margin="10,0,0,0"
-                                                VerticalAlignment="Center"
-                                                FontSize="14"
-                                                Text="{x:Bind Date.ToString('F'), Mode=OneWay}"
-                                                TextAlignment="Left"
-                                                TextTrimming="CharacterEllipsis"
-                                                TextWrapping="NoWrap">
-
-                                                <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Date.ToString('F'), Mode=OneWay}" Visibility="{Binding ElementName=InstalledDateText, Path=IsTextTrimmed, Mode=OneWay}" />
-                                                </ToolTipService.ToolTip>
-                                            </TextBlock>
-
-                                            <TextBlock
-                                                x:Name="InstalledSizeText"
                                                 Grid.Column="2"
                                                 MinWidth="50"
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
                                                 FontSize="14"
-                                                Text="{x:Bind Size, Mode=OneWay}"
+                                                Text="{x:Bind Date.ToString('yyyy/MM/dd')}"
                                                 TextAlignment="Left"
                                                 TextTrimming="CharacterEllipsis"
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Size, Mode=OneWay}" Visibility="{Binding ElementName=InstalledSizeText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip Content="{x:Bind Date.ToString('yyyy/MM/dd')}" Visibility="{Binding ElementName=InstalledDateText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
                                             <TextBlock
-                                                x:Name="InstalledStatusText"
+                                                x:Name="InstalledSizeText"
                                                 Grid.Column="3"
                                                 MinWidth="50"
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
                                                 FontSize="14"
-                                                Text="{x:Bind Status, Mode=OneWay}"
+                                                Text="{x:Bind Size}"
                                                 TextAlignment="Left"
                                                 TextTrimming="CharacterEllipsis"
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Status, Mode=OneWay}" Visibility="{Binding ElementName=InstalledStatusText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip Content="{x:Bind Size}" Visibility="{Binding ElementName=InstalledSizeText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
                                             <HyperlinkButton
                                                 Grid.Column="4"
+                                                Margin="10,0,0,0"
                                                 Command="{StaticResource InstalledUnInstallCommand}"
                                                 Content="{x:Bind string:UpdateManager.UnInstall}"
                                                 Style="{StaticResource HyperlinkButtonStyle}" />
+
+                                            <Grid.ContextFlyout>
+                                                <MenuFlyout Placement="Bottom">
+                                                    <MenuFlyoutItem
+                                                        Command="{StaticResource CopyInformationCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        Text="{x:Bind string:UpdateManager.CopyInformation}" />
+
+                                                    <MenuFlyoutItem
+                                                        Command="{StaticResource OpenSupportUrlCommand}"
+                                                        CommandParameter="{x:Bind SupportURL}"
+                                                        IsEnabled="{x:Bind converter:ValueConverterHelper.StringToBooleanConvert(SupportURL)}"
+                                                        Text="{x:Bind string:UpdateManager.OpenSupportUrl}" />
+                                                </MenuFlyout>
+                                            </Grid.ContextFlyout>
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -681,7 +692,7 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Background="{ThemeResource LayerFillColorDefaultBrush}"
-                    IsExpanded="False">
+                    IsExpanded="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(HiddenUpdateCollection.Count), Mode=OneWay}">
 
                     <muxc:Expander.Resources>
                         <SolidColorBrush x:Key="ExpanderChevronBackground" Color="Transparent" />
@@ -744,7 +755,8 @@
                                 Click="{x:Bind OnHiddenShowClicked}"
                                 IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(HiddenUpdateCollection.Count), Mode=OneWay}"
                                 Label="{x:Bind string:UpdateManager.Show}"
-                                Style="{StaticResource AppBarButtonStyle}">
+                                Style="{StaticResource AppBarButtonStyle}"
+                                ToolTipService.ToolTip="{x:Bind string:UpdateManager.ShowUpdateToolTip}">
 
                                 <AppBarButton.Icon>
                                     <FontIcon Glyph="&#xE890;" />
@@ -758,16 +770,30 @@
                             <Grid Height="35" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(HiddenUpdateCollection.Count), Mode=OneWay}">
 
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="100" />
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition Width="80" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock
-                                    x:Name="HiddenUpdateNameHeaderText"
+                                    x:Name="HiddenSelectHeaderText"
                                     Grid.Column="0"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind string:UpdateManager.Select}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="{x:Bind string:UpdateManager.Select}" Visibility="{x:Bind HiddenSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+
+                                <TextBlock
+                                    x:Name="HiddenUpdateNameHeaderText"
+                                    Grid.Column="1"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind string:UpdateManager.UpdateName}"
@@ -781,7 +807,7 @@
 
                                 <TextBlock
                                     x:Name="HiddenDateHeaderText"
-                                    Grid.Column="1"
+                                    Grid.Column="2"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind string:UpdateManager.Date}"
@@ -795,7 +821,7 @@
 
                                 <TextBlock
                                     x:Name="HiddenSizeHeaderText"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind string:UpdateManager.Size}"
@@ -808,27 +834,12 @@
                                 </TextBlock>
 
                                 <TextBlock
-                                    x:Name="HiddenStatusHeaderText"
-                                    Grid.Column="3"
-                                    Margin="10,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Status}"
-                                    TextAlignment="Left"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap">
-
-                                    <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Status}" Visibility="{x:Bind HiddenStatusHeaderText.IsTextTrimmed, Mode=OneWay}" />
-                                    </ToolTipService.ToolTip>
-                                </TextBlock>
-
-                                <TextBlock
                                     x:Name="HiddenOperationHeaderText"
                                     Grid.Column="4"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind string:UpdateManager.Operation}"
-                                    TextAlignment="Center"
+                                    TextAlignment="Left"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
@@ -855,16 +866,26 @@
                                             BorderThickness="0,0,0,1">
 
                                             <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="60" />
                                                 <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="80" />
-                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition Width="100" />
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width="80" />
                                             </Grid.ColumnDefinitions>
 
+                                            <CheckBox
+                                                Grid.Column="0"
+                                                Width="50"
+                                                MinWidth="0"
+                                                Margin="10,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
+                                                IsThreeState="False" />
+
                                             <TextBlock
                                                 x:Name="HiddenUpdateNameText"
-                                                Grid.Column="0"
+                                                Grid.Column="1"
                                                 MinWidth="50"
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
@@ -875,30 +896,38 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind UpdateName, Mode=OneWay}" Visibility="{Binding ElementName=HiddenUpdateNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock Text="{x:Bind string:UpdateManager.Title}" />
+                                                            <TextBlock Text="{x:Bind UpdateName}" TextWrapping="Wrap" />
+                                                            <MenuFlyoutSeparator />
+                                                            <TextBlock Text="{x:Bind string:UpdateManager.Description}" />
+                                                            <TextBlock Text="{x:Bind Description}" TextWrapping="Wrap" />
+                                                        </StackPanel>
+                                                    </ToolTip>
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
                                             <TextBlock
                                                 x:Name="HiddenDateText"
-                                                Grid.Column="1"
+                                                Grid.Column="2"
                                                 MinWidth="50"
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
                                                 FontSize="14"
-                                                Text="{x:Bind Date.ToString('F'), Mode=OneWay}"
+                                                Text="{x:Bind Date.ToString('yyyy/MM/dd')}"
                                                 TextAlignment="Left"
                                                 TextTrimming="CharacterEllipsis"
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Date.ToString('F'), Mode=OneWay}" Visibility="{Binding ElementName=HiddenDateText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip Content="{x:Bind Date.ToString('yyyy/MM/dd')}" Visibility="{Binding ElementName=HiddenDateText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
                                             <TextBlock
                                                 x:Name="HiddenSizeText"
-                                                Grid.Column="2"
+                                                Grid.Column="3"
                                                 MinWidth="50"
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
@@ -913,28 +942,29 @@
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
-                                            <TextBlock
-                                                x:Name="HiddenStatusText"
-                                                Grid.Column="3"
-                                                MinWidth="50"
-                                                Margin="10,0,0,0"
-                                                VerticalAlignment="Center"
-                                                FontSize="14"
-                                                Text="{x:Bind Status, Mode=OneWay}"
-                                                TextAlignment="Left"
-                                                TextTrimming="CharacterEllipsis"
-                                                TextWrapping="NoWrap">
-
-                                                <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Status, Mode=OneWay}" Visibility="{Binding ElementName=HiddenStatusText, Path=IsTextTrimmed, Mode=OneWay}" />
-                                                </ToolTipService.ToolTip>
-                                            </TextBlock>
-
                                             <HyperlinkButton
                                                 Grid.Column="4"
+                                                Margin="10,0,0,0"
                                                 Command="{StaticResource HiddenShowCommand}"
+                                                CommandParameter="{Binding}"
                                                 Content="{x:Bind string:UpdateManager.Show}"
-                                                Style="{StaticResource HyperlinkButtonStyle}" />
+                                                Style="{StaticResource HyperlinkButtonStyle}"
+                                                ToolTipService.ToolTip="{x:Bind string:UpdateManager.ShowUpdateToolTip}" />
+
+                                            <Grid.ContextFlyout>
+                                                <MenuFlyout Placement="Bottom">
+                                                    <MenuFlyoutItem
+                                                        Command="{StaticResource CopyInformationCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        Text="{x:Bind string:UpdateManager.CopyInformation}" />
+
+                                                    <MenuFlyoutItem
+                                                        Command="{StaticResource OpenSupportUrlCommand}"
+                                                        CommandParameter="{x:Bind SupportURL}"
+                                                        IsEnabled="{x:Bind converter:ValueConverterHelper.StringToBooleanConvert(SupportURL)}"
+                                                        Text="{x:Bind string:UpdateManager.OpenSupportUrl}" />
+                                                </MenuFlyout>
+                                            </Grid.ContextFlyout>
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -961,7 +991,7 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Background="{ThemeResource LayerFillColorDefaultBrush}"
-                    IsExpanded="False">
+                    IsExpanded="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(UpdateHistoryCollection.Count), Mode=OneWay}">
 
                     <muxc:Expander.Resources>
                         <SolidColorBrush x:Key="ExpanderChevronBackground" Color="Transparent" />
@@ -995,9 +1025,9 @@
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="130" />
+                                    <ColumnDefinition Width="130" />
+                                    <ColumnDefinition Width="130" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock
@@ -1015,11 +1045,26 @@
                                 </TextBlock>
 
                                 <TextBlock
-                                    x:Name="HistoryDateHeaderText"
+                                    x:Name="HistoryApplicationIDHeaderText"
                                     Grid.Column="1"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
+                                    Text="{x:Bind string:UpdateManager.ApplicationID}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="{x:Bind string:UpdateManager.ApplicationID}" Visibility="{x:Bind HistoryApplicationIDHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+
+                                <TextBlock
+                                    x:Name="HistoryDateHeaderText"
+                                    Grid.Column="2"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
                                     Text="{x:Bind string:UpdateManager.Date}"
+                                    TextAlignment="Left"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
@@ -1029,23 +1074,9 @@
                                 </TextBlock>
 
                                 <TextBlock
-                                    x:Name="HistorySizeHeaderText"
-                                    Grid.Column="2"
-                                    Margin="10,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Size}"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap">
-
-                                    <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Size}" Visibility="{x:Bind HistorySizeHeaderText.IsTextTrimmed, Mode=OneWay}" />
-                                    </ToolTipService.ToolTip>
-                                </TextBlock>
-
-                                <TextBlock
                                     x:Name="HistoryStatusHeaderText"
                                     Grid.Column="3"
-                                    Margin="10,0,0,0"
+                                    Margin="10,0,10,0"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind string:UpdateManager.Status}"
                                     TextAlignment="Left"
@@ -1076,9 +1107,9 @@
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="80" />
-                                                <ColumnDefinition Width="80" />
-                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition Width="130" />
+                                                <ColumnDefinition Width="130" />
+                                                <ColumnDefinition Width="130" />
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock
@@ -1094,41 +1125,49 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind UpdateName, Mode=OneWay}" Visibility="{Binding ElementName=HistoryUpdateNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock Text="{x:Bind string:UpdateManager.Title}" />
+                                                            <TextBlock Text="{x:Bind UpdateName}" TextWrapping="Wrap" />
+                                                            <MenuFlyoutSeparator />
+                                                            <TextBlock Text="{x:Bind string:UpdateManager.Description}" />
+                                                            <TextBlock Text="{x:Bind Description}" TextWrapping="Wrap" />
+                                                        </StackPanel>
+                                                    </ToolTip>
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
                                             <TextBlock
-                                                x:Name="HistoryDateText"
+                                                x:Name="HistoryApplicationIDText"
                                                 Grid.Column="1"
                                                 MinWidth="50"
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
                                                 FontSize="14"
-                                                Text="{x:Bind Date.ToString('F'), Mode=OneWay}"
+                                                Text="{x:Bind ApplicationID}"
                                                 TextAlignment="Left"
                                                 TextTrimming="CharacterEllipsis"
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Date.ToString('F'), Mode=OneWay}" Visibility="{Binding ElementName=HistoryDateText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip Content="{x:Bind ApplicationID}" Visibility="{Binding ElementName=HistoryApplicationIDText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
                                             <TextBlock
-                                                x:Name="HistorySizeText"
+                                                x:Name="HistoryDateText"
                                                 Grid.Column="2"
                                                 MinWidth="50"
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
                                                 FontSize="14"
-                                                Text="{x:Bind Size, Mode=OneWay}"
+                                                Text="{x:Bind Date.ToString('yyyy/MM/dd HH:mm')}"
                                                 TextAlignment="Left"
                                                 TextTrimming="CharacterEllipsis"
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Size, Mode=OneWay}" Visibility="{Binding ElementName=HistorySizeText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip Content="{x:Bind Date.ToString('yyyy/MM/dd HH:mm')}" Visibility="{Binding ElementName=HistoryDateText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
@@ -1136,18 +1175,33 @@
                                                 x:Name="HistoryStatusText"
                                                 Grid.Column="3"
                                                 MinWidth="50"
-                                                Margin="10,0,0,0"
+                                                Margin="10,0,10,0"
                                                 VerticalAlignment="Center"
                                                 FontSize="14"
-                                                Text="{x:Bind Status, Mode=OneWay}"
+                                                Text="{x:Bind Status}"
                                                 TextAlignment="Left"
                                                 TextTrimming="CharacterEllipsis"
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Status, Mode=OneWay}" Visibility="{Binding ElementName=HistoryStatusText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip Content="{x:Bind Status}" Visibility="{Binding ElementName=HistoryStatusText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
+
+                                            <Grid.ContextFlyout>
+                                                <MenuFlyout Placement="Bottom">
+                                                    <MenuFlyoutItem
+                                                        Command="{StaticResource CopyInformationCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        Text="{x:Bind string:UpdateManager.CopyInformation}" />
+
+                                                    <MenuFlyoutItem
+                                                        Command="{StaticResource OpenSupportUrlCommand}"
+                                                        CommandParameter="{x:Bind SupportURL}"
+                                                        IsEnabled="{x:Bind converter:ValueConverterHelper.StringToBooleanConvert(SupportURL)}"
+                                                        Text="{x:Bind string:UpdateManager.OpenSupportUrl}" />
+                                                </MenuFlyout>
+                                            </Grid.ContextFlyout>
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -1274,6 +1328,80 @@
                                     OffContent="{x:Bind string:UpdateManager.ExcludeDriversOffContent}"
                                     OnContent="{x:Bind string:UpdateManager.ExcludeDriversOnContent}"
                                     Toggled="{x:Bind OnExcludeDriversToggled}" />
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind string:UpdateManager.IncludePotentiallySupersededUpdate}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    MinWidth="0"
+                                    Margin="0,-2,0,0"
+                                    FlowDirection="RightToLeft"
+                                    IsOn="{x:Bind IsIncludePotentiallySupersededUpdate}"
+                                    OffContent="{x:Bind string:UpdateManager.IncludePotentiallySupersededUpdateOffContent}"
+                                    OnContent="{x:Bind string:UpdateManager.IncludePotentiallySupersededUpdateOnContent}"
+                                    Toggled="{x:Bind OnIncludePotentiallySupersededUpdateToggled}" />
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind string:UpdateManager.UpdateSource}" />
+
+                                <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedUpdateSource.Key, Mode=OneWay}">
+                                    <muxc:DropDownButton.Flyout>
+                                        <MenuFlyout Placement="Bottom">
+                                            <ToggleMenuFlyoutItem
+                                                Height="32"
+                                                Margin="11,0"
+                                                Click="{x:Bind OnUpdateSourceSelectClicked}"
+                                                IsChecked="{x:Bind SelectedUpdateSource.Value.Equals(UpdateSourceList[0].Value), Mode=OneWay}"
+                                                Tag="0"
+                                                Text="{x:Bind sys:Convert.ToString(UpdateSourceList[0].Key)}" />
+
+                                            <MenuFlyoutSeparator />
+
+                                            <ToggleMenuFlyoutItem
+                                                Height="32"
+                                                Margin="11,0"
+                                                Click="{x:Bind OnUpdateSourceSelectClicked}"
+                                                IsChecked="{x:Bind SelectedUpdateSource.Value.Equals(UpdateSourceList[1].Value), Mode=OneWay}"
+                                                Tag="1"
+                                                Text="{x:Bind sys:Convert.ToString(UpdateSourceList[1].Key)}" />
+
+                                            <ToggleMenuFlyoutItem
+                                                Height="32"
+                                                Margin="11,0"
+                                                Click="{x:Bind OnUpdateSourceSelectClicked}"
+                                                IsChecked="{x:Bind SelectedUpdateSource.Value.Equals(UpdateSourceList[2].Value), Mode=OneWay}"
+                                                Tag="2"
+                                                Text="{x:Bind sys:Convert.ToString(UpdateSourceList[2].Key)}" />
+
+                                            <ToggleMenuFlyoutItem
+                                                Height="32"
+                                                Margin="11,0"
+                                                Click="{x:Bind OnUpdateSourceSelectClicked}"
+                                                IsChecked="{x:Bind SelectedUpdateSource.Value.Equals(UpdateSourceList[3].Value), Mode=OneWay}"
+                                                Tag="3"
+                                                Text="{x:Bind sys:Convert.ToString(UpdateSourceList[3].Key)}" />
+                                        </MenuFlyout>
+                                    </muxc:DropDownButton.Flyout>
+                                </muxc:DropDownButton>
                             </Grid>
 
                             <MenuFlyoutSeparator Margin="5,3" />

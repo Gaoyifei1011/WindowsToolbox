@@ -16,7 +16,15 @@ namespace WindowsTools.Helpers.Converters
             return !value;
         }
 
-        public static bool StringCompareReverseConvert(object value, object comparedValue)
+        /// <summary>
+        /// 字符串布尔值转换
+        /// </summary>
+        public static bool StringToBooleanConvert(string value)
+        {
+            return !string.IsNullOrEmpty(value);
+        }
+
+        public static bool ObjectCompareReverseConvert(object value, object comparedValue)
         {
             return !value.Equals(comparedValue);
         }

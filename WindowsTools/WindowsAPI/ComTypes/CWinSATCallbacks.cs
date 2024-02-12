@@ -48,7 +48,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         {
             Result = (WINSAT_RESULT)hresult;
             Description = strDescription;
-            StatusCompleted?.Invoke(this, new EventArgs());
+            StatusCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
             CurrentTick = uCurrentTick;
             TickTotal = uTickTotal;
             CurrentState = strCurrentState;
-            StatusUpdated?.Invoke(this, new EventArgs());
+            StatusUpdated?.Invoke(this, EventArgs.Empty);
         }
     }
 }

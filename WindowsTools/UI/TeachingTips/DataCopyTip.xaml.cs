@@ -70,6 +70,11 @@ namespace WindowsTools.UI.TeachingTips
                             }
                             break;
                         }
+                    case DataCopyKind.UpdateInformation:
+                        {
+                            Content = Notification.UpdateInformationCopy;
+                            break;
+                        }
                 }
             }
             else

@@ -10,32 +10,54 @@ namespace WindowsTools.Models
     /// </summary>
     public class UpdateModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// 更新名称
+        /// </summary>
         public string UpdateName { get; set; }
 
-        public string KBNumber { get; set; }
+        /// <summary>
+        /// 更新的应用 ID
+        /// </summary>
+        public string ApplicationID { get; set; }
 
+        /// <summary>
+        /// 更新描述
+        /// </summary>
         public string Description { get; set; }
 
+        /// <summary>
+        /// 更新支持链接
+        /// </summary>
         public string SupportURL { get; set; }
 
+        /// <summary>
+        /// 更新的文件大小
+        /// </summary>
         public string Size { get; set; }
 
+        /// <summary>
+        /// 更新安装状态
+        /// </summary>
         public string Status { get; set; }
 
+        /// <summary>
+        /// 更新 ID
+        /// </summary>
         public string UpdateID { get; set; }
 
+        /// <summary>
+        /// 更新安装日期
+        /// </summary>
         public DateTime Date { get; set; }
 
-        public string HResult { get; set; }
+        /// <summary>
+        /// 当前更新实例
+        /// </summary>
+        public IUpdate Update { get; set; }
 
-        public int EventID { get; set; }
-
-        public string ELDescription { get; set; }
-
-        public string ELProvider { get; set; }
-
-        public DateTime ELDate { get; set; }
-
+        /// <summary>
+        /// 当前更新是否选择
+        /// </summary>
         private bool _isSelected;
 
         public bool IsSelected
@@ -45,32 +67,6 @@ namespace WindowsTools.Models
             set
             {
                 _isSelected = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private OperationResultCode _resultCode;
-
-        public OperationResultCode ResultCode
-        {
-            get { return _resultCode; }
-
-            set
-            {
-                _resultCode = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private tagUpdateOperation _tagUpdateOperation;
-
-        public tagUpdateOperation TagUpdateOperation
-        {
-            get { return _tagUpdateOperation; }
-
-            set
-            {
-                _tagUpdateOperation = value;
                 OnPropertyChanged();
             }
         }
