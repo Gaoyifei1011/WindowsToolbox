@@ -157,13 +157,13 @@
     <value>Do not enter</value>
   </data>
   <data name="ExcludeDrivers" xml:space="preserve">
-    <value>Windows update does not include drivers</value>
+    <value>Windows update does not include drivers(run as administrator)</value>
   </data>
   <data name="ExcludeDriversOffContent" xml:space="preserve">
-    <value>Exclude</value>
+    <value>No</value>
   </data>
   <data name="ExcludeDriversOnContent" xml:space="preserve">
-    <value>Include</value>
+    <value>Yes</value>
   </data>
   <data name="Failed" xml:space="preserve">
     <value>Failed</value>
@@ -221,6 +221,9 @@
   </data>
   <data name="Operation" xml:space="preserve">
     <value>Operation</value>
+  </data>
+  <data name="OperationResult" xml:space="preserve">
+    <value>Operation result</value>
   </data>
   <data name="Options" xml:space="preserve">
     <value>Options</value>

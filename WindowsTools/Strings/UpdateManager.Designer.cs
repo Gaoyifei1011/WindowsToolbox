@@ -178,7 +178,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Windows update does not include drivers 的本地化字符串。
+        ///   查找类似 Windows update does not include drivers(run as administrator) 的本地化字符串。
         /// </summary>
         public static string ExcludeDrivers {
             get {
@@ -187,7 +187,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Exclude 的本地化字符串。
+        ///   查找类似 No 的本地化字符串。
         /// </summary>
         public static string ExcludeDriversOffContent {
             get {
@@ -196,7 +196,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Include 的本地化字符串。
+        ///   查找类似 Yes 的本地化字符串。
         /// </summary>
         public static string ExcludeDriversOnContent {
             get {
@@ -372,6 +372,15 @@ namespace WindowsTools.Strings {
         public static string Operation {
             get {
                 return ResourceManager.GetString("Operation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Operation result 的本地化字符串。
+        /// </summary>
+        public static string OperationResult {
+            get {
+                return ResourceManager.GetString("OperationResult", resourceCulture);
             }
         }
         

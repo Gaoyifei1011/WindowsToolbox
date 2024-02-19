@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helper="using:WindowsTools.Helpers.Root"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
@@ -73,7 +74,7 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Background="{ThemeResource LayerFillColorDefaultBrush}"
-                    IsExpanded="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(AvailableUpdateCollection.Count), Mode=OneWay}">
+                    IsExpanded="{x:Bind IsAUExpanderExpanded, Mode=TwoWay}">
 
                     <muxc:Expander.Resources>
                         <SolidColorBrush x:Key="ExpanderChevronBackground" Color="Transparent" />
@@ -164,7 +165,10 @@
 
                     <muxc:Expander.Content>
                         <StackPanel>
-                            <Grid Height="35" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(AvailableUpdateCollection.Count), Mode=OneWay}">
+                            <Grid
+                                Height="35"
+                                Padding="6,0,0,0"
+                                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(AvailableUpdateCollection.Count), Mode=OneWay}">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />
@@ -396,7 +400,7 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Background="{ThemeResource LayerFillColorDefaultBrush}"
-                    IsExpanded="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(InstalledUpdateCollection.Count), Mode=OneWay}">
+                    IsExpanded="{x:Bind IsIUExpanderExpanded, Mode=TwoWay}">
 
                     <muxc:Expander.Resources>
                         <SolidColorBrush x:Key="ExpanderChevronBackground" Color="Transparent" />
@@ -470,7 +474,10 @@
 
                     <muxc:Expander.Content>
                         <StackPanel>
-                            <Grid Height="35" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(InstalledUpdateCollection.Count), Mode=OneWay}">
+                            <Grid
+                                Height="35"
+                                Padding="6,0,0,0"
+                                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(InstalledUpdateCollection.Count), Mode=OneWay}">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />
@@ -692,7 +699,7 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Background="{ThemeResource LayerFillColorDefaultBrush}"
-                    IsExpanded="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(HiddenUpdateCollection.Count), Mode=OneWay}">
+                    IsExpanded="{x:Bind IsHUExpanderExpanded, Mode=TwoWay}">
 
                     <muxc:Expander.Resources>
                         <SolidColorBrush x:Key="ExpanderChevronBackground" Color="Transparent" />
@@ -767,7 +774,10 @@
 
                     <muxc:Expander.Content>
                         <StackPanel>
-                            <Grid Height="35" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(HiddenUpdateCollection.Count), Mode=OneWay}">
+                            <Grid
+                                Height="35"
+                                Padding="6,0,0,0"
+                                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(HiddenUpdateCollection.Count), Mode=OneWay}">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />
@@ -991,7 +1001,7 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     Background="{ThemeResource LayerFillColorDefaultBrush}"
-                    IsExpanded="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(UpdateHistoryCollection.Count), Mode=OneWay}">
+                    IsExpanded="{x:Bind IsUHExpanderExpanded, Mode=TwoWay}">
 
                     <muxc:Expander.Resources>
                         <SolidColorBrush x:Key="ExpanderChevronBackground" Color="Transparent" />
@@ -1021,7 +1031,10 @@
 
                     <muxc:Expander.Content>
                         <StackPanel>
-                            <Grid Height="35" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(UpdateHistoryCollection.Count), Mode=OneWay}">
+                            <Grid
+                                Height="35"
+                                Padding="6,0,0,0"
+                                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(UpdateHistoryCollection.Count), Mode=OneWay}">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -1222,6 +1235,43 @@
                     </muxc:Expander.Content>
                 </muxc:Expander>
 
+                <!--  操作结果  -->
+                <muxc:Expander
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Background="{ThemeResource LayerFillColorDefaultBrush}"
+                    IsExpanded="{x:Bind IsORExpanderExpanded, Mode=TwoWay}">
+
+                    <muxc:Expander.Resources>
+                        <SolidColorBrush x:Key="ExpanderChevronBackground" Color="Transparent" />
+                        <SolidColorBrush x:Key="ExpanderChevronPointerOverBackground" Color="Transparent" />
+                        <SolidColorBrush x:Key="ExpanderChevronPressedBackground" Color="Transparent" />
+                    </muxc:Expander.Resources>
+
+                    <muxc:Expander.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon
+                                Grid.Column="0"
+                                Margin="0,0,12,0"
+                                FontSize="16"
+                                Glyph="&#xE8BC;" />
+
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind string:UpdateManager.OperationResult}" />
+                        </Grid>
+                    </muxc:Expander.Header>
+
+                    <muxc:Expander.Content />
+                </muxc:Expander>
+
                 <!--  操作  -->
                 <Grid
                     Grid.Row="4"
@@ -1324,6 +1374,7 @@
                                     MinWidth="0"
                                     Margin="0,-2,0,0"
                                     FlowDirection="RightToLeft"
+                                    IsEnabled="{x:Bind helper:RuntimeHelper.IsElevated}"
                                     IsOn="{x:Bind IsExcludeDrivers}"
                                     OffContent="{x:Bind string:UpdateManager.ExcludeDriversOffContent}"
                                     OnContent="{x:Bind string:UpdateManager.ExcludeDriversOnContent}"
@@ -1368,7 +1419,7 @@
                                         <MenuFlyout Placement="Bottom">
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
-                                                Margin="11,0"
+                                                Padding="11,0"
                                                 Click="{x:Bind OnUpdateSourceSelectClicked}"
                                                 IsChecked="{x:Bind SelectedUpdateSource.Value.Equals(UpdateSourceList[0].Value), Mode=OneWay}"
                                                 Tag="0"
@@ -1378,7 +1429,7 @@
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
-                                                Margin="11,0"
+                                                Padding="11,0"
                                                 Click="{x:Bind OnUpdateSourceSelectClicked}"
                                                 IsChecked="{x:Bind SelectedUpdateSource.Value.Equals(UpdateSourceList[1].Value), Mode=OneWay}"
                                                 Tag="1"
@@ -1386,7 +1437,7 @@
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
-                                                Margin="11,0"
+                                                Padding="11,0"
                                                 Click="{x:Bind OnUpdateSourceSelectClicked}"
                                                 IsChecked="{x:Bind SelectedUpdateSource.Value.Equals(UpdateSourceList[2].Value), Mode=OneWay}"
                                                 Tag="2"
@@ -1394,7 +1445,7 @@
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
-                                                Margin="11,0"
+                                                Padding="11,0"
                                                 Click="{x:Bind OnUpdateSourceSelectClicked}"
                                                 IsChecked="{x:Bind SelectedUpdateSource.Value.Equals(UpdateSourceList[3].Value), Mode=OneWay}"
                                                 Tag="3"
@@ -1424,7 +1475,7 @@
                                         <MenuFlyout Placement="Bottom">
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
-                                                Margin="11,0"
+                                                Padding="11,0"
                                                 Click="{x:Bind OnPreviewChannelSelectClicked}"
                                                 IsChecked="{x:Bind SelectedPreviewChannel.Value.Equals(PreviewChannelList[0].Value), Mode=OneWay}"
                                                 Tag="0"
@@ -1434,7 +1485,7 @@
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
-                                                Margin="11,0"
+                                                Padding="11,0"
                                                 Click="{x:Bind OnPreviewChannelSelectClicked}"
                                                 IsChecked="{x:Bind SelectedPreviewChannel.Value.Equals(PreviewChannelList[1].Value), Mode=OneWay}"
                                                 Tag="0"
@@ -1442,7 +1493,7 @@
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
-                                                Margin="11,0"
+                                                Padding="11,0"
                                                 Click="{x:Bind OnPreviewChannelSelectClicked}"
                                                 IsChecked="{x:Bind SelectedPreviewChannel.Value.Equals(PreviewChannelList[2].Value), Mode=OneWay}"
                                                 Tag="1"
@@ -1450,7 +1501,7 @@
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
-                                                Margin="11,0"
+                                                Padding="11,0"
                                                 Click="{x:Bind OnPreviewChannelSelectClicked}"
                                                 IsChecked="{x:Bind SelectedPreviewChannel.Value.Equals(PreviewChannelList[3].Value), Mode=OneWay}"
                                                 Tag="2"
@@ -1458,7 +1509,7 @@
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
-                                                Margin="11,0"
+                                                Padding="11,0"
                                                 Click="{x:Bind OnPreviewChannelSelectClicked}"
                                                 IsChecked="{x:Bind SelectedPreviewChannel.Value.Equals(PreviewChannelList[4].Value), Mode=OneWay}"
                                                 Tag="3"

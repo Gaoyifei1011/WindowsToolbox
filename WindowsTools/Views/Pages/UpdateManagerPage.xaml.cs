@@ -1,3 +1,4 @@
+using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,7 +38,6 @@ namespace WindowsTools.Views.Pages
         private UpdateSession updateSession = new UpdateSession();
         private UpdateServiceManager updateServiceManager = new UpdateServiceManager();
         private IUpdateSearcher updateSearcher;
-        private SearchCompletedCallback searchCompletedCallback;
 
         private bool isInitialized;
 
@@ -63,6 +63,71 @@ namespace WindowsTools.Views.Pages
             set
             {
                 _isExcludeDrivers = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isAUExpanderExpanded;
+
+        public bool IsAUExpanderExpanded
+        {
+            get { return _isAUExpanderExpanded; }
+
+            set
+            {
+                _isAUExpanderExpanded = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isIUExpanderExpanded;
+
+        public bool IsIUExpanderExpanded
+        {
+            get { return _isIUExpanderExpanded; }
+
+            set
+            {
+                _isIUExpanderExpanded = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isHUExpanderExpanded;
+
+        public bool IsHUExpanderExpanded
+        {
+            get { return _isHUExpanderExpanded; }
+
+            set
+            {
+                _isHUExpanderExpanded = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isUHExpanderExpanded;
+
+        public bool IsUHExpanderExpanded
+        {
+            get { return _isUHExpanderExpanded; }
+
+            set
+            {
+                _isUHExpanderExpanded = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isORExpanderExpanded;
+
+        public bool IsORExpanderExpanded
+        {
+            get { return _isORExpanderExpanded; }
+
+            set
+            {
+                _isORExpanderExpanded = value;
                 OnPropertyChanged();
             }
         }
@@ -141,6 +206,20 @@ namespace WindowsTools.Views.Pages
             updateSession.ClientApplicationID = "Update Manager for Windows";
             updateSearcher = updateSession.CreateUpdateSearcher();
             GetUpdateHistory();
+
+            if (RuntimeHelper.IsElevated)
+            {
+                try
+                {
+                    RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", true);
+                    int returnValue = Convert.ToInt32(registryKey.GetValue("ExcludeWUDriversInQualityUpdate"));
+                    IsExcludeDrivers = Convert.ToBoolean(returnValue);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLogEntryType.Warning, "Get exclude driver options failed", e);
+                }
+            }
         }
 
         #region 第一部分：XamlUICommand 命令调用时挂载的事件
@@ -183,6 +262,9 @@ namespace WindowsTools.Views.Pages
                                     {
                                         HiddenUpdateCollection.Add(updateItem);
                                     }
+
+                                    IsAUExpanderExpanded = true;
+                                    IsHUExpanderExpanded = true;
                                 }
                                 catch (Exception e)
                                 {
@@ -211,6 +293,36 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnInstalledUnInstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
+            UpdateModel updateItem = args.Parameter as UpdateModel;
+
+            if (updateItem is not null)
+            {
+                IUpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller();
+                updateInstaller.Updates.Add(updateItem.Update);
+                InstallationCompletedCallback installationCompletedCallback = new InstallationCompletedCallback();
+                InstallationProgressChangedCallback installationProgressChangedCallback = new InstallationProgressChangedCallback();
+                installationCompletedCallback.InstallationCompleted += (sender, args) =>
+                {
+                };
+                installationProgressChangedCallback.InstallationProgressChanged += (sender, args) =>
+                {
+                    double percentage = installationProgressChangedCallback.CallbackArgs.Progress.CurrentUpdatePercentComplete / 100.0;
+                    MainWindow.Current.BeginInvoke(() =>
+                    {
+                        lock (installedUpdateLock)
+                        {
+                            foreach (UpdateModel installedItem in InstalledUpdateCollection)
+                            {
+                                if (installedItem.UpdateID.Equals(updateItem.UpdateID))
+                                {
+                                    installedItem.InstallationProgress = percentage;
+                                }
+                            }
+                        }
+                    });
+                };
+                updateInstaller.BeginUninstall(installationProgressChangedCallback, installationCompletedCallback, null);
+            }
         }
 
         /// <summary>
@@ -251,6 +363,9 @@ namespace WindowsTools.Views.Pages
                                     {
                                         AvailableUpdateCollection.Add(updateItem);
                                     }
+
+                                    IsAUExpanderExpanded = true;
+                                    IsHUExpanderExpanded = true;
                                 }
                                 catch (Exception e)
                                 {
@@ -404,6 +519,9 @@ namespace WindowsTools.Views.Pages
                                     {
                                         HiddenUpdateCollection.Add(hideItem);
                                     }
+
+                                    IsAUExpanderExpanded = true;
+                                    IsHUExpanderExpanded = true;
                                 }
                             }
                             catch (Exception e)
@@ -526,6 +644,9 @@ namespace WindowsTools.Views.Pages
                                     {
                                         AvailableUpdateCollection.Add(showItem);
                                     }
+
+                                    IsAUExpanderExpanded = true;
+                                    IsHUExpanderExpanded = true;
                                 }
                             }
                             catch (Exception e)
@@ -555,7 +676,27 @@ namespace WindowsTools.Views.Pages
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
             {
-                IsExcludeDrivers = toggleSwitch.IsOn;
+                bool value = toggleSwitch.IsOn;
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", true);
+                        registryKey?.SetValue("ExcludeWUDriversInQualityUpdate", Convert.ToInt32(Convert.ToBoolean(value)), RegistryValueKind.DWord);
+                        int returnValue = Convert.ToInt32(registryKey.GetValue("ExcludeWUDriversInQualityUpdate"));
+                        IsExcludeDrivers = Convert.ToBoolean(returnValue);
+                        registryKey.Close();
+                        registryKey.Dispose();
+                    }
+                    catch (Exception e)
+                    {
+                        MainWindow.Current.BeginInvoke(() =>
+                        {
+                            IsExcludeDrivers = !IsExcludeDrivers;
+                        });
+                        LogService.WriteLog(EventLogEntryType.Warning, "Set exclude driver options failed", e);
+                    }
+                });
             }
         }
 
@@ -604,6 +745,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSearchCompleted(object sender, EventArgs args)
         {
+            SearchCompletedCallback searchCompletedCallback = sender as SearchCompletedCallback;
             if (searchCompletedCallback is not null && searchCompletedCallback.SearchJob is not null)
             {
                 ISearchResult searchResult = null;
@@ -611,19 +753,24 @@ namespace WindowsTools.Views.Pages
                 {
                     searchResult = updateSearcher.EndSearch(searchCompletedCallback.SearchJob);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    LogService.WriteLog(EventLogEntryType.Warning, "Get update search result failed", e);
                     try
                     {
                         searchCompletedCallback.SearchCompleted -= OnSearchCompleted;
-                        searchCompletedCallback = null;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        LogService.WriteLog(EventLogEntryType.Error, "Unregister SearchCompletedCallback SearchCompleted event failed", ex);
                     }
+
                     MainWindow.Current.BeginInvoke(() =>
                     {
                         IsChecking = false;
+                        IsAUExpanderExpanded = true;
+                        IsIUExpanderExpanded = true;
+                        IsHUExpanderExpanded = true;
                     });
                     return;
                 }
@@ -709,6 +856,9 @@ namespace WindowsTools.Views.Pages
                     }
 
                     IsChecking = false;
+                    IsAUExpanderExpanded = true;
+                    IsIUExpanderExpanded = true;
+                    IsHUExpanderExpanded = true;
                 });
 
                 GetUpdateHistory();
@@ -740,23 +890,19 @@ namespace WindowsTools.Views.Pages
                 try
                 {
                     string query = "(IsInstalled = 0 and IsHidden = 0 and DeploymentAction=*) or (IsInstalled = 1 and IsHidden = 0 and DeploymentAction=*) or (IsHidden = 1 and DeploymentAction=*)";
-                    searchCompletedCallback = new SearchCompletedCallback();
+                    SearchCompletedCallback searchCompletedCallback = new SearchCompletedCallback();
                     searchCompletedCallback.SearchCompleted += OnSearchCompleted;
                     updateSearcher.BeginSearch(query, searchCompletedCallback, null);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    try
-                    {
-                        searchCompletedCallback.SearchCompleted -= OnSearchCompleted;
-                        searchCompletedCallback = null;
-                    }
-                    catch (Exception)
-                    {
-                    }
+                    LogService.WriteLog(EventLogEntryType.Error, "Search update failed", e);
                     MainWindow.Current.BeginInvoke(() =>
                     {
                         IsChecking = false;
+                        IsAUExpanderExpanded = true;
+                        IsIUExpanderExpanded = true;
+                        IsHUExpanderExpanded = true;
                     });
                 }
             });
@@ -800,6 +946,11 @@ namespace WindowsTools.Views.Pages
                         });
                     }
                 }
+
+                MainWindow.Current.BeginInvoke(() =>
+                {
+                    IsUHExpanderExpanded = true;
+                });
             });
         }
 

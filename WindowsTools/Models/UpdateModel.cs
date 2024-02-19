@@ -71,6 +71,22 @@ namespace WindowsTools.Models
             }
         }
 
+        /// <summary>
+        /// 安装或卸载进度
+        /// </summary>
+        private double _installationProgress;
+
+        public double InstallationProgress
+        {
+            get { return _installationProgress; }
+
+            set
+            {
+                _installationProgress = value;
+                OnPropertyChanged();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>

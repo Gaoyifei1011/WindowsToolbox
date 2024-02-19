@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("高怡飞")]
 [assembly: AssemblyCopyright("Copyright ©2023 高怡飞, All Rights Reserved.")]
 [assembly: AssemblyDescription("Windows 工具箱")]
-[assembly: AssemblyFileVersion("1.5.212.0")]
-[assembly: AssemblyInformationalVersion("1.5.212.0")]
+[assembly: AssemblyFileVersion("1.5.219.0")]
+[assembly: AssemblyInformationalVersion("1.5.219.0")]
 [assembly: AssemblyProduct("Windows 工具箱")]
 [assembly: AssemblyTitle("Windows 工具箱")]
-[assembly: AssemblyVersion("1.5.212.0")]
+[assembly: AssemblyVersion("1.5.219.0")]
 
-// 设置程序集对COM组件的访问权限
+// 设置程序集对 COM 组件的访问权限
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID

@@ -8,11 +8,11 @@ namespace WindowsTools.WindowsAPI.ComTypes
     /// </summary>
     public class SearchCompletedCallback : ISearchCompletedCallback
     {
-        public event EventHandler<EventArgs> SearchCompleted;
-
         public ISearchJob SearchJob { get; private set; }
 
         public ISearchCompletedCallbackArgs CallbackArgs { get; private set; }
+
+        public event EventHandler<EventArgs> SearchCompleted;
 
         /// <summary>
         /// 处理通过调用 IUpdateSearcher.BeginSearch 方法启动的异步搜索完成通知。

@@ -81,8 +81,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="WindowsToolsPackage_SignKey.pfx" />
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" />
     <ProjectReference Include="..\WindowsTools\WindowsTools.csproj" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
@@ -108,6 +106,7 @@
     <ItemGroup>
       <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('.xr.xml'))" />
       <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('Microsoft.UI.Xaml.pri'))" />
+      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(FileName)%(Extension)'=='Microsoft.WindowsAppRuntime.Bootstrap.dll'" />
     </ItemGroup>
   </Target>
 </Project>
