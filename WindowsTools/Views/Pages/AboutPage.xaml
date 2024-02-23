@@ -259,10 +259,11 @@
 
                                         <ToolTipService.ToolTip>
                                             <ToolTip>
-                                                <StackPanel>
-                                                    <TextBlock Text="{x:Bind sys:Convert.ToString(Key)}" />
-                                                    <TextBlock Text="{x:Bind string:About.ReferenceToolTip}" />
-                                                </StackPanel>
+                                                <TextBlock>
+                                                    <Run Text="{x:Bind sys:Convert.ToString(Key)}" />
+                                                    <LineBreak />
+                                                    <Run Text="{x:Bind string:About.ReferenceToolTip}" />
+                                                </TextBlock>
                                             </ToolTip>
                                         </ToolTipService.ToolTip>
                                     </HyperlinkButton>
@@ -397,10 +398,11 @@
 
                                         <ToolTipService.ToolTip>
                                             <ToolTip>
-                                                <StackPanel>
-                                                    <TextBlock Text="{x:Bind sys:Convert.ToString(Key)}" />
-                                                    <TextBlock Text="{x:Bind string:About.ThanksToolTip}" />
-                                                </StackPanel>
+                                                <TextBlock>
+                                                    <Run Text="{x:Bind sys:Convert.ToString(Key)}" />
+                                                    <LineBreak />
+                                                    <Run Text="{x:Bind string:About.ThanksToolTip}" />
+                                                </TextBlock>
                                             </ToolTip>
                                         </ToolTipService.ToolTip>
                                     </HyperlinkButton>

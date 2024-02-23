@@ -178,7 +178,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Windows update does not include drivers(run as administrator) 的本地化字符串。
+        ///   查找类似 Windows update does not include drivers 的本地化字符串。
         /// </summary>
         public static string ExcludeDrivers {
             get {
@@ -511,6 +511,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Update configuration (run as administrator) 的本地化字符串。
+        /// </summary>
+        public static string UpdateConfiguration {
+            get {
+                return ResourceManager.GetString("UpdateConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Update history 的本地化字符串。
         /// </summary>
         public static string UpdateHistory {
@@ -529,11 +538,11 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Update policy 的本地化字符串。
+        ///   查找类似 Update settings 的本地化字符串。
         /// </summary>
-        public static string UpdatePolicy {
+        public static string UpdateSettings {
             get {
-                return ResourceManager.GetString("UpdatePolicy", resourceCulture);
+                return ResourceManager.GetString("UpdateSettings", resourceCulture);
             }
         }
         
@@ -561,15 +570,6 @@ namespace WindowsTools.Strings {
         public static string WindowsUpdate {
             get {
                 return ResourceManager.GetString("WindowsUpdate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Windows insider program 的本地化字符串。
-        /// </summary>
-        public static string WIP {
-            get {
-                return ResourceManager.GetString("WIP", resourceCulture);
             }
         }
         

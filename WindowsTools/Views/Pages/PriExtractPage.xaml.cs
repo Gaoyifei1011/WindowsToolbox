@@ -497,16 +497,16 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExportSelectedEmbeddedDataClicked(object sender, RoutedEventArgs args)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = PriExtract.SelectFolder;
-            dialog.ShowNewFolderButton = true;
-            dialog.RootFolder = Environment.SpecialFolder.Desktop;
-            DialogResult result = dialog.ShowDialog();
-            if (result is DialogResult.OK || result is DialogResult.Yes)
+            List<EmbeddedDataModel> selectedEmbeddedDataList = EmbeddedDataCollection.Where(item => item.IsSelected is true).ToList();
+            if (selectedEmbeddedDataList.Count > 0)
             {
                 IsProcessing = true;
-                List<EmbeddedDataModel> selectedEmbeddedDataList = EmbeddedDataCollection.Where(item => item.IsSelected is true).ToList();
-                if (selectedEmbeddedDataList.Count > 0)
+                FolderBrowserDialog dialog = new FolderBrowserDialog();
+                dialog.Description = PriExtract.SelectFolder;
+                dialog.ShowNewFolderButton = true;
+                dialog.RootFolder = Environment.SpecialFolder.Desktop;
+                DialogResult result = dialog.ShowDialog();
+                if (result is DialogResult.OK || result is DialogResult.Yes)
                 {
                     Task.Run(() =>
                     {
@@ -545,6 +545,10 @@ namespace WindowsTools.Views.Pages
                             IsProcessing = false;
                         });
                     });
+                }
+                else
+                {
+                    IsProcessing = false;
                 }
             }
         }

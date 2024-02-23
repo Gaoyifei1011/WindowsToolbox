@@ -221,7 +221,10 @@
                 </muxc:NavigationViewItem>
 
                 <!--  个性化工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.Personalize}" Tag="10">
+                <muxc:NavigationViewItem
+                    Content="{x:Bind string:Window.Personalize}"
+                    Tag="10"
+                    Visibility="Collapsed">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Personalize.png" />
@@ -245,21 +248,30 @@
                     </muxc:NavigationViewItem.Icon>
 
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.SystemInfo}" Tag="13">
+                        <muxc:NavigationViewItem
+                            Content="{x:Bind string:Window.SystemInfo}"
+                            Tag="13"
+                            Visibility="Collapsed">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/SystemInfo.png" />
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.DriverManager}" Tag="14">
+                        <muxc:NavigationViewItem
+                            Content="{x:Bind string:Window.DriverManager}"
+                            Tag="14"
+                            Visibility="Collapsed">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/DriverManager.png" />
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.UpdateManager}" Tag="15">
+                        <muxc:NavigationViewItem
+                            Content="{x:Bind string:Window.UpdateManager}"
+                            Tag="15"
+                            Visibility="Collapsed">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/UpdateManager.png" />

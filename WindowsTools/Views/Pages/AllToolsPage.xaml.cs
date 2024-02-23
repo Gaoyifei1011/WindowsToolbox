@@ -85,27 +85,27 @@ namespace WindowsTools.Views.Pages
         // 系统工具列表
         private List<ControlItemModel> SystemToolsList { get; } = new List<ControlItemModel>()
         {
-            new ControlItemModel()
-            {
-                Title = AllTools.SystemInfo,
-                Description = AllTools.SystemInfoDescription,
-                ImagePath = "ms-appx:///Assets/ControlIcon/SystemInfo.png",
-                Tag = "SystemInfo"
-            },
-            new ControlItemModel()
-            {
-                Title = AllTools.DriverManager,
-                Description = AllTools.DriverManagerDescription,
-                ImagePath = "ms-appx:///Assets/ControlIcon/DriverManager.png",
-                Tag = "DriverManager"
-            },
-            new ControlItemModel()
-            {
-                Title = AllTools.UpdateManager,
-                Description = AllTools.UpdateManagerDescription,
-                ImagePath = "ms-appx:///Assets/ControlIcon/UpdateManager.png",
-                Tag = "UpdateManager"
-            },
+            //new ControlItemModel()
+            //{
+            //    Title = AllTools.SystemInfo,
+            //    Description = AllTools.SystemInfoDescription,
+            //    ImagePath = "ms-appx:///Assets/ControlIcon/SystemInfo.png",
+            //    Tag = "SystemInfo"
+            //},
+            //new ControlItemModel()
+            //{
+            //    Title = AllTools.DriverManager,
+            //    Description = AllTools.DriverManagerDescription,
+            //    ImagePath = "ms-appx:///Assets/ControlIcon/DriverManager.png",
+            //    Tag = "DriverManager"
+            //},
+            //new ControlItemModel()
+            //{
+            //    Title = AllTools.UpdateManager,
+            //    Description = AllTools.UpdateManagerDescription,
+            //    ImagePath = "ms-appx:///Assets/ControlIcon/UpdateManager.png",
+            //    Tag = "UpdateManager"
+            //},
             new ControlItemModel()
             {
                 Title = AllTools.WinSAT,

@@ -157,7 +157,7 @@
     <value>不进入</value>
   </data>
   <data name="ExcludeDrivers" xml:space="preserve">
-    <value>Windows 更新不包括驱动程序（管理员身份运行）</value>
+    <value>Windows 更新不包括驱动程序</value>
   </data>
   <data name="ExcludeDriversOffContent" xml:space="preserve">
     <value>否</value>
@@ -267,14 +267,17 @@
   <data name="Unknown" xml:space="preserve">
     <value>未知</value>
   </data>
+  <data name="UpdateConfiguration" xml:space="preserve">
+    <value>更新配置（管理员身份运行）</value>
+  </data>
   <data name="UpdateHistory" xml:space="preserve">
     <value>更新历史记录</value>
   </data>
   <data name="UpdateName" xml:space="preserve">
     <value>更新名称</value>
   </data>
-  <data name="UpdatePolicy" xml:space="preserve">
-    <value>更新策略</value>
+  <data name="UpdateSettings" xml:space="preserve">
+    <value>更新设置</value>
   </data>
   <data name="UpdateSource" xml:space="preserve">
     <value>更新源</value>
@@ -284,9 +287,6 @@
   </data>
   <data name="WindowsUpdate" xml:space="preserve">
     <value>Windows 更新</value>
-  </data>
-  <data name="WIP" xml:space="preserve">
-    <value>Windows 预览体验计划</value>
   </data>
   <data name="WIPSettings" xml:space="preserve">
     <value>预览体验计划设置</value>

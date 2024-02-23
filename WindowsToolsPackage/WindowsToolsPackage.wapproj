@@ -81,6 +81,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="WindowsToolsPackage_SignKey.pfx" />
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" />
     <ProjectReference Include="..\WindowsTools\WindowsTools.csproj" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />

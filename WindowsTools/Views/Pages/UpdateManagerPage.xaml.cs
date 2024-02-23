@@ -301,9 +301,14 @@ namespace WindowsTools.Views.Pages
                 updateInstaller.Updates.Add(updateItem.Update);
                 InstallationCompletedCallback installationCompletedCallback = new InstallationCompletedCallback();
                 InstallationProgressChangedCallback installationProgressChangedCallback = new InstallationProgressChangedCallback();
+
+                // 安装完成，更新信息并重新检查更新
                 installationCompletedCallback.InstallationCompleted += (sender, args) =>
                 {
+                    CheckUpdate();
                 };
+
+                // 更新进行中，进度变化时更改 UI 变化信息
                 installationProgressChangedCallback.InstallationProgressChanged += (sender, args) =>
                 {
                     double percentage = installationProgressChangedCallback.CallbackArgs.Progress.CurrentUpdatePercentComplete / 100.0;
@@ -539,8 +544,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAvailableInstallClicked(object sender, RoutedEventArgs args)
         {
-            List<UpdateModel> hideList = AvailableUpdateCollection.Where(item => item.IsSelected is true).ToList();
-            foreach (UpdateModel hideItem in hideList)
+            List<UpdateModel> installList = AvailableUpdateCollection.Where(item => item.IsSelected is true).ToList();
+            foreach (UpdateModel hideItem in installList)
             {
             }
         }

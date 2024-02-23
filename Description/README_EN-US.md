@@ -1,12 +1,12 @@
 <div align=center>
-<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/016c7974-b154-47c0-b813-6169f4f49609" width="140" height="140"/>
+<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/f15905e6-eb23-46b2-a586-cfa0cc96d1f1" width="140" height="140"/>
 </div>
 
 # <p align="center">Welcome to WindowsToolbox</p>
 
 ### Application brief introduction
 
-A simple tool to help users quickly rename a large number of files, providing a simple and rich renaming options.
+A toolbox that integrates multiple gadgets.
 
 ------
 
@@ -15,7 +15,10 @@ A simple tool to help users quickly rename a large number of files, providing a 
 > * Batch change file names
 > * Batch change file extension names
 > * Batch change the upper and lower case names of files
-> * Modify the properties of files in batches
+> * Batch modify file properties
+> * Batch delete the certificates of signed files
+> * Extract file icons and package resource index contents
+> * Windows system Performance Evaluation
 
 ------
 
@@ -41,6 +44,24 @@ A simple tool to help users quickly rename a large number of files, providing a 
 <img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/3cdf5dcd-8279-43e4-a14e-6f32dafb1422">
 </div>
 
+------
+
+### 项目开发进展
+
+| Project content                                           | Development progress                                                 |
+| --------------------------------------------------------- | -------------------------------------------------------------------- |
+| Batch change file names                                   | Finished                                                             |
+| Batch change file extension names                         | Finished                                                             |
+| Batch change the upper and lower case names of files      | Finished                                                             |
+| Batch modify file properties                              | Finished                                                             |
+| Batch delete the certificates of signed files             | Finished                                                             |
+| Extract file icons                                        | Finished                                                             |
+| Extract the package resource index(.pri) file conten      | Finished                                                             |
+| Customize the right-click menu                            | Unfinished                                                           |
+| System information                                        | Unfinished                                                           |
+| Driver manager                                            | Unfinished                                                           |
+| Update manager                                            | Unfinished                                                           |
+| Windows system assessment tool                            | Finished                                                             |
 
 ------
 

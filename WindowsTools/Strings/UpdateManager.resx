@@ -157,7 +157,7 @@
     <value>Do not enter</value>
   </data>
   <data name="ExcludeDrivers" xml:space="preserve">
-    <value>Windows update does not include drivers(run as administrator)</value>
+    <value>Windows update does not include drivers</value>
   </data>
   <data name="ExcludeDriversOffContent" xml:space="preserve">
     <value>No</value>
@@ -267,14 +267,17 @@
   <data name="Unknown" xml:space="preserve">
     <value>Unknown</value>
   </data>
+  <data name="UpdateConfiguration" xml:space="preserve">
+    <value>Update configuration (run as administrator)</value>
+  </data>
   <data name="UpdateHistory" xml:space="preserve">
     <value>Update history</value>
   </data>
   <data name="UpdateName" xml:space="preserve">
     <value>Update name</value>
   </data>
-  <data name="UpdatePolicy" xml:space="preserve">
-    <value>Update policy</value>
+  <data name="UpdateSettings" xml:space="preserve">
+    <value>Update settings</value>
   </data>
   <data name="UpdateSource" xml:space="preserve">
     <value>Update source</value>
@@ -284,9 +287,6 @@
   </data>
   <data name="WindowsUpdate" xml:space="preserve">
     <value>Windows update</value>
-  </data>
-  <data name="WIP" xml:space="preserve">
-    <value>Windows insider program</value>
   </data>
   <data name="WIPSettings" xml:space="preserve">
     <value>WIP Settings</value>
