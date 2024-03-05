@@ -133,7 +133,7 @@
                             <MenuFlyout Placement="Bottom">
                                 <ToggleMenuFlyoutItem
                                     Height="32"
-                                    Margin="11,0"
+                                    Padding="11,0"
                                     Click="{x:Bind OnThemeSelectClicked}"
                                     IsChecked="{x:Bind Theme.Value.Equals(ThemeList[0].Value), Mode=OneWay}"
                                     Tag="0"
@@ -141,7 +141,7 @@
 
                                 <ToggleMenuFlyoutItem
                                     Height="32"
-                                    Margin="11,0"
+                                    Padding="11,0"
                                     Click="{x:Bind OnThemeSelectClicked}"
                                     IsChecked="{x:Bind Theme.Value.Equals(ThemeList[1].Value), Mode=OneWay}"
                                     Tag="1"
@@ -149,7 +149,7 @@
 
                                 <ToggleMenuFlyoutItem
                                     Height="32"
-                                    Margin="11,0"
+                                    Padding="11,0"
                                     Click="{x:Bind OnThemeSelectClicked}"
                                     IsChecked="{x:Bind Theme.Value.Equals(ThemeList[2].Value), Mode=OneWay}"
                                     Tag="2"
@@ -219,7 +219,7 @@
                             <MenuFlyout Placement="Bottom">
                                 <ToggleMenuFlyoutItem
                                     Height="32"
-                                    Margin="11,0"
+                                    Padding="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
                                     IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[0].Value), Mode=OneWay}"
                                     Tag="0"
@@ -227,7 +227,7 @@
 
                                 <ToggleMenuFlyoutItem
                                     Height="32"
-                                    Margin="11,0"
+                                    Padding="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
                                     IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[1].Value), Mode=OneWay}"
                                     Tag="1"
@@ -235,7 +235,7 @@
 
                                 <ToggleMenuFlyoutItem
                                     Height="32"
-                                    Margin="11,0"
+                                    Padding="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
                                     IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[2].Value), Mode=OneWay}"
                                     Tag="2"
@@ -243,7 +243,7 @@
 
                                 <ToggleMenuFlyoutItem
                                     Height="32"
-                                    Margin="11,0"
+                                    Padding="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
                                     IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[3].Value), Mode=OneWay}"
                                     Tag="3"
@@ -434,7 +434,8 @@
                     Margin="0,0,0,5"
                     VerticalAlignment="Center"
                     Orientation="Horizontal"
-                    Spacing="5">
+                    Spacing="5"
+                    Visibility="Collapsed">
 
                     <FontIcon
                         Margin="0,2,0,0"
@@ -457,7 +458,8 @@
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
-                    CornerRadius="{StaticResource ControlCornerRadius}">
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Visibility="Collapsed">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />

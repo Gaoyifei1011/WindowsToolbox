@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
@@ -436,15 +438,167 @@ namespace WindowsTools.Views.Pages
             return (MainNavigationView.Content as Frame).CanGoBack;
         }
 
-        /// <summary>
-        /// 获取当前导航控件内容对应的页面
-        /// </summary>
-        public object GetFrameContent()
-        {
-            return (MainNavigationView.Content as Frame).Content;
-        }
-
         #endregion 第五部分：窗口导航方法
+
+        /// <summary>
+        /// 将提权模式下拖放获得到的文件列表发送到各个页面
+        /// </summary>
+        public void SendReceivedFilesList(List<string> filesList)
+        {
+            Type currentPageType = GetCurrentPageType();
+            if (currentPageType.Equals(typeof(FileNamePage)))
+            {
+                FileNamePage page = (MainNavigationView.Content as Frame).Content as FileNamePage;
+
+                Task.Run(() =>
+                {
+                    List<OldAndNewNameModel> fileNameList = new List<OldAndNewNameModel>();
+
+                    foreach (string file in filesList)
+                    {
+                        FileInfo fileInfo = new FileInfo(file);
+                        if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
+                        {
+                            continue;
+                        }
+
+                        fileNameList.Add(new OldAndNewNameModel()
+                        {
+                            OriginalFileName = Path.GetFileName(file),
+                            OriginalFilePath = file,
+                        });
+                    }
+
+                    page.AddToFileNamePage(fileNameList);
+                });
+            }
+            else if (currentPageType.Equals(typeof(ExtensionNamePage)))
+            {
+                ExtensionNamePage page = (MainNavigationView.Content as Frame).Content as ExtensionNamePage;
+
+                Task.Run(() =>
+                {
+                    List<OldAndNewNameModel> extensionNameList = new List<OldAndNewNameModel>();
+
+                    foreach (string file in filesList)
+                    {
+                        FileInfo fileInfo = new FileInfo(file);
+                        if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
+                        {
+                            continue;
+                        }
+
+                        if (!IOHelper.IsDir(fileInfo.FullName))
+                        {
+                            extensionNameList.Add(new OldAndNewNameModel()
+                            {
+                                OriginalFileName = fileInfo.Name,
+                                OriginalFilePath = fileInfo.FullName
+                            });
+                        }
+                    }
+
+                    page.AddToExtensionNamePage(extensionNameList);
+                });
+            }
+            else if (currentPageType.Equals(typeof(UpperAndLowerCasePage)))
+            {
+                UpperAndLowerCasePage page = (MainNavigationView.Content as Frame).Content as UpperAndLowerCasePage;
+
+                Task.Run(() =>
+                {
+                    List<OldAndNewNameModel> upperAndLowerCaseList = new List<OldAndNewNameModel>();
+
+                    foreach (string file in filesList)
+                    {
+                        FileInfo fileInfo = new FileInfo(file);
+                        if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
+                        {
+                            continue;
+                        }
+
+                        upperAndLowerCaseList.Add(new OldAndNewNameModel()
+                        {
+                            OriginalFileName = Path.GetFileName(file),
+                            OriginalFilePath = file,
+                        });
+                    }
+
+                    page.AddtoUpperAndLowerCasePage(upperAndLowerCaseList);
+                });
+            }
+            else if (currentPageType.Equals(typeof(FilePropertiesPage)))
+            {
+                FilePropertiesPage page = (MainNavigationView.Content as Frame).Content as FilePropertiesPage;
+
+                Task.Run(() =>
+                {
+                    List<OldAndNewPropertiesModel> filePropertiesList = new List<OldAndNewPropertiesModel>();
+
+                    foreach (string file in filesList)
+                    {
+                        FileInfo fileInfo = new FileInfo(file);
+                        if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
+                        {
+                            continue;
+                        }
+
+                        filePropertiesList.Add(new OldAndNewPropertiesModel()
+                        {
+                            FileName = Path.GetFileName(file),
+                            FilePath = file,
+                        });
+                    }
+
+                    page.AddToFilePropertiesPage(filePropertiesList);
+                });
+            }
+            else if (currentPageType.Equals(typeof(FileCertificatePage)))
+            {
+                FileCertificatePage page = (MainNavigationView.Content as Frame).Content as FileCertificatePage;
+
+                Task.Run(() =>
+                {
+                    List<CertificateResultModel> fileCertificateList = new List<CertificateResultModel>();
+
+                    foreach (string file in filesList)
+                    {
+                        FileInfo fileInfo = new FileInfo(file);
+                        if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
+                        {
+                            continue;
+                        }
+
+                        if (!IOHelper.IsDir(fileInfo.FullName))
+                        {
+                            fileCertificateList.Add(new CertificateResultModel()
+                            {
+                                FileName = fileInfo.Name,
+                                FilePath = fileInfo.FullName
+                            });
+                        }
+                    }
+
+                    page.AddToFileCertificatePage(fileCertificateList);
+                });
+            }
+            else if (currentPageType.Equals(typeof(IconExtractPage)))
+            {
+                IconExtractPage page = (MainNavigationView.Content as Frame).Content as IconExtractPage;
+                if (filesList.Count is 1 && (Path.GetExtension(filesList[0]).Equals(".exe") || Path.GetExtension(filesList[0]).Equals(".dll")))
+                {
+                    page.ParseIconFile(filesList[0]);
+                }
+            }
+            else if (currentPageType.Equals(typeof(PriExtractPage)))
+            {
+                PriExtractPage page = (MainNavigationView.Content as Frame).Content as PriExtractPage;
+                if (filesList.Count is 1 && Path.GetExtension(filesList[0]).Equals(".pri"))
+                {
+                    page.ParseResourceFile(filesList[0]);
+                }
+            }
+        }
 
         /// <summary>
         /// 属性值发生变化时通知更改

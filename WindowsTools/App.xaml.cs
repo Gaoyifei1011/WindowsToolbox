@@ -1,7 +1,8 @@
-﻿using Mile.Xaml;
+﻿using Mile.Xaml.Interop;
 using System;
 using System.Diagnostics;
-using System.Windows.Forms;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Hosting;
 using WindowsTools.Services.Root;
 using WindowsTools.Views.Windows;
 
@@ -10,13 +11,14 @@ namespace WindowsTools
     /// <summary>
     /// Windows 工具箱应用程序
     /// </summary>
-    public partial class App : Windows.UI.Xaml.Application, IDisposable
+    public partial class App : Application, IDisposable
     {
         private bool isDisposed;
 
         public App()
         {
-            this.ThreadInitialize();
+            WindowsXamlManager.InitializeForCurrentThread();
+            Window.Current.GetInterop().TransparentBackground = true;
             InitializeComponent();
             UnhandledException += OnUnhandledException;
         }
@@ -54,8 +56,7 @@ namespace WindowsTools
                 if (disposing)
                 {
                     MainWindow.Current.Close();
-                    this.ThreadUninitialize();
-                    Application.Exit();
+                    System.Windows.Forms.Application.Exit();
                 }
 
                 isDisposed = true;

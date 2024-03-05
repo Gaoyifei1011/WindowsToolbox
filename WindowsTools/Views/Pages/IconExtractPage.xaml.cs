@@ -159,7 +159,7 @@ namespace WindowsTools.Views.Pages
             new DictionaryEntry() { Key = "256 * 256", Value = 256 }
         };
 
-        private ObservableCollection<IconModel> IconCollection = new ObservableCollection<IconModel>();
+        private ObservableCollection<IconModel> IconCollection { get; } = new ObservableCollection<IconModel>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -226,10 +226,6 @@ namespace WindowsTools.Views.Pages
         {
             base.OnDrop(args);
             DragOperationDeferral deferral = args.GetDeferral();
-            lock (iconExtractLock)
-            {
-                IconCollection.Clear();
-            }
             DataPackageView view = args.DataView;
 
             Task.Run(async () =>
@@ -242,62 +238,9 @@ namespace WindowsTools.Views.Pages
 
                         if (filesList.Count is 1)
                         {
-                            // 图标个数
-                            int iconsNum = User32Library.PrivateExtractIcons(filesList[0].Path, 0, 0, 0, null, null, 0, 0);
-                            filePath = filesList[0].Path;
-
-                            // 显示图标
-                            IntPtr[] phicon = new IntPtr[iconsNum];
-                            int[] piconid = new int[iconsNum];
-                            List<IconModel> iconsList = new List<IconModel>();
-                            int nIcons = User32Library.PrivateExtractIcons(filePath, 0, 48, 48, phicon, piconid, iconsNum, 0);
-                            for (int index = 0; index < iconsNum; index++)
-                            {
-                                Icon icon = Icon.FromHandle(phicon[index]);
-                                MemoryStream memoryStream = new MemoryStream();
-                                icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
-                                memoryStream.Seek(0, SeekOrigin.Begin);
-
-                                iconsList.Add(new IconModel()
-                                {
-                                    DisplayIndex = Convert.ToString(index),
-                                    IconMemoryStream = memoryStream,
-                                });
-
-                                icon.Dispose();
-                                User32Library.DestroyIcon(phicon[index]);
-                            }
-
                             MainWindow.Current.BeginInvoke(() =>
                             {
-                                try
-                                {
-                                    GetResults = string.Format(IconExtract.GetResults, Path.GetFileName(filesList[0].Path), iconsNum);
-                                    NoResources = string.Format(IconExtract.NoResources, Path.GetFileName(filesList[0].Path));
-                                    ImageSource = null;
-                                    IsImageEmpty = true;
-
-                                    foreach (IconModel iconItem in iconsList)
-                                    {
-                                        BitmapImage bitmapImage = new BitmapImage();
-                                        bitmapImage.SetSource(iconItem.IconMemoryStream.AsRandomAccessStream());
-
-                                        lock (iconExtractLock)
-                                        {
-                                            IconCollection.Add(new IconModel()
-                                            {
-                                                DisplayIndex = iconItem.DisplayIndex,
-                                                IconImage = bitmapImage
-                                            });
-                                        }
-
-                                        iconItem.IconMemoryStream.Dispose();
-                                    }
-                                }
-                                catch (Exception e)
-                                {
-                                    LogService.WriteLog(EventLogEntryType.Error, string.Format("Display {0} icons failed", iconsList), e);
-                                }
+                                ParseIconFile(filesList[0].Path);
                             });
                         }
                     }
@@ -431,85 +374,9 @@ namespace WindowsTools.Views.Pages
             dialog.Multiselect = false;
             dialog.Filter = IconExtract.FilterCondition;
             dialog.Title = IconExtract.SelectFile;
-            if (dialog.ShowDialog() is DialogResult.OK)
+            if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
-                try
-                {
-                    lock (iconExtractLock)
-                    {
-                        IconCollection.Clear();
-                    }
-
-                    Task.Run(() =>
-                    {
-                        if (!string.IsNullOrEmpty(dialog.FileName))
-                        {
-                            string selectedFile = dialog.FileName;
-
-                            // 图标个数
-                            int iconsNum = User32Library.PrivateExtractIcons(dialog.FileName, 0, 0, 0, null, null, 0, 0);
-                            filePath = dialog.FileName;
-
-                            // 显示图标
-                            IntPtr[] phicon = new IntPtr[iconsNum];
-                            int[] piconid = new int[iconsNum];
-                            List<IconModel> iconsList = new List<IconModel>();
-                            int nIcons = User32Library.PrivateExtractIcons(filePath, 0, 48, 48, phicon, piconid, iconsNum, 0);
-                            for (int index = 0; index < iconsNum; index++)
-                            {
-                                Icon icon = Icon.FromHandle(phicon[index]);
-                                MemoryStream memoryStream = new MemoryStream();
-                                icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
-                                memoryStream.Seek(0, SeekOrigin.Begin);
-
-                                iconsList.Add(new IconModel()
-                                {
-                                    DisplayIndex = Convert.ToString(index),
-                                    IconMemoryStream = memoryStream,
-                                });
-
-                                icon.Dispose();
-                                User32Library.DestroyIcon(phicon[index]);
-                            }
-
-                            MainWindow.Current.BeginInvoke(() =>
-                            {
-                                try
-                                {
-                                    GetResults = string.Format(IconExtract.GetResults, Path.GetFileName(dialog.FileName), iconsNum);
-                                    NoResources = string.Format(IconExtract.NoResources, Path.GetFileName(dialog.FileName));
-                                    ImageSource = null;
-                                    IsImageEmpty = true;
-
-                                    foreach (IconModel iconItem in iconsList)
-                                    {
-                                        BitmapImage bitmapImage = new BitmapImage();
-                                        bitmapImage.SetSource(iconItem.IconMemoryStream.AsRandomAccessStream());
-
-                                        lock (iconExtractLock)
-                                        {
-                                            IconCollection.Add(new IconModel()
-                                            {
-                                                DisplayIndex = iconItem.DisplayIndex,
-                                                IconImage = bitmapImage
-                                            });
-                                        }
-
-                                        iconItem.IconMemoryStream.Dispose();
-                                    }
-                                }
-                                catch (Exception e)
-                                {
-                                    LogService.WriteLog(EventLogEntryType.Error, string.Format("Display {0} icons failed", iconsList), e);
-                                }
-                            });
-                        }
-                    });
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", dialog.FileName), e);
-                }
+                ParseIconFile(dialog.FileName);
             }
         }
 
@@ -671,6 +538,93 @@ namespace WindowsTools.Views.Pages
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// 解析带有图标的二进制文件
+        /// </summary>
+        public void ParseIconFile(string iconFilePath)
+        {
+            lock (iconExtractLock)
+            {
+                IconCollection.Clear();
+            }
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    filePath = iconFilePath;
+                    // 图标个数
+                    int iconsNum = User32Library.PrivateExtractIcons(filePath, 0, 0, 0, null, null, 0, 0);
+
+                    // 显示图标
+                    IntPtr[] phicon = new IntPtr[iconsNum];
+                    int[] piconid = new int[iconsNum];
+                    List<IconModel> iconsList = new List<IconModel>();
+                    int nIcons = User32Library.PrivateExtractIcons(filePath, 0, 48, 48, phicon, piconid, iconsNum, 0);
+                    for (int index = 0; index < iconsNum; index++)
+                    {
+                        Icon icon = Icon.FromHandle(phicon[index]);
+                        MemoryStream memoryStream = new MemoryStream();
+                        icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
+                        memoryStream.Seek(0, SeekOrigin.Begin);
+
+                        iconsList.Add(new IconModel()
+                        {
+                            DisplayIndex = Convert.ToString(index),
+                            IconMemoryStream = memoryStream,
+                        });
+
+                        icon.Dispose();
+                        User32Library.DestroyIcon(phicon[index]);
+                    }
+
+                    MainWindow.Current.BeginInvoke(() =>
+                    {
+                        try
+                        {
+                            GetResults = string.Format(IconExtract.GetResults, Path.GetFileName(filePath), iconsNum);
+                            NoResources = string.Format(IconExtract.NoResources, Path.GetFileName(filePath));
+                            ImageSource = null;
+                            IsImageEmpty = true;
+
+                            foreach (IconModel iconItem in iconsList)
+                            {
+                                BitmapImage bitmapImage = new BitmapImage();
+                                bitmapImage.SetSource(iconItem.IconMemoryStream.AsRandomAccessStream());
+
+                                lock (iconExtractLock)
+                                {
+                                    IconCollection.Add(new IconModel()
+                                    {
+                                        DisplayIndex = iconItem.DisplayIndex,
+                                        IconImage = bitmapImage
+                                    });
+                                }
+
+                                iconItem.IconMemoryStream.Dispose();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Display {0} icons failed", iconsList), e);
+                        }
+                    });
+                }
+                catch (Exception e)
+                {
+                    MainWindow.Current.BeginInvoke(() =>
+                    {
+                        GetResults = string.Format(IconExtract.GetResults, Path.GetFileName(filePath), 0);
+                        NoResources = string.Format(IconExtract.NoResources, Path.GetFileName(filePath));
+                        ImageSource = null;
+                        IsImageEmpty = true;
+                    });
+
+                    LogService.WriteLog(EventLogEntryType.Error, string.Format("Parse {0} file icons failed", filePath), e);
+                }
+            });
         }
 
         /// <summary>

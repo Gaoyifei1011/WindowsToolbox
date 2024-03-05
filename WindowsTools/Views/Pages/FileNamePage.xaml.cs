@@ -215,7 +215,7 @@ namespace WindowsTools.Views.Pages
             },
         };
 
-        public ObservableCollection<OldAndNewNameModel> FileNameCollection { get; } = new ObservableCollection<OldAndNewNameModel>();
+        private ObservableCollection<OldAndNewNameModel> FileNameCollection { get; } = new ObservableCollection<OldAndNewNameModel>();
 
         private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = new ObservableCollection<OperationFailedModel>();
 
@@ -254,7 +254,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 拖动文件完成后获取文件信息
         /// </summary>
-        protected override async void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
+        protected override void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
         {
             base.OnDrop(args);
             DragOperationDeferral deferral = args.GetDeferral();
@@ -263,18 +263,35 @@ namespace WindowsTools.Views.Pages
                 DataPackageView view = args.DataView;
                 if (view.Contains(StandardDataFormats.StorageItems))
                 {
-                    IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
-                    foreach (IStorageItem storageItem in filesList)
+                    Task.Run(async () =>
                     {
-                        lock (fileNameLock)
+                        IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
+                        List<OldAndNewNameModel> fileNameList = new List<OldAndNewNameModel>();
+                        foreach (IStorageItem storageItem in storageItemList)
                         {
-                            FileNameCollection.Add(new OldAndNewNameModel()
+                            try
                             {
-                                OriginalFileName = storageItem.Name,
-                                OriginalFilePath = storageItem.Path
-                            });
+                                FileInfo fileInfo = new FileInfo(storageItem.Path);
+                                if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                                {
+                                    continue;
+                                }
+
+                                fileNameList.Add(new OldAndNewNameModel()
+                                {
+                                    OriginalFileName = storageItem.Name,
+                                    OriginalFilePath = storageItem.Path,
+                                });
+                            }
+                            catch (Exception e)
+                            {
+                                LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
+                                continue;
+                            }
                         }
-                    }
+
+                        AddToFileNamePage(fileNameList);
+                    });
                 }
             }
             catch (Exception e)
@@ -463,31 +480,35 @@ namespace WindowsTools.Views.Pages
             dialog.Title = FileName.SelectFile;
             if (dialog.ShowDialog() is DialogResult.OK)
             {
-                foreach (string fileName in dialog.FileNames)
+                Task.Run(() =>
                 {
-                    try
-                    {
-                        FileInfo file = new FileInfo(fileName);
-                        if ((file.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
-                        {
-                            continue;
-                        }
+                    List<OldAndNewNameModel> fileNameList = new List<OldAndNewNameModel>();
 
-                        lock (fileNameLock)
+                    foreach (string fileName in dialog.FileNames)
+                    {
+                        try
                         {
-                            FileNameCollection.Add(new OldAndNewNameModel()
+                            FileInfo fileInfo = new FileInfo(fileName);
+                            if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
-                                OriginalFileName = file.Name,
-                                OriginalFilePath = file.FullName
+                                continue;
+                            }
+
+                            fileNameList.Add(new OldAndNewNameModel()
+                            {
+                                OriginalFileName = fileInfo.Name,
+                                OriginalFilePath = fileInfo.FullName
                             });
                         }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", fileName), e);
+                            continue;
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", fileName), e);
-                        continue;
-                    }
-                }
+
+                    AddToFileNamePage(fileNameList);
+                });
             }
         }
 
@@ -506,55 +527,57 @@ namespace WindowsTools.Views.Pages
                 OperationFailedCollection.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
-                    DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
-
-                    try
+                    Task.Run(() =>
                     {
-                        foreach (DirectoryInfo directoryInfo in currentFolder.GetDirectories())
-                        {
-                            if ((directoryInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
-                            {
-                                continue;
-                            }
+                        DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
+                        List<OldAndNewNameModel> directoryNameList = new List<OldAndNewNameModel>();
+                        List<OldAndNewNameModel> fileNameList = new List<OldAndNewNameModel>();
 
-                            lock (fileNameLock)
+                        try
+                        {
+                            foreach (DirectoryInfo directoryInfo in currentFolder.GetDirectories())
                             {
-                                FileNameCollection.Add(new OldAndNewNameModel()
+                                if ((directoryInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                                {
+                                    continue;
+                                }
+
+                                directoryNameList.Add(new OldAndNewNameModel()
                                 {
                                     OriginalFileName = directoryInfo.Name,
                                     OriginalFilePath = directoryInfo.FullName
                                 });
                             }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} directoryInfo information failed", dialog.SelectedPath), e);
-                    }
-
-                    try
-                    {
-                        foreach (FileInfo fileInfo in currentFolder.GetFiles())
+                        catch (Exception e)
                         {
-                            if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
-                            {
-                                continue;
-                            }
+                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} directoryInfo information failed", dialog.SelectedPath), e);
+                        }
 
-                            lock (fileNameLock)
+                        try
+                        {
+                            foreach (FileInfo fileInfo in currentFolder.GetFiles())
                             {
-                                FileNameCollection.Add(new OldAndNewNameModel()
+                                if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                                {
+                                    continue;
+                                }
+
+                                fileNameList.Add(new OldAndNewNameModel()
                                 {
                                     OriginalFileName = fileInfo.Name,
                                     OriginalFilePath = fileInfo.FullName
                                 });
                             }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} fileInfo information failed", dialog.SelectedPath), e);
-                    }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} information failed", dialog.SelectedPath), e);
+                        }
+
+                        AddToFileNamePage(directoryNameList);
+                        AddToFileNamePage(fileNameList);
+                    });
                 }
             }
         }
@@ -583,6 +606,23 @@ namespace WindowsTools.Views.Pages
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// 添加到文件名称页面
+        /// </summary>
+        public void AddToFileNamePage(List<OldAndNewNameModel> filenameList)
+        {
+            MainWindow.Current.BeginInvoke(() =>
+            {
+                lock (fileNameLock)
+                {
+                    foreach (OldAndNewNameModel oldAndNewNameItem in filenameList)
+                    {
+                        FileNameCollection.Add(oldAndNewNameItem);
+                    }
+                }
+            });
         }
 
         private string GetChangeRule(int index)

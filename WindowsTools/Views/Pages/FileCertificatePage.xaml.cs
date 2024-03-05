@@ -48,7 +48,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        public ObservableCollection<CertificateResultModel> FileCertificateCollection { get; } = new ObservableCollection<CertificateResultModel>();
+        private ObservableCollection<CertificateResultModel> FileCertificateCollection { get; } = new ObservableCollection<CertificateResultModel>();
 
         private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = new ObservableCollection<OperationFailedModel>();
 
@@ -78,7 +78,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 拖动文件完成后获取文件信息
         /// </summary>
-        protected override async void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
+        protected override void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
         {
             base.OnDrop(args);
             DragOperationDeferral deferral = args.GetDeferral();
@@ -87,21 +87,38 @@ namespace WindowsTools.Views.Pages
                 DataPackageView view = args.DataView;
                 if (view.Contains(StandardDataFormats.StorageItems))
                 {
-                    IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
-                    foreach (IStorageItem storageItem in filesList)
+                    Task.Run(async () =>
                     {
-                        if (!IOHelper.IsDir(storageItem.Path))
+                        IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
+                        List<CertificateResultModel> fileCertificateList = new List<CertificateResultModel>();
+                        foreach (IStorageItem storageItem in storageItemList)
                         {
-                            lock (fileCertificateLock)
+                            try
                             {
-                                FileCertificateCollection.Add(new CertificateResultModel()
+                                if (!IOHelper.IsDir(storageItem.Path))
                                 {
-                                    FileName = storageItem.Name,
-                                    FilePath = storageItem.Path
-                                });
+                                    FileInfo fileInfo = new FileInfo(storageItem.Path);
+                                    if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                                    {
+                                        continue;
+                                    }
+
+                                    fileCertificateList.Add(new CertificateResultModel()
+                                    {
+                                        FileName = storageItem.Name,
+                                        FilePath = storageItem.Path
+                                    });
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
+                                continue;
                             }
                         }
-                    }
+
+                        AddToFileCertificatePage(fileCertificateList);
+                    });
                 }
             }
             finally
@@ -175,33 +192,38 @@ namespace WindowsTools.Views.Pages
             dialog.Title = FileProperties.SelectFile;
             if (dialog.ShowDialog() is DialogResult.OK)
             {
-                foreach (string fileName in dialog.FileNames)
+                Task.Run(() =>
                 {
-                    try
+                    List<CertificateResultModel> fileCertificateList = new List<CertificateResultModel>();
+
+                    foreach (string fileName in dialog.FileNames)
                     {
-                        FileInfo file = new FileInfo(fileName);
-                        if ((file.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                        try
                         {
-                            continue;
-                        }
-                        if (!IOHelper.IsDir(file.FullName))
-                        {
-                            lock (fileCertificateLock)
+                            FileInfo fileInfo = new FileInfo(fileName);
+                            if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
-                                FileCertificateCollection.Add(new CertificateResultModel()
+                                continue;
+                            }
+
+                            if (!IOHelper.IsDir(fileInfo.FullName))
+                            {
+                                fileCertificateList.Add(new CertificateResultModel()
                                 {
-                                    FileName = file.Name,
-                                    FilePath = file.FullName
+                                    FileName = fileInfo.Name,
+                                    FilePath = fileInfo.FullName
                                 });
                             }
                         }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", fileName), e);
+                            continue;
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", fileName), e);
-                        continue;
-                    }
-                }
+
+                    AddToFileCertificatePage(fileCertificateList);
+                });
             }
         }
 
@@ -220,55 +242,34 @@ namespace WindowsTools.Views.Pages
                 OperationFailedCollection.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
-                    DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
-
-                    try
+                    Task.Run(() =>
                     {
-                        foreach (DirectoryInfo directoryInfo in currentFolder.GetDirectories())
-                        {
-                            if ((directoryInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
-                            {
-                                continue;
-                            }
+                        DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
+                        List<CertificateResultModel> fileNameList = new List<CertificateResultModel>();
 
-                            lock (fileCertificateLock)
+                        try
+                        {
+                            foreach (FileInfo fileInfo in currentFolder.GetFiles())
                             {
-                                FileCertificateCollection.Add(new CertificateResultModel()
+                                if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                                 {
-                                    FileName = directoryInfo.Name,
-                                    FilePath = directoryInfo.FullName
-                                });
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} directoryInfo information failed", dialog.SelectedPath), e);
-                    }
+                                    continue;
+                                }
 
-                    try
-                    {
-                        foreach (FileInfo fileInfo in currentFolder.GetFiles())
-                        {
-                            if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
-                            {
-                                continue;
-                            }
-
-                            lock (fileCertificateLock)
-                            {
-                                FileCertificateCollection.Add(new CertificateResultModel()
+                                fileNameList.Add(new CertificateResultModel()
                                 {
                                     FileName = fileInfo.Name,
                                     FilePath = fileInfo.FullName
                                 });
                             }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} fileInfo information failed", dialog.SelectedPath), e);
-                    }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} fileInfo information failed", dialog.SelectedPath), e);
+                        }
+
+                        AddToFileCertificatePage(fileNameList);
+                    });
                 }
             }
         }
@@ -289,6 +290,23 @@ namespace WindowsTools.Views.Pages
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// 添加到数字签名页面
+        /// </summary>
+        public void AddToFileCertificatePage(List<CertificateResultModel> fileCertificateList)
+        {
+            MainWindow.Current.BeginInvoke(() =>
+            {
+                lock (fileCertificateLock)
+                {
+                    foreach (CertificateResultModel certificateResultItem in fileCertificateList)
+                    {
+                        FileCertificateCollection.Add(certificateResultItem);
+                    }
+                }
+            });
         }
 
         /// <summary>

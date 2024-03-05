@@ -89,7 +89,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 拖动文件完成后获取文件信息
         /// </summary>
-        protected override async void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
+        protected override void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
         {
             base.OnDrop(args);
             DragOperationDeferral deferral = args.GetDeferral();
@@ -98,18 +98,36 @@ namespace WindowsTools.Views.Pages
                 DataPackageView view = args.DataView;
                 if (view.Contains(StandardDataFormats.StorageItems))
                 {
-                    IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
-                    foreach (IStorageItem storageItem in filesList)
+                    Task.Run(async () =>
                     {
-                        lock (upperAndLowerCaseLock)
+                        IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
+                        List<OldAndNewNameModel> upperAndLowerCaseList = new List<OldAndNewNameModel>();
+
+                        foreach (IStorageItem storageItem in storageItemList)
                         {
-                            UpperAndLowerCaseCollection.Add(new OldAndNewNameModel()
+                            try
                             {
-                                OriginalFileName = storageItem.Name,
-                                OriginalFilePath = storageItem.Path
-                            });
+                                FileInfo fileInfo = new FileInfo(storageItem.Path);
+                                if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                                {
+                                    continue;
+                                }
+
+                                upperAndLowerCaseList.Add(new OldAndNewNameModel()
+                                {
+                                    OriginalFileName = storageItem.Name,
+                                    OriginalFilePath = storageItem.Path,
+                                });
+                            }
+                            catch (Exception e)
+                            {
+                                LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
+                                continue;
+                            }
                         }
-                    }
+
+                        AddtoUpperAndLowerCasePage(upperAndLowerCaseList);
+                    });
                 }
             }
             catch (Exception e)
@@ -262,31 +280,35 @@ namespace WindowsTools.Views.Pages
             dialog.Title = UpperAndLowerCase.SelectFile;
             if (dialog.ShowDialog() is DialogResult.OK)
             {
-                foreach (string fileName in dialog.FileNames)
+                Task.Run(() =>
                 {
-                    try
-                    {
-                        FileInfo file = new FileInfo(fileName);
-                        if ((file.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
-                        {
-                            continue;
-                        }
+                    List<OldAndNewNameModel> upperAndLowerCaseList = new List<OldAndNewNameModel>();
 
-                        lock (upperAndLowerCaseLock)
+                    foreach (string fileName in dialog.FileNames)
+                    {
+                        try
                         {
-                            UpperAndLowerCaseCollection.Add(new OldAndNewNameModel()
+                            FileInfo fileInfo = new FileInfo(fileName);
+                            if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
-                                OriginalFileName = file.Name,
-                                OriginalFilePath = file.FullName
+                                continue;
+                            }
+
+                            upperAndLowerCaseList.Add(new OldAndNewNameModel()
+                            {
+                                OriginalFileName = fileInfo.Name,
+                                OriginalFilePath = fileInfo.FullName
                             });
                         }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", fileName), e);
+                            continue;
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", fileName), e);
-                        continue;
-                    }
-                }
+
+                    AddtoUpperAndLowerCasePage(upperAndLowerCaseList);
+                });
             }
         }
 
@@ -305,55 +327,57 @@ namespace WindowsTools.Views.Pages
                 OperationFailedCollection.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
-                    DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
-
-                    try
+                    Task.Run(() =>
                     {
-                        foreach (DirectoryInfo directoryInfo in currentFolder.GetDirectories())
-                        {
-                            if ((directoryInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
-                            {
-                                continue;
-                            }
+                        DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
+                        List<OldAndNewNameModel> directoryNameList = new List<OldAndNewNameModel>();
+                        List<OldAndNewNameModel> fileNameList = new List<OldAndNewNameModel>();
 
-                            lock (upperAndLowerCaseLock)
+                        try
+                        {
+                            foreach (DirectoryInfo directoryInfo in currentFolder.GetDirectories())
                             {
-                                UpperAndLowerCaseCollection.Add(new OldAndNewNameModel()
+                                if ((directoryInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                                {
+                                    continue;
+                                }
+
+                                directoryNameList.Add(new OldAndNewNameModel()
                                 {
                                     OriginalFileName = directoryInfo.Name,
                                     OriginalFilePath = directoryInfo.FullName
                                 });
                             }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} directoryInfo information failed", dialog.SelectedPath), e);
-                    }
-
-                    try
-                    {
-                        foreach (FileInfo fileInfo in currentFolder.GetFiles())
+                        catch (Exception e)
                         {
-                            if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
-                            {
-                                continue;
-                            }
+                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} directoryInfo information failed", dialog.SelectedPath), e);
+                        }
 
-                            lock (upperAndLowerCaseLock)
+                        try
+                        {
+                            foreach (FileInfo fileInfo in currentFolder.GetFiles())
                             {
-                                UpperAndLowerCaseCollection.Add(new OldAndNewNameModel()
+                                if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                                {
+                                    continue;
+                                }
+
+                                fileNameList.Add(new OldAndNewNameModel()
                                 {
                                     OriginalFileName = fileInfo.Name,
                                     OriginalFilePath = fileInfo.FullName
                                 });
                             }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} fileInfo information failed", dialog.SelectedPath), e);
-                    }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} fileInfo information failed", dialog.SelectedPath), e);
+                        }
+
+                        AddtoUpperAndLowerCasePage(directoryNameList);
+                        AddtoUpperAndLowerCasePage(fileNameList);
+                    });
                 }
             }
         }
@@ -389,6 +413,23 @@ namespace WindowsTools.Views.Pages
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// 添加到大写小写页面
+        /// </summary>
+        public void AddtoUpperAndLowerCasePage(List<OldAndNewNameModel> upperAndLowerCaseList)
+        {
+            MainWindow.Current.BeginInvoke(() =>
+            {
+                lock (upperAndLowerCaseLock)
+                {
+                    foreach (OldAndNewNameModel oldAndNewNameItem in upperAndLowerCaseList)
+                    {
+                        UpperAndLowerCaseCollection.Add(oldAndNewNameItem);
+                    }
+                }
+            });
         }
 
         /// <summary>

@@ -8,6 +8,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing.Printing;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -19,7 +21,9 @@ using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.Views.Pages;
+using WindowsTools.WindowsAPI.PInvoke.Comctl32;
 using WindowsTools.WindowsAPI.PInvoke.DwmApi;
+using WindowsTools.WindowsAPI.PInvoke.Shell32;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
 namespace WindowsTools.Views.Windows
@@ -33,11 +37,9 @@ namespace WindowsTools.Views.Windows
         private IntPtr inputNonClientPointerSourceHandle;
         private IContainer components = new Container();
         private WindowsXamlHost windowsXamlHost = new WindowsXamlHost();
+        private SUBCLASSPROC inputNonClientPointerSourceSubClassProc;
 
-        private WNDPROC newInputNonClientPointerSourceWndProc = null;
-        private IntPtr oldInputNonClientPointerSourceWndProc = IntPtr.Zero;
-
-        public AppWindow AppWindow { get; }
+        public AppWindow AppWindow { get; private set; }
 
         public UIElement Content { get; set; } = new MainPage();
 
@@ -45,6 +47,7 @@ namespace WindowsTools.Views.Windows
 
         public MainWindow()
         {
+            AllowDrop = false;
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = System.Drawing.Color.Black;
             Current = this;
@@ -62,7 +65,10 @@ namespace WindowsTools.Views.Windows
             {
                 CHANGEFILTERSTRUCT changeFilterStatus = new CHANGEFILTERSTRUCT();
                 changeFilterStatus.cbSize = Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT));
+                User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_DROPFILES, ChangeFilterAction.MSGFLT_ALLOW, in changeFilterStatus);
                 User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_ALLOW, in changeFilterStatus);
+                User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYGLOBALDATA, ChangeFilterAction.MSGFLT_ALLOW, in changeFilterStatus);
+                Shell32Library.DragAcceptFiles(Handle, true);
             }
 
             AppWindow = AppWindow.GetFromWindowId(new Microsoft.UI.WindowId() { Value = (ulong)Handle });
@@ -73,18 +79,14 @@ namespace WindowsTools.Views.Windows
 
             if (inputNonClientPointerSourceHandle != IntPtr.Zero)
             {
-                newInputNonClientPointerSourceWndProc = new WNDPROC(InputNonClientPointerSourceWndProc);
-                oldInputNonClientPointerSourceWndProc = SetWindowLongAuto(inputNonClientPointerSourceHandle, WindowLongIndexFlags.GWL_WNDPROC, Marshal.GetFunctionPointerForDelegate(newInputNonClientPointerSourceWndProc));
+                inputNonClientPointerSourceSubClassProc = new SUBCLASSPROC(InputNonClientPointerSourceSubClassProc);
+                Comctl32Library.SetWindowSubclass((IntPtr)AppWindow.Id.Value, inputNonClientPointerSourceSubClassProc, 0, IntPtr.Zero);
             }
 
             uwpCoreHandle = InteropExtensions.GetInterop(Window.Current.CoreWindow).WindowHandle;
             if (uwpCoreHandle != IntPtr.Zero)
             {
                 User32Library.SetWindowPos(uwpCoreHandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
-                long style = (long)GetWindowLongAuto(uwpCoreHandle, WindowLongIndexFlags.GWL_STYLE);
-                style &= ~(long)WindowStyle.WS_POPUP;
-                SetWindowLongAuto(uwpCoreHandle, WindowLongIndexFlags.GWL_STYLE, (nint)(style | (long)WindowStyle.WS_CHILDWINDOW | (long)WindowStyle.WS_VISIBLE));
-                SetWindowLongAuto(uwpCoreHandle, WindowLongIndexFlags.GWL_EXSTYLE, (IntPtr)((int)GetWindowLongAuto(uwpCoreHandle, WindowLongIndexFlags.GWL_EXSTYLE) | (int)WindowStyleEx.WS_EX_TOOLWINDOW | (int)WindowStyleEx.WS_EX_TRANSPARENT));
             }
         }
 
@@ -138,8 +140,8 @@ namespace WindowsTools.Views.Windows
             ThemeService.SetWindowTheme();
             BackdropService.SetAppBackdrop();
             TopMostService.SetAppTopMost();
-            Margins FormMargin = new Margins();
-            DwmApiLibrary.DwmExtendFrameIntoClientArea(Handle, ref FormMargin);
+            Margins margin = new Margins();
+            DwmApiLibrary.DwmExtendFrameIntoClientArea(Handle, ref margin);
             Invalidate();
 
             if (inputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
@@ -275,6 +277,33 @@ namespace WindowsTools.Views.Windows
                         }
                         break;
                     }
+                // 提升权限时允许应用接收拖放消息
+                case (int)WindowMessage.WM_DROPFILES:
+                    {
+                        IntPtr wParam = m.WParam;
+                        Task.Run(() =>
+                        {
+                            List<string> filesList = new List<string>();
+                            StringBuilder stringBuilder = new StringBuilder(260);
+                            uint numFiles = Shell32Library.DragQueryFileW(wParam, 0xffffffffu, null, 0);
+                            for (uint index = 0; index < numFiles; index++)
+                            {
+                                if (Shell32Library.DragQueryFileW(wParam, index, stringBuilder, Convert.ToUInt32(stringBuilder.Capacity) * 2) > 0)
+                                {
+                                    filesList.Add(stringBuilder.ToString());
+                                }
+                            }
+                            System.Drawing.Point point = new System.Drawing.Point(0, 0);
+                            Shell32Library.DragQueryPoint(wParam, ref point);
+                            Shell32Library.DragFinish(wParam);
+                            BeginInvoke(() =>
+                            {
+                                (Content as MainPage).SendReceivedFilesList(filesList);
+                            });
+                        });
+
+                        break;
+                    }
             }
 
             base.WndProc(ref m);
@@ -283,7 +312,7 @@ namespace WindowsTools.Views.Windows
         /// <summary>
         /// 应用拖拽区域窗口消息处理
         /// </summary>
-        private IntPtr InputNonClientPointerSourceWndProc(IntPtr hWnd, WindowMessage Msg, IntPtr wParam, IntPtr lParam)
+        private IntPtr InputNonClientPointerSourceSubClassProc(IntPtr hWnd, WindowMessage Msg, IntPtr wParam, IntPtr lParam, uint uIdSubclass, IntPtr dwRefData)
         {
             switch (Msg)
             {
@@ -326,42 +355,12 @@ namespace WindowsTools.Views.Windows
                         return IntPtr.Zero;
                     }
             }
-            return User32Library.CallWindowProc(oldInputNonClientPointerSourceWndProc, hWnd, Msg, wParam, lParam);
+            return Comctl32Library.DefSubclassProc(hWnd, Msg, wParam, lParam);
         }
 
         #endregion 第二部分：窗口过程
 
         #region 第三部分：窗口属性设置
-
-        /// <summary>
-        /// 更改指定窗口的属性
-        /// </summary>
-        private IntPtr GetWindowLongAuto(IntPtr hWnd, WindowLongIndexFlags nIndex)
-        {
-            if (IntPtr.Size is 8)
-            {
-                return User32Library.GetWindowLongPtr(hWnd, nIndex);
-            }
-            else
-            {
-                return User32Library.GetWindowLong(hWnd, nIndex);
-            }
-        }
-
-        /// <summary>
-        /// 更改指定窗口的窗口属性
-        /// </summary>
-        private IntPtr SetWindowLongAuto(IntPtr hWnd, WindowLongIndexFlags nIndex, IntPtr dwNewLong)
-        {
-            if (IntPtr.Size is 8)
-            {
-                return User32Library.SetWindowLongPtr(hWnd, nIndex, dwNewLong);
-            }
-            else
-            {
-                return User32Library.SetWindowLong(hWnd, nIndex, dwNewLong);
-            }
-        }
 
         /// <summary>
         /// 设置标题栏按钮的颜色

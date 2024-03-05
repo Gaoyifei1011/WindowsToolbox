@@ -100,7 +100,7 @@ namespace WindowsTools.Views.Pages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<OldAndNewNameModel> ExtensionNameCollection { get; } = new ObservableCollection<OldAndNewNameModel>();
+        private ObservableCollection<OldAndNewNameModel> ExtensionNameCollection { get; } = new ObservableCollection<OldAndNewNameModel>();
 
         private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = new ObservableCollection<OperationFailedModel>();
 
@@ -128,7 +128,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 拖动文件完成后获取文件信息
         /// </summary>
-        protected override async void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
+        protected override void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
         {
             base.OnDrop(args);
             DragOperationDeferral deferral = args.GetDeferral();
@@ -137,21 +137,38 @@ namespace WindowsTools.Views.Pages
                 DataPackageView view = args.DataView;
                 if (view.Contains(StandardDataFormats.StorageItems))
                 {
-                    IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
-                    foreach (IStorageItem storageItem in filesList)
+                    Task.Run(async () =>
                     {
-                        if (!IOHelper.IsDir(storageItem.Path))
+                        IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
+                        List<OldAndNewNameModel> extensionNameList = new List<OldAndNewNameModel>();
+                        foreach (IStorageItem storageItem in storageItemList)
                         {
-                            lock (extensionNameLock)
+                            try
                             {
-                                ExtensionNameCollection.Add(new OldAndNewNameModel()
+                                if (!IOHelper.IsDir(storageItem.Path))
                                 {
-                                    OriginalFileName = storageItem.Name,
-                                    OriginalFilePath = storageItem.Path
-                                });
+                                    FileInfo fileInfo = new FileInfo(storageItem.Path);
+                                    if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                                    {
+                                        continue;
+                                    }
+
+                                    extensionNameList.Add(new OldAndNewNameModel()
+                                    {
+                                        OriginalFileName = storageItem.Name,
+                                        OriginalFilePath = storageItem.Path
+                                    });
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
+                                continue;
                             }
                         }
-                    }
+
+                        AddToExtensionNamePage(extensionNameList);
+                    });
                 }
             }
             catch (Exception e)
@@ -304,33 +321,38 @@ namespace WindowsTools.Views.Pages
             dialog.Title = ExtensionName.SelectFile;
             if (dialog.ShowDialog() is DialogResult.OK)
             {
-                foreach (string fileName in dialog.FileNames)
+                Task.Run(() =>
                 {
-                    try
+                    List<OldAndNewNameModel> extensionNameList = new List<OldAndNewNameModel>();
+
+                    foreach (string fileName in dialog.FileNames)
                     {
-                        FileInfo file = new FileInfo(fileName);
-                        if ((file.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                        try
                         {
-                            continue;
-                        }
-                        if (!IOHelper.IsDir(file.FullName))
-                        {
-                            lock (extensionNameLock)
+                            FileInfo fileInfo = new FileInfo(fileName);
+                            if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
-                                ExtensionNameCollection.Add(new OldAndNewNameModel()
+                                continue;
+                            }
+
+                            if (!IOHelper.IsDir(fileInfo.FullName))
+                            {
+                                extensionNameList.Add(new OldAndNewNameModel()
                                 {
-                                    OriginalFileName = file.Name,
-                                    OriginalFilePath = file.FullName
+                                    OriginalFileName = fileInfo.Name,
+                                    OriginalFilePath = fileInfo.FullName
                                 });
                             }
                         }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", fileName), e);
+                            continue;
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", fileName), e);
-                        continue;
-                    }
-                }
+
+                    AddToExtensionNamePage(extensionNameList);
+                });
             }
         }
 
@@ -349,31 +371,34 @@ namespace WindowsTools.Views.Pages
                 OperationFailedCollection.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
-                    DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
-
-                    try
+                    Task.Run(() =>
                     {
-                        foreach (FileInfo fileInfo in currentFolder.GetFiles())
-                        {
-                            if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
-                            {
-                                continue;
-                            }
+                        DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
+                        List<OldAndNewNameModel> fileNameList = new List<OldAndNewNameModel>();
 
-                            lock (extensionNameLock)
+                        try
+                        {
+                            foreach (FileInfo fileInfo in currentFolder.GetFiles())
                             {
-                                ExtensionNameCollection.Add(new OldAndNewNameModel()
+                                if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                                {
+                                    continue;
+                                }
+
+                                fileNameList.Add(new OldAndNewNameModel()
                                 {
                                     OriginalFileName = fileInfo.Name,
                                     OriginalFilePath = fileInfo.FullName
                                 });
                             }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} information failed", dialog.SelectedPath), e);
-                    }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} information failed", dialog.SelectedPath), e);
+                        }
+
+                        AddToExtensionNamePage(fileNameList);
+                    });
                 }
             }
         }
@@ -419,6 +444,23 @@ namespace WindowsTools.Views.Pages
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// 添加到扩展名称页面
+        /// </summary>
+        public void AddToExtensionNamePage(List<OldAndNewNameModel> extensionNameList)
+        {
+            MainWindow.Current.BeginInvoke(() =>
+            {
+                lock (extensionNameLock)
+                {
+                    foreach (OldAndNewNameModel oldAndNewNameItem in extensionNameList)
+                    {
+                        ExtensionNameCollection.Add(oldAndNewNameItem);
+                    }
+                }
+            });
         }
 
         /// <summary>
