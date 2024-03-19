@@ -92,6 +92,12 @@
       <DependentUpon>FileName.resx</DependentUpon>
     </Compile>
 
+    <Compile Update="Strings\Loaf.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Loaf.resx</DependentUpon>
+    </Compile>
+
     <Compile Update="Strings\Notification.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -191,8 +197,10 @@
     <Content Include="Assets\ControlIcon\FileName.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileProperties.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\IconExtract.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\Loaf.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Personalize.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\PriExtract.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\Relaxation.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Resource.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Settings.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ShellMenu.png" CopyToOutputDirectory="Always" />
@@ -253,7 +261,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
 
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" IncludeAssets="none" ExcludeAssets="all" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240311000" GeneratePathProperty="true" />
     <PackageReference Include="Mile.Xaml" Version="2.2.890" />
 
     <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />
@@ -290,6 +298,9 @@
     <EmbeddedResource Update="Strings\FileProperties.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\FileProperties.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="FileProperties.Designer.cs" />
     <EmbeddedResource Update="Strings\FileProperties.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\Loaf.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\Loaf.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Loaf.Designer.cs" />
+    <EmbeddedResource Update="Strings\Loaf.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Notification.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Notification.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Notification.Designer.cs" />
     <EmbeddedResource Update="Strings\Notification.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />

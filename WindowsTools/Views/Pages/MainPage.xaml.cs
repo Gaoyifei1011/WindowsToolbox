@@ -83,6 +83,8 @@ namespace WindowsTools.Views.Pages
         private List<KeyValuePair<string, Type>> PageList { get; } = new List<KeyValuePair<string, Type>>()
         {
             new KeyValuePair<string, Type>("AllTools",typeof(AllToolsPage)),
+            new KeyValuePair<string, Type>("Relaxation", null),
+            new KeyValuePair<string, Type>("Loaf", typeof(LoafPage)),
             new KeyValuePair<string, Type>("File",null),
             new KeyValuePair<string, Type>("FileName",typeof(FileNamePage)),
             new KeyValuePair<string, Type>("ExtensionName", typeof(ExtensionNamePage)),

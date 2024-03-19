@@ -160,6 +160,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Loaf 的本地化字符串。
+        /// </summary>
+        public static string Loaf {
+            get {
+                return ResourceManager.GetString("Loaf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Maximize 的本地化字符串。
         /// </summary>
         public static string Maximize {
@@ -210,6 +219,15 @@ namespace WindowsTools.Strings {
         public static string PriExtract {
             get {
                 return ResourceManager.GetString("PriExtract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Relax tools 的本地化字符串。
+        /// </summary>
+        public static string Relaxation {
+            get {
+                return ResourceManager.GetString("Relaxation", resourceCulture);
             }
         }
         

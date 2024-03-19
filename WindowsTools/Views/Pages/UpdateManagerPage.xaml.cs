@@ -927,28 +927,31 @@ namespace WindowsTools.Views.Pages
             {
                 int updateHistoryCount = updateSearcher.GetTotalHistoryCount();
 
-                foreach (IUpdateHistoryEntry2 updateHistoryEntry in updateSearcher.QueryHistory(0, updateHistoryCount))
+                if (updateHistoryCount > 0)
                 {
-                    if (!string.IsNullOrEmpty(updateHistoryEntry.Title))
+                    foreach (IUpdateHistoryEntry2 updateHistoryEntry in updateSearcher.QueryHistory(0, updateHistoryCount))
                     {
-                        string status = GetStatus(updateHistoryEntry.ResultCode, updateHistoryEntry.HResult);
-
-                        MainWindow.Current.BeginInvoke(() =>
+                        if (!string.IsNullOrEmpty(updateHistoryEntry.Title))
                         {
-                            lock (updateHistoryLock)
+                            string status = GetStatus(updateHistoryEntry.ResultCode, updateHistoryEntry.HResult);
+
+                            MainWindow.Current.BeginInvoke(() =>
                             {
-                                UpdateHistoryCollection.Add(new UpdateModel()
+                                lock (updateHistoryLock)
                                 {
-                                    UpdateName = updateHistoryEntry.Title,
-                                    ApplicationID = updateHistoryEntry.ClientApplicationID,
-                                    Date = updateHistoryEntry.Date,
-                                    UpdateID = updateHistoryEntry.UpdateIdentity.UpdateID,
-                                    Description = updateHistoryEntry.Description,
-                                    SupportURL = updateHistoryEntry.SupportUrl,
-                                    Status = status
-                                });
-                            }
-                        });
+                                    UpdateHistoryCollection.Add(new UpdateModel()
+                                    {
+                                        UpdateName = updateHistoryEntry.Title,
+                                        ApplicationID = updateHistoryEntry.ClientApplicationID,
+                                        Date = updateHistoryEntry.Date,
+                                        UpdateID = updateHistoryEntry.UpdateIdentity.UpdateID,
+                                        Description = updateHistoryEntry.Description,
+                                        SupportURL = updateHistoryEntry.SupportUrl,
+                                        Status = status
+                                    });
+                                }
+                            });
+                        }
                     }
                 }
 

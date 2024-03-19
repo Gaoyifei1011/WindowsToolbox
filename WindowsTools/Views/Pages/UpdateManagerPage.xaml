@@ -73,7 +73,7 @@
                     Padding="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
-                    Background="{ThemeResource LayerFillColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     IsExpanded="{x:Bind IsAUExpanderExpanded, Mode=TwoWay}">
 
                     <muxc:Expander.Resources>
@@ -168,6 +168,8 @@
                             <Grid
                                 Height="35"
                                 Padding="6,0,0,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderThickness="0,1,0,0"
                                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(AvailableUpdateCollection.Count), Mode=OneWay}">
 
                                 <Grid.ColumnDefinitions>
@@ -262,9 +264,8 @@
                                         <Grid
                                             Height="35"
                                             Padding="6,0,0,0"
-                                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                            BorderThickness="0,0,0,1">
+                                            BorderThickness="0,1,0,0">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="60" />
@@ -399,7 +400,7 @@
                     Padding="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
-                    Background="{ThemeResource LayerFillColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     IsExpanded="{x:Bind IsIUExpanderExpanded, Mode=TwoWay}">
 
                     <muxc:Expander.Resources>
@@ -477,6 +478,7 @@
                             <Grid
                                 Height="35"
                                 Padding="6,0,0,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(InstalledUpdateCollection.Count), Mode=OneWay}">
 
                                 <Grid.ColumnDefinitions>
@@ -571,9 +573,8 @@
                                         <Grid
                                             Height="35"
                                             Padding="6,0,0,0"
-                                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                            BorderThickness="0,0,0,1">
+                                            BorderThickness="0,1,0,0">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="60" />
@@ -698,7 +699,7 @@
                     Padding="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
-                    Background="{ThemeResource LayerFillColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     IsExpanded="{x:Bind IsHUExpanderExpanded, Mode=TwoWay}">
 
                     <muxc:Expander.Resources>
@@ -777,6 +778,7 @@
                             <Grid
                                 Height="35"
                                 Padding="6,0,0,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(HiddenUpdateCollection.Count), Mode=OneWay}">
 
                                 <Grid.ColumnDefinitions>
@@ -871,9 +873,8 @@
                                         <Grid
                                             Height="35"
                                             Padding="6,0,0,0"
-                                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                            BorderThickness="0,0,0,1">
+                                            BorderThickness="0,1,0,0">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="60" />
@@ -1000,7 +1001,7 @@
                     Padding="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
-                    Background="{ThemeResource LayerFillColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     IsExpanded="{x:Bind IsUHExpanderExpanded, Mode=TwoWay}">
 
                     <muxc:Expander.Resources>
@@ -1034,6 +1035,7 @@
                             <Grid
                                 Height="35"
                                 Padding="6,0,0,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(UpdateHistoryCollection.Count), Mode=OneWay}">
 
                                 <Grid.ColumnDefinitions>
@@ -1114,9 +1116,8 @@
                                         <Grid
                                             Height="35"
                                             Padding="6,0,0,0"
-                                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                            BorderThickness="0,0,0,1">
+                                            BorderThickness="0,1,0,0">
 
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
@@ -1240,7 +1241,7 @@
                     Padding="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
-                    Background="{ThemeResource LayerFillColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     IsExpanded="{x:Bind IsORExpanderExpanded, Mode=TwoWay}">
 
                     <muxc:Expander.Resources>
@@ -1323,10 +1324,10 @@
                 </Grid>
 
                 <muxc:Expander
-                    Padding="16,8"
+                    Padding="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
-                    Background="{ThemeResource LayerFillColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     IsExpanded="True">
 
                     <muxc:Expander.Resources>
@@ -1357,7 +1358,12 @@
 
                     <muxc:Expander.Content>
                         <StackPanel Padding="0">
-                            <Grid>
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
@@ -1379,7 +1385,14 @@
                                     Toggled="{x:Bind OnIncludePotentiallySupersededUpdateToggled}" />
                             </Grid>
 
-                            <Grid>
+                            <MenuFlyoutSeparator />
+
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
@@ -1435,10 +1448,10 @@
                 </muxc:Expander>
 
                 <muxc:Expander
-                    Padding="16,8"
+                    Padding="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
-                    Background="{ThemeResource LayerFillColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     IsExpanded="True">
 
                     <muxc:Expander.Resources>
@@ -1469,8 +1482,14 @@
 
                     <muxc:Expander.Content>
                         <ContentControl HorizontalContentAlignment="Stretch" IsEnabled="{x:Bind helper:RuntimeHelper.IsElevated}">
+
                             <StackPanel Padding="0">
-                                <Grid>
+                                <Grid
+                                    Height="52"
+                                    Padding="44,0,16,0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center">
+
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
@@ -1492,7 +1511,14 @@
                                         Toggled="{x:Bind OnExcludeDriversToggled}" />
                                 </Grid>
 
-                                <Grid>
+                                <MenuFlyoutSeparator />
+
+                                <Grid
+                                    Height="52"
+                                    Padding="44,0,16,0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center">
+
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />

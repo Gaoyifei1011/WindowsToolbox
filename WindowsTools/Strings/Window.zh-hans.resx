@@ -150,6 +150,9 @@
   <data name="IconExtract" xml:space="preserve">
     <value>图标提取</value>
   </data>
+  <data name="Loaf" xml:space="preserve">
+    <value>摸鱼</value>
+  </data>
   <data name="Maximize" xml:space="preserve">
     <value>最大化</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="PriExtract" xml:space="preserve">
     <value>包资源索引提取</value>
+  </data>
+  <data name="Relaxation" xml:space="preserve">
+    <value>休闲工具</value>
   </data>
   <data name="Resource" xml:space="preserve">
     <value>资源工具</value>

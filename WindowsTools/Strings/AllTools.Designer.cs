@@ -178,6 +178,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Loaf 的本地化字符串。
+        /// </summary>
+        public static string Loaf {
+            get {
+                return ResourceManager.GetString("Loaf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Take a break when you&apos;re not inspired 的本地化字符串。
+        /// </summary>
+        public static string LoafDescription {
+            get {
+                return ResourceManager.GetString("LoafDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Personalization tools 的本地化字符串。
         /// </summary>
         public static string Personalize {
@@ -201,6 +219,15 @@ namespace WindowsTools.Strings {
         public static string PriExtractDescription {
             get {
                 return ResourceManager.GetString("PriExtractDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Relax tools 的本地化字符串。
+        /// </summary>
+        public static string Relaxation {
+            get {
+                return ResourceManager.GetString("Relaxation", resourceCulture);
             }
         }
         

@@ -150,6 +150,9 @@
   <data name="IconExtract" xml:space="preserve">
     <value>Icon extract</value>
   </data>
+  <data name="Loaf" xml:space="preserve">
+    <value>Loaf</value>
+  </data>
   <data name="Maximize" xml:space="preserve">
     <value>Maximize</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="PriExtract" xml:space="preserve">
     <value>Pri extract</value>
+  </data>
+  <data name="Relaxation" xml:space="preserve">
+    <value>Relax tools</value>
   </data>
   <data name="Resource" xml:space="preserve">
     <value>Resource tools</value>

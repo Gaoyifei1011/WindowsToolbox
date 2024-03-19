@@ -12,6 +12,17 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class AllToolsPage : Page
     {
+        private List<ControlItemModel> RelaxToolsList { get; } = new List<ControlItemModel>()
+        {
+            new ControlItemModel()
+            {
+                Title = AllTools.Loaf,
+                Description = AllTools.LoafDescription,
+                ImagePath = "ms-appx:///Assets/ControlIcon/Loaf.png",
+                Tag = "Loaf"
+            }
+        };
+
         // 文件工具列表
         private List<ControlItemModel> FileToolsList { get; } = new List<ControlItemModel>()
         {

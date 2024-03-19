@@ -116,7 +116,7 @@
         <Grid
             Grid.Row="2"
             Margin="30,0,30,3"
-            Background="{ThemeResource LayerFillColorDefaultBrush}"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1"
             CornerRadius="{ThemeResource ControlCornerRadius}">
@@ -130,7 +130,6 @@
                 Grid.Row="0"
                 Height="35"
                 Padding="6,0,0,0"
-                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="0,0,0,1">
 
@@ -185,7 +184,6 @@
                         <Grid
                             Height="35"
                             Padding="6,0,0,0"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             BorderThickness="0,0,0,1">
 

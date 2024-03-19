@@ -211,27 +211,25 @@
 
                 <!--  项目引用用户控件  -->
                 <muxc:Expander
-                    Padding="16,5,0,5"
+                    Padding="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     IsExpanded="True">
                     <muxc:Expander.Header>
                         <TextBlock
                             Padding="15,0,0,0"
-                            FontSize="15"
+                            FontSize="16"
                             FontWeight="Medium"
                             Text="{x:Bind string:About.ReferenceTitle}" />
                     </muxc:Expander.Header>
 
                     <muxc:Expander.Content>
                         <GridView
-                            Margin="14,0"
+                            Margin="26,0,16,0"
                             Padding="5"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            CornerRadius="{StaticResource ControlCornerRadius}"
                             ItemsSource="{x:Bind ReferenceDict}"
                             SelectionMode="None">
 
@@ -275,9 +273,10 @@
 
                 <!--  设置选项说明用户控件  -->
                 <muxc:Expander
-                    Padding="16,5,0,5"
+                    Padding="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     IsExpanded="True">
                     <muxc:Expander.Header>
                         <TextBlock
@@ -288,61 +287,59 @@
                     </muxc:Expander.Header>
 
                     <muxc:Expander.Content>
-                        <StackPanel Margin="14,0,10,0">
+                        <StackPanel Margin="0">
                             <TextBlock
-                                Margin="0,0,0,10"
+                                Margin="30,10,16,10"
                                 FontSize="15"
                                 FontWeight="Normal"
                                 Text="{x:Bind string:About.Backdrop}"
                                 TextAlignment="Left" />
 
                             <TextBlock
-                                Margin="0,0,0,5"
-                                Padding="0,0,2,0"
-                                FontSize="13.5"
+                                Margin="30,0,16,5"
+                                FontSize="14"
                                 FontWeight="Normal"
                                 Text="{x:Bind string:About.BackdropDescription}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
 
                             <HyperlinkButton
-                                Margin="-5,0,10,0"
-                                Padding="5"
+                                Margin="30,0,16,5"
                                 Click="{x:Bind OnSystemInformationClicked}"
-                                Content="{x:Bind string:About.SystemInformation}" />
+                                Content="{x:Bind string:About.SystemInformation}"
+                                Style="{StaticResource HyperlinkButtonStyle}" />
 
-                            <StackPanel>
-                                <MenuFlyoutSeparator Margin="0,0,0,8" />
+                            <MenuFlyoutSeparator />
 
-                                <TextBlock
-                                    Margin="0,0,0,10"
-                                    FontSize="15"
-                                    FontWeight="Normal"
-                                    Text="{x:Bind string:About.Language}"
-                                    TextAlignment="Left" />
-                                <TextBlock
-                                    Margin="0,0,0,5"
-                                    Padding="0,0,2,0"
-                                    FontSize="13.5"
-                                    FontWeight="Normal"
-                                    Text="{x:Bind string:About.LanguageDescription}"
-                                    TextAlignment="Justify"
-                                    TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="30,10,16,10"
+                                FontSize="15"
+                                FontWeight="Normal"
+                                Text="{x:Bind string:About.Language}"
+                                TextAlignment="Left" />
+                            <TextBlock
+                                Margin="30,0,16,5"
+                                FontSize="13.5"
+                                FontWeight="Normal"
+                                Text="{x:Bind string:About.LanguageDescription}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
 
-                                <StackPanel Orientation="Horizontal">
-                                    <HyperlinkButton
-                                        Margin="-5,0,10,0"
-                                        Padding="5"
-                                        Click="{x:Bind OnAppInformationClicked}"
-                                        Content="{x:Bind string:About.AppInformation}" />
+                            <StackPanel
+                                Margin="30,0,16,10"
+                                Orientation="Horizontal"
+                                Spacing="15">
 
-                                    <HyperlinkButton
-                                        Margin="-5,0,10,0"
-                                        Padding="5"
-                                        Click="{x:Bind OnAppSettingsClicked}"
-                                        Content="{x:Bind string:About.AppSettings}"
-                                        NavigateUri="ms-settings:appsfeatures-app" />
-                                </StackPanel>
+                                <HyperlinkButton
+                                    Click="{x:Bind OnAppInformationClicked}"
+                                    Content="{x:Bind string:About.AppInformation}"
+                                    Style="{StaticResource HyperlinkButtonStyle}" />
+
+                                <HyperlinkButton
+                                    Click="{x:Bind OnAppSettingsClicked}"
+                                    Content="{x:Bind string:About.AppSettings}"
+                                    NavigateUri="ms-settings:appsfeatures-app"
+                                    Style="{StaticResource HyperlinkButtonStyle}" />
                             </StackPanel>
                         </StackPanel>
                     </muxc:Expander.Content>
@@ -350,27 +347,25 @@
 
                 <!--  感谢用户控件  -->
                 <muxc:Expander
-                    Padding="16,5,0,5"
+                    Padding="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     IsExpanded="True">
                     <muxc:Expander.Header>
                         <TextBlock
                             Padding="15,0,0,0"
-                            FontSize="15"
+                            FontSize="16"
                             FontWeight="Medium"
                             Text="{x:Bind string:About.ThanksTitle}" />
                     </muxc:Expander.Header>
 
                     <muxc:Expander.Content>
                         <GridView
-                            Margin="14,0"
+                            Margin="26,0,16,0"
                             Padding="5"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            CornerRadius="{StaticResource ControlCornerRadius}"
                             ItemsSource="{x:Bind ThanksDict}"
                             SelectionMode="None">
 
