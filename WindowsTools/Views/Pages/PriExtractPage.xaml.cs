@@ -7,7 +7,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -47,8 +46,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isExtractSaveSamely = value;
-                OnPropertyChanged();
+                if (!Equals(_isExtractSaveSamely, value))
+                {
+                    _isExtractSaveSamely = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExtractSaveSamely)));
+                }
             }
         }
 
@@ -60,8 +62,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isExtractSaveString = value;
-                OnPropertyChanged();
+                if (!Equals(_isExtractSaveString, value))
+                {
+                    _isExtractSaveString = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExtractSaveString)));
+                }
             }
         }
 
@@ -73,8 +78,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isExtractSaveFilePath = value;
-                OnPropertyChanged();
+                if (!Equals(_isExtractSaveFilePath, value))
+                {
+                    _isExtractSaveFilePath = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExtractSaveFilePath)));
+                }
             }
         }
 
@@ -86,8 +94,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isExtractSaveEmbeddedData = value;
-                OnPropertyChanged();
+                if (!Equals(_isExtractSaveEmbeddedData, value))
+                {
+                    _isExtractSaveEmbeddedData = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExtractSaveEmbeddedData)));
+                }
             }
         }
 
@@ -99,8 +110,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isProcessing = value;
-                OnPropertyChanged();
+                if (!Equals(_isProcessing, value))
+                {
+                    _isProcessing = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsProcessing)));
+                }
             }
         }
 
@@ -112,8 +126,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _getResults = value;
-                OnPropertyChanged();
+                if (!Equals(_getResults, value))
+                {
+                    _getResults = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(GetResults)));
+                }
             }
         }
 
@@ -125,8 +142,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _selectedSaveFolder = value;
-                OnPropertyChanged();
+                if (!Equals(_selectedSaveFolder, value))
+                {
+                    _selectedSaveFolder = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSaveFolder)));
+                }
             }
         }
 
@@ -138,8 +158,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _inputLanguage = value;
-                OnPropertyChanged();
+                if (!Equals(_inputLanguage, value))
+                {
+                    _inputLanguage = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(InputLanguage)));
+                }
             }
         }
 
@@ -151,8 +174,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _selectedResourceCandidateKind = value;
-                OnPropertyChanged();
+                if (!Equals(_selectedResourceCandidateKind, value))
+                {
+                    _selectedResourceCandidateKind = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedResourceCandidateKind)));
+                }
             }
         }
 
@@ -617,14 +643,6 @@ namespace WindowsTools.Views.Pages
         }
 
         #endregion 第三部分：包资源索引提取——挂载的事件
-
-        /// <summary>
-        /// 属性值发生变化时通知更改
-        /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         /// <summary>
         /// 解析 PRI 资源文件

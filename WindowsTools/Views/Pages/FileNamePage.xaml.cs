@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -42,8 +41,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isChecked = value;
-                OnPropertyChanged();
+                if (!Equals(_isChecked, value))
+                {
+                    _isChecked = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecked)));
+                }
             }
         }
 
@@ -55,8 +57,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isModifyingNow = value;
-                OnPropertyChanged();
+                if (!Equals(_isModifyingNow, value))
+                {
+                    _isModifyingNow = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsModifyingNow)));
+                }
             }
         }
 
@@ -68,8 +73,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _currentIndex = value;
-                OnPropertyChanged();
+                if (!Equals(_currentIndex, value))
+                {
+                    _currentIndex = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentIndex)));
+                }
             }
         }
 
@@ -81,8 +89,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _renameRule = value;
-                OnPropertyChanged();
+                if (!Equals(_renameRule, value))
+                {
+                    _renameRule = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RenameRule)));
+                }
             }
         }
 
@@ -94,8 +105,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _startNumber = value;
-                OnPropertyChanged();
+                if (!Equals(_startNumber, value))
+                {
+                    _startNumber = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StartNumber)));
+                }
             }
         }
 
@@ -107,8 +121,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _extensionName = value;
-                OnPropertyChanged();
+                if (!Equals(_extensionName, value))
+                {
+                    _extensionName = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExtensionName)));
+                }
             }
         }
 
@@ -120,8 +137,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _lookUpString = value;
-                OnPropertyChanged();
+                if (!Equals(_lookUpString, value))
+                {
+                    _lookUpString = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LookUpString)));
+                }
             }
         }
 
@@ -133,8 +153,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _replaceString = value;
-                OnPropertyChanged();
+                if (!Equals(_replaceString, value))
+                {
+                    _replaceString = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReplaceString)));
+                }
             }
         }
 
@@ -146,8 +169,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _selectedNumberFormat = value;
-                OnPropertyChanged();
+                if (!Equals(_selectedNumberFormat, value))
+                {
+                    _selectedNumberFormat = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedNumberFormat)));
+                }
             }
         }
 
@@ -599,14 +625,6 @@ namespace WindowsTools.Views.Pages
         }
 
         #endregion 第二部分：文件名称页面——挂载的事件
-
-        /// <summary>
-        /// 属性值发生变化时通知更改
-        /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         /// <summary>
         /// 添加到文件名称页面

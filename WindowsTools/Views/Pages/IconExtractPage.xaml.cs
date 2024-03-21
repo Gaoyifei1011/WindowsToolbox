@@ -8,7 +8,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -45,8 +44,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isSelected = value;
-                OnPropertyChanged();
+                if (!Equals(_isSelected, value))
+                {
+                    _isSelected = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
+                }
             }
         }
 
@@ -58,8 +60,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isImageEmpty = value;
-                OnPropertyChanged();
+                if (!Equals(_isImageEmpty, value))
+                {
+                    _isImageEmpty = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsImageEmpty)));
+                }
             }
         }
 
@@ -71,8 +76,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isSaving = value;
-                OnPropertyChanged();
+                if (!Equals(_isSaving, value))
+                {
+                    _isSaving = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSaving)));
+                }
             }
         }
 
@@ -84,8 +92,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _getResults = value;
-                OnPropertyChanged();
+                if (!Equals(_getResults, value))
+                {
+                    _getResults = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(GetResults)));
+                }
             }
         }
 
@@ -97,8 +108,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _noResources = value;
-                OnPropertyChanged();
+                if (!Equals(_noResources, value))
+                {
+                    _noResources = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NoResources)));
+                }
             }
         }
 
@@ -110,8 +124,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _selectedIconFormat = value;
-                OnPropertyChanged();
+                if (!Equals(_selectedIconFormat, value))
+                {
+                    _selectedIconFormat = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIconFormat)));
+                }
             }
         }
 
@@ -123,8 +140,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _selectedIconSize = value;
-                OnPropertyChanged();
+                if (!Equals(_selectedIconSize, value))
+                {
+                    _selectedIconSize = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIconSize)));
+                }
             }
         }
 
@@ -136,8 +156,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _imageSource = value;
-                OnPropertyChanged();
+                if (!Equals(_imageSource, value))
+                {
+                    _imageSource = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageSource)));
+                }
             }
         }
 
@@ -531,14 +554,6 @@ namespace WindowsTools.Views.Pages
         }
 
         #endregion 第二部分：提取图标页面——挂载的事件
-
-        /// <summary>
-        /// 属性值发生变化时通知更改
-        /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         /// <summary>
         /// 解析带有图标的二进制文件

@@ -171,6 +171,32 @@
                             OnContent="{x:Bind string:Loaf.BlockAllKeysOnContent}"
                             Toggled="{x:Bind OnBlockAllKeysToggled}" />
                     </Grid>
+
+                    <MenuFlyoutSeparator />
+
+                    <Grid
+                        Height="52"
+                        Padding="44,0,16,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind string:Loaf.DurationTime}" />
+
+                        <TimePicker
+                            Grid.Column="1"
+                            ClockIdentifier="24HourClock"
+                            Style="{StaticResource TimePickerStyle}"
+                            Time="{x:Bind DurationTime, Mode=OneWay}"
+                            TimeChanged="{x:Bind OnTimeChanged}" />
+                    </Grid>
                 </StackPanel>
             </muxc:Expander.Content>
         </muxc:Expander>

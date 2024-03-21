@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -41,8 +40,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isReadOnlyChecked = value;
-                OnPropertyChanged();
+                if (!Equals(_isReadOnlyChecked, value))
+                {
+                    _isReadOnlyChecked = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsReadOnlyChecked)));
+                }
             }
         }
 
@@ -54,8 +56,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isArchiveChecked = value;
-                OnPropertyChanged();
+                if (!Equals(_isArchiveChecked, value))
+                {
+                    _isArchiveChecked = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsArchiveChecked)));
+                }
             }
         }
 
@@ -67,8 +72,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isCreateDateChecked = value;
-                OnPropertyChanged();
+                if (!Equals(_isCreateDateChecked, value))
+                {
+                    _isCreateDateChecked = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsCreateDateChecked)));
+                }
             }
         }
 
@@ -80,8 +88,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isHideChecked = value;
-                OnPropertyChanged();
+                if (!Equals(_isHideChecked, value))
+                {
+                    _isHideChecked = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsHideChecked)));
+                }
             }
         }
 
@@ -93,8 +104,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isSystemChecked = value;
-                OnPropertyChanged();
+                if (!Equals(_isSystemChecked, value))
+                {
+                    _isSystemChecked = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSystemChecked)));
+                }
             }
         }
 
@@ -106,8 +120,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isModifyDateChecked = value;
-                OnPropertyChanged();
+                if (!Equals(_isModifyDateChecked, value))
+                {
+                    _isModifyDateChecked = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsModifyDateChecked)));
+                }
             }
         }
 
@@ -119,8 +136,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isModifyingNow = value;
-                OnPropertyChanged();
+                if (!Equals(_isModifyingNow, value))
+                {
+                    _isModifyingNow = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsModifyingNow)));
+                }
             }
         }
 
@@ -132,8 +152,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _createDate = value;
-                OnPropertyChanged();
+                if (!Equals(_createDate, value))
+                {
+                    _createDate = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CreateDate)));
+                }
             }
         }
 
@@ -145,8 +168,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _createTime = value;
-                OnPropertyChanged();
+                if (!Equals(_createTime, value))
+                {
+                    _createTime = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CreateTime)));
+                }
             }
         }
 
@@ -158,8 +184,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _modifyDate = value;
-                OnPropertyChanged();
+                if (!Equals(_modifyDate, value))
+                {
+                    _modifyDate = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModifyDate)));
+                }
             }
         }
 
@@ -171,8 +200,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _modifyTime = value;
-                OnPropertyChanged();
+                if (!Equals(_modifyTime, value))
+                {
+                    _modifyTime = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ModifyTime)));
+                }
             }
         }
 
@@ -555,14 +587,6 @@ namespace WindowsTools.Views.Pages
         }
 
         #endregion 第二部分：文件属性页面——挂载的事件
-
-        /// <summary>
-        /// 属性值发生变化时通知更改
-        /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         /// <summary>
         /// 添加到文件属性页面

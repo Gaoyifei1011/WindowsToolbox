@@ -3,7 +3,6 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -34,8 +33,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _processorSubScore = value;
-                OnPropertyChanged();
+                if (!Equals(_processorSubScore, value))
+                {
+                    _processorSubScore = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ProcessorSubScore)));
+                }
             }
         }
 
@@ -47,8 +49,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _memorySubScore = value;
-                OnPropertyChanged();
+                if (!Equals(_memorySubScore, value))
+                {
+                    _memorySubScore = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MemorySubScore)));
+                }
             }
         }
 
@@ -60,8 +65,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _graphicsSubScore = value;
-                OnPropertyChanged();
+                if (!Equals(_graphicsSubScore, value))
+                {
+                    _graphicsSubScore = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(GraphicsSubScore)));
+                }
             }
         }
 
@@ -73,8 +81,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _gamingGraphicsSubScore = value;
-                OnPropertyChanged();
+                if (!Equals(_gamingGraphicsSubScore, value))
+                {
+                    _gamingGraphicsSubScore = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(GamingGraphicsSubScore)));
+                }
             }
         }
 
@@ -86,8 +97,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _primaryDiskSubScore = value;
-                OnPropertyChanged();
+                if (!Equals(_primaryDiskSubScore, value))
+                {
+                    _primaryDiskSubScore = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PrimaryDiskSubScore)));
+                }
             }
         }
 
@@ -99,8 +113,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _basicScore = value;
-                OnPropertyChanged();
+                if (!Equals(_basicScore, value))
+                {
+                    _basicScore = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BasicScore)));
+                }
             }
         }
 
@@ -112,8 +129,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _basicScoreExisted = value;
-                OnPropertyChanged();
+                if (!Equals(_basicScoreExisted, value))
+                {
+                    _basicScoreExisted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BasicScoreExisted)));
+                }
             }
         }
 
@@ -125,8 +145,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isNotRunningAssessment = value;
-                OnPropertyChanged();
+                if (!Equals(_isNotRunningAssessment, value))
+                {
+                    _isNotRunningAssessment = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsNotRunningAssessment)));
+                }
             }
         }
 
@@ -138,8 +161,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _resultSeverity = value;
-                OnPropertyChanged();
+                if (!Equals(_resultSeverity, value))
+                {
+                    _resultSeverity = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ResultServerity)));
+                }
             }
         }
 
@@ -151,8 +177,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _resultMessage = value;
-                OnPropertyChanged();
+                if (!Equals(_resultMessage, value))
+                {
+                    _resultMessage = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ResultMessage)));
+                }
             }
         }
 
@@ -303,14 +332,6 @@ namespace WindowsTools.Views.Pages
         }
 
         #endregion 第二部分：自定义事件
-
-        /// <summary>
-        /// 属性值发生变化时通知更改
-        /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         /// <summary>
         /// 加载系统评估信息

@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -43,8 +42,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isModifyingNow = value;
-                OnPropertyChanged();
+                if (!Equals(_isModifyingNow, value))
+                {
+                    _isModifyingNow = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsModifyingNow)));
+                }
             }
         }
 
@@ -283,14 +285,6 @@ namespace WindowsTools.Views.Pages
         }
 
         #endregion 第二部分：文件证书页面——挂载的事件
-
-        /// <summary>
-        /// 属性值发生变化时通知更改
-        /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         /// <summary>
         /// 添加到数字签名页面

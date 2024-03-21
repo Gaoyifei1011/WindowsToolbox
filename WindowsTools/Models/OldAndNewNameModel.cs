@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace WindowsTools.Models
 {
@@ -19,8 +18,11 @@ namespace WindowsTools.Models
 
             set
             {
-                _originalFileName = value;
-                OnPropertyChanged();
+                if (!Equals(_originalFileName, value))
+                {
+                    _originalFileName = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OriginalFileName)));
+                }
             }
         }
 
@@ -35,8 +37,11 @@ namespace WindowsTools.Models
 
             set
             {
-                _originalFilePath = value;
-                OnPropertyChanged();
+                if (!Equals(_originalFilePath, value))
+                {
+                    _originalFilePath = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OriginalFilePath)));
+                }
             }
         }
 
@@ -51,8 +56,11 @@ namespace WindowsTools.Models
 
             set
             {
-                _newFileName = value;
-                OnPropertyChanged();
+                if (!Equals(_newFileName, value))
+                {
+                    _newFileName = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NewFileName)));
+                }
             }
         }
 
@@ -67,19 +75,14 @@ namespace WindowsTools.Models
 
             set
             {
-                _newFilePath = value;
-                OnPropertyChanged();
+                if (!Equals(_newFilePath, value))
+                {
+                    _newFilePath = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NewFilePath)));
+                }
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// 属性值发生变化时通知更改
-        /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

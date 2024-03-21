@@ -5,6 +5,7 @@ using System.ComponentModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Strings;
+using WindowsTools.Views.Windows;
 
 namespace WindowsTools.Views.Pages
 {
@@ -21,8 +22,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _blockAllKeys = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BlockAllKeys)));
+                if (!Equals(_blockAllKeys, value))
+                {
+                    _blockAllKeys = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BlockAllKeys)));
+                }
             }
         }
 
@@ -34,8 +38,27 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _selectedUpdateStyle = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedUpdateStyle)));
+                if (!Equals(_selectedUpdateStyle, value))
+                {
+                    _selectedUpdateStyle = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedUpdateStyle)));
+                }
+            }
+        }
+
+        private TimeSpan _durationTime = new TimeSpan(0, 30, 0);
+
+        public TimeSpan DurationTime
+        {
+            get { return _durationTime; }
+
+            set
+            {
+                if (!Equals(_durationTime, value))
+                {
+                    _durationTime = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DurationTime)));
+                }
             }
         }
 
@@ -58,6 +81,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnStartLoafClicked(object sender, RoutedEventArgs args)
         {
+            LoafWindow loafWindow = new LoafWindow();
+            loafWindow.Show();
         }
 
         /// <summary>
@@ -81,6 +106,18 @@ namespace WindowsTools.Views.Pages
             if (toggleSwitch is not null)
             {
                 BlockAllKeys = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 时间更改时触发的事件
+        /// </summary>
+        private void OnTimeChanged(object sender, TimePickerValueChangedEventArgs args)
+        {
+            TimePicker timePicker = sender as TimePicker;
+            if (timePicker is not null && timePicker.Tag is not null)
+            {
+                DurationTime = args.NewTime;
             }
         }
     }

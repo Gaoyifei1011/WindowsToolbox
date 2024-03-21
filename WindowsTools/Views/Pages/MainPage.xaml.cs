@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.System;
@@ -36,8 +35,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _windowTheme = value;
-                OnPropertyChanged();
+                if (!Equals(_windowTheme, value))
+                {
+                    _windowTheme = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowTheme)));
+                }
             }
         }
 
@@ -49,8 +51,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isBackEnabled = value;
-                OnPropertyChanged();
+                if (!Equals(_isBackEnabled, value))
+                {
+                    _isBackEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsBackEnabled)));
+                }
             }
         }
 
@@ -62,8 +67,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isWindowMaximized = value;
-                OnPropertyChanged();
+                if (!Equals(_isWindowMaximized, value))
+                {
+                    _isWindowMaximized = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsWindowMaximized)));
+                }
             }
         }
 
@@ -75,8 +83,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _selectedItem = value;
-                OnPropertyChanged();
+                if (!Equals(_selectedItem, value))
+                {
+                    _selectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
+                }
             }
         }
 
@@ -600,14 +611,6 @@ namespace WindowsTools.Views.Pages
                     page.ParseResourceFile(filesList[0]);
                 }
             }
-        }
-
-        /// <summary>
-        /// 属性值发生变化时通知更改
-        /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

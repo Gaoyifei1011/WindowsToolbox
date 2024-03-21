@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -49,8 +48,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isChecking = value;
-                OnPropertyChanged();
+                if (!Equals(_isChecking, value))
+                {
+                    _isChecking = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecking)));
+                }
             }
         }
 
@@ -62,8 +64,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isExcludeDrivers = value;
-                OnPropertyChanged();
+                if (!Equals(_isExcludeDrivers, value))
+                {
+                    _isExcludeDrivers = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExcludeDrivers)));
+                }
             }
         }
 
@@ -75,8 +80,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isAUExpanderExpanded = value;
-                OnPropertyChanged();
+                if (!Equals(_isAUExpanderExpanded, value))
+                {
+                    _isAUExpanderExpanded = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAUExpanderExpanded)));
+                }
             }
         }
 
@@ -88,8 +96,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isIUExpanderExpanded = value;
-                OnPropertyChanged();
+                if (!Equals(_isIUExpanderExpanded, value))
+                {
+                    _isIUExpanderExpanded = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsIUExpanderExpanded)));
+                }
             }
         }
 
@@ -101,8 +112,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isHUExpanderExpanded = value;
-                OnPropertyChanged();
+                if (!Equals(_isHUExpanderExpanded, value))
+                {
+                    _isHUExpanderExpanded = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsHUExpanderExpanded)));
+                }
             }
         }
 
@@ -114,8 +128,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isUHExpanderExpanded = value;
-                OnPropertyChanged();
+                if (!Equals(_isUHExpanderExpanded, value))
+                {
+                    _isUHExpanderExpanded = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsUHExpanderExpanded)));
+                }
             }
         }
 
@@ -127,8 +144,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isORExpanderExpanded = value;
-                OnPropertyChanged();
+                if (!Equals(_isORExpanderExpanded, value))
+                {
+                    _isORExpanderExpanded = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsORExpanderExpanded)));
+                }
             }
         }
 
@@ -140,8 +160,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _isIncludePotentiallySupersededUpdate = value;
-                OnPropertyChanged();
+                if (!Equals(_isIncludePotentiallySupersededUpdate, value))
+                {
+                    _isIncludePotentiallySupersededUpdate = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsIncludePotentiallySupersededUpdate)));
+                }
             }
         }
 
@@ -153,8 +176,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _selectedUpdateSource = value;
-                OnPropertyChanged();
+                if (!Equals(_selectedUpdateSource, value))
+                {
+                    _selectedUpdateSource = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedUpdateSource)));
+                }
             }
         }
 
@@ -166,8 +192,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _selectedPreviewChannel = value;
-                OnPropertyChanged();
+                if (!Equals(_selectedPreviewChannel, value))
+                {
+                    _selectedPreviewChannel = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedPreviewChannel)));
+                }
             }
         }
 
@@ -998,14 +1027,6 @@ namespace WindowsTools.Views.Pages
                         return string.Empty;
                     }
             }
-        }
-
-        /// <summary>
-        /// 属性值发生变化时通知更改
-        /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

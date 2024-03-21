@@ -132,6 +132,9 @@
   <data name="Description" xml:space="preserve">
     <value>Open this page and you can try to relax for a few moments</value>
   </data>
+  <data name="DurationTime" xml:space="preserve">
+    <value>Duration time</value>
+  </data>
   <data name="StartLoaf" xml:space="preserve">
     <value>Start loaf</value>
   </data>

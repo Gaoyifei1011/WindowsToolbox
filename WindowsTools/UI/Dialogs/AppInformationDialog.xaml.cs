@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,8 +31,11 @@ namespace WindowsTools.UI.Dialogs.About
 
             set
             {
-                _windowsAppSDKVersion = value;
-                OnPropertyChanged();
+                if (!Equals(_windowsAppSDKVersion, value))
+                {
+                    _windowsAppSDKVersion = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowsAppSDKVersion)));
+                }
             }
         }
 
@@ -45,8 +47,11 @@ namespace WindowsTools.UI.Dialogs.About
 
             set
             {
-                _winUI2Version = value;
-                OnPropertyChanged();
+                if (!Equals(_winUI2Version, value))
+                {
+                    _winUI2Version = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WinUI2Version)));
+                }
             }
         }
 
@@ -58,8 +63,11 @@ namespace WindowsTools.UI.Dialogs.About
 
             set
             {
-                _windowsUIVersion = value;
-                OnPropertyChanged();
+                if (!Equals(_windowsUIVersion, value))
+                {
+                    _windowsUIVersion = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(WindowsUIVersion)));
+                }
             }
         }
 
@@ -71,8 +79,11 @@ namespace WindowsTools.UI.Dialogs.About
 
             set
             {
-                _mileXamlVersion = value;
-                OnPropertyChanged();
+                if (!Equals(_mileXamlVersion, value))
+                {
+                    _mileXamlVersion = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MileXamlVersion)));
+                }
             }
         }
 
@@ -84,8 +95,11 @@ namespace WindowsTools.UI.Dialogs.About
 
             set
             {
-                _doNetVersion = value;
-                OnPropertyChanged();
+                if (!Equals(_doNetVersion, value))
+                {
+                    _doNetVersion = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DoNetVersion)));
+                }
             }
         }
 
@@ -174,14 +188,6 @@ namespace WindowsTools.UI.Dialogs.About
             bool copyResult = CopyPasteHelper.CopyToClipBoard(stringBuilder.ToString());
             sender.Hide();
             TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.AppInformation, copyResult));
-        }
-
-        /// <summary>
-        /// 属性值发生变化时通知更改
-        /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -33,8 +32,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _theme = value;
-                OnPropertyChanged();
+                if (!Equals(_theme, value))
+                {
+                    _theme = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Theme)));
+                }
             }
         }
 
@@ -46,8 +48,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _backdrop = value;
-                OnPropertyChanged();
+                if (!Equals(_backdrop, value))
+                {
+                    _backdrop = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Backdrop)));
+                }
             }
         }
 
@@ -59,8 +64,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _alwaysShowBackdropValue = value;
-                OnPropertyChanged();
+                if (!Equals(_alwaysShowBackdropValue, value))
+                {
+                    _alwaysShowBackdropValue = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AlwaysShowBackdropValue)));
+                }
             }
         }
 
@@ -72,8 +80,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _appLanguage = value;
-                OnPropertyChanged();
+                if (!Equals(_appLanguage, value))
+                {
+                    _appLanguage = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AppLanguage)));
+                }
             }
         }
 
@@ -85,8 +96,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _topMostValue = value;
-                OnPropertyChanged();
+                if (!Equals(_topMostValue, value))
+                {
+                    _topMostValue = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TopMostValue)));
+                }
             }
         }
 
@@ -98,8 +112,11 @@ namespace WindowsTools.Views.Pages
 
             set
             {
-                _fileShellMenuValue = value;
-                OnPropertyChanged();
+                if (!Equals(_fileShellMenuValue, value))
+                {
+                    _fileShellMenuValue = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileShellMenuValue)));
+                }
             }
         }
 
@@ -320,13 +337,5 @@ namespace WindowsTools.Views.Pages
         }
 
         #endregion 第一部分：设置页面——挂载的事件
-
-        /// <summary>
-        /// 属性值发生变化时通知更改
-        /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

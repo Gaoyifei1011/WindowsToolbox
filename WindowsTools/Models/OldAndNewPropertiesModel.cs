@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace WindowsTools.Models
 {
@@ -19,8 +18,11 @@ namespace WindowsTools.Models
 
             set
             {
-                _fileName = value;
-                OnPropertyChanged();
+                if (!Equals(_fileName, value))
+                {
+                    _fileName = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileName)));
+                }
             }
         }
 
@@ -35,8 +37,11 @@ namespace WindowsTools.Models
 
             set
             {
-                _filePath = value;
-                OnPropertyChanged();
+                if (!Equals(_filePath, value))
+                {
+                    _filePath = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FilePath)));
+                }
             }
         }
 
@@ -51,19 +56,14 @@ namespace WindowsTools.Models
 
             set
             {
-                _fileProperties = value;
-                OnPropertyChanged();
+                if (!Equals(_fileProperties, value))
+                {
+                    _fileProperties = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileProperties)));
+                }
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// 属性值发生变化时通知更改
-        /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }
