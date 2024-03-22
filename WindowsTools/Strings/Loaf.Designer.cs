@@ -115,6 +115,42 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Loading daily Bing wallpaper... 的本地化字符串。
+        /// </summary>
+        public static string LoadingBingWallpaper {
+            get {
+                return ResourceManager.GetString("LoadingBingWallpaper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Whether to lock the screen automatically after the simulation update is complete 的本地化字符串。
+        /// </summary>
+        public static string LockScreenAutomaticly {
+            get {
+                return ResourceManager.GetString("LockScreenAutomaticly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No 的本地化字符串。
+        /// </summary>
+        public static string LockScreenAutomaticlyOffContent {
+            get {
+                return ResourceManager.GetString("LockScreenAutomaticlyOffContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Yes 的本地化字符串。
+        /// </summary>
+        public static string LockScreenAutomaticlyOnContent {
+            get {
+                return ResourceManager.GetString("LockScreenAutomaticlyOnContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Start loaf 的本地化字符串。
         /// </summary>
         public static string StartLoaf {

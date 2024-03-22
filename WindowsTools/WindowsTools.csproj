@@ -128,6 +128,12 @@
       <DependentUpon>ShellMenu.resx</DependentUpon>
     </Compile>
 
+    <Compile Update="Strings\SimulateUpdate.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SimulateUpdate.resx</DependentUpon>
+    </Compile>
+
     <Compile Update="Strings\SystemInfo.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -259,7 +265,8 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
-
+    <Content Include="Assets\Wallpapers\LoafLocalImage.jpg" CopyToOutputDirectory="Always" />
+    
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" IncludeAssets="none" ExcludeAssets="all" PrivateAssets="all" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240311000" GeneratePathProperty="true" />
     <PackageReference Include="Mile.Xaml" Version="2.2.890" />
@@ -269,6 +276,7 @@
     <Reference Include="Microsoft.UI.Windowing" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0.18362\Microsoft.UI.winmd" IsWinMDFile="true" Private="false" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="WindowsBase" />
 
     <EmbeddedResource Update="Strings\About.en-us.resx" Generator="PublicResXFileCodeGenerator" />
@@ -314,6 +322,9 @@
     <EmbeddedResource Update="Strings\ShellMenu.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\ShellMenu.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ShellMenu.Designer.cs" />
     <EmbeddedResource Update="Strings\ShellMenu.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\SimulateUpdate.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\SimulateUpdate.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="SimulateUpdate.Designer.cs" />
+    <EmbeddedResource Update="Strings\SimulateUpdate.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\SystemInfo.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\SystemInfo.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="SystemInfo.Designer.cs" />
     <EmbeddedResource Update="Strings\SystemInfo.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
@@ -333,18 +344,5 @@
 
   <Target Name="SignExeFile" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">
     <Exec Command="$(ProjectDir)signtool.exe sign /f $(SolutionDir)$(AssemblyName)Package\$(AssemblyName)Package_SignKey.pfx /t http://timestamp.digicert.com /fd SHA256 $(ProjectDir)$(BaseOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).exe" />
-  </Target>
-
-  <Target Name="RemoveWebView2" BeforeTargets="ResolveAssemblyReferences">
-    <ItemGroup>
-      <_WebView2Reference Include="@(Reference)" Condition="'%(Filename)' == 'Microsoft.Web.WebView2.Core'" />
-      <Reference Remove="@(_WebView2Reference)" />
-      <Reference Include="@(_WebView2Reference)" RemoveMetadata="Implementation" />
-
-      <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(Filename)' == 'Microsoft.Web.WebView2.Core'" />
-      <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(Filename)' == 'Microsoft.Web.WebView2.WinForms'" />
-      <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(Filename)' == 'Microsoft.Web.WebView2.Wpf'" />
-      <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(Filename)' == 'WebView2Loader'" />
-    </ItemGroup>
   </Target>
 </Project>

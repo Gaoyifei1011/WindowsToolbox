@@ -43,6 +43,21 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         public static extern IntPtr FindWindowEx(IntPtr hWndParent, IntPtr hWndChildAfter, string lpszClass, string lpszWindow);
 
         /// <summary>
+        /// 锁定工作站的显示器。 锁定工作站可防止未经授权的使用。
+        /// </summary>
+        /// <returns>如果该函数成功，则返回值为非零值。 由于函数以异步方式执行，因此非零返回值指示操作已启动。 它并不指示工作站是否已成功锁定。</returns>
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "LockWorkStation", SetLastError = true)]
+        public static extern bool LockWorkStation();
+
+        /// <summary>
+        /// 显示或隐藏光标。
+        /// </summary>
+        /// <param name="show">如果 bShow 为 TRUE，则显示计数递增 1。 如果 bShow 为 FALSE，则显示计数将递减 1。</param>
+        /// <returns>返回值指定新的显示计数器。</returns>
+        [DllImport("user32", CharSet = CharSet.Unicode, EntryPoint = "ShowCursor", SetLastError = true)]
+        public static extern int ShowCursor(bool show);
+
+        /// <summary>
         /// 创建从指定文件中提取的图标的句柄数组。
         /// </summary>
         /// <param name="lpszFile">要从中提取图标的文件的路径和名称。</param>

@@ -2,8 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
+using WindowsTools.Extensions.DataType.Enums;
+using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.Views.Windows;
 
@@ -14,7 +22,39 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class LoafPage : Page, INotifyPropertyChanged
     {
-        private bool _blockAllKeys = false;
+        private bool _loadImageCompleted = false;
+
+        public bool LoadImageCompleted
+        {
+            get { return _loadImageCompleted; }
+
+            set
+            {
+                if (!Equals(_loadImageCompleted, value))
+                {
+                    _loadImageCompleted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LoadImageCompleted)));
+                }
+            }
+        }
+
+        private BitmapImage _loafImage;
+
+        public BitmapImage LoafImage
+        {
+            get { return _loafImage; }
+
+            set
+            {
+                if (!Equals(_loafImage, value))
+                {
+                    _loafImage = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LoafImage)));
+                }
+            }
+        }
+
+        private bool _blockAllKeys = true;
 
         public bool BlockAllKeys
         {
@@ -62,10 +102,26 @@ namespace WindowsTools.Views.Pages
             }
         }
 
+        private bool _lockScreenAutomaticly = true;
+
+        public bool LockScreenAutomaticly
+        {
+            get { return _lockScreenAutomaticly; }
+
+            set
+            {
+                if (!Equals(_lockScreenAutomaticly, value))
+                {
+                    _lockScreenAutomaticly = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LockScreenAutomaticly)));
+                }
+            }
+        }
+
         private List<DictionaryEntry> UpdateStyleList { get; } = new List<DictionaryEntry>()
         {
-            new DictionaryEntry(Loaf.Windows11Style,"Windows11Style"),
-            new DictionaryEntry(Loaf.Windows10Style,"Windows10Style"),
+            new DictionaryEntry(Loaf.Windows11Style, UpdatingKind.Windows11),
+            new DictionaryEntry(Loaf.Windows10Style, UpdatingKind.Windows10),
         };
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -77,12 +133,70 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
+        /// 加载每日必应壁纸图片
+        /// </summary>
+        private void OnLoaded(object sender, RoutedEventArgs args)
+        {
+            Task.Run(async () =>
+            {
+                try
+                {
+                    HttpClient httpClient = new HttpClient();
+                    httpClient.Timeout = TimeSpan.FromSeconds(5);
+
+                    HttpResponseMessage responseMessage = await httpClient.GetAsync("https://bing.biturl.top/?resolution=1920&format=image");
+
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        Stream stream = await responseMessage.Content.ReadAsStreamAsync();
+                        IRandomAccessStream randomAccessStream = stream.AsRandomAccessStream();
+
+                        MainWindow.Current.BeginInvoke(async () =>
+                        {
+                            try
+                            {
+                                BitmapImage bitmapImage = new BitmapImage();
+                                await bitmapImage.SetSourceAsync(randomAccessStream);
+                                LoafImage = bitmapImage;
+                                LoadImageCompleted = true;
+                                responseMessage.Dispose();
+                                httpClient.Dispose();
+                            }
+                            catch (Exception e)
+                            {
+                                LoafImage = new BitmapImage(new Uri("ms-appx:///Assets/Wallpapers/LoafLocalImage.jpg"));
+                                LoadImageCompleted = true;
+                                LogService.WriteLog(EventLogEntryType.Error, "Load bing wallpaper image failed", e);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        MainWindow.Current.BeginInvoke(() =>
+                        {
+                            LoafImage = new BitmapImage(new Uri("ms-appx:///Assets/Wallpapers/LoafLocalImage.jpg"));
+                            LoadImageCompleted = true;
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLogEntryType.Error, "Load bing wallpaper image failed", e);
+                    MainWindow.Current.BeginInvoke(() =>
+                    {
+                        LoafImage = new BitmapImage(new Uri("ms-appx:///Assets/Wallpapers/LoafLocalImage.jpg"));
+                        LoadImageCompleted = true;
+                    });
+                }
+            });
+        }
+
+        /// <summary>
         /// 开始摸鱼
         /// </summary>
         private void OnStartLoafClicked(object sender, RoutedEventArgs args)
         {
-            LoafWindow loafWindow = new LoafWindow();
-            loafWindow.Show();
+            new LoafWindow((UpdatingKind)SelectedUpdateStyle.Value, DurationTime, BlockAllKeys, LockScreenAutomaticly).Show();
         }
 
         /// <summary>
@@ -115,9 +229,24 @@ namespace WindowsTools.Views.Pages
         private void OnTimeChanged(object sender, TimePickerValueChangedEventArgs args)
         {
             TimePicker timePicker = sender as TimePicker;
-            if (timePicker is not null && timePicker.Tag is not null)
+            if (timePicker is not null)
             {
-                DurationTime = args.NewTime;
+                if (args.NewTime > TimeSpan.FromMinutes(5))
+                {
+                    DurationTime = args.NewTime;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 模拟更新结束后是否自动锁屏
+        /// </summary>
+        private void OnLockScreenAutomaticlyToggled(object sender, RoutedEventArgs args)
+        {
+            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+            if (toggleSwitch is not null)
+            {
+                LockScreenAutomaticly = toggleSwitch.IsOn;
             }
         }
     }

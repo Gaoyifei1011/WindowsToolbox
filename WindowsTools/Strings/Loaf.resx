@@ -135,6 +135,18 @@
   <data name="DurationTime" xml:space="preserve">
     <value>Duration time</value>
   </data>
+  <data name="LoadingBingWallpaper" xml:space="preserve">
+    <value>Loading daily Bing wallpaper...</value>
+  </data>
+  <data name="LockScreenAutomaticly" xml:space="preserve">
+    <value>Whether to lock the screen automatically after the simulation update is complete</value>
+  </data>
+  <data name="LockScreenAutomaticlyOffContent" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="LockScreenAutomaticlyOnContent" xml:space="preserve">
+    <value>Yes</value>
+  </data>
   <data name="StartLoaf" xml:space="preserve">
     <value>Start loaf</value>
   </data>
