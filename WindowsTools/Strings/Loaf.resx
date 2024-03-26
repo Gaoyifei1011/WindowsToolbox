@@ -138,6 +138,9 @@
   <data name="LoadingBingWallpaper" xml:space="preserve">
     <value>Loading daily Bing wallpaper...</value>
   </data>
+  <data name="LoafTimeTooTip" xml:space="preserve">
+    <value>Duration: {0} hours,{1} minutes</value>
+  </data>
   <data name="LockScreenAutomaticly" xml:space="preserve">
     <value>Whether to lock the screen automatically after the simulation update is complete</value>
   </data>
@@ -147,8 +150,20 @@
   <data name="LockScreenAutomaticlyOnContent" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="Operation" xml:space="preserve">
+    <value>Operation</value>
+  </data>
   <data name="StartLoaf" xml:space="preserve">
     <value>Start loaf</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Tips</value>
+  </data>
+  <data name="TipsContent1" xml:space="preserve">
+    <value>1.After running the fish, you can press Esc to exit.</value>
+  </data>
+  <data name="TipsContent2" xml:space="preserve">
+    <value>2. When running fish, do not shield Ctrl + Alt + Del keys on the keyboard.</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Loaf</value>

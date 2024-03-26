@@ -138,6 +138,9 @@
   <data name="LoadingBingWallpaper" xml:space="preserve">
     <value>正在加载每日必应壁纸...</value>
   </data>
+  <data name="LoafTimeTooTip" xml:space="preserve">
+    <value>时长：{0}时{1}分</value>
+  </data>
   <data name="LockScreenAutomaticly" xml:space="preserve">
     <value>模拟更新结束后是否自动锁屏</value>
   </data>
@@ -147,8 +150,20 @@
   <data name="LockScreenAutomaticlyOnContent" xml:space="preserve">
     <value>是</value>
   </data>
+  <data name="Operation" xml:space="preserve">
+    <value>操作</value>
+  </data>
   <data name="StartLoaf" xml:space="preserve">
     <value>开始摸鱼</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>小提示</value>
+  </data>
+  <data name="TipsContent1" xml:space="preserve">
+    <value>1.运行摸鱼后，您可以按 Esc 键退出。</value>
+  </data>
+  <data name="TipsContent2" xml:space="preserve">
+    <value>2.运行摸鱼时，不能屏蔽键盘的 Ctrl + Alt + Del 键。</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>摸鱼</value>

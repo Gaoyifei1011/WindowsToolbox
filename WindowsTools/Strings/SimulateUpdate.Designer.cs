@@ -70,7 +70,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Update {0}% in progress 的本地化字符串。
+        ///   查找类似 Update {0} in progress 的本地化字符串。
         /// </summary>
         public static string Windows10UpdateText1 {
             get {
@@ -88,7 +88,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Update {0}% completed 的本地化字符串。
+        ///   查找类似 Update {0} completed 的本地化字符串。
         /// </summary>
         public static string Windows11UpdateText1 {
             get {

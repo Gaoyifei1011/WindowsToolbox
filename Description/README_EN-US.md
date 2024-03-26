@@ -24,24 +24,29 @@ A toolbox that integrates multiple gadgets.
 
 ### Screenshot of the app
 
-#### <p align="center">File name page</p>
+#### <p align="center">Loaf page</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/b0e02784-9570-4cbe-9677-026fe9056cc5">
+<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/ed2e50f8-c7cf-4c08-ba06-38b52d9dd4ad">
 </div>
 
-#### <p align="center">Extension name page</p>
+#### <p align="center">File tools page</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/e852e9eb-2e3f-4f07-8950-df63b6e637cb">
+<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/b8db2eab-7fd6-418b-918d-c1c30150072d">
 </div>
 
-#### <p align="center">Upper and lower case page</p>
+#### <p align="center">Icon extract page</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/6b9aa536-1362-4a92-923c-a4e046753346">
+<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/dff09e6f-a7ba-4240-a234-27b97d235222">
 </div>
 
-#### <p align="center">File name page</p>
+#### <p align="center">Pri extract page</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/3cdf5dcd-8279-43e4-a14e-6f32dafb1422">
+<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/c13681fe-17c2-4041-8d86-9d4ca78cc1bf">
+</div>
+
+#### <p align="center">System assessment page</p>
+<div align="center">
+<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/072f3122-47d0-40b6-812e-6052a6e4416e">
 </div>
 
 ------
@@ -50,6 +55,7 @@ A toolbox that integrates multiple gadgets.
 
 | Project content                                           | Development progress                                                 |
 | --------------------------------------------------------- | -------------------------------------------------------------------- |
+| Loaf                                                      | Finished                                                             |
 | Batch change file names                                   | Finished                                                             |
 | Batch change file extension names                         | Finished                                                             |
 | Batch change the upper and lower case names of files      | Finished                                                             |

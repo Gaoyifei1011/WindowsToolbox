@@ -3,6 +3,7 @@
 
 ------
 
+> * [Loaf](https://github.com/DinoChan/Loaf)&emsp;
 > * [Generating valid tokens to access Limited Access Features in Windows 10](https://www.withinrafael.com/2021/01/04/generating-valid-tokens-to-access-limited-access-features-in-windows-10)&emsp;
 > * [Mile.Xaml.Samples](https://github.com/ProjectMile/Mile.Xaml.Samples)&emsp;
 > * [Windows Community Toolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit)&emsp;

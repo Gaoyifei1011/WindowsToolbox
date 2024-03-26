@@ -121,13 +121,13 @@
     <value>计算机可能会重启几次</value>
   </data>
   <data name="Windows10UpdateText1" xml:space="preserve">
-    <value>正在进行更新 {0}%</value>
+    <value>正在进行更新 {0}</value>
   </data>
   <data name="Windows10UpdateText2" xml:space="preserve">
     <value>请保持计算机打开状态。</value>
   </data>
   <data name="Windows11UpdateText1" xml:space="preserve">
-    <value>更新已完成 {0}%</value>
+    <value>更新已完成 {0}</value>
   </data>
   <data name="Windows11UpdateText2" xml:space="preserve">
     <value>请不要关机</value>

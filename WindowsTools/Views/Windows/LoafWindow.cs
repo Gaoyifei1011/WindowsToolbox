@@ -1,11 +1,14 @@
 ﻿using Mile.Xaml;
 using System;
 using System.ComponentModel;
-using System.Drawing.Printing;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using WindowsTools.Extensions.DataType.Enums;
+using WindowsTools.Helpers.Root;
+using WindowsTools.Services.Root;
 using WindowsTools.Views.Pages;
-using WindowsTools.WindowsAPI.PInvoke.DwmApi;
+using WindowsTools.WindowsAPI.PInvoke.User32;
 
 namespace WindowsTools.Views.Windows
 {
@@ -14,10 +17,14 @@ namespace WindowsTools.Views.Windows
     /// </summary>
     public class LoafWindow : Form
     {
+        private bool _blockAllKeys = false;
+        private bool _lockScreenAutomaticly = false;
+        private IntPtr hHook = IntPtr.Zero;
         private IContainer components = new Container();
         private WindowsXamlHost windowsXamlHost = new WindowsXamlHost();
+        private HOOKPROC KeyBoardHookProc;
 
-        public static LoafWindow Current { get; private set; }
+        public static LoafWindow Current { get; set; }
 
         public LoafWindow(UpdatingKind updatingKind, TimeSpan duration, bool blockAllKeys, bool lockScreenAutomaticly)
         {
@@ -29,19 +36,24 @@ namespace WindowsTools.Views.Windows
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             ShowInTaskbar = false;
+            TopMost = true;
             windowsXamlHost.AutoSize = true;
             windowsXamlHost.Dock = DockStyle.Fill;
-            windowsXamlHost.Child = new SimulateUpdatePage(updatingKind, duration, blockAllKeys, lockScreenAutomaticly);
-        }
-
-        protected override void OnKeyDown(KeyEventArgs args)
-        {
-            base.OnKeyDown(args);
-
-            if (args.KeyCode is Keys.Escape)
+            _blockAllKeys = blockAllKeys;
+            _lockScreenAutomaticly = lockScreenAutomaticly;
+            // 先显示鼠标光标，然后再隐藏
+            while (User32Library.ShowCursor(true) < 0)
             {
-                (windowsXamlHost.Child as SimulateUpdatePage).StopSimulateUpdate();
+                User32Library.ShowCursor(true);
             }
+            while (User32Library.ShowCursor(false) >= 0)
+            {
+                User32Library.ShowCursor(false);
+            }
+            windowsXamlHost.Child = new SimulateUpdatePage(updatingKind, duration);
+            // 阻止系统睡眠，阻止屏幕关闭。
+            SystemSleepHelper.PreventForCurrentThread();
+            StartHook();
         }
 
         /// <summary>
@@ -57,15 +69,144 @@ namespace WindowsTools.Views.Windows
         }
 
         /// <summary>
-        /// 窗体程序加载时初始化应用程序设置
+        /// 添加钩子
         /// </summary>
-        protected override void OnLoad(EventArgs args)
+        private void StartHook()
         {
-            base.OnLoad(args);
+            try
+            {
+                // 安装键盘钩子
+                if (hHook == IntPtr.Zero)
+                {
+                    KeyBoardHookProc = new HOOKPROC(OnKeyboardHookProc);
 
-            Margins margin = new Margins();
-            DwmApiLibrary.DwmExtendFrameIntoClientArea(Handle, ref margin);
-            Invalidate();
+                    hHook = User32Library.SetWindowsHookEx(HOOKTYPE.WH_KEYBOARD_LL, KeyBoardHookProc, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
+
+                    //如果设置钩子失败.
+                    if (hHook == IntPtr.Zero)
+                    {
+                        StopHook();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLogEntryType.Error, "Add keyboard hook failed", e);
+            }
+        }
+
+        /// <summary>
+        /// 取消钩子
+        /// </summary>
+        private void StopHook()
+        {
+            try
+            {
+                bool unHookResult = true;
+                if (hHook != IntPtr.Zero)
+                {
+                    unHookResult = User32Library.UnhookWindowsHookEx(hHook);
+                }
+
+                if (!unHookResult)
+                {
+                    throw new Win32Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLogEntryType.Error, "Remove keyboard hook failed", e);
+            }
+        }
+
+        /// <summary>
+        /// 自定义钩子消息处理
+        /// </summary>
+        public IntPtr OnKeyboardHookProc(int nCode, IntPtr wParam, IntPtr lParam)
+        {
+            // 处理键盘钩子消息
+            if (nCode >= 0)
+            {
+                KBDLLHOOKSTRUCT kbdllHookStruct = (KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));
+
+                // Esc 键，退出摸鱼
+                if (kbdllHookStruct.vkCode is Keys.Escape)
+                {
+                    StopLoaf();
+                    return new IntPtr(1);
+                }
+
+                // 屏蔽所有键盘按键
+                if (_blockAllKeys)
+                {                // 左 Windows 徽标键
+                    if (kbdllHookStruct.vkCode is Keys.LWin)
+                    {
+                        return new IntPtr(1);
+                    }
+
+                    // 右 Windows 徽标键
+                    if (kbdllHookStruct.vkCode is Keys.LWin)
+                    {
+                        return new IntPtr(1);
+                    }
+
+                    // Ctrl 和 Esc 组合
+                    if (kbdllHookStruct.vkCode is Keys.Escape && ModifierKeys is Keys.Control)
+                    {
+                        return new IntPtr(1);
+                    }
+
+                    // Alt 和 F4 组合
+                    if (kbdllHookStruct.vkCode is Keys.F4 && ModifierKeys is Keys.Alt)
+                    {
+                        return new IntPtr(1);
+                    }
+
+                    // Alt 和 Tab 组合
+                    if (kbdllHookStruct.vkCode is Keys.Tab && ModifierKeys is Keys.Alt)
+                    {
+                        return new IntPtr(1);
+                    }
+
+                    // Ctrl Shift Esc 组合
+                    if (kbdllHookStruct.vkCode is Keys.Escape && ModifierKeys is (Keys.Control | Keys.Shift))
+                    {
+                        return new IntPtr(1);
+                    }
+
+                    // Alt 和 Space 组合
+                    if (kbdllHookStruct.vkCode is Keys.Space && ModifierKeys is Keys.Alt)
+                    {
+                        return new IntPtr(1);
+                    }
+                }
+            }
+            return User32Library.CallNextHookEx(hHook, nCode, wParam, lParam);
+        }
+
+        /// <summary>
+        /// 停止摸鱼
+        /// </summary>
+        public void StopLoaf()
+        {
+            // 显示光标
+            while (User32Library.ShowCursor(true) < 0)
+            {
+                User32Library.ShowCursor(true);
+            }
+            StopHook();
+            (windowsXamlHost.Child as SimulateUpdatePage).StopSimulateUpdate();
+            if (_lockScreenAutomaticly)
+            {
+                User32Library.LockWorkStation();
+            }
+            // 恢复此线程曾经阻止的系统休眠和屏幕关闭。
+            SystemSleepHelper.RestoreForCurrentThread();
+            Close();
+            User32Library.keybd_event(Keys.LWin, 0, KEYEVENTFLAGS.KEYEVENTF_KEYDOWN, UIntPtr.Zero);
+            User32Library.keybd_event(Keys.D, 0, KEYEVENTFLAGS.KEYEVENTF_KEYDOWN, UIntPtr.Zero);
+            User32Library.keybd_event(Keys.D, 0, KEYEVENTFLAGS.KEYEVENTF_KEYUP, UIntPtr.Zero);
+            User32Library.keybd_event(Keys.LWin, 0, KEYEVENTFLAGS.KEYEVENTF_KEYUP, UIntPtr.Zero);
         }
     }
 }

@@ -35,6 +35,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid
@@ -104,12 +105,13 @@
                     <TextBlock
                         Grid.Column="1"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:WinSAT.Operation}" />
+                        Text="{x:Bind string:Loaf.Operation}" />
 
                     <Button
                         Grid.Column="2"
                         Click="{x:Bind OnStartLoafClicked}"
                         Content="{x:Bind string:Loaf.StartLoaf}"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsLoafing), Mode=OneWay}"
                         Style="{StaticResource AccentButtonStyle}" />
                 </Grid>
 
@@ -236,7 +238,8 @@
                                     ClockIdentifier="24HourClock"
                                     Style="{StaticResource TimePickerStyle}"
                                     Time="{x:Bind DurationTime, Mode=OneWay}"
-                                    TimeChanged="{x:Bind OnTimeChanged}" />
+                                    TimeChanged="{x:Bind OnTimeChanged}"
+                                    ToolTipService.ToolTip="{x:Bind sys:String.Format(string:Loaf.LoafTimeTooTip, DurationTime.Hours, DurationTime.Minutes), Mode=OneWay}" />
                             </Grid>
 
                             <MenuFlyoutSeparator />
@@ -267,6 +270,55 @@
                                     OnContent="{x:Bind string:Loaf.LockScreenAutomaticlyOnContent}"
                                     Toggled="{x:Bind OnLockScreenAutomaticlyToggled}" />
                             </Grid>
+                        </StackPanel>
+                    </muxc:Expander.Content>
+                </muxc:Expander>
+
+                <muxc:Expander
+                    Grid.Row="3"
+                    Margin="30,0,30,3"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    IsExpanded="True">
+
+                    <muxc:Expander.Header>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon
+                                Grid.Column="0"
+                                Margin="0,0,12,0"
+                                FontSize="16"
+                                Glyph="&#xE82F;" />
+
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind string:Loaf.Tips}" />
+                        </Grid>
+                    </muxc:Expander.Header>
+
+                    <muxc:Expander.Content>
+                        <StackPanel Margin="0">
+                            <TextBlock
+                                Margin="44,10,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                Text="{x:Bind string:Loaf.TipsContent1}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="44,0,16,10"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                Text="{x:Bind string:Loaf.TipsContent2}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
                         </StackPanel>
                     </muxc:Expander.Content>
                 </muxc:Expander>

@@ -121,13 +121,13 @@
     <value>The computer may reboot several times</value>
   </data>
   <data name="Windows10UpdateText1" xml:space="preserve">
-    <value>Update {0}% in progress</value>
+    <value>Update {0} in progress</value>
   </data>
   <data name="Windows10UpdateText2" xml:space="preserve">
     <value>Please keep the computer turned on.</value>
   </data>
   <data name="Windows11UpdateText1" xml:space="preserve">
-    <value>Update {0}% completed</value>
+    <value>Update {0} completed</value>
   </data>
   <data name="Windows11UpdateText2" xml:space="preserve">
     <value>Please don't turn it off.</value>

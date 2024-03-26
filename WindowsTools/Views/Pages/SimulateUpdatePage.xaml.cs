@@ -1,13 +1,12 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Timers;
-using Windows.System;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
+using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.Views.Windows;
-using WindowsTools.WindowsAPI.PInvoke.User32;
 
 namespace WindowsTools.Views.Pages
 {
@@ -57,26 +56,18 @@ namespace WindowsTools.Views.Pages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public SimulateUpdatePage(UpdatingKind updatingKind, TimeSpan duration, bool blockAllKeys, bool lockScreenAutomaticly)
+        public SimulateUpdatePage(UpdatingKind updatingKind, TimeSpan duration)
         {
             InitializeComponent();
 
             UpdatingKind = updatingKind;
-            simulateTotalTime = Convert.ToInt32(duration.TotalSeconds);
-            simulateUpdateTimer.Interval = 1;
+            simulateTotalTime = duration.TotalSeconds is not 0 ? Convert.ToInt32(duration.TotalSeconds) : 1;
+            string percentage = ((double)simulatePassedTime / simulateTotalTime).ToString("0%");
+            Windows11UpdateText = string.Format(SimulateUpdate.Windows11UpdateText1, percentage);
+            Windows10UpdateText = string.Format(SimulateUpdate.Windows10UpdateText1, percentage);
+            simulateUpdateTimer.Interval = 1000;
             simulateUpdateTimer.Elapsed += OnElapsed;
             simulateUpdateTimer.Start();
-            User32Library.ShowCursor(false);
-        }
-
-        protected override void OnKeyDown(KeyRoutedEventArgs args)
-        {
-            base.OnKeyDown(args);
-
-            if (args.Key is VirtualKey.Escape)
-            {
-                StopSimulateUpdate();
-            }
         }
 
         /// <summary>
@@ -91,22 +82,21 @@ namespace WindowsTools.Views.Pages
                 // 到达约定时间，自动停止
                 if (simulatePassedTime > simulateTotalTime)
                 {
-                    LoafWindow.Current.BeginInvoke(() =>
-                    {
-                        StopSimulateUpdate();
-                    });
+                    LoafWindow.Current.BeginInvoke(LoafWindow.Current.StopLoaf);
 
                     return;
                 }
 
                 LoafWindow.Current.BeginInvoke(() =>
                 {
-                    Windows11UpdateText = string.Format(SimulateUpdate.Windows11UpdateText1, Convert.ToInt32(simulatePassedTime / simulateTotalTime));
-                    Windows10UpdateText = string.Format(SimulateUpdate.Windows10UpdateText1, Convert.ToInt32(simulatePassedTime / simulateTotalTime));
+                    string percentage = ((double)simulatePassedTime / simulateTotalTime).ToString("0%");
+                    Windows11UpdateText = string.Format(SimulateUpdate.Windows11UpdateText1, percentage);
+                    Windows10UpdateText = string.Format(SimulateUpdate.Windows10UpdateText1, percentage);
                 });
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                LogService.WriteLog(EventLogEntryType.Error, "Simulate update timer update failed", e);
             }
         }
 
@@ -119,9 +109,8 @@ namespace WindowsTools.Views.Pages
             {
                 simulateUpdateTimer.Stop();
                 simulateUpdateTimer.Dispose();
+                simulatePassedTime = 0;
                 simulateUpdateTimer = null;
-                User32Library.ShowCursor(true);
-                LoafWindow.Current.Close();
             }
         }
     }

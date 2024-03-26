@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace WindowsTools.WindowsAPI.PInvoke.User32
 {
@@ -9,6 +10,17 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
     public static class User32Library
     {
         private const string User32 = "user32.dll";
+
+        /// <summary>
+        /// 将挂钩信息传递给当前挂钩链中的下一个挂钩过程。 挂钩过程可以在处理挂钩信息之前或之后调用此函数。
+        /// </summary>
+        /// <param name="idHook">传递给当前挂钩过程的类型。</param>
+        /// <param name="nCode">传递给当前挂钩过程的挂钩代码。 下一个挂钩过程使用此代码来确定如何处理挂钩信息。</param>
+        /// <param name="wParam">传递给当前挂钩过程的 wParam 值。 此参数的含义取决于与当前挂钩链关联的挂钩类型。</param>
+        /// <param name="lParam">传递给当前挂钩过程的 lParam 值。 此参数的含义取决于与当前挂钩链关联的挂钩类型。</param>
+        /// <returns>此值由链中的下一个挂钩过程返回。 当前挂钩过程还必须返回此值。 返回值的含义取决于挂钩类型。 有关详细信息，请参阅各个挂钩过程的说明。</returns>
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "CallNextHookEx", SetLastError = false)]
+        public static extern IntPtr CallNextHookEx(IntPtr idHook, int nCode, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
         /// 修改指定窗口的用户界面特权隔离 (UIPI) 消息筛选器。
@@ -50,11 +62,21 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         public static extern bool LockWorkStation();
 
         /// <summary>
+        /// 合成键击。 系统可以使用这种合成的击键来生成 WM_KEYUP 或 WM_KEYDOWN 消息。 键盘驱动程序的中断处理程序调用 keybd_event 函数。
+        /// </summary>
+        /// <param name="bVk">虚拟密钥代码。 代码必须是 1 到 254 范围内的值。</param>
+        /// <param name="bScan">密钥的硬件扫描代码。</param>
+        /// <param name="dwFlags">控制函数操作的各个方面。 此参数可使用以下一个或多个值。</param>
+        /// <param name="dwExtraInfo">与键笔划关联的附加值。</param>
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "keybd_event", SetLastError = false)]
+        public static extern void keybd_event(Keys bVk, byte bScan, KEYEVENTFLAGS dwFlags, UIntPtr dwExtraInfo);
+
+        /// <summary>
         /// 显示或隐藏光标。
         /// </summary>
         /// <param name="show">如果 bShow 为 TRUE，则显示计数递增 1。 如果 bShow 为 FALSE，则显示计数将递减 1。</param>
         /// <returns>返回值指定新的显示计数器。</returns>
-        [DllImport("user32", CharSet = CharSet.Unicode, EntryPoint = "ShowCursor", SetLastError = true)]
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "ShowCursor", SetLastError = true)]
         public static extern int ShowCursor(bool show);
 
         /// <summary>
@@ -112,5 +134,24 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowPos", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
+
+        /// <summary>
+        /// 将应用程序定义的挂钩过程安装到挂钩链中。 你将安装挂钩过程来监视系统的某些类型的事件。 这些事件与特定线程或与调用线程位于同一桌面中的所有线程相关联。
+        /// </summary>
+        /// <param name="idHook">要安装的挂钩过程的类型。</param>
+        /// <param name="lpfn">指向挂钩过程的指针。 如果 dwThreadId 参数为零或指定由其他进程创建的线程的标识符， 则 lpfn 参数必须指向 DLL 中的挂钩过程。 否则， lpfn 可以指向与当前进程关联的代码中的挂钩过程。</param>
+        /// <param name="hMod">DLL 的句柄，其中包含 lpfn 参数指向的挂钩过程。 如果 dwThreadId 参数指定当前进程创建的线程，并且挂钩过程位于与当前进程关联的代码中，则必须将 hMod 参数设置为 NULL。</param>
+        /// <param name="dwThreadId">要与挂钩过程关联的线程的标识符。 对于桌面应用，如果此参数为零，则挂钩过程与调用线程在同一桌面中运行的所有现有线程相关联。 对于 Windows 应用商店应用，请参阅“备注”部分。</param>
+        /// <returns>如果函数成功，则返回值是挂钩过程的句柄。如果函数失败，则返回值为 NULL。</returns>
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowsHookExW", SetLastError = false)]
+        public static extern IntPtr SetWindowsHookEx(HOOKTYPE idHook, HOOKPROC lpfn, IntPtr hMod, int dwThreadId);
+
+        /// <summary>
+        /// 删除 SetWindowsHookEx 函数安装在挂钩链中的挂钩过程。
+        /// </summary>
+        /// <param name="idHook">要移除的挂钩的句柄。 此参数是由先前调用 SetWindowsHookEx 获取的挂钩句柄。</param>
+        /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "UnhookWindowsHookEx", SetLastError = false)]
+        public static extern bool UnhookWindowsHookEx(IntPtr idHook);
     }
 }

@@ -31,24 +31,29 @@
 
 ### 应用截图
 
-#### <p align="center">文件名称页面</p>
+#### <p align="center">摸鱼页面</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/34154185-1212-469c-88f5-64aa7df63e8d">
+<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/ee8f736e-fbf5-4fc3-9050-4fb0d5a08b74">
 </div>
 
-#### <p align="center">扩展名称页面</p>
+#### <p align="center">文件工具页面</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/d90e23db-1ee2-4160-a9cc-c0cd7ad508a2">
+<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/95130de1-a57b-4c0d-b851-a21d2cd3b740">
 </div>
 
-#### <p align="center">大写小写页面</p>
+#### <p align="center">图标提取页面</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/3af8df88-4fb1-4b68-8bce-d39795de39df">
+<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/f9b3679d-e970-4f1e-8105-d26ebf4295b9">
 </div>
 
-#### <p align="center">文件属性页面</p>
+#### <p align="center">包资源索引提取页面</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/FileRenamer/assets/49179966/fb740e5d-6fce-4f5c-a18f-f94f982bd4e9">
+<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/95130de1-a57b-4c0d-b851-a21d2cd3b740">
+</div>
+
+#### <p align="center">系统评估页面</p>
+<div align="center">
+<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/279ababe-5486-4311-9aa1-76c2be4aa8a5">
 </div>
 
 ------
@@ -57,6 +62,7 @@
 
 | 项目内容                         | 开发进展                                                           |
 | -------------------------------- | -------------------------------------------------------------------|
+| 摸鱼                             | 已完成                                                             |
 | 批量修改文件的名称               | 已完成                                                             |
 | 批量修改文件的扩展名称           | 已完成                                                             |
 | 批量修改文件的大写小写名称       | 已完成                                                             |

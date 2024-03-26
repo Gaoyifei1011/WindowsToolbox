@@ -124,6 +124,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Duration: {0} hours,{1} minutes 的本地化字符串。
+        /// </summary>
+        public static string LoafTimeTooTip {
+            get {
+                return ResourceManager.GetString("LoafTimeTooTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Whether to lock the screen automatically after the simulation update is complete 的本地化字符串。
         /// </summary>
         public static string LockScreenAutomaticly {
@@ -151,11 +160,47 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Operation 的本地化字符串。
+        /// </summary>
+        public static string Operation {
+            get {
+                return ResourceManager.GetString("Operation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Start loaf 的本地化字符串。
         /// </summary>
         public static string StartLoaf {
             get {
                 return ResourceManager.GetString("StartLoaf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Tips 的本地化字符串。
+        /// </summary>
+        public static string Tips {
+            get {
+                return ResourceManager.GetString("Tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 1.After running the fish, you can press Esc to exit. 的本地化字符串。
+        /// </summary>
+        public static string TipsContent1 {
+            get {
+                return ResourceManager.GetString("TipsContent1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 2. When running fish, do not shield Ctrl + Alt + Del keys on the keyboard. 的本地化字符串。
+        /// </summary>
+        public static string TipsContent2 {
+            get {
+                return ResourceManager.GetString("TipsContent2", resourceCulture);
             }
         }
         

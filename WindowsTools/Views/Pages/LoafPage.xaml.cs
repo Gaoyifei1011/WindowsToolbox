@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -50,6 +51,22 @@ namespace WindowsTools.Views.Pages
                 {
                     _loafImage = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LoafImage)));
+                }
+            }
+        }
+
+        private bool _isLoafing;
+
+        public bool IsLoafing
+        {
+            get { return _isLoafing; }
+
+            set
+            {
+                if (!Equals(_isLoafing, value))
+                {
+                    _isLoafing = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsLoafing)));
                 }
             }
         }
@@ -197,6 +214,18 @@ namespace WindowsTools.Views.Pages
         private void OnStartLoafClicked(object sender, RoutedEventArgs args)
         {
             new LoafWindow((UpdatingKind)SelectedUpdateStyle.Value, DurationTime, BlockAllKeys, LockScreenAutomaticly).Show();
+            LoafWindow.Current.FormClosed += OnClosed;
+            IsLoafing = true;
+        }
+
+        /// <summary>
+        /// 停止模拟更新后触发的事件
+        /// </summary>
+        private void OnClosed(object sender, FormClosedEventArgs args)
+        {
+            LoafWindow.Current.FormClosed -= OnClosed;
+            LoafWindow.Current = null;
+            IsLoafing = false;
         }
 
         /// <summary>
@@ -231,10 +260,7 @@ namespace WindowsTools.Views.Pages
             TimePicker timePicker = sender as TimePicker;
             if (timePicker is not null)
             {
-                if (args.NewTime > TimeSpan.FromMinutes(5))
-                {
-                    DurationTime = args.NewTime;
-                }
+                DurationTime = args.NewTime;
             }
         }
 
