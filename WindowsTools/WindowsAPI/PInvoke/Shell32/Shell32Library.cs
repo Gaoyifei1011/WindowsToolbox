@@ -5,6 +5,9 @@ using System.Text;
 
 namespace WindowsTools.WindowsAPI.PInvoke.Shell32
 {
+    /// <summary>
+    /// Shell32.dll 函数库
+    /// </summary>
     public static class Shell32Library
     {
         public const string Shell32 = "shell32.dll";

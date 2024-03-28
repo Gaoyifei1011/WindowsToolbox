@@ -5,7 +5,7 @@ using System.Windows.Forms;
 namespace WindowsTools.WindowsAPI.PInvoke.User32
 {
     /// <summary>
-    /// user32.dll 函数库
+    /// User32.dll 函数库
     /// </summary>
     public static class User32Library
     {

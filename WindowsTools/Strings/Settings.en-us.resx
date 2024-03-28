@@ -141,6 +141,12 @@
   <data name="BackdropAcrylic" xml:space="preserve">
     <value>Acrylic</value>
   </data>
+  <data name="BackdropAcrylicBase" xml:space="preserve">
+    <value>Base</value>
+  </data>
+  <data name="BackdropAcrylicThin" xml:space="preserve">
+    <value>Thin</value>
+  </data>
   <data name="BackdropDefault" xml:space="preserve">
     <value>None</value>
   </data>
@@ -161,6 +167,9 @@
   </data>
   <data name="ClearLogDescription" xml:space="preserve">
     <value>Clear all log contents of the app</value>
+  </data>
+  <data name="DesktopAcrylic" xml:space="preserve">
+    <value>Acrylic</value>
   </data>
   <data name="FileShellMenu" xml:space="preserve">
     <value>File right-click menu</value>
@@ -194,6 +203,9 @@
   </data>
   <data name="LogRecordDescription" xml:space="preserve">
     <value>Manage app log record</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>Mica</value>
   </data>
   <data name="OpenLogFolder" xml:space="preserve">
     <value>Open folder</value>

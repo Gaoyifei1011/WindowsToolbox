@@ -141,6 +141,12 @@
   <data name="BackdropAcrylic" xml:space="preserve">
     <value>亚克力</value>
   </data>
+  <data name="BackdropAcrylicBase" xml:space="preserve">
+    <value>Base</value>
+  </data>
+  <data name="BackdropAcrylicThin" xml:space="preserve">
+    <value>Thin</value>
+  </data>
   <data name="BackdropDefault" xml:space="preserve">
     <value>不开启</value>
   </data>
@@ -161,6 +167,9 @@
   </data>
   <data name="ClearLogDescription" xml:space="preserve">
     <value>清除应用所有的日志内容</value>
+  </data>
+  <data name="DesktopAcrylic" xml:space="preserve">
+    <value>亚克力</value>
   </data>
   <data name="FileShellMenu" xml:space="preserve">
     <value>文件右键菜单</value>
@@ -194,6 +203,9 @@
   </data>
   <data name="LogRecordDescription" xml:space="preserve">
     <value>管理应用日志记录</value>
+  </data>
+  <data name="Mica" xml:space="preserve">
+    <value>云母</value>
   </data>
   <data name="OpenLogFolder" xml:space="preserve">
     <value>打开文件夹</value>

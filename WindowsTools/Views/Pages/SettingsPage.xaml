@@ -161,10 +161,8 @@
 
                 <!--  窗口背景材质设置  -->
                 <Grid
-                    x:Name="BackdropSettings"
                     Height="61"
                     Padding="16,12"
-                    x:Load="{x:Bind CanUseBackdrop}"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
@@ -225,29 +223,58 @@
                                     Tag="0"
                                     Text="{x:Bind sys:Convert.ToString(BackdropList[0].Key)}" />
 
-                                <ToggleMenuFlyoutItem
+                                <MenuFlyoutSubItem
                                     Height="32"
-                                    Padding="11,0"
-                                    Click="{x:Bind OnBackdropSelectClicked}"
-                                    IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[1].Value), Mode=OneWay}"
-                                    Tag="1"
-                                    Text="{x:Bind sys:Convert.ToString(BackdropList[1].Key)}" />
+                                    Padding="11,0,11,0"
+                                    Text="{x:Bind string:Settings.Mica}"
+                                    Visibility="{x:Bind CanUseMicaBackdrop}">
 
-                                <ToggleMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
-                                    Click="{x:Bind OnBackdropSelectClicked}"
-                                    IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[2].Value), Mode=OneWay}"
-                                    Tag="2"
-                                    Text="{x:Bind sys:Convert.ToString(BackdropList[2].Key)}" />
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnBackdropSelectClicked}"
+                                        IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[1].Value), Mode=OneWay}"
+                                        Tag="1"
+                                        Text="{x:Bind sys:Convert.ToString(BackdropList[1].Key)}" />
 
-                                <ToggleMenuFlyoutItem
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnBackdropSelectClicked}"
+                                        IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[2].Value), Mode=OneWay}"
+                                        Tag="2"
+                                        Text="{x:Bind sys:Convert.ToString(BackdropList[2].Key)}" />
+                                </MenuFlyoutSubItem>
+
+                                <MenuFlyoutSubItem
                                     Height="32"
-                                    Padding="11,0"
-                                    Click="{x:Bind OnBackdropSelectClicked}"
-                                    IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[3].Value), Mode=OneWay}"
-                                    Tag="3"
-                                    Text="{x:Bind sys:Convert.ToString(BackdropList[3].Key)}" />
+                                    Padding="11,0,11,0"
+                                    Text="{x:Bind string:Settings.DesktopAcrylic}">
+
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnBackdropSelectClicked}"
+                                        IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[3].Value), Mode=OneWay}"
+                                        Tag="3"
+                                        Text="{x:Bind sys:Convert.ToString(BackdropList[3].Key)}" />
+
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnBackdropSelectClicked}"
+                                        IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[4].Value), Mode=OneWay}"
+                                        Tag="4"
+                                        Text="{x:Bind sys:Convert.ToString(BackdropList[4].Key)}" />
+
+                                    <ToggleMenuFlyoutItem
+                                        Height="32"
+                                        Padding="11,0"
+                                        Click="{x:Bind OnBackdropSelectClicked}"
+                                        IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[5].Value), Mode=OneWay}"
+                                        Tag="5"
+                                        Text="{x:Bind sys:Convert.ToString(BackdropList[5].Key)}" />
+                                </MenuFlyoutSubItem>
                             </MenuFlyout>
                         </muxc:DropDownButton.Flyout>
                     </muxc:DropDownButton>

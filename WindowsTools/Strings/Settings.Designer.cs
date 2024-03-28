@@ -133,6 +133,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Base 的本地化字符串。
+        /// </summary>
+        public static string BackdropAcrylicBase {
+            get {
+                return ResourceManager.GetString("BackdropAcrylicBase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Thin 的本地化字符串。
+        /// </summary>
+        public static string BackdropAcrylicThin {
+            get {
+                return ResourceManager.GetString("BackdropAcrylicThin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 None 的本地化字符串。
         /// </summary>
         public static string BackdropDefault {
@@ -192,6 +210,15 @@ namespace WindowsTools.Strings {
         public static string ClearLogDescription {
             get {
                 return ResourceManager.GetString("ClearLogDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Acrylic 的本地化字符串。
+        /// </summary>
+        public static string DesktopAcrylic {
+            get {
+                return ResourceManager.GetString("DesktopAcrylic", resourceCulture);
             }
         }
         
@@ -291,6 +318,15 @@ namespace WindowsTools.Strings {
         public static string LogRecordDescription {
             get {
                 return ResourceManager.GetString("LogRecordDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Mica 的本地化字符串。
+        /// </summary>
+        public static string Mica {
+            get {
+                return ResourceManager.GetString("Mica", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Composition.SystemBackdrops;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
@@ -54,25 +55,37 @@ namespace WindowsTools.Services.Root
             BackdropList.Add(new DictionaryEntry
             {
                 Key = Settings.BackdropDefault,
-                Value = "Default"
+                Value = nameof(SystemBackdropTheme.Default)
             });
 
             BackdropList.Add(new DictionaryEntry
             {
                 Key = Settings.BackdropMica,
-                Value = "Mica"
+                Value = nameof(MicaKind) + nameof(MicaKind.Base)
             });
 
             BackdropList.Add(new DictionaryEntry
             {
                 Key = Settings.BackdropMicaAlt,
-                Value = "MicaAlt"
+                Value = nameof(MicaKind) + nameof(MicaKind.BaseAlt)
             });
 
             BackdropList.Add(new DictionaryEntry
             {
                 Key = Settings.BackdropAcrylic,
-                Value = "Acrylic"
+                Value = nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Default)
+            });
+
+            BackdropList.Add(new DictionaryEntry
+            {
+                Key = Settings.BackdropAcrylicBase,
+                Value = nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Base)
+            });
+
+            BackdropList.Add(new DictionaryEntry
+            {
+                Key = Settings.BackdropAcrylicThin,
+                Value = nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Thin)
             });
         }
     }

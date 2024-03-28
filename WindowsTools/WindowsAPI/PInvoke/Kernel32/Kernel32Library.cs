@@ -4,7 +4,7 @@ using System.Text;
 namespace WindowsTools.WindowsAPI.PInvoke.Kernel32
 {
     /// <summary>
-    /// kernel32.dll 函数库
+    /// Kernel32.dll 函数库
     /// </summary>
     public static class Kernel32Library
     {
