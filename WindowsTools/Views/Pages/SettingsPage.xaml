@@ -211,7 +211,7 @@
                     <muxc:DropDownButton
                         Grid.Column="3"
                         VerticalAlignment="Center"
-                        Content="{x:Bind Backdrop.Key, Mode=OneWay}">
+                        Content="{x:Bind LocalizeDisplayNumber(Backdrop), Mode=OneWay}">
 
                         <muxc:DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">

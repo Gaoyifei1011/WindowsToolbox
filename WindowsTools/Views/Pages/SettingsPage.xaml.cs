@@ -11,6 +11,7 @@ using WindowsTools.Helpers.Controls.Extensions;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
+using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
@@ -337,5 +338,27 @@ namespace WindowsTools.Views.Pages
         }
 
         #endregion 第一部分：设置页面——挂载的事件
+
+        private string LocalizeDisplayNumber(DictionaryEntry selectedBackdrop)
+        {
+            int index = BackdropList.FindIndex(item => item.Value.Equals(selectedBackdrop.Value));
+
+            if (index is 0)
+            {
+                return selectedBackdrop.Key.ToString();
+            }
+            else if (index is 1 || index is 2)
+            {
+                return Settings.Mica + " " + selectedBackdrop.Key.ToString();
+            }
+            else if (index is 3 || index is 4 || index is 5)
+            {
+                return Settings.DesktopAcrylic + " " + selectedBackdrop.Key.ToString();
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
     }
 }

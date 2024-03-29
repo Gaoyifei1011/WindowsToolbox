@@ -139,7 +139,7 @@
     <value>窗口背景材质</value>
   </data>
   <data name="BackdropAcrylic" xml:space="preserve">
-    <value>亚克力</value>
+    <value>默认</value>
   </data>
   <data name="BackdropAcrylicBase" xml:space="preserve">
     <value>Base</value>
@@ -154,10 +154,10 @@
     <value>设置应用呈现的背景色</value>
   </data>
   <data name="BackdropMica" xml:space="preserve">
-    <value>云母</value>
+    <value>默认</value>
   </data>
   <data name="BackdropMicaAlt" xml:space="preserve">
-    <value>云母（Alt）</value>
+    <value>Alt</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>清除</value>

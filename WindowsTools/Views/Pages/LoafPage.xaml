@@ -41,7 +41,7 @@
                 <Grid
                     Grid.Row="0"
                     MaxHeight="480"
-                    Margin="32,0,32,6">
+                    Margin="30,0,30,6">
 
                     <Grid
                         HorizontalAlignment="Center"

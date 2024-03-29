@@ -139,7 +139,7 @@
     <value>Window background material</value>
   </data>
   <data name="BackdropAcrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>Default</value>
   </data>
   <data name="BackdropAcrylicBase" xml:space="preserve">
     <value>Base</value>
@@ -154,10 +154,10 @@
     <value>Sets the background color of the app's rendering</value>
   </data>
   <data name="BackdropMica" xml:space="preserve">
-    <value>Mica</value>
+    <value>Default</value>
   </data>
   <data name="BackdropMicaAlt" xml:space="preserve">
-    <value>Mica alt</value>
+    <value>Alt</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Clear</value>

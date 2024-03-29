@@ -124,7 +124,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Acrylic 的本地化字符串。
+        ///   查找类似 Default 的本地化字符串。
         /// </summary>
         public static string BackdropAcrylic {
             get {
@@ -169,7 +169,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Mica 的本地化字符串。
+        ///   查找类似 Default 的本地化字符串。
         /// </summary>
         public static string BackdropMica {
             get {
@@ -178,7 +178,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Mica alt 的本地化字符串。
+        ///   查找类似 Alt 的本地化字符串。
         /// </summary>
         public static string BackdropMicaAlt {
             get {
