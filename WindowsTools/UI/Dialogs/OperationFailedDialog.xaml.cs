@@ -45,7 +45,7 @@ namespace WindowsTools.UI.Dialogs
                 builder.AppendLine(operationFailedItem.Exception.Message);
                 builder.Append(Dialog.ExceptionCode);
                 builder.AppendLine(operationFailedItem.Exception.HResult.ToString());
-                bool copyResult = CopyPasteHelper.CopyToClipBoard(builder.ToString());
+                bool copyResult = CopyPasteHelper.CopyToClipboard(builder.ToString());
                 TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, false));
             }
         }
@@ -70,7 +70,7 @@ namespace WindowsTools.UI.Dialogs
                 builder.AppendLine(operationFailedItem.Exception.HResult.ToString());
                 builder.AppendLine();
             }
-            bool copyResult = CopyPasteHelper.CopyToClipBoard(builder.ToString());
+            bool copyResult = CopyPasteHelper.CopyToClipboard(builder.ToString());
             sender.Hide();
             TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, true, OperationFailedCollection.Count));
         }

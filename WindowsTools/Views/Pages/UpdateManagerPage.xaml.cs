@@ -202,19 +202,19 @@ namespace WindowsTools.Views.Pages
 
         private List<DictionaryEntry> UpdateSourceList { get; } = new List<DictionaryEntry>()
         {
-            new DictionaryEntry() { Key = UpdateManager.MicrosoftUpdate, Value = "Microsoft Update" },
-            new DictionaryEntry() { Key = UpdateManager.DCatFlightingProd, Value = "DCat Flighting Prod" },
-            new DictionaryEntry() { Key = UpdateManager.WindowsStore, Value = "Windows Store(DCat Prod)" },
-            new DictionaryEntry() { Key = UpdateManager.WindowsUpdate, Value = "Windows Update" },
+            new DictionaryEntry(UpdateManager.MicrosoftUpdate, "Microsoft Update"),
+            new DictionaryEntry(UpdateManager.DCatFlightingProd, "DCat Flighting Prod"),
+            new DictionaryEntry(UpdateManager.WindowsStore, "Windows Store(DCat Prod)"),
+            new DictionaryEntry(UpdateManager.WindowsUpdate, "Windows Update"),
         };
 
         private List<DictionaryEntry> PreviewChannelList { get; } = new List<DictionaryEntry>()
         {
-            new DictionaryEntry() { Key = UpdateManager.DonotEnter, Value = "DoNotEnter" },
-            new DictionaryEntry() { Key = UpdateManager.ReleasePreview, Value = "ReleasePreview" },
-            new DictionaryEntry() { Key = UpdateManager.Beta, Value = "Beta" },
-            new DictionaryEntry() { Key = UpdateManager.Dev, Value = "Dev" },
-            new DictionaryEntry() { Key = UpdateManager.Canary, Value = "Canary" },
+            new DictionaryEntry(UpdateManager.DonotEnter, "DoNotEnter"),
+            new DictionaryEntry(UpdateManager.ReleasePreview, "ReleasePreview"),
+            new DictionaryEntry(UpdateManager.Beta, "Beta"),
+            new DictionaryEntry(UpdateManager.Dev, "Dev"),
+            new DictionaryEntry(UpdateManager.Canary, "Canary"),
         };
 
         private ObservableCollection<UpdateModel> AvailableUpdateCollection { get; } = new ObservableCollection<UpdateModel>();
@@ -435,7 +435,7 @@ namespace WindowsTools.Views.Pages
 
                     MainWindow.Current.BeginInvoke(() =>
                     {
-                        bool copyResult = CopyPasteHelper.CopyToClipBoard(copyInformationBuilder.ToString());
+                        bool copyResult = CopyPasteHelper.CopyToClipboard(copyInformationBuilder.ToString());
                         TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.UpdateInformation, copyResult));
                     });
                 });

@@ -97,6 +97,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Code scanner 的本地化字符串。
+        /// </summary>
+        public static string CodeScanner {
+            get {
+                return ResourceManager.GetString("CodeScanner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Driver manager 的本地化字符串。
         /// </summary>
         public static string DriverManager {

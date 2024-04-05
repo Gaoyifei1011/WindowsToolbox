@@ -129,6 +129,9 @@
   <data name="Close" xml:space="preserve">
     <value>关闭</value>
   </data>
+  <data name="CodeScanner" xml:space="preserve">
+    <value>条码扫描</value>
+  </data>
   <data name="DriverManager" xml:space="preserve">
     <value>驱动管理</value>
   </data>

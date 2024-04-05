@@ -61,6 +61,7 @@ A toolbox that integrates multiple gadgets.
 | Batch change the upper and lower case names of files      | Finished                                                             |
 | Batch modify file properties                              | Finished                                                             |
 | Batch delete the certificates of signed files             | Finished                                                             |
+| Bar code,QR code generate and parse                       | Finished                                                             |
 | Extract file icons                                        | Finished                                                             |
 | Extract the package resource index(.pri) file conten      | Finished                                                             |
 | Customize the right-click menu                            | Unfinished                                                           |
@@ -76,6 +77,7 @@ A toolbox that integrates multiple gadgets.
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [Microsoft.UI.Xaml](https://github.com/microsoft/microsoft-ui-xaml)&emsp;
 > * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
+> * [ZXing.Net](https://github.com/micjahn/ZXing.Net)&emsp;
 
 [Code referenced or used during the learning process](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;
 

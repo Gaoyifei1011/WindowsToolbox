@@ -36,6 +36,7 @@ namespace WindowsTools.Views.Pages
             { "Mile.Xaml","https://github.com/ProjectMile/Mile.Xaml" },
             { "Microsoft.UI.Xaml","https://github.com/microsoft/microsoft-ui-xaml" },
             { "Microsoft.WindowsAppSDK","https://github.com/microsoft/windowsappsdk" },
+            { "ZXing.Net","https://github.com/micjahn/ZXing.Net" },
         };
 
         //项目感谢者信息

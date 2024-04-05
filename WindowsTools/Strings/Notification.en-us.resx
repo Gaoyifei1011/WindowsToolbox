@@ -141,6 +141,15 @@
   <data name="FileResultSuccessfully" xml:space="preserve">
     <value>{0} files in the list are modified successfully</value>
   </data>
+  <data name="GenerateBarCodeFailed" xml:space="preserve">
+    <value>Qr code generated failed</value>
+  </data>
+  <data name="GenerateQRCodeFailed" xml:space="preserve">
+    <value>Bar code generated failed</value>
+  </data>
+  <data name="GenerateTextEmpty" xml:space="preserve">
+    <value>Please input the text you want to generate</value>
+  </data>
   <data name="IconExtractFailed" xml:space="preserve">
     <value>{0} icons were saved successfully and {1} icons failed to be saved</value>
   </data>
@@ -167,6 +176,12 @@
   </data>
   <data name="OperationFailedSelectedCopy" xml:space="preserve">
     <value>The {0} error message was successfully copied to the clipboard</value>
+  </data>
+  <data name="ParsePhotoFailed" xml:space="preserve">
+    <value>Image parsing failed</value>
+  </data>
+  <data name="ReadClipboardImageFailed" xml:space="preserve">
+    <value>No image was read from the clipboard</value>
   </data>
   <data name="StartScreenFailed" xml:space="preserve">
     <value>App pinning to Start screen failed, please pin it manually</value>

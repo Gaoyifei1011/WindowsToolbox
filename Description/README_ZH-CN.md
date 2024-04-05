@@ -61,6 +61,7 @@
 | 批量修改文件的大写小写名称       | 已完成                                                             |
 | 批量修改文件的属性               | 已完成                                                             |
 | 删除已签名文件的证书             | 已完成                                                             |
+| 条形码二维码生成解析             | 已完成                                                             |
 | 提取文件图标                     | 已完成                                                             |
 | 提取包资源文件索引内容           | 已完成                                                             |
 | 自定义右键菜单                   | 未完成                                                             |
@@ -76,7 +77,8 @@
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [Microsoft.UI.Xaml](https://github.com/microsoft/microsoft-ui-xaml)&emsp;
 > * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
-
+> * [ZXing.Net](https://github.com/micjahn/ZXing.Net)&emsp;
+  
 [学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;
 
 ------

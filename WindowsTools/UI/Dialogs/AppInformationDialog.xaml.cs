@@ -185,7 +185,7 @@ namespace WindowsTools.UI.Dialogs.About
             stringBuilder.AppendLine(Dialog.MileXamlVersion + MileXamlVersion);
             stringBuilder.AppendLine(Dialog.DoNetVersion + DoNetVersion);
 
-            bool copyResult = CopyPasteHelper.CopyToClipBoard(stringBuilder.ToString());
+            bool copyResult = CopyPasteHelper.CopyToClipboard(stringBuilder.ToString());
             sender.Hide();
             TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.AppInformation, copyResult));
         }

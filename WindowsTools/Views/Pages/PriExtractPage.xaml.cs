@@ -184,9 +184,9 @@ namespace WindowsTools.Views.Pages
 
         private List<DictionaryEntry> ResourceCandidateKindList { get; } = new List<DictionaryEntry>()
         {
-            new DictionaryEntry(){ Key = PriExtract.String, Value = ResourceCandidateKind.String },
-            new DictionaryEntry(){ Key = PriExtract.FilePath, Value = ResourceCandidateKind.FilePath },
-            new DictionaryEntry(){ Key = PriExtract.EmbeddedData, Value = ResourceCandidateKind.EmbeddedData }
+            new DictionaryEntry(PriExtract.String,ResourceCandidateKind.String),
+            new DictionaryEntry(PriExtract.FilePath,ResourceCandidateKind.FilePath),
+            new DictionaryEntry(PriExtract.EmbeddedData,ResourceCandidateKind.EmbeddedData)
         };
 
         private ObservableCollection<StringModel> StringCollection { get; } = new ObservableCollection<StringModel>();
@@ -301,7 +301,7 @@ namespace WindowsTools.Views.Pages
 
             if (stringItem is not null)
             {
-                bool copyResult = CopyPasteHelper.CopyToClipBoard(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
+                bool copyResult = CopyPasteHelper.CopyToClipboard(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
                 TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, false));
             }
         }
@@ -315,7 +315,7 @@ namespace WindowsTools.Views.Pages
 
             if (filePathItem is not null)
             {
-                bool copyResult = CopyPasteHelper.CopyToClipBoard(string.Format("Key:{0}, AbsolutePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
+                bool copyResult = CopyPasteHelper.CopyToClipboard(string.Format("Key:{0}, AbsolutePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
                 TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, false));
             }
         }
@@ -458,7 +458,7 @@ namespace WindowsTools.Views.Pages
                 {
                     copyStringBuilder.AppendLine(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
                 }
-                bool copyResult = CopyPasteHelper.CopyToClipBoard(copyStringBuilder.ToString());
+                bool copyResult = CopyPasteHelper.CopyToClipboard(copyStringBuilder.ToString());
                 TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, true, selectedStringList.Count));
             }
             IsProcessing = false;
@@ -478,7 +478,7 @@ namespace WindowsTools.Views.Pages
                 {
                     copyFilePathBuilder.AppendLine(string.Format("Key:{0}, AbsolutePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
                 }
-                bool copyResult = CopyPasteHelper.CopyToClipBoard(copyFilePathBuilder.ToString());
+                bool copyResult = CopyPasteHelper.CopyToClipboard(copyFilePathBuilder.ToString());
                 TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, true, selectedFilePathList.Count));
             }
             IsProcessing = false;
@@ -559,7 +559,7 @@ namespace WindowsTools.Views.Pages
                 {
                     copyStringBuilder.AppendLine(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
                 }
-                bool copyResult = CopyPasteHelper.CopyToClipBoard(copyStringBuilder.ToString());
+                bool copyResult = CopyPasteHelper.CopyToClipboard(copyStringBuilder.ToString());
                 TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, true, stringList.Count));
             }
             IsProcessing = false;
@@ -579,7 +579,7 @@ namespace WindowsTools.Views.Pages
                 {
                     copyFilePathBuilder.AppendLine(string.Format("Key:{0}, AbsolutePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
                 }
-                bool copyResult = CopyPasteHelper.CopyToClipBoard(copyFilePathBuilder.ToString());
+                bool copyResult = CopyPasteHelper.CopyToClipboard(copyFilePathBuilder.ToString());
                 TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, true, filePathList.Count));
             }
             IsProcessing = false;
@@ -819,8 +819,9 @@ namespace WindowsTools.Views.Pages
                         });
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    LogService.WriteLog(EventLogEntryType.Error, string.Format("Parse {file} resources failed", filePath), e);
                 }
             });
         }

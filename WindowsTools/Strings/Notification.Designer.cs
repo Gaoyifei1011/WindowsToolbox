@@ -133,6 +133,33 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Qr code generated failed 的本地化字符串。
+        /// </summary>
+        public static string GenerateBarCodeFailed {
+            get {
+                return ResourceManager.GetString("GenerateBarCodeFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Bar code generated failed 的本地化字符串。
+        /// </summary>
+        public static string GenerateQRCodeFailed {
+            get {
+                return ResourceManager.GetString("GenerateQRCodeFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please input the text you want to generate 的本地化字符串。
+        /// </summary>
+        public static string GenerateTextEmpty {
+            get {
+                return ResourceManager.GetString("GenerateTextEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 {0} icons were saved successfully and {1} icons failed to be saved 的本地化字符串。
         /// </summary>
         public static string IconExtractFailed {
@@ -210,6 +237,24 @@ namespace WindowsTools.Strings {
         public static string OperationFailedSelectedCopy {
             get {
                 return ResourceManager.GetString("OperationFailedSelectedCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Image parsing failed 的本地化字符串。
+        /// </summary>
+        public static string ParsePhotoFailed {
+            get {
+                return ResourceManager.GetString("ParsePhotoFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No image was read from the clipboard 的本地化字符串。
+        /// </summary>
+        public static string ReadClipboardImageFailed {
+            get {
+                return ResourceManager.GetString("ReadClipboardImageFailed", resourceCulture);
             }
         }
         

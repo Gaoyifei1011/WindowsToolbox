@@ -38,22 +38,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="Strings\DriverManager.Designer.cs">
+    <Compile Update="Strings\About.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>DriverManager.resx</DependentUpon>
-    </Compile>
-    
-    <Compile Update="Strings\IconExtract.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>IconExtract.resx</DependentUpon>
-    </Compile>
-    
-    <Compile Update="Strings\FileCertificate.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>FileCertificate.resx</DependentUpon>
+      <DependentUpon>About.resx</DependentUpon>
     </Compile>
     
     <Compile Update="Strings\AllTools.Designer.cs">
@@ -62,10 +50,40 @@
       <DependentUpon>AllTools.resx</DependentUpon>
     </Compile>
     
+    <Compile Update="Strings\CodeScanner.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CodeScanner.resx</DependentUpon>
+    </Compile>
+
+    <Compile Update="Strings\Dialog.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Dialog.resx</DependentUpon>
+    </Compile>
+    
+    <Compile Update="Strings\DriverManager.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DriverManager.resx</DependentUpon>
+    </Compile>
+    
     <Compile Update="Strings\ExtensionName.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ExtensionName.resx</DependentUpon>
+    </Compile>
+
+    <Compile Update="Strings\FileCertificate.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FileCertificate.resx</DependentUpon>
+    </Compile>
+
+    <Compile Update="Strings\FileName.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FileName.resx</DependentUpon>
     </Compile>
     
     <Compile Update="Strings\FileProperties.Designer.cs">
@@ -74,22 +92,10 @@
       <DependentUpon>FileProperties.resx</DependentUpon>
     </Compile>
 
-    <Compile Update="Strings\About.Designer.cs">
+    <Compile Update="Strings\IconExtract.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>About.resx</DependentUpon>
-    </Compile>
-
-    <Compile Update="Strings\Dialog.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Dialog.resx</DependentUpon>
-    </Compile>
-
-    <Compile Update="Strings\FileName.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>FileName.resx</DependentUpon>
+      <DependentUpon>IconExtract.resx</DependentUpon>
     </Compile>
 
     <Compile Update="Strings\Loaf.Designer.cs">
@@ -196,6 +202,7 @@
 
     <Content Include="Assets\ControlIcon\About.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\AllTools.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\CodeScanner.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\DriverManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ExtensionName.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\File.png" CopyToOutputDirectory="Always" />
@@ -270,6 +277,7 @@
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" IncludeAssets="none" ExcludeAssets="all" PrivateAssets="all" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240311000" GeneratePathProperty="true" />
     <PackageReference Include="Mile.Xaml" Version="2.2.890" />
+    <PackageReference Include="ZXing.Net" Version="0.16.9" />
 
     <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />
     <Reference Include="Microsoft.Windows.ApplicationModel.Resources" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0\Microsoft.Windows.ApplicationModel.Resources.winmd" IsWinMDFile="true" Private="false" />
@@ -285,6 +293,9 @@
     <EmbeddedResource Update="Strings\AllTools.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\AllTools.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="AllTools.Designer.cs" />
     <EmbeddedResource Update="Strings\AllTools.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\CodeScanner.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\CodeScanner.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="CodeScanner.Designer.cs" />
+    <EmbeddedResource Update="Strings\CodeScanner.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Dialog.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Dialog.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Dialog.Designer.cs" />
     <EmbeddedResource Update="Strings\Dialog.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />

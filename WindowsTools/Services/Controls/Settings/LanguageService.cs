@@ -49,11 +49,7 @@ namespace WindowsTools.Services.Controls.Settings
             {
                 CultureInfo culture = CultureInfo.GetCultureInfo(applanguage);
 
-                LanguageList.Add(new DictionaryEntry()
-                {
-                    Key = culture.NativeName,
-                    Value = culture.Name,
-                });
+                LanguageList.Add(new DictionaryEntry(culture.NativeName, culture.Name));
             }
         }
 

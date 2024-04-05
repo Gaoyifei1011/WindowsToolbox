@@ -68,6 +68,13 @@ namespace WindowsTools.Views.Pages
         {
             new ControlItemModel()
             {
+                Title = AllTools.CodeScanner,
+                Description = AllTools.CodeScannerDescription,
+                ImagePath = "ms-appx:///Assets/ControlIcon/CodeScanner.png",
+                Tag = "CodeScanner"
+            },
+            new ControlItemModel()
+            {
                 Title = AllTools.IconExtract,
                 Description = AllTools.IconExtractDescription,
                 ImagePath = "ms-appx:///Assets/ControlIcon/IconExtract.png",

@@ -103,6 +103,7 @@ namespace WindowsTools.Views.Pages
             new KeyValuePair<string, Type>("FileProperties", typeof(FilePropertiesPage)),
             new KeyValuePair<string, Type>("FileCertificate",typeof(FileCertificatePage)),
             new KeyValuePair<string, Type>("Resource",null),
+            new KeyValuePair<string, Type>("CodeScanner",typeof(CodeScannerPage)),
             new KeyValuePair<string, Type>("IconExtract",typeof(IconExtractPage)),
             new KeyValuePair<string, Type>("PriExtract",typeof(PriExtractPage)),
             new KeyValuePair<string, Type>("Personalize",null),
@@ -609,6 +610,32 @@ namespace WindowsTools.Views.Pages
                 if (filesList.Count is 1 && Path.GetExtension(filesList[0]).Equals(".pri"))
                 {
                     page.ParseResourceFile(filesList[0]);
+                }
+            }
+            else if (currentPageType.Equals(typeof(CodeScannerPage)))
+            {
+                CodeScannerPage page = (MainNavigationView.Content as Frame).Content as CodeScannerPage;
+
+                if (filesList.Count is 1 && page.SelectedIndex is 1)
+                {
+                    Task.Run(() =>
+                    {
+                        try
+                        {
+                            System.Drawing.Image image = System.Drawing.Image.FromFile(filesList[0]);
+                            if (image is not null)
+                            {
+                                MainWindow.Current.BeginInvoke(() =>
+                                {
+                                    page.ParseCodeImage(image);
+                                });
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Open file {0} failed", filesList[0]), e);
+                        }
+                    });
                 }
             }
         }

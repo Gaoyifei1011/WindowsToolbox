@@ -117,94 +117,100 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="About" xml:space="preserve">
-    <value>About</value>
+  <data name="BarCode" xml:space="preserve">
+    <value>条形码</value>
   </data>
-  <data name="AllTools" xml:space="preserve">
-    <value>All tools</value>
+  <data name="ClearRecognizeText" xml:space="preserve">
+    <value>清空识别到的文字</value>
   </data>
-  <data name="AppTitle" xml:space="preserve">
-    <value>WindowsTools</value>
+  <data name="DragOverContent" xml:space="preserve">
+    <value>拖放到“条码扫描”页面</value>
   </data>
-  <data name="Close" xml:space="preserve">
-    <value>Close</value>
+  <data name="FilterCondition" xml:space="preserve">
+    <value>PNG 图片(*.png)|*.png|JPG 图片(*.jpg)|*.jpg|BMP 图片(*.bmp)|*.bmp</value>
   </data>
-  <data name="CodeScanner" xml:space="preserve">
-    <value>Code scanner</value>
+  <data name="Generate" xml:space="preserve">
+    <value>生成</value>
   </data>
-  <data name="DriverManager" xml:space="preserve">
-    <value>Driver manager</value>
+  <data name="GenerateCode" xml:space="preserve">
+    <value>生成的码</value>
   </data>
-  <data name="ExtensionName" xml:space="preserve">
-    <value>Extension name</value>
+  <data name="GenerateCodeType" xml:space="preserve">
+    <value>生成码的类型</value>
   </data>
-  <data name="File" xml:space="preserve">
-    <value>File tools</value>
+  <data name="GenerateInputText" xml:space="preserve">
+    <value> 请输入要生成的文本</value>
   </data>
-  <data name="FileCertificate" xml:space="preserve">
-    <value>File certificate</value>
+  <data name="GenerateOptions" xml:space="preserve">
+    <value>生成选项</value>
   </data>
-  <data name="FileName" xml:space="preserve">
-    <value>File name</value>
+  <data name="GeneratePhoto" xml:space="preserve">
+    <value>生成图片</value>
   </data>
-  <data name="FileProperties" xml:space="preserve">
-    <value>File properties</value>
+  <data name="IsPhotoSquare" xml:space="preserve">
+    <value>图片是否为正方形</value>
   </data>
-  <data name="IconExtract" xml:space="preserve">
-    <value>Icon extract</value>
+  <data name="IsPhotoSquareOffContent" xml:space="preserve">
+    <value>否</value>
   </data>
-  <data name="Loaf" xml:space="preserve">
-    <value>Loaf</value>
+  <data name="IsPhotoSquareOnContent" xml:space="preserve">
+    <value>是</value>
   </data>
-  <data name="Maximize" xml:space="preserve">
-    <value>Maximize</value>
+  <data name="NoMultiFile" xml:space="preserve">
+    <value>请不要选择多个文件</value>
   </data>
-  <data name="Minimize" xml:space="preserve">
-    <value>Minimize</value>
+  <data name="OpenPhoto" xml:space="preserve">
+    <value>打开图片</value>
   </data>
-  <data name="Move" xml:space="preserve">
-    <value>Move</value>
+  <data name="Operation" xml:space="preserve">
+    <value>操作</value>
   </data>
-  <data name="NavigationFailed" xml:space="preserve">
-    <value>Page {0} navigation failed</value>
+  <data name="Parse" xml:space="preserve">
+    <value>解析</value>
   </data>
-  <data name="Personalize" xml:space="preserve">
-    <value>Personalization tools</value>
+  <data name="PhotoHeight" xml:space="preserve">
+    <value>图片高度</value>
   </data>
-  <data name="PriExtract" xml:space="preserve">
-    <value>Pri extract</value>
+  <data name="PhotoSize" xml:space="preserve">
+    <value>生成的图片尺寸</value>
   </data>
-  <data name="Relaxation" xml:space="preserve">
-    <value>Relax tools</value>
+  <data name="PhotoWidth" xml:space="preserve">
+    <value>图片宽度</value>
   </data>
-  <data name="Resource" xml:space="preserve">
-    <value>Resource tools</value>
+  <data name="PrintPhoto" xml:space="preserve">
+    <value>打印图片</value>
   </data>
-  <data name="Restore" xml:space="preserve">
-    <value>Restore</value>
+  <data name="QRCode" xml:space="preserve">
+    <value>二维码</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
+  <data name="ReadClipboardPhoto" xml:space="preserve">
+    <value>读取剪贴板图片</value>
   </data>
-  <data name="ShellMenu" xml:space="preserve">
-    <value>Custom shell menu</value>
+  <data name="RecognizeText" xml:space="preserve">
+    <value>识别到的文本</value>
   </data>
-  <data name="Size" xml:space="preserve">
-    <value>Size</value>
+  <data name="ReserveBarCodeText" xml:space="preserve">
+    <value>保留条形码底部数字</value>
   </data>
-  <data name="System" xml:space="preserve">
-    <value>System tools</value>
+  <data name="ReserveBarCodeTextOffContent" xml:space="preserve">
+    <value>否</value>
   </data>
-  <data name="SystemInfo" xml:space="preserve">
-    <value>System information</value>
+  <data name="ReserveBarCodeTextOnContent" xml:space="preserve">
+    <value>是</value>
   </data>
-  <data name="UpdateManager" xml:space="preserve">
-    <value>Update manager</value>
+  <data name="SavePhoto" xml:space="preserve">
+    <value>保存图片</value>
   </data>
-  <data name="UpperAndLowerCase" xml:space="preserve">
-    <value>Upper and lower case</value>
+  <data name="SelectFile" xml:space="preserve">
+    <value>选择文件</value>
   </data>
-  <data name="WinSAT" xml:space="preserve">
-    <value>System assessment</value>
+  <data name="Tips" xml:space="preserve">
+    <value>小提示</value>
+  </data>
+  <data name="TipsContent1" xml:space="preserve">
+    <value>1.生成条形码的内容只能由数字或字母组成</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>条码扫描</value>
   </data>
 </root>

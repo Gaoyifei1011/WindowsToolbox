@@ -129,6 +129,9 @@
   <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="CodeScanner" xml:space="preserve">
+    <value>Code scanner</value>
+  </data>
   <data name="DriverManager" xml:space="preserve">
     <value>Driver manager</value>
   </data>
