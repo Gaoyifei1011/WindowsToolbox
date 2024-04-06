@@ -84,16 +84,17 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock
-                        x:Name="StringSelectHeaderText"
                         Grid.Column="0"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
+                        IsTapEnabled="True"
+                        Tapped="{x:Bind OnStringSelectTapped}"
                         Text="{x:Bind string:PriExtract.Select}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind string:PriExtract.Select}" Visibility="{x:Bind StringSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip Content="{x:Bind string:PriExtract.SelectDescription}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -266,16 +267,17 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock
-                        x:Name="FilePathSelectHeaderText"
                         Grid.Column="0"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
+                        IsTapEnabled="True"
+                        Tapped="{x:Bind OnFilePathSelectTapped}"
                         Text="{x:Bind string:PriExtract.Select}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind string:PriExtract.Select}" Visibility="{x:Bind FilePathSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip Content="{x:Bind string:PriExtract.SelectDescription}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -447,16 +449,17 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock
-                        x:Name="EmbeddedDataSelectHeaderText"
                         Grid.Column="0"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
+                        IsTapEnabled="True"
+                        Tapped="{x:Bind OnEmbeddedDataSelectTapped}"
                         Text="{x:Bind string:PriExtract.Select}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind string:PriExtract.Select}" Visibility="{x:Bind EmbeddedDataSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip Content="{x:Bind string:PriExtract.SelectDescription}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 

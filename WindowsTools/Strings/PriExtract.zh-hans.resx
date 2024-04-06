@@ -207,6 +207,9 @@
   <data name="Select" xml:space="preserve">
     <value>选择</value>
   </data>
+  <data name="SelectDescription" xml:space="preserve">
+    <value>单击以全选或反选</value>
+  </data>
   <data name="SelectedFolder" xml:space="preserve">
     <value>已选择的文件夹：{0}</value>
   </data>

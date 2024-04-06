@@ -23,8 +23,6 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class SettingsPage : Page, INotifyPropertyChanged
     {
-        private bool CanUseMicaBackdrop { get; } = InfoHelper.SystemVersion.Build >= 22000;
-
         private DictionaryEntry _theme = ThemeService.AppTheme;
 
         public DictionaryEntry Theme

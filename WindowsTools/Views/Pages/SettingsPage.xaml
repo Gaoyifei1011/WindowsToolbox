@@ -8,6 +8,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
+    xmlns:systembackdrop="using:Microsoft.UI.Composition.SystemBackdrops"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
 
@@ -224,10 +225,11 @@
                                     Text="{x:Bind sys:Convert.ToString(BackdropList[0].Key)}" />
 
                                 <MenuFlyoutSubItem
+                                    x:Name="MicaFlyoutItem"
                                     Height="32"
                                     Padding="11,0,11,0"
-                                    Text="{x:Bind string:Settings.Mica}"
-                                    Visibility="{x:Bind CanUseMicaBackdrop}">
+                                    x:Load="{x:Bind systembackdrop:MicaController.IsSupported()}"
+                                    Text="{x:Bind string:Settings.Mica}">
 
                                     <ToggleMenuFlyoutItem
                                         Height="32"
@@ -247,8 +249,10 @@
                                 </MenuFlyoutSubItem>
 
                                 <MenuFlyoutSubItem
+                                    x:Name="DesktopAcrylicFlyoutItem"
                                     Height="32"
                                     Padding="11,0,11,0"
+                                    x:Load="{x:Bind systembackdrop:DesktopAcrylicController.IsSupported()}"
                                     Text="{x:Bind string:Settings.DesktopAcrylic}">
 
                                     <ToggleMenuFlyoutItem

@@ -207,6 +207,9 @@
   <data name="Select" xml:space="preserve">
     <value>Select</value>
   </data>
+  <data name="SelectDescription" xml:space="preserve">
+    <value>Click to select all or deselect</value>
+  </data>
   <data name="SelectedFolder" xml:space="preserve">
     <value>Selected folder: {0}</value>
   </data>

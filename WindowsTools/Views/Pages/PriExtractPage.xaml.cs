@@ -32,6 +32,9 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class PriExtractPage : Page, INotifyPropertyChanged
     {
+        private bool isStringAllSelect = false;
+        private bool isFilePathAllSelect = false;
+        private bool isEmbeddedDataAllSelect = false;
         private string stringFileName;
         private string filePathFileName;
         private ResourceManager resourceManager;
@@ -379,6 +382,93 @@ namespace WindowsTools.Views.Pages
         #endregion 第二部分：XamlUICommand 命令调用时挂载的事件
 
         #region 第三部分：包资源索引提取——挂载的事件
+
+        /// <summary>
+        /// 字符串列表全选和全部不选
+        /// </summary>
+        private void OnStringSelectTapped(object sender, TappedRoutedEventArgs args)
+        {
+            if (!isStringAllSelect)
+            {
+                isStringAllSelect = true;
+                lock (priExtractLock)
+                {
+                    foreach (StringModel stringItem in StringCollection)
+                    {
+                        stringItem.IsSelected = true;
+                    }
+                }
+            }
+            else
+            {
+                isStringAllSelect = false;
+                lock (priExtractLock)
+                {
+                    foreach (StringModel stringItem in StringCollection)
+                    {
+                        stringItem.IsSelected = false;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 文件路径列表全选和全部不选
+        /// </summary>
+        private void OnFilePathSelectTapped(object sender, TappedRoutedEventArgs args)
+        {
+            if (!isFilePathAllSelect)
+            {
+                isFilePathAllSelect = true;
+                lock (priExtractLock)
+                {
+                    foreach (FilePathModel filePathItem in FilePathCollection)
+                    {
+                        filePathItem.IsSelected = true;
+                    }
+                }
+            }
+            else
+            {
+                isFilePathAllSelect = false;
+                lock (priExtractLock)
+                {
+                    foreach (FilePathModel filePathItem in FilePathCollection)
+                    {
+                        filePathItem.IsSelected = false;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 嵌入数据列表全选和全部不选
+        /// </summary>
+        private void OnEmbeddedDataSelectTapped(object sender, TappedRoutedEventArgs args)
+        {
+            if (!isEmbeddedDataAllSelect)
+            {
+                isEmbeddedDataAllSelect = true;
+                lock (priExtractLock)
+                {
+                    foreach (EmbeddedDataModel embeddedDataItem in EmbeddedDataCollection)
+                    {
+                        embeddedDataItem.IsSelected = true;
+                    }
+                }
+            }
+            else
+            {
+                isEmbeddedDataAllSelect = false;
+                lock (priExtractLock)
+                {
+                    foreach (EmbeddedDataModel embeddedDataItem in EmbeddedDataCollection)
+                    {
+                        embeddedDataItem.IsSelected = false;
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// 提取时同时保存单选框点击时触发的事件

@@ -331,6 +331,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Click to select all or deselect 的本地化字符串。
+        /// </summary>
+        public static string SelectDescription {
+            get {
+                return ResourceManager.GetString("SelectDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Selected folder: {0} 的本地化字符串。
         /// </summary>
         public static string SelectedFolder {
