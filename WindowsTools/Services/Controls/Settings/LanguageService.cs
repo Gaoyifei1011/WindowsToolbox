@@ -88,19 +88,19 @@ namespace WindowsTools.Services.Controls.Settings
             object language = LocalSettingsService.ReadSetting<object>(settingsKey);
 
             // 当前系统的语言值
-            string CurrentSystemLanguage = CultureInfo.CurrentCulture.Parent.Parent.Name;
+            string currentSystemLanguage = CultureInfo.CurrentCulture.Parent.Parent.Name;
 
             if (language is null)
             {
                 // 判断当前系统语言是否存在应用默认添加的语言列表中
-                bool result = IsExistsInLanguageList(CurrentSystemLanguage);
+                bool result = IsExistsInLanguageList(currentSystemLanguage);
 
                 // 如果存在，设置存储值和应用初次设置的语言为当前系统的语言
                 if (result)
                 {
-                    DictionaryEntry currentSystemLanguage = LanguageList.Find(item => item.Value.Equals(CurrentSystemLanguage));
-                    SetLanguage(currentSystemLanguage);
-                    return currentSystemLanguage;
+                    DictionaryEntry currentLanguage = LanguageList.Find(item => item.Value.Equals(currentSystemLanguage));
+                    SetLanguage(currentLanguage);
+                    return currentLanguage;
                 }
 
                 // 不存在，设置存储值和应用初次设置的语言为默认语言：English(United States)

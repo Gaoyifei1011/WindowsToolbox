@@ -103,6 +103,7 @@ namespace WindowsTools.Views.Pages
             new KeyValuePair<string, Type>("FileProperties", typeof(FilePropertiesPage)),
             new KeyValuePair<string, Type>("FileCertificate",typeof(FileCertificatePage)),
             new KeyValuePair<string, Type>("Resource",null),
+            new KeyValuePair<string, Type>("DownloadManager",typeof(DownloadManagerPage)),
             new KeyValuePair<string, Type>("CodeScanner",typeof(CodeScannerPage)),
             new KeyValuePair<string, Type>("IconExtract",typeof(IconExtractPage)),
             new KeyValuePair<string, Type>("PriExtract",typeof(PriExtractPage)),

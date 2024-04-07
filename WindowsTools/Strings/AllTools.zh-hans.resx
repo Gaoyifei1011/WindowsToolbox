@@ -123,6 +123,12 @@
   <data name="CodeScannerDescription" xml:space="preserve">
     <value>条形码、二维码的创建和生成工具</value>
   </data>
+  <data name="DownloadManager" xml:space="preserve">
+    <value>下载管理</value>
+  </data>
+  <data name="DownloadManagerDescription" xml:space="preserve">
+    <value>使用系统内置的传递优化构建的的简单下载器</value>
+  </data>
   <data name="DriverManager" xml:space="preserve">
     <value>驱动管理</value>
   </data>

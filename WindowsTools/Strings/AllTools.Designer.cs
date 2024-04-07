@@ -79,6 +79,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Download manager 的本地化字符串。
+        /// </summary>
+        public static string DownloadManager {
+            get {
+                return ResourceManager.GetString("DownloadManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 A simple downloader built using the system&apos;s built-in delivery optimization 的本地化字符串。
+        /// </summary>
+        public static string DownloadManagerDescription {
+            get {
+                return ResourceManager.GetString("DownloadManagerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Driver manager 的本地化字符串。
         /// </summary>
         public static string DriverManager {

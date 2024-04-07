@@ -132,6 +132,9 @@
   <data name="CodeScanner" xml:space="preserve">
     <value>条码扫描</value>
   </data>
+  <data name="DownloadManager" xml:space="preserve">
+    <value>下载管理</value>
+  </data>
   <data name="DriverManager" xml:space="preserve">
     <value>驱动管理</value>
   </data>

@@ -123,6 +123,12 @@
   <data name="CodeScannerDescription" xml:space="preserve">
     <value>Bar code, QR code creation and generation tools</value>
   </data>
+  <data name="DownloadManager" xml:space="preserve">
+    <value>Download manager</value>
+  </data>
+  <data name="DownloadManagerDescription" xml:space="preserve">
+    <value>A simple downloader built using the system's built-in delivery optimization</value>
+  </data>
   <data name="DriverManager" xml:space="preserve">
     <value>Driver manager</value>
   </data>

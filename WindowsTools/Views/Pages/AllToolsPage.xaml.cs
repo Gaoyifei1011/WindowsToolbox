@@ -66,6 +66,13 @@ namespace WindowsTools.Views.Pages
         // 资源工具列表
         private List<ControlItemModel> ResourceToolsList { get; } = new List<ControlItemModel>()
         {
+            //new ControlItemModel()
+            //{
+            //    Title = AllTools.DownloadManager,
+            //    Description = AllTools.DownloadManagerDescription,
+            //    ImagePath = "ms-appx:///Assets/ControlIcon/DownloadManager.png",
+            //    Tag = "DownloadManager"
+            //},
             new ControlItemModel()
             {
                 Title = AllTools.CodeScanner,

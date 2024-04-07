@@ -61,6 +61,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Dialog.resx</DependentUpon>
     </Compile>
+
+    <Compile Update="Strings\DownloadManager.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DownloadManager.resx</DependentUpon>
+    </Compile>
     
     <Compile Update="Strings\DriverManager.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -203,6 +209,7 @@
     <Content Include="Assets\ControlIcon\About.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\AllTools.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\CodeScanner.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\DownloadManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\DriverManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ExtensionName.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\File.png" CopyToOutputDirectory="Always" />
@@ -299,6 +306,9 @@
     <EmbeddedResource Update="Strings\Dialog.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Dialog.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Dialog.Designer.cs" />
     <EmbeddedResource Update="Strings\Dialog.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\DownloadManager.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\DownloadManager.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="DownloadManager.Designer.cs" />
+    <EmbeddedResource Update="Strings\DownloadManager.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\DriverManager.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\DriverManager.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="DriverManager.Designer.cs" />
     <EmbeddedResource Update="Strings\DriverManager.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
