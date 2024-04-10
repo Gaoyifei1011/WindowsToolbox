@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -353,7 +353,7 @@ namespace WindowsTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Error, string.Format(Strings.Window.NavigationFailed, args.SourcePageType.FullName), e);
+                LogService.WriteLog(EventLevel.Error, string.Format(Strings.Window.NavigationFailed, args.SourcePageType.FullName), e);
             }
         }
 
@@ -399,7 +399,7 @@ namespace WindowsTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Error, string.Format(Strings.Window.NavigationFailed, navigationPageType.FullName), e);
+                LogService.WriteLog(EventLevel.Error, string.Format(Strings.Window.NavigationFailed, navigationPageType.FullName), e);
             }
         }
 
@@ -634,7 +634,7 @@ namespace WindowsTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Open file {0} failed", filesList[0]), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Open file {0} failed", filesList[0]), e);
                         }
                     });
                 }

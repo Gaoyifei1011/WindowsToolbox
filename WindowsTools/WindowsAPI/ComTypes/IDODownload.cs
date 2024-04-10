@@ -7,7 +7,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
     /// IDODownload 接口用于启动和管理下载。
     /// </summary>
     [ComImport, Guid("FBBD7FC0-C147-4727-A38D-827EF071EE77"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public unsafe partial interface IDODownload
+    public partial interface IDODownload
     {
         /// <summary>
         /// 中止下载。

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -62,7 +63,7 @@ namespace WindowsTools
         /// </summary>
         private static void OnThreadException(object sender, ThreadExceptionEventArgs args)
         {
-            LogService.WriteLog(EventLogEntryType.Warning, "Windows Forms Xaml Islands UI Exception", args.Exception);
+            LogService.WriteLog(EventLevel.Warning, "Windows Forms Xaml Islands UI Exception", args.Exception);
             (Windows.UI.Xaml.Application.Current as App).Dispose();
         }
 
@@ -71,7 +72,7 @@ namespace WindowsTools
         /// </summary>
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
-            LogService.WriteLog(EventLogEntryType.Warning, "Background thread Exception", args.ExceptionObject as Exception);
+            LogService.WriteLog(EventLevel.Warning, "Background thread Exception", args.ExceptionObject as Exception);
             (Windows.UI.Xaml.Application.Current as App).Dispose();
         }
 

@@ -6,7 +6,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
     /// IDOManager：：EnumDownloads 使用 DO_DOWNLOAD_ENUM_CATEGORY 结构按特定属性的值筛选下载枚举。
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    public unsafe struct DO_DOWNLOAD_ENUM_CATEGORY
+    public struct DO_DOWNLOAD_ENUM_CATEGORY
     {
         /// <summary>
         /// 要用于下载枚举的属性名称。 出于枚举目的，支持这些属性。

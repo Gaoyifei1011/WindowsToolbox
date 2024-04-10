@@ -54,7 +54,9 @@
                         Grid.Column="1"
                         Height="20"
                         PlaceholderText="{x:Bind string:FileName.RenameRulePlaceHolderText}"
-                        Text="{x:Bind RenameRule, Mode=TwoWay}" />
+                        Tag="RenameRule"
+                        Text="{x:Bind RenameRule, Mode=OneWay}"
+                        TextChanged="{x:Bind OnTextChanged}" />
                 </Grid>
 
                 <Grid ColumnSpacing="5">
@@ -71,7 +73,9 @@
                         Grid.Column="1"
                         Height="20"
                         PlaceholderText="{x:Bind string:FileName.StartNumberPlaceHolderText}"
-                        Text="{x:Bind StartNumber, Mode=TwoWay}" />
+                        Tag="StartNumber"
+                        Text="{x:Bind StartNumber, Mode=OneWay}"
+                        TextChanged="{x:Bind OnTextChanged}" />
                 </Grid>
 
                 <Grid>
@@ -169,7 +173,9 @@
                     <TextBox
                         Grid.Column="3"
                         IsEnabled="{x:Bind IsChecked, Mode=OneWay}"
-                        Text="{x:Bind ExtensionName, Mode=TwoWay}" />
+                        Tag="ExtensionName"
+                        Text="{x:Bind ExtensionName, Mode=OneWay}"
+                        TextChanged="{x:Bind OnTextChanged}" />
                 </Grid>
             </StackPanel>
 
@@ -190,7 +196,9 @@
                         Grid.Column="1"
                         Height="20"
                         PlaceholderText="{x:Bind string:FileName.LookUpStringPlaceHolderText}"
-                        Text="{x:Bind LookUpString, Mode=TwoWay}" />
+                        Tag="LookUpString"
+                        Text="{x:Bind LookUpString, Mode=OneWay}"
+                        TextChanged="{x:Bind OnTextChanged}" />
                 </Grid>
 
                 <Grid ColumnSpacing="5">
@@ -207,7 +215,9 @@
                         Grid.Column="1"
                         Height="20"
                         PlaceholderText="{x:Bind string:FileName.ReplaceStringPlaceHolderText}"
-                        Text="{x:Bind ReplaceString, Mode=TwoWay}" />
+                        Tag="ReplaceString"
+                        Text="{x:Bind ReplaceString, Mode=OneWay}"
+                        TextChanged="{x:Bind OnTextChanged}" />
                 </Grid>
 
                 <Button HorizontalAlignment="Stretch" Content="{x:Bind string:FileName.ViewNameChangeExample}">

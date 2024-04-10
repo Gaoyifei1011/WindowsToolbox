@@ -274,15 +274,16 @@
     <Content Include="Assets\StoreLogo.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\StoreLogo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\StoreLogo.scale-400.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Wallpapers\LoafLocalImage.jpg" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Wallpapers\LoafLocalImage.jpg" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\WindowsTools.ico" CopyToOutputDirectory="Always" />
     
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" IncludeAssets="none" ExcludeAssets="all" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240311000" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240404000" GeneratePathProperty="true" />
     <PackageReference Include="Mile.Xaml" Version="2.2.890" />
     <PackageReference Include="ZXing.Net" Version="0.16.9" />
 
@@ -292,6 +293,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="WindowsBase" />
 
     <EmbeddedResource Update="Strings\About.en-us.resx" Generator="PublicResXFileCodeGenerator" />

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -270,7 +270,7 @@ namespace WindowsTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLogEntryType.Warning, "Drop file in icon extract page failed", e);
+                    LogService.WriteLog(EventLevel.Warning, "Drop file in icon extract page failed", e);
                 }
             });
             deferral.Complete();
@@ -318,7 +318,7 @@ namespace WindowsTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Display {0} index {1} image failed", filePath, iconIndex), e);
+                        LogService.WriteLog(EventLevel.Error, string.Format("Display {0} index {1} image failed", filePath, iconIndex), e);
                     }
                 }
             }
@@ -381,7 +381,7 @@ namespace WindowsTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Display {0} index {1} image failed", filePath, iconIndex), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Display {0} index {1} image failed", filePath, iconIndex), e);
                         }
                     }
                 }
@@ -461,7 +461,7 @@ namespace WindowsTools.Views.Pages
                                     catch (Exception e)
                                     {
                                         saveFailedCount++;
-                                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Save icon {0} failed", Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value)))), e);
+                                        LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value)))), e);
                                     }
                                 }
                             }
@@ -535,7 +535,7 @@ namespace WindowsTools.Views.Pages
                                     catch (Exception e)
                                     {
                                         saveFailedCount++;
-                                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Save icon {0} failed", Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value)))), e);
+                                        LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value)))), e);
                                     }
                                 }
                             }
@@ -623,7 +623,7 @@ namespace WindowsTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Display {0} icons failed", iconsList), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Display {0} icons failed", iconsList), e);
                         }
                     });
                 }
@@ -637,7 +637,7 @@ namespace WindowsTools.Views.Pages
                         IsImageEmpty = true;
                     });
 
-                    LogService.WriteLog(EventLogEntryType.Error, string.Format("Parse {0} file icons failed", filePath), e);
+                    LogService.WriteLog(EventLevel.Error, string.Format("Parse {0} file icons failed", filePath), e);
                 }
             });
         }
@@ -684,7 +684,7 @@ namespace WindowsTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Error, string.Format("Save icon {0} failed", destination), e);
+                LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", destination), e);
                 return false;
             }
         }

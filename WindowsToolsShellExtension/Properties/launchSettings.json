@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Windows 工具箱 右键菜单扩展": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

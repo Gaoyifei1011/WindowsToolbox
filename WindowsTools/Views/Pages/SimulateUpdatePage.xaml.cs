@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Timers;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
@@ -96,7 +96,7 @@ namespace WindowsTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Error, "Simulate update timer update failed", e);
+                LogService.WriteLog(EventLevel.Error, "Simulate update timer update failed", e);
             }
         }
 

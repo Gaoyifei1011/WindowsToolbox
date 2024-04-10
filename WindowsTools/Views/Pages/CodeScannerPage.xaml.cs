@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
@@ -276,7 +276,7 @@ namespace WindowsTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLogEntryType.Warning, "Drop file in code scanner page failed", e);
+                    LogService.WriteLog(EventLevel.Warning, "Drop file in code scanner page failed", e);
                 }
             });
             deferral.Complete();
@@ -411,7 +411,7 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                LogService.WriteLog(EventLogEntryType.Error, "Clear print preview dialog default print button click event failed", e);
+                                LogService.WriteLog(EventLevel.Error, "Clear print preview dialog default print button click event failed", e);
                                 continue;
                             }
                         }
@@ -424,7 +424,7 @@ namespace WindowsTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLogEntryType.Error, "Initialize print preview dialog failed", e);
+                    LogService.WriteLog(EventLevel.Error, "Initialize print preview dialog failed", e);
                 }
             }
 
@@ -434,7 +434,7 @@ namespace WindowsTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Error, "Open print preview dialog failed", e);
+                LogService.WriteLog(EventLevel.Error, "Open print preview dialog failed", e);
             }
         }
 
@@ -476,7 +476,7 @@ namespace WindowsTools.Views.Pages
                                 {
                                     TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateBarCodeFailed));
                                 });
-                                LogService.WriteLog(EventLogEntryType.Error, "Display generated bar code photo failed", e);
+                                LogService.WriteLog(EventLevel.Error, "Display generated bar code photo failed", e);
                             }
                         });
                     }
@@ -508,7 +508,7 @@ namespace WindowsTools.Views.Pages
                                 {
                                     TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateQRCodeFailed));
                                 });
-                                LogService.WriteLog(EventLogEntryType.Error, "Display generated qr code photo failed", e);
+                                LogService.WriteLog(EventLevel.Error, "Display generated qr code photo failed", e);
                             }
                         });
                     }
@@ -610,7 +610,7 @@ namespace WindowsTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLogEntryType.Error, string.Format("Open file {0} failed", dialog.FileName), e);
+                        LogService.WriteLog(EventLevel.Error, string.Format("Open file {0} failed", dialog.FileName), e);
                     }
                 });
             }
@@ -760,7 +760,7 @@ namespace WindowsTools.Views.Pages
                     {
                         TeachingTipHelper.Show(new OperationResultTip(OperationKind.ParsePhotoFailed));
                     });
-                    LogService.WriteLog(EventLogEntryType.Error, string.Format("Parse code file failed"), e);
+                    LogService.WriteLog(EventLevel.Error, string.Format("Parse code file failed"), e);
                 }
             });
         }

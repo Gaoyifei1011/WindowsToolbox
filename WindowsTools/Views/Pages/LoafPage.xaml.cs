@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -183,7 +183,7 @@ namespace WindowsTools.Views.Pages
                             {
                                 LoafImage = new BitmapImage(new Uri("ms-appx:///Assets/Wallpapers/LoafLocalImage.jpg"));
                                 LoadImageCompleted = true;
-                                LogService.WriteLog(EventLogEntryType.Error, "Load bing wallpaper image failed", e);
+                                LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
                             }
                         });
                     }
@@ -198,7 +198,7 @@ namespace WindowsTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLogEntryType.Error, "Load bing wallpaper image failed", e);
+                    LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
                     MainWindow.Current.BeginInvoke(() =>
                     {
                         LoafImage = new BitmapImage(new Uri("ms-appx:///Assets/Wallpapers/LoafLocalImage.jpg"));

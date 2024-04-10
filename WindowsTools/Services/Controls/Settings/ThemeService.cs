@@ -39,9 +39,9 @@ namespace WindowsTools.Services.Controls.Settings
         /// </summary>
         private static DictionaryEntry GetTheme()
         {
-            object theme = LocalSettingsService.ReadSetting<object>(settingsKey);
+            string theme = LocalSettingsService.ReadSetting<string>(settingsKey);
 
-            if (theme is null)
+            if (string.IsNullOrEmpty(theme))
             {
                 SetTheme(defaultAppTheme);
                 return defaultAppTheme;

@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using WindowsTools.Extensions.DataType.Enums;
@@ -91,7 +92,7 @@ namespace WindowsTools.Views.Windows
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Error, "Add keyboard hook failed", e);
+                LogService.WriteLog(EventLevel.Error, "Add keyboard hook failed", e);
             }
         }
 
@@ -115,7 +116,7 @@ namespace WindowsTools.Views.Windows
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Error, "Remove keyboard hook failed", e);
+                LogService.WriteLog(EventLevel.Error, "Remove keyboard hook failed", e);
             }
         }
 

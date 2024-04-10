@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -45,7 +46,7 @@ namespace WindowsTools.Services.Root
         /// <summary>
         /// 写入日志
         /// </summary>
-        public static void WriteLog(EventLogEntryType logType, string logContent, StringBuilder logBuilder)
+        public static void WriteLog(EventLevel logLevel, string logContent, StringBuilder logBuilder)
         {
             if (isInitialized)
             {
@@ -60,7 +61,7 @@ namespace WindowsTools.Services.Root
                                 string.Format("{0}\t{1}:{2}{3}{4}{5}{6}{7}{8}",
                                     DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                                     "LogType",
-                                    Convert.ToString(logType),
+                                    Convert.ToString(logLevel),
                                     Environment.NewLine,
                                     "LogContent:",
                                     logContent,
@@ -81,7 +82,7 @@ namespace WindowsTools.Services.Root
         /// <summary>
         /// 写入日志
         /// </summary>
-        public static void WriteLog(EventLogEntryType logType, string logContent, Exception exception)
+        public static void WriteLog(EventLevel logLevel, string logContent, Exception exception)
         {
             if (isInitialized)
             {
@@ -110,7 +111,7 @@ namespace WindowsTools.Services.Root
                                 string.Format("{0}\t{1}:{2}{3}{4}{5}",
                                     DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                                     "LogType",
-                                    Convert.ToString(logType),
+                                    Convert.ToString(logLevel),
                                     Environment.NewLine,
                                     exceptionBuilder.ToString(),
                                     Environment.NewLine)

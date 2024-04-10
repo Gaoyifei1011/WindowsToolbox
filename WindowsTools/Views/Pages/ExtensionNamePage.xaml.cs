@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -176,7 +176,7 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
+                                LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
                                 continue;
                             }
                         }
@@ -187,7 +187,7 @@ namespace WindowsTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Warning, "Drop file in extension name page failed", e);
+                LogService.WriteLog(EventLevel.Warning, "Drop file in extension name page failed", e);
             }
             finally
             {
@@ -251,6 +251,32 @@ namespace WindowsTools.Views.Pages
         #endregion 第一部分：重写父类事件
 
         #region 第二部分：扩展名称页面——挂载的事件
+
+        /// <summary>
+        /// 当文本框中的内容发生更改时发生的事件。
+        /// </summary>
+        private void OnTextChanged(object sender, TextChangedEventArgs args)
+        {
+            global::Windows.UI.Xaml.Controls.TextBox textBox = sender as global::Windows.UI.Xaml.Controls.TextBox;
+
+            if (textBox is not null)
+            {
+                string tag = Convert.ToString(textBox.Tag);
+
+                if (tag is "ChangeToText")
+                {
+                    ChangeToText = textBox.Text;
+                }
+                else if (tag is "SearchText")
+                {
+                    SearchText = textBox.Text;
+                }
+                else if (tag is "ReplaceText")
+                {
+                    ReplaceText = textBox.Text;
+                }
+            }
+        }
 
         /// <summary>
         /// 选中时触发的事件
@@ -360,7 +386,7 @@ namespace WindowsTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Read file {0} information failed", fileName), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", fileName), e);
                             continue;
                         }
                     }
@@ -408,7 +434,7 @@ namespace WindowsTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Read folder {0} information failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} information failed", dialog.SelectedPath), e);
                         }
 
                         AddToExtensionNamePage(fileNameList);

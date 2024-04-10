@@ -37,9 +37,9 @@ namespace WindowsTools.Services.Controls.Settings
         /// </summary>
         private static DictionaryEntry GetBackdrop()
         {
-            object backdrop = LocalSettingsService.ReadSetting<object>(settingsKey);
+            string backdrop = LocalSettingsService.ReadSetting<string>(settingsKey);
 
-            if (backdrop is null)
+            if (string.IsNullOrEmpty(backdrop))
             {
                 SetBackdrop(defaultAppBackdrop);
                 return defaultAppBackdrop;

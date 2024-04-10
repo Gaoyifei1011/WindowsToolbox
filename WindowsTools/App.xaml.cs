@@ -1,6 +1,6 @@
 ﻿using Mile.Xaml.Interop;
 using System;
-using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 using WindowsTools.Services.Root;
@@ -28,7 +28,7 @@ namespace WindowsTools
         /// </summary>
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs args)
         {
-            LogService.WriteLog(EventLogEntryType.Warning, "Xaml islands UI Exception", args.Exception);
+            LogService.WriteLog(EventLevel.Warning, "Xaml islands UI Exception", args.Exception);
             Dispose();
         }
 

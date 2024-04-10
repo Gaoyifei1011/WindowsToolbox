@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -281,7 +282,7 @@ namespace WindowsTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLogEntryType.Warning, "Drop file in pri extract page failed", e);
+                    LogService.WriteLog(EventLevel.Warning, "Drop file in pri extract page failed", e);
                     MainWindow.Current.BeginInvoke(() =>
                     {
                         IsProcessing = false;
@@ -355,7 +356,7 @@ namespace WindowsTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Save resourceCandidate embedded data(key:{0}) failed", embeddedDataItem.Key), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate embedded data(key:{0}) failed", embeddedDataItem.Key), e);
                         }
 
                         try
@@ -367,7 +368,7 @@ namespace WindowsTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
                         }
 
                         MainWindow.Current.BeginInvoke(() =>
@@ -608,7 +609,7 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                LogService.WriteLog(EventLogEntryType.Error, string.Format("Save resourceCandidate embedded data(key:{0}) failed", embeddedDataItem.Key), e);
+                                LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate embedded data(key:{0}) failed", embeddedDataItem.Key), e);
                                 continue;
                             }
                         }
@@ -619,7 +620,7 @@ namespace WindowsTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
                         }
 
                         MainWindow.Current.BeginInvoke(() =>
@@ -709,7 +710,7 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                LogService.WriteLog(EventLogEntryType.Error, string.Format("Save resourceCandidate embedded data(key:{0}) failed", embeddedDataItem.Key), e);
+                                LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate embedded data(key:{0}) failed", embeddedDataItem.Key), e);
                                 continue;
                             }
                         }
@@ -720,7 +721,7 @@ namespace WindowsTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
                         }
 
                         MainWindow.Current.BeginInvoke(() =>
@@ -798,7 +799,7 @@ namespace WindowsTools.Views.Pages
                                         }
                                         catch (Exception e)
                                         {
-                                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Save resourceCandidate string(key:{0},Content:{1}) failed", stringItem.Key, stringItem.Content), e);
+                                            LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate string(key:{0},Content:{1}) failed", stringItem.Key, stringItem.Content), e);
                                         }
                                     }
                                 }
@@ -824,7 +825,7 @@ namespace WindowsTools.Views.Pages
                                         }
                                         catch (Exception e)
                                         {
-                                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Save resourceCandidate filePath(key:{0},AbsolutePath:{1}) failed", filePathItem.Key, filePathItem.AbsolutePath), e);
+                                            LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate filePath(key:{0},AbsolutePath:{1}) failed", filePathItem.Key, filePathItem.AbsolutePath), e);
                                         }
                                     }
                                 }
@@ -854,7 +855,7 @@ namespace WindowsTools.Views.Pages
                                         }
                                         catch (Exception e)
                                         {
-                                            LogService.WriteLog(EventLogEntryType.Error, string.Format("Save resourceCandidate embedded data(key:{0}) failed", resourceCandidateItem.Key), e);
+                                            LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate embedded data(key:{0}) failed", resourceCandidateItem.Key), e);
                                         }
                                     }
                                 }
@@ -896,7 +897,7 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                LogService.WriteLog(EventLogEntryType.Error, string.Format("Get pri data from {0} file failed", filePath), e);
+                                LogService.WriteLog(EventLevel.Error, string.Format("Get pri data from {0} file failed", filePath), e);
                             }
                         });
                     }
@@ -911,7 +912,7 @@ namespace WindowsTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLogEntryType.Error, string.Format("Parse {file} resources failed", filePath), e);
+                    LogService.WriteLog(EventLevel.Error, string.Format("Parse {file} resources failed", filePath), e);
                 }
             });
         }

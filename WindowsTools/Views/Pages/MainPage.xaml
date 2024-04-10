@@ -255,10 +255,7 @@
                 </muxc:NavigationViewItem>
 
                 <!--  个性化工具  -->
-                <muxc:NavigationViewItem
-                    Content="{x:Bind string:Window.Personalize}"
-                    Tag="14"
-                    Visibility="Collapsed">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.Personalize}" Tag="14">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Personalize.png" />

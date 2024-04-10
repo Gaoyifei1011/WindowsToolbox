@@ -96,6 +96,7 @@ namespace WindowsTools.Views.Pages
             }
         };
 
+        // 个性化工具列表
         private List<ControlItemModel> PersonalizeToolsList { get; } = new List<ControlItemModel>()
         {
             new ControlItemModel()

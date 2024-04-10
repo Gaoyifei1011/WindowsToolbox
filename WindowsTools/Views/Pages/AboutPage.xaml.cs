@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
@@ -74,7 +75,7 @@ namespace WindowsTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLogEntryType.Error, "Create desktop shortcut failed.", e);
+                    LogService.WriteLog(EventLevel.Error, "Create desktop shortcut failed.", e);
                 }
                 finally
                 {
@@ -115,7 +116,7 @@ namespace WindowsTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLogEntryType.Error, "Pin app to startscreen failed.", e);
+                    LogService.WriteLog(EventLevel.Error, "Pin app to startscreen failed.", e);
                 }
                 finally
                 {
@@ -151,7 +152,7 @@ namespace WindowsTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Error, "Pin app to taskbar failed.", e);
+                LogService.WriteLog(EventLevel.Error, "Pin app to taskbar failed.", e);
             }
             finally
             {

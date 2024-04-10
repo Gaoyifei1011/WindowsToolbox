@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using Windows.Storage;
 
 namespace WindowsTools.Services.Root
@@ -29,7 +29,7 @@ namespace WindowsTools.Services.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Error, "Registry settings saving initialize failed", e);
+                LogService.WriteLog(EventLevel.Error, "Registry settings saving initialize failed", e);
             }
         }
 
@@ -40,6 +40,7 @@ namespace WindowsTools.Services.Root
         {
             try
             {
+                T readResult = default;
                 if (isInitialized)
                 {
                     RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(windowsToolsKey);
@@ -49,50 +50,33 @@ namespace WindowsTools.Services.Root
 
                         if (value is not null)
                         {
-                            registryKey.Close();
-                            registryKey.Dispose();
-
                             if (typeof(T) == typeof(bool?))
                             {
-                                return (T)(object)Convert.ToBoolean(value);
+                                readResult = (T)(object)Convert.ToBoolean(value);
                             }
                             else if (typeof(T) == typeof(int?))
                             {
-                                return (T)(object)Convert.ToInt32(value);
+                                readResult = (T)(object)Convert.ToInt32(value);
                             }
-                            else if (typeof(T) == typeof(float?))
+                            else if (typeof(T) == typeof(string))
                             {
-                                return (T)(object)Convert.ToSingle(value);
-                            }
-                            else if (typeof(T) == typeof(double?))
-                            {
-                                return (T)(object)Convert.ToDouble(value);
+                                readResult = (T)(object)Convert.ToString(value);
                             }
                             else
                             {
-                                return (T)value;
+                                readResult = (T)value;
                             }
                         }
-                        else
-                        {
-                            registryKey.Close();
-                            registryKey.Dispose();
-                            return default;
-                        }
-                    }
-                    else
-                    {
-                        return default;
+
+                        registryKey.Close();
+                        registryKey.Dispose();
                     }
                 }
-                else
-                {
-                    return default;
-                }
+                return readResult;
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Error, string.Format("Registry settings read value {0} failed", key), e);
+                LogService.WriteLog(EventLevel.Error, string.Format("Registry settings read value {0} failed", key), e);
                 return default;
             }
         }
@@ -124,7 +108,7 @@ namespace WindowsTools.Services.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Error, string.Format("Registry settings save key {0} value {1} failed", key, value), e);
+                LogService.WriteLog(EventLevel.Error, string.Format("Registry settings save key {0} value {1} failed", key, value), e);
             }
         }
     }

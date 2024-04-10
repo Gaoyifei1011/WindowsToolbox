@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -25,7 +25,7 @@ namespace WindowsTools.Helpers.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Error, "Copy text to clipboard failed", e);
+                LogService.WriteLog(EventLevel.Error, "Copy text to clipboard failed", e);
                 return false;
             }
         }
@@ -78,7 +78,7 @@ namespace WindowsTools.Helpers.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Error, "Read clipboard failed", e);
+                LogService.WriteLog(EventLevel.Error, "Read clipboard failed", e);
                 return null;
             }
         }

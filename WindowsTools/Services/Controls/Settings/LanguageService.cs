@@ -16,8 +16,7 @@ namespace WindowsTools.Services.Controls.Settings
     {
         private static string resourceFileName = string.Format("{0}.resources.dll", Assembly.GetExecutingAssembly().GetName().Name);
         private static string settingsKey = ConfigKey.LanguageKey;
-
-        public static DictionaryEntry DefaultAppLanguage { get; private set; }
+        private static DictionaryEntry defaultAppLanguage;
 
         public static DictionaryEntry AppLanguage { get; private set; }
 
@@ -60,7 +59,7 @@ namespace WindowsTools.Services.Controls.Settings
         {
             foreach (DictionaryEntry languageItem in LanguageList)
             {
-                if (languageItem.Value.ToString().Equals(currentSystemLanguage))
+                if (languageItem.Value.ToString().Equals(currentSystemLanguage, StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }
@@ -75,7 +74,7 @@ namespace WindowsTools.Services.Controls.Settings
         {
             InitializeLanguageList();
 
-            DefaultAppLanguage = LanguageList.Find(item => item.Value.ToString().Equals("en-US", StringComparison.OrdinalIgnoreCase));
+            defaultAppLanguage = LanguageList.Find(item => item.Value.ToString().Equals("en-US", StringComparison.OrdinalIgnoreCase));
 
             AppLanguage = GetLanguage();
         }
@@ -85,12 +84,12 @@ namespace WindowsTools.Services.Controls.Settings
         /// </summary>
         private static DictionaryEntry GetLanguage()
         {
-            object language = LocalSettingsService.ReadSetting<object>(settingsKey);
+            string language = LocalSettingsService.ReadSetting<string>(settingsKey);
 
             // 当前系统的语言值
             string currentSystemLanguage = CultureInfo.CurrentCulture.Parent.Parent.Name;
 
-            if (language is null)
+            if (string.IsNullOrEmpty(language))
             {
                 // 判断当前系统语言是否存在应用默认添加的语言列表中
                 bool result = IsExistsInLanguageList(currentSystemLanguage);
@@ -98,7 +97,7 @@ namespace WindowsTools.Services.Controls.Settings
                 // 如果存在，设置存储值和应用初次设置的语言为当前系统的语言
                 if (result)
                 {
-                    DictionaryEntry currentLanguage = LanguageList.Find(item => item.Value.Equals(currentSystemLanguage));
+                    DictionaryEntry currentLanguage = LanguageList.Find(item => item.Value.ToString().Equals(currentSystemLanguage, StringComparison.OrdinalIgnoreCase));
                     SetLanguage(currentLanguage);
                     return currentLanguage;
                 }
@@ -106,12 +105,12 @@ namespace WindowsTools.Services.Controls.Settings
                 // 不存在，设置存储值和应用初次设置的语言为默认语言：English(United States)
                 else
                 {
-                    SetLanguage(DefaultAppLanguage);
-                    return LanguageList.Find(item => item.Value.Equals(DefaultAppLanguage.Value));
+                    SetLanguage(defaultAppLanguage);
+                    return LanguageList.Find(item => item.Value.ToString().Equals(defaultAppLanguage.Value.ToString(), StringComparison.OrdinalIgnoreCase));
                 }
             }
 
-            return LanguageList.Find(item => item.Value.Equals(language));
+            return LanguageList.Find(item => item.Value.ToString().Equals(language, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>

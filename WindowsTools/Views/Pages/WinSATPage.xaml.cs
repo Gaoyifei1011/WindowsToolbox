@@ -2,6 +2,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -231,7 +232,7 @@ namespace WindowsTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLogEntryType.Error, "Run Windows system assessment tool failed", e);
+                LogService.WriteLog(EventLevel.Error, "Run Windows system assessment tool failed", e);
                 cWinSATCallbacks = null;
                 progressDialog = null;
             }
@@ -292,7 +293,7 @@ namespace WindowsTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLogEntryType.Error, "Windows system assessment tool state updated failed", e);
+                        LogService.WriteLog(EventLevel.Error, "Windows system assessment tool state updated failed", e);
                         cWinSATCallbacks = null;
                         progressDialog = null;
                         IsNotRunningAssessment = true;
@@ -322,7 +323,7 @@ namespace WindowsTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLogEntryType.Error, "Windows system assessment tool state completed failed", e);
+                        LogService.WriteLog(EventLevel.Error, "Windows system assessment tool state completed failed", e);
                         cWinSATCallbacks = null;
                         progressDialog = null;
                         IsNotRunningAssessment = true;
@@ -373,7 +374,7 @@ namespace WindowsTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLogEntryType.Error, "Query WinSAT score failed", e);
+                    LogService.WriteLog(EventLevel.Error, "Query WinSAT score failed", e);
                     MainWindow.Current.BeginInvoke(() =>
                     {
                         BasicScoreExisted = false;

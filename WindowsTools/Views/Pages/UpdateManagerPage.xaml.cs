@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -246,7 +247,7 @@ namespace WindowsTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLogEntryType.Warning, "Get exclude driver options failed", e);
+                    LogService.WriteLog(EventLevel.Warning, "Get exclude driver options failed", e);
                 }
             }
         }
@@ -297,13 +298,13 @@ namespace WindowsTools.Views.Pages
                                 }
                                 catch (Exception e)
                                 {
-                                    LogService.WriteLog(EventLogEntryType.Error, "Hide updates update UI failed", e);
+                                    LogService.WriteLog(EventLevel.Error, "Hide updates update UI failed", e);
                                 }
                             });
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLogEntryType.Error, "Hide updates modify hidden property failed", e);
+                            LogService.WriteLog(EventLevel.Error, "Hide updates modify hidden property failed", e);
                         }
                     }
                 });
@@ -403,13 +404,13 @@ namespace WindowsTools.Views.Pages
                                 }
                                 catch (Exception e)
                                 {
-                                    LogService.WriteLog(EventLogEntryType.Error, "Show updates update UI failed", e);
+                                    LogService.WriteLog(EventLevel.Error, "Show updates update UI failed", e);
                                 }
                             });
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLogEntryType.Error, "Show updates modify hidden property failed", e);
+                            LogService.WriteLog(EventLevel.Error, "Show updates modify hidden property failed", e);
                         }
                     }
                 });
@@ -524,7 +525,7 @@ namespace WindowsTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLogEntryType.Error, "Hide updates modify hidden property failed", e);
+                            LogService.WriteLog(EventLevel.Error, "Hide updates modify hidden property failed", e);
                             continue;
                         }
                     }
@@ -560,7 +561,7 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                LogService.WriteLog(EventLogEntryType.Error, "Hide updates update UI failed", e);
+                                LogService.WriteLog(EventLevel.Error, "Hide updates update UI failed", e);
                             }
                         }
                     });
@@ -649,7 +650,7 @@ namespace WindowsTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLogEntryType.Error, "Show updates modify hidden property failed", e);
+                            LogService.WriteLog(EventLevel.Error, "Show updates modify hidden property failed", e);
                             continue;
                         }
                     }
@@ -685,7 +686,7 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                LogService.WriteLog(EventLogEntryType.Error, "Show updates update UI failed", e);
+                                LogService.WriteLog(EventLevel.Error, "Show updates update UI failed", e);
                             }
                         }
                     });
@@ -728,7 +729,7 @@ namespace WindowsTools.Views.Pages
                         {
                             IsExcludeDrivers = !IsExcludeDrivers;
                         });
-                        LogService.WriteLog(EventLogEntryType.Warning, "Set exclude driver options failed", e);
+                        LogService.WriteLog(EventLevel.Warning, "Set exclude driver options failed", e);
                     }
                 });
             }
@@ -789,14 +790,14 @@ namespace WindowsTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLogEntryType.Warning, "Get update search result failed", e);
+                    LogService.WriteLog(EventLevel.Warning, "Get update search result failed", e);
                     try
                     {
                         searchCompletedCallback.SearchCompleted -= OnSearchCompleted;
                     }
                     catch (Exception ex)
                     {
-                        LogService.WriteLog(EventLogEntryType.Error, "Unregister SearchCompletedCallback SearchCompleted event failed", ex);
+                        LogService.WriteLog(EventLevel.Error, "Unregister SearchCompletedCallback SearchCompleted event failed", ex);
                     }
 
                     MainWindow.Current.BeginInvoke(() =>
@@ -930,7 +931,7 @@ namespace WindowsTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLogEntryType.Error, "Search update failed", e);
+                    LogService.WriteLog(EventLevel.Error, "Search update failed", e);
                     MainWindow.Current.BeginInvoke(() =>
                     {
                         IsChecking = false;

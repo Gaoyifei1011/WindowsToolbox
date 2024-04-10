@@ -465,8 +465,7 @@
                     Margin="0,0,0,5"
                     VerticalAlignment="Center"
                     Orientation="Horizontal"
-                    Spacing="5"
-                    Visibility="Collapsed">
+                    Spacing="5">
 
                     <FontIcon
                         Margin="0,2,0,0"
@@ -489,8 +488,7 @@
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
-                    Visibility="Collapsed">
+                    CornerRadius="{StaticResource ControlCornerRadius}">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
