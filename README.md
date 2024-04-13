@@ -151,7 +151,6 @@
 
 ### 其他内容
 
-> * 该项目自2023年3月20日起，到2023年7月29日结束，共历时4个月零9天。
 > * 该项目是基于MIT协议许可的开源项目，您可以修改、分发该项目或将副本与新副本合并。如果您使用了该项目，请勿用于非法用途，本开发者不会承担任何责任。
 > * [工具原型](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/RawApplicationDescription.md)&emsp;
 

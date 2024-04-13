@@ -149,6 +149,8 @@ namespace WindowsTools.Views.Pages
             SelectedUpdateStyle = UpdateStyleList[0];
         }
 
+        #region 第一部分：摸鱼页面——挂载的事件
+
         /// <summary>
         /// 加载每日必应壁纸图片
         /// </summary>
@@ -181,7 +183,7 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                LoafImage = new BitmapImage(new Uri("ms-appx:///Assets/Wallpapers/LoafLocalImage.jpg"));
+                                LoafImage = new BitmapImage(new Uri("ms-appx:///Assets/Images/LoafWallpaper.jpg"));
                                 LoadImageCompleted = true;
                                 LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
                             }
@@ -191,7 +193,7 @@ namespace WindowsTools.Views.Pages
                     {
                         MainWindow.Current.BeginInvoke(() =>
                         {
-                            LoafImage = new BitmapImage(new Uri("ms-appx:///Assets/Wallpapers/LoafLocalImage.jpg"));
+                            LoafImage = new BitmapImage(new Uri("ms-appx:///Assets/Images/LoafWallpaper.jpg"));
                             LoadImageCompleted = true;
                         });
                     }
@@ -201,7 +203,7 @@ namespace WindowsTools.Views.Pages
                     LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
                     MainWindow.Current.BeginInvoke(() =>
                     {
-                        LoafImage = new BitmapImage(new Uri("ms-appx:///Assets/Wallpapers/LoafLocalImage.jpg"));
+                        LoafImage = new BitmapImage(new Uri("ms-appx:///Assets/Images/LoafWallpaper.jpg"));
                         LoadImageCompleted = true;
                     });
                 }
@@ -224,7 +226,6 @@ namespace WindowsTools.Views.Pages
         private void OnClosed(object sender, FormClosedEventArgs args)
         {
             LoafWindow.Current.FormClosed -= OnClosed;
-            LoafWindow.Current = null;
             IsLoafing = false;
         }
 
@@ -275,5 +276,7 @@ namespace WindowsTools.Views.Pages
                 LockScreenAutomaticly = toggleSwitch.IsOn;
             }
         }
+
+        #endregion 第一部分：摸鱼页面——挂载的事件
     }
 }

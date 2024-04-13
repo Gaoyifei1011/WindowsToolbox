@@ -25,7 +25,7 @@ namespace WindowsTools.Views.Windows
         private WindowsXamlHost windowsXamlHost = new WindowsXamlHost();
         private HOOKPROC KeyBoardHookProc;
 
-        public static LoafWindow Current { get; set; }
+        public static LoafWindow Current { get; private set; }
 
         public LoafWindow(UpdatingKind updatingKind, TimeSpan duration, bool blockAllKeys, bool lockScreenAutomaticly)
         {
@@ -55,6 +55,15 @@ namespace WindowsTools.Views.Windows
             // 阻止系统睡眠，阻止屏幕关闭。
             SystemSleepHelper.PreventForCurrentThread();
             StartHook();
+        }
+
+        /// <summary>
+        /// 关闭窗体后发生的事件
+        /// </summary>
+        protected override void OnFormClosed(FormClosedEventArgs args)
+        {
+            base.OnFormClosed(args);
+            Current = null;
         }
 
         /// <summary>

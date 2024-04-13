@@ -61,6 +61,96 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Add menu 的本地化字符串。
+        /// </summary>
+        public static string AddMenu {
+            get {
+                return ResourceManager.GetString("AddMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Apply 的本地化字符串。
+        /// </summary>
+        public static string Apply {
+            get {
+                return ResourceManager.GetString("Apply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Apply modify 的本地化字符串。
+        /// </summary>
+        public static string ApplyModify {
+            get {
+                return ResourceManager.GetString("ApplyModify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Menu list 的本地化字符串。
+        /// </summary>
+        public static string MenuList {
+            get {
+                return ResourceManager.GetString("MenuList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Modify 的本地化字符串。
+        /// </summary>
+        public static string Modify {
+            get {
+                return ResourceManager.GetString("Modify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Refresh 的本地化字符串。
+        /// </summary>
+        public static string Refresh {
+            get {
+                return ResourceManager.GetString("Refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Return default 的本地化字符串。
+        /// </summary>
+        public static string ReturnDefault {
+            get {
+                return ResourceManager.GetString("ReturnDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Root menu icon 的本地化字符串。
+        /// </summary>
+        public static string RootMenuIcon {
+            get {
+                return ResourceManager.GetString("RootMenuIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Root menu name 的本地化字符串。
+        /// </summary>
+        public static string RootMenuName {
+            get {
+                return ResourceManager.GetString("RootMenuName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Root menu settings 的本地化字符串。
+        /// </summary>
+        public static string RootMenuSettings {
+            get {
+                return ResourceManager.GetString("RootMenuSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Custom shell menu 的本地化字符串。
         /// </summary>
         public static string Title {

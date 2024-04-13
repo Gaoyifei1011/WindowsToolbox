@@ -34,11 +34,11 @@ namespace WindowsToolsShellExtension.Services.Root
                         // 根据数据大小读取数据内容
                         if (Advapi32Library.RegQueryValueEx(hKey, key, 0, out _, data, ref dataSize) is 0)
                         {
-                            if (typeof(T) == typeof(bool))
+                            if (typeof(T) == typeof(bool?))
                             {
                                 readResult = (T)(object)Convert.ToBoolean(data[0]);
                             }
-                            else if (typeof(T) == typeof(int))
+                            else if (typeof(T) == typeof(int?))
                             {
                                 readResult = (T)(object)Convert.ToInt32(data[0]);
                             }

@@ -152,6 +152,12 @@
       <DependentUpon>SystemInfo.resx</DependentUpon>
     </Compile>
 
+    <Compile Update="Strings\SystemTray.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SystemTray.resx</DependentUpon>
+    </Compile>
+
     <Compile Update="Strings\UpdateManager.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -274,7 +280,7 @@
     <Content Include="Assets\StoreLogo.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\StoreLogo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\StoreLogo.scale-400.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Wallpapers\LoafLocalImage.jpg" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Images\LoafWallpaper.jpg" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
@@ -284,17 +290,14 @@
     
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" IncludeAssets="none" ExcludeAssets="all" PrivateAssets="all" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240404000" GeneratePathProperty="true" />
-    <PackageReference Include="Mile.Xaml" Version="2.2.890" />
+    <PackageReference Include="Mile.Xaml" Version="2.2.944" />
     <PackageReference Include="ZXing.Net" Version="0.16.9" />
 
     <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />
     <Reference Include="Microsoft.Windows.ApplicationModel.Resources" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0\Microsoft.Windows.ApplicationModel.Resources.winmd" IsWinMDFile="true" Private="false" />
     <Reference Include="Microsoft.UI.Windowing" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0.18362\Microsoft.UI.winmd" IsWinMDFile="true" Private="false" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="WindowsBase" />
 
     <EmbeddedResource Update="Strings\About.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\About.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="About.Designer.cs" />
@@ -351,6 +354,13 @@
     <EmbeddedResource Update="Strings\SystemInfo.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\SystemInfo.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="SystemInfo.Designer.cs" />
     <EmbeddedResource Update="Strings\SystemInfo.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\SystemTray.en-us.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings\SystemTray.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SystemTray.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Strings\UpdateManager.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\UpdateManager.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="UpdateManager.Designer.cs" />
     <EmbeddedResource Update="Strings\UpdateManager.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />

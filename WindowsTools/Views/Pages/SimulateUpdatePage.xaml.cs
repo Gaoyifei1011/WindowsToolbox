@@ -70,6 +70,8 @@ namespace WindowsTools.Views.Pages
             simulateUpdateTimer.Start();
         }
 
+        #region 第一部分：自定义事件
+
         /// <summary>
         /// 当指定的计时器间隔已过去而且计时器处于启用状态时发生的事件
         /// </summary>
@@ -99,6 +101,8 @@ namespace WindowsTools.Views.Pages
                 LogService.WriteLog(EventLevel.Error, "Simulate update timer update failed", e);
             }
         }
+
+        #endregion 第一部分：自定义事件
 
         /// <summary>
         /// 停止模拟自动更新

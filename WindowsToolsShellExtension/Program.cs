@@ -21,7 +21,7 @@ namespace WindowsToolsShellExtension
 
         private static IReadOnlyDictionary<Guid, Func<object>> createFunctions = new Dictionary<Guid, Func<object>>()
         {
-            [typeof(RootItemCommand).GUID] = () => new RootItemCommand()
+            [typeof(RootExplorerCommand).GUID] = () => new RootExplorerCommand()
         };
 
         static Program()

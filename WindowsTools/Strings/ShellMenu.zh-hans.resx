@@ -117,6 +117,36 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddMenu" xml:space="preserve">
+    <value>添加菜单</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="ApplyModify" xml:space="preserve">
+    <value>应用更改</value>
+  </data>
+  <data name="MenuList" xml:space="preserve">
+    <value>菜单列表</value>
+  </data>
+  <data name="Modify" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="ReturnDefault" xml:space="preserve">
+    <value>还原默认</value>
+  </data>
+  <data name="RootMenuIcon" xml:space="preserve">
+    <value>根菜单图标</value>
+  </data>
+  <data name="RootMenuName" xml:space="preserve">
+    <value>根菜单名称</value>
+  </data>
+  <data name="RootMenuSettings" xml:space="preserve">
+    <value>根菜单设置</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>自定义扩展菜单</value>
   </data>

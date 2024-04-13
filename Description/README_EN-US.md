@@ -144,6 +144,5 @@ Unpackaged version
 
 ### Other content
 
-> * The project began on March 20, 2023, and ended on July 29, 2023, lasting a total of 4 months and 9 days.
 > * This project is an open source project licensed under the MIT license, and you may modify, distribute, or merge copies with new copies. If you use the project, please do not use it for illegal purposes, and the developer will not be held responsible.
 > * [Tool prototype](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/RawApplicationDescription.md)&emsp;

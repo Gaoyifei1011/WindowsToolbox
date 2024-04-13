@@ -14,7 +14,7 @@ namespace WindowsToolsShellExtension.Commands
     /// 根菜单项目
     /// </summary>
     [GeneratedComClass, Guid("5A730150-DE8D-0C88-FD1A-99B7E954BDDB")]
-    public partial class RootItemCommand : IExplorerCommand
+    public partial class RootExplorerCommand : IExplorerCommand
     {
         /// <summary>
         /// 根菜单标题
@@ -51,7 +51,7 @@ namespace WindowsToolsShellExtension.Commands
         /// </summary>
         public int GetCanonicalName(out Guid pguidCommandName)
         {
-            pguidCommandName = typeof(RootItemCommand).GUID;
+            pguidCommandName = typeof(RootExplorerCommand).GUID;
             return 0;
         }
 
@@ -92,8 +92,19 @@ namespace WindowsToolsShellExtension.Commands
         /// </summary>
         public int EnumSubCommands(out IEnumExplorerCommand ppEnum)
         {
-            ppEnum = null;
-            return unchecked((int)0x80004001);
+            SubExplorerCommand[] subExplorerCommands = new SubExplorerCommand[5];
+
+            if (subExplorerCommands.Length > 0)
+            {
+                EnumExplorerCommand enumExplorerCommand = new EnumExplorerCommand(subExplorerCommands);
+                ppEnum = enumExplorerCommand;
+                return 0;
+            }
+            else
+            {
+                ppEnum = null;
+                return 1;
+            }
         }
     }
 }

@@ -117,37 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddMenu" xml:space="preserve">
-    <value>Add menu</value>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
   </data>
-  <data name="Apply" xml:space="preserve">
-    <value>Apply</value>
-  </data>
-  <data name="ApplyModify" xml:space="preserve">
-    <value>Apply modify</value>
-  </data>
-  <data name="MenuList" xml:space="preserve">
-    <value>Menu list</value>
-  </data>
-  <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
-  </data>
-  <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
-  </data>
-  <data name="ReturnDefault" xml:space="preserve">
-    <value>Return default</value>
-  </data>
-  <data name="RootMenuIcon" xml:space="preserve">
-    <value>Root menu icon</value>
-  </data>
-  <data name="RootMenuName" xml:space="preserve">
-    <value>Root menu name</value>
-  </data>
-  <data name="RootMenuSettings" xml:space="preserve">
-    <value>Root menu settings</value>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>Custom shell menu</value>
+  <data name="ShowOrHideWindow" xml:space="preserve">
+    <value>Show/hide window</value>
   </data>
 </root>

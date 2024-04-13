@@ -2,7 +2,6 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Mile.Xaml;
-using Mile.Xaml.Interop;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +21,7 @@ using Windows.UI.Xaml.Media;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Settings;
+using WindowsTools.Services.Root;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.Views.Pages;
 using WindowsTools.WindowsAPI.ComTypes;
@@ -45,6 +45,7 @@ namespace WindowsTools.Views.Windows
         private WindowsXamlHost windowsXamlHost = new WindowsXamlHost();
         private SystemBackdropConfiguration systemBackdropConfiguration = new SystemBackdropConfiguration();
         private SUBCLASSPROC inputNonClientPointerSourceSubClassProc;
+        private SystemTrayWindow systemTrayWindow = new SystemTrayWindow();
 
         public AppWindow AppWindow { get; private set; }
 
@@ -61,7 +62,7 @@ namespace WindowsTools.Views.Windows
             Icon = System.Drawing.Icon.ExtractAssociatedIcon(Process.GetCurrentProcess().MainModule.FileName);
             MinimumSize = new System.Drawing.Size(Convert.ToInt32(1024 * ((double)DeviceDpi) / 96), Convert.ToInt32(768 * ((double)DeviceDpi / 96)));
             Size = new System.Drawing.Size(Convert.ToInt32(1024 * ((double)DeviceDpi) / 96), Convert.ToInt32(768 * ((double)DeviceDpi / 96)));
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = Strings.Window.AppTitle;
             windowsXamlHost.AutoSize = true;
             windowsXamlHost.Dock = DockStyle.Fill;
@@ -89,11 +90,10 @@ namespace WindowsTools.Views.Windows
                 Comctl32Library.SetWindowSubclass((IntPtr)AppWindow.Id.Value, inputNonClientPointerSourceSubClassProc, 0, IntPtr.Zero);
             }
 
-            uwpCoreHandle = InteropExtensions.GetInterop(Window.Current.CoreWindow).WindowHandle;
-            if (uwpCoreHandle != IntPtr.Zero)
-            {
-                User32Library.SetWindowPos(uwpCoreHandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
-            }
+            systemTrayWindow.Show();
+            SystemTrayService.InitializeSystemTray(Strings.Window.AppTitle, Process.GetCurrentProcess().MainModule.FileName);
+            SystemTrayService.MouseClick += OnSystemTrayClick;
+            SystemTrayService.MouseDoubleClick += OnSystemTrayDoubleClick;
         }
 
         #region 第一部分：窗口类内置需要重载的事件
@@ -172,6 +172,19 @@ namespace WindowsTools.Views.Windows
                 systemBackdropController?.Dispose();
                 systemBackdropController = null;
             }
+
+            systemTrayWindow.Close();
+            systemTrayWindow.Dispose();
+            systemTrayWindow = null;
+        }
+
+        /// <summary>
+        /// 窗体关闭后触发的事件
+        /// </summary>
+        protected override void OnFormClosed(FormClosedEventArgs args)
+        {
+            base.OnFormClosed(args);
+            Current = null;
         }
 
         /// <summary>
@@ -263,6 +276,32 @@ namespace WindowsTools.Views.Windows
             if (uwpCoreHandle != IntPtr.Zero)
             {
                 User32Library.SetWindowPos(uwpCoreHandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
+            }
+        }
+
+        /// <summary>
+        /// 托盘图标鼠标单击事件
+        /// </summary>
+        private void OnSystemTrayClick(object sender, MouseEventArgs args)
+        {
+            if (systemTrayWindow is not null && args.Button is MouseButtons.Right)
+            {
+                systemTrayWindow.ShowSystemTrayMenu();
+            }
+        }
+
+        /// <summary>
+        /// 托盘图标鼠标双击事件
+        /// </summary>
+        private void OnSystemTrayDoubleClick(object sender, MouseEventArgs args)
+        {
+            if (Visible)
+            {
+                Hide();
+            }
+            else
+            {
+                Show();
             }
         }
 

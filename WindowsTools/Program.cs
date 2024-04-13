@@ -42,20 +42,11 @@ namespace WindowsTools
 
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-            Application.ApplicationExit += OnApplicationExit;
             Application.ThreadException += OnThreadException;
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
             new App();
             Application.Run(new MainWindow());
-        }
-
-        /// <summary>
-        /// 在应用程序即将关闭时发生
-        /// </summary>
-        private static void OnApplicationExit(object sender, EventArgs args)
-        {
-            (Windows.UI.Xaml.Application.Current as App).Dispose();
         }
 
         /// <summary>

@@ -135,7 +135,7 @@
                                 Grid.Column="0"
                                 Margin="0,0,12,0"
                                 FontSize="16"
-                                Glyph="&#xE713;" />
+                                Glyph="&#xE90F;" />
 
                             <TextBlock
                                 Grid.Column="1"

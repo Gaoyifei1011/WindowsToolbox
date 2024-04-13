@@ -1,8 +1,7 @@
-﻿using Mile.Xaml.Interop;
+﻿using Mile.Xaml;
 using System;
 using System.Diagnostics.Tracing;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Hosting;
 using WindowsTools.Services.Root;
 using WindowsTools.Views.Windows;
 
@@ -17,8 +16,7 @@ namespace WindowsTools
 
         public App()
         {
-            WindowsXamlManager.InitializeForCurrentThread();
-            Window.Current.GetInterop().TransparentBackground = true;
+            this.ThreadInitialize();
             InitializeComponent();
             UnhandledException += OnUnhandledException;
         }
@@ -55,7 +53,9 @@ namespace WindowsTools
             {
                 if (disposing)
                 {
-                    MainWindow.Current.Close();
+                    this.ThreadUninitialize();
+                    MainWindow.Current?.Close();
+                    //SystemTrayService.CloseSystemTray();
                     System.Windows.Forms.Application.Exit();
                 }
 
