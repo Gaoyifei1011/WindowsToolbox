@@ -126,7 +126,7 @@
                         MinWidth="150"
                         MaxWidth="450"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:ShellMenu.Modify}" />
+                        Text="{x:Bind RootMenuText, Mode=OneWay}" />
 
                     <Button
                         Grid.Column="2"

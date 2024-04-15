@@ -120,7 +120,7 @@ namespace WindowsTools.Services.Controls.Settings
         {
             AppLanguage = language;
 
-            LocalSettingsService.SaveSetting(settingsKey, language.Value.ToString());
+            LocalSettingsService.SaveSetting(settingsKey, language.Value);
         }
     }
 }

@@ -206,7 +206,7 @@ namespace WindowsTools.Views.Pages
             InitializeComponent();
             GetResults = PriExtract.NoSelectedFile;
             SelectedResourceCandidateKind = ResourceCandidateKindList[0];
-            Shell32Library.SHGetKnownFolderPath(new Guid("374DE290-123F-4565-9164-39C4925E467B"), 0, IntPtr.Zero, out string downloadFolder);
+            Shell32Library.SHGetKnownFolderPath(new Guid("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
             SelectedSaveFolder = downloadFolder;
         }
 

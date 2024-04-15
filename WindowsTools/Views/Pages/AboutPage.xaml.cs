@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
@@ -20,6 +21,7 @@ using WindowsTools.UI.Dialogs.About;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
+using WindowsTools.WindowsAPI.PInvoke.Kernel32;
 
 namespace WindowsTools.Views.Pages
 {
@@ -61,15 +63,16 @@ namespace WindowsTools.Views.Pages
         {
             bool isCreatedSuccessfully = false;
 
-            Task.Run(async () =>
+            Task.Run(() =>
             {
                 try
                 {
                     IWshRuntimeLibrary.IWshShell shell = new IWshRuntimeLibrary.WshShell();
                     IWshRuntimeLibrary.WshShortcut appShortcut = (IWshRuntimeLibrary.WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), About.AppName));
-                    IReadOnlyList<AppListEntry> appEntriesList = await Package.Current.GetAppListEntriesAsync();
-                    AppListEntry defaultEntry = appEntriesList[0];
-                    appShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", defaultEntry.AppUserModelId);
+                    uint aumidLength = 260;
+                    StringBuilder aumidBuilder = new StringBuilder((int)aumidLength);
+                    Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
+                    appShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", aumidBuilder.ToString());
                     appShortcut.Save();
                     isCreatedSuccessfully = true;
                 }
@@ -90,64 +93,68 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 将应用固定到“开始”屏幕
         /// </summary>
-        private void OnPinToStartScreenClicked(object sender, RoutedEventArgs args)
+        private async void OnPinToStartScreenClicked(object sender, RoutedEventArgs args)
         {
             bool isPinnedSuccessfully = false;
 
-            Task.Run(async () =>
+            try
             {
-                try
+                IReadOnlyList<AppListEntry> appEntries = await Package.Current.GetAppListEntriesAsync();
+
+                AppListEntry defaultEntry = appEntries[0];
+
+                if (defaultEntry is not null)
                 {
-                    IReadOnlyList<AppListEntry> appEntries = await Package.Current.GetAppListEntriesAsync();
+                    StartScreenManager startScreenManager = StartScreenManager.GetDefault();
 
-                    AppListEntry defaultEntry = appEntries[0];
+                    bool containsEntry = await startScreenManager.ContainsAppListEntryAsync(defaultEntry);
 
-                    if (defaultEntry is not null)
+                    if (!containsEntry)
                     {
-                        StartScreenManager startScreenManager = StartScreenManager.GetDefault();
-
-                        bool containsEntry = await startScreenManager.ContainsAppListEntryAsync(defaultEntry);
-
-                        if (!containsEntry)
-                        {
-                            await startScreenManager.RequestAddAppListEntryAsync(defaultEntry);
-                        }
+                        await startScreenManager.RequestAddAppListEntryAsync(defaultEntry);
                     }
+
+                    isPinnedSuccessfully = true;
                 }
-                catch (Exception e)
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, "Pin app to startscreen failed.", e);
+            }
+            finally
+            {
+                MainWindow.Current.BeginInvoke(() =>
                 {
-                    LogService.WriteLog(EventLevel.Error, "Pin app to startscreen failed.", e);
-                }
-                finally
-                {
-                    MainWindow.Current.BeginInvoke(() =>
-                    {
-                        TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.StartScreen, isPinnedSuccessfully));
-                    });
-                }
-            });
+                    TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.StartScreen, isPinnedSuccessfully));
+                });
+            }
         }
 
         /// <summary>
         /// 将应用固定到任务栏
         /// </summary>
-        private async void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
+        private void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
         {
             bool isPinnedSuccessfully = false;
 
             try
             {
                 IShellLink appLink = (IShellLink)Activator.CreateInstance(Type.GetTypeFromCLSID(ishellLinkCLSID));
-                IReadOnlyList<AppListEntry> appEntries = await Package.Current.GetAppListEntriesAsync();
-                AppListEntry defaultEntry = appEntries[0];
-                appLink.SetPath(string.Format(@"shell:AppsFolder\{0}", defaultEntry.AppUserModelId));
+                uint aumidLength = 260;
+                StringBuilder aumidBuilder = new StringBuilder((int)aumidLength);
+                Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
+                appLink.SetPath(string.Format(@"shell:AppsFolder\{0}", aumidBuilder.ToString()));
                 appLink.GetIDList(out IntPtr pidl);
 
                 IPinnedList3 pinnedList = (IPinnedList3)Activator.CreateInstance(Type.GetTypeFromCLSID(taskbarPinCLSID));
 
                 if (pinnedList is not null)
                 {
-                    isPinnedSuccessfully = pinnedList.Modify(IntPtr.Zero, pidl, PLMC.PLMC_EXPLORER) is 0;
+                    PIDLIST_ABSOLUTE pidlFrom = new PIDLIST_ABSOLUTE();
+                    pidlFrom.Ptr = IntPtr.Zero;
+                    PIDLIST_ABSOLUTE pidlTo = new PIDLIST_ABSOLUTE();
+                    pidlTo.Ptr = pidl;
+                    isPinnedSuccessfully = pinnedList.Modify(pidlFrom, pidlTo, PLMC.PLMC_EXPLORER) is 0;
                 }
             }
             catch (Exception e)

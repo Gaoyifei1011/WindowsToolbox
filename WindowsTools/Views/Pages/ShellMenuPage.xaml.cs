@@ -27,6 +27,22 @@ namespace WindowsTools.Views.Pages
             }
         }
 
+        private string _rootMenuText;
+
+        public string RootMenuText
+        {
+            get { return _rootMenuText; }
+
+            set
+            {
+                if (!Equals(_rootMenuText, value))
+                {
+                    _rootMenuText = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IconImage)));
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ShellMenuPage()

@@ -5,7 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
+using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
 namespace WindowsTools.Services.Root
 {
@@ -15,31 +15,34 @@ namespace WindowsTools.Services.Root
     public static class LogService
     {
         private static readonly object logLock = new object();
-
         private static bool isInitialized = false;
-
         private static string logName = Assembly.GetExecutingAssembly().GetName().Name;
-
         private static string unknown = "unknown";
-
-        private static string logFolderPath = Path.Combine(ApplicationData.Current.LocalCacheFolder.Path, "Logs");
+        private static DirectoryInfo logDirectory;
+        private static Guid FOLDERID_LocalAppData = new Guid("F1B32785-6FBA-4FCF-9D55-7B8E7F157091");
 
         /// <summary>
         /// 初始化日志记录
         /// </summary>
         public static void Initialize()
         {
-            try
+            Shell32Library.SHGetKnownFolderPath(FOLDERID_LocalAppData, KNOWN_FOLDER_FLAG.KF_FLAG_FORCE_APP_DATA_REDIRECTION, IntPtr.Zero, out string localAppdataPath);
+
+            if (!string.IsNullOrEmpty(localAppdataPath))
             {
-                if (!Directory.Exists(logFolderPath))
+                try
                 {
-                    Directory.CreateDirectory(logFolderPath);
+                    if (Directory.Exists(localAppdataPath))
+                    {
+                        string logFolderPath = Path.Combine(localAppdataPath, "Logs");
+                        logDirectory = Directory.CreateDirectory(logFolderPath);
+                        isInitialized = true;
+                    }
                 }
-                isInitialized = true;
-            }
-            catch (Exception)
-            {
-                isInitialized = false;
+                catch (Exception)
+                {
+                    return;
+                }
             }
         }
 
@@ -57,7 +60,7 @@ namespace WindowsTools.Services.Root
                         lock (logLock)
                         {
                             File.AppendAllText(
-                                Path.Combine(logFolderPath, string.Format("{0}_{1}.log", logName, DateTime.Now.ToString("yyyy_MM_dd"))),
+                                Path.Combine(logDirectory.FullName, string.Format("{0}_{1}.log", logName, DateTime.Now.ToString("yyyy_MM_dd"))),
                                 string.Format("{0}\t{1}:{2}{3}{4}{5}{6}{7}{8}",
                                     DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                                     "LogType",
@@ -107,7 +110,7 @@ namespace WindowsTools.Services.Root
                         lock (logLock)
                         {
                             File.AppendAllText(
-                                Path.Combine(logFolderPath, string.Format("{0}_{1}.log", logName, DateTime.Now.ToString("yyyy_MM_dd"))),
+                                Path.Combine(logDirectory.FullName, string.Format("{0}_{1}.log", logName, DateTime.Now.ToString("yyyy_MM_dd"))),
                                 string.Format("{0}\t{1}:{2}{3}{4}{5}",
                                     DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                                     "LogType",
@@ -135,7 +138,7 @@ namespace WindowsTools.Services.Root
             {
                 Task.Run(() =>
                 {
-                    Process.Start(logFolderPath);
+                    Process.Start(logDirectory.FullName);
                 });
             }
         }
@@ -149,7 +152,7 @@ namespace WindowsTools.Services.Root
             {
                 Task.Run(() =>
                 {
-                    string[] logFiles = Directory.GetFiles(logFolderPath, "*.log");
+                    string[] logFiles = Directory.GetFiles(logDirectory.FullName, "*.log");
                     foreach (string logFile in logFiles)
                     {
                         File.Delete(logFile);

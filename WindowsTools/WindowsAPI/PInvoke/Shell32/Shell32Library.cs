@@ -34,7 +34,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// 如果索引值介于零和已删除文件总数之间，并且 lpszFile 缓冲区地址为 NULL，则返回值是缓冲区所需的大小（以字符为单位）， 不包括 终止 null 字符。
         /// </returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragQueryFileW", SetLastError = false)]
-        public static extern uint DragQueryFileW(IntPtr hDrop, uint iFile, StringBuilder lpszFile, uint cch);
+        public static extern uint DragQueryFile(IntPtr hDrop, uint iFile, StringBuilder lpszFile, uint cch);
 
         /// <summary>
         /// 检索在拖放操作期间删除文件时鼠标指针的位置。
@@ -67,6 +67,6 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// </param>
         /// <returns>如果成功，则返回S_OK，否则返回错误值</returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderPath", SetLastError = true)]
-        public static extern int SHGetKnownFolderPath([MarshalAs(UnmanagedType.LPStruct)] Guid rfid, uint dwFlags, IntPtr hToken, out string pszPath);
+        public static extern int SHGetKnownFolderPath([MarshalAs(UnmanagedType.LPStruct)] Guid rfid, KNOWN_FOLDER_FLAG dwFlags, IntPtr hToken, out string pszPath);
     }
 }

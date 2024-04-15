@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using WindowsTools.Helpers.Root;
+using WindowsTools.Services.Controls.Controls;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Views.Windows;
@@ -73,7 +74,6 @@ namespace WindowsTools
         private static void InitializeProgramResources()
         {
             LogService.Initialize();
-            LocalSettingsService.Initialize();
             LanguageService.InitializeLanguage();
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(LanguageService.AppLanguage.Value.ToString());
             ResourceService.LocalizeReosurce();
@@ -84,6 +84,7 @@ namespace WindowsTools
             TopMostService.InitializeTopMostValue();
 
             FileShellMenuService.InitializeFileShellMenu();
+            ShellMenuService.InitializeShellMenu();
         }
 
         /// <summary>

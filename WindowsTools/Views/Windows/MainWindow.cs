@@ -356,10 +356,10 @@ namespace WindowsTools.Views.Windows
                         {
                             List<string> filesList = new List<string>();
                             StringBuilder stringBuilder = new StringBuilder(260);
-                            uint numFiles = Shell32Library.DragQueryFileW(wParam, 0xffffffffu, null, 0);
+                            uint numFiles = Shell32Library.DragQueryFile(wParam, 0xffffffffu, null, 0);
                             for (uint index = 0; index < numFiles; index++)
                             {
-                                if (Shell32Library.DragQueryFileW(wParam, index, stringBuilder, Convert.ToUInt32(stringBuilder.Capacity) * 2) > 0)
+                                if (Shell32Library.DragQueryFile(wParam, index, stringBuilder, Convert.ToUInt32(stringBuilder.Capacity) * 2) > 0)
                                 {
                                     filesList.Add(stringBuilder.ToString());
                                 }
