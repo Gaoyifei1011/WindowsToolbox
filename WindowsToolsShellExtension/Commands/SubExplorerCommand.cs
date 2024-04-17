@@ -10,42 +10,49 @@ namespace WindowsToolsShellExtension.Commands
     {
         public int EnumSubCommands(out IEnumExplorerCommand ppEnum)
         {
-            throw new NotImplementedException();
+            ppEnum = null;
+            return 1;
         }
 
         public int GetCanonicalName(out Guid pguidCommandName)
         {
-            throw new NotImplementedException();
+            pguidCommandName = typeof(SubExplorerCommand).GUID;
+            return 0;
         }
 
         public int GetFlags(out EXPCMDFLAGS pFlags)
         {
-            throw new NotImplementedException();
+            pFlags = EXPCMDFLAGS.ECF_DEFAULT;
+            return 0;
         }
 
         public int GetIcon(IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.LPWStr)] out string ppszIcon)
         {
-            throw new NotImplementedException();
+            ppszIcon = string.Empty;
+            return 0;
         }
 
         public int GetState(IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.Bool)] bool fOkToBeSlow, out EXPCMDSTATE pCmdState)
         {
-            throw new NotImplementedException();
+            pCmdState = EXPCMDSTATE.ECS_ENABLED;
+            return 0;
         }
 
         public int GetTitle(IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.LPWStr)] out string ppszName)
         {
-            throw new NotImplementedException();
+            ppszName = "hello world";
+            return 0;
         }
 
         public int GetToolTip(IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.LPWStr)] out string ppszInfotip)
         {
-            throw new NotImplementedException();
+            ppszInfotip = string.Empty;
+            return 0;
         }
 
         public int Invoke(IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.Interface)] object pbc)
         {
-            throw new NotImplementedException();
+            return 0;
         }
     }
 }

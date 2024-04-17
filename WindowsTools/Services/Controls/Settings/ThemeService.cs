@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Windows.UI.Xaml;
 using WindowsTools.Extensions.DataType.Constant;
 using WindowsTools.Services.Root;
-using WindowsTools.Views.Pages;
-using WindowsTools.Views.Windows;
 
 namespace WindowsTools.Services.Controls.Settings
 {
@@ -18,9 +17,25 @@ namespace WindowsTools.Services.Controls.Settings
 
         private static DictionaryEntry defaultAppTheme;
 
-        public static DictionaryEntry AppTheme { get; private set; }
+        private static DictionaryEntry _appTheme;
+
+        public static DictionaryEntry AppTheme
+        {
+            get { return _appTheme; }
+
+            private set
+            {
+                if (!Equals(_appTheme, value))
+                {
+                    _appTheme = value;
+                    PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(AppTheme)));
+                }
+            }
+        }
 
         public static List<DictionaryEntry> ThemeList { get; private set; }
+
+        public static event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// 应用在初始化前获取设置存储的主题值
@@ -60,15 +75,6 @@ namespace WindowsTools.Services.Controls.Settings
             AppTheme = theme;
 
             LocalSettingsService.SaveSetting(settingsKey, theme.Value);
-        }
-
-        /// <summary>
-        /// 设置应用显示的主题
-        /// </summary>
-        public static void SetWindowTheme()
-        {
-            (MainWindow.Current.Content as MainPage).WindowTheme = (ElementTheme)Enum.Parse(typeof(ElementTheme), AppTheme.Value.ToString());
-            MainWindow.Current.SetAppTheme();
         }
     }
 }

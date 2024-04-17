@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using WindowsTools.Views.Windows;
 
 namespace WindowsTools.Helpers.Controls
 {
@@ -21,6 +23,8 @@ namespace WindowsTools.Helpers.Controls
             if (!isDialogOpening && dialog is not null && element is not null)
             {
                 isDialogOpening = true;
+                MainWindow.Current.FormBorderStyle = FormBorderStyle.FixedSingle;
+                MainWindow.Current.MaximizeBox = false;
                 dialog.XamlRoot = element.XamlRoot;
                 dialog.RequestedTheme = element.ActualTheme;
                 element.ActualThemeChanged += (sender, args) =>
@@ -28,6 +32,8 @@ namespace WindowsTools.Helpers.Controls
                     dialog.RequestedTheme = element.ActualTheme;
                 };
                 dialogResult = await dialog.ShowAsync();
+                MainWindow.Current.FormBorderStyle = FormBorderStyle.Sizable;
+                MainWindow.Current.MaximizeBox = true;
                 isDialogOpening = false;
             }
             return dialogResult;

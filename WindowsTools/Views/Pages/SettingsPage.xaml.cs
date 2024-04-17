@@ -199,7 +199,6 @@ namespace WindowsTools.Views.Pages
             {
                 Backdrop = BackdropList[Convert.ToInt32(item.Tag)];
                 BackdropService.SetBackdrop(Backdrop);
-                BackdropService.SetAppBackdrop();
             }
         }
 
@@ -243,7 +242,6 @@ namespace WindowsTools.Views.Pages
             {
                 Theme = ThemeList[Convert.ToInt32(item.Tag)];
                 ThemeService.SetTheme(Theme);
-                ThemeService.SetWindowTheme();
             }
         }
 
@@ -299,7 +297,6 @@ namespace WindowsTools.Views.Pages
             if (toggleSwitch is not null)
             {
                 TopMostService.SetTopMostValue(toggleSwitch.IsOn);
-                TopMostService.SetAppTopMost();
                 TopMostValue = toggleSwitch.IsOn;
             }
         }

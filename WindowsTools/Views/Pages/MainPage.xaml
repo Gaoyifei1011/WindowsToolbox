@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:WindowsTools.Strings"
+    xmlns:sys="using:System"
     ActualThemeChanged="{x:Bind OnActualThemeChanged}"
     RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}"
     mc:Ignorable="d">
@@ -55,7 +56,7 @@
 
                     <MenuFlyoutItem
                         Click="{x:Bind OnRestoreClicked}"
-                        IsEnabled="{x:Bind IsWindowMaximized, Mode=OneWay}"
+                        IsEnabled="{x:Bind GetWindowMaximizeState(IsWindowMaximized, IsWindowMaximizeEnabled, sys:String.Empty), Mode=OneWay}"
                         Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                         Text="{x:Bind string:Window.Restore}">
 
@@ -90,7 +91,7 @@
 
                     <MenuFlyoutItem
                         Click="{x:Bind OnMaximizeClicked}"
-                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsWindowMaximized), Mode=OneWay}"
+                        IsEnabled="{x:Bind GetWindowMaximizeState(IsWindowMaximized, IsWindowMaximizeEnabled, 'isReverse'), Mode=OneWay}"
                         Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                         Text="{x:Bind string:Window.Maximize}">
 

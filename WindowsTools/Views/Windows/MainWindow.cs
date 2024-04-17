@@ -36,7 +36,6 @@ namespace WindowsTools.Views.Windows
     /// </summary>
     public class MainWindow : Form
     {
-        private IntPtr uwpCoreHandle;
         private IntPtr inputNonClientPointerSourceHandle;
         private DispatcherQueueController dispatcherQueueController;
         private DesktopWindowTarget desktopWindowTarget;
@@ -89,6 +88,10 @@ namespace WindowsTools.Views.Windows
                 inputNonClientPointerSourceSubClassProc = new SUBCLASSPROC(InputNonClientPointerSourceSubClassProc);
                 Comctl32Library.SetWindowSubclass((IntPtr)AppWindow.Id.Value, inputNonClientPointerSourceSubClassProc, 0, IntPtr.Zero);
             }
+
+            ThemeService.PropertyChanged += OnServicePropertyChanged;
+            BackdropService.PropertyChanged += OnServicePropertyChanged;
+            TopMostService.PropertyChanged += OnServicePropertyChanged;
 
             systemTrayWindow.Show();
             SystemTrayService.InitializeSystemTray(Strings.Window.AppTitle, Process.GetCurrentProcess().MainModule.FileName);
@@ -173,9 +176,16 @@ namespace WindowsTools.Views.Windows
                 systemBackdropController = null;
             }
 
+            ThemeService.PropertyChanged -= OnServicePropertyChanged;
+            BackdropService.PropertyChanged -= OnServicePropertyChanged;
+            TopMostService.PropertyChanged -= OnServicePropertyChanged;
+
             systemTrayWindow.Close();
             systemTrayWindow.Dispose();
             systemTrayWindow = null;
+
+            SystemTrayService.MouseClick -= OnSystemTrayClick;
+            SystemTrayService.MouseDoubleClick -= OnSystemTrayDoubleClick;
         }
 
         /// <summary>
@@ -193,15 +203,21 @@ namespace WindowsTools.Views.Windows
         protected override void OnLoad(EventArgs args)
         {
             base.OnLoad(args);
-            ThemeService.SetWindowTheme();
-            TopMostService.SetAppTopMost();
+            SetWindowTheme();
+            TopMost = TopMostService.TopMostValue;
             InitializeDesktopWindowTarget(Handle, false);
-            BackdropService.SetAppBackdrop();
+            SetWindowBackdrop();
 
             if (inputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
             {
                 User32Library.SetWindowPos(inputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * ((double)DeviceDpi / 96)), 0, (int)((Width - 45) * ((double)DeviceDpi / 96)), (int)(45 * ((double)DeviceDpi / 96)), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
             }
+        }
+
+        protected override void OnStyleChanged(EventArgs args)
+        {
+            base.OnStyleChanged(args);
+            (Content as MainPage).IsWindowMaximizeEnabled = MaximizeBox;
         }
 
         /// <summary>
@@ -252,6 +268,7 @@ namespace WindowsTools.Views.Windows
         protected override void OnSizeChanged(EventArgs args)
         {
             base.OnSizeChanged(args);
+            (Content as MainPage).IsWindowMaximizeEnabled = MaximizeBox;
             (Content as MainPage).IsWindowMaximized = WindowState is FormWindowState.Maximized;
 
             if (Content.XamlRoot is not null)
@@ -272,11 +289,32 @@ namespace WindowsTools.Views.Windows
             {
                 User32Library.SetWindowPos(inputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * ((double)DeviceDpi / 96)), 0, (int)((Width - 45) * ((double)DeviceDpi / 96)), (int)(45 * ((double)DeviceDpi / 96)), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
             }
+        }
 
-            if (uwpCoreHandle != IntPtr.Zero)
+        #endregion 第一部分：窗口类内置需要重载的事件
+
+        #region 第二部分：自定义事件
+
+        /// <summary>
+        /// 设置选项发生变化时触发的事件
+        /// </summary>
+        private void OnServicePropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            BeginInvoke(() =>
             {
-                User32Library.SetWindowPos(uwpCoreHandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
-            }
+                if (args.PropertyName.Equals(nameof(ThemeService.AppTheme)))
+                {
+                    SetWindowTheme();
+                }
+                if (args.PropertyName.Equals(nameof(BackdropService.AppBackdrop)))
+                {
+                    SetWindowBackdrop();
+                }
+                if (args.PropertyName.Equals(nameof(TopMostService.TopMostValue)))
+                {
+                    TopMost = TopMostService.TopMostValue;
+                }
+            });
         }
 
         /// <summary>
@@ -305,9 +343,9 @@ namespace WindowsTools.Views.Windows
             }
         }
 
-        #endregion 第一部分：窗口类内置需要重载的事件
+        #endregion 第二部分：自定义事件
 
-        #region 第二部分：窗口过程
+        #region 第三部分：窗口过程
 
         /// <summary>
         /// 处理 Windows 消息
@@ -330,7 +368,7 @@ namespace WindowsTools.Views.Windows
                 // 应用主题设置跟随系统发生变化时，当系统主题设置发生变化时修改修改应用背景色
                 case (int)WindowMessage.WM_SETTINGCHANGE:
                     {
-                        SetAppTheme();
+                        SetWindowTheme();
                         break;
                     }
                 // 选择窗口右键菜单的条目时接收到的消息
@@ -429,9 +467,9 @@ namespace WindowsTools.Views.Windows
             return Comctl32Library.DefSubclassProc(hWnd, Msg, wParam, lParam);
         }
 
-        #endregion 第二部分：窗口过程
+        #endregion 第三部分：窗口过程
 
-        #region 第三部分：窗口属性设置
+        #region 第四部分：窗口属性设置
 
         /// <summary>
         /// 设置标题栏按钮的颜色
@@ -472,8 +510,10 @@ namespace WindowsTools.Views.Windows
         /// <summary>
         /// 设置应用的主题色
         /// </summary>
-        public void SetAppTheme()
+        public void SetWindowTheme()
         {
+            (Content as MainPage).WindowTheme = (ElementTheme)Enum.Parse(typeof(ElementTheme), ThemeService.AppTheme.Value.ToString());
+
             if (ThemeService.AppTheme.Value.Equals(ThemeService.ThemeList[0].Value))
             {
                 if (global::Windows.UI.Xaml.Application.Current.RequestedTheme is ApplicationTheme.Light)
@@ -620,7 +660,7 @@ namespace WindowsTools.Views.Windows
             }
         }
 
-        #endregion 第三部分：窗口属性设置
+        #endregion 第四部分：窗口属性设置
 
         /// <summary>
         /// 初始化 DesktopWindowTarget（表示作为合成目标的窗口）

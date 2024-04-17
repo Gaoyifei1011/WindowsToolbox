@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using WindowsToolsShellExtension.WindowsAPI.ComTypes;
@@ -41,27 +40,30 @@ namespace WindowsToolsShellExtension.Commands
         /// <summary>
         /// 检索指定数量的直接跟随当前元素的元素。
         /// </summary>
-        public int Next(uint celt, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.Interface, SizeParamIndex = 0)] out IExplorerCommand[] pUICommand, out uint pceltFetched)
+        public int Next(uint celt, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.Interface, SizeParamIndex = 0)] IExplorerCommand[] pUICommand, out uint pceltFetched)
         {
-            pceltFetched = Math.Min(celt, (uint)subExplorerCommands.Length - index);
+            pceltFetched = 0;
 
-            if (pceltFetched is 0)
+            if (index <= subExplorerCommands.Length)
             {
-                pUICommand = Array.Empty<SubExplorerCommand>();
-            }
-            else
-            {
-                pUICommand = new SubExplorerCommand[pceltFetched];
+                uint uIndex = 0;
 
-                for (uint i = 0; i < pceltFetched; i++)
+                while (uIndex < celt && index < subExplorerCommands.Length)
                 {
-                    pUICommand[i] = subExplorerCommands[index + i];
+                    pUICommand[uIndex] = subExplorerCommands[index];
+                    uIndex++;
+                    index++;
                 }
 
-                index += pceltFetched;
+                pceltFetched = uIndex;
+
+                if (uIndex == celt)
+                {
+                    return 0;
+                }
             }
 
-            return index == pUICommand.Length ? 1 : 0;
+            return 1;
         }
 
         /// <summary>
@@ -78,7 +80,12 @@ namespace WindowsToolsShellExtension.Commands
         /// </summary>
         public int Skip(uint celt)
         {
-            index = (uint)Math.Min(index + celt, subExplorerCommands.Length);
+            index += celt;
+            if (index > subExplorerCommands.Length)
+            {
+                index = (uint)subExplorerCommands.Length;
+                return 1;
+            }
             return 0;
         }
     }

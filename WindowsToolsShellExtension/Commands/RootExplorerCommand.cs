@@ -92,12 +92,14 @@ namespace WindowsToolsShellExtension.Commands
         /// </summary>
         public int EnumSubCommands(out IEnumExplorerCommand ppEnum)
         {
-            SubExplorerCommand[] subExplorerCommands = new SubExplorerCommand[5];
+            SubExplorerCommand[] subExplorerCommands = new SubExplorerCommand[1];
+            subExplorerCommands[0] = new SubExplorerCommand();
 
             if (subExplorerCommands.Length > 0)
             {
                 EnumExplorerCommand enumExplorerCommand = new EnumExplorerCommand(subExplorerCommands);
                 ppEnum = enumExplorerCommand;
+
                 return 0;
             }
             else

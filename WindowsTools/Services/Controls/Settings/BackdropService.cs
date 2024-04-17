@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using WindowsTools.Extensions.DataType.Constant;
 using WindowsTools.Services.Root;
-using WindowsTools.Views.Windows;
 
 namespace WindowsTools.Services.Controls.Settings
 {
@@ -16,9 +16,25 @@ namespace WindowsTools.Services.Controls.Settings
 
         private static DictionaryEntry defaultAppBackdrop;
 
-        public static DictionaryEntry AppBackdrop { get; private set; }
+        private static DictionaryEntry _appBackdrop;
+
+        public static DictionaryEntry AppBackdrop
+        {
+            get { return _appBackdrop; }
+
+            private set
+            {
+                if (!Equals(_appBackdrop, value))
+                {
+                    _appBackdrop = value;
+                    PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(AppBackdrop)));
+                }
+            }
+        }
 
         public static List<DictionaryEntry> BackdropList { get; private set; }
+
+        public static event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// 应用在初始化前获取设置存储的背景色值
@@ -58,14 +74,6 @@ namespace WindowsTools.Services.Controls.Settings
             AppBackdrop = backdrop;
 
             LocalSettingsService.SaveSetting(settingsKey, backdrop.Value);
-        }
-
-        /// <summary>
-        /// 设置应用显示的背景色
-        /// </summary>
-        public static void SetAppBackdrop()
-        {
-            MainWindow.Current.SetWindowBackdrop();
         }
     }
 }

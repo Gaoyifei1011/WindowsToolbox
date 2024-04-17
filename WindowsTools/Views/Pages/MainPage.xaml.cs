@@ -75,6 +75,22 @@ namespace WindowsTools.Views.Pages
             }
         }
 
+        private bool _isWindowMaximizeEnabled;
+
+        public bool IsWindowMaximizeEnabled
+        {
+            get { return _isWindowMaximizeEnabled; }
+
+            set
+            {
+                if (!Equals(_isWindowMaximizeEnabled, value))
+                {
+                    _isWindowMaximizeEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsWindowMaximized)));
+                }
+            }
+        }
+
         private Microsoft.UI.Xaml.Controls.NavigationViewItem _selectedItem;
 
         public Microsoft.UI.Xaml.Controls.NavigationViewItem SelectedItem
@@ -638,6 +654,18 @@ namespace WindowsTools.Views.Pages
                         }
                     });
                 }
+            }
+        }
+
+        private bool GetWindowMaximizeState(bool isWindowMaximized, bool isWindowMaximizeEnabled, string isReverse)
+        {
+            if (isWindowMaximizeEnabled)
+            {
+                return isReverse == nameof(isReverse) ? isWindowMaximized.Equals(false) : isWindowMaximized;
+            }
+            else
+            {
+                return false;
             }
         }
     }
