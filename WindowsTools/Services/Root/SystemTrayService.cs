@@ -1,5 +1,10 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
+using Windows.UI.Xaml;
+using WindowsTools.Services.Controls.Settings;
+using WindowsTools.WindowsAPI.PInvoke.Uxtheme;
 
 namespace WindowsTools.Services.Root
 {
@@ -10,14 +15,14 @@ namespace WindowsTools.Services.Root
     {
         private static NotifyIcon notifyIcon;
 
-        public static event MouseEventHandler MouseClick;
+        public static event EventHandler MenuItemClick;
 
         public static event MouseEventHandler MouseDoubleClick;
 
         /// <summary>
         /// 初始化系统托盘
         /// </summary>
-        public static void InitializeSystemTray(string content, string iconPath)
+        public static void InitializeSystemTray(string content, string iconPath, List<MenuItem> contextMenuItemList)
         {
             if (notifyIcon is null)
             {
@@ -25,8 +30,14 @@ namespace WindowsTools.Services.Root
                 notifyIcon.Text = content;
                 notifyIcon.Icon = Icon.ExtractAssociatedIcon(iconPath);
                 notifyIcon.Visible = true;
-                notifyIcon.MouseClick += OnMouseClick;
+                notifyIcon.ContextMenu = new ContextMenu();
                 notifyIcon.MouseDoubleClick += OnMouseDoubleClick;
+
+                foreach (MenuItem menuItem in contextMenuItemList)
+                {
+                    menuItem.Click += OnItemClick;
+                    notifyIcon.ContextMenu.MenuItems.Add(menuItem);
+                }
             }
         }
 
@@ -38,7 +49,11 @@ namespace WindowsTools.Services.Root
             if (notifyIcon is not null)
             {
                 notifyIcon.Visible = false;
-                notifyIcon.MouseClick -= OnMouseClick;
+                notifyIcon.MouseDoubleClick -= OnMouseDoubleClick;
+                foreach (MenuItem menuItem in notifyIcon.ContextMenu.MenuItems)
+                {
+                    menuItem.Click -= OnItemClick;
+                }
                 notifyIcon.Dispose();
                 notifyIcon = null;
             }
@@ -47,9 +62,9 @@ namespace WindowsTools.Services.Root
         /// <summary>
         /// 处理托盘菜单鼠标点击事件
         /// </summary>
-        private static void OnMouseClick(object sender, MouseEventArgs args)
+        private static void OnItemClick(object sender, EventArgs args)
         {
-            MouseClick?.Invoke(sender, args);
+            MenuItemClick?.Invoke(sender, args);
         }
 
         /// <summary>
@@ -58,6 +73,33 @@ namespace WindowsTools.Services.Root
         private static void OnMouseDoubleClick(object sender, MouseEventArgs args)
         {
             MouseDoubleClick?.Invoke(sender, args);
+        }
+
+        public static void SetMenuTheme()
+        {
+            if (ThemeService.AppTheme.Equals(ThemeService.ThemeList[0]))
+            {
+                if (Windows.UI.Xaml.Application.Current.RequestedTheme is ApplicationTheme.Light)
+                {
+                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
+                    UxthemeLibrary.FlushMenuThemes();
+                }
+                else
+                {
+                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
+                    UxthemeLibrary.FlushMenuThemes();
+                }
+            }
+            else if (ThemeService.AppTheme.Equals(ThemeService.ThemeList[1]))
+            {
+                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
+                UxthemeLibrary.FlushMenuThemes();
+            }
+            else if (ThemeService.AppTheme.Equals(ThemeService.ThemeList[2]))
+            {
+                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
+                UxthemeLibrary.FlushMenuThemes();
+            }
         }
     }
 }

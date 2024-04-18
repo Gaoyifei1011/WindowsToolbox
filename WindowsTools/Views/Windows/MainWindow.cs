@@ -22,6 +22,7 @@ using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
+using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.Views.Pages;
 using WindowsTools.WindowsAPI.ComTypes;
@@ -44,7 +45,6 @@ namespace WindowsTools.Views.Windows
         private WindowsXamlHost windowsXamlHost = new WindowsXamlHost();
         private SystemBackdropConfiguration systemBackdropConfiguration = new SystemBackdropConfiguration();
         private SUBCLASSPROC inputNonClientPointerSourceSubClassProc;
-        private SystemTrayWindow systemTrayWindow = new SystemTrayWindow();
 
         public AppWindow AppWindow { get; private set; }
 
@@ -93,9 +93,15 @@ namespace WindowsTools.Views.Windows
             BackdropService.PropertyChanged += OnServicePropertyChanged;
             TopMostService.PropertyChanged += OnServicePropertyChanged;
 
-            systemTrayWindow.Show();
-            SystemTrayService.InitializeSystemTray(Strings.Window.AppTitle, Process.GetCurrentProcess().MainModule.FileName);
-            SystemTrayService.MouseClick += OnSystemTrayClick;
+            List<MenuItem> menuItemList = new List<MenuItem>()
+            {
+                new MenuItem() { Text = SystemTray.ShowOrHideWindow ,Tag = nameof(SystemTray.ShowOrHideWindow) },
+                new MenuItem() { Text = "-" },
+                new MenuItem() { Text = SystemTray.Exit,Tag = nameof(SystemTray.Exit) }
+            };
+
+            SystemTrayService.InitializeSystemTray(Strings.Window.AppTitle, Process.GetCurrentProcess().MainModule.FileName, menuItemList);
+            SystemTrayService.MenuItemClick += OnMenuItemClick;
             SystemTrayService.MouseDoubleClick += OnSystemTrayDoubleClick;
         }
 
@@ -180,11 +186,7 @@ namespace WindowsTools.Views.Windows
             BackdropService.PropertyChanged -= OnServicePropertyChanged;
             TopMostService.PropertyChanged -= OnServicePropertyChanged;
 
-            systemTrayWindow.Close();
-            systemTrayWindow.Dispose();
-            systemTrayWindow = null;
-
-            SystemTrayService.MouseClick -= OnSystemTrayClick;
+            SystemTrayService.MenuItemClick -= OnMenuItemClick;
             SystemTrayService.MouseDoubleClick -= OnSystemTrayDoubleClick;
         }
 
@@ -205,6 +207,7 @@ namespace WindowsTools.Views.Windows
             base.OnLoad(args);
             SetWindowTheme();
             TopMost = TopMostService.TopMostValue;
+            SystemTrayService.SetMenuTheme();
             InitializeDesktopWindowTarget(Handle, false);
             SetWindowBackdrop();
 
@@ -214,6 +217,9 @@ namespace WindowsTools.Views.Windows
             }
         }
 
+        /// <summary>
+        /// 窗体样式发生改变后的事件
+        /// </summary>
         protected override void OnStyleChanged(EventArgs args)
         {
             base.OnStyleChanged(args);
@@ -305,6 +311,7 @@ namespace WindowsTools.Views.Windows
                 if (args.PropertyName.Equals(nameof(ThemeService.AppTheme)))
                 {
                     SetWindowTheme();
+                    SystemTrayService.SetMenuTheme();
                 }
                 if (args.PropertyName.Equals(nameof(BackdropService.AppBackdrop)))
                 {
@@ -320,11 +327,29 @@ namespace WindowsTools.Views.Windows
         /// <summary>
         /// 托盘图标鼠标单击事件
         /// </summary>
-        private void OnSystemTrayClick(object sender, MouseEventArgs args)
+        private void OnMenuItemClick(object sender, EventArgs args)
         {
-            if (systemTrayWindow is not null && args.Button is MouseButtons.Right)
+            MenuItem menuItem = sender as MenuItem;
+
+            if (menuItem is not null)
             {
-                systemTrayWindow.ShowSystemTrayMenu();
+                string tag = Convert.ToString(menuItem.Tag);
+
+                if (tag == nameof(SystemTray.ShowOrHideWindow))
+                {
+                    if (Visible)
+                    {
+                        Hide();
+                    }
+                    else
+                    {
+                        Show();
+                    }
+                }
+                else if (tag == nameof(SystemTray.Exit))
+                {
+                    (global::Windows.UI.Xaml.Application.Current as App).Dispose();
+                }
             }
         }
 
@@ -369,6 +394,7 @@ namespace WindowsTools.Views.Windows
                 case (int)WindowMessage.WM_SETTINGCHANGE:
                     {
                         SetWindowTheme();
+                        SystemTrayService.SetMenuTheme();
                         break;
                     }
                 // 选择窗口右键菜单的条目时接收到的消息

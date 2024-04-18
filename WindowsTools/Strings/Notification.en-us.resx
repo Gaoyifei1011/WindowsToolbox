@@ -201,6 +201,9 @@
   <data name="TaskbarSuccessfully" xml:space="preserve">
     <value>The app was successfully pinned to the taskbar</value>
   </data>
+  <data name="TextEmpty" xml:space="preserve">
+    <value>Can not set to empty text</value>
+  </data>
   <data name="UpdateInformationCopy" xml:space="preserve">
     <value>The update information was successfully copied to the clipboard</value>
   </data>

@@ -375,6 +375,10 @@
     <EmbeddedResource Update="Strings\WinSAT.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Controls\Pages\" />
+  </ItemGroup>
+
   <Target Name="SignExeFile" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">
     <Exec Command="$(ProjectDir)signtool.exe sign /f $(SolutionDir)$(AssemblyName)Package\$(AssemblyName)Package_SignKey.pfx /t http://timestamp.digicert.com /fd SHA256 $(ProjectDir)$(BaseOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).exe" />
   </Target>

@@ -201,6 +201,9 @@
   <data name="TaskbarSuccessfully" xml:space="preserve">
     <value>已成功将应用固定到任务栏</value>
   </data>
+  <data name="TextEmpty" xml:space="preserve">
+    <value>不能设置为空文本</value>
+  </data>
   <data name="UpdateInformationCopy" xml:space="preserve">
     <value>更新描述信息已成功复制到剪贴板</value>
   </data>

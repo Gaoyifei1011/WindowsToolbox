@@ -80,7 +80,7 @@ namespace WindowsTools.Helpers.Root
         {
             try
             {
-                RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(rootkey, true);
+                RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(rootkey, true);
 
                 if (registryKey is not null)
                 {

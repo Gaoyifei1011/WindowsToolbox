@@ -88,6 +88,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Windows tools 的本地化字符串。
+        /// </summary>
+        public static string DefaultRootText {
+            get {
+                return ResourceManager.GetString("DefaultRootText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Icon file(*.ico)|*.ico 的本地化字符串。
+        /// </summary>
+        public static string FilterCondition {
+            get {
+                return ResourceManager.GetString("FilterCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Menu list 的本地化字符串。
         /// </summary>
         public static string MenuList {
@@ -151,11 +169,29 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Select icon 的本地化字符串。
+        /// </summary>
+        public static string SelectIcon {
+            get {
+                return ResourceManager.GetString("SelectIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Custom shell menu 的本地化字符串。
         /// </summary>
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 After the menu content is updated, there may be a delay. Please open it after a period of time 的本地化字符串。
+        /// </summary>
+        public static string TitleDescription {
+            get {
+                return ResourceManager.GetString("TitleDescription", resourceCulture);
             }
         }
     }

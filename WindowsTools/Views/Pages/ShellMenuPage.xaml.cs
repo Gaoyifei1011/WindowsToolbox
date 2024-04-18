@@ -1,8 +1,18 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics.Tracing;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Services.Root;
+using WindowsTools.Services.Shell;
+using WindowsTools.Strings;
+using WindowsTools.UI.TeachingTips;
+using WindowsTools.Views.Windows;
 
 namespace WindowsTools.Views.Pages
 {
@@ -11,18 +21,18 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class ShellMenuPage : Page, INotifyPropertyChanged
     {
-        private BitmapImage _iconImage;
+        private BitmapImage _rootMenuImage;
 
-        public BitmapImage IconImage
+        public BitmapImage RootMenuImage
         {
-            get { return _iconImage; }
+            get { return _rootMenuImage; }
 
             set
             {
-                if (!Equals(_iconImage, value))
+                if (!Equals(_rootMenuImage, value))
                 {
-                    _iconImage = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IconImage)));
+                    _rootMenuImage = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RootMenuImage)));
                 }
             }
         }
@@ -38,7 +48,7 @@ namespace WindowsTools.Views.Pages
                 if (!Equals(_rootMenuText, value))
                 {
                     _rootMenuText = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IconImage)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RootMenuText)));
                 }
             }
         }
@@ -48,6 +58,16 @@ namespace WindowsTools.Views.Pages
         public ShellMenuPage()
         {
             InitializeComponent();
+            try
+            {
+                RootMenuImage = new BitmapImage() { UriSource = new Uri(ShellMenuService.RootMenuIconPath) };
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, "Set root menu icon failed", e);
+            }
+
+            RootMenuText = ShellMenuService.RootMenuText;
         }
 
         #region 第一部分：自定义扩展菜单页面——挂载的事件
@@ -57,6 +77,31 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnModifyClicked(object sender, RoutedEventArgs args)
         {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Filter = ShellMenu.FilterCondition;
+            dialog.Title = ShellMenu.SelectIcon;
+            if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
+            {
+                try
+                {
+                    Task.Run(() =>
+                    {
+                        string rootMenuFilePath = Path.Combine(ShellMenuService.ShellMenuConfigDirectory.FullName, "RootMenu.png");
+                        File.Copy(dialog.FileName, rootMenuFilePath, true);
+                        ShellMenuService.SetRootMenuIcon(false, rootMenuFilePath);
+
+                        MainWindow.Current.BeginInvoke(() =>
+                        {
+                            RootMenuImage = new BitmapImage() { UriSource = new Uri(rootMenuFilePath) };
+                        });
+                    });
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Set root menu icon failed", e);
+                }
+            }
         }
 
         /// <summary>
@@ -64,19 +109,56 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnReturnDefaultClicked(object sender, RoutedEventArgs args)
         {
-            Button button = sender as Button;
+            global::Windows.UI.Xaml.Controls.Button button = sender as global::Windows.UI.Xaml.Controls.Button;
 
             if (button is not null)
             {
                 string tag = Convert.ToString(button.Tag);
 
-                if (tag.Equals("Icon"))
+                Task.Run(() =>
                 {
-                }
-                else if (tag.Equals("Text"))
-                {
-                }
+                    if (tag.Equals("Icon"))
+                    {
+                        ShellMenuService.SetRootMenuIcon(true, string.Empty);
+
+                        try
+                        {
+                            string rootMenuFilePath = Path.Combine(ShellMenuService.ShellMenuConfigDirectory.FullName, "RootMenu.png");
+
+                            if (File.Exists(rootMenuFilePath))
+                            {
+                                File.Delete(rootMenuFilePath);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Warning, "Delete RootMenu.png failed", e);
+                        }
+
+                        MainWindow.Current.BeginInvoke(() =>
+                        {
+                            RootMenuImage = new BitmapImage() { UriSource = new Uri(ShellMenuService.RootMenuIconPath) };
+                        });
+                    }
+                    else if (tag.Equals("Text"))
+                    {
+                        ShellMenuService.SetRootMenuText(true, string.Empty);
+
+                        MainWindow.Current.BeginInvoke(() =>
+                        {
+                            RootMenuText = ShellMenuService.RootMenuText;
+                        });
+                    }
+                });
             }
+        }
+
+        /// <summary>
+        /// 根菜单文字设置框文本内容发生变化时的事件
+        /// </summary>
+        private void OnRootMenuTextChanged(object sender, TextChangedEventArgs args)
+        {
+            RootMenuText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
         }
 
         /// <summary>
@@ -84,6 +166,17 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnApplyClicked(object sender, RoutedEventArgs args)
         {
+            if (string.IsNullOrEmpty(RootMenuText))
+            {
+                RootMenuText = ShellMenuService.RootMenuText;
+                TeachingTipHelper.Show(new TextEmptyTip());
+                return;
+            }
+
+            Task.Run(() =>
+            {
+                ShellMenuService.SetRootMenuText(false, RootMenuText);
+            });
         }
 
         /// <summary>

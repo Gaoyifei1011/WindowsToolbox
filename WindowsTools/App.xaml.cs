@@ -55,7 +55,7 @@ namespace WindowsTools
                 {
                     this.ThreadUninitialize();
                     MainWindow.Current?.Close();
-                    //SystemTrayService.CloseSystemTray();
+                    SystemTrayService.CloseSystemTray();
                     System.Windows.Forms.Application.Exit();
                 }
 

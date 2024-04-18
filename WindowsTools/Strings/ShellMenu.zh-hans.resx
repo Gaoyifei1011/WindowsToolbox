@@ -126,6 +126,12 @@
   <data name="ApplyModify" xml:space="preserve">
     <value>应用更改</value>
   </data>
+  <data name="DefaultRootText" xml:space="preserve">
+    <value>Windows 工具箱</value>
+  </data>
+  <data name="FilterCondition" xml:space="preserve">
+    <value>图标文件(*.ico)|*.ico</value>
+  </data>
   <data name="MenuList" xml:space="preserve">
     <value>菜单列表</value>
   </data>
@@ -147,7 +153,13 @@
   <data name="RootMenuSettings" xml:space="preserve">
     <value>根菜单设置</value>
   </data>
+  <data name="SelectIcon" xml:space="preserve">
+    <value>选择图标</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>自定义扩展菜单</value>
+  </data>
+  <data name="TitleDescription" xml:space="preserve">
+    <value>菜单内容更新后，可能会存在延迟，请过一段时间再打开</value>
   </data>
 </root>

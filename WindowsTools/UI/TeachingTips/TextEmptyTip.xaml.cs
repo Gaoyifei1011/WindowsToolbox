@@ -3,11 +3,11 @@
 namespace WindowsTools.UI.TeachingTips
 {
     /// <summary>
-    /// 文本内容为空时应用内通知
+    /// 列表内容为空时应用内通知
     /// </summary>
-    public sealed partial class TextEmptyTip : TeachingTip
+    public sealed partial class ListEmptyTip : TeachingTip
     {
-        public TextEmptyTip()
+        public ListEmptyTip()
         {
             InitializeComponent();
         }

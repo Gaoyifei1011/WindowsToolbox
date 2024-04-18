@@ -2,9 +2,9 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using WindowsTools.Services.Shell;
 using WindowsToolsShellExtension.Helpers.Root;
 using WindowsToolsShellExtension.Services.Controls.Settings;
-using WindowsToolsShellExtension.Strings;
 using WindowsToolsShellExtension.WindowsAPI.ComTypes;
 using WindowsToolsShellExtension.WindowsAPI.PInvoke.Kernel32;
 
@@ -21,7 +21,7 @@ namespace WindowsToolsShellExtension.Commands
         /// </summary>
         public int GetTitle(IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.LPWStr)] out string ppszName)
         {
-            ppszName = ShellMenu.RootItemTitle;
+            ppszName = ShellMenuService.RootMenuText;
             return 0;
         }
 
@@ -30,10 +30,7 @@ namespace WindowsToolsShellExtension.Commands
         /// </summary>
         public unsafe int GetIcon(IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.LPWStr)] out string ppszIcon)
         {
-            char* pathbuffer = stackalloc char[256];
-            int length = 256;
-            Kernel32Library.GetCurrentPackagePath(ref length, pathbuffer);
-            ppszIcon = Path.Combine(new string(pathbuffer), @"Assets\WindowsTools.ico");
+            ppszIcon = ShellMenuService.RootMenuIconPath;
             return 0;
         }
 

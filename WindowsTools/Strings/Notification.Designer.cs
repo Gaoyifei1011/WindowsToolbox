@@ -313,6 +313,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Can not set to empty text 的本地化字符串。
+        /// </summary>
+        public static string TextEmpty {
+            get {
+                return ResourceManager.GetString("TextEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The update information was successfully copied to the clipboard 的本地化字符串。
         /// </summary>
         public static string UpdateInformationCopy {

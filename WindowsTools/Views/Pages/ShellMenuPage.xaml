@@ -12,6 +12,7 @@
     <Grid Padding="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -21,8 +22,13 @@
             FontSize="22"
             Text="{x:Bind string:ShellMenu.Title}" />
 
-        <ScrollViewer
+        <TextBlock
             Grid.Row="1"
+            Margin="32,0,32,6"
+            Text="{x:Bind string:ShellMenu.TitleDescription}" />
+
+        <ScrollViewer
+            Grid.Row="2"
             HorizontalScrollBarVisibility="Disabled"
             HorizontalScrollMode="Disabled"
             VerticalScrollBarVisibility="Auto"
@@ -82,7 +88,7 @@
                         Width="28"
                         Height="28"
                         VerticalAlignment="Center"
-                        Source="{x:Bind IconImage, Mode=OneWay}" />
+                        Source="{x:Bind RootMenuImage, Mode=OneWay}" />
 
                     <Button
                         Grid.Column="2"
@@ -126,7 +132,8 @@
                         MinWidth="150"
                         MaxWidth="450"
                         VerticalAlignment="Center"
-                        Text="{x:Bind RootMenuText, Mode=OneWay}" />
+                        Text="{x:Bind RootMenuText, Mode=OneWay}"
+                        TextChanged="{x:Bind OnRootMenuTextChanged}" />
 
                     <Button
                         Grid.Column="2"
