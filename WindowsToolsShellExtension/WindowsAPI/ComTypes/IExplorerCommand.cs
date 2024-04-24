@@ -7,7 +7,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
     /// <summary>
     /// 公开获取命令外观、枚举子命令或调用命令的方法。
     /// </summary>
-    [GeneratedComInterface, Guid("A08CE4D0-FA25-44AB-B57C-C7B1C323E0B9"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [GeneratedComInterface, Guid("A08CE4D0-FA25-44AB-B57C-C7B1C323E0B9")]
     public partial interface IExplorerCommand
     {
         /// <summary>

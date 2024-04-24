@@ -202,10 +202,27 @@
                             Click="{x:Bind OnSendFeedbackClicked}"
                             Content="{x:Bind string:About.SendFeedback}" />
 
-                        <Button
-                            MinWidth="130"
-                            Click="{x:Bind OnCheckUpdateClicked}"
-                            Content="{x:Bind string:About.CheckUpdate}" />
+                        <Button MinWidth="130" Click="{x:Bind OnCheckUpdateClicked}">
+
+                            <Button.Content>
+                                <Grid>
+                                    <TextBlock Text="{x:Bind string:About.CheckUpdate}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsChecking), Mode=OneWay}" />
+
+                                    <StackPanel
+                                        Orientation="Horizontal"
+                                        Spacing="5"
+                                        Visibility="{x:Bind IsChecking, Mode=OneWay}">
+
+                                        <muxc:ProgressRing
+                                            Width="16"
+                                            Height="16"
+                                            IsActive="{x:Bind IsChecking, Mode=OneWay}" />
+
+                                        <TextBlock Text="{x:Bind string:About.Checking}" />
+                                    </StackPanel>
+                                </Grid>
+                            </Button.Content>
+                        </Button>
                     </StackPanel>
                 </Grid>
 

@@ -7,7 +7,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
     /// <summary>
     /// 公开用于检索有关 Shell 项的信息的方法。 IShellItem 和 IShellItem2 是任何新代码中项的首选表示形式。
     /// </summary>
-    [GeneratedComInterface, Guid("43826D1E-E718-42EE-BC55-A1E261C37BFE"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [GeneratedComInterface, Guid("43826D1E-E718-42EE-BC55-A1E261C37BFE")]
     public partial interface IShellItem
     {
         /// <summary>

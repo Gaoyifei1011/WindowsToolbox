@@ -12,7 +12,7 @@
   <Identity
     Name="Gaoyifei1011.WindowsTools"
     Publisher="CN=高怡飞"
-    Version="2.3.418.0" />
+    Version="2.3.424.0" />
 
   <Properties>
     <DisplayName>ms-resource:PackageDisplayName</DisplayName>
@@ -52,18 +52,18 @@
       <Extensions>
         <com:Extension Category="windows.comServer">
           <com:ComServer>
-            <com:SurrogateServer>
-              <com:Class Id="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" Path="WindowsToolsShellExtension.dll" ThreadingModel="STA" />
+            <com:SurrogateServer AppId="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" DisplayName="WindowsToolsShellExtension">
+              <com:Class Id="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" Path="WindowsToolsShellExtension.dll" ThreadingModel="Both" />
             </com:SurrogateServer>
           </com:ComServer>
         </com:Extension>
         <desktop4:Extension Category="windows.fileExplorerContextMenus">
           <desktop4:FileExplorerContextMenus>
-            <desktop5:ItemType Type="*">
-              <desktop5:Verb Id="WindowsToolsCommand" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
-            </desktop5:ItemType>
+            <desktop4:ItemType Type="*">
+              <desktop4:Verb Id="CWindowsToolsCommand2" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
+            </desktop4:ItemType>
             <desktop5:ItemType Type="Directory">
-              <desktop5:Verb Id="WindowsToolsCommand" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
+              <desktop5:Verb Id="CWindowsToolsCommand3" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
             </desktop5:ItemType>
           </desktop4:FileExplorerContextMenus>
         </desktop4:Extension>

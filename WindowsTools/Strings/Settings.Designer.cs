@@ -214,11 +214,47 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Hide window to system tray 的本地化字符串。
+        /// </summary>
+        public static string CloseWindow {
+            get {
+                return ResourceManager.GetString("CloseWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Acrylic 的本地化字符串。
         /// </summary>
         public static string DesktopAcrylic {
             get {
                 return ResourceManager.GetString("DesktopAcrylic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Exit app 的本地化字符串。
+        /// </summary>
+        public static string ExitApp {
+            get {
+                return ResourceManager.GetString("ExitApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Exit mode 的本地化字符串。
+        /// </summary>
+        public static string ExitMode {
+            get {
+                return ResourceManager.GetString("ExitMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Application exit mode settings 的本地化字符串。
+        /// </summary>
+        public static string ExitModeDescription {
+            get {
+                return ResourceManager.GetString("ExitModeDescription", resourceCulture);
             }
         }
         

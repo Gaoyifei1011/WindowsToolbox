@@ -1,12 +1,17 @@
-﻿using System;
+﻿using IWshRuntimeLibrary;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
+using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
+using Windows.Data.Json;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -28,8 +33,24 @@ namespace WindowsTools.Views.Pages
     /// <summary>
     /// 关于页面
     /// </summary>
-    public sealed partial class AboutPage : Page
+    public sealed partial class AboutPage : Page, INotifyPropertyChanged
     {
+        private bool _isChecking;
+
+        public bool IsChecking
+        {
+            get { return _isChecking; }
+
+            set
+            {
+                if (!Equals(_isChecking, value))
+                {
+                    _isChecking = value;
+                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecking)));
+                }
+            }
+        }
+
         private static Guid taskbarPinCLSID = new Guid("90AA3A4E-1CBA-4233-B8BB-535773D48449");
         private static Guid ishellLinkCLSID = new Guid("00021401-0000-0000-C000-000000000046");
 
@@ -46,8 +67,11 @@ namespace WindowsTools.Views.Pages
         private Hashtable ThanksDict { get; } = new Hashtable()
         {
             { "AndromedaMelody","https://github.com/AndromedaMelody" },
+            { "MicaApps","https://github.com/MicaApps" },
             { "MouriNaruto" , "https://github.com/MouriNaruto" }
         };
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public AboutPage()
         {
@@ -67,8 +91,8 @@ namespace WindowsTools.Views.Pages
             {
                 try
                 {
-                    IWshRuntimeLibrary.IWshShell shell = new IWshRuntimeLibrary.WshShell();
-                    IWshRuntimeLibrary.WshShortcut appShortcut = (IWshRuntimeLibrary.WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), About.AppName));
+                    WshShell shell = new WshShell();
+                    WshShortcut appShortcut = (WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), About.AppName));
                     uint aumidLength = 260;
                     StringBuilder aumidBuilder = new StringBuilder((int)aumidLength);
                     Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
@@ -213,10 +237,83 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnCheckUpdateClicked(object sender, RoutedEventArgs args)
         {
-            Task.Run(() =>
+            if (!IsChecking)
             {
-                Process.Start("https://github.com/Gaoyifei1011/WindowsTools/releases");
-            });
+                IsChecking = true;
+
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        HttpClient httpClient = new HttpClient();
+                        httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
+                        httpClient.Timeout = new TimeSpan(0, 0, 30);
+                        HttpResponseMessage responseMessage = await httpClient.GetAsync(new Uri("https://api.github.com/repos/Gaoyifei1011/WindowsTools/releases/latest"));
+
+                        // 请求成功
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            StringBuilder responseBuilder = new StringBuilder();
+
+                            responseBuilder.Append("Status Code:");
+                            responseBuilder.AppendLine(responseMessage.StatusCode.ToString());
+                            responseBuilder.Append("Headers:");
+                            responseBuilder.AppendLine(responseMessage.Headers is null ? "" : responseMessage.Headers.ToString().Replace('\r', ' ').Replace('\n', ' '));
+                            responseBuilder.Append("ResponseMessage:");
+                            responseBuilder.AppendLine(responseMessage.RequestMessage is null ? "" : responseMessage.RequestMessage.ToString().Replace('\r', ' ').Replace('\n', ' '));
+
+                            string responseString = await responseMessage.Content.ReadAsStringAsync();
+                            httpClient.Dispose();
+                            responseMessage.Dispose();
+
+                            if (JsonObject.TryParse(responseString, out JsonObject responseStringObject))
+                            {
+                                string tag = responseStringObject.GetNamedString("tag_name").Remove(0, 1);
+                                Version tagVersion = new Version(tag);
+
+                                if (tagVersion is not null)
+                                {
+                                    bool isNewest = InfoHelper.AppVersion >= tagVersion;
+
+                                    MainWindow.Current.BeginInvoke(() =>
+                                    {
+                                        TeachingTipHelper.Show(new CheckUpdateTip(isNewest));
+                                    });
+                                }
+                            }
+                        }
+                        else
+                        {
+                            httpClient.Dispose();
+                            responseMessage.Dispose();
+                        }
+                    }
+                    // 捕捉因为网络失去链接获取信息时引发的异常
+                    catch (COMException e)
+                    {
+                        LogService.WriteLog(EventLevel.Informational, "Check update request failed", e);
+                    }
+
+                    // 捕捉因访问超时引发的异常
+                    catch (TaskCanceledException e)
+                    {
+                        LogService.WriteLog(EventLevel.Informational, "Check update request timeout", e);
+                    }
+
+                    // 其他异常
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Warning, "Check update request unknown exception", e);
+                    }
+                    finally
+                    {
+                        MainWindow.Current.BeginInvoke(() =>
+                        {
+                            IsChecking = false;
+                        });
+                    }
+                });
+            }
         }
 
         /// <summary>

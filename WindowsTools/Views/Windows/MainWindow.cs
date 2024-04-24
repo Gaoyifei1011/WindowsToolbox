@@ -169,34 +169,37 @@ namespace WindowsTools.Views.Windows
         protected override void OnFormClosing(FormClosingEventArgs args)
         {
             base.OnFormClosing(args);
-            if (RuntimeHelper.IsElevated && Handle != IntPtr.Zero)
+
+            if (ExitModeService.ExitMode.Equals(ExitModeService.ExitModeList[0]))
             {
-                CHANGEFILTERSTRUCT changeFilterStatus = new CHANGEFILTERSTRUCT();
-                changeFilterStatus.cbSize = Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT));
-                User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_RESET, in changeFilterStatus);
-            }
+                if (RuntimeHelper.IsElevated && Handle != IntPtr.Zero)
+                {
+                    CHANGEFILTERSTRUCT changeFilterStatus = new CHANGEFILTERSTRUCT();
+                    changeFilterStatus.cbSize = Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT));
+                    User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_RESET, in changeFilterStatus);
+                }
 
-            if (desktopWindowTarget is not null)
+                if (desktopWindowTarget is not null)
+                {
+                    systemBackdropController?.Dispose();
+                    systemBackdropController = null;
+                }
+
+                ThemeService.PropertyChanged -= OnServicePropertyChanged;
+                BackdropService.PropertyChanged -= OnServicePropertyChanged;
+                TopMostService.PropertyChanged -= OnServicePropertyChanged;
+
+                SystemTrayService.MenuItemClick -= OnMenuItemClick;
+                SystemTrayService.MouseDoubleClick -= OnSystemTrayDoubleClick;
+
+                Current = null;
+                (global::Windows.UI.Xaml.Application.Current as App).Dispose();
+            }
+            else
             {
-                systemBackdropController?.Dispose();
-                systemBackdropController = null;
+                args.Cancel = true;
+                Hide();
             }
-
-            ThemeService.PropertyChanged -= OnServicePropertyChanged;
-            BackdropService.PropertyChanged -= OnServicePropertyChanged;
-            TopMostService.PropertyChanged -= OnServicePropertyChanged;
-
-            SystemTrayService.MenuItemClick -= OnMenuItemClick;
-            SystemTrayService.MouseDoubleClick -= OnSystemTrayDoubleClick;
-        }
-
-        /// <summary>
-        /// 窗体关闭后触发的事件
-        /// </summary>
-        protected override void OnFormClosed(FormClosedEventArgs args)
-        {
-            base.OnFormClosed(args);
-            Current = null;
         }
 
         /// <summary>

@@ -135,6 +135,9 @@
   <data name="BackdropDescription" xml:space="preserve">
     <value>Windows 10系统（版本号低于22621）不支持设置背景色</value>
   </data>
+  <data name="Checking" xml:space="preserve">
+    <value>检查中</value>
+  </data>
   <data name="CheckUpdate" xml:space="preserve">
     <value>检查更新</value>
   </data>

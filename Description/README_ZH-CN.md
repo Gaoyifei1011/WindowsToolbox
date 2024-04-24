@@ -1,5 +1,5 @@
 <div align=center>
-<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/f15905e6-eb23-46b2-a586-cfa0cc96d1f1" width="140" height="140"/>
+<img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/8d58b720-9e84-468a-a680-ac90e4f78ae4" width="140" height="140"/>
 </div>
 
 # <p align="center">欢迎访问 Windows 工具箱</p>
@@ -138,6 +138,7 @@
 ### 感谢（按英文首字母排序）
 
 > * [AndromedaMelody](https://github.com/AndromedaMelody)&emsp;
+> * [MicaApps](https://github.com/MicaApps)&emsp;
 > * [MouriNaruto](https://github.com/MouriNaruto)&emsp;
 
 ------

@@ -168,8 +168,14 @@
   <data name="LogCleanSuccessfully" xml:space="preserve">
     <value>所有日志记录清除成功</value>
   </data>
+  <data name="NewestVersion" xml:space="preserve">
+    <value>应用已是最新版本</value>
+  </data>
   <data name="NoOperation" xml:space="preserve">
     <value>请至少选择一个选项或输入内容后进行操作</value>
+  </data>
+  <data name="NotNewestVersion" xml:space="preserve">
+    <value>应用不是最新版本，点击项目主页以获取更新</value>
   </data>
   <data name="OperationFailedCopy" xml:space="preserve">
     <value>该条错误信息已经成功复制到剪贴板</value>

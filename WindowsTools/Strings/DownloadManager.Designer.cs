@@ -61,11 +61,119 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Add download task 的本地化字符串。
+        /// </summary>
+        public static string AddTaskToolTip {
+            get {
+                return ResourceManager.GetString("AddTaskToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete all 的本地化字符串。
+        /// </summary>
+        public static string DeleteDownloadToolTip {
+            get {
+                return ResourceManager.GetString("DeleteDownloadToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download settings 的本地化字符串。
+        /// </summary>
+        public static string DownloadSettings {
+            get {
+                return ResourceManager.GetString("DownloadSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 There&apos;s no download history 的本地化字符串。
+        /// </summary>
+        public static string EmptyDescription {
+            get {
+                return ResourceManager.GetString("EmptyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Learn delivery optimization 的本地化字符串。
+        /// </summary>
+        public static string LearnDeliveryOptimization {
+            get {
+                return ResourceManager.GetString("LearnDeliveryOptimization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open default download folder 的本地化字符串。
+        /// </summary>
+        public static string OpenDefaultDownloadFolder {
+            get {
+                return ResourceManager.GetString("OpenDefaultDownloadFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open delivery optimization settings 的本地化字符串。
+        /// </summary>
+        public static string OpenDeliveryOptimizationSettings {
+            get {
+                return ResourceManager.GetString("OpenDeliveryOptimizationSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Pause all 的本地化字符串。
+        /// </summary>
+        public static string PauseDownloadToolTip {
+            get {
+                return ResourceManager.GetString("PauseDownloadToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Search download item 的本地化字符串。
+        /// </summary>
+        public static string SearchDownloadPHText {
+            get {
+                return ResourceManager.GetString("SearchDownloadPHText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No matching download records were found 的本地化字符串。
+        /// </summary>
+        public static string SearchEmptyDescription {
+            get {
+                return ResourceManager.GetString("SearchEmptyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Start all 的本地化字符串。
+        /// </summary>
+        public static string StartDownloadToolTip {
+            get {
+                return ResourceManager.GetString("StartDownloadToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Download manager 的本地化字符串。
         /// </summary>
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 View more 的本地化字符串。
+        /// </summary>
+        public static string ViewMoreToolTip {
+            get {
+                return ResourceManager.GetString("ViewMoreToolTip", resourceCulture);
             }
         }
     }

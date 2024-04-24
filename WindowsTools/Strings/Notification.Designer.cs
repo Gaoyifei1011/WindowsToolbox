@@ -214,11 +214,29 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 The application is the latest version 的本地化字符串。
+        /// </summary>
+        public static string NewestVersion {
+            get {
+                return ResourceManager.GetString("NewestVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please select at least one option or enter the content before proceeding 的本地化字符串。
         /// </summary>
         public static string NoOperation {
             get {
                 return ResourceManager.GetString("NoOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The app is not the latest version, click on the project home page to get an update 的本地化字符串。
+        /// </summary>
+        public static string NotNewestVersion {
+            get {
+                return ResourceManager.GetString("NotNewestVersion", resourceCulture);
             }
         }
         

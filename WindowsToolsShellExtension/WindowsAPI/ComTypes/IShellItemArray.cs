@@ -7,7 +7,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
     /// <summary>
     /// 公开用于创建和操作 Shell 项 数组的方法。
     /// </summary>
-    [GeneratedComInterface, Guid("b63ea76d-1f85-456f-a19c-48159efa858b"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [GeneratedComInterface, Guid("b63ea76d-1f85-456f-a19c-48159efa858b")]
     public partial interface IShellItemArray
     {
         /// <summary>

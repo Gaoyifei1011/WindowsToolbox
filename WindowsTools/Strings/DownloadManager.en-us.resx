@@ -117,7 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddTaskToolTip" xml:space="preserve">
+    <value>Add download task</value>
+  </data>
+  <data name="DeleteDownloadToolTip" xml:space="preserve">
+    <value>Delete all</value>
+  </data>
+  <data name="DownloadSettings" xml:space="preserve">
+    <value>Download settings</value>
+  </data>
+  <data name="EmptyDescription" xml:space="preserve">
+    <value>There's no download history</value>
+  </data>
+  <data name="LearnDeliveryOptimization" xml:space="preserve">
+    <value>Learn delivery optimization</value>
+  </data>
+  <data name="OpenDefaultDownloadFolder" xml:space="preserve">
+    <value>Open default download folder</value>
+  </data>
+  <data name="OpenDeliveryOptimizationSettings" xml:space="preserve">
+    <value>Open delivery optimization settings</value>
+  </data>
+  <data name="PauseDownloadToolTip" xml:space="preserve">
+    <value>Pause all</value>
+  </data>
+  <data name="SearchDownloadPHText" xml:space="preserve">
+    <value>Search download item</value>
+  </data>
+  <data name="SearchEmptyDescription" xml:space="preserve">
+    <value>No matching download records were found</value>
+  </data>
+  <data name="StartDownloadToolTip" xml:space="preserve">
+    <value>Start all</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Download manager</value>
+  </data>
+  <data name="ViewMoreToolTip" xml:space="preserve">
+    <value>View more</value>
   </data>
 </root>

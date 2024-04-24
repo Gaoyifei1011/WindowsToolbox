@@ -168,8 +168,20 @@
   <data name="ClearLogDescription" xml:space="preserve">
     <value>清除应用所有的日志内容</value>
   </data>
+  <data name="CloseWindow" xml:space="preserve">
+    <value>隐藏窗口到托盘</value>
+  </data>
   <data name="DesktopAcrylic" xml:space="preserve">
     <value>亚克力</value>
+  </data>
+  <data name="ExitApp" xml:space="preserve">
+    <value>关闭应用</value>
+  </data>
+  <data name="ExitMode" xml:space="preserve">
+    <value>退出模式</value>
+  </data>
+  <data name="ExitModeDescription" xml:space="preserve">
+    <value>应用程序退出方式设置</value>
   </data>
   <data name="FileShellMenu" xml:space="preserve">
     <value>文件右键菜单</value>

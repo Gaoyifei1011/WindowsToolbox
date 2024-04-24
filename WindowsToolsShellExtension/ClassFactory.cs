@@ -18,14 +18,14 @@ namespace WindowsToolsShellExtension
             this.createFunc = createFunc;
         }
 
-        public unsafe int CreateInstance([Optional] void* pUnkOuter, Guid* riid, void** ppvObject)
+        public unsafe int CreateInstance([Optional] void* pUnkOuter, in Guid riid, void** ppvObject)
         {
             object obj = createFunc.Invoke();
 
             IntPtr result = Program.StrategyBasedComWrappers.GetOrCreateComInterfaceForObject(obj!, CreateComInterfaceFlags.None);
 
             IUnknown* punk = (IUnknown*)result;
-            int hr = punk->QueryInterface(*riid, out var pvObject);
+            int hr = punk->QueryInterface(riid, out var pvObject);
 
             if (hr is 0)
             {

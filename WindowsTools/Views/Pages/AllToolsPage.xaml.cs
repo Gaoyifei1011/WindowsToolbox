@@ -66,13 +66,13 @@ namespace WindowsTools.Views.Pages
         // 资源工具列表
         private List<ControlItemModel> ResourceToolsList { get; } = new List<ControlItemModel>()
         {
-            //new ControlItemModel()
-            //{
-            //    Title = AllTools.DownloadManager,
-            //    Description = AllTools.DownloadManagerDescription,
-            //    ImagePath = "ms-appx:///Assets/ControlIcon/DownloadManager.png",
-            //    Tag = "DownloadManager"
-            //},
+            new ControlItemModel()
+            {
+                Title = AllTools.DownloadManager,
+                Description = AllTools.DownloadManagerDescription,
+                ImagePath = "ms-appx:///Assets/ControlIcon/DownloadManager.png",
+                Tag = "DownloadManager"
+            },
             new ControlItemModel()
             {
                 Title = AllTools.CodeScanner,
@@ -99,13 +99,13 @@ namespace WindowsTools.Views.Pages
         // 个性化工具列表
         private List<ControlItemModel> PersonalizeToolsList { get; } = new List<ControlItemModel>()
         {
-            new ControlItemModel()
-            {
-                Title = AllTools.ShellMenu,
-                Description = AllTools.ShellMenuDescription,
-                ImagePath = "ms-appx:///Assets/ControlIcon/ShellMenu.png",
-                Tag = "ShellMenu"
-            }
+            //new ControlItemModel()
+            //{
+            //    Title = AllTools.ShellMenu,
+            //    Description = AllTools.ShellMenuDescription,
+            //    ImagePath = "ms-appx:///Assets/ControlIcon/ShellMenu.png",
+            //    Tag = "ShellMenu"
+            //}
         };
 
         // 系统工具列表

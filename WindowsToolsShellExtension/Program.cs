@@ -65,11 +65,11 @@ namespace WindowsToolsShellExtension
         /// <param name="ppv">接收 riid 中请求的接口指针的指针变量的地址。 成功返回后，*ppv 包含请求的接口指针。 如果发生错误，接口指针为 NULL。</param>
         /// <returns>此函数可以返回标准返回值E_INVALIDARG、E_OUTOFMEMORY和E_UNEXPECTED，以及以下值。</returns>
         [UnmanagedCallersOnly(EntryPoint = "DllGetClassObject")]
-        public static unsafe int DllGetClassObject(Guid* clsid, Guid* riid, void** ppv)
+        public static unsafe int DllGetClassObject([In] Guid clsid, [In] Guid riid, void** ppv)
         {
             foreach ((Guid guid, Func<object> func) in createFunctions)
             {
-                if (clsid->Equals(guid))
+                if (clsid.Equals(guid))
                 {
                     ClassFactory classFactory = new ClassFactory(func);
                     IntPtr pClassFactory = StrategyBasedComWrappers.GetOrCreateComInterfaceForObject(classFactory, CreateComInterfaceFlags.None);

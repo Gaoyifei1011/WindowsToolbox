@@ -16,6 +16,8 @@ namespace WindowsTools.Services.Root
 
         public static List<DictionaryEntry> BackdropList { get; } = new List<DictionaryEntry>();
 
+        public static List<DictionaryEntry> ExitModeList { get; } = new List<DictionaryEntry>();
+
         /// <summary>
         /// 初始化应用本地化信息
         /// </summary>
@@ -23,6 +25,7 @@ namespace WindowsTools.Services.Root
         {
             InitializeBackdropList();
             InitializeThemeList();
+            InitializeExitModeList();
         }
 
         /// <summary>
@@ -46,6 +49,12 @@ namespace WindowsTools.Services.Root
             BackdropList.Add(new DictionaryEntry(Settings.BackdropAcrylic, nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Default)));
             BackdropList.Add(new DictionaryEntry(Settings.BackdropAcrylicBase, nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Base)));
             BackdropList.Add(new DictionaryEntry(Settings.BackdropAcrylicThin, nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Thin)));
+        }
+
+        private static void InitializeExitModeList()
+        {
+            ExitModeList.Add(new DictionaryEntry(Settings.ExitApp, "ExitApp"));
+            ExitModeList.Add(new DictionaryEntry(Settings.CloseWindow, "CloseWindow"));
         }
     }
 }

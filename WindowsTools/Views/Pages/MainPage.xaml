@@ -222,10 +222,7 @@
                     </muxc:NavigationViewItem.Icon>
 
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem
-                            Content="{x:Bind string:Window.DownloadManager}"
-                            Tag="10"
-                            Visibility="Collapsed">
+                        <muxc:NavigationViewItem Content="{x:Bind string:Window.DownloadManager}" Tag="10">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/DownloadManager.png" />
@@ -256,14 +253,20 @@
                 </muxc:NavigationViewItem>
 
                 <!--  个性化工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.Personalize}" Tag="14">
+                <muxc:NavigationViewItem
+                    Content="{x:Bind string:Window.Personalize}"
+                    Tag="14"
+                    Visibility="Collapsed">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Personalize.png" />
                     </muxc:NavigationViewItem.Icon>
 
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.ShellMenu}" Tag="15">
+                        <muxc:NavigationViewItem
+                            Content="{x:Bind string:Window.ShellMenu}"
+                            Tag="15"
+                            Visibility="Collapsed">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/ShellMenu.png" />

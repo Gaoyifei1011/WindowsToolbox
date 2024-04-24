@@ -118,11 +118,29 @@ namespace WindowsTools.Views.Pages
             }
         }
 
+        private DictionaryEntry _exitMode = ExitModeService.ExitMode;
+
+        public DictionaryEntry ExitMode
+        {
+            get { return _exitMode; }
+
+            set
+            {
+                if (!Equals(_exitMode, value))
+                {
+                    _exitMode = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExitMode)));
+                }
+            }
+        }
+
         private List<DictionaryEntry> ThemeList { get; } = ThemeService.ThemeList;
 
         private List<DictionaryEntry> BackdropList { get; } = BackdropService.BackdropList;
 
         private List<DictionaryEntry> LanguageList { get; } = LanguageService.LanguageList;
+
+        private List<DictionaryEntry> ExitModeList { get; } = ExitModeService.ExitModeList;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -285,6 +303,19 @@ namespace WindowsTools.Views.Pages
             {
                 FileShellMenuService.SetFileShellMenu(toggleSwitch.IsOn);
                 FileShellMenuValue = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 应用程序退出方式设置
+        /// </summary>
+        private void OnExitModeSelectClicked(object sender, RoutedEventArgs args)
+        {
+            ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
+            if (item.Tag is not null)
+            {
+                ExitMode = ExitModeList[Convert.ToInt32(item.Tag)];
+                ExitModeService.SetExitMode(ExitMode);
             }
         }
 

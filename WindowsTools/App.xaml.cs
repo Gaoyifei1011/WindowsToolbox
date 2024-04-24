@@ -54,7 +54,11 @@ namespace WindowsTools
                 if (disposing)
                 {
                     this.ThreadUninitialize();
-                    MainWindow.Current?.Close();
+                    if (MainWindow.Current is not null && !MainWindow.Current.IsDisposed)
+                    {
+                        MainWindow.Current?.Close();
+                    }
+
                     SystemTrayService.CloseSystemTray();
                     System.Windows.Forms.Application.Exit();
                 }

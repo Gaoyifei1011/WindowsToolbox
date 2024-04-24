@@ -84,6 +84,7 @@ namespace WindowsTools
             TopMostService.InitializeTopMostValue();
 
             FileShellMenuService.InitializeFileShellMenu();
+            ExitModeService.InitializeExitMode();
             ShellMenuService.InitializeShellMenu();
         }
 

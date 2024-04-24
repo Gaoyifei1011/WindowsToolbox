@@ -13,17 +13,13 @@ namespace WindowsToolsShellExtension
         {
             fixed (void** ppvObjectLocal = &ppvObject)
             {
-                fixed (Guid* riidLocal = &riid)
-                {
-                    int __result = QueryInterface(riidLocal, ppvObjectLocal);
-                    return __result;
-                }
+                return QueryInterface(riid, ppvObjectLocal);
             }
         }
 
-        public unsafe int QueryInterface(Guid* riid, void** ppvObject)
+        public unsafe int QueryInterface(in Guid riid, void** ppvObject)
         {
-            return ((delegate* unmanaged[Stdcall]<IUnknown*, Guid*, void**, int>)lpVtbl[0])((IUnknown*)Unsafe.AsPointer(ref this), riid, ppvObject);
+            return ((delegate* unmanaged[Stdcall]<IUnknown*, in Guid, void**, int>)lpVtbl[0])((IUnknown*)Unsafe.AsPointer(ref this), in riid, ppvObject);
         }
 
         public uint AddRef()

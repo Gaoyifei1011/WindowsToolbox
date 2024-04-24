@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.Windows.Forms;
 using Windows.UI.Xaml;
@@ -48,14 +49,33 @@ namespace WindowsTools.Services.Root
         {
             if (notifyIcon is not null)
             {
-                notifyIcon.Visible = false;
-                notifyIcon.MouseDoubleClick -= OnMouseDoubleClick;
-                foreach (MenuItem menuItem in notifyIcon.ContextMenu.MenuItems)
+                try
                 {
-                    menuItem.Click -= OnItemClick;
+                    notifyIcon.Visible = false;
+                    notifyIcon.MouseDoubleClick -= OnMouseDoubleClick;
+                    foreach (MenuItem menuItem in notifyIcon.ContextMenu.MenuItems)
+                    {
+                        menuItem.Click -= OnItemClick;
+                    }
+                    notifyIcon.Dispose();
+                    notifyIcon = null;
                 }
-                notifyIcon.Dispose();
-                notifyIcon = null;
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Warning, "Unregister system tray event failed", e);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 显示通知
+        /// </summary>
+        public static void ShowNotification(string title, string text, ToolTipIcon toolTipIcon)
+        {
+            if (notifyIcon is not null)
+            {
+                notifyIcon.Visible = true;
+                notifyIcon.ShowBalloonTip(0, title, text, toolTipIcon);
             }
         }
 

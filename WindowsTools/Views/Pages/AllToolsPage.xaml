@@ -184,7 +184,8 @@
                     VerticalAlignment="Center"
                     FontSize="18"
                     Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{x:Bind string:AllTools.Personalize}" />
+                    Text="{x:Bind string:AllTools.Personalize}"
+                    Visibility="Collapsed" />
 
                 <GridView
                     IsItemClickEnabled="True"
@@ -193,7 +194,8 @@
                     ItemTemplate="{StaticResource ControlItemTemplate}"
                     ItemsSource="{x:Bind PersonalizeToolsList}"
                     SelectionMode="None"
-                    TabIndex="1">
+                    TabIndex="1"
+                    Visibility="Collapsed">
 
                     <GridView.ItemContainerStyle>
                         <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
