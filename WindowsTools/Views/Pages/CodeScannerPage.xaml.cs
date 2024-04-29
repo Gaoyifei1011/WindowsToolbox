@@ -284,7 +284,7 @@ namespace WindowsTools.Views.Pages
 
         #endregion 第一部分：重写父类事件
 
-        #region 第二部分：条码扫描页面挂载的事件
+        #region 第二部分：条码扫描页面——挂载的事件
 
         /// <summary>
         /// 工具类型选择
@@ -641,7 +641,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        #endregion 第二部分：条码扫描页面挂载的事件
+        #endregion 第二部分：条码扫描页面——挂载的事件
 
         #region 第三部分：自定义事件
 

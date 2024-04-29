@@ -4,7 +4,7 @@
     <ApplicationIcon>Assets\WindowsTools.ico</ApplicationIcon>
     <ApplicationManifest>App.manifest</ApplicationManifest>
     <AssemblyName>WindowsTools</AssemblyName>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <Deterministic>true</Deterministic>
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <FileAlignment>512</FileAlignment>
@@ -291,6 +291,7 @@
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" IncludeAssets="none" ExcludeAssets="all" PrivateAssets="all" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240404000" GeneratePathProperty="true" />
     <PackageReference Include="Mile.Xaml" Version="2.2.944" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     <PackageReference Include="ZXing.Net" Version="0.16.9" />
 
     <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />
@@ -373,10 +374,6 @@
     <EmbeddedResource Update="Strings\WinSAT.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\WinSAT.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="WinSAT.Designer.cs" />
     <EmbeddedResource Update="Strings\WinSAT.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\Controls\Pages\" />
   </ItemGroup>
 
   <Target Name="SignExeFile" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">

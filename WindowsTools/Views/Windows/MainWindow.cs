@@ -38,7 +38,6 @@ namespace WindowsTools.Views.Windows
     public class MainWindow : Form
     {
         private IntPtr inputNonClientPointerSourceHandle;
-        private DispatcherQueueController dispatcherQueueController;
         private DesktopWindowTarget desktopWindowTarget;
         private dynamic systemBackdropController;
         private IContainer components = new Container();

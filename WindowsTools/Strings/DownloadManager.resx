@@ -120,14 +120,41 @@
   <data name="AddTaskToolTip" xml:space="preserve">
     <value>Add download task</value>
   </data>
+  <data name="ContinueToolTip" xml:space="preserve">
+    <value>Continue download</value>
+  </data>
+  <data name="CurrentSpeedToolTip" xml:space="preserve">
+    <value>Current speed:</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteDownloadingToolTip" xml:space="preserve">
+    <value>Deletes the currently downloaded record</value>
+  </data>
   <data name="DeleteDownloadToolTip" xml:space="preserve">
     <value>Delete all</value>
+  </data>
+  <data name="DeleteToolTip" xml:space="preserve">
+    <value>Deletes only the current record, not including the file</value>
+  </data>
+  <data name="DeleteWithFile" xml:space="preserve">
+    <value>Delete records (including files)</value>
+  </data>
+  <data name="DeleteWithFileToolTip" xml:space="preserve">
+    <value>Local files are deleted when records are deleted</value>
   </data>
   <data name="DownloadSettings" xml:space="preserve">
     <value>Download settings</value>
   </data>
   <data name="EmptyDescription" xml:space="preserve">
     <value>There's no download history</value>
+  </data>
+  <data name="FileInformation" xml:space="preserve">
+    <value>View file information</value>
+  </data>
+  <data name="FinishedSizeToolTip" xml:space="preserve">
+    <value>Download completed:</value>
   </data>
   <data name="LearnDeliveryOptimization" xml:space="preserve">
     <value>Learn delivery optimization</value>
@@ -136,10 +163,16 @@
     <value>Open default download folder</value>
   </data>
   <data name="OpenDeliveryOptimizationSettings" xml:space="preserve">
-    <value>Open delivery optimization settings</value>
+    <value>Delivery optimization settings</value>
+  </data>
+  <data name="OpenFolderToolTip" xml:space="preserve">
+    <value>Open folder</value>
   </data>
   <data name="PauseDownloadToolTip" xml:space="preserve">
     <value>Pause all</value>
+  </data>
+  <data name="PauseToolTip" xml:space="preserve">
+    <value>Pause downloading the current task</value>
   </data>
   <data name="SearchDownloadPHText" xml:space="preserve">
     <value>Search download item</value>
@@ -147,13 +180,25 @@
   <data name="SearchEmptyDescription" xml:space="preserve">
     <value>No matching download records were found</value>
   </data>
+  <data name="ShareFile" xml:space="preserve">
+    <value>Share file</value>
+  </data>
+  <data name="ShareFileTitle" xml:space="preserve">
+    <value>File sharing</value>
+  </data>
   <data name="StartDownloadToolTip" xml:space="preserve">
     <value>Start all</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Download manager</value>
   </data>
+  <data name="TotalSizeToolTip" xml:space="preserve">
+    <value>File size:</value>
+  </data>
   <data name="ViewMoreToolTip" xml:space="preserve">
     <value>View more</value>
+  </data>
+  <data name="WaitDownload" xml:space="preserve">
+    <value>Waiting for download</value>
   </data>
 </root>

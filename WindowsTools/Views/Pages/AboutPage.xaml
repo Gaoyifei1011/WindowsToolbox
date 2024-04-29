@@ -99,14 +99,24 @@
                             Padding="11,0"
                             Click="{x:Bind OnShowReleaseNotesClicked}"
                             Text="{x:Bind string:About.ShowReleaseNotes}"
-                            ToolTipService.ToolTip="{x:Bind string:About.ShowReleaseNotesToolTip}" />
+                            ToolTipService.ToolTip="{x:Bind string:About.ShowReleaseNotesToolTip}">
+
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE70B;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
 
                         <MenuFlyoutItem
                             Height="32"
                             Padding="11,0"
                             Click="{x:Bind OnShowLicenseClicked}"
                             Text="{x:Bind string:About.ShowLicense}"
-                            ToolTipService.ToolTip="{x:Bind string:About.ShowLicenseToolTip}" />
+                            ToolTipService.ToolTip="{x:Bind string:About.ShowLicenseToolTip}">
+
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE779;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
 
                         <MenuFlyoutSeparator />
 

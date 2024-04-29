@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.UI.Xaml;
+using WindowsTools.Extensions.DataType.Enums;
 
 namespace WindowsTools.Helpers.Converters
 {

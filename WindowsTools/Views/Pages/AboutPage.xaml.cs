@@ -8,10 +8,10 @@ using System.Diagnostics.Tracing;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
-using Windows.Data.Json;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -248,7 +248,7 @@ namespace WindowsTools.Views.Pages
                         HttpClient httpClient = new HttpClient();
                         httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
                         httpClient.Timeout = new TimeSpan(0, 0, 30);
-                        HttpResponseMessage responseMessage = await httpClient.GetAsync(new Uri("https://api.github.com/repos/Gaoyifei1011/WindowsTools/releases/latest"));
+                        HttpResponseMessage responseMessage = await httpClient.GetAsync(new Uri("https://api.github.com/repos/Gaoyifei1011/WindowsToolbox/releases/latest"));
 
                         // 请求成功
                         if (responseMessage.IsSuccessStatusCode)
@@ -266,19 +266,27 @@ namespace WindowsTools.Views.Pages
                             httpClient.Dispose();
                             responseMessage.Dispose();
 
-                            if (JsonObject.TryParse(responseString, out JsonObject responseStringObject))
+                            Regex tagRegex = new Regex(@"""tag_name"":[\s]*""v(\d.\d.\d{3}.\d)""");
+
+                            MatchCollection tagCollection = tagRegex.Matches(responseString);
+
+                            if (tagCollection.Count > 0)
                             {
-                                string tag = responseStringObject.GetNamedString("tag_name").Remove(0, 1);
-                                Version tagVersion = new Version(tag);
+                                GroupCollection tagGroups = tagCollection[0].Groups;
 
-                                if (tagVersion is not null)
+                                if (tagGroups.Count > 0)
                                 {
-                                    bool isNewest = InfoHelper.AppVersion >= tagVersion;
+                                    Version tagVersion = new Version(tagGroups[1].Value);
 
-                                    MainWindow.Current.BeginInvoke(() =>
+                                    if (tagVersion is not null)
                                     {
-                                        TeachingTipHelper.Show(new CheckUpdateTip(isNewest));
-                                    });
+                                        bool isNewest = InfoHelper.AppVersion >= tagVersion;
+
+                                        MainWindow.Current.BeginInvoke(() =>
+                                        {
+                                            TeachingTipHelper.Show(new CheckUpdateTip(isNewest));
+                                        });
+                                    }
                                 }
                             }
                         }

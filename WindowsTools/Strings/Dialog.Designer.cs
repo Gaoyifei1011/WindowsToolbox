@@ -61,6 +61,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Add download task 的本地化字符串。
+        /// </summary>
+        public static string AddDownloadTask {
+            get {
+                return ResourceManager.GetString("AddDownloadTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 App information 的本地化字符串。
         /// </summary>
         public static string AppInformationTitle {
@@ -138,6 +147,42 @@ namespace WindowsTools.Strings {
         public static string DoNetVersion {
             get {
                 return ResourceManager.GetString("DoNetVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download 的本地化字符串。
+        /// </summary>
+        public static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please input the download file name 的本地化字符串。
+        /// </summary>
+        public static string DownloadFileNamePHText {
+            get {
+                return ResourceManager.GetString("DownloadFileNamePHText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select the folder to save 的本地化字符串。
+        /// </summary>
+        public static string DownloadFolderPHText {
+            get {
+                return ResourceManager.GetString("DownloadFolderPHText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please input the download link 的本地化字符串。
+        /// </summary>
+        public static string DownloadLinkPHText {
+            get {
+                return ResourceManager.GetString("DownloadLinkPHText", resourceCulture);
             }
         }
         
@@ -264,6 +309,15 @@ namespace WindowsTools.Strings {
         public static string RestartContent {
             get {
                 return ResourceManager.GetString("RestartContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select folder 的本地化字符串。
+        /// </summary>
+        public static string SelectFolderToolTip {
+            get {
+                return ResourceManager.GetString("SelectFolderToolTip", resourceCulture);
             }
         }
         

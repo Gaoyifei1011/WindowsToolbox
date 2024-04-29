@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddDownloadTask" xml:space="preserve">
+    <value>添加下载任务</value>
+  </data>
   <data name="AppInformationTitle" xml:space="preserve">
     <value>应用信息</value>
   </data>
@@ -143,6 +146,18 @@
   </data>
   <data name="DoNetVersion" xml:space="preserve">
     <value>.NET Framework 版本：</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="DownloadFileNamePHText" xml:space="preserve">
+    <value>请输入下载文件名称</value>
+  </data>
+  <data name="DownloadFolderPHText" xml:space="preserve">
+    <value>选择保存的文件夹</value>
+  </data>
+  <data name="DownloadLinkPHText" xml:space="preserve">
+    <value>请输入下载链接</value>
   </data>
   <data name="ErrorCode" xml:space="preserve">
     <value>错误代码</value>
@@ -185,6 +200,9 @@
   </data>
   <data name="RestartContent" xml:space="preserve">
     <value>应用即将重启，重启后应用的数据将会丢失，请确保您的工作内容已经全部保存。</value>
+  </data>
+  <data name="SelectFolderToolTip" xml:space="preserve">
+    <value>选择文件夹</value>
   </data>
   <data name="WindowsAppSDKVersion" xml:space="preserve">
     <value>Windows 应用 SDK 版本：</value>

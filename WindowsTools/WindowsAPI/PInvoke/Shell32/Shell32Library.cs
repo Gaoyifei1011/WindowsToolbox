@@ -53,6 +53,21 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         public static extern void DragFinish(IntPtr hDrop);
 
         /// <summary>
+        /// 返回与指定文件路径关联的 ITEMIDLIST 结构。
+        /// </summary>
+        /// <param name="pszPath">指向包含路径的以 null 结尾的 Unicode 字符串的指针。 此字符串的长度应不超过 MAX_PATH 个字符，包括终止 null 字符。</param>
+        /// <returns>返回指向对应于路径的 ITEMIDLIST 结构的指针。</returns>
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILCreateFromPathW", ExactSpelling = false)]
+        public static extern IntPtr ILCreateFromPath(string pszPath);
+
+        /// <summary>
+        /// 释放 Shell 分配的 ITEMIDLIST 结构。
+        /// </summary>
+        /// <param name="pidl">指向要释放的 ITEMIDLIST 结构的指针。 此参数可以为 NULL。</param>
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILFree", ExactSpelling = false)]
+        public static extern void ILFree(IntPtr pidl);
+
+        /// <summary>
         /// 检索由文件夹的 KNOWNFOLDERID 标识的已知文件夹的完整路径。
         /// </summary>
         /// <param name="rfid">对标识文件夹的 KNOWNFOLDERID 的引用。</param>
@@ -68,5 +83,16 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// <returns>如果成功，则返回S_OK，否则返回错误值</returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderPath", SetLastError = true)]
         public static extern int SHGetKnownFolderPath([MarshalAs(UnmanagedType.LPStruct)] Guid rfid, KNOWN_FOLDER_FLAG dwFlags, IntPtr hToken, out string pszPath);
+
+        /// <summary>
+        /// 打开 Windows 资源管理器窗口，其中选定了特定文件夹中的指定项目。
+        /// </summary>
+        /// <param name="pidlFolder">指向指定文件夹的完全限定项 ID 列表的指针。</param>
+        /// <param name="cidl">选择数组 apidl 中的项计数。 如果 cidl 为零，则 pidlFolder 必须指向描述要选择的单个项的完全指定的 ITEMIDLIST 。 此函数打开父文件夹并选择该项目。</param>
+        /// <param name="apidl">指向 PIDL 结构数组的指针，每个结构都是在 pidlFolder 引用的目标文件夹中选择的项。</param>
+        /// <param name="dwFlags">可选标志。</param>
+        /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHOpenFolderAndSelectItems", ExactSpelling = false)]
+        public static extern int SHOpenFolderAndSelectItems(IntPtr pidlFolder, uint cidl, IntPtr apidl, uint dwFlags);
     }
 }

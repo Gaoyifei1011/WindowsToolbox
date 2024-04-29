@@ -13,7 +13,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <summary>
         /// 下载状态发生变化时触发的事件
         /// </summary>
-        public Action<DODownloadStatusCallback, IDODownload, DO_DOWNLOAD_STATUS> StatusChanged;
+        public event Action<DODownloadStatusCallback, IDODownload, DO_DOWNLOAD_STATUS> StatusChanged;
 
         public void OnStatusChange([MarshalAs(UnmanagedType.Interface)] IDODownload download, ref DO_DOWNLOAD_STATUS status)
         {

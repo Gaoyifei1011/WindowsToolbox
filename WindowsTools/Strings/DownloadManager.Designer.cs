@@ -70,11 +70,74 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Continue download 的本地化字符串。
+        /// </summary>
+        public static string ContinueToolTip {
+            get {
+                return ResourceManager.GetString("ContinueToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Current speed: 的本地化字符串。
+        /// </summary>
+        public static string CurrentSpeedToolTip {
+            get {
+                return ResourceManager.GetString("CurrentSpeedToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete 的本地化字符串。
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Deletes the currently downloaded record 的本地化字符串。
+        /// </summary>
+        public static string DeleteDownloadingToolTip {
+            get {
+                return ResourceManager.GetString("DeleteDownloadingToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Delete all 的本地化字符串。
         /// </summary>
         public static string DeleteDownloadToolTip {
             get {
                 return ResourceManager.GetString("DeleteDownloadToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Deletes only the current record, not including the file 的本地化字符串。
+        /// </summary>
+        public static string DeleteToolTip {
+            get {
+                return ResourceManager.GetString("DeleteToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete records (including files) 的本地化字符串。
+        /// </summary>
+        public static string DeleteWithFile {
+            get {
+                return ResourceManager.GetString("DeleteWithFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Local files are deleted when records are deleted 的本地化字符串。
+        /// </summary>
+        public static string DeleteWithFileToolTip {
+            get {
+                return ResourceManager.GetString("DeleteWithFileToolTip", resourceCulture);
             }
         }
         
@@ -97,6 +160,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 View file information 的本地化字符串。
+        /// </summary>
+        public static string FileInformation {
+            get {
+                return ResourceManager.GetString("FileInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download completed: 的本地化字符串。
+        /// </summary>
+        public static string FinishedSizeToolTip {
+            get {
+                return ResourceManager.GetString("FinishedSizeToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Learn delivery optimization 的本地化字符串。
         /// </summary>
         public static string LearnDeliveryOptimization {
@@ -115,11 +196,20 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Open delivery optimization settings 的本地化字符串。
+        ///   查找类似 Delivery optimization settings 的本地化字符串。
         /// </summary>
         public static string OpenDeliveryOptimizationSettings {
             get {
                 return ResourceManager.GetString("OpenDeliveryOptimizationSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open folder 的本地化字符串。
+        /// </summary>
+        public static string OpenFolderToolTip {
+            get {
+                return ResourceManager.GetString("OpenFolderToolTip", resourceCulture);
             }
         }
         
@@ -129,6 +219,15 @@ namespace WindowsTools.Strings {
         public static string PauseDownloadToolTip {
             get {
                 return ResourceManager.GetString("PauseDownloadToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Pause downloading the current task 的本地化字符串。
+        /// </summary>
+        public static string PauseToolTip {
+            get {
+                return ResourceManager.GetString("PauseToolTip", resourceCulture);
             }
         }
         
@@ -151,6 +250,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Share file 的本地化字符串。
+        /// </summary>
+        public static string ShareFile {
+            get {
+                return ResourceManager.GetString("ShareFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File sharing 的本地化字符串。
+        /// </summary>
+        public static string ShareFileTitle {
+            get {
+                return ResourceManager.GetString("ShareFileTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Start all 的本地化字符串。
         /// </summary>
         public static string StartDownloadToolTip {
@@ -169,11 +286,29 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 File size: 的本地化字符串。
+        /// </summary>
+        public static string TotalSizeToolTip {
+            get {
+                return ResourceManager.GetString("TotalSizeToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 View more 的本地化字符串。
         /// </summary>
         public static string ViewMoreToolTip {
             get {
                 return ResourceManager.GetString("ViewMoreToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Waiting for download 的本地化字符串。
+        /// </summary>
+        public static string WaitDownload {
+            get {
+                return ResourceManager.GetString("WaitDownload", resourceCulture);
             }
         }
     }
