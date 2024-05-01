@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
@@ -13,12 +14,10 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Controls.Pages;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
-using WindowsTools.UI.Dialogs;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
@@ -72,7 +71,11 @@ namespace WindowsTools.Views.Pages
         {
             InitializeComponent();
             DeliveryOptimizationService.DownloadCreated += OnDownloadCreated;
-            DeliveryOptimizationService.StatusChanged += OnStatusChanged;
+            DeliveryOptimizationService.DownloadContinued += OnDownloadContinued;
+            DeliveryOptimizationService.DownloadPaused += OnDownloadPaused;
+            DeliveryOptimizationService.DownloadAborted += OnDownloadAborted;
+            DeliveryOptimizationService.DownloadProgressing += OnDownloadProgressing;
+            DeliveryOptimizationService.DownloadCompleted += OnDownloadCompleted;
         }
 
         #region 第一部分：XamlUICommand 命令调用时挂载的事件
@@ -98,22 +101,7 @@ namespace WindowsTools.Views.Pages
                     }
                 }
 
-                bool result = DeliveryOptimizationService.ContinueDownload(downloadID);
-
-                if (result)
-                {
-                    lock (downloadLock)
-                    {
-                        foreach (DownloadModel downloadItem in DownloadCollection)
-                        {
-                            if (downloadItem.DownloadID.Equals(downloadID))
-                            {
-                                downloadItem.IsNotOperated = true;
-                                downloadItem.DownloadState = DODownloadState.DODownloadState_Transferring;
-                            }
-                        }
-                    }
-                }
+                DeliveryOptimizationService.ContinueDownload(downloadID);
             }
         }
 
@@ -138,22 +126,7 @@ namespace WindowsTools.Views.Pages
                     }
                 }
 
-                bool result = DeliveryOptimizationService.PauseDownload(downloadID);
-
-                if (result)
-                {
-                    lock (downloadLock)
-                    {
-                        foreach (DownloadModel downloadItem in DownloadCollection)
-                        {
-                            if (downloadItem.DownloadID.Equals(downloadID))
-                            {
-                                downloadItem.IsNotOperated = true;
-                                downloadItem.DownloadState = DODownloadState.DODownloadState_Paused;
-                            }
-                        }
-                    }
-                }
+                DeliveryOptimizationService.PauseDownload(downloadID);
             }
         }
 
@@ -214,25 +187,7 @@ namespace WindowsTools.Views.Pages
                     }
                 }
 
-                bool deleteResult = DeliveryOptimizationService.DeleteDownload(downloadID);
-
-                if (deleteResult)
-                {
-                    MainWindow.Current.BeginInvoke(() =>
-                    {
-                        lock (downloadLock)
-                        {
-                            foreach (DownloadModel downloadItem in DownloadCollection)
-                            {
-                                if (downloadItem.DownloadID.Equals(downloadID))
-                                {
-                                    DownloadCollection.Remove(downloadItem);
-                                    break;
-                                }
-                            }
-                        }
-                    });
-                }
+                DeliveryOptimizationService.DeleteDownload(downloadID);
             }
         }
 
@@ -314,6 +269,18 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnFileInformationExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
+            string filePath = args.Parameter as string;
+
+            if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
+            {
+                SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
+                info.cbSize = Marshal.SizeOf<SHELLEXECUTEINFO>();
+                info.lpVerb = "properties";
+                info.lpFile = filePath;
+                info.nShow = 5;
+                info.fMask = 0x50c;
+                Shell32Library.ShellExecuteEx(ref info);
+            }
         }
 
         #endregion 第一部分：XamlUICommand 命令调用时挂载的事件
@@ -325,7 +292,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSearchDownloadTextChanged(object sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            SearchDownload = (sender as TextBox).Text;
+            SearchDownload = (sender as AutoSuggestBox).Text;
 
             if (string.IsNullOrEmpty(SearchDownload))
             {
@@ -363,9 +330,15 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 添加任务
         /// </summary>
-        private async void OnAddTaskClicked(object sender, RoutedEventArgs args)
+        private void OnAddTaskClicked(object sender, RoutedEventArgs args)
         {
-            await ContentDialogHelper.ShowAsync(new DownloadDialog(), this);
+            if (AddDownloadTaskWindow.Current is null)
+            {
+                new AddDownloadTaskWindow();
+                AddDownloadTaskWindow.Current.Left = MainWindow.Current.Left + (MainWindow.Current.Width - AddDownloadTaskWindow.Current.Width) / 2;
+                AddDownloadTaskWindow.Current.Top = MainWindow.Current.Top + (MainWindow.Current.Height - AddDownloadTaskWindow.Current.Height) / 2;
+                AddDownloadTaskWindow.Current.Show(MainWindow.Current);
+            }
         }
 
         /// <summary>
@@ -373,10 +346,16 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnStartDownloadClicked(object sender, RoutedEventArgs args)
         {
-            foreach (DownloadModel downloadItem in DownloadCollection)
+            lock (downloadLock)
             {
-                downloadItem.IsNotOperated = false;
-                DeliveryOptimizationService.ContinueDownload(downloadItem.DownloadID);
+                foreach (DownloadModel downloadItem in DownloadCollection)
+                {
+                    if (downloadItem.DownloadState is DODownloadState.DODownloadState_Paused)
+                    {
+                        downloadItem.IsNotOperated = false;
+                        DeliveryOptimizationService.ContinueDownload(downloadItem.DownloadID);
+                    }
+                }
             }
         }
 
@@ -385,10 +364,16 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnPauseDownloadClicked(object sender, RoutedEventArgs args)
         {
-            foreach (DownloadModel downloadItem in DownloadCollection)
+            lock (downloadLock)
             {
-                downloadItem.IsNotOperated = false;
-                DeliveryOptimizationService.PauseDownload(downloadItem.DownloadID);
+                foreach (DownloadModel downloadItem in DownloadCollection)
+                {
+                    if (downloadItem.DownloadState is DODownloadState.DODownloadState_Transferring)
+                    {
+                        downloadItem.IsNotOperated = false;
+                        DeliveryOptimizationService.PauseDownload(downloadItem.DownloadID);
+                    }
+                }
             }
         }
 
@@ -397,10 +382,22 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDeleteDownloadClicked(object sender, RoutedEventArgs args)
         {
-            foreach (DownloadModel downloadItem in DownloadCollection)
+            lock (downloadLock)
             {
-                downloadItem.IsNotOperated = false;
-                DeliveryOptimizationService.DeleteDownload(downloadItem.DownloadID);
+                for (int index = DownloadCollection.Count - 1; index >= 0; index--)
+                {
+                    DownloadModel downloadItem = DownloadCollection[index];
+                    downloadItem.IsNotOperated = false;
+
+                    if (downloadItem.DownloadState is DODownloadState.DODownloadState_Finalized)
+                    {
+                        DownloadCollection.RemoveAt(index);
+                    }
+                    else if (downloadItem.DownloadState is DODownloadState.DODownloadState_Transferring)
+                    {
+                        DeliveryOptimizationService.DeleteDownload(downloadItem.DownloadID);
+                    }
+                }
             }
         }
 
@@ -476,87 +473,114 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 下载状态发生变化时触发的事件
+        /// 下载任务已继续
         /// </summary>
-        private void OnStatusChanged(string downloadID, DO_DOWNLOAD_STATUS status)
+        private void OnDownloadContinued(string downloadID)
         {
-            // 下载任务已创建
-            if (status.State is DODownloadState.DODownloadState_Created)
+            MainWindow.Current.BeginInvoke(() =>
             {
-                MainWindow.Current.BeginInvoke(() =>
+                lock (downloadLock)
                 {
-                    lock (downloadLock)
+                    foreach (DownloadModel downloadItem in DownloadCollection)
                     {
-                        foreach (DownloadModel downloadItem in DownloadCollection)
+                        if (downloadItem.DownloadID.Equals(downloadID))
                         {
-                            if (downloadItem.DownloadID.Equals(downloadID))
-                            {
-                                downloadItem.DownloadState = status.State;
-                            }
+                            downloadItem.IsNotOperated = true;
+                            downloadItem.DownloadState = DODownloadState.DODownloadState_Transferring;
                         }
                     }
-                });
-            }
-            // 正在下载
-            else if (status.State is DODownloadState.DODownloadState_Transferring)
+                }
+            });
+        }
+
+        /// <summary>
+        /// 下载任务已暂停
+        /// </summary>
+        private void OnDownloadPaused(string downloadID)
+        {
+            MainWindow.Current.BeginInvoke(() =>
             {
-                MainWindow.Current.BeginInvoke(() =>
+                lock (downloadLock)
                 {
-                    lock (downloadLock)
+                    foreach (DownloadModel downloadItem in DownloadCollection)
                     {
-                        foreach (DownloadModel downloadItem in DownloadCollection)
+                        if (downloadItem.DownloadID.Equals(downloadID))
                         {
-                            if (downloadItem.DownloadID.Equals(downloadID))
-                            {
-                                downloadItem.IsNotOperated = true;
-                                downloadItem.DownloadState = status.State;
-                                downloadItem.CurrentSpeed = status.BytesTransferred - downloadItem.FinishedSize;
-                                downloadItem.FinishedSize = status.BytesTransferred;
-                                downloadItem.TotalSize = status.BytesTotal;
-                            }
+                            downloadItem.IsNotOperated = true;
+                            downloadItem.DownloadState = DODownloadState.DODownloadState_Paused;
                         }
                     }
-                });
-            }
-            // 下载传输完成
-            else if (status.State is DODownloadState.DODownloadState_Transferred)
+                }
+            });
+        }
+
+        /// <summary>
+        /// 下载任务已终止
+        /// </summary>
+        private void OnDownloadAborted(string downloadID)
+        {
+            MainWindow.Current.BeginInvoke(() =>
             {
-                MainWindow.Current.BeginInvoke(() =>
+                lock (downloadLock)
                 {
-                    lock (downloadLock)
+                    foreach (DownloadModel downloadItem in DownloadCollection)
                     {
-                        foreach (DownloadModel downloadItem in DownloadCollection)
+                        if (downloadItem.DownloadID.Equals(downloadID))
                         {
-                            if (downloadItem.DownloadID.Equals(downloadID))
-                            {
-                                downloadItem.IsNotOperated = true;
-                                downloadItem.DownloadState = DODownloadState.DODownloadState_Finalized;
-                                downloadItem.CurrentSpeed = status.BytesTransferred - downloadItem.FinishedSize;
-                                downloadItem.FinishedSize = status.BytesTransferred;
-                                downloadItem.TotalSize = status.BytesTotal;
-                            }
+                            DownloadCollection.Remove(downloadItem);
+                            break;
                         }
                     }
-                });
-            }
-            // 下载已完成
-            else if (status.State is DODownloadState.DODownloadState_Finalized)
+                }
+            });
+        }
+
+        /// <summary>
+        /// 下载任务正在进行中
+        /// </summary>
+        private void OnDownloadProgressing(string downloadID, DO_DOWNLOAD_STATUS status)
+        {
+            MainWindow.Current.BeginInvoke(() =>
             {
-                MainWindow.Current.BeginInvoke(() =>
+                lock (downloadLock)
                 {
-                    lock (downloadLock)
+                    foreach (DownloadModel downloadItem in DownloadCollection)
                     {
-                        foreach (DownloadModel downloadItem in DownloadCollection)
+                        if (downloadItem.DownloadID.Equals(downloadID))
                         {
-                            if (downloadItem.DownloadID.Equals(downloadID))
-                            {
-                                downloadItem.IsNotOperated = true;
-                                downloadItem.DownloadState = status.State;
-                            }
+                            downloadItem.IsNotOperated = true;
+                            downloadItem.DownloadState = status.State;
+                            downloadItem.CurrentSpeed = status.BytesTransferred - downloadItem.FinishedSize;
+                            downloadItem.FinishedSize = status.BytesTransferred;
+                            downloadItem.TotalSize = status.BytesTotal;
                         }
                     }
-                });
-            }
+                }
+            });
+        }
+
+        /// <summary>
+        /// 下载任务已完成
+        /// </summary>
+        private void OnDownloadCompleted(string downloadID, DO_DOWNLOAD_STATUS status)
+        {
+            MainWindow.Current.BeginInvoke(() =>
+            {
+                lock (downloadLock)
+                {
+                    foreach (DownloadModel downloadItem in DownloadCollection)
+                    {
+                        if (downloadItem.DownloadID.Equals(downloadID))
+                        {
+                            downloadItem.IsNotOperated = true;
+                            downloadItem.DownloadState = DODownloadState.DODownloadState_Finalized;
+                            downloadItem.CurrentSpeed = status.BytesTransferred - downloadItem.FinishedSize;
+                            downloadItem.FinishedSize = status.BytesTransferred;
+                            downloadItem.TotalSize = status.BytesTotal;
+                        }
+                    }
+                }
+            });
         }
 
         #endregion 第二部分：自定义事件

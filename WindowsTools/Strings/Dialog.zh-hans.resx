@@ -132,6 +132,9 @@
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
+  <data name="CancelDownload" xml:space="preserve">
+    <value>取消下载</value>
+  </data>
   <data name="CloseDialog" xml:space="preserve">
     <value>关闭对话框</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="CopyAppInformation" xml:space="preserve">
     <value>复制应用信息</value>
+  </data>
+  <data name="DeleteAndRedownload" xml:space="preserve">
+    <value>删除并下载</value>
   </data>
   <data name="DoNetVersion" xml:space="preserve">
     <value>.NET Framework 版本：</value>
@@ -171,6 +177,12 @@
   <data name="ExceptionMessage" xml:space="preserve">
     <value>异常信息：</value>
   </data>
+  <data name="FileCheckExist" xml:space="preserve">
+    <value>文件检查提示</value>
+  </data>
+  <data name="FileCheckExistContent" xml:space="preserve">
+    <value>应用已检测到您将要下载的文件已存在，您希望？</value>
+  </data>
   <data name="FileName" xml:space="preserve">
     <value>文件名称</value>
   </data>
@@ -188,6 +200,9 @@
   </data>
   <data name="OK" xml:space="preserve">
     <value>确定</value>
+  </data>
+  <data name="OpenFolder" xml:space="preserve">
+    <value>打开文件夹</value>
   </data>
   <data name="Operation" xml:space="preserve">
     <value>操作</value>

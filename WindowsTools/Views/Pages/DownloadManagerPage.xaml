@@ -306,7 +306,8 @@
                                         VerticalAlignment="Center"
                                         FontSize="16"
                                         Text="{x:Bind helper:FileSizeHelper.ConvertFileSizeToString(FinishedSize), Mode=OneWay}"
-                                        TextAlignment="Left">
+                                        TextAlignment="Left"
+                                        Visibility="{x:Bind IsDownloading(DownloadState), Mode=OneWay}">
 
                                         <ToolTipService.ToolTip>
                                             <ToolTip>

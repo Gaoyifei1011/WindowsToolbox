@@ -116,6 +116,11 @@ namespace WindowsTools.Views.Windows
             {
                 systemBackdropConfiguration.IsInputActive = true;
             }
+
+            if (AddDownloadTaskWindow.Current is not null)
+            {
+                AddDownloadTaskWindow.Current.Activate();
+            }
         }
 
         /// <summary>

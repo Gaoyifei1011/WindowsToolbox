@@ -132,6 +132,9 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="CancelDownload" xml:space="preserve">
+    <value>Cancel download</value>
+  </data>
   <data name="CloseDialog" xml:space="preserve">
     <value>Close dialog</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="CopyAppInformation" xml:space="preserve">
     <value>Copy app information</value>
+  </data>
+  <data name="DeleteAndRedownload" xml:space="preserve">
+    <value>Delete and redownload</value>
   </data>
   <data name="DoNetVersion" xml:space="preserve">
     <value>.NET Framework version:</value>
@@ -171,6 +177,12 @@
   <data name="ExceptionMessage" xml:space="preserve">
     <value>Exception message:</value>
   </data>
+  <data name="FileCheckExist" xml:space="preserve">
+    <value>File check prompt</value>
+  </data>
+  <data name="FileCheckExistContent" xml:space="preserve">
+    <value>The application has detected that the file you are about to download already exists. Do you hope?</value>
+  </data>
   <data name="FileName" xml:space="preserve">
     <value>File name</value>
   </data>
@@ -188,6 +200,9 @@
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="OpenFolder" xml:space="preserve">
+    <value>Open folder</value>
   </data>
   <data name="Operation" xml:space="preserve">
     <value>Operation</value>

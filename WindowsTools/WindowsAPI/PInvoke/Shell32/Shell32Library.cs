@@ -67,6 +67,9 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILFree", ExactSpelling = false)]
         public static extern void ILFree(IntPtr pidl);
 
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteExW", ExactSpelling = false)]
+        public static extern bool ShellExecuteEx(ref SHELLEXECUTEINFO lpExecInfo);
+
         /// <summary>
         /// 检索由文件夹的 KNOWNFOLDERID 标识的已知文件夹的完整路径。
         /// </summary>

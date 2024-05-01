@@ -1,20 +1,41 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Services.Controls.Pages;
+using WindowsTools.Services.Root;
 using WindowsTools.Strings;
+using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
-namespace WindowsTools.UI.Dialogs
+namespace WindowsTools.Views.Pages
 {
     /// <summary>
-    /// 下载添加任务对话框
+    /// 添加下载任务页面
     /// </summary>
-    public sealed partial class DownloadDialog : ContentDialog, INotifyPropertyChanged
+    public sealed partial class AddDownloadTaskPage : Page, INotifyPropertyChanged
     {
+        private bool _isPrimaryButtonEnabled;
+
+        public bool IsPrimaryButtonEnabled
+        {
+            get { return _isPrimaryButtonEnabled; }
+
+            set
+            {
+                if (!Equals(_isPrimaryButtonEnabled, value))
+                {
+                    _isPrimaryButtonEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsPrimaryButtonEnabled)));
+                }
+            }
+        }
+
         private string _downloadLinkText;
 
         public string DownloadLinkText
@@ -65,7 +86,7 @@ namespace WindowsTools.UI.Dialogs
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DownloadDialog()
+        public AddDownloadTaskPage()
         {
             InitializeComponent();
             Shell32Library.SHGetKnownFolderPath(new Guid("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
@@ -78,9 +99,31 @@ namespace WindowsTools.UI.Dialogs
         /// </summary>
         private void OnDownloadLinkTextChanged(object sender, TextChangedEventArgs args)
         {
-            DownloadLinkText = (sender as Windows.UI.Xaml.Controls.TextBox).Text;
+            DownloadLinkText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
 
-            IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
+            if (!string.IsNullOrEmpty(DownloadLinkText))
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        string filename = HttpUtility.UrlDecode(new Uri(DownloadLinkText).Segments.Last());
+
+                        if (!string.IsNullOrEmpty(filename))
+                        {
+                            AddDownloadTaskWindow.Current?.BeginInvoke(() =>
+                            {
+                                DownloadFileNameText = filename;
+                                IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
+                            });
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(System.Diagnostics.Tracing.EventLevel.Warning, "Parse download link file name failed", e);
+                    }
+                });
+            }
         }
 
         /// <summary>
@@ -88,7 +131,7 @@ namespace WindowsTools.UI.Dialogs
         /// </summary>
         private void OnDownloadFileNameTextChanged(object sender, TextChangedEventArgs args)
         {
-            DownloadFileNameText = (sender as Windows.UI.Xaml.Controls.TextBox).Text;
+            DownloadFileNameText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
 
             IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFileNameText) && !string.IsNullOrEmpty(DownloadFolderText);
         }
@@ -98,7 +141,7 @@ namespace WindowsTools.UI.Dialogs
         /// </summary>
         private void OnDownloadFolderTextChanged(object sender, TextChangedEventArgs args)
         {
-            DownloadFolderText = (sender as Windows.UI.Xaml.Controls.TextBox).Text;
+            DownloadFolderText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
         }
 
         /// <summary>
@@ -120,19 +163,23 @@ namespace WindowsTools.UI.Dialogs
         /// <summary>
         /// 下载文件
         /// </summary>
-        private void OnDownloadClicked(object sender, ContentDialogButtonClickEventArgs args)
+        private void OnDownloadClicked(object sender, RoutedEventArgs args)
         {
-            if (string.IsNullOrEmpty(DownloadFolderText) || string.IsNullOrEmpty(DownloadFileNameText))
-            {
-                return;
-            }
-
             if (DownloadFileNameText.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 || DownloadFolderText.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
             {
-                return;
+                AddDownloadTaskWindow.Current?.Close();
             }
 
             DeliveryOptimizationService.CreateDownload(DownloadLinkText, Path.Combine(DownloadFolderText, DownloadFileNameText));
+            AddDownloadTaskWindow.Current?.Close();
+        }
+
+        /// <summary>
+        /// 关闭窗口
+        /// </summary>
+        private void OnCloseClicked(object sender, RoutedEventArgs args)
+        {
+            AddDownloadTaskWindow.Current?.Close();
         }
     }
 }

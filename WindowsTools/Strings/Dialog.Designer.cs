@@ -106,6 +106,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Cancel download 的本地化字符串。
+        /// </summary>
+        public static string CancelDownload {
+            get {
+                return ResourceManager.GetString("CancelDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Close dialog 的本地化字符串。
         /// </summary>
         public static string CloseDialog {
@@ -138,6 +147,15 @@ namespace WindowsTools.Strings {
         public static string CopyAppInformation {
             get {
                 return ResourceManager.GetString("CopyAppInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete and redownload 的本地化字符串。
+        /// </summary>
+        public static string DeleteAndRedownload {
+            get {
+                return ResourceManager.GetString("DeleteAndRedownload", resourceCulture);
             }
         }
         
@@ -223,6 +241,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 File check prompt 的本地化字符串。
+        /// </summary>
+        public static string FileCheckExist {
+            get {
+                return ResourceManager.GetString("FileCheckExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The application has detected that the file you are about to download already exists. Do you hope? 的本地化字符串。
+        /// </summary>
+        public static string FileCheckExistContent {
+            get {
+                return ResourceManager.GetString("FileCheckExistContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 File name 的本地化字符串。
         /// </summary>
         public static string FileName {
@@ -273,6 +309,15 @@ namespace WindowsTools.Strings {
         public static string OK {
             get {
                 return ResourceManager.GetString("OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open folder 的本地化字符串。
+        /// </summary>
+        public static string OpenFolder {
+            get {
+                return ResourceManager.GetString("OpenFolder", resourceCulture);
             }
         }
         

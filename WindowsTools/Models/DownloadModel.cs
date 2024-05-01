@@ -138,7 +138,7 @@ namespace WindowsTools.Models
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// 计算当前文件的下载进度（如果文件暂未下载，修改下载文件的进度显示状态为未确定）
+        /// 计算当前文件的下载进度
         /// </summary>
         public double DownloadProgress(double finishedSize, double totalSize)
         {
