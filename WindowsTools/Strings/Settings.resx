@@ -159,6 +159,9 @@
   <data name="BackdropMicaAlt" xml:space="preserve">
     <value>Alt</value>
   </data>
+  <data name="ChangeFolder" xml:space="preserve">
+    <value>Change directory</value>
+  </data>
   <data name="Clear" xml:space="preserve">
     <value>Clear</value>
   </data>
@@ -171,8 +174,23 @@
   <data name="CloseWindow" xml:space="preserve">
     <value>Hide window to system tray</value>
   </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="Desktop" xml:space="preserve">
+    <value>Desktop</value>
+  </data>
   <data name="DesktopAcrylic" xml:space="preserve">
     <value>Acrylic</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="DownloadFolder" xml:space="preserve">
+    <value>Default download folder</value>
+  </data>
+  <data name="DownloadFolderDescription" xml:space="preserve">
+    <value>Download the preferred file download path</value>
   </data>
   <data name="ExitApp" xml:space="preserve">
     <value>Exit app</value>
@@ -219,6 +237,9 @@
   <data name="Mica" xml:space="preserve">
     <value>Mica</value>
   </data>
+  <data name="OpenFolderToolTip" xml:space="preserve">
+    <value>Click to access the folder</value>
+  </data>
   <data name="OpenLogFolder" xml:space="preserve">
     <value>Open folder</value>
   </data>
@@ -230,6 +251,9 @@
   </data>
   <data name="RestartExplorer" xml:space="preserve">
     <value>Restart explorer</value>
+  </data>
+  <data name="SelectFolder" xml:space="preserve">
+    <value>Select folder</value>
   </data>
   <data name="SettingsInstruction" xml:space="preserve">
     <value>Settings instruction</value>

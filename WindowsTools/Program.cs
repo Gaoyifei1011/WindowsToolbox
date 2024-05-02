@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using WindowsTools.Helpers.Root;
-using WindowsTools.Services.Controls.Pages;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Services.Shell;
@@ -84,6 +83,7 @@ namespace WindowsTools
             ThemeService.InitializeTheme();
             TopMostService.InitializeTopMostValue();
 
+            DownloadService.InitializeDownload();
             FileShellMenuService.InitializeFileShellMenu();
             ExitModeService.InitializeExitMode();
             ShellMenuService.InitializeShellMenu();

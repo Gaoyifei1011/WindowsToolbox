@@ -37,6 +37,34 @@ namespace WindowsTools.Services.Controls.Pages
         public static event Action<string, DO_DOWNLOAD_STATUS> DownloadCompleted;
 
         /// <summary>
+        /// 获取下载任务的数量
+        /// </summary>
+        public static int GetDownloadCount()
+        {
+            lock (deliveryOptimizationLock)
+            {
+                return DeliveryOptimizationDict.Count;
+            }
+        }
+
+        /// <summary>
+        /// 终止所有下载任务，仅用于应用关闭时
+        /// </summary>
+        public static void TerminateDownload()
+        {
+            if (GetDownloadCount() > 0)
+            {
+                lock (deliveryOptimizationLock)
+                {
+                    foreach (KeyValuePair<string, IDODownload> deliveryOptimizationKeyValue in DeliveryOptimizationDict)
+                    {
+                        deliveryOptimizationKeyValue.Value.Abort();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// 使用下载链接创建下载
         /// </summary>
         public static void CreateDownload(string url, string saveFilePath)
@@ -57,7 +85,7 @@ namespace WindowsTools.Services.Controls.Pages
                         doManager = (IDOManager)ppv;
                         doManager.CreateDownload(out doDownload);
                         IntPtr pInterface = Marshal.GetComInterfaceForObject<object, IDODownload>(doDownload);
-                        Ole32Library.CoSetProxyBlanket(pInterface, uint.MaxValue, uint.MaxValue, (IntPtr)ulong.MaxValue, 0, 3, IntPtr.Zero, 32);
+                        Ole32Library.CoSetProxyBlanket(pInterface, uint.MaxValue, uint.MaxValue, unchecked((IntPtr)ulong.MaxValue), 0, 3, IntPtr.Zero, 32);
                         Marshal.Release(pInterface);
                         Marshal.FinalReleaseComObject(doManager);
 
@@ -68,7 +96,7 @@ namespace WindowsTools.Services.Controls.Pages
 
                         DODownloadStatusCallback doDownloadStatusCallback = new DODownloadStatusCallback();
                         doDownloadStatusCallback.StatusChanged += OnStatusChanged;
-                        doDownload.SetProperty(DODownloadProperty.DODownloadProperty_CallbackInterface, doDownloadStatusCallback);
+                        doDownload.SetProperty(DODownloadProperty.DODownloadProperty_CallbackInterface, new UnknownWrapper(doDownloadStatusCallback).WrappedObject);
                         doDownload.SetProperty(DODownloadProperty.DODownloadProperty_ForegroundPriority, true);
 
                         doDownload.GetProperty(DODownloadProperty.DODownloadProperty_Id, out object id);
@@ -169,6 +197,8 @@ namespace WindowsTools.Services.Controls.Pages
                             if (abortResult is 0)
                             {
                                 DownloadAborted?.Invoke(downloadID);
+
+                                DeliveryOptimizationDict.Remove(downloadID);
                             }
                         }
                     }

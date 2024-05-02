@@ -117,100 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppInformationTitle" xml:space="preserve">
-    <value>应用信息</value>
+  <data name="AddTask" xml:space="preserve">
+    <value>Add download task</value>
   </data>
-  <data name="AppName" xml:space="preserve">
-    <value>Windows 工具箱</value>
+  <data name="DownloadFileNamePHText" xml:space="preserve">
+    <value>Please input the download file name</value>
   </data>
-  <data name="AppRunning" xml:space="preserve">
-    <value>应用程序正在运行中</value>
+  <data name="DownloadFolderPHText" xml:space="preserve">
+    <value>Select the folder to save</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>取消</value>
+  <data name="DownloadLinkPHText" xml:space="preserve">
+    <value>Please input the download link</value>
   </data>
-  <data name="CancelDownload" xml:space="preserve">
-    <value>取消下载</value>
+  <data name="FileNameInvalid" xml:space="preserve">
+    <value>The file path you entered is invalid. Please try again</value>
   </data>
-  <data name="CloseDialog" xml:space="preserve">
-    <value>关闭对话框</value>
-  </data>
-  <data name="Copy" xml:space="preserve">
-    <value>复制</value>
-  </data>
-  <data name="CopyAll" xml:space="preserve">
-    <value>复制所有信息</value>
-  </data>
-  <data name="CopyAppInformation" xml:space="preserve">
-    <value>复制应用信息</value>
-  </data>
-  <data name="DeleteAndRedownload" xml:space="preserve">
-    <value>删除并下载</value>
-  </data>
-  <data name="DoNetVersion" xml:space="preserve">
-    <value>.NET Framework 版本：</value>
-  </data>
-  <data name="Download" xml:space="preserve">
-    <value>下载</value>
-  </data>
-  <data name="ErrorCode" xml:space="preserve">
-    <value>错误代码</value>
-  </data>
-  <data name="ErrorMessage" xml:space="preserve">
-    <value>错误信息</value>
-  </data>
-  <data name="ExceptionCode" xml:space="preserve">
-    <value>异常错误代码（HResult）:</value>
-  </data>
-  <data name="ExceptionMessage" xml:space="preserve">
-    <value>异常信息：</value>
-  </data>
-  <data name="FileCheckExist" xml:space="preserve">
-    <value>文件检查提示</value>
-  </data>
-  <data name="FileCheckExistContent" xml:space="preserve">
-    <value>应用已检测到您将要下载的文件已存在，您希望？</value>
-  </data>
-  <data name="FileName" xml:space="preserve">
-    <value>文件名称</value>
-  </data>
-  <data name="FileNameCopy" xml:space="preserve">
-    <value>文件名称：</value>
-  </data>
-  <data name="FilePathCopy" xml:space="preserve">
-    <value>文件路径：</value>
-  </data>
-  <data name="License" xml:space="preserve">
-    <value>Windows 工具箱 许可证</value>
-  </data>
-  <data name="MileXamlVersion" xml:space="preserve">
-    <value>Mile Xaml 版本：</value>
-  </data>
-  <data name="OK" xml:space="preserve">
-    <value>确定</value>
-  </data>
-  <data name="OpenFolder" xml:space="preserve">
-    <value>打开文件夹</value>
-  </data>
-  <data name="Operation" xml:space="preserve">
-    <value>操作</value>
-  </data>
-  <data name="OperationFailed" xml:space="preserve">
-    <value>错误信息列表</value>
-  </data>
-  <data name="Restart" xml:space="preserve">
-    <value>重启应用</value>
-  </data>
-  <data name="RestartContent" xml:space="preserve">
-    <value>应用即将重启，重启后应用的数据将会丢失，请确保您的工作内容已经全部保存。</value>
-  </data>
-  <data name="WindowsAppSDKVersion" xml:space="preserve">
-    <value>Windows 应用 SDK 版本：</value>
-  </data>
-  <data name="WindowsUIVersion" xml:space="preserve">
-    <value>Windows UI 版本：</value>
-  </data>
-  <data name="WinUI2Version" xml:space="preserve">
-    <value>WinUI 2 版本：</value>
+  <data name="SelectFolderToolTip" xml:space="preserve">
+    <value>Select folder</value>
   </data>
 </root>

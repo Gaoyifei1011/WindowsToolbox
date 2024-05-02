@@ -1,5 +1,5 @@
-using Windows.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 
 namespace WindowsTools.UI.TeachingTips
 {

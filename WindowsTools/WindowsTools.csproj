@@ -4,7 +4,7 @@
     <ApplicationIcon>Assets\WindowsTools.ico</ApplicationIcon>
     <ApplicationManifest>App.manifest</ApplicationManifest>
     <AssemblyName>WindowsTools</AssemblyName>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <Deterministic>true</Deterministic>
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <FileAlignment>512</FileAlignment>
@@ -42,6 +42,12 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>About.resx</DependentUpon>
+    </Compile>
+    
+    <Compile Update="Strings\AddDownloadTask.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AddDownloadTask.resx</DependentUpon>
     </Compile>
     
     <Compile Update="Strings\AllTools.Designer.cs">
@@ -289,7 +295,7 @@
     <Content Include="Assets\WindowsTools.ico" CopyToOutputDirectory="Always" />
     
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" IncludeAssets="none" ExcludeAssets="all" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240404000" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" GeneratePathProperty="true" />
     <PackageReference Include="Mile.Xaml" Version="2.2.944" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     <PackageReference Include="ZXing.Net" Version="0.16.9" />
@@ -304,6 +310,9 @@
     <EmbeddedResource Update="Strings\About.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\About.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="About.Designer.cs" />
     <EmbeddedResource Update="Strings\About.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\AddDownloadTask.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\AddDownloadTask.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="AddDownloadTask.Designer.cs" />
+    <EmbeddedResource Update="Strings\AddDownloadTask.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\AllTools.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\AllTools.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="AllTools.Designer.cs" />
     <EmbeddedResource Update="Strings\AllTools.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
@@ -356,13 +365,9 @@
     <EmbeddedResource Update="Strings\SystemInfo.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\SystemInfo.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="SystemInfo.Designer.cs" />
     <EmbeddedResource Update="Strings\SystemInfo.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\SystemTray.en-us.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\SystemTray.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SystemTray.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <EmbeddedResource Update="Strings\SystemTray.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\SystemTray.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="SystemTray.Designer.cs" />
+    <EmbeddedResource Update="Strings\SystemTray.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\UpdateManager.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\UpdateManager.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="UpdateManager.Designer.cs" />
     <EmbeddedResource Update="Strings\UpdateManager.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />

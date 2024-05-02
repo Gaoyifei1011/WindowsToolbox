@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Advapi32
+﻿namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Advapi32
 {
     /// <summary>
     /// 注册表值类型

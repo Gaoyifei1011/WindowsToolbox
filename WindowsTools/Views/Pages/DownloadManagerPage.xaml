@@ -256,7 +256,8 @@
                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             BorderThickness="1"
-                            CornerRadius="{StaticResource ControlCornerRadius}">
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            Visibility="{x:Bind IsVisible, Mode=OneWay}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
@@ -306,7 +307,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="16"
                                         Text="{x:Bind helper:FileSizeHelper.ConvertFileSizeToString(FinishedSize), Mode=OneWay}"
-                                        TextAlignment="Left"
+                                        TextAlignment="Right"
                                         Visibility="{x:Bind IsDownloading(DownloadState), Mode=OneWay}">
 
                                         <ToolTipService.ToolTip>
@@ -325,7 +326,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="16"
                                         Text="{x:Bind helper:FileSizeHelper.ConvertFileSizeToString(TotalSize), Mode=OneWay}"
-                                        TextAlignment="Left">
+                                        TextAlignment="Right">
 
                                         <ToolTipService.ToolTip>
                                             <ToolTip>
@@ -343,7 +344,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="16"
                                         Text="{x:Bind downloadHelper:SpeedHelper.ConvertSpeedToString(CurrentSpeed), Mode=OneWay}"
-                                        TextAlignment="Left"
+                                        TextAlignment="Right"
                                         Visibility="{x:Bind IsDownloading(DownloadState), Mode=OneWay}">
 
                                         <ToolTipService.ToolTip>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Helpers.Controls;
@@ -14,6 +15,7 @@ using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
+using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
 namespace WindowsTools.Views.Pages
 {
@@ -98,6 +100,22 @@ namespace WindowsTools.Views.Pages
                 {
                     _topMostValue = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TopMostValue)));
+                }
+            }
+        }
+
+        private string _downloadFolder = DownloadService.DownloadFolder;
+
+        public string DownloadFolder
+        {
+            get { return _downloadFolder; }
+
+            set
+            {
+                if (!Equals(_downloadFolder, value))
+                {
+                    _downloadFolder = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DownloadFolder)));
                 }
             }
         }
@@ -290,6 +308,58 @@ namespace WindowsTools.Views.Pages
             {
                 AlwaysShowBackdropService.SetAlwaysShowBackdrop(toggleSwitch.IsOn);
                 AlwaysShowBackdropValue = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 打开文件存放目录
+        /// </summary>
+        private void OnOpenFolderClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                Process.Start(DownloadFolder);
+            });
+        }
+
+        /// <summary>
+        /// 修改下载目录
+        /// </summary>
+        private void OnChangeFolderClicked(object sender, RoutedEventArgs args)
+        {
+            MenuFlyoutItem menuFlyoutItem = sender as MenuFlyoutItem;
+            if (menuFlyoutItem.Tag is not null)
+            {
+                switch ((string)menuFlyoutItem.Tag)
+                {
+                    case "Download":
+                        {
+                            Shell32Library.SHGetKnownFolderPath(new Guid("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
+                            DownloadFolder = downloadFolder;
+                            DownloadService.SetFolder(DownloadFolder);
+                            break;
+                        }
+                    case "Desktop":
+                        {
+                            DownloadFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                            DownloadService.SetFolder(DownloadFolder);
+                            break;
+                        }
+                    case "Custom":
+                        {
+                            FolderBrowserDialog dialog = new FolderBrowserDialog();
+                            dialog.Description = Settings.SelectFolder;
+                            dialog.ShowNewFolderButton = true;
+                            dialog.RootFolder = Environment.SpecialFolder.Desktop;
+                            DialogResult result = dialog.ShowDialog();
+                            if (result is DialogResult.OK || result is DialogResult.Yes)
+                            {
+                                DownloadFolder = dialog.SelectedPath;
+                                DownloadService.SetFolder(DownloadFolder);
+                            }
+                            break;
+                        }
+                }
             }
         }
 

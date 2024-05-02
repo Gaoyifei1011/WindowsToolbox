@@ -9,5 +9,6 @@
         GenerateBarCodeFailed = 4,
         GenerateQRCodeFailed = 5,
         ReadClipboardImageFailed = 6,
+        DeleteFileFailed = 7
     }
 }

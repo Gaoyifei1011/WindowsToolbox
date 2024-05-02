@@ -61,7 +61,7 @@ A toolbox that integrates multiple gadgets.
 | Batch change the upper and lower case names of files      | Finished                                                             |
 | Batch modify file properties                              | Finished                                                             |
 | Batch delete the certificates of signed files             | Finished                                                             |
-| Download manager (Delivery optimization)                  | Unfinished                                                           |
+| Download manager (Delivery optimization)                  | Finished                                                             |
 | Bar code,QR code generate and parse                       | Finished                                                             |
 | Extract file icons                                        | Finished                                                             |
 | Extract the package resource index(.pri) file conten      | Finished                                                             |

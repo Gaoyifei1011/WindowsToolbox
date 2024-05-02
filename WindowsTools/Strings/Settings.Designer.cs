@@ -187,6 +187,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Change directory 的本地化字符串。
+        /// </summary>
+        public static string ChangeFolder {
+            get {
+                return ResourceManager.GetString("ChangeFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Clear 的本地化字符串。
         /// </summary>
         public static string Clear {
@@ -223,11 +232,56 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Custom 的本地化字符串。
+        /// </summary>
+        public static string Custom {
+            get {
+                return ResourceManager.GetString("Custom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Desktop 的本地化字符串。
+        /// </summary>
+        public static string Desktop {
+            get {
+                return ResourceManager.GetString("Desktop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Acrylic 的本地化字符串。
         /// </summary>
         public static string DesktopAcrylic {
             get {
                 return ResourceManager.GetString("DesktopAcrylic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download 的本地化字符串。
+        /// </summary>
+        public static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Default download folder 的本地化字符串。
+        /// </summary>
+        public static string DownloadFolder {
+            get {
+                return ResourceManager.GetString("DownloadFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download the preferred file download path 的本地化字符串。
+        /// </summary>
+        public static string DownloadFolderDescription {
+            get {
+                return ResourceManager.GetString("DownloadFolderDescription", resourceCulture);
             }
         }
         
@@ -367,6 +421,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Click to access the folder 的本地化字符串。
+        /// </summary>
+        public static string OpenFolderToolTip {
+            get {
+                return ResourceManager.GetString("OpenFolderToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Open folder 的本地化字符串。
         /// </summary>
         public static string OpenLogFolder {
@@ -399,6 +462,15 @@ namespace WindowsTools.Strings {
         public static string RestartExplorer {
             get {
                 return ResourceManager.GetString("RestartExplorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select folder 的本地化字符串。
+        /// </summary>
+        public static string SelectFolder {
+            get {
+                return ResourceManager.GetString("SelectFolder", resourceCulture);
             }
         }
         

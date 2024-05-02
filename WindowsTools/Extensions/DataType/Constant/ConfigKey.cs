@@ -9,6 +9,8 @@
 
         public const string BackdropKey = "AppBackdrop";
 
+        public const string DownloadFolderKey = "DownloadFolder";
+
         public const string FileShellMenuKey = "FileShellMenu";
 
         public const string LanguageKey = "AppLanguage";

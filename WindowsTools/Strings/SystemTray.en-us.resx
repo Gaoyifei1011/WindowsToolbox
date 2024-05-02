@@ -120,6 +120,12 @@
   <data name="Exit" xml:space="preserve">
     <value>Exit</value>
   </data>
+  <data name="FileDeleteFailedContent" xml:space="preserve">
+    <value>Failed to delete the file. The local directory is about to open</value>
+  </data>
+  <data name="FileDeleteFailedTitle" xml:space="preserve">
+    <value>Delete file</value>
+  </data>
   <data name="ShowOrHideWindow" xml:space="preserve">
     <value>Show/hide window</value>
   </data>

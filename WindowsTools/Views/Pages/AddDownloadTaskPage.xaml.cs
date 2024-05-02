@@ -7,11 +7,13 @@ using System.Web;
 using System.Windows.Forms;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using WindowsTools.Helpers.Controls;
 using WindowsTools.Services.Controls.Pages;
+using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
+using WindowsTools.UI.Dialogs;
 using WindowsTools.Views.Windows;
-using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
 namespace WindowsTools.Views.Pages
 {
@@ -89,8 +91,8 @@ namespace WindowsTools.Views.Pages
         public AddDownloadTaskPage()
         {
             InitializeComponent();
-            Shell32Library.SHGetKnownFolderPath(new Guid("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
-            DownloadFolderText = downloadFolder;
+            DownloadFolderText = DownloadService.DownloadFolder;
+            RequestedTheme = (ElementTheme)Enum.Parse(typeof(ElementTheme), ThemeService.AppTheme.Value.ToString());
             IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
         }
 
@@ -163,15 +165,33 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 下载文件
         /// </summary>
-        private void OnDownloadClicked(object sender, RoutedEventArgs args)
+        private async void OnDownloadClicked(object sender, RoutedEventArgs args)
         {
+            // 检查文件路径
             if (DownloadFileNameText.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 || DownloadFolderText.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
             {
-                AddDownloadTaskWindow.Current?.Close();
+                FileNameInvalidTeachingTip.IsOpen = true;
+                await Task.Delay(2000);
+                FileNameInvalidTeachingTip.IsOpen = false;
+                return;
             }
 
-            DeliveryOptimizationService.CreateDownload(DownloadLinkText, Path.Combine(DownloadFolderText, DownloadFileNameText));
-            AddDownloadTaskWindow.Current?.Close();
+            string filePath = Path.Combine(DownloadFolderText, DownloadFileNameText);
+
+            // 检查本地文件是否存在
+            if (File.Exists(filePath))
+            {
+                MainWindow.Current.BeginInvoke(async () =>
+                {
+                    await ContentDialogHelper.ShowAsync(new FileCheckDialog(DownloadLinkText, filePath), MainWindow.Current.Content as FrameworkElement);
+                });
+                AddDownloadTaskWindow.Current?.Close();
+            }
+            else
+            {
+                DeliveryOptimizationService.CreateDownload(DownloadLinkText, Path.Combine(DownloadFolderText, DownloadFileNameText));
+                AddDownloadTaskWindow.Current?.Close();
+            }
         }
 
         /// <summary>

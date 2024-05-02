@@ -159,6 +159,9 @@
   <data name="BackdropMicaAlt" xml:space="preserve">
     <value>Alt</value>
   </data>
+  <data name="ChangeFolder" xml:space="preserve">
+    <value>更改目录</value>
+  </data>
   <data name="Clear" xml:space="preserve">
     <value>清除</value>
   </data>
@@ -171,8 +174,23 @@
   <data name="CloseWindow" xml:space="preserve">
     <value>隐藏窗口到托盘</value>
   </data>
+  <data name="Custom" xml:space="preserve">
+    <value>自定义</value>
+  </data>
+  <data name="Desktop" xml:space="preserve">
+    <value>桌面</value>
+  </data>
   <data name="DesktopAcrylic" xml:space="preserve">
     <value>亚克力</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="DownloadFolder" xml:space="preserve">
+    <value>默认下载路径</value>
+  </data>
+  <data name="DownloadFolderDescription" xml:space="preserve">
+    <value>下载首选的文件下载路径</value>
   </data>
   <data name="ExitApp" xml:space="preserve">
     <value>关闭应用</value>
@@ -219,6 +237,9 @@
   <data name="Mica" xml:space="preserve">
     <value>云母</value>
   </data>
+  <data name="OpenFolderToolTip" xml:space="preserve">
+    <value>单击访问该文件夹</value>
+  </data>
   <data name="OpenLogFolder" xml:space="preserve">
     <value>打开文件夹</value>
   </data>
@@ -230,6 +251,9 @@
   </data>
   <data name="RestartExplorer" xml:space="preserve">
     <value>重启资源管理器</value>
+  </data>
+  <data name="SelectFolder" xml:space="preserve">
+    <value>选择文件夹</value>
   </data>
   <data name="SettingsInstruction" xml:space="preserve">
     <value>设置说明</value>

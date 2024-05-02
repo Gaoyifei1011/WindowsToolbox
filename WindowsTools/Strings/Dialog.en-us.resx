@@ -117,17 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddDownloadTask" xml:space="preserve">
-    <value>Add download task</value>
-  </data>
   <data name="AppInformationTitle" xml:space="preserve">
     <value>App information</value>
   </data>
-  <data name="AppIsRunning" xml:space="preserve">
-    <value>The application is running</value>
-  </data>
   <data name="AppName" xml:space="preserve">
     <value>WindowsTools</value>
+  </data>
+  <data name="AppRunning" xml:space="preserve">
+    <value>The application is running</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
@@ -155,15 +152,6 @@
   </data>
   <data name="Download" xml:space="preserve">
     <value>Download</value>
-  </data>
-  <data name="DownloadFileNamePHText" xml:space="preserve">
-    <value>Please input the download file name</value>
-  </data>
-  <data name="DownloadFolderPHText" xml:space="preserve">
-    <value>Select the folder to save</value>
-  </data>
-  <data name="DownloadLinkPHText" xml:space="preserve">
-    <value>Please input the download link</value>
   </data>
   <data name="ErrorCode" xml:space="preserve">
     <value>Error code</value>
@@ -215,9 +203,6 @@
   </data>
   <data name="RestartContent" xml:space="preserve">
     <value>The app is about to restart, after the restart the app's data will be lost, make sure that your work has been saved in its entirety</value>
-  </data>
-  <data name="SelectFolderToolTip" xml:space="preserve">
-    <value>Select folder</value>
   </data>
   <data name="WindowsAppSDKVersion" xml:space="preserve">
     <value>Windows App SDK version：</value>

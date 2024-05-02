@@ -223,6 +223,7 @@ namespace WindowsTools.Views.Pages
                                 if (downloadItem.DownloadID.Equals(item.DownloadID))
                                 {
                                     DownloadCollection.Remove(item);
+                                    break;
                                 }
                             }
                         }

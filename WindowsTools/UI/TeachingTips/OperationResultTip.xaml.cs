@@ -60,6 +60,12 @@ namespace WindowsTools.UI.TeachingTips
                 OperationResultFailed.Visibility = Visibility.Visible;
                 OperationResultFailed.Text = Notification.ReadClipboardImageFailed;
             }
+            else if (operationKind is OperationKind.DeleteFileFailed)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultFailed.Text = Notification.FileDeleteFailed;
+            }
         }
     }
 }

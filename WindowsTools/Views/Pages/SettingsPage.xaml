@@ -481,7 +481,7 @@
                         Text="{x:Bind string:Settings.General}" />
                 </StackPanel>
 
-                <!--  文件右键菜单设置  -->
+                <!--  下载文件路径设置  -->
                 <Grid
                     Height="61"
                     Padding="16,12"
@@ -489,6 +489,95 @@
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
                     CornerRadius="{StaticResource ControlCornerRadius}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <FontIcon
+                        Grid.Column="0"
+                        Margin="0,0,12,0"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                        FontSize="16"
+                        Glyph="&#xE896;" />
+
+                    <StackPanel
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{x:Bind string:Settings.DownloadFolder}" />
+
+                        <HyperlinkButton Click="{x:Bind OnOpenFolderClicked}" Style="{StaticResource HyperlinkButtonStyle}">
+
+                            <HyperlinkButton.Content>
+                                <TextBlock
+                                    Text="{x:Bind DownloadFolder, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </HyperlinkButton.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip MaxWidth="9999">
+                                    <StackPanel HorizontalAlignment="Stretch">
+                                        <TextBlock Text="{x:Bind string:Settings.DownloadFolderDescription}" />
+                                        <TextBlock Text="{x:Bind DownloadFolder, Mode=OneWay}" />
+                                        <MenuFlyoutSeparator Margin="4,3" />
+                                        <TextBlock Text="{x:Bind string:Settings.OpenFolderToolTip}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </HyperlinkButton>
+                    </StackPanel>
+
+                    <DropDownButton
+                        Grid.Column="2"
+                        Margin="6,0,0,0"
+                        Content="{x:Bind string:Settings.ChangeFolder}">
+
+                        <DropDownButton.Flyout>
+                            <MenuFlyout Placement="Bottom">
+                                <MenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
+                                    Click="{x:Bind OnChangeFolderClicked}"
+                                    Tag="Download"
+                                    Text="{x:Bind string:Settings.Download}" />
+
+                                <MenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
+                                    Click="{x:Bind OnChangeFolderClicked}"
+                                    Tag="Desktop"
+                                    Text="{x:Bind string:Settings.Desktop}" />
+
+                                <MenuFlyoutSeparator />
+
+                                <MenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
+                                    Click="{x:Bind OnChangeFolderClicked}"
+                                    Tag="Custom"
+                                    Text="{x:Bind string:Settings.Custom}" />
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+                </Grid>
+
+                <!--  文件右键菜单设置  -->
+                <Grid
+                    Height="61"
+                    Padding="16,12"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Visibility="Collapsed">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />

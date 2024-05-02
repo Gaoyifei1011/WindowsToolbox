@@ -97,6 +97,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Failed to delete the file. The local directory is about to open 的本地化字符串。
+        /// </summary>
+        public static string FileDeleteFailed {
+            get {
+                return ResourceManager.GetString("FileDeleteFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The file path information was successfully copied to the clipboard 的本地化字符串。
         /// </summary>
         public static string FilePathCopy {

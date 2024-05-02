@@ -12,7 +12,7 @@ namespace WindowsTools.Views.Windows
     public class AddDownloadTaskWindow : Form
     {
         private IContainer components = new Container();
-        private WindowsXamlHost windowsXamlHost = new WindowsXamlHost();
+        public WindowsXamlHost windowsXamlHost = new WindowsXamlHost();
 
         public UIElement Content { get; set; } = new AddDownloadTaskPage();
 
@@ -25,13 +25,13 @@ namespace WindowsTools.Views.Windows
             Current = this;
             Controls.Add(windowsXamlHost);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Height = 410;
+            Height = 410 * DeviceDpi / 96;
             MaximizeBox = false;
             MinimizeBox = false;
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.Manual;
-            Width = 600;
+            Width = 600 * DeviceDpi / 96;
             windowsXamlHost.AutoSize = true;
             windowsXamlHost.Dock = DockStyle.Fill;
             windowsXamlHost.Child = Content;

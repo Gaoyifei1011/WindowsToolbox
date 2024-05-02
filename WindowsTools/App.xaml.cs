@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics.Tracing;
 using Windows.UI.Xaml;
+using WindowsTools.Services.Controls.Pages;
 using WindowsTools.Services.Root;
 using WindowsTools.Views.Windows;
 
@@ -59,8 +60,9 @@ namespace WindowsTools
                         MainWindow.Current?.Close();
                     }
 
+                    DeliveryOptimizationService.TerminateDownload();
                     SystemTrayService.CloseSystemTray();
-                    System.Windows.Forms.Application.Exit();
+                    Environment.Exit(0);
                 }
 
                 isDisposed = true;
