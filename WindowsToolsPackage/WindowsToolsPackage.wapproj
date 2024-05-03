@@ -52,7 +52,7 @@
     <ProjectGuid>{5AC5F60D-FD5E-4630-B7F2-951A41BE392A}</ProjectGuid>
     <TargetFrameworkMoniker>.NETFramework,Version=v4.8.1</TargetFrameworkMoniker>
     <TargetPlatformVersion>10.0.22621.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.22621.0</TargetPlatformMinVersion>
     <PackageCertificateKeyFile>WindowsToolsPackage_SignKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">

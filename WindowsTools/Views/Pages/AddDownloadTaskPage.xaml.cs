@@ -5,8 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Services.Controls.Pages;
 using WindowsTools.Services.Controls.Settings;
@@ -86,6 +88,22 @@ namespace WindowsTools.Views.Pages
             }
         }
 
+        private SolidColorBrush _dialogBackground;
+
+        public SolidColorBrush DialogBackground
+        {
+            get { return _dialogBackground; }
+
+            set
+            {
+                if (!Equals(_dialogBackground, value))
+                {
+                    _dialogBackground = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DialogBackground)));
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public AddDownloadTaskPage()
@@ -94,6 +112,15 @@ namespace WindowsTools.Views.Pages
             DownloadFolderText = DownloadService.DownloadFolder;
             RequestedTheme = (ElementTheme)Enum.Parse(typeof(ElementTheme), ThemeService.AppTheme.Value.ToString());
             IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
+            SetBackground(ActualTheme);
+        }
+
+        /// <summary>
+        /// 应用主题发生变化时修改对话框的背景色
+        /// </summary>
+        private void OnActualThemeChanged(FrameworkElement sender, object args)
+        {
+            SetBackground(ActualTheme);
         }
 
         /// <summary>
@@ -200,6 +227,18 @@ namespace WindowsTools.Views.Pages
         private void OnCloseClicked(object sender, RoutedEventArgs args)
         {
             AddDownloadTaskWindow.Current?.Close();
+        }
+
+        private void SetBackground(ElementTheme elementTheme)
+        {
+            if (elementTheme is ElementTheme.Light)
+            {
+                DialogBackground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+            }
+            else if (elementTheme is ElementTheme.Dark)
+            {
+                DialogBackground = new SolidColorBrush(Color.FromArgb(255, 43, 43, 43));
+            }
         }
     }
 }
