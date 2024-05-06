@@ -535,12 +535,12 @@
                         </HyperlinkButton>
                     </StackPanel>
 
-                    <DropDownButton
+                    <muxc:DropDownButton
                         Grid.Column="2"
                         Margin="6,0,0,0"
                         Content="{x:Bind string:Settings.ChangeFolder}">
 
-                        <DropDownButton.Flyout>
+                        <muxc:DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
                                 <MenuFlyoutItem
                                     Height="32"
@@ -565,8 +565,8 @@
                                     Tag="Custom"
                                     Text="{x:Bind string:Settings.Custom}" />
                             </MenuFlyout>
-                        </DropDownButton.Flyout>
-                    </DropDownButton>
+                        </muxc:DropDownButton.Flyout>
+                    </muxc:DropDownButton>
                 </Grid>
 
                 <!--  文件右键菜单设置  -->
