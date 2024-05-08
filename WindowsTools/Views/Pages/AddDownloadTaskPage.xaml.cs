@@ -1,9 +1,8 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics.Tracing;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Windows.Forms;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -136,22 +135,30 @@ namespace WindowsTools.Views.Pages
                 {
                     try
                     {
-                        string filename = HttpUtility.UrlDecode(new Uri(DownloadLinkText).Segments.Last());
-
-                        if (!string.IsNullOrEmpty(filename))
+                        bool createSucceeded = Uri.TryCreate(DownloadLinkText, UriKind.Absolute, out Uri uri);
+                        if (createSucceeded && uri.Segments.Length >= 1)
                         {
-                            AddDownloadTaskWindow.Current?.BeginInvoke(() =>
+                            string fileName = uri.Segments[uri.Segments.Length - 1];
+                            if (fileName is not "/")
                             {
-                                DownloadFileNameText = filename;
-                                IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
-                            });
+                                AddDownloadTaskWindow.Current?.BeginInvoke(() =>
+                                {
+                                    DownloadFileNameText = fileName;
+                                    IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
+                                });
+                            }
                         }
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(System.Diagnostics.Tracing.EventLevel.Warning, "Parse download link file name failed", e);
+                        LogService.WriteLog(EventLevel.Warning, "Parse download link file name failed", e);
                     }
                 });
+            }
+            else
+            {
+                DownloadFileNameText = string.Empty;
+                IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
             }
         }
 
