@@ -8,10 +8,10 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
+    x:Name="MainContent"
     ActualThemeChanged="{x:Bind OnActualThemeChanged}"
     RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}"
     mc:Ignorable="d">
-
     <Grid>
         <!--  应用标题栏内容  -->
         <Grid
@@ -347,5 +347,20 @@
                 </Frame.ContentTransitions>
             </Frame>
         </muxc:NavigationView>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="BackgroundDefault">
+                    <VisualState.Setters>
+                        <Setter Target="MainContent.Background" Value="{ThemeResource DefaultBackgroundColorBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="BackgroundTransparent">
+                    <VisualState.Setters>
+                        <Setter Target="MainContent.Background" Value="Transparent" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

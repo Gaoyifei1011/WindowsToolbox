@@ -13,6 +13,29 @@
                 <ResourceDictionary Source="ms-appx:///Styles/MenuFlyout.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/TeachingTip.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/TimePicker.xaml" />
+
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                            <Color x:Key="DefaultBackgroundColor">#141414</Color>
+                            <Color x:Key="DialogContentFillColor">#2B2B2B</Color>
+                            <SolidColorBrush x:Key="DefaultBackgroundColorBrush" Color="{ThemeResource DefaultBackgroundColor}" />
+                            <SolidColorBrush x:Key="DialogContentFillColorBrush" Color="{ThemeResource DialogContentFillColor}" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighConstract">
+                            <Color x:Key="DefaultBackgroundColor">#FF0000</Color>
+                            <Color x:Key="DialogContentFillColor">#FF0000</Color>
+                            <SolidColorBrush x:Key="DefaultBackgroundColorBrush" Color="{ThemeResource DefaultBackgroundColor}" />
+                            <SolidColorBrush x:Key="DialogContentFillColorBrush" Color="{ThemeResource DialogContentFillColor}" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Light">
+                            <Color x:Key="DefaultBackgroundColor">#F0F3F9</Color>
+                            <Color x:Key="DialogContentFillColor">#FFFFFF</Color>
+                            <SolidColorBrush x:Key="DefaultBackgroundColorBrush" Color="{ThemeResource DefaultBackgroundColor}" />
+                            <SolidColorBrush x:Key="DialogContentFillColorBrush" Color="{ThemeResource DialogContentFillColor}" />
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
             </controls:XamlControlsResources.MergedDictionaries>
         </controls:XamlControlsResources>
     </Application.Resources>

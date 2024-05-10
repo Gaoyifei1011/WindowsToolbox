@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:WindowsTools.Strings"
-    ActualThemeChanged="{x:Bind OnActualThemeChanged}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -29,7 +28,7 @@
         <Grid
             Grid.Row="0"
             Padding="{ThemeResource ContentDialogPadding}"
-            Background="{x:Bind DialogBackground, Mode=OneWay}"
+            Background="{ThemeResource DialogContentFillColorBrush}"
             BorderBrush="{ThemeResource ContentDialogSeparatorBorderBrush}"
             BorderThickness="{ThemeResource ContentDialogSeparatorThickness}">
             <Grid.RowDefinitions>

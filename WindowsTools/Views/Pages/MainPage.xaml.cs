@@ -7,15 +7,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.System;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
-using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.User32;
@@ -165,18 +162,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnActualThemeChanged(FrameworkElement sender, object args)
         {
-            if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[0].Value))
-            {
-                if (sender.ActualTheme is ElementTheme.Light)
-                {
-                    Background = new SolidColorBrush(Color.FromArgb(255, 240, 243, 249));
-                }
-                else
-                {
-                    Background = new SolidColorBrush(Color.FromArgb(255, 20, 20, 20));
-                }
-            }
-
             MainWindow.Current.SetTitleBarColor(sender.ActualTheme);
         }
 

@@ -594,14 +594,7 @@ namespace WindowsTools.Views.Windows
         {
             if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[0].Value))
             {
-                if ((Content as MainPage).ActualTheme is ElementTheme.Light)
-                {
-                    (Content as MainPage).Background = new SolidColorBrush(Color.FromArgb(255, 240, 243, 249));
-                }
-                else
-                {
-                    (Content as MainPage).Background = new SolidColorBrush(Color.FromArgb(255, 20, 20, 20));
-                }
+                VisualStateManager.GoToState(Content as MainPage, "BackgroundDefault", false);
                 if (desktopWindowTarget is not null)
                 {
                     systemBackdropController?.Dispose();
@@ -610,7 +603,7 @@ namespace WindowsTools.Views.Windows
             }
             else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[1].Value))
             {
-                (Content as MainPage).Background = new SolidColorBrush(Colors.Transparent);
+                VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)
                 {
                     systemBackdropController?.Dispose();
@@ -628,7 +621,7 @@ namespace WindowsTools.Views.Windows
             }
             else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[2].Value))
             {
-                (Content as MainPage).Background = new SolidColorBrush(Colors.Transparent);
+                VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)
                 {
                     systemBackdropController?.Dispose();
@@ -646,7 +639,7 @@ namespace WindowsTools.Views.Windows
             }
             else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[3].Value))
             {
-                (Content as MainPage).Background = new SolidColorBrush(Colors.Transparent);
+                VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)
                 {
                     systemBackdropController?.Dispose();
@@ -664,7 +657,7 @@ namespace WindowsTools.Views.Windows
             }
             else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[4].Value))
             {
-                (Content as MainPage).Background = new SolidColorBrush(Colors.Transparent);
+                VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)
                 {
                     systemBackdropController?.Dispose();
@@ -682,7 +675,7 @@ namespace WindowsTools.Views.Windows
             }
             else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[5].Value))
             {
-                (Content as MainPage).Background = new SolidColorBrush(Colors.Transparent);
+                VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)
                 {
                     systemBackdropController?.Dispose();
