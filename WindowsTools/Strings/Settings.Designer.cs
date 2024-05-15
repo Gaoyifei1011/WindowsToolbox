@@ -259,6 +259,42 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 BITS 的本地化字符串。
+        /// </summary>
+        public static string DoEngineBits {
+            get {
+                return ResourceManager.GetString("DoEngineBits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delivery optimization 的本地化字符串。
+        /// </summary>
+        public static string DoEngineDo {
+            get {
+                return ResourceManager.GetString("DoEngineDo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download engine mode 的本地化字符串。
+        /// </summary>
+        public static string DoEngineMode {
+            get {
+                return ResourceManager.GetString("DoEngineMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Set the download engine to use when downloading files,this parameter takes effect after a restart 的本地化字符串。
+        /// </summary>
+        public static string DoEngineModeDescription {
+            get {
+                return ResourceManager.GetString("DoEngineModeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Download 的本地化字符串。
         /// </summary>
         public static string Download {
@@ -282,6 +318,24 @@ namespace WindowsTools.Strings {
         public static string DownloadFolderDescription {
             get {
                 return ResourceManager.GetString("DownloadFolderDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download management 的本地化字符串。
+        /// </summary>
+        public static string DownloadOptions {
+            get {
+                return ResourceManager.GetString("DownloadOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Application download file settings 的本地化字符串。
+        /// </summary>
+        public static string DownloadOptionsDescription {
+            get {
+                return ResourceManager.GetString("DownloadOptionsDescription", resourceCulture);
             }
         }
         
@@ -372,6 +426,15 @@ namespace WindowsTools.Strings {
         public static string LanguageDescription {
             get {
                 return ResourceManager.GetString("LanguageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download engine instruction 的本地化字符串。
+        /// </summary>
+        public static string LearnDoEngine {
+            get {
+                return ResourceManager.GetString("LearnDoEngine", resourceCulture);
             }
         }
         

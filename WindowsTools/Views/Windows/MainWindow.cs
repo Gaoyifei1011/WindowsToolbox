@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
-using WindowsTools.Services.Controls.Pages;
+using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
@@ -175,7 +175,7 @@ namespace WindowsTools.Views.Windows
             if (ExitModeService.ExitMode.Equals(ExitModeService.ExitModeList[0]))
             {
                 // 如果有正在下载的任务，将窗口放到托盘区域
-                if (DeliveryOptimizationService.GetDownloadCount() > 0)
+                if (DownloadSchedulerService.GetDownloadSchedulerList().Count > 0)
                 {
                     args.Cancel = true;
                     Hide();

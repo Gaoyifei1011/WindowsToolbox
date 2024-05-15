@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using WindowsTools.Helpers.Root;
+using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Services.Shell;
 using WindowsTools.Views.Windows;
-using WindowsTools.WindowsAPI.PInvoke.User32;
 
 namespace WindowsTools
 {
@@ -32,11 +28,6 @@ namespace WindowsTools
             {
                 Process.Start("explorer.exe", "shell:AppsFolder\\Gaoyifei1011.WindowsTools_pystbwmrmew8c!WindowsTools");
                 return;
-            }
-
-            if (args.Length is 0)
-            {
-                CheckProcessState();
             }
 
             InitializeProgramResources();
@@ -83,30 +74,12 @@ namespace WindowsTools
             ThemeService.InitializeTheme();
             TopMostService.InitializeTopMostValue();
 
-            DownloadService.InitializeDownload();
+            DownloadOptionsService.InitializeDownload();
             FileShellMenuService.InitializeFileShellMenu();
             ExitModeService.InitializeExitMode();
             ShellMenuService.InitializeShellMenu();
-        }
 
-        /// <summary>
-        /// 检查是否有已经运行的实例程序
-        /// </summary>
-        private static void CheckProcessState()
-        {
-            List<Process> windowsToolsList = Process.GetProcessesByName("WindowsTools").Where(item => item.MainWindowHandle != IntPtr.Zero).ToList();
-            if (windowsToolsList.Count() is 1)
-            {
-                COPYDATASTRUCT copyDataStruct = new COPYDATASTRUCT();
-                copyDataStruct.dwData = IntPtr.Zero;
-                copyDataStruct.cbData = Encoding.Default.GetBytes("AppIsRunning").Length + 1;
-                copyDataStruct.lpData = "AppIsRunning";
-                IntPtr ptrCopyDataStruct = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(COPYDATASTRUCT)));
-                Marshal.StructureToPtr(copyDataStruct, ptrCopyDataStruct, false);
-                User32Library.SendMessage(windowsToolsList[0].MainWindowHandle, WindowMessage.WM_COPYDATA, 0, ptrCopyDataStruct);
-
-                Environment.Exit(Environment.ExitCode);
-            }
+            DownloadSchedulerService.InitializeDownloadScheduler();
         }
     }
 }

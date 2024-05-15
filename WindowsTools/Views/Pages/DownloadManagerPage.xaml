@@ -2,10 +2,10 @@
     x:Class="WindowsTools.Views.Pages.DownloadManagerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:com="using:WindowsTools.WindowsAPI.ComTypes"
     xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:downloadHelper="using:WindowsTools.Helpers.Controls"
+    xmlns:enum="using:WindowsTools.Extensions.DataType.Enums"
     xmlns:helper="using:WindowsTools.Helpers.Root"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
@@ -308,7 +308,7 @@
                                         FontSize="16"
                                         Text="{x:Bind helper:FileSizeHelper.ConvertFileSizeToString(FinishedSize), Mode=OneWay}"
                                         TextAlignment="Right"
-                                        Visibility="{x:Bind IsDownloading(DownloadState), Mode=OneWay}">
+                                        Visibility="{x:Bind IsDownloading(DownloadStatus), Mode=OneWay}">
 
                                         <ToolTipService.ToolTip>
                                             <ToolTip>
@@ -343,9 +343,9 @@
                                         MinWidth="50"
                                         VerticalAlignment="Center"
                                         FontSize="16"
-                                        Text="{x:Bind downloadHelper:SpeedHelper.ConvertSpeedToString(CurrentSpeed), Mode=OneWay}"
+                                        Text="{x:Bind helper:SpeedHelper.ConvertSpeedToString(CurrentSpeed), Mode=OneWay}"
                                         TextAlignment="Right"
-                                        Visibility="{x:Bind IsDownloading(DownloadState), Mode=OneWay}">
+                                        Visibility="{x:Bind IsDownloading(DownloadStatus), Mode=OneWay}">
 
                                         <ToolTipService.ToolTip>
                                             <ToolTip>
@@ -360,8 +360,8 @@
 
                                 <muxc:ProgressBar
                                     Grid.Row="1"
-                                    IsIndeterminate="{x:Bind sys:Object.Equals(DownloadState, com:DODownloadState.DODownloadState_Created), Mode=OneWay}"
-                                    ShowPaused="{x:Bind sys:Object.Equals(DownloadState, com:DODownloadState.DODownloadState_Paused), Mode=OneWay}"
+                                    IsIndeterminate="False"
+                                    ShowPaused="{x:Bind sys:Object.Equals(DownloadStatus, enum:DownloadStatus.Pause), Mode=OneWay}"
                                     Value="{x:Bind DownloadProgress(FinishedSize, TotalSize), Mode=OneWay}" />
                             </Grid>
 
@@ -382,7 +382,7 @@
                                     CornerRadius="{StaticResource ControlCornerRadius}"
                                     IsEnabled="{x:Bind IsNotOperated, Mode=OneWay}"
                                     ToolTipService.ToolTip="{x:Bind string:DownloadManager.ContinueToolTip}"
-                                    Visibility="{x:Bind IsPaused(DownloadState), Mode=OneWay}">
+                                    Visibility="{x:Bind IsPaused(DownloadStatus), Mode=OneWay}">
 
                                     <Button.Content>
                                         <FontIcon FontSize="14" Glyph="&#xE768;" />
@@ -399,7 +399,7 @@
                                     CornerRadius="{StaticResource ControlCornerRadius}"
                                     IsEnabled="{x:Bind IsNotOperated, Mode=OneWay}"
                                     ToolTipService.ToolTip="{x:Bind string:DownloadManager.PauseToolTip}"
-                                    Visibility="{x:Bind IsDownloading(DownloadState), Mode=OneWay}">
+                                    Visibility="{x:Bind IsDownloading(DownloadStatus), Mode=OneWay}">
 
                                     <Button.Content>
                                         <FontIcon FontSize="14" Glyph="&#xE769;" />
@@ -415,7 +415,7 @@
                                     CommandParameter="{x:Bind FilePath}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
                                     ToolTipService.ToolTip="{x:Bind string:DownloadManager.OpenFolderToolTip}"
-                                    Visibility="{x:Bind IsCompleted(DownloadState), Mode=OneWay}">
+                                    Visibility="{x:Bind IsCompleted(DownloadStatus), Mode=OneWay}">
 
                                     <Button.Content>
                                         <FontIcon FontSize="14" Glyph="&#xE8B7;" />
@@ -440,7 +440,7 @@
                                                 Height="32"
                                                 Padding="11,0"
                                                 Command="{StaticResource DeleteCommand}"
-                                                CommandParameter="{x:Bind DownloadID}"
+                                                CommandParameter="{Binding}"
                                                 IsEnabled="{x:Bind IsNotOperated, Mode=OneWay}"
                                                 Text="{x:Bind string:DownloadManager.Delete}"
                                                 ToolTipService.ToolTip="{x:Bind string:DownloadManager.DeleteToolTip}">
@@ -457,14 +457,14 @@
                                                 CommandParameter="{Binding}"
                                                 Text="{x:Bind string:DownloadManager.DeleteWithFile}"
                                                 ToolTipService.ToolTip="{x:Bind string:DownloadManager.DeleteWithFileToolTip}"
-                                                Visibility="{x:Bind IsCompleted(DownloadState), Mode=OneWay}">
+                                                Visibility="{x:Bind IsCompleted(DownloadStatus), Mode=OneWay}">
 
                                                 <MenuFlyoutItem.Icon>
                                                     <FontIcon Glyph="&#xE74D;" />
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
 
-                                            <MenuFlyoutSeparator />
+                                            <MenuFlyoutSeparator Visibility="{x:Bind IsCompleted(DownloadStatus), Mode=OneWay}" />
 
                                             <MenuFlyoutItem
                                                 Height="32"
@@ -472,7 +472,7 @@
                                                 Command="{StaticResource ShareFileCommand}"
                                                 CommandParameter="{x:Bind FilePath}"
                                                 Text="{x:Bind string:DownloadManager.ShareFile}"
-                                                Visibility="{x:Bind IsCompleted(DownloadState), Mode=OneWay}">
+                                                Visibility="{x:Bind IsCompleted(DownloadStatus), Mode=OneWay}">
 
                                                 <MenuFlyoutItem.Icon>
                                                     <FontIcon Glyph="&#xE72D;" />
@@ -485,7 +485,7 @@
                                                 Command="{StaticResource FileInformationCommand}"
                                                 CommandParameter="{x:Bind FilePath}"
                                                 Text="{x:Bind string:DownloadManager.FileInformation}"
-                                                Visibility="{x:Bind IsCompleted(DownloadState), Mode=OneWay}">
+                                                Visibility="{x:Bind IsCompleted(DownloadStatus), Mode=OneWay}">
 
                                                 <MenuFlyoutItem.Icon>
                                                     <FontIcon Glyph="&#xE946;" />

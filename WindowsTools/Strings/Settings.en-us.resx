@@ -183,6 +183,18 @@
   <data name="DesktopAcrylic" xml:space="preserve">
     <value>Acrylic</value>
   </data>
+  <data name="DoEngineBits" xml:space="preserve">
+    <value>BITS</value>
+  </data>
+  <data name="DoEngineDo" xml:space="preserve">
+    <value>Delivery optimization</value>
+  </data>
+  <data name="DoEngineMode" xml:space="preserve">
+    <value>Download engine mode</value>
+  </data>
+  <data name="DoEngineModeDescription" xml:space="preserve">
+    <value>Set the download engine to use when downloading files,this parameter takes effect after a restart</value>
+  </data>
   <data name="Download" xml:space="preserve">
     <value>Download</value>
   </data>
@@ -191,6 +203,12 @@
   </data>
   <data name="DownloadFolderDescription" xml:space="preserve">
     <value>Download the preferred file download path</value>
+  </data>
+  <data name="DownloadOptions" xml:space="preserve">
+    <value>Download management</value>
+  </data>
+  <data name="DownloadOptionsDescription" xml:space="preserve">
+    <value>Application download file settings</value>
   </data>
   <data name="ExitApp" xml:space="preserve">
     <value>Exit app</value>
@@ -221,6 +239,9 @@
   </data>
   <data name="LanguageDescription" xml:space="preserve">
     <value>Modify the language displayed in the app interface</value>
+  </data>
+  <data name="LearnDoEngine" xml:space="preserve">
+    <value>Download engine instruction</value>
   </data>
   <data name="LogFolder" xml:space="preserve">
     <value>Log storage path</value>

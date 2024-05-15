@@ -353,7 +353,7 @@
                                 TextWrapping="Wrap" />
 
                             <StackPanel
-                                Margin="30,0,16,10"
+                                Margin="30,0,16,5"
                                 Orientation="Horizontal"
                                 Spacing="15">
 
@@ -366,6 +366,50 @@
                                     Click="{x:Bind OnAppSettingsClicked}"
                                     Content="{x:Bind string:About.AppSettings}"
                                     NavigateUri="ms-settings:appsfeatures-app"
+                                    Style="{StaticResource HyperlinkButtonStyle}" />
+                            </StackPanel>
+
+                            <MenuFlyoutSeparator />
+
+                            <TextBlock
+                                Margin="30,10,16,10"
+                                FontSize="15"
+                                FontWeight="Normal"
+                                Text="{x:Bind string:About.Download}"
+                                TextAlignment="Left" />
+                            <TextBlock
+                                Margin="30,0,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                Text="{x:Bind string:About.DownloadDescription1}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="30,0,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                Text="{x:Bind string:About.DownloadDescription2}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <StackPanel
+                                Margin="30,0,16,10"
+                                Orientation="Horizontal"
+                                Spacing="15">
+
+                                <HyperlinkButton
+                                    Content="{x:Bind string:About.LearnDeliveryOptimization}"
+                                    NavigateUri="https://learn.microsoft.com/windows/deployment/do/waas-delivery-optimization"
+                                    Style="{StaticResource HyperlinkButtonStyle}" />
+
+                                <HyperlinkButton
+                                    Content="{x:Bind string:About.LearnBits}"
+                                    NavigateUri="https://learn.microsoft.com/windows/win32/bits/background-intelligent-transfer-service-portal"
+                                    Style="{StaticResource HyperlinkButtonStyle}" />
+
+                                <HyperlinkButton
+                                    Click="{x:Bind OnTroubleShootClicked}"
+                                    Content="{x:Bind string:About.TroubleShoot}"
                                     Style="{StaticResource HyperlinkButtonStyle}" />
                             </StackPanel>
                         </StackPanel>

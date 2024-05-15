@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics.Tracing;
 using Windows.UI.Xaml;
-using WindowsTools.Services.Controls.Pages;
+using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Root;
 using WindowsTools.Views.Windows;
 
@@ -60,7 +60,8 @@ namespace WindowsTools
                         MainWindow.Current?.Close();
                     }
 
-                    DeliveryOptimizationService.TerminateDownload();
+                    DownloadSchedulerService.TerminateDownload();
+                    DownloadSchedulerService.CloseDownloadScheduler();
                     SystemTrayService.CloseSystemTray();
                     Environment.Exit(0);
                 }

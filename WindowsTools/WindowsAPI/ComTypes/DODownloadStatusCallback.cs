@@ -8,7 +8,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
     /// </summary>
     public partial class DODownloadStatusCallback : IDODownloadStatusCallback
     {
-        public string DownloadID { get; set; } = string.Empty;
+        public Guid DownloadID { get; set; } = Guid.Empty;
 
         /// <summary>
         /// 下载状态发生变化时触发的事件

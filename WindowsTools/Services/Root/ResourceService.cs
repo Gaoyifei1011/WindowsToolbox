@@ -16,6 +16,8 @@ namespace WindowsTools.Services.Root
 
         public static List<DictionaryEntry> BackdropList { get; } = new List<DictionaryEntry>();
 
+        public static List<DictionaryEntry> DoEngineModeList { get; } = new List<DictionaryEntry>();
+
         public static List<DictionaryEntry> ExitModeList { get; } = new List<DictionaryEntry>();
 
         /// <summary>
@@ -25,6 +27,7 @@ namespace WindowsTools.Services.Root
         {
             InitializeBackdropList();
             InitializeThemeList();
+            InitializeDoEngineModeList();
             InitializeExitModeList();
         }
 
@@ -51,6 +54,18 @@ namespace WindowsTools.Services.Root
             BackdropList.Add(new DictionaryEntry(Settings.BackdropAcrylicThin, nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Thin)));
         }
 
+        /// <summary>
+        /// 初始化下载引擎方式信息列表
+        /// </summary>
+        private static void InitializeDoEngineModeList()
+        {
+            DoEngineModeList.Add(new DictionaryEntry(Settings.DoEngineDo, "DeliveryOptimization"));
+            DoEngineModeList.Add(new DictionaryEntry(Settings.DoEngineBits, "BITS"));
+        }
+
+        /// <summary>
+        /// 初始化应用退出方式信息列表
+        /// </summary>
         private static void InitializeExitModeList()
         {
             ExitModeList.Add(new DictionaryEntry(Settings.ExitApp, "ExitApp"));

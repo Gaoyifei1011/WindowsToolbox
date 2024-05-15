@@ -11,6 +11,8 @@
 
         public const string DownloadFolderKey = "DownloadFolder";
 
+        public const string DoEngineModeKey = "DoEngineMode";
+
         public const string FileShellMenuKey = "FileShellMenu";
 
         public const string LanguageKey = "AppLanguage";

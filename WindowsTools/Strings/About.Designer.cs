@@ -160,6 +160,33 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Download management instructions 的本地化字符串。
+        /// </summary>
+        public static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The download function of the application is not provided by the application itself, it uses the built-in delivery optimization or background intelligent transfer service (BITS) to download files. Therefore, during the download process, a temporary download file in TMP format will appear on the local disk, and the download time will depend on your Internet connection speed. 的本地化字符串。
+        /// </summary>
+        public static string DownloadDescription1 {
+            get {
+                return ResourceManager.GetString("DownloadDescription1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The download service shuts down due to an exception in some unknown circumstances, and if you encounter a download service that is not running while downloading a file, we recommend that you try restarting the app. 的本地化字符串。
+        /// </summary>
+        public static string DownloadDescription2 {
+            get {
+                return ResourceManager.GetString("DownloadDescription2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Help translate 的本地化字符串。
         /// </summary>
         public static string HelpTranslate {
@@ -183,6 +210,24 @@ namespace WindowsTools.Strings {
         public static string LanguageDescription {
             get {
                 return ResourceManager.GetString("LanguageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Learn bits 的本地化字符串。
+        /// </summary>
+        public static string LearnBits {
+            get {
+                return ResourceManager.GetString("LearnBits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Learn delivery optimization 的本地化字符串。
+        /// </summary>
+        public static string LearnDeliveryOptimization {
+            get {
+                return ResourceManager.GetString("LearnDeliveryOptimization", resourceCulture);
             }
         }
         
@@ -399,6 +444,15 @@ namespace WindowsTools.Strings {
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Trouble shoot 的本地化字符串。
+        /// </summary>
+        public static string TroubleShoot {
+            get {
+                return ResourceManager.GetString("TroubleShoot", resourceCulture);
             }
         }
         

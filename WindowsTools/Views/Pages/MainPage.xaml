@@ -339,7 +339,7 @@
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.FooterMenuItems>
 
-            <Frame Navigated="{x:Bind OnNavigated}" NavigationFailed="{x:Bind OnNavgationFailed}">
+            <Frame Navigated="{x:Bind OnNavigated}" NavigationFailed="{x:Bind OnNavigationFailed}">
                 <Frame.ContentTransitions>
                     <TransitionCollection>
                         <NavigationThemeTransition />

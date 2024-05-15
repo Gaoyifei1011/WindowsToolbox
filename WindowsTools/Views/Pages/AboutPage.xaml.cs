@@ -60,6 +60,7 @@ namespace WindowsTools.Views.Pages
             { "Mile.Xaml","https://github.com/ProjectMile/Mile.Xaml" },
             { "Microsoft.UI.Xaml","https://github.com/microsoft/microsoft-ui-xaml" },
             { "Microsoft.WindowsAppSDK","https://github.com/microsoft/windowsappsdk" },
+            { "System.Numerics.Vectors","https://dot.net" },
             { "ZXing.Net","https://github.com/micjahn/ZXing.Net" },
         };
 
@@ -192,14 +193,6 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 查看许可证
-        /// </summary>
-        private async void OnShowLicenseClicked(object sender, RoutedEventArgs args)
-        {
-            await ContentDialogHelper.ShowAsync(new LicenseDialog(), this);
-        }
-
-        /// <summary>
         /// 查看更新日志
         /// </summary>
         private void OnShowReleaseNotesClicked(object sender, RoutedEventArgs args)
@@ -211,25 +204,44 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 应用信息
+        /// 查看许可证
         /// </summary>
-        private async void OnAppInformationClicked(object sender, RoutedEventArgs args)
+        private async void OnShowLicenseClicked(object sender, RoutedEventArgs args)
         {
-            await ContentDialogHelper.ShowAsync(new AppInformationDialog(), this);
+            await ContentDialogHelper.ShowAsync(new LicenseDialog(), this);
         }
 
         /// <summary>
-        /// 应用设置
+        /// 帮助翻译应用
         /// </summary>
-        private void OnAppSettingsClicked(object sender, RoutedEventArgs args)
+        private void OnHelpTranslateClicked(object sender, RoutedEventArgs args)
         {
-            if (RuntimeHelper.IsElevated)
+            Task.Run(() =>
             {
-                Task.Run(() =>
-                {
-                    Process.Start("ms-settings:appsfeatures-app");
-                });
-            }
+                Process.Start("https://github.com/Gaoyifei1011/WindowsTools/releases");
+            });
+        }
+
+        /// <summary>
+        /// 项目主页
+        /// </summary>
+        private void OnProjectDescriptionClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                Process.Start("https://github.com/Gaoyifei1011/WindowsTools");
+            });
+        }
+
+        /// <summary>
+        /// 发送反馈
+        /// </summary>
+        private void OnSendFeedbackClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                Process.Start("https://github.com/Gaoyifei1011/WindowsTools/issues");
+            });
         }
 
         /// <summary>
@@ -325,39 +337,6 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 项目主页
-        /// </summary>
-        private void OnProjectDescriptionClicked(object sender, RoutedEventArgs args)
-        {
-            Task.Run(() =>
-            {
-                Process.Start("https://github.com/Gaoyifei1011/WindowsTools");
-            });
-        }
-
-        /// <summary>
-        /// 发送反馈
-        /// </summary>
-        private void OnSendFeedbackClicked(object sender, RoutedEventArgs args)
-        {
-            Task.Run(() =>
-            {
-                Process.Start("https://github.com/Gaoyifei1011/WindowsTools/issues");
-            });
-        }
-
-        /// <summary>
-        /// 帮助翻译应用
-        /// </summary>
-        private void OnHelpTranslateClicked(object sender, RoutedEventArgs args)
-        {
-            Task.Run(() =>
-            {
-                Process.Start("https://github.com/Gaoyifei1011/WindowsTools/releases");
-            });
-        }
-
-        /// <summary>
         /// 系统信息
         /// </summary>
         private void OnSystemInformationClicked(object sender, RoutedEventArgs args)
@@ -365,6 +344,39 @@ namespace WindowsTools.Views.Pages
             Task.Run(() =>
             {
                 Process.Start("ms-settings:about");
+            });
+        }
+
+        /// <summary>
+        /// 应用信息
+        /// </summary>
+        private async void OnAppInformationClicked(object sender, RoutedEventArgs args)
+        {
+            await ContentDialogHelper.ShowAsync(new AppInformationDialog(), this);
+        }
+
+        /// <summary>
+        /// 应用设置
+        /// </summary>
+        private void OnAppSettingsClicked(object sender, RoutedEventArgs args)
+        {
+            if (RuntimeHelper.IsElevated)
+            {
+                Task.Run(() =>
+                {
+                    Process.Start("ms-settings:appsfeatures-app");
+                });
+            }
+        }
+
+        /// <summary>
+        /// 疑难解答
+        /// </summary>
+        private void OnTroubleShootClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                Process.Start("ms-settings:troubleshoot");
             });
         }
 

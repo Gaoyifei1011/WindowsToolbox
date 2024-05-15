@@ -9,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
@@ -104,7 +105,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private string _downloadFolder = DownloadService.DownloadFolder;
+        private string _downloadFolder = DownloadOptionsService.DownloadFolder;
 
         public string DownloadFolder
         {
@@ -116,6 +117,22 @@ namespace WindowsTools.Views.Pages
                 {
                     _downloadFolder = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DownloadFolder)));
+                }
+            }
+        }
+
+        private DictionaryEntry _doEngineMode = DownloadOptionsService.DoEngineMode;
+
+        public DictionaryEntry DoEngineMode
+        {
+            get { return _doEngineMode; }
+
+            set
+            {
+                if (!Equals(_doEngineMode, value))
+                {
+                    _doEngineMode = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DoEngineMode)));
                 }
             }
         }
@@ -157,6 +174,8 @@ namespace WindowsTools.Views.Pages
         private List<DictionaryEntry> BackdropList { get; } = BackdropService.BackdropList;
 
         private List<DictionaryEntry> LanguageList { get; } = LanguageService.LanguageList;
+
+        private List<DictionaryEntry> DoEngineModeList { get; } = DownloadOptionsService.DoEngineModeList;
 
         private List<DictionaryEntry> ExitModeList { get; } = ExitModeService.ExitModeList;
 
@@ -260,6 +279,9 @@ namespace WindowsTools.Views.Pages
             });
         }
 
+        /// <summary>
+        /// 打开系统语言设置
+        /// </summary>
         private void OnSystemLanguageSettingsClicked(object sender, RoutedEventArgs args)
         {
             Task.Run(() =>
@@ -278,6 +300,28 @@ namespace WindowsTools.Views.Pages
             {
                 Theme = ThemeList[Convert.ToInt32(item.Tag)];
                 ThemeService.SetTheme(Theme);
+            }
+        }
+
+        /// <summary>
+        /// 下载引擎说明
+        /// </summary>
+        private void OnLearnDoEngineClicked(object sender, RoutedEventArgs args)
+        {
+            (MainWindow.Current.Content as MainPage).NavigateTo(typeof(AboutPage));
+        }
+
+        /// <summary>
+        /// 下载引擎方式设置
+        /// </summary>
+
+        private void OnDoEngineModeSelectClicked(object sender, RoutedEventArgs args)
+        {
+            ToggleMenuFlyoutItem toggleMenuFlyoutItem = sender as ToggleMenuFlyoutItem;
+            if (toggleMenuFlyoutItem.Tag is not null)
+            {
+                DoEngineMode = DoEngineModeList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
+                DownloadOptionsService.SetDoEngineMode(DoEngineMode);
             }
         }
 
@@ -336,13 +380,13 @@ namespace WindowsTools.Views.Pages
                         {
                             Shell32Library.SHGetKnownFolderPath(new Guid("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
                             DownloadFolder = downloadFolder;
-                            DownloadService.SetFolder(DownloadFolder);
+                            DownloadOptionsService.SetFolder(DownloadFolder);
                             break;
                         }
                     case "Desktop":
                         {
                             DownloadFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                            DownloadService.SetFolder(DownloadFolder);
+                            DownloadOptionsService.SetFolder(DownloadFolder);
                             break;
                         }
                     case "Custom":
@@ -355,7 +399,7 @@ namespace WindowsTools.Views.Pages
                             if (result is DialogResult.OK || result is DialogResult.Yes)
                             {
                                 DownloadFolder = dialog.SelectedPath;
-                                DownloadService.SetFolder(DownloadFolder);
+                                DownloadOptionsService.SetFolder(DownloadFolder);
                             }
                             break;
                         }
@@ -433,6 +477,14 @@ namespace WindowsTools.Views.Pages
         }
 
         #endregion 第一部分：设置页面——挂载的事件
+
+        /// <summary>
+        /// 判断传递优化下载引擎是否存在
+        /// </summary>
+        private bool IsDeliveryOptimizationExisted()
+        {
+            return InfoHelper.SystemVersion.Build >= 22621;
+        }
 
         private string LocalizeDisplayNumber(DictionaryEntry selectedBackdrop)
         {

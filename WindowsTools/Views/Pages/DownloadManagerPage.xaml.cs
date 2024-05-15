@@ -14,8 +14,10 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Models;
-using WindowsTools.Services.Controls.Pages;
+using WindowsTools.Models.Controls.Download;
+using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.Views.Windows;
@@ -70,24 +72,24 @@ namespace WindowsTools.Views.Pages
         public DownloadManagerPage()
         {
             InitializeComponent();
-            DeliveryOptimizationService.DownloadCreated += OnDownloadCreated;
-            DeliveryOptimizationService.DownloadContinued += OnDownloadContinued;
-            DeliveryOptimizationService.DownloadPaused += OnDownloadPaused;
-            DeliveryOptimizationService.DownloadAborted += OnDownloadAborted;
-            DeliveryOptimizationService.DownloadProgressing += OnDownloadProgressing;
-            DeliveryOptimizationService.DownloadCompleted += OnDownloadCompleted;
+            DownloadSchedulerService.DownloadCreated += OnDownloadCreated;
+            DownloadSchedulerService.DownloadContinued += OnDownloadContinued;
+            DownloadSchedulerService.DownloadPaused += OnDownloadPaused;
+            DownloadSchedulerService.DownloadDeleted += OnDownloadDeleted;
+            DownloadSchedulerService.DownloadProgressing += OnDownloadProgressing;
+            DownloadSchedulerService.DownloadCompleted += OnDownloadCompleted;
         }
 
         #region 第一部分：XamlUICommand 命令调用时挂载的事件
 
         /// <summary>
-        /// 继续下载
+        /// 继续下载当前任务
         /// </summary>
         private void OnContinueExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            string downloadID = args.Parameter as string;
+            Guid downloadID = (Guid)args.Parameter;
 
-            if (!string.IsNullOrEmpty(downloadID))
+            if (downloadID != Guid.Empty)
             {
                 lock (downloadLock)
                 {
@@ -101,18 +103,18 @@ namespace WindowsTools.Views.Pages
                     }
                 }
 
-                DeliveryOptimizationService.ContinueDownload(downloadID);
+                DownloadSchedulerService.ContinueDownload(downloadID);
             }
         }
 
         /// <summary>
-        /// 暂停下载
+        /// 暂停下载当前任务
         /// </summary>
         private void OnPauseExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            string downloadID = args.Parameter as string;
+            Guid downloadID = (Guid)args.Parameter;
 
-            if (!string.IsNullOrEmpty(downloadID))
+            if (downloadID != Guid.Empty)
             {
                 lock (downloadLock)
                 {
@@ -126,7 +128,7 @@ namespace WindowsTools.Views.Pages
                     }
                 }
 
-                DeliveryOptimizationService.PauseDownload(downloadID);
+                DownloadSchedulerService.PauseDownload(downloadID);
             }
         }
 
@@ -167,19 +169,19 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 删除下载
+        /// 删除当前任务
         /// </summary>
         private void OnDeleteExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            string downloadID = args.Parameter as string;
+            DownloadModel downloadItem = args.Parameter as DownloadModel;
 
-            if (!string.IsNullOrEmpty(downloadID))
+            if (downloadItem.DownloadID != Guid.Empty)
             {
                 lock (downloadLock)
                 {
-                    foreach (DownloadModel downloadItem in DownloadCollection)
+                    foreach (DownloadModel item in DownloadCollection)
                     {
-                        if (downloadItem.DownloadID.Equals(downloadID))
+                        if (downloadItem.DownloadID.Equals(item.DownloadID))
                         {
                             downloadItem.IsNotOperated = false;
                             break;
@@ -187,7 +189,24 @@ namespace WindowsTools.Views.Pages
                     }
                 }
 
-                DeliveryOptimizationService.DeleteDownload(downloadID);
+                if (downloadItem.DownloadStatus is DownloadStatus.Downloading || downloadItem.DownloadStatus is DownloadStatus.Pause)
+                {
+                    DownloadSchedulerService.DeleteDownload(downloadItem.DownloadID);
+                }
+                else
+                {
+                    lock (downloadLock)
+                    {
+                        foreach (DownloadModel item in DownloadCollection)
+                        {
+                            if (downloadItem.DownloadID.Equals(item.DownloadID))
+                            {
+                                DownloadCollection.Remove(item);
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -343,7 +362,7 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 全部下载
+        /// 开始下载全部任务
         /// </summary>
         private void OnStartDownloadClicked(object sender, RoutedEventArgs args)
         {
@@ -351,17 +370,17 @@ namespace WindowsTools.Views.Pages
             {
                 foreach (DownloadModel downloadItem in DownloadCollection)
                 {
-                    if (downloadItem.DownloadState is DODownloadState.DODownloadState_Paused)
+                    if (downloadItem.DownloadStatus is DownloadStatus.Pause)
                     {
                         downloadItem.IsNotOperated = false;
-                        DeliveryOptimizationService.ContinueDownload(downloadItem.DownloadID);
+                        DownloadSchedulerService.ContinueDownload(downloadItem.DownloadID);
                     }
                 }
             }
         }
 
         /// <summary>
-        /// 暂停全部下载
+        /// 暂停下载全部任务
         /// </summary>
         private void OnPauseDownloadClicked(object sender, RoutedEventArgs args)
         {
@@ -369,10 +388,10 @@ namespace WindowsTools.Views.Pages
             {
                 foreach (DownloadModel downloadItem in DownloadCollection)
                 {
-                    if (downloadItem.DownloadState is DODownloadState.DODownloadState_Transferring)
+                    if (downloadItem.DownloadStatus is DownloadStatus.Downloading)
                     {
                         downloadItem.IsNotOperated = false;
-                        DeliveryOptimizationService.PauseDownload(downloadItem.DownloadID);
+                        DownloadSchedulerService.PauseDownload(downloadItem.DownloadID);
                     }
                 }
             }
@@ -390,13 +409,13 @@ namespace WindowsTools.Views.Pages
                     DownloadModel downloadItem = DownloadCollection[index];
                     downloadItem.IsNotOperated = false;
 
-                    if (downloadItem.DownloadState is DODownloadState.DODownloadState_Finalized)
+                    if (downloadItem.DownloadStatus is DownloadStatus.Downloading || downloadItem.DownloadStatus is DownloadStatus.Pause)
+                    {
+                        DownloadSchedulerService.DeleteDownload(downloadItem.DownloadID);
+                    }
+                    else
                     {
                         DownloadCollection.RemoveAt(index);
-                    }
-                    else if (downloadItem.DownloadState is DODownloadState.DODownloadState_Transferring)
-                    {
-                        DeliveryOptimizationService.DeleteDownload(downloadItem.DownloadID);
                     }
                 }
             }
@@ -451,7 +470,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 下载任务已创建
         /// </summary>
-        private void OnDownloadCreated(string downloadID, string fileName, string filePath, string url, double totalSize)
+        private void OnDownloadCreated(Guid downloadID, DownloadSchedulerModel downloadSchedulerItem)
         {
             MainWindow.Current.BeginInvoke(() =>
             {
@@ -460,23 +479,23 @@ namespace WindowsTools.Views.Pages
                     DownloadCollection.Add(new DownloadModel()
                     {
                         DownloadID = downloadID,
-                        DownloadState = DODownloadState.DODownloadState_Transferred,
-                        FileName = fileName,
-                        FilePath = filePath,
-                        FileLink = url,
+                        DownloadStatus = DownloadStatus.Downloading,
+                        FileName = downloadSchedulerItem.FileName,
+                        FilePath = downloadSchedulerItem.FilePath,
+                        FileLink = downloadSchedulerItem.FileLink,
                         FinishedSize = 0,
                         IsNotOperated = true,
                         CurrentSpeed = 0,
-                        TotalSize = totalSize
+                        TotalSize = downloadSchedulerItem.TotalSize
                     });
                 }
             });
         }
 
         /// <summary>
-        /// 下载任务已继续
+        /// 下载任务已继续下载
         /// </summary>
-        private void OnDownloadContinued(string downloadID)
+        private void OnDownloadContinued(Guid downloadID)
         {
             MainWindow.Current.BeginInvoke(() =>
             {
@@ -487,7 +506,7 @@ namespace WindowsTools.Views.Pages
                         if (downloadItem.DownloadID.Equals(downloadID))
                         {
                             downloadItem.IsNotOperated = true;
-                            downloadItem.DownloadState = DODownloadState.DODownloadState_Transferring;
+                            downloadItem.DownloadStatus = DownloadStatus.Downloading;
                         }
                     }
                 }
@@ -495,9 +514,9 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 下载任务已暂停
+        /// 下载任务已暂停下载
         /// </summary>
-        private void OnDownloadPaused(string downloadID)
+        private void OnDownloadPaused(Guid downloadID)
         {
             MainWindow.Current.BeginInvoke(() =>
             {
@@ -508,7 +527,7 @@ namespace WindowsTools.Views.Pages
                         if (downloadItem.DownloadID.Equals(downloadID))
                         {
                             downloadItem.IsNotOperated = true;
-                            downloadItem.DownloadState = DODownloadState.DODownloadState_Paused;
+                            downloadItem.DownloadStatus = DownloadStatus.Pause;
                         }
                     }
                 }
@@ -516,9 +535,9 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 下载任务已终止
+        /// 下载任务已删除
         /// </summary>
-        private void OnDownloadAborted(string downloadID)
+        private void OnDownloadDeleted(Guid downloadID)
         {
             MainWindow.Current.BeginInvoke(() =>
             {
@@ -539,7 +558,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 下载任务正在进行中
         /// </summary>
-        private void OnDownloadProgressing(string downloadID, DO_DOWNLOAD_STATUS status)
+        private void OnDownloadProgressing(Guid downloadID, DownloadSchedulerModel downloadSchedulerItem)
         {
             MainWindow.Current.BeginInvoke(() =>
             {
@@ -550,10 +569,11 @@ namespace WindowsTools.Views.Pages
                         if (downloadItem.DownloadID.Equals(downloadID))
                         {
                             downloadItem.IsNotOperated = true;
-                            downloadItem.DownloadState = status.State;
-                            downloadItem.CurrentSpeed = status.BytesTransferred - downloadItem.FinishedSize;
-                            downloadItem.FinishedSize = status.BytesTransferred;
-                            downloadItem.TotalSize = status.BytesTotal;
+                            downloadItem.DownloadStatus = downloadSchedulerItem.DownloadStatus;
+                            downloadItem.CurrentSpeed = downloadSchedulerItem.CurrentSpeed;
+                            downloadItem.FinishedSize = downloadSchedulerItem.FinishedSize;
+                            downloadItem.TotalSize = downloadSchedulerItem.TotalSize;
+                            break;
                         }
                     }
                 }
@@ -563,7 +583,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 下载任务已完成
         /// </summary>
-        private void OnDownloadCompleted(string downloadID, DO_DOWNLOAD_STATUS status)
+        private void OnDownloadCompleted(Guid downloadID, DownloadSchedulerModel downloadSchedulerItem)
         {
             MainWindow.Current.BeginInvoke(() =>
             {
@@ -574,10 +594,11 @@ namespace WindowsTools.Views.Pages
                         if (downloadItem.DownloadID.Equals(downloadID))
                         {
                             downloadItem.IsNotOperated = true;
-                            downloadItem.DownloadState = DODownloadState.DODownloadState_Finalized;
-                            downloadItem.CurrentSpeed = status.BytesTransferred - downloadItem.FinishedSize;
-                            downloadItem.FinishedSize = status.BytesTransferred;
-                            downloadItem.TotalSize = status.BytesTotal;
+                            downloadItem.DownloadStatus = downloadSchedulerItem.DownloadStatus;
+                            downloadItem.CurrentSpeed = downloadSchedulerItem.CurrentSpeed;
+                            downloadItem.FinishedSize = downloadSchedulerItem.FinishedSize;
+                            downloadItem.TotalSize = downloadSchedulerItem.TotalSize;
+                            break;
                         }
                     }
                 }

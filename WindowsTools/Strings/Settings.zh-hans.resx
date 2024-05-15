@@ -183,6 +183,18 @@
   <data name="DesktopAcrylic" xml:space="preserve">
     <value>亚克力</value>
   </data>
+  <data name="DoEngineBits" xml:space="preserve">
+    <value>后台智能传输服务</value>
+  </data>
+  <data name="DoEngineDo" xml:space="preserve">
+    <value>传递优化</value>
+  </data>
+  <data name="DoEngineMode" xml:space="preserve">
+    <value>下载引擎方式</value>
+  </data>
+  <data name="DoEngineModeDescription" xml:space="preserve">
+    <value>设置下载文件时使用的下载引擎，重启后生效</value>
+  </data>
   <data name="Download" xml:space="preserve">
     <value>下载</value>
   </data>
@@ -191,6 +203,12 @@
   </data>
   <data name="DownloadFolderDescription" xml:space="preserve">
     <value>下载首选的文件下载路径</value>
+  </data>
+  <data name="DownloadOptions" xml:space="preserve">
+    <value>下载管理</value>
+  </data>
+  <data name="DownloadOptionsDescription" xml:space="preserve">
+    <value>应用程序下载文件设置</value>
   </data>
   <data name="ExitApp" xml:space="preserve">
     <value>关闭应用</value>
@@ -221,6 +239,9 @@
   </data>
   <data name="LanguageDescription" xml:space="preserve">
     <value>修改应用界面显示的语言</value>
+  </data>
+  <data name="LearnDoEngine" xml:space="preserve">
+    <value>下载引擎说明</value>
   </data>
   <data name="LogFolder" xml:space="preserve">
     <value>日志存放路径</value>

@@ -912,7 +912,7 @@ namespace WindowsTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Parse {file} resources failed", filePath), e);
+                    LogService.WriteLog(EventLevel.Error, string.Format("Parse file {0} resources failed", filePath), e);
                 }
             });
         }

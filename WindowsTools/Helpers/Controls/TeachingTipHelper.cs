@@ -13,6 +13,8 @@ namespace WindowsTools.Helpers.Controls.Extensions
     /// </summary>
     public static class TeachingTipHelper
     {
+        private static readonly object teachingTipLock = new object();
+
         /// <summary>
         /// 使用教学提示显示应用内通知
         /// </summary>
@@ -21,18 +23,26 @@ namespace WindowsTools.Helpers.Controls.Extensions
             MainWindow.Current.BeginInvoke(async () =>
             {
                 teachingTip.Name = "TeachingTip" + Guid.NewGuid().ToString();
-                ((MainWindow.Current.Content as MainPage).Content as Grid).Children.Add(teachingTip);
+
+                lock (teachingTipLock)
+                {
+                    ((MainWindow.Current.Content as MainPage).Content as Grid).Children.Add(teachingTip);
+                }
+
                 teachingTip.IsOpen = true;
                 teachingTip.Closed += (sender, args) =>
                 {
                     try
                     {
-                        foreach (UIElement item in ((MainWindow.Current.Content as MainPage).Content as Grid).Children)
+                        lock (teachingTipLock)
                         {
-                            if ((item as FrameworkElement).Name == teachingTip.Name)
+                            foreach (UIElement item in ((MainWindow.Current.Content as MainPage).Content as Grid).Children)
                             {
-                                ((MainWindow.Current.Content as MainPage).Content as Grid).Children.Remove(item);
-                                break;
+                                if ((item as FrameworkElement).Name == teachingTip.Name)
+                                {
+                                    ((MainWindow.Current.Content as MainPage).Content as Grid).Children.Remove(item);
+                                    break;
+                                }
                             }
                         }
                     }

@@ -42,7 +42,7 @@ namespace WindowsToolsShellExtension
         /// </summary>
         /// <returns>OLE 不提供此函数。 支持 OLE 组件对象模型 (COM) 的 DLL 应实现并导出 DllCanUnloadNow。</returns>
         [UnmanagedCallersOnly(EntryPoint = "DllCanUnloadNow")]
-        public static int DllCanUnloadNow()
+        private static int DllCanUnloadNow()
         {
             return g_cRefModule >= 1 ? 1 : 0;
         }
@@ -65,7 +65,7 @@ namespace WindowsToolsShellExtension
         /// <param name="ppv">接收 riid 中请求的接口指针的指针变量的地址。 成功返回后，*ppv 包含请求的接口指针。 如果发生错误，接口指针为 NULL。</param>
         /// <returns>此函数可以返回标准返回值E_INVALIDARG、E_OUTOFMEMORY和E_UNEXPECTED，以及以下值。</returns>
         [UnmanagedCallersOnly(EntryPoint = "DllGetClassObject")]
-        public static unsafe int DllGetClassObject([In] Guid clsid, [In] Guid riid, void** ppv)
+        private static unsafe int DllGetClassObject([In] Guid clsid, [In] Guid riid, void** ppv)
         {
             foreach ((Guid guid, Func<object> func) in createFunctions)
             {

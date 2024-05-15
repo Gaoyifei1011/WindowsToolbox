@@ -150,6 +150,15 @@
   <data name="DeveloperNameToolTip" xml:space="preserve">
     <value>Click to visit the Developer home page</value>
   </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download management instructions</value>
+  </data>
+  <data name="DownloadDescription1" xml:space="preserve">
+    <value>The download function of the application is not provided by the application itself, it uses the built-in delivery optimization or background intelligent transfer service (BITS) to download files. Therefore, during the download process, a temporary download file in TMP format will appear on the local disk, and the download time will depend on your Internet connection speed.</value>
+  </data>
+  <data name="DownloadDescription2" xml:space="preserve">
+    <value>The download service shuts down due to an exception in some unknown circumstances, and if you encounter a download service that is not running while downloading a file, we recommend that you try restarting the app.</value>
+  </data>
   <data name="HelpTranslate" xml:space="preserve">
     <value>Help translate</value>
   </data>
@@ -158,6 +167,12 @@
   </data>
   <data name="LanguageDescription" xml:space="preserve">
     <value>The name of the Start menu app doesn't change with the app language setting. Find the app in settings and click the Repair button and the app name changes without clearing your app's data.</value>
+  </data>
+  <data name="LearnBits" xml:space="preserve">
+    <value>Learn bits</value>
+  </data>
+  <data name="LearnDeliveryOptimization" xml:space="preserve">
+    <value>Learn delivery optimization</value>
   </data>
   <data name="Others" xml:space="preserve">
     <value>Others</value>
@@ -230,6 +245,9 @@
   </data>
   <data name="Title" xml:space="preserve">
     <value>About</value>
+  </data>
+  <data name="TroubleShoot" xml:space="preserve">
+    <value>Trouble shoot</value>
   </data>
   <data name="UpdateAndLicensing" xml:space="preserve">
     <value>Update and licensing</value>

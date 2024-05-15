@@ -361,9 +361,11 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 导航失败时发生
         /// </summary>
-        private void OnNavgationFailed(object sender, NavigationFailedEventArgs args)
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs args)
         {
-            throw new ApplicationException(string.Format(Strings.Window.NavigationFailed, args.SourcePageType.FullName));
+            args.Handled = true;
+            LogService.WriteLog(EventLevel.Warning, string.Format(Strings.Window.NavigationFailed, args.SourcePageType.FullName), args.Exception);
+            (global::Windows.UI.Xaml.Application.Current as App).Dispose();
         }
 
         #endregion 第四部分：导航控件及其内容挂载的事件

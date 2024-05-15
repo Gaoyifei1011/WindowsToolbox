@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls.Extensions;
-using WindowsTools.Services.Controls.Pages;
+using WindowsTools.Services.Controls.Download;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
 
@@ -37,7 +37,7 @@ namespace WindowsTools.UI.Dialogs
                 try
                 {
                     File.Delete(downloadFilePath);
-                    DeliveryOptimizationService.CreateDownload(downloadUrl, downloadFilePath);
+                    DownloadSchedulerService.CreateDownload(downloadUrl, downloadFilePath);
                 }
                 catch (Exception)
                 {

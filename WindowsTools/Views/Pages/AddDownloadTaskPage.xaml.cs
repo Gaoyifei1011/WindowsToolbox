@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using WindowsTools.Helpers.Controls;
-using WindowsTools.Services.Controls.Pages;
+using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
@@ -107,7 +107,7 @@ namespace WindowsTools.Views.Pages
         public AddDownloadTaskPage()
         {
             InitializeComponent();
-            DownloadFolderText = DownloadService.DownloadFolder;
+            DownloadFolderText = DownloadOptionsService.DownloadFolder;
             RequestedTheme = (ElementTheme)Enum.Parse(typeof(ElementTheme), ThemeService.AppTheme.Value.ToString());
             IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
         }
@@ -213,7 +213,7 @@ namespace WindowsTools.Views.Pages
             }
             else
             {
-                DeliveryOptimizationService.CreateDownload(DownloadLinkText, Path.Combine(DownloadFolderText, DownloadFileNameText));
+                DownloadSchedulerService.CreateDownload(DownloadLinkText, Path.Combine(DownloadFolderText, DownloadFileNameText));
                 AddDownloadTaskWindow.Current?.Close();
             }
         }

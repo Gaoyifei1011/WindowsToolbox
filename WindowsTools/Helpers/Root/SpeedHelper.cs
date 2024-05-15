@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WindowsTools.Helpers.Controls
+namespace WindowsTools.Helpers.Root
 {
     /// <summary>
     /// 下载速度转换辅助类
