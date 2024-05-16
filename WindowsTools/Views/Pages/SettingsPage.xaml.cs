@@ -478,14 +478,6 @@ namespace WindowsTools.Views.Pages
 
         #endregion 第一部分：设置页面——挂载的事件
 
-        /// <summary>
-        /// 判断传递优化下载引擎是否存在
-        /// </summary>
-        private bool IsDeliveryOptimizationExisted()
-        {
-            return InfoHelper.SystemVersion.Build >= 22621;
-        }
-
         private string LocalizeDisplayNumber(DictionaryEntry selectedBackdrop)
         {
             int index = BackdropList.FindIndex(item => item.Value.Equals(selectedBackdrop.Value));

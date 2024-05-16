@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.IO;
 using WindowsTools.Extensions.DataType.Constant;
-using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Root;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
@@ -34,7 +33,7 @@ namespace WindowsTools.Services.Controls.Settings
         {
             Shell32Library.SHGetKnownFolderPath(new Guid("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
             defaultDownloadFolder = downloadFolder;
-            defaultDoEngineMode = InfoHelper.SystemVersion.Build >= 22621 ? DoEngineModeList[0] : DoEngineModeList[1];
+            defaultDoEngineMode = DoEngineModeList[0];
             DownloadFolder = GetFolder();
             DoEngineMode = GetDoEngineMode();
         }
