@@ -32,7 +32,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class IconExtractPage : Page, INotifyPropertyChanged
     {
-        private readonly object iconExtractLock = new object();
+        private readonly object iconExtractLock = new();
 
         private string filePath;
 
@@ -164,14 +164,14 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private List<DictionaryEntry> IconFormatList { get; } = new List<DictionaryEntry>()
-        {
+        private List<DictionaryEntry> IconFormatList { get; } =
+        [
             new DictionaryEntry() { Key = ".ico", Value = ".ico" },
             new DictionaryEntry() { Key = ".png", Value = ".png" }
-        };
+        ];
 
-        private List<DictionaryEntry> IconSizeList { get; set; } = new List<DictionaryEntry>()
-        {
+        private List<DictionaryEntry> IconSizeList { get; set; } =
+        [
             new DictionaryEntry() { Key = "16 * 16", Value = 16 },
             new DictionaryEntry() { Key = "24 * 24", Value = 24 },
             new DictionaryEntry() { Key = "32 * 32", Value = 32 },
@@ -180,9 +180,9 @@ namespace WindowsTools.Views.Pages
             new DictionaryEntry() { Key = "96 * 96", Value = 96 },
             new DictionaryEntry() { Key = "128 * 128", Value = 128 },
             new DictionaryEntry() { Key = "256 * 256", Value = 256 }
-        };
+        ];
 
-        private ObservableCollection<IconModel> IconCollection { get; } = new ObservableCollection<IconModel>();
+        private ObservableCollection<IconModel> IconCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -305,10 +305,10 @@ namespace WindowsTools.Views.Pages
                     try
                     {
                         Icon icon = Icon.FromHandle(phicon[0]);
-                        MemoryStream memoryStream = new MemoryStream();
+                        MemoryStream memoryStream = new();
                         icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
                         memoryStream.Seek(0, SeekOrigin.Begin);
-                        BitmapImage bitmapImage = new BitmapImage();
+                        BitmapImage bitmapImage = new();
                         bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
                         ImageSource = bitmapImage;
                         IsImageEmpty = false;
@@ -368,10 +368,10 @@ namespace WindowsTools.Views.Pages
                         try
                         {
                             Icon icon = Icon.FromHandle(phicon[0]);
-                            MemoryStream memoryStream = new MemoryStream();
+                            MemoryStream memoryStream = new();
                             icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
                             memoryStream.Seek(0, SeekOrigin.Begin);
-                            BitmapImage bitmapImage = new BitmapImage();
+                            BitmapImage bitmapImage = new();
                             bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
                             ImageSource = bitmapImage;
                             IsImageEmpty = false;
@@ -393,10 +393,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Multiselect = false;
-            dialog.Filter = IconExtract.FilterCondition;
-            dialog.Title = IconExtract.SelectFile;
+            OpenFileDialog dialog = new()
+            {
+                Multiselect = false,
+                Filter = IconExtract.FilterCondition,
+                Title = IconExtract.SelectFile
+            };
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
                 ParseIconFile(dialog.FileName);
@@ -412,10 +414,12 @@ namespace WindowsTools.Views.Pages
             {
                 IList<object> selectedItemsList = IconsGridView.SelectedItems;
 
-                FolderBrowserDialog dialog = new FolderBrowserDialog();
-                dialog.Description = IconExtract.SelectFolder;
-                dialog.ShowNewFolderButton = true;
-                dialog.RootFolder = Environment.SpecialFolder.Desktop;
+                FolderBrowserDialog dialog = new()
+                {
+                    Description = IconExtract.SelectFolder,
+                    ShowNewFolderButton = true,
+                    RootFolder = Environment.SpecialFolder.Desktop
+                };
                 DialogResult result = dialog.ShowDialog();
                 if (result is DialogResult.OK || result is DialogResult.Yes)
                 {
@@ -486,10 +490,12 @@ namespace WindowsTools.Views.Pages
         {
             if (!string.IsNullOrEmpty(filePath))
             {
-                FolderBrowserDialog dialog = new FolderBrowserDialog();
-                dialog.Description = IconExtract.SelectFolder;
-                dialog.ShowNewFolderButton = true;
-                dialog.RootFolder = Environment.SpecialFolder.Desktop;
+                FolderBrowserDialog dialog = new()
+                {
+                    Description = IconExtract.SelectFolder,
+                    ShowNewFolderButton = true,
+                    RootFolder = Environment.SpecialFolder.Desktop
+                };
                 DialogResult result = dialog.ShowDialog();
                 if (result is DialogResult.OK || result is DialogResult.Yes)
                 {
@@ -576,12 +582,12 @@ namespace WindowsTools.Views.Pages
                     // 显示图标
                     IntPtr[] phicon = new IntPtr[iconsNum];
                     int[] piconid = new int[iconsNum];
-                    List<IconModel> iconsList = new List<IconModel>();
+                    List<IconModel> iconsList = [];
                     int nIcons = User32Library.PrivateExtractIcons(filePath, 0, 48, 48, phicon, piconid, iconsNum, 0);
                     for (int index = 0; index < iconsNum; index++)
                     {
                         Icon icon = Icon.FromHandle(phicon[index]);
-                        MemoryStream memoryStream = new MemoryStream();
+                        MemoryStream memoryStream = new();
                         icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
                         memoryStream.Seek(0, SeekOrigin.Begin);
 
@@ -606,7 +612,7 @@ namespace WindowsTools.Views.Pages
 
                             foreach (IconModel iconItem in iconsList)
                             {
-                                BitmapImage bitmapImage = new BitmapImage();
+                                BitmapImage bitmapImage = new();
                                 bitmapImage.SetSource(iconItem.IconMemoryStream.AsRandomAccessStream());
 
                                 lock (iconExtractLock)
@@ -649,10 +655,10 @@ namespace WindowsTools.Views.Pages
         {
             try
             {
-                MemoryStream bitMapStream = new MemoryStream(); //存原图的内存流
-                MemoryStream iconStream = new MemoryStream(); //存图标的内存流
+                MemoryStream bitMapStream = new(); //存原图的内存流
+                MemoryStream iconStream = new(); //存图标的内存流
                 rawIcon.ToBitmap().Save(bitMapStream, ImageFormat.Png); //将原图读取为png格式并存入原图内存流
-                BinaryWriter iconWriter = new BinaryWriter(iconStream); //新建二进制写入器以写入目标图标内存流
+                BinaryWriter iconWriter = new(iconStream); //新建二进制写入器以写入目标图标内存流
 
                 // 下面是根据原图信息，进行文件头写入
                 iconWriter.Write((short)0);
@@ -671,7 +677,7 @@ namespace WindowsTools.Views.Pages
                 iconWriter.Flush();
                 iconWriter.Seek(0, SeekOrigin.Begin);
                 Stream iconFileStream = new FileStream(destination, FileMode.Create);
-                Icon icon = new Icon(iconStream);
+                Icon icon = new(iconStream);
                 icon.Save(iconFileStream); //储存图像
 
                 // 释放资源

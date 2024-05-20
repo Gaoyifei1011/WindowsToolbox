@@ -16,7 +16,7 @@ namespace WindowsTools.UI.Dialogs
     /// </summary>
     public sealed partial class OperationFailedDialog : ContentDialog
     {
-        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = new ObservableCollection<OperationFailedModel>();
+        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = [];
 
         public OperationFailedDialog(ObservableCollection<OperationFailedModel> operationFailedCollection)
         {
@@ -36,7 +36,7 @@ namespace WindowsTools.UI.Dialogs
             OperationFailedModel operationFailedItem = args.Parameter as OperationFailedModel;
             if (operationFailedItem is not null)
             {
-                StringBuilder builder = new StringBuilder();
+                StringBuilder builder = new();
                 builder.Append(Dialog.FileNameCopy);
                 builder.AppendLine(operationFailedItem.FileName);
                 builder.Append(Dialog.FilePathCopy);
@@ -57,7 +57,7 @@ namespace WindowsTools.UI.Dialogs
         {
             args.Cancel = true;
 
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new();
             foreach (OperationFailedModel operationFailedItem in OperationFailedCollection)
             {
                 builder.Append(Dialog.FileNameCopy);

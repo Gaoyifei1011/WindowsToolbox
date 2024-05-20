@@ -20,9 +20,10 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class WinSATPage : Page, INotifyPropertyChanged
     {
-        private CInitiateWinSAT cInitiateWinSAT = new CInitiateWinSAT();
-        private _RemotableHandle _RemotableHandle = new _RemotableHandle();
-        private Guid progressDialogCLSID = new Guid("F8383852-FCD3-11d1-A6B9-006097DF5BD4");
+        private readonly CInitiateWinSAT cInitiateWinSAT = new();
+        private readonly Guid progressDialogCLSID = new("F8383852-FCD3-11d1-A6B9-006097DF5BD4");
+
+        private _RemotableHandle _RemotableHandle = new();
         private CWinSATCallbacks cWinSATCallbacks;
         private IProgressDialog progressDialog;
 
@@ -341,7 +342,7 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                CQueryWinSAT queryWinSAT = new CQueryWinSAT();
+                CQueryWinSAT queryWinSAT = new();
                 double basicScore = 0.0;
                 double processorSubScore = 0.0;
                 double memorySubScore = 0.0;

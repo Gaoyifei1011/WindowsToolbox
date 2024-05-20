@@ -34,12 +34,12 @@
         /// <summary>
         /// 在 Windows 8 中引入。 此标志在 Windows 10 版本 1703 中已弃用。 请改用 KF_FLAG_FORCE_PACKAGE_REDIRECTION 。
         /// </summary>
-        KF_FLAG_FORCE_APPCONTAINER_REDIRECTION = 0x00020000,
+        KF_FLAG_FORCE_APPCONTAINER_REDIRECTION = KF_FLAG_FORCE_PACKAGE_REDIRECTION,
 
         /// <summary>
         /// 在 Windows 8 中引入。 此标志在 Windows 10 版本 1703 中已弃用。 请改 用 KF_FLAG_NO_PACKAGE_REDIRECTION 。
         /// </summary>
-        KF_FLAG_NO_APPCONTAINER_REDIRECTION = 0x00010000,
+        KF_FLAG_NO_APPCONTAINER_REDIRECTION = KF_FLAG_FORCE_PACKAGE_REDIRECTION,
 
         /// <summary>
         /// 指定强制创建指定文件夹（如果该文件夹尚不存在）。 应用为该文件夹预定义的安全预配。 如果文件夹不存在且无法创建，则该函数将返回失败代码，并且不会返回任何路径。

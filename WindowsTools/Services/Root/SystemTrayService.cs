@@ -27,11 +27,13 @@ namespace WindowsTools.Services.Root
         {
             if (notifyIcon is null)
             {
-                notifyIcon = new NotifyIcon();
-                notifyIcon.Text = content;
-                notifyIcon.Icon = Icon.ExtractAssociatedIcon(iconPath);
-                notifyIcon.Visible = true;
-                notifyIcon.ContextMenu = new ContextMenu();
+                notifyIcon = new NotifyIcon
+                {
+                    Text = content,
+                    Icon = Icon.ExtractAssociatedIcon(iconPath),
+                    Visible = true,
+                    ContextMenu = new ContextMenu()
+                };
                 notifyIcon.MouseDoubleClick += OnMouseDoubleClick;
 
                 foreach (MenuItem menuItem in contextMenuItemList)

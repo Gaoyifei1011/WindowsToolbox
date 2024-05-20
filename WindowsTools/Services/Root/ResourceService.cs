@@ -12,13 +12,13 @@ namespace WindowsTools.Services.Root
     /// </summary>
     public static class ResourceService
     {
-        public static List<DictionaryEntry> ThemeList { get; } = new List<DictionaryEntry>();
+        public static List<DictionaryEntry> ThemeList { get; } = [];
 
-        public static List<DictionaryEntry> BackdropList { get; } = new List<DictionaryEntry>();
+        public static List<DictionaryEntry> BackdropList { get; } = [];
 
-        public static List<DictionaryEntry> DoEngineModeList { get; } = new List<DictionaryEntry>();
+        public static List<DictionaryEntry> DoEngineModeList { get; } = [];
 
-        public static List<DictionaryEntry> ExitModeList { get; } = new List<DictionaryEntry>();
+        public static List<DictionaryEntry> ExitModeList { get; } = [];
 
         /// <summary>
         /// 初始化应用本地化信息

@@ -31,7 +31,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class FileNamePage : Page, INotifyPropertyChanged
     {
-        private readonly object fileNameLock = new object();
+        private readonly object fileNameLock = new();
 
         private bool _isChecked = false;
 
@@ -177,16 +177,16 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private List<string> NameChangeRuleList { get; } = new List<string>()
-        {
+        private List<string> NameChangeRuleList { get; } =
+        [
             FileName.NameChangeRule1,
             FileName.NameChangeRule2,
             FileName.NameChangeRule3,
             FileName.NameChangeRule4,
-        };
+        ];
 
-        private List<DictionaryEntry> NumberFormatList = new List<DictionaryEntry>
-        {
+        private readonly List<DictionaryEntry> NumberFormatList =
+        [
             new DictionaryEntry( FileName.Auto, "Auto"),
             new DictionaryEntry( "0", "0"),
             new DictionaryEntry( "00", "00"),
@@ -195,55 +195,55 @@ namespace WindowsTools.Views.Pages
             new DictionaryEntry( "00000", "00000"),
             new DictionaryEntry( "000000", "000000"),
             new DictionaryEntry( "0000000", "0000000"),
-        };
+        ];
 
-        private List<OldAndNewNameModel> NameChangeList = new List<OldAndNewNameModel>()
-        {
-            new OldAndNewNameModel(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
-            new OldAndNewNameModel(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
-            new OldAndNewNameModel(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
-            new OldAndNewNameModel(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
-        };
+        private readonly List<OldAndNewNameModel> NameChangeList =
+        [
+            new(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
+            new(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
+            new(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
+            new(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
+        ];
 
-        private Dictionary<int, List<OldAndNewNameModel>> NameChangeDict = new Dictionary<int, List<OldAndNewNameModel>>()
+        private readonly Dictionary<int, List<OldAndNewNameModel>> NameChangeDict = new()
         {
             { 0, new List<OldAndNewNameModel>()
                 {
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList1ChangedName1 },
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList1ChangedName2 },
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList1ChangedName3 },
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList1ChangedName4 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList1ChangedName1 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList1ChangedName2 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList1ChangedName3 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList1ChangedName4 },
                 }
             },
             { 1, new List<OldAndNewNameModel>()
                 {
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList2ChangedName1 },
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList2ChangedName2 },
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList2ChangedName3 },
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList2ChangedName4 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList2ChangedName1 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList2ChangedName2 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList2ChangedName3 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList2ChangedName4 },
                 }
             },
             { 2, new List<OldAndNewNameModel>()
                 {
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList3ChangedName1 },
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList3ChangedName2 },
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList3ChangedName3 },
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList3ChangedName4 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList3ChangedName1 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList3ChangedName2 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList3ChangedName3 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList3ChangedName4 },
                 }
             },
             { 3, new List<OldAndNewNameModel>()
                 {
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList4ChangedName1 },
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList4ChangedName2 },
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList4ChangedName3 },
-                    new OldAndNewNameModel(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList4ChangedName4 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList4ChangedName1 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList4ChangedName2 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList4ChangedName3 },
+                    new(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList4ChangedName4 },
                 }
             },
         };
 
-        private ObservableCollection<OldAndNewNameModel> FileNameCollection { get; } = new ObservableCollection<OldAndNewNameModel>();
+        private ObservableCollection<OldAndNewNameModel> FileNameCollection { get; } = [];
 
-        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = new ObservableCollection<OperationFailedModel>();
+        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -292,18 +292,18 @@ namespace WindowsTools.Views.Pages
                     Task.Run(async () =>
                     {
                         IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
-                        List<OldAndNewNameModel> fileNameList = new List<OldAndNewNameModel>();
+                        List<OldAndNewNameModel> fileNameList = [];
                         foreach (IStorageItem storageItem in storageItemList)
                         {
                             try
                             {
-                                FileInfo fileInfo = new FileInfo(storageItem.Path);
+                                FileInfo fileInfo = new(storageItem.Path);
                                 if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                                 {
                                     continue;
                                 }
 
-                                fileNameList.Add(new OldAndNewNameModel()
+                                fileNameList.Add(new()
                                 {
                                     OriginalFileName = storageItem.Name,
                                     OriginalFilePath = storageItem.Path,
@@ -535,26 +535,28 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Multiselect = true;
-            dialog.Title = FileName.SelectFile;
+            OpenFileDialog dialog = new()
+            {
+                Multiselect = true,
+                Title = FileName.SelectFile
+            };
             if (dialog.ShowDialog() is DialogResult.OK)
             {
                 Task.Run(() =>
                 {
-                    List<OldAndNewNameModel> fileNameList = new List<OldAndNewNameModel>();
+                    List<OldAndNewNameModel> fileNameList = [];
 
                     foreach (string fileName in dialog.FileNames)
                     {
                         try
                         {
-                            FileInfo fileInfo = new FileInfo(fileName);
+                            FileInfo fileInfo = new(fileName);
                             if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
                             }
 
-                            fileNameList.Add(new OldAndNewNameModel()
+                            fileNameList.Add(new()
                             {
                                 OriginalFileName = fileInfo.Name,
                                 OriginalFilePath = fileInfo.FullName
@@ -577,10 +579,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = FileName.SelectFolder;
-            dialog.ShowNewFolderButton = true;
-            dialog.RootFolder = Environment.SpecialFolder.Desktop;
+            FolderBrowserDialog dialog = new()
+            {
+                Description = FileName.SelectFolder,
+                ShowNewFolderButton = true,
+                RootFolder = Environment.SpecialFolder.Desktop
+            };
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
@@ -589,9 +593,9 @@ namespace WindowsTools.Views.Pages
                 {
                     Task.Run(() =>
                     {
-                        DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
-                        List<OldAndNewNameModel> directoryNameList = new List<OldAndNewNameModel>();
-                        List<OldAndNewNameModel> fileNameList = new List<OldAndNewNameModel>();
+                        DirectoryInfo currentFolder = new(dialog.SelectedPath);
+                        List<OldAndNewNameModel> directoryNameList = [];
+                        List<OldAndNewNameModel> fileNameList = [];
 
                         try
                         {
@@ -602,7 +606,7 @@ namespace WindowsTools.Views.Pages
                                     continue;
                                 }
 
-                                directoryNameList.Add(new OldAndNewNameModel()
+                                directoryNameList.Add(new()
                                 {
                                     OriginalFileName = directoryInfo.Name,
                                     OriginalFilePath = directoryInfo.FullName
@@ -623,7 +627,7 @@ namespace WindowsTools.Views.Pages
                                     continue;
                                 }
 
-                                fileNameList.Add(new OldAndNewNameModel()
+                                fileNameList.Add(new()
                                 {
                                     OriginalFileName = fileInfo.Name,
                                     OriginalFilePath = fileInfo.FullName
@@ -771,12 +775,12 @@ namespace WindowsTools.Views.Pages
                         {
                             if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
                             {
-                                DirectoryInfo directoryInfo = new DirectoryInfo(oldAndNewNameItem.OriginalFilePath);
+                                DirectoryInfo directoryInfo = new(oldAndNewNameItem.OriginalFilePath);
                                 tempFileName = tempFileName.Replace("<N>", directoryInfo.LastWriteTime.ToString("yyyy-MM-dd"));
                             }
                             else
                             {
-                                FileInfo fileInfo = new FileInfo(oldAndNewNameItem.OriginalFilePath);
+                                FileInfo fileInfo = new(oldAndNewNameItem.OriginalFilePath);
                                 tempFileName = tempFileName.Replace("<N>", fileInfo.LastWriteTime.ToString("yyyy-MM-dd"));
                             }
                         }
@@ -784,12 +788,12 @@ namespace WindowsTools.Views.Pages
                         {
                             if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
                             {
-                                DirectoryInfo directoryInfo = new DirectoryInfo(oldAndNewNameItem.OriginalFilePath);
+                                DirectoryInfo directoryInfo = new(oldAndNewNameItem.OriginalFilePath);
                                 tempFileName = tempFileName.Replace("<C>", directoryInfo.CreationTime.ToString("yyyy-MM-dd"));
                             }
                             else
                             {
-                                FileInfo fileInfo = new FileInfo(oldAndNewNameItem.OriginalFilePath);
+                                FileInfo fileInfo = new(oldAndNewNameItem.OriginalFilePath);
                                 tempFileName = tempFileName.Replace("<C>", fileInfo.CreationTime.ToString("yyyy-MM-dd"));
                             }
                         }
@@ -824,7 +828,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void ChangeFileName()
         {
-            List<OperationFailedModel> operationFailedList = new List<OperationFailedModel>();
+            List<OperationFailedModel> operationFailedList = [];
             IsModifyingNow = true;
             Task.Run(async () =>
             {

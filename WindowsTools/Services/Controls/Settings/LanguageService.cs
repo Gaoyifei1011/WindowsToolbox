@@ -14,15 +14,15 @@ namespace WindowsTools.Services.Controls.Settings
     /// </summary>
     public static class LanguageService
     {
-        private static string resourceFileName = string.Format("{0}.resources.dll", Assembly.GetExecutingAssembly().GetName().Name);
-        private static string settingsKey = ConfigKey.LanguageKey;
+        private static readonly string resourceFileName = string.Format("{0}.resources.dll", Assembly.GetExecutingAssembly().GetName().Name);
+        private static readonly string settingsKey = ConfigKey.LanguageKey;
         private static DictionaryEntry defaultAppLanguage;
 
         public static DictionaryEntry AppLanguage { get; private set; }
 
-        private static List<string> AppLanguagesList = new List<string>();
+        private static readonly List<string> AppLanguagesList = [];
 
-        public static List<DictionaryEntry> LanguageList { get; } = new List<DictionaryEntry>();
+        public static List<DictionaryEntry> LanguageList { get; } = [];
 
         /// <summary>
         /// 初始化应用语言信息列表

@@ -20,7 +20,7 @@ namespace WindowsToolsShellExtension
 
         public static StrategyBasedComWrappers StrategyBasedComWrappers { get; } = new StrategyBasedComWrappers();
 
-        private static IReadOnlyDictionary<Guid, Func<object>> createFunctions = new Dictionary<Guid, Func<object>>()
+        private readonly static IReadOnlyDictionary<Guid, Func<object>> createFunctions = new Dictionary<Guid, Func<object>>()
         {
             [typeof(RootExplorerCommand).GUID] = () => new RootExplorerCommand()
         };
@@ -71,7 +71,7 @@ namespace WindowsToolsShellExtension
             {
                 if (clsid.Equals(guid))
                 {
-                    ClassFactory classFactory = new ClassFactory(func);
+                    ClassFactory classFactory = new(func);
                     IntPtr pClassFactory = StrategyBasedComWrappers.GetOrCreateComInterfaceForObject(classFactory, CreateComInterfaceFlags.None);
 
                     ((IUnknown*)pClassFactory)->QueryInterface(riid, ppv);

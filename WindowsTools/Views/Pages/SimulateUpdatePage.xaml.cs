@@ -15,10 +15,10 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class SimulateUpdatePage : Page, INotifyPropertyChanged
     {
-        private Timer simulateUpdateTimer = new Timer();
+        private Timer simulateUpdateTimer = new();
 
+        private readonly int simulateTotalTime = 0;
         private int simulatePassedTime = 0;
-        private int simulateTotalTime = 0;
 
         private UpdatingKind UpdatingKind { get; }
 

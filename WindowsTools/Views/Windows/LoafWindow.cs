@@ -18,11 +18,12 @@ namespace WindowsTools.Views.Windows
     /// </summary>
     public class LoafWindow : Form
     {
-        private bool _blockAllKeys = false;
-        private bool _lockScreenAutomaticly = false;
+        private readonly bool _blockAllKeys = false;
+        private readonly bool _lockScreenAutomaticly = false;
+        private readonly IContainer components = new Container();
+        private readonly WindowsXamlHost windowsXamlHost = new();
+
         private IntPtr hHook = IntPtr.Zero;
-        private IContainer components = new Container();
-        private WindowsXamlHost windowsXamlHost = new WindowsXamlHost();
         private HOOKPROC KeyBoardHookProc;
 
         public static LoafWindow Current { get; private set; }

@@ -103,7 +103,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private TimeSpan _durationTime = new TimeSpan(0, 30, 0);
+        private TimeSpan _durationTime = new(0, 30, 0);
 
         public TimeSpan DurationTime
         {
@@ -135,11 +135,11 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private List<DictionaryEntry> UpdateStyleList { get; } = new List<DictionaryEntry>()
-        {
+        private List<DictionaryEntry> UpdateStyleList { get; } =
+        [
             new DictionaryEntry(Loaf.Windows11Style, UpdatingKind.Windows11),
             new DictionaryEntry(Loaf.Windows10Style, UpdatingKind.Windows10),
-        };
+        ];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -160,8 +160,10 @@ namespace WindowsTools.Views.Pages
             {
                 try
                 {
-                    HttpClient httpClient = new HttpClient();
-                    httpClient.Timeout = TimeSpan.FromSeconds(5);
+                    HttpClient httpClient = new()
+                    {
+                        Timeout = TimeSpan.FromSeconds(5)
+                    };
 
                     HttpResponseMessage responseMessage = await httpClient.GetAsync("https://bing.biturl.top/?resolution=1920&format=image");
 
@@ -174,7 +176,7 @@ namespace WindowsTools.Views.Pages
                         {
                             try
                             {
-                                BitmapImage bitmapImage = new BitmapImage();
+                                BitmapImage bitmapImage = new();
                                 await bitmapImage.SetSourceAsync(randomAccessStream);
                                 LoafImage = bitmapImage;
                                 LoadImageCompleted = true;
@@ -183,7 +185,7 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                LoafImage = new BitmapImage(new Uri("ms-appx:///Assets/Images/LoafWallpaper.jpg"));
+                                LoafImage = new(new Uri("ms-appx:///Assets/Images/LoafWallpaper.jpg"));
                                 LoadImageCompleted = true;
                                 LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
                             }
@@ -193,7 +195,7 @@ namespace WindowsTools.Views.Pages
                     {
                         MainWindow.Current.BeginInvoke(() =>
                         {
-                            LoafImage = new BitmapImage(new Uri("ms-appx:///Assets/Images/LoafWallpaper.jpg"));
+                            LoafImage = new(new Uri("ms-appx:///Assets/Images/LoafWallpaper.jpg"));
                             LoadImageCompleted = true;
                         });
                     }
@@ -203,7 +205,7 @@ namespace WindowsTools.Views.Pages
                     LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
                     MainWindow.Current.BeginInvoke(() =>
                     {
-                        LoafImage = new BitmapImage(new Uri("ms-appx:///Assets/Images/LoafWallpaper.jpg"));
+                        LoafImage = new(new Uri("ms-appx:///Assets/Images/LoafWallpaper.jpg"));
                         LoadImageCompleted = true;
                     });
                 }

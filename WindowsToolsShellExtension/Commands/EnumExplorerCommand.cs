@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using WindowsToolsShellExtension.WindowsAPI.ComTypes;
 
@@ -11,14 +10,14 @@ namespace WindowsToolsShellExtension.Commands
     [GeneratedComClass]
     public partial class EnumExplorerCommand : IEnumExplorerCommand
     {
-        private SubExplorerCommand[] subExplorerCommands;
+        private readonly SubExplorerCommand[] subExplorerCommands;
         private uint index;
 
         public EnumExplorerCommand(SubExplorerCommand[] explorerCommands)
         {
             if (explorerCommands is null)
             {
-                subExplorerCommands = Array.Empty<SubExplorerCommand>();
+                subExplorerCommands = [];
             }
             else
             {
@@ -31,8 +30,10 @@ namespace WindowsToolsShellExtension.Commands
         /// </summary>
         public int Clone(out IEnumExplorerCommand ppenum)
         {
-            EnumExplorerCommand enumExplorerCommand = new EnumExplorerCommand(subExplorerCommands);
-            enumExplorerCommand.index = index;
+            EnumExplorerCommand enumExplorerCommand = new(subExplorerCommands)
+            {
+                index = index
+            };
             ppenum = enumExplorerCommand;
             return 0;
         }

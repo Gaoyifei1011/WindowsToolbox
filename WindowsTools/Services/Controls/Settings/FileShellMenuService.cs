@@ -8,9 +8,9 @@ namespace WindowsTools.Services.Controls.Settings
     /// </summary>
     public static class FileShellMenuService
     {
-        private static string settingsKey = ConfigKey.FileShellMenuKey;
+        private static readonly string settingsKey = ConfigKey.FileShellMenuKey;
 
-        private static bool defaultFileShellMenuValue = true;
+        private static readonly bool defaultFileShellMenuValue = true;
 
         public static bool FileShellMenuValue { get; private set; }
 

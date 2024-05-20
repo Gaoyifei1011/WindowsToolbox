@@ -9,15 +9,8 @@ namespace WindowsTools.Helpers.Root
         /// </summary>
         public static bool IsDir(string filepath)
         {
-            FileInfo fi = new FileInfo(filepath);
-            if ((fi.Attributes & FileAttributes.Directory) is not 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            FileInfo fi = new(filepath);
+            return (fi.Attributes & FileAttributes.Directory) is not 0;
         }
     }
 }

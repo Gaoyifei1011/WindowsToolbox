@@ -31,7 +31,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class DownloadManagerPage : Page, INotifyPropertyChanged
     {
-        private readonly object downloadLock = new object();
+        private readonly object downloadLock = new();
 
         private string _searchDownload;
 
@@ -65,7 +65,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private ObservableCollection<DownloadModel> DownloadCollection { get; } = new ObservableCollection<DownloadModel>();
+        private ObservableCollection<DownloadModel> DownloadCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -264,7 +264,7 @@ namespace WindowsTools.Views.Pages
                 {
                     IDataTransferManagerInterop dataTransferManagerInterop = (IDataTransferManagerInterop)WindowsRuntimeMarshal.GetActivationFactory(typeof(DataTransferManager));
 
-                    DataTransferManager dataTransferManager = dataTransferManagerInterop.GetForWindow((IntPtr)MainWindow.Current.AppWindow.Id.Value, new Guid("A5CAEE9B-8708-49D1-8D36-67D25A8DA00C"));
+                    DataTransferManager dataTransferManager = dataTransferManagerInterop.GetForWindow((IntPtr)MainWindow.Current.AppWindow.Id.Value, new("A5CAEE9B-8708-49D1-8D36-67D25A8DA00C"));
 
                     dataTransferManager.DataRequested += async (sender, args) =>
                     {
@@ -293,12 +293,14 @@ namespace WindowsTools.Views.Pages
 
             if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
             {
-                SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
-                info.cbSize = Marshal.SizeOf<SHELLEXECUTEINFO>();
-                info.lpVerb = "properties";
-                info.lpFile = filePath;
-                info.nShow = 5;
-                info.fMask = 0x50c;
+                SHELLEXECUTEINFO info = new()
+                {
+                    cbSize = Marshal.SizeOf<SHELLEXECUTEINFO>(),
+                    lpVerb = "properties",
+                    lpFile = filePath,
+                    nShow = 5,
+                    fMask = 0x50c
+                };
                 Shell32Library.ShellExecuteEx(ref info);
             }
         }
@@ -428,7 +430,7 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Shell32Library.SHGetKnownFolderPath(new Guid("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
+                Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
                 Process.Start(downloadFolder);
             });
         }

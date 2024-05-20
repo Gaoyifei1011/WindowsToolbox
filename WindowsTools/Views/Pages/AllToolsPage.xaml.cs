@@ -12,8 +12,8 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class AllToolsPage : Page
     {
-        private List<ControlItemModel> RelaxToolsList { get; } = new List<ControlItemModel>()
-        {
+        private List<ControlItemModel> RelaxToolsList { get; } =
+        [
             new ControlItemModel()
             {
                 Title = AllTools.Loaf,
@@ -21,11 +21,11 @@ namespace WindowsTools.Views.Pages
                 ImagePath = "ms-appx:///Assets/ControlIcon/Loaf.png",
                 Tag = "Loaf"
             }
-        };
+        ];
 
         // 文件工具列表
-        private List<ControlItemModel> FileToolsList { get; } = new List<ControlItemModel>()
-        {
+        private List<ControlItemModel> FileToolsList { get; } =
+        [
             new ControlItemModel()
             {
                 Title = AllTools.FileName,
@@ -61,11 +61,11 @@ namespace WindowsTools.Views.Pages
                 ImagePath = "ms-appx:///Assets/ControlIcon/FileCertificate.png",
                 Tag = "FileCertificate"
             }
-        };
+        ];
 
         // 资源工具列表
-        private List<ControlItemModel> ResourceToolsList { get; } = new List<ControlItemModel>()
-        {
+        private List<ControlItemModel> ResourceToolsList { get; } =
+        [
             new ControlItemModel()
             {
                 Title = AllTools.DownloadManager,
@@ -94,23 +94,14 @@ namespace WindowsTools.Views.Pages
                 ImagePath = "ms-appx:///Assets/ControlIcon/PriExtract.png",
                 Tag = "PriExtract"
             }
-        };
+        ];
 
         // 个性化工具列表
-        private List<ControlItemModel> PersonalizeToolsList { get; } = new List<ControlItemModel>()
-        {
-            //new ControlItemModel()
-            //{
-            //    Title = AllTools.ShellMenu,
-            //    Description = AllTools.ShellMenuDescription,
-            //    ImagePath = "ms-appx:///Assets/ControlIcon/ShellMenu.png",
-            //    Tag = "ShellMenu"
-            //}
-        };
+        private List<ControlItemModel> PersonalizeToolsList { get; } = [];
 
         // 系统工具列表
-        private List<ControlItemModel> SystemToolsList { get; } = new List<ControlItemModel>()
-        {
+        private List<ControlItemModel> SystemToolsList { get; } =
+        [
             //new ControlItemModel()
             //{
             //    Title = AllTools.SystemInfo,
@@ -139,7 +130,7 @@ namespace WindowsTools.Views.Pages
                 ImagePath = "ms-appx:///Assets/ControlIcon/WinSAT.png",
                 Tag = "WinSAT"
             }
-        };
+        ];
 
         public AllToolsPage()
         {

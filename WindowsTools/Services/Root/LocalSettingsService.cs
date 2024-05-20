@@ -7,7 +7,7 @@ namespace WindowsTools.Services.Root
     /// </summary>
     public static class LocalSettingsService
     {
-        private static string settingsKey = @"Software\WindowsTools\Settings";
+        private static readonly string settingsKey = @"Software\WindowsTools\Settings";
 
         /// <summary>
         /// 读取设置选项存储信息

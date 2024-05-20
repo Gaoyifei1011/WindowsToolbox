@@ -38,13 +38,14 @@ namespace WindowsTools.Views.Windows
     /// </summary>
     public class MainWindow : Form
     {
-        private IntPtr inputNonClientPointerSourceHandle;
+        private readonly IntPtr inputNonClientPointerSourceHandle;
+        private readonly IContainer components = new Container();
+        private readonly WindowsXamlHost windowsXamlHost = new();
+        private readonly SystemBackdropConfiguration systemBackdropConfiguration = new();
+        private readonly SUBCLASSPROC inputNonClientPointerSourceSubClassProc;
+
         private DesktopWindowTarget desktopWindowTarget;
         private dynamic systemBackdropController;
-        private IContainer components = new Container();
-        private WindowsXamlHost windowsXamlHost = new WindowsXamlHost();
-        private SystemBackdropConfiguration systemBackdropConfiguration = new SystemBackdropConfiguration();
-        private SUBCLASSPROC inputNonClientPointerSourceSubClassProc;
 
         public AppWindow AppWindow { get; private set; }
 
@@ -69,8 +70,10 @@ namespace WindowsTools.Views.Windows
 
             if (RuntimeHelper.IsElevated)
             {
-                CHANGEFILTERSTRUCT changeFilterStatus = new CHANGEFILTERSTRUCT();
-                changeFilterStatus.cbSize = Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT));
+                CHANGEFILTERSTRUCT changeFilterStatus = new()
+                {
+                    cbSize = Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT))
+                };
                 User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_DROPFILES, ChangeFilterAction.MSGFLT_ALLOW, in changeFilterStatus);
                 User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_ALLOW, in changeFilterStatus);
                 User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYGLOBALDATA, ChangeFilterAction.MSGFLT_ALLOW, in changeFilterStatus);
@@ -93,12 +96,12 @@ namespace WindowsTools.Views.Windows
             BackdropService.PropertyChanged += OnServicePropertyChanged;
             TopMostService.PropertyChanged += OnServicePropertyChanged;
 
-            List<MenuItem> menuItemList = new List<MenuItem>()
-            {
+            List<MenuItem> menuItemList =
+            [
                 new MenuItem() { Text = SystemTray.ShowOrHideWindow ,Tag = nameof(SystemTray.ShowOrHideWindow) },
                 new MenuItem() { Text = "-" },
                 new MenuItem() { Text = SystemTray.Exit,Tag = nameof(SystemTray.Exit) }
-            };
+            ];
 
             SystemTrayService.InitializeSystemTray(Strings.Window.AppTitle, Process.GetCurrentProcess().MainModule.FileName, menuItemList);
             SystemTrayService.MenuItemClick += OnMenuItemClick;
@@ -184,8 +187,10 @@ namespace WindowsTools.Views.Windows
                 {
                     if (RuntimeHelper.IsElevated && Handle != IntPtr.Zero)
                     {
-                        CHANGEFILTERSTRUCT changeFilterStatus = new CHANGEFILTERSTRUCT();
-                        changeFilterStatus.cbSize = Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT));
+                        CHANGEFILTERSTRUCT changeFilterStatus = new()
+                        {
+                            cbSize = Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT))
+                        };
                         User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_RESET, in changeFilterStatus);
                     }
 
@@ -418,9 +423,11 @@ namespace WindowsTools.Views.Windows
 
                         if (sysCommand is SystemCommand.SC_MOUSEMENU || sysCommand is SystemCommand.SC_KEYMENU)
                         {
-                            FlyoutShowOptions options = new FlyoutShowOptions();
-                            options.Position = new global::Windows.Foundation.Point(0, 45);
-                            options.ShowMode = FlyoutShowMode.Standard;
+                            FlyoutShowOptions options = new()
+                            {
+                                Position = new global::Windows.Foundation.Point(0, 45),
+                                ShowMode = FlyoutShowMode.Standard
+                            };
                             (Content as MainPage).TitlebarMenuFlyout.ShowAt(null, options);
                             return;
                         }
@@ -432,8 +439,8 @@ namespace WindowsTools.Views.Windows
                         IntPtr wParam = m.WParam;
                         Task.Run(() =>
                         {
-                            List<string> filesList = new List<string>();
-                            StringBuilder stringBuilder = new StringBuilder(260);
+                            List<string> filesList = [];
+                            StringBuilder stringBuilder = new(260);
                             uint numFiles = Shell32Library.DragQueryFile(wParam, 0xffffffffu, null, 0);
                             for (uint index = 0; index < numFiles; index++)
                             {
@@ -442,7 +449,7 @@ namespace WindowsTools.Views.Windows
                                     filesList.Add(stringBuilder.ToString());
                                 }
                             }
-                            System.Drawing.Point point = new System.Drawing.Point(0, 0);
+                            System.Drawing.Point point = new(0, 0);
                             Shell32Library.DragQueryPoint(wParam, ref point);
                             Shell32Library.DragFinish(wParam);
                             BeginInvoke(() =>
@@ -493,12 +500,14 @@ namespace WindowsTools.Views.Windows
                         {
                             System.Drawing.Point clientPoint = PointToClient(MousePosition);
 
-                            FlyoutShowOptions options = new FlyoutShowOptions();
-                            options.Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft;
-                            options.ShowMode = FlyoutShowMode.Standard;
-                            options.Position = InfoHelper.SystemVersion.Build >= 22000 ?
+                            FlyoutShowOptions options = new()
+                            {
+                                Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft,
+                                ShowMode = FlyoutShowMode.Standard,
+                                Position = InfoHelper.SystemVersion.Build >= 22000 ?
                                 new global::Windows.Foundation.Point(clientPoint.X / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96)) :
-                                new global::Windows.Foundation.Point(clientPoint.X, clientPoint.Y);
+                                new global::Windows.Foundation.Point(clientPoint.X, clientPoint.Y)
+                            };
                             (Content as MainPage).TitlebarMenuFlyout.ShowAt(null, options);
                         }
                         return IntPtr.Zero;
@@ -702,7 +711,7 @@ namespace WindowsTools.Views.Windows
         {
             if (DispatcherQueue.GetForCurrentThread() is not null && desktopWindowTarget is null)
             {
-                Compositor compositor = new Compositor();
+                Compositor compositor = new();
                 ICompositorDesktopInterop interop = compositor as object as ICompositorDesktopInterop;
                 interop.CreateDesktopWindowTarget(handle, isTopMost, out desktopWindowTarget);
 

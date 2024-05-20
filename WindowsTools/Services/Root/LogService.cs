@@ -14,12 +14,13 @@ namespace WindowsTools.Services.Root
     /// </summary>
     public static class LogService
     {
-        private static readonly object logLock = new object();
+        private static readonly object logLock = new();
+        private static readonly string logName = Assembly.GetExecutingAssembly().GetName().Name;
+        private static readonly string unknown = "unknown";
+
         private static bool isInitialized = false;
-        private static string logName = Assembly.GetExecutingAssembly().GetName().Name;
-        private static string unknown = "unknown";
         private static DirectoryInfo logDirectory;
-        private static Guid FOLDERID_LocalAppData = new Guid("F1B32785-6FBA-4FCF-9D55-7B8E7F157091");
+        private static Guid FOLDERID_LocalAppData = new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091");
 
         /// <summary>
         /// 初始化日志记录
@@ -93,7 +94,7 @@ namespace WindowsTools.Services.Root
                 {
                     Task.Run(() =>
                     {
-                        StringBuilder exceptionBuilder = new StringBuilder();
+                        StringBuilder exceptionBuilder = new();
                         exceptionBuilder.Append("LogContent:");
                         exceptionBuilder.AppendLine(logContent);
                         exceptionBuilder.Append("HelpLink:");

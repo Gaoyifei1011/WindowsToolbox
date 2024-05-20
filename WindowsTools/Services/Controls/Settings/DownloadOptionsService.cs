@@ -14,8 +14,8 @@ namespace WindowsTools.Services.Controls.Settings
     /// </summary>
     public static class DownloadOptionsService
     {
-        private static string settingsKey = ConfigKey.DownloadFolderKey;
-        private static string doEngineModeKey = ConfigKey.DoEngineModeKey;
+        private static readonly string settingsKey = ConfigKey.DownloadFolderKey;
+        private static readonly string doEngineModeKey = ConfigKey.DoEngineModeKey;
 
         private static string defaultDownloadFolder;
         private static DictionaryEntry defaultDoEngineMode;
@@ -31,7 +31,7 @@ namespace WindowsTools.Services.Controls.Settings
         /// </summary>
         public static void InitializeDownload()
         {
-            Shell32Library.SHGetKnownFolderPath(new Guid("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
+            Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
             defaultDownloadFolder = downloadFolder;
             defaultDoEngineMode = DoEngineModeList[0];
             DownloadFolder = GetFolder();

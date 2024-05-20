@@ -69,13 +69,13 @@ namespace WindowsToolsShellExtension.Helpers.Root
                             // 字符串序列
                             else if (kind is RegistryValueKind.REG_MULTI_SZ)
                             {
-                                List<string> stringList = new List<string>();
+                                List<string> stringList = [];
                                 string packed = Encoding.Unicode.GetString(data, 0, length);
                                 int start = 0;
                                 int end = packed.IndexOf('\0', start);
                                 while (end > start)
                                 {
-                                    stringList.Add(packed.Substring(start, end - start));
+                                    stringList.Add(packed[start..end]);
                                     start = end + 1;
                                     end = packed.IndexOf('\0', start);
                                 }

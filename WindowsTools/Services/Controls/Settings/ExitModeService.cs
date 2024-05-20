@@ -10,7 +10,7 @@ namespace WindowsTools.Services.Controls.Settings
     /// </summary>
     public static class ExitModeService
     {
-        private static string settingsKey = ConfigKey.ExitModeKey;
+        private static readonly string settingsKey = ConfigKey.ExitModeKey;
 
         private static DictionaryEntry defaultExitMode;
 

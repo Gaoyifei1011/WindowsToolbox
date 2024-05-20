@@ -8,8 +8,8 @@ namespace WindowsToolsShellExtension.Services.Controls.Settings
     /// </summary>
     public static class LanguageService
     {
-        private static string settingsKey = ConfigKey.LanguageKey;
-        private static string defaultAppLanguage = "en-us";
+        private static readonly string settingsKey = ConfigKey.LanguageKey;
+        private static readonly string defaultAppLanguage = "en-us";
 
         /// <summary>
         /// 获取设置存储的语言值，如果设置没有存储，使用默认值

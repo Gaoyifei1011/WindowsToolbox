@@ -33,7 +33,7 @@ namespace WindowsTools.Helpers.Root
         private static void IsRunningElevated()
         {
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
-            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            WindowsPrincipal principal = new(identity);
             IsElevated = principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
     }

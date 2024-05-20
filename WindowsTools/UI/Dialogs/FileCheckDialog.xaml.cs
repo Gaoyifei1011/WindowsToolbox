@@ -16,9 +16,8 @@ namespace WindowsTools.UI.Dialogs
     /// </summary>
     public sealed partial class FileCheckDialog : ContentDialog
     {
-        private string downloadUrl;
-
-        private string downloadFilePath;
+        private readonly string downloadUrl;
+        private readonly string downloadFilePath;
 
         public FileCheckDialog(string url, string saveFilePath)
         {

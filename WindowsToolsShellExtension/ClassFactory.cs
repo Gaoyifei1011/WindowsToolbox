@@ -9,14 +9,9 @@ namespace WindowsToolsShellExtension
     /// 允许创建对象的类。
     /// </summary>
     [GeneratedComClass]
-    public partial class ClassFactory : IClassFactory
+    public partial class ClassFactory(Func<object> createFunc) : IClassFactory
     {
-        private readonly Func<object> createFunc;
-
-        public ClassFactory(Func<object> createFunc)
-        {
-            this.createFunc = createFunc;
-        }
+        private readonly Func<object> createFunc = createFunc;
 
         public unsafe int CreateInstance([Optional] void* pUnkOuter, in Guid riid, void** ppvObject)
         {

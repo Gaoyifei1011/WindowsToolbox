@@ -30,7 +30,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class FilePropertiesPage : Page, INotifyPropertyChanged
     {
-        private readonly object filePropertiesLock = new object();
+        private readonly object filePropertiesLock = new();
 
         private bool _isReadOnlyChecked = false;
 
@@ -208,9 +208,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private ObservableCollection<OldAndNewPropertiesModel> FilePropertiesCollection { get; } = new ObservableCollection<OldAndNewPropertiesModel>();
+        private ObservableCollection<OldAndNewPropertiesModel> FilePropertiesCollection { get; } = [];
 
-        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = new ObservableCollection<OperationFailedModel>();
+        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -250,13 +250,13 @@ namespace WindowsTools.Views.Pages
                     Task.Run(async () =>
                     {
                         IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
-                        List<OldAndNewPropertiesModel> filePropertiesList = new List<OldAndNewPropertiesModel>();
+                        List<OldAndNewPropertiesModel> filePropertiesList = [];
 
                         foreach (IStorageItem storageItem in storageItemList)
                         {
                             try
                             {
-                                FileInfo fileInfo = new FileInfo(storageItem.Path);
+                                FileInfo fileInfo = new(storageItem.Path);
                                 if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                                 {
                                     continue;
@@ -431,20 +431,22 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Multiselect = true;
-            dialog.Title = FileProperties.SelectFile;
+            OpenFileDialog dialog = new()
+            {
+                Multiselect = true,
+                Title = FileProperties.SelectFile
+            };
             if (dialog.ShowDialog() is DialogResult.OK)
             {
                 Task.Run(() =>
                 {
-                    List<OldAndNewPropertiesModel> filePropertiesList = new List<OldAndNewPropertiesModel>();
+                    List<OldAndNewPropertiesModel> filePropertiesList = [];
 
                     foreach (string fileName in dialog.FileNames)
                     {
                         try
                         {
-                            FileInfo fileInfo = new FileInfo(fileName);
+                            FileInfo fileInfo = new(fileName);
                             if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
@@ -473,10 +475,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = FileProperties.SelectFolder;
-            dialog.ShowNewFolderButton = true;
-            dialog.RootFolder = Environment.SpecialFolder.Desktop;
+            FolderBrowserDialog dialog = new()
+            {
+                Description = FileProperties.SelectFolder,
+                ShowNewFolderButton = true,
+                RootFolder = Environment.SpecialFolder.Desktop
+            };
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
@@ -485,9 +489,9 @@ namespace WindowsTools.Views.Pages
                 {
                     Task.Run(() =>
                     {
-                        DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
-                        List<OldAndNewPropertiesModel> directoryNameList = new List<OldAndNewPropertiesModel>();
-                        List<OldAndNewPropertiesModel> fileNameList = new List<OldAndNewPropertiesModel>();
+                        DirectoryInfo currentFolder = new(dialog.SelectedPath);
+                        List<OldAndNewPropertiesModel> directoryNameList = [];
+                        List<OldAndNewPropertiesModel> fileNameList = [];
 
                         try
                         {
@@ -625,7 +629,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void PreviewChangedFileAttributes()
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new();
             if (IsReadOnlyChecked)
             {
                 stringBuilder.Append(FileProperties.ReadOnly);
@@ -668,7 +672,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void ChangeFileAttributes()
         {
-            List<OperationFailedModel> operationFailedList = new List<OperationFailedModel>();
+            List<OperationFailedModel> operationFailedList = [];
             IsModifyingNow = true;
             Task.Run(async () =>
             {

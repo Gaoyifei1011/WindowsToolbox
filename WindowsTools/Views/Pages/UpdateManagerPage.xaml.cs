@@ -30,16 +30,16 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class UpdateManagerPage : Page, INotifyPropertyChanged
     {
-        private readonly object availableUpdateLock = new object();
-        private readonly object installedUpdateLock = new object();
-        private readonly object hiddenUpdateLock = new object();
-        private readonly object updateHistoryLock = new object();
+        private readonly object availableUpdateLock = new();
+        private readonly object installedUpdateLock = new();
+        private readonly object hiddenUpdateLock = new();
+        private readonly object updateHistoryLock = new();
 
-        private UpdateSession updateSession = new UpdateSession();
-        private UpdateServiceManager updateServiceManager = new UpdateServiceManager();
-        private IUpdateSearcher updateSearcher;
+        private readonly UpdateSession updateSession = new();
+        private readonly UpdateServiceManager updateServiceManager = new();
+        private readonly IUpdateSearcher updateSearcher;
 
-        private bool isInitialized;
+        private readonly bool isInitialized;
 
         private bool _isChecking;
 
@@ -201,30 +201,30 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private List<DictionaryEntry> UpdateSourceList { get; } = new List<DictionaryEntry>()
-        {
+        private List<DictionaryEntry> UpdateSourceList { get; } =
+        [
             new DictionaryEntry(UpdateManager.MicrosoftUpdate, "Microsoft Update"),
             new DictionaryEntry(UpdateManager.DCatFlightingProd, "DCat Flighting Prod"),
             new DictionaryEntry(UpdateManager.WindowsStore, "Windows Store(DCat Prod)"),
             new DictionaryEntry(UpdateManager.WindowsUpdate, "Windows Update"),
-        };
+        ];
 
-        private List<DictionaryEntry> PreviewChannelList { get; } = new List<DictionaryEntry>()
-        {
+        private List<DictionaryEntry> PreviewChannelList { get; } =
+        [
             new DictionaryEntry(UpdateManager.DonotEnter, "DoNotEnter"),
             new DictionaryEntry(UpdateManager.ReleasePreview, "ReleasePreview"),
             new DictionaryEntry(UpdateManager.Beta, "Beta"),
             new DictionaryEntry(UpdateManager.Dev, "Dev"),
             new DictionaryEntry(UpdateManager.Canary, "Canary"),
-        };
+        ];
 
-        private ObservableCollection<UpdateModel> AvailableUpdateCollection { get; } = new ObservableCollection<UpdateModel>();
+        private ObservableCollection<UpdateModel> AvailableUpdateCollection { get; } = [];
 
-        private ObservableCollection<UpdateModel> InstalledUpdateCollection { get; } = new ObservableCollection<UpdateModel>();
+        private ObservableCollection<UpdateModel> InstalledUpdateCollection { get; } = [];
 
-        private ObservableCollection<UpdateModel> HiddenUpdateCollection { get; } = new ObservableCollection<UpdateModel>();
+        private ObservableCollection<UpdateModel> HiddenUpdateCollection { get; } = [];
 
-        private ObservableCollection<UpdateModel> UpdateHistoryCollection { get; } = new ObservableCollection<UpdateModel>();
+        private ObservableCollection<UpdateModel> UpdateHistoryCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -329,8 +329,8 @@ namespace WindowsTools.Views.Pages
             {
                 IUpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller();
                 updateInstaller.Updates.Add(updateItem.Update);
-                InstallationCompletedCallback installationCompletedCallback = new InstallationCompletedCallback();
-                InstallationProgressChangedCallback installationProgressChangedCallback = new InstallationProgressChangedCallback();
+                InstallationCompletedCallback installationCompletedCallback = new();
+                InstallationProgressChangedCallback installationProgressChangedCallback = new();
 
                 // 安装完成，更新信息并重新检查更新
                 installationCompletedCallback.InstallationCompleted += (sender, args) =>
@@ -428,7 +428,7 @@ namespace WindowsTools.Views.Pages
             {
                 Task.Run(() =>
                 {
-                    StringBuilder copyInformationBuilder = new StringBuilder();
+                    StringBuilder copyInformationBuilder = new();
                     copyInformationBuilder.AppendLine(UpdateManager.Title);
                     copyInformationBuilder.AppendLine(updateModel.UpdateName);
                     copyInformationBuilder.AppendLine(UpdateManager.Description);
@@ -810,9 +810,9 @@ namespace WindowsTools.Views.Pages
                     return;
                 }
 
-                List<UpdateModel> availableUpdateList = new List<UpdateModel>();
-                List<UpdateModel> installedUpdateList = new List<UpdateModel>();
-                List<UpdateModel> hiddenUpdateList = new List<UpdateModel>();
+                List<UpdateModel> availableUpdateList = [];
+                List<UpdateModel> installedUpdateList = [];
+                List<UpdateModel> hiddenUpdateList = [];
 
                 // 读取已搜索到的更新
                 foreach (IUpdate update in searchResult.Updates)
@@ -925,7 +925,7 @@ namespace WindowsTools.Views.Pages
                 try
                 {
                     string query = "(IsInstalled = 0 and IsHidden = 0 and DeploymentAction=*) or (IsInstalled = 1 and IsHidden = 0 and DeploymentAction=*) or (IsHidden = 1 and DeploymentAction=*)";
-                    SearchCompletedCallback searchCompletedCallback = new SearchCompletedCallback();
+                    SearchCompletedCallback searchCompletedCallback = new();
                     searchCompletedCallback.SearchCompleted += OnSearchCompleted;
                     updateSearcher.BeginSearch(query, searchCompletedCallback, null);
                 }

@@ -33,7 +33,7 @@
         /// <summary>
         /// 采用 little-endian 格式的 32 位数字。 Windows 设计为在 little-endian 计算机体系结构上运行。 因此，此值在 Windows 头文件中定义为 REG_DWORD 。
         /// </summary>
-        REG_DWORD_LITTLE_ENDIAN = 4,
+        REG_DWORD_LITTLE_ENDIAN = REG_DWORD,
 
         /// <summary>
         /// 采用 big-endian 格式的 32 位数字。 某些 UNIX 系统支持 big-endian 体系结构。
@@ -73,6 +73,6 @@
         /// <summary>
         /// 采用 little-endian 格式的 64 位数字。 Windows 设计为在 little-endian 计算机体系结构上运行。 因此，此值在 Windows 头文件中定义为 REG_QWORD 。
         /// </summary>
-        REG_QWORD_LITTLE_ENDIAN = 11
+        REG_QWORD_LITTLE_ENDIAN = REG_QWORD
     }
 }

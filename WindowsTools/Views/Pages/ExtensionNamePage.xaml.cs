@@ -30,7 +30,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class ExtensionNamePage : Page, INotifyPropertyChanged
     {
-        private readonly object extensionNameLock = new object();
+        private readonly object extensionNameLock = new();
 
         private bool _isModifyingNow = false;
 
@@ -114,9 +114,9 @@ namespace WindowsTools.Views.Pages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private ObservableCollection<OldAndNewNameModel> ExtensionNameCollection { get; } = new ObservableCollection<OldAndNewNameModel>();
+        private ObservableCollection<OldAndNewNameModel> ExtensionNameCollection { get; } = [];
 
-        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = new ObservableCollection<OperationFailedModel>();
+        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = [];
 
         public ExtensionNamePage()
         {
@@ -154,20 +154,20 @@ namespace WindowsTools.Views.Pages
                     Task.Run(async () =>
                     {
                         IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
-                        List<OldAndNewNameModel> extensionNameList = new List<OldAndNewNameModel>();
+                        List<OldAndNewNameModel> extensionNameList = [];
                         foreach (IStorageItem storageItem in storageItemList)
                         {
                             try
                             {
                                 if (!IOHelper.IsDir(storageItem.Path))
                                 {
-                                    FileInfo fileInfo = new FileInfo(storageItem.Path);
+                                    FileInfo fileInfo = new(storageItem.Path);
                                     if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                                     {
                                         continue;
                                     }
 
-                                    extensionNameList.Add(new OldAndNewNameModel()
+                                    extensionNameList.Add(new()
                                     {
                                         OriginalFileName = storageItem.Name,
                                         OriginalFilePath = storageItem.Path
@@ -356,20 +356,22 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Multiselect = true;
-            dialog.Title = ExtensionName.SelectFile;
+            OpenFileDialog dialog = new()
+            {
+                Multiselect = true,
+                Title = ExtensionName.SelectFile
+            };
             if (dialog.ShowDialog() is DialogResult.OK)
             {
                 Task.Run(() =>
                 {
-                    List<OldAndNewNameModel> extensionNameList = new List<OldAndNewNameModel>();
+                    List<OldAndNewNameModel> extensionNameList = [];
 
                     foreach (string fileName in dialog.FileNames)
                     {
                         try
                         {
-                            FileInfo fileInfo = new FileInfo(fileName);
+                            FileInfo fileInfo = new(fileName);
                             if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
@@ -377,7 +379,7 @@ namespace WindowsTools.Views.Pages
 
                             if (!IOHelper.IsDir(fileInfo.FullName))
                             {
-                                extensionNameList.Add(new OldAndNewNameModel()
+                                extensionNameList.Add(new()
                                 {
                                     OriginalFileName = fileInfo.Name,
                                     OriginalFilePath = fileInfo.FullName
@@ -401,10 +403,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = ExtensionName.SelectFolder;
-            dialog.ShowNewFolderButton = true;
-            dialog.RootFolder = Environment.SpecialFolder.Desktop;
+            FolderBrowserDialog dialog = new()
+            {
+                Description = ExtensionName.SelectFolder,
+                ShowNewFolderButton = true,
+                RootFolder = Environment.SpecialFolder.Desktop
+            };
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
@@ -413,8 +417,8 @@ namespace WindowsTools.Views.Pages
                 {
                     Task.Run(() =>
                     {
-                        DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
-                        List<OldAndNewNameModel> fileNameList = new List<OldAndNewNameModel>();
+                        DirectoryInfo currentFolder = new(dialog.SelectedPath);
+                        List<OldAndNewNameModel> fileNameList = [];
 
                         try
                         {
@@ -425,7 +429,7 @@ namespace WindowsTools.Views.Pages
                                     continue;
                                 }
 
-                                fileNameList.Add(new OldAndNewNameModel()
+                                fileNameList.Add(new()
                                 {
                                     OriginalFileName = fileInfo.Name,
                                     OriginalFilePath = fileInfo.FullName
@@ -556,7 +560,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void ChangeFileName()
         {
-            List<OperationFailedModel> operationFailedList = new List<OperationFailedModel>();
+            List<OperationFailedModel> operationFailedList = [];
             IsModifyingNow = true;
             Task.Run(async () =>
             {

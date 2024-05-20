@@ -16,12 +16,12 @@ namespace WindowsTools.Services.Controls.Download
     /// </summary>
     public static class DeliveryOptimizationService
     {
-        private static string displayName = "WindowsTools";
-        private static object deliveryOptimizationLock = new object();
-        private static Guid CLSID_DeliveryOptimization = new Guid("5B99FA76-721C-423C-ADAC-56D03C8A8007");
-        private static Guid IID_DOManager = new Guid("400E2D4A-1431-4C1A-A748-39CA472CFDB1");
+        private static readonly string displayName = "WindowsTools";
+        private static readonly object deliveryOptimizationLock = new();
+        private static Guid CLSID_DeliveryOptimization = new("5B99FA76-721C-423C-ADAC-56D03C8A8007");
+        private static Guid IID_DOManager = new("400E2D4A-1431-4C1A-A748-39CA472CFDB1");
 
-        private static Dictionary<Guid, Tuple<IDODownload, DODownloadStatusCallback>> DeliveryOptimizationDict { get; } = new Dictionary<Guid, Tuple<IDODownload, DODownloadStatusCallback>>();
+        private static Dictionary<Guid, Tuple<IDODownload, DODownloadStatusCallback>> DeliveryOptimizationDict { get; } = [];
 
         public static event Action<Guid, string, string, string, double> DownloadCreated;
 
@@ -78,14 +78,14 @@ namespace WindowsTools.Services.Controls.Download
                         doDownload.SetProperty(DODownloadProperty.DODownloadProperty_Uri, url);
                         doDownload.SetProperty(DODownloadProperty.DODownloadProperty_LocalPath, saveFilePath);
 
-                        DODownloadStatusCallback doDownloadStatusCallback = new DODownloadStatusCallback();
+                        DODownloadStatusCallback doDownloadStatusCallback = new();
                         doDownloadStatusCallback.StatusChanged += OnStatusChanged;
                         doDownload.SetProperty(DODownloadProperty.DODownloadProperty_CallbackInterface, new UnknownWrapper(doDownloadStatusCallback).WrappedObject);
                         doDownload.SetProperty(DODownloadProperty.DODownloadProperty_ForegroundPriority, true);
 
                         doDownload.GetProperty(DODownloadProperty.DODownloadProperty_Id, out object id);
                         doDownload.GetProperty(DODownloadProperty.DODownloadProperty_TotalSizeBytes, out object size);
-                        doDownloadStatusCallback.DownloadID = new Guid(Convert.ToString(id));
+                        doDownloadStatusCallback.DownloadID = new(Convert.ToString(id));
                         DownloadCreated?.Invoke(doDownloadStatusCallback.DownloadID, Path.GetFileName(saveFilePath), saveFilePath, url, Convert.ToDouble(size));
 
                         lock (deliveryOptimizationLock)

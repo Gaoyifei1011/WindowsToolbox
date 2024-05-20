@@ -104,8 +104,8 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private List<KeyValuePair<string, Type>> PageList { get; } = new List<KeyValuePair<string, Type>>()
-        {
+        private List<KeyValuePair<string, Type>> PageList { get; } =
+        [
             new KeyValuePair<string, Type>("AllTools",typeof(AllToolsPage)),
             new KeyValuePair<string, Type>("Relaxation", null),
             new KeyValuePair<string, Type>("Loaf", typeof(LoafPage)),
@@ -129,9 +129,9 @@ namespace WindowsTools.Views.Pages
             new KeyValuePair<string, Type>("WinSAT",typeof(WinSATPage)),
             new KeyValuePair<string, Type>("About", typeof(AboutPage)),
             new KeyValuePair<string, Type>("Settings",typeof(SettingsPage)),
-        };
+        ];
 
-        public List<NavigationModel> NavigationItemList { get; } = new List<NavigationModel>();
+        public List<NavigationModel> NavigationItemList { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -470,17 +470,17 @@ namespace WindowsTools.Views.Pages
 
                 Task.Run(() =>
                 {
-                    List<OldAndNewNameModel> fileNameList = new List<OldAndNewNameModel>();
+                    List<OldAndNewNameModel> fileNameList = [];
 
                     foreach (string file in filesList)
                     {
-                        FileInfo fileInfo = new FileInfo(file);
+                        FileInfo fileInfo = new(file);
                         if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
                         {
                             continue;
                         }
 
-                        fileNameList.Add(new OldAndNewNameModel()
+                        fileNameList.Add(new()
                         {
                             OriginalFileName = Path.GetFileName(file),
                             OriginalFilePath = file,
@@ -496,11 +496,11 @@ namespace WindowsTools.Views.Pages
 
                 Task.Run(() =>
                 {
-                    List<OldAndNewNameModel> extensionNameList = new List<OldAndNewNameModel>();
+                    List<OldAndNewNameModel> extensionNameList = [];
 
                     foreach (string file in filesList)
                     {
-                        FileInfo fileInfo = new FileInfo(file);
+                        FileInfo fileInfo = new(file);
                         if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
                         {
                             continue;
@@ -508,7 +508,7 @@ namespace WindowsTools.Views.Pages
 
                         if (!IOHelper.IsDir(fileInfo.FullName))
                         {
-                            extensionNameList.Add(new OldAndNewNameModel()
+                            extensionNameList.Add(new()
                             {
                                 OriginalFileName = fileInfo.Name,
                                 OriginalFilePath = fileInfo.FullName
@@ -525,17 +525,17 @@ namespace WindowsTools.Views.Pages
 
                 Task.Run(() =>
                 {
-                    List<OldAndNewNameModel> upperAndLowerCaseList = new List<OldAndNewNameModel>();
+                    List<OldAndNewNameModel> upperAndLowerCaseList = [];
 
                     foreach (string file in filesList)
                     {
-                        FileInfo fileInfo = new FileInfo(file);
+                        FileInfo fileInfo = new(file);
                         if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
                         {
                             continue;
                         }
 
-                        upperAndLowerCaseList.Add(new OldAndNewNameModel()
+                        upperAndLowerCaseList.Add(new()
                         {
                             OriginalFileName = Path.GetFileName(file),
                             OriginalFilePath = file,
@@ -551,11 +551,11 @@ namespace WindowsTools.Views.Pages
 
                 Task.Run(() =>
                 {
-                    List<OldAndNewPropertiesModel> filePropertiesList = new List<OldAndNewPropertiesModel>();
+                    List<OldAndNewPropertiesModel> filePropertiesList = [];
 
                     foreach (string file in filesList)
                     {
-                        FileInfo fileInfo = new FileInfo(file);
+                        FileInfo fileInfo = new(file);
                         if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
                         {
                             continue;
@@ -577,11 +577,11 @@ namespace WindowsTools.Views.Pages
 
                 Task.Run(() =>
                 {
-                    List<CertificateResultModel> fileCertificateList = new List<CertificateResultModel>();
+                    List<CertificateResultModel> fileCertificateList = [];
 
                     foreach (string file in filesList)
                     {
-                        FileInfo fileInfo = new FileInfo(file);
+                        FileInfo fileInfo = new(file);
                         if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
                         {
                             continue;

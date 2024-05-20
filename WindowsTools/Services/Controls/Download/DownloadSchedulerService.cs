@@ -20,7 +20,7 @@ namespace WindowsTools.Services.Controls.Download
 
         public static SemaphoreSlim DownloadSchedulerSemaphoreSlim { get; private set; } = new SemaphoreSlim(1, 1);
 
-        private static List<DownloadSchedulerModel> DownloadSchedulerList { get; } = new List<DownloadSchedulerModel>();
+        private static List<DownloadSchedulerModel> DownloadSchedulerList { get; } = [];
 
         public static event Action<Guid, DownloadSchedulerModel> DownloadCreated;
 
@@ -47,7 +47,7 @@ namespace WindowsTools.Services.Controls.Download
 
             try
             {
-                DownloadSchedulerModel downloadSchedulerItem = new DownloadSchedulerModel()
+                DownloadSchedulerModel downloadSchedulerItem = new()
                 {
                     DownloadID = downloadID,
                     DownloadStatus = DownloadStatus.Downloading,
@@ -95,7 +95,7 @@ namespace WindowsTools.Services.Controls.Download
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationCreated event failed", e);
+                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationContinued event failed", e);
             }
             finally
             {
@@ -126,7 +126,7 @@ namespace WindowsTools.Services.Controls.Download
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationCreated event failed", e);
+                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationPaused event failed", e);
             }
             finally
             {
@@ -157,7 +157,7 @@ namespace WindowsTools.Services.Controls.Download
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationCreated event failed", e);
+                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationDeleted event failed", e);
             }
             finally
             {
@@ -190,7 +190,7 @@ namespace WindowsTools.Services.Controls.Download
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationCreated event failed", e);
+                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationProgressing event failed", e);
             }
             finally
             {
@@ -225,7 +225,7 @@ namespace WindowsTools.Services.Controls.Download
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationCreated event failed", e);
+                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationCompleted event failed", e);
             }
             finally
             {
@@ -246,7 +246,7 @@ namespace WindowsTools.Services.Controls.Download
 
             try
             {
-                DownloadSchedulerModel downloadSchedulerItem = new DownloadSchedulerModel()
+                DownloadSchedulerModel downloadSchedulerItem = new()
                 {
                     DownloadID = downloadID,
                     DownloadStatus = DownloadStatus.Downloading,
@@ -263,7 +263,7 @@ namespace WindowsTools.Services.Controls.Download
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationCreated event failed", e);
+                LogService.WriteLog(EventLevel.Warning, "Deal OnBitsCreated event failed", e);
             }
             finally
             {
@@ -293,7 +293,7 @@ namespace WindowsTools.Services.Controls.Download
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationCreated event failed", e);
+                LogService.WriteLog(EventLevel.Warning, "Deal OnBitsContinued event failed", e);
             }
             finally
             {
@@ -323,7 +323,7 @@ namespace WindowsTools.Services.Controls.Download
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationCreated event failed", e);
+                LogService.WriteLog(EventLevel.Warning, "Deal OnBitsPaused event failed", e);
             }
             finally
             {
@@ -354,7 +354,7 @@ namespace WindowsTools.Services.Controls.Download
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationCreated event failed", e);
+                LogService.WriteLog(EventLevel.Warning, "Deal OnBitsDeleted event failed", e);
             }
             finally
             {
@@ -387,7 +387,7 @@ namespace WindowsTools.Services.Controls.Download
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationCreated event failed", e);
+                LogService.WriteLog(EventLevel.Warning, "Deal OnBitsProgressing event failed", e);
             }
             finally
             {
@@ -422,7 +422,7 @@ namespace WindowsTools.Services.Controls.Download
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Deal OnDeliveryOptimizationCreated event failed", e);
+                LogService.WriteLog(EventLevel.Warning, "Deal OnBitsCompleted event failed", e);
             }
             finally
             {
@@ -572,7 +572,7 @@ namespace WindowsTools.Services.Controls.Download
         /// </summary>
         public static List<DownloadSchedulerModel> GetDownloadSchedulerList()
         {
-            List<DownloadSchedulerModel> downloadSchedulerList = new List<DownloadSchedulerModel>();
+            List<DownloadSchedulerModel> downloadSchedulerList = [];
 
             if (DownloadSchedulerSemaphoreSlim?.CurrentCount is 0)
             {

@@ -40,7 +40,7 @@ namespace WindowsTools.Views.Pages
         private string filePathFileName;
         private ResourceManager resourceManager;
         private ResourceContext resourceContext;
-        private readonly object priExtractLock = new object();
+        private readonly object priExtractLock = new();
 
         private bool _isExtractSaveSamely;
 
@@ -186,18 +186,18 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private List<DictionaryEntry> ResourceCandidateKindList { get; } = new List<DictionaryEntry>()
-        {
+        private List<DictionaryEntry> ResourceCandidateKindList { get; } =
+        [
             new DictionaryEntry(PriExtract.String,ResourceCandidateKind.String),
             new DictionaryEntry(PriExtract.FilePath,ResourceCandidateKind.FilePath),
             new DictionaryEntry(PriExtract.EmbeddedData,ResourceCandidateKind.EmbeddedData)
-        };
+        ];
 
-        private ObservableCollection<StringModel> StringCollection { get; } = new ObservableCollection<StringModel>();
+        private ObservableCollection<StringModel> StringCollection { get; } = [];
 
-        private ObservableCollection<FilePathModel> FilePathCollection { get; } = new ObservableCollection<FilePathModel>();
+        private ObservableCollection<FilePathModel> FilePathCollection { get; } = [];
 
-        private ObservableCollection<EmbeddedDataModel> EmbeddedDataCollection { get; } = new ObservableCollection<EmbeddedDataModel>();
+        private ObservableCollection<EmbeddedDataModel> EmbeddedDataCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -206,7 +206,7 @@ namespace WindowsTools.Views.Pages
             InitializeComponent();
             GetResults = PriExtract.NoSelectedFile;
             SelectedResourceCandidateKind = ResourceCandidateKindList[0];
-            Shell32Library.SHGetKnownFolderPath(new Guid("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
+            Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
             SelectedSaveFolder = downloadFolder;
         }
 
@@ -333,10 +333,12 @@ namespace WindowsTools.Views.Pages
 
             if (embeddedDataItem is not null)
             {
-                FolderBrowserDialog dialog = new FolderBrowserDialog();
-                dialog.Description = PriExtract.SelectFolder;
-                dialog.ShowNewFolderButton = true;
-                dialog.RootFolder = Environment.SpecialFolder.Desktop;
+                FolderBrowserDialog dialog = new()
+                {
+                    Description = PriExtract.SelectFolder,
+                    ShowNewFolderButton = true,
+                    RootFolder = Environment.SpecialFolder.Desktop
+                };
                 DialogResult result = dialog.ShowDialog();
                 if (result is DialogResult.OK || result is DialogResult.Yes)
                 {
@@ -348,7 +350,7 @@ namespace WindowsTools.Views.Pages
                             {
                                 byte[] byteArray = resourceManager.MainResourceMap.GetValueByIndex(embeddedDataItem.EmbeddedDataIndex, resourceContext).Value.ValueAsBytes;
 
-                                FileStream fileStream = new FileStream(Path.Combine(dialog.SelectedPath, Path.GetFileName(embeddedDataItem.Key)), FileMode.OpenOrCreate, FileAccess.Write);
+                                FileStream fileStream = new(Path.Combine(dialog.SelectedPath, Path.GetFileName(embeddedDataItem.Key)), FileMode.OpenOrCreate, FileAccess.Write);
                                 fileStream.Write(byteArray, 0, byteArray.Length);
                                 fileStream.Close();
                                 fileStream.Dispose();
@@ -361,7 +363,7 @@ namespace WindowsTools.Views.Pages
 
                         try
                         {
-                            Process process = new Process();
+                            Process process = new();
                             process.StartInfo.FileName = "explorer.exe";
                             process.StartInfo.Arguments = "/select," + Path.Combine(dialog.SelectedPath, Path.GetFileName(embeddedDataItem.Key));
                             process.Start();
@@ -488,11 +490,13 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectSaveFolderClicked(object sender, RoutedEventArgs args)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = PriExtract.SelectFolder;
-            dialog.ShowNewFolderButton = true;
-            dialog.RootFolder = Environment.SpecialFolder.Desktop;
-            dialog.SelectedPath = SelectedSaveFolder;
+            FolderBrowserDialog dialog = new()
+            {
+                Description = PriExtract.SelectFolder,
+                ShowNewFolderButton = true,
+                RootFolder = Environment.SpecialFolder.Desktop,
+                SelectedPath = SelectedSaveFolder
+            };
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
@@ -513,10 +517,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Multiselect = false;
-            dialog.Filter = PriExtract.FilterCondition;
-            dialog.Title = PriExtract.SelectFile;
+            OpenFileDialog dialog = new()
+            {
+                Multiselect = false,
+                Filter = PriExtract.FilterCondition,
+                Title = PriExtract.SelectFile
+            };
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
                 ParseResourceFile(dialog.FileName);
@@ -544,7 +550,7 @@ namespace WindowsTools.Views.Pages
             List<StringModel> selectedStringList = StringCollection.Where(item => item.IsSelected == true).ToList();
             if (selectedStringList.Count > 0)
             {
-                StringBuilder copyStringBuilder = new StringBuilder();
+                StringBuilder copyStringBuilder = new();
                 foreach (StringModel stringItem in selectedStringList)
                 {
                     copyStringBuilder.AppendLine(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
@@ -564,7 +570,7 @@ namespace WindowsTools.Views.Pages
             List<FilePathModel> selectedFilePathList = FilePathCollection.Where(item => item.IsSelected is true).ToList();
             if (selectedFilePathList.Count > 0)
             {
-                StringBuilder copyFilePathBuilder = new StringBuilder();
+                StringBuilder copyFilePathBuilder = new();
                 foreach (FilePathModel filePathItem in selectedFilePathList)
                 {
                     copyFilePathBuilder.AppendLine(string.Format("Key:{0}, AbsolutePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
@@ -584,10 +590,12 @@ namespace WindowsTools.Views.Pages
             if (selectedEmbeddedDataList.Count > 0)
             {
                 IsProcessing = true;
-                FolderBrowserDialog dialog = new FolderBrowserDialog();
-                dialog.Description = PriExtract.SelectFolder;
-                dialog.ShowNewFolderButton = true;
-                dialog.RootFolder = Environment.SpecialFolder.Desktop;
+                FolderBrowserDialog dialog = new()
+                {
+                    Description = PriExtract.SelectFolder,
+                    ShowNewFolderButton = true,
+                    RootFolder = Environment.SpecialFolder.Desktop
+                };
                 DialogResult result = dialog.ShowDialog();
                 if (result is DialogResult.OK || result is DialogResult.Yes)
                 {
@@ -601,7 +609,7 @@ namespace WindowsTools.Views.Pages
                                 {
                                     byte[] byteArray = resourceManager.MainResourceMap.GetValueByIndex(embeddedDataItem.EmbeddedDataIndex, resourceContext).Value.ValueAsBytes;
 
-                                    FileStream fileStream = new FileStream(Path.Combine(dialog.SelectedPath, Path.GetFileName(embeddedDataItem.Key)), FileMode.OpenOrCreate, FileAccess.Write);
+                                    FileStream fileStream = new(Path.Combine(dialog.SelectedPath, Path.GetFileName(embeddedDataItem.Key)), FileMode.OpenOrCreate, FileAccess.Write);
                                     fileStream.Write(byteArray, 0, byteArray.Length);
                                     fileStream.Close();
                                     fileStream.Dispose();
@@ -642,10 +650,10 @@ namespace WindowsTools.Views.Pages
         private void OnCopyAllStringClicked(object sender, RoutedEventArgs args)
         {
             IsProcessing = true;
-            List<StringModel> stringList = StringCollection.ToList();
+            List<StringModel> stringList = [.. StringCollection];
             if (stringList.Count > 0)
             {
-                StringBuilder copyStringBuilder = new StringBuilder();
+                StringBuilder copyStringBuilder = new();
                 foreach (StringModel stringItem in stringList)
                 {
                     copyStringBuilder.AppendLine(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
@@ -662,10 +670,10 @@ namespace WindowsTools.Views.Pages
         private void OnCopyAllFilePathClicked(object sender, RoutedEventArgs args)
         {
             IsProcessing = true;
-            List<FilePathModel> filePathList = FilePathCollection.ToList();
+            List<FilePathModel> filePathList = [.. FilePathCollection];
             if (filePathList.Count > 0)
             {
-                StringBuilder copyFilePathBuilder = new StringBuilder();
+                StringBuilder copyFilePathBuilder = new();
                 foreach (FilePathModel filePathItem in filePathList)
                 {
                     copyFilePathBuilder.AppendLine(string.Format("Key:{0}, AbsolutePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
@@ -681,15 +689,17 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExportAllEmbeddedDataClicked(object sender, RoutedEventArgs args)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = PriExtract.SelectFolder;
-            dialog.ShowNewFolderButton = true;
-            dialog.RootFolder = Environment.SpecialFolder.Desktop;
+            FolderBrowserDialog dialog = new()
+            {
+                Description = PriExtract.SelectFolder,
+                ShowNewFolderButton = true,
+                RootFolder = Environment.SpecialFolder.Desktop
+            };
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
                 IsProcessing = true;
-                List<EmbeddedDataModel> embeddedDataList = EmbeddedDataCollection.ToList();
+                List<EmbeddedDataModel> embeddedDataList = [.. EmbeddedDataCollection];
                 if (embeddedDataList.Count > 0)
                 {
                     Task.Run(() =>
@@ -702,7 +712,7 @@ namespace WindowsTools.Views.Pages
                                 {
                                     byte[] byteArray = resourceManager.MainResourceMap.GetValueByIndex(embeddedDataItem.EmbeddedDataIndex, resourceContext).Value.ValueAsBytes;
 
-                                    FileStream fileStream = new FileStream(Path.Combine(dialog.SelectedPath, Path.GetFileName(embeddedDataItem.Key)), FileMode.OpenOrCreate, FileAccess.Write);
+                                    FileStream fileStream = new(Path.Combine(dialog.SelectedPath, Path.GetFileName(embeddedDataItem.Key)), FileMode.OpenOrCreate, FileAccess.Write);
                                     fileStream.Write(byteArray, 0, byteArray.Length);
                                     fileStream.Close();
                                     fileStream.Dispose();
@@ -768,9 +778,9 @@ namespace WindowsTools.Views.Pages
                         ResourceMap mainResourceMap = resourceManager.MainResourceMap;
                         int collectedIndex = 0;
 
-                        List<StringModel> stringList = new List<StringModel>();
-                        List<FilePathModel> filePathList = new List<FilePathModel>();
-                        List<EmbeddedDataModel> embeddedDataList = new List<EmbeddedDataModel>();
+                        List<StringModel> stringList = [];
+                        List<FilePathModel> filePathList = [];
+                        List<EmbeddedDataModel> embeddedDataList = [];
 
                         for (uint index = 0; index < mainResourceMap.ResourceCount; index++)
                         {
@@ -781,7 +791,7 @@ namespace WindowsTools.Views.Pages
                                 // 资源是字符串
                                 if (resourceCandidateItem.Value.Kind is ResourceCandidateKind.String)
                                 {
-                                    StringModel stringItem = new StringModel()
+                                    StringModel stringItem = new()
                                     {
                                         IsSelected = false,
                                         Key = resourceCandidateItem.Key,
@@ -807,7 +817,7 @@ namespace WindowsTools.Views.Pages
                                 // 资源是位于指定位置的文件
                                 else if (resourceCandidateItem.Value.Kind is ResourceCandidateKind.FilePath)
                                 {
-                                    FilePathModel filePathItem = new FilePathModel()
+                                    FilePathModel filePathItem = new()
                                     {
                                         IsSelected = false,
                                         Key = resourceCandidateItem.Key,
@@ -833,7 +843,7 @@ namespace WindowsTools.Views.Pages
                                 // 资源是某些包含资源文件 (（如 .resw 文件) ）中的嵌入数据
                                 else if (resourceCandidateItem.Value.Kind is ResourceCandidateKind.EmbeddedData)
                                 {
-                                    EmbeddedDataModel embeddedDataItem = new EmbeddedDataModel()
+                                    EmbeddedDataModel embeddedDataItem = new()
                                     {
                                         IsSelected = false,
                                         Key = resourceCandidateItem.Key,
@@ -848,7 +858,7 @@ namespace WindowsTools.Views.Pages
                                         {
                                             byte[] byteArray = resourceCandidateItem.Value.ValueAsBytes;
 
-                                            FileStream fileStream = new FileStream(Path.Combine(SelectedSaveFolder, Path.GetFileName(embeddedDataItem.Key)), FileMode.OpenOrCreate, FileAccess.Write);
+                                            FileStream fileStream = new(Path.Combine(SelectedSaveFolder, Path.GetFileName(embeddedDataItem.Key)), FileMode.OpenOrCreate, FileAccess.Write);
                                             fileStream.Write(byteArray, 0, byteArray.Length);
                                             fileStream.Close();
                                             fileStream.Dispose();

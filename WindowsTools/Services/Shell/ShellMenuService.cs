@@ -13,8 +13,8 @@ namespace WindowsTools.Services.Shell
     /// </summary>
     public static class ShellMenuService
     {
-        private static string shellMenuKey = @"Software\WindowsTools\ShellMenu";
-        private static Guid FOLDERID_LocalAppData = new Guid("F1B32785-6FBA-4FCF-9D55-7B8E7F157091");
+        private static readonly string shellMenuKey = @"Software\WindowsTools\ShellMenu";
+        private static Guid FOLDERID_LocalAppData = new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091");
         public static DirectoryInfo ShellMenuConfigDirectory { get; private set; }
 
         public static string RootMenuIconPath { get; private set; }

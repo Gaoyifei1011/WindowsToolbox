@@ -9,7 +9,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Controls.Extensions;
-using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
@@ -188,7 +187,7 @@ namespace WindowsTools.Views.Pages
             for (int index = 0; index < LanguageList.Count; index++)
             {
                 DictionaryEntry languageItem = LanguageList[index];
-                ToggleMenuFlyoutItem toggleMenuFlyoutItem = new ToggleMenuFlyoutItem()
+                ToggleMenuFlyoutItem toggleMenuFlyoutItem = new()
                 {
                     Text = languageItem.Key.ToString(),
                     Height = 32,
@@ -332,7 +331,7 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                ProcessStartInfo restartInfo = new ProcessStartInfo
+                ProcessStartInfo restartInfo = new()
                 {
                     FileName = "cmd.exe",
                     Arguments = "/C taskkill /f /im explorer.exe & start \"\" explorer.exe",
@@ -378,7 +377,7 @@ namespace WindowsTools.Views.Pages
                 {
                     case "Download":
                         {
-                            Shell32Library.SHGetKnownFolderPath(new Guid("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
+                            Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
                             DownloadFolder = downloadFolder;
                             DownloadOptionsService.SetFolder(DownloadFolder);
                             break;
@@ -391,10 +390,12 @@ namespace WindowsTools.Views.Pages
                         }
                     case "Custom":
                         {
-                            FolderBrowserDialog dialog = new FolderBrowserDialog();
-                            dialog.Description = Settings.SelectFolder;
-                            dialog.ShowNewFolderButton = true;
-                            dialog.RootFolder = Environment.SpecialFolder.Desktop;
+                            FolderBrowserDialog dialog = new()
+                            {
+                                Description = Settings.SelectFolder,
+                                ShowNewFolderButton = true,
+                                RootFolder = Environment.SpecialFolder.Desktop
+                            };
                             DialogResult result = dialog.ShowDialog();
                             if (result is DialogResult.OK || result is DialogResult.Yes)
                             {

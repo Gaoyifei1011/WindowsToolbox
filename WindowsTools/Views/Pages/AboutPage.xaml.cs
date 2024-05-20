@@ -51,8 +51,8 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private static Guid taskbarPinCLSID = new Guid("90AA3A4E-1CBA-4233-B8BB-535773D48449");
-        private static Guid ishellLinkCLSID = new Guid("00021401-0000-0000-C000-000000000046");
+        private static Guid taskbarPinCLSID = new("90AA3A4E-1CBA-4233-B8BB-535773D48449");
+        private static Guid ishellLinkCLSID = new("00021401-0000-0000-C000-000000000046");
 
         //项目引用信息
         private Hashtable ReferenceDict { get; } = new Hashtable()
@@ -91,10 +91,10 @@ namespace WindowsTools.Views.Pages
             {
                 try
                 {
-                    WshShell shell = new WshShell();
+                    WshShell shell = new();
                     WshShortcut appShortcut = (WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), About.AppName));
                     uint aumidLength = 260;
-                    StringBuilder aumidBuilder = new StringBuilder((int)aumidLength);
+                    StringBuilder aumidBuilder = new((int)aumidLength);
                     Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
                     appShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", aumidBuilder.ToString());
                     appShortcut.Save();
@@ -165,7 +165,7 @@ namespace WindowsTools.Views.Pages
             {
                 IShellLink appLink = (IShellLink)Activator.CreateInstance(Type.GetTypeFromCLSID(ishellLinkCLSID));
                 uint aumidLength = 260;
-                StringBuilder aumidBuilder = new StringBuilder((int)aumidLength);
+                StringBuilder aumidBuilder = new((int)aumidLength);
                 Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
                 appLink.SetPath(string.Format(@"shell:AppsFolder\{0}", aumidBuilder.ToString()));
                 appLink.GetIDList(out IntPtr pidl);
@@ -174,10 +174,14 @@ namespace WindowsTools.Views.Pages
 
                 if (pinnedList is not null)
                 {
-                    PIDLIST_ABSOLUTE pidlFrom = new PIDLIST_ABSOLUTE();
-                    pidlFrom.Ptr = IntPtr.Zero;
-                    PIDLIST_ABSOLUTE pidlTo = new PIDLIST_ABSOLUTE();
-                    pidlTo.Ptr = pidl;
+                    PIDLIST_ABSOLUTE pidlFrom = new()
+                    {
+                        Ptr = IntPtr.Zero
+                    };
+                    PIDLIST_ABSOLUTE pidlTo = new()
+                    {
+                        Ptr = pidl
+                    };
                     isPinnedSuccessfully = pinnedList.Modify(pidlFrom, pidlTo, PLMC.PLMC_EXPLORER) is 0;
                 }
             }
@@ -256,7 +260,7 @@ namespace WindowsTools.Views.Pages
                 {
                     try
                     {
-                        HttpClient httpClient = new HttpClient();
+                        HttpClient httpClient = new();
                         httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
                         httpClient.Timeout = new TimeSpan(0, 0, 30);
                         HttpResponseMessage responseMessage = await httpClient.GetAsync(new Uri("https://api.github.com/repos/Gaoyifei1011/WindowsToolbox/releases/latest"));
@@ -264,7 +268,7 @@ namespace WindowsTools.Views.Pages
                         // 请求成功
                         if (responseMessage.IsSuccessStatusCode)
                         {
-                            StringBuilder responseBuilder = new StringBuilder();
+                            StringBuilder responseBuilder = new();
 
                             responseBuilder.Append("Status Code:");
                             responseBuilder.AppendLine(responseMessage.StatusCode.ToString());
@@ -277,7 +281,7 @@ namespace WindowsTools.Views.Pages
                             httpClient.Dispose();
                             responseMessage.Dispose();
 
-                            Regex tagRegex = new Regex(@"""tag_name"":[\s]*""v(\d.\d.\d{3}.\d)""");
+                            Regex tagRegex = new(@"""tag_name"":[\s]*""v(\d.\d.\d{3}.\d)""");
 
                             MatchCollection tagCollection = tagRegex.Matches(responseString);
 
@@ -287,7 +291,7 @@ namespace WindowsTools.Views.Pages
 
                                 if (tagGroups.Count > 0)
                                 {
-                                    Version tagVersion = new Version(tagGroups[1].Value);
+                                    Version tagVersion = new(tagGroups[1].Value);
 
                                     if (tagVersion is not null)
                                     {

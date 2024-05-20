@@ -32,7 +32,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class FileCertificatePage : Page, INotifyPropertyChanged
     {
-        private readonly object fileCertificateLock = new object();
+        private readonly object fileCertificateLock = new();
 
         private bool _isModifyingNow = false;
 
@@ -50,9 +50,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private ObservableCollection<CertificateResultModel> FileCertificateCollection { get; } = new ObservableCollection<CertificateResultModel>();
+        private ObservableCollection<CertificateResultModel> FileCertificateCollection { get; } = [];
 
-        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = new ObservableCollection<OperationFailedModel>();
+        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -92,14 +92,14 @@ namespace WindowsTools.Views.Pages
                     Task.Run(async () =>
                     {
                         IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
-                        List<CertificateResultModel> fileCertificateList = new List<CertificateResultModel>();
+                        List<CertificateResultModel> fileCertificateList = [];
                         foreach (IStorageItem storageItem in storageItemList)
                         {
                             try
                             {
                                 if (!IOHelper.IsDir(storageItem.Path))
                                 {
-                                    FileInfo fileInfo = new FileInfo(storageItem.Path);
+                                    FileInfo fileInfo = new(storageItem.Path);
                                     if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                                     {
                                         continue;
@@ -189,20 +189,22 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Multiselect = true;
-            dialog.Title = FileProperties.SelectFile;
+            OpenFileDialog dialog = new()
+            {
+                Multiselect = true,
+                Title = FileProperties.SelectFile
+            };
             if (dialog.ShowDialog() is DialogResult.OK)
             {
                 Task.Run(() =>
                 {
-                    List<CertificateResultModel> fileCertificateList = new List<CertificateResultModel>();
+                    List<CertificateResultModel> fileCertificateList = [];
 
                     foreach (string fileName in dialog.FileNames)
                     {
                         try
                         {
-                            FileInfo fileInfo = new FileInfo(fileName);
+                            FileInfo fileInfo = new(fileName);
                             if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                             {
                                 continue;
@@ -234,10 +236,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = FileProperties.SelectFolder;
-            dialog.ShowNewFolderButton = true;
-            dialog.RootFolder = Environment.SpecialFolder.Desktop;
+            FolderBrowserDialog dialog = new()
+            {
+                Description = FileProperties.SelectFolder,
+                ShowNewFolderButton = true,
+                RootFolder = Environment.SpecialFolder.Desktop
+            };
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
@@ -246,8 +250,8 @@ namespace WindowsTools.Views.Pages
                 {
                     Task.Run(() =>
                     {
-                        DirectoryInfo currentFolder = new DirectoryInfo(dialog.SelectedPath);
-                        List<CertificateResultModel> fileNameList = new List<CertificateResultModel>();
+                        DirectoryInfo currentFolder = new(dialog.SelectedPath);
+                        List<CertificateResultModel> fileNameList = [];
 
                         try
                         {
@@ -308,7 +312,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void RemoveFileCertificates()
         {
-            List<OperationFailedModel> operationFailedList = new List<OperationFailedModel>();
+            List<OperationFailedModel> operationFailedList = [];
             IsModifyingNow = true;
             Task.Run(async () =>
             {
@@ -318,7 +322,7 @@ namespace WindowsTools.Views.Pages
                     {
                         try
                         {
-                            using FileStream fileStream = new FileStream(certificateResultItem.FilePath, FileMode.Open, FileAccess.ReadWrite);
+                            using FileStream fileStream = new(certificateResultItem.FilePath, FileMode.Open, FileAccess.ReadWrite);
                             bool result = ImagehlpLibrary.ImageRemoveCertificate(fileStream.SafeFileHandle.DangerousGetHandle(), 0);
                             fileStream.Close();
 

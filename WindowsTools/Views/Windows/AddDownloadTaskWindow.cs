@@ -11,8 +11,8 @@ namespace WindowsTools.Views.Windows
     /// </summary>
     public class AddDownloadTaskWindow : Form
     {
-        private IContainer components = new Container();
-        public WindowsXamlHost windowsXamlHost = new WindowsXamlHost();
+        private readonly IContainer components = new Container();
+        public WindowsXamlHost windowsXamlHost = new();
 
         public UIElement Content { get; set; } = new AddDownloadTaskPage();
 

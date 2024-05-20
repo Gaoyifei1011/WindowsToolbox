@@ -13,7 +13,7 @@ namespace WindowsTools.Services.Controls.Settings
     /// </summary>
     public static class ThemeService
     {
-        private static string settingsKey = ConfigKey.ThemeKey;
+        private static readonly string settingsKey = ConfigKey.ThemeKey;
 
         private static DictionaryEntry defaultAppTheme;
 

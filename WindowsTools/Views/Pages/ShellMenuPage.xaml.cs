@@ -60,7 +60,7 @@ namespace WindowsTools.Views.Pages
             InitializeComponent();
             try
             {
-                RootMenuImage = new BitmapImage() { UriSource = new Uri(ShellMenuService.RootMenuIconPath) };
+                RootMenuImage = new() { UriSource = new Uri(ShellMenuService.RootMenuIconPath) };
             }
             catch (Exception e)
             {
@@ -77,10 +77,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnModifyClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Multiselect = false;
-            dialog.Filter = ShellMenu.FilterCondition;
-            dialog.Title = ShellMenu.SelectIcon;
+            OpenFileDialog dialog = new()
+            {
+                Multiselect = false,
+                Filter = ShellMenu.FilterCondition,
+                Title = ShellMenu.SelectIcon
+            };
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
                 try
@@ -93,7 +95,7 @@ namespace WindowsTools.Views.Pages
 
                         MainWindow.Current.BeginInvoke(() =>
                         {
-                            RootMenuImage = new BitmapImage() { UriSource = new Uri(rootMenuFilePath) };
+                            RootMenuImage = new() { UriSource = new Uri(rootMenuFilePath) };
                         });
                     });
                 }
@@ -137,7 +139,7 @@ namespace WindowsTools.Views.Pages
 
                         MainWindow.Current.BeginInvoke(() =>
                         {
-                            RootMenuImage = new BitmapImage() { UriSource = new Uri(ShellMenuService.RootMenuIconPath) };
+                            RootMenuImage = new() { UriSource = new Uri(ShellMenuService.RootMenuIconPath) };
                         });
                     }
                     else if (tag.Equals("Text"))

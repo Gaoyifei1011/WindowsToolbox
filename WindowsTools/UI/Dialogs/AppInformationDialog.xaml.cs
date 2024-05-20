@@ -178,7 +178,7 @@ namespace WindowsTools.UI.Dialogs.About
         {
             args.Cancel = true;
 
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new();
             stringBuilder.AppendLine(Dialog.WindowsAppSDKVersion + WindowsAppSDKVersion);
             stringBuilder.AppendLine(Dialog.WinUI2Version + WinUI2Version);
             stringBuilder.AppendLine(Dialog.WindowsUIVersion + WindowsUIVersion);

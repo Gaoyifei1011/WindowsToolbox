@@ -34,7 +34,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class CodeScannerPage : Page, INotifyPropertyChanged
     {
-        private BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase | BindingFlags.Static;
+        private readonly BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase | BindingFlags.Static;
         private PrintPreviewDialog printPreviewDialog;
         private PrintDialog printDialog;
         private PrintDocument printDocument;
@@ -193,11 +193,11 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private List<DictionaryEntry> GenerateTypeList { get; } = new List<DictionaryEntry>()
-        {
+        private List<DictionaryEntry> GenerateTypeList { get; } =
+        [
             new DictionaryEntry(CodeScanner.BarCode, "BarCode"),
             new DictionaryEntry(CodeScanner.QRCode, "QRCode")
-        };
+        ];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -328,8 +328,10 @@ namespace WindowsTools.Views.Pages
                 return;
             }
 
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = CodeScanner.FilterCondition;
+            SaveFileDialog saveFileDialog = new()
+            {
+                Filter = CodeScanner.FilterCondition
+            };
 
             if (saveFileDialog.ShowDialog() is DialogResult.OK)
             {
@@ -456,7 +458,7 @@ namespace WindowsTools.Views.Pages
                     Bitmap barCodeBitmap = GenerateBarCode(GenerateText, 300, 150);
                     if (barCodeBitmap is not null)
                     {
-                        MemoryStream memoryStream = new MemoryStream();
+                        MemoryStream memoryStream = new();
                         barCodeBitmap.Save(memoryStream, ImageFormat.Png);
                         memoryStream.Position = 0;
 
@@ -464,7 +466,7 @@ namespace WindowsTools.Views.Pages
                         {
                             try
                             {
-                                BitmapImage bitmapImage = new BitmapImage();
+                                BitmapImage bitmapImage = new();
                                 bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
                                 GeneratedImage = bitmapImage;
                                 barCodeBitmap.Dispose();
@@ -488,7 +490,7 @@ namespace WindowsTools.Views.Pages
 
                     if (qrCodeBitmap is not null)
                     {
-                        MemoryStream memoryStream = new MemoryStream();
+                        MemoryStream memoryStream = new();
                         qrCodeBitmap.Save(memoryStream, ImageFormat.Png);
                         memoryStream.Position = 0;
 
@@ -496,7 +498,7 @@ namespace WindowsTools.Views.Pages
                         {
                             try
                             {
-                                BitmapImage bitmapImage = new BitmapImage();
+                                BitmapImage bitmapImage = new();
                                 bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
                                 GeneratedImage = bitmapImage;
                                 qrCodeBitmap.Dispose();
@@ -593,9 +595,11 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnOpenPhotoClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Multiselect = false;
-            dialog.Title = CodeScanner.SelectFile;
+            OpenFileDialog dialog = new()
+            {
+                Multiselect = false,
+                Title = CodeScanner.SelectFile
+            };
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
                 Task.Run(() =>
@@ -690,10 +694,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private Bitmap GenerateBarCode(string content, int width, int height)
         {
-            BarcodeWriter barcodeWriter = new BarcodeWriter();
-            barcodeWriter.Format = BarcodeFormat.CODE_128;
+            BarcodeWriter barcodeWriter = new()
+            {
+                Format = BarcodeFormat.CODE_128
+            };
 
-            EncodingOptions encodingOptions = new EncodingOptions()
+            EncodingOptions encodingOptions = new()
             {
                 Width = width,
                 Height = height,
@@ -710,10 +716,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private Bitmap GenerateQRCode(string content, int width, int height)
         {
-            BarcodeWriter barcodeWriter = new BarcodeWriter();
-            barcodeWriter.Format = BarcodeFormat.QR_CODE;
+            BarcodeWriter barcodeWriter = new()
+            {
+                Format = BarcodeFormat.QR_CODE
+            };
 
-            QrCodeEncodingOptions qrCodeEncodingOptions = new QrCodeEncodingOptions()
+            QrCodeEncodingOptions qrCodeEncodingOptions = new()
             {
                 DisableECI = true,
                 CharacterSet = "UTF-8",
@@ -735,8 +743,8 @@ namespace WindowsTools.Views.Pages
             {
                 try
                 {
-                    BarcodeReader reader = new BarcodeReader();
-                    Bitmap codeBitmap = new Bitmap(image);
+                    BarcodeReader reader = new();
+                    Bitmap codeBitmap = new(image);
                     Result result = reader.Decode(codeBitmap);
 
                     if (result is not null)
