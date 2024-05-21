@@ -120,6 +120,9 @@
   <data name="AddTaskToolTip" xml:space="preserve">
     <value>Add download task</value>
   </data>
+  <data name="CompleteDownload" xml:space="preserve">
+    <value>Downloaded completed</value>
+  </data>
   <data name="ContinueToolTip" xml:space="preserve">
     <value>Continue download</value>
   </data>

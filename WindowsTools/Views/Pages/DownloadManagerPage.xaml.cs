@@ -149,6 +149,7 @@ namespace WindowsTools.Views.Pages
                         if (pidlList != IntPtr.Zero)
                         {
                             Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, IntPtr.Zero, 0);
+                            Shell32Library.ILFree(pidlList);
                         }
                     }
                     else
@@ -299,7 +300,8 @@ namespace WindowsTools.Views.Pages
                     lpVerb = "properties",
                     lpFile = filePath,
                     nShow = 5,
-                    fMask = 0x50c
+                    fMask = ShellExecuteMaskFlags.SEE_MASK_INVOKEIDLIST,
+                    hwnd = IntPtr.Zero
                 };
                 Shell32Library.ShellExecuteEx(ref info);
             }

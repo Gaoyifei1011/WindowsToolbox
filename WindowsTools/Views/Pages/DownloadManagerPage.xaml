@@ -257,6 +257,7 @@
                             BorderThickness="1"
                             CornerRadius="{StaticResource ControlCornerRadius}"
                             Visibility="{x:Bind IsVisible, Mode=OneWay}">
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
@@ -265,20 +266,18 @@
                             <Grid
                                 Grid.Column="0"
                                 Margin="0,0,10,0"
-                                VerticalAlignment="Center"
-                                RowSpacing="4">
+                                VerticalAlignment="Center">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
-                                <Grid
-                                    Grid.Row="0"
-                                    Margin="0,0,0,6"
-                                    ColumnSpacing="5">
+                                <Grid Grid.Row="0">
 
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
@@ -300,14 +299,40 @@
                                         </ToolTipService.ToolTip>
                                     </TextBlock>
 
-                                    <TextBlock
+                                    <FontIcon
                                         Grid.Column="1"
-                                        MinWidth="50"
+                                        Margin="0,0,2,-2"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Glyph="&#xE74B;"
+                                        Visibility="{x:Bind IsDownloading(DownloadStatus), Mode=OneWay}" />
+
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        Margin="0,0,8,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="{x:Bind helper:SpeedHelper.ConvertSpeedToString(CurrentSpeed), Mode=OneWay}"
+                                        TextAlignment="Right"
+                                        Visibility="{x:Bind IsDownloading(DownloadStatus), Mode=OneWay}">
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip>
+                                                <TextBlock>
+                                                    <Run Text="{x:Bind string:DownloadManager.CurrentSpeedToolTip}" />
+                                                    <Run Text="{x:Bind helper:SpeedHelper.ConvertSpeedToString(CurrentSpeed), Mode=OneWay}" />
+                                                </TextBlock>
+                                            </ToolTip>
+                                        </ToolTipService.ToolTip>
+                                    </TextBlock>
+
+                                    <TextBlock
+                                        Grid.Column="3"
                                         VerticalAlignment="Center"
                                         FontSize="16"
                                         Text="{x:Bind helper:FileSizeHelper.ConvertFileSizeToString(FinishedSize), Mode=OneWay}"
                                         TextAlignment="Right"
-                                        Visibility="{x:Bind IsDownloading(DownloadStatus), Mode=OneWay}">
+                                        Visibility="{x:Bind IsNotCompleted(DownloadStatus), Mode=OneWay}">
 
                                         <ToolTipService.ToolTip>
                                             <ToolTip>
@@ -320,8 +345,16 @@
                                     </TextBlock>
 
                                     <TextBlock
-                                        Grid.Column="2"
-                                        MinWidth="50"
+                                        Grid.Column="4"
+                                        Margin="2,0,2,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="/"
+                                        TextAlignment="Right"
+                                        Visibility="{x:Bind IsNotCompleted(DownloadStatus), Mode=OneWay}" />
+
+                                    <TextBlock
+                                        Grid.Column="5"
                                         VerticalAlignment="Center"
                                         FontSize="16"
                                         Text="{x:Bind helper:FileSizeHelper.ConvertFileSizeToString(TotalSize), Mode=OneWay}"
@@ -336,31 +369,23 @@
                                             </ToolTip>
                                         </ToolTipService.ToolTip>
                                     </TextBlock>
-
-                                    <TextBlock
-                                        Grid.Column="3"
-                                        MinWidth="50"
-                                        VerticalAlignment="Center"
-                                        FontSize="16"
-                                        Text="{x:Bind helper:SpeedHelper.ConvertSpeedToString(CurrentSpeed), Mode=OneWay}"
-                                        TextAlignment="Right"
-                                        Visibility="{x:Bind IsDownloading(DownloadStatus), Mode=OneWay}">
-
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip>
-                                                <TextBlock>
-                                                    <Run Text="{x:Bind string:DownloadManager.CurrentSpeedToolTip}" />
-                                                    <Run Text="{x:Bind helper:FileSizeHelper.ConvertFileSizeToString(CurrentSpeed), Mode=OneWay}" />
-                                                </TextBlock>
-                                            </ToolTip>
-                                        </ToolTipService.ToolTip>
-                                    </TextBlock>
                                 </Grid>
+
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Margin="0,2,0,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{x:Bind string:DownloadManager.CompleteDownload}"
+                                    TextAlignment="Left"
+                                    Visibility="{x:Bind IsCompleted(DownloadStatus), Mode=OneWay}" />
 
                                 <muxc:ProgressBar
                                     Grid.Row="1"
+                                    Margin="0,12,0,0"
                                     IsIndeterminate="False"
                                     ShowPaused="{x:Bind sys:Object.Equals(DownloadStatus, enum:DownloadStatus.Pause), Mode=OneWay}"
+                                    Visibility="{x:Bind IsNotCompleted(DownloadStatus), Mode=OneWay}"
                                     Value="{x:Bind DownloadProgress(FinishedSize, TotalSize), Mode=OneWay}" />
                             </Grid>
 

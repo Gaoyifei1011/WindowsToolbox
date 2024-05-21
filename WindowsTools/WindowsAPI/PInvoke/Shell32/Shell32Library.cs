@@ -67,6 +67,11 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILFree", ExactSpelling = false)]
         public static extern void ILFree(IntPtr pidl);
 
+        /// <summary>
+        /// 对指定文件执行操作。
+        /// </summary>
+        /// <param name="lpExecInfo">指向 SHELLEXECUTEINFO 结构的指针，该结构包含并接收有关正在执行的应用程序的信息。</param>
+        /// <returns>如果成功，则返回 TRUE ;否则为 FALSE。 调用 GetLastError 获取扩展错误信息。</returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteExW", ExactSpelling = false)]
         public static extern bool ShellExecuteEx(ref SHELLEXECUTEINFO lpExecInfo);
 

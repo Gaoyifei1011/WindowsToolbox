@@ -70,6 +70,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Downloaded completed 的本地化字符串。
+        /// </summary>
+        public static string CompleteDownload {
+            get {
+                return ResourceManager.GetString("CompleteDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Continue download 的本地化字符串。
         /// </summary>
         public static string ContinueToolTip {

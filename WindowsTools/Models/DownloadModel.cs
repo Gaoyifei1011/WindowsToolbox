@@ -168,5 +168,13 @@ namespace WindowsTools.Models
         {
             return downloadStatus is DownloadStatus.Completed ? Visibility.Visible : Visibility.Collapsed;
         }
+
+        /// <summary>
+        /// 检查任务是否未下载完成
+        /// </summary>
+        public Visibility IsNotCompleted(DownloadStatus downloadedStatus)
+        {
+            return downloadedStatus is DownloadStatus.Completed ? Visibility.Collapsed : Visibility.Visible;
+        }
     }
 }
