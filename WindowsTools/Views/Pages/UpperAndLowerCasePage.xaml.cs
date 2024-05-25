@@ -160,7 +160,14 @@ namespace WindowsTools.Views.Pages
                 if (checkResult)
                 {
                     OperationFailedCollection.Clear();
-                    if (UpperAndLowerCaseCollection.Count is 0)
+                    int count = 0;
+
+                    lock (upperAndLowerCaseLock)
+                    {
+                        count = UpperAndLowerCaseCollection.Count;
+                    }
+
+                    if (count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -181,7 +188,14 @@ namespace WindowsTools.Views.Pages
                 if (checkResult)
                 {
                     OperationFailedCollection.Clear();
-                    if (UpperAndLowerCaseCollection.Count is 0)
+                    int count = 0;
+
+                    lock (upperAndLowerCaseLock)
+                    {
+                        count = UpperAndLowerCaseCollection.Count;
+                    }
+
+                    if (count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -235,7 +249,14 @@ namespace WindowsTools.Views.Pages
             if (checkResult)
             {
                 OperationFailedCollection.Clear();
-                if (UpperAndLowerCaseCollection.Count is 0)
+                int count = 0;
+
+                lock (upperAndLowerCaseLock)
+                {
+                    count = UpperAndLowerCaseCollection.Count;
+                }
+
+                if (count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -259,7 +280,14 @@ namespace WindowsTools.Views.Pages
             if (checkResult)
             {
                 OperationFailedCollection.Clear();
-                if (UpperAndLowerCaseCollection.Count is 0)
+                int count = 0;
+
+                lock (upperAndLowerCaseLock)
+                {
+                    count = UpperAndLowerCaseCollection.Count;
+                }
+
+                if (count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -457,104 +485,128 @@ namespace WindowsTools.Views.Pages
             {
                 case UpperAndLowerSelectedKind.AllUppercase:
                     {
-                        foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
+                        lock (upperAndLowerCaseLock)
                         {
-                            if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                            foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
                             {
-                                oldAndNewNameItem.NewFileName = oldAndNewNameItem.OriginalFileName.ToUpper();
-                                oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                                {
+                                    oldAndNewNameItem.NewFileName = oldAndNewNameItem.OriginalFileName.ToUpper();
+                                    oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                }
                             }
                         }
                         break;
                     }
                 case UpperAndLowerSelectedKind.FileNameUppercase:
                     {
-                        foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
+                        lock (upperAndLowerCaseLock)
                         {
-                            if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                            foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
                             {
-                                string fileName = Path.GetFileNameWithoutExtension(oldAndNewNameItem.OriginalFileName).ToUpper();
-                                string extensionName = Path.GetExtension(oldAndNewNameItem.OriginalFileName);
-                                oldAndNewNameItem.NewFileName = fileName + extensionName;
-                                oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                                {
+                                    string fileName = Path.GetFileNameWithoutExtension(oldAndNewNameItem.OriginalFileName).ToUpper();
+                                    string extensionName = Path.GetExtension(oldAndNewNameItem.OriginalFileName);
+                                    oldAndNewNameItem.NewFileName = fileName + extensionName;
+                                    oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                }
                             }
                         }
                         break;
                     }
                 case UpperAndLowerSelectedKind.ExtensionNameUppercase:
                     {
-                        foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
+                        lock (upperAndLowerCaseLock)
                         {
-                            if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                            foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
                             {
-                                string fileName = Path.GetFileNameWithoutExtension(oldAndNewNameItem.OriginalFileName);
-                                string extensionName = Path.GetExtension(oldAndNewNameItem.OriginalFileName).ToUpper();
-                                oldAndNewNameItem.NewFileName = fileName + extensionName;
-                                oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                                {
+                                    string fileName = Path.GetFileNameWithoutExtension(oldAndNewNameItem.OriginalFileName);
+                                    string extensionName = Path.GetExtension(oldAndNewNameItem.OriginalFileName).ToUpper();
+                                    oldAndNewNameItem.NewFileName = fileName + extensionName;
+                                    oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                }
                             }
                         }
                         break;
                     }
                 case UpperAndLowerSelectedKind.DeleteSpace:
                     {
-                        foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
+                        lock (upperAndLowerCaseLock)
                         {
-                            if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                            foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
                             {
-                                oldAndNewNameItem.NewFileName = oldAndNewNameItem.OriginalFileName.Replace(" ", string.Empty);
-                                oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                                {
+                                    oldAndNewNameItem.NewFileName = oldAndNewNameItem.OriginalFileName.Replace(" ", string.Empty);
+                                    oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                }
                             }
                         }
                         break;
                     }
                 case UpperAndLowerSelectedKind.AllLowercase:
                     {
-                        foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
+                        lock (upperAndLowerCaseLock)
                         {
-                            if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                            foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
                             {
-                                oldAndNewNameItem.NewFileName = oldAndNewNameItem.OriginalFileName.ToLower();
-                                oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                                {
+                                    oldAndNewNameItem.NewFileName = oldAndNewNameItem.OriginalFileName.ToLower();
+                                    oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                }
                             }
                         }
                         break;
                     }
                 case UpperAndLowerSelectedKind.FileNameLowercase:
                     {
-                        foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
+                        lock (upperAndLowerCaseLock)
                         {
-                            if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                            foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
                             {
-                                string fileName = Path.GetFileNameWithoutExtension(oldAndNewNameItem.OriginalFileName).ToLower();
-                                string extensionName = Path.GetExtension(oldAndNewNameItem.OriginalFileName);
-                                oldAndNewNameItem.NewFileName = fileName + extensionName;
-                                oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                                {
+                                    string fileName = Path.GetFileNameWithoutExtension(oldAndNewNameItem.OriginalFileName).ToLower();
+                                    string extensionName = Path.GetExtension(oldAndNewNameItem.OriginalFileName);
+                                    oldAndNewNameItem.NewFileName = fileName + extensionName;
+                                    oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                }
                             }
                         }
                         break;
                     }
                 case UpperAndLowerSelectedKind.ExtensionNameLowercase:
                     {
-                        foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
+                        lock (upperAndLowerCaseLock)
                         {
-                            if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                            foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
                             {
-                                string fileName = Path.GetFileNameWithoutExtension(oldAndNewNameItem.OriginalFileName);
-                                string extensionName = Path.GetExtension(oldAndNewNameItem.OriginalFileName).ToLower();
-                                oldAndNewNameItem.NewFileName = fileName + extensionName;
-                                oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                                {
+                                    string fileName = Path.GetFileNameWithoutExtension(oldAndNewNameItem.OriginalFileName);
+                                    string extensionName = Path.GetExtension(oldAndNewNameItem.OriginalFileName).ToLower();
+                                    oldAndNewNameItem.NewFileName = fileName + extensionName;
+                                    oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                }
                             }
                         }
                         break;
                     }
                 case UpperAndLowerSelectedKind.ReplaceSpace:
                     {
-                        foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
+                        lock (upperAndLowerCaseLock)
                         {
-                            if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                            foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
                             {
-                                oldAndNewNameItem.NewFileName = oldAndNewNameItem.OriginalFileName.Replace(" ", "_");
-                                oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                                {
+                                    oldAndNewNameItem.NewFileName = oldAndNewNameItem.OriginalFileName.Replace(" ", "_");
+                                    oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                }
                             }
                         }
                         break;
@@ -571,40 +623,43 @@ namespace WindowsTools.Views.Pages
             IsModifyingNow = true;
             Task.Run(async () =>
             {
-                foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
+                lock (upperAndLowerCaseLock)
                 {
-                    if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName) && !string.IsNullOrEmpty(oldAndNewNameItem.OriginalFilePath))
+                    foreach (OldAndNewNameModel oldAndNewNameItem in UpperAndLowerCaseCollection)
                     {
-                        if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
+                        if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName) && !string.IsNullOrEmpty(oldAndNewNameItem.OriginalFilePath))
                         {
-                            try
+                            if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
                             {
-                                Directory.Move(oldAndNewNameItem.OriginalFilePath, oldAndNewNameItem.NewFilePath);
-                            }
-                            catch (Exception e)
-                            {
-                                operationFailedList.Add(new OperationFailedModel()
+                                try
                                 {
-                                    FileName = oldAndNewNameItem.OriginalFileName,
-                                    FilePath = oldAndNewNameItem.OriginalFilePath,
-                                    Exception = e
-                                });
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                File.Move(oldAndNewNameItem.OriginalFilePath, oldAndNewNameItem.NewFilePath);
-                            }
-                            catch (Exception e)
-                            {
-                                operationFailedList.Add(new OperationFailedModel()
+                                    Directory.Move(oldAndNewNameItem.OriginalFilePath, oldAndNewNameItem.NewFilePath);
+                                }
+                                catch (Exception e)
                                 {
-                                    FileName = oldAndNewNameItem.OriginalFileName,
-                                    FilePath = oldAndNewNameItem.OriginalFilePath,
-                                    Exception = e
-                                });
+                                    operationFailedList.Add(new OperationFailedModel()
+                                    {
+                                        FileName = oldAndNewNameItem.OriginalFileName,
+                                        FilePath = oldAndNewNameItem.OriginalFilePath,
+                                        Exception = e
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    File.Move(oldAndNewNameItem.OriginalFilePath, oldAndNewNameItem.NewFilePath);
+                                }
+                                catch (Exception e)
+                                {
+                                    operationFailedList.Add(new OperationFailedModel()
+                                    {
+                                        FileName = oldAndNewNameItem.OriginalFileName,
+                                        FilePath = oldAndNewNameItem.OriginalFilePath,
+                                        Exception = e
+                                    });
+                                }
                             }
                         }
                     }
@@ -620,9 +675,10 @@ namespace WindowsTools.Views.Pages
                         OperationFailedCollection.Add(operationFailedItem);
                     }
 
-                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, UpperAndLowerCaseCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
                     lock (upperAndLowerCaseLock)
                     {
+                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, UpperAndLowerCaseCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+
                         UpperAndLowerCaseCollection.Clear();
                     }
                 });

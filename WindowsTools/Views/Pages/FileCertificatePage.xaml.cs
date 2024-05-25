@@ -141,7 +141,14 @@ namespace WindowsTools.Views.Pages
             {
                 args.Handled = true;
                 OperationFailedCollection.Clear();
-                if (FileCertificateCollection.Count is 0)
+                int count = 0;
+
+                lock (fileCertificateLock)
+                {
+                    count = FileCertificateCollection.Count;
+                }
+
+                if (count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -174,7 +181,14 @@ namespace WindowsTools.Views.Pages
         private void OnModifyClicked(object sender, RoutedEventArgs args)
         {
             OperationFailedCollection.Clear();
-            if (FileCertificateCollection.Count is 0)
+            int count = 0;
+
+            lock (fileCertificateLock)
+            {
+                count = FileCertificateCollection.Count;
+            }
+
+            if (count is 0)
             {
                 TeachingTipHelper.Show(new ListEmptyTip());
             }
@@ -316,34 +330,37 @@ namespace WindowsTools.Views.Pages
             IsModifyingNow = true;
             Task.Run(async () =>
             {
-                foreach (CertificateResultModel certificateResultItem in FileCertificateCollection)
+                lock (fileCertificateLock)
                 {
-                    if (!string.IsNullOrEmpty(certificateResultItem.FileName) && !string.IsNullOrEmpty(certificateResultItem.FilePath))
+                    foreach (CertificateResultModel certificateResultItem in FileCertificateCollection)
                     {
-                        try
+                        if (!string.IsNullOrEmpty(certificateResultItem.FileName) && !string.IsNullOrEmpty(certificateResultItem.FilePath))
                         {
-                            using FileStream fileStream = new(certificateResultItem.FilePath, FileMode.Open, FileAccess.ReadWrite);
-                            bool result = ImagehlpLibrary.ImageRemoveCertificate(fileStream.SafeFileHandle.DangerousGetHandle(), 0);
-                            fileStream.Close();
+                            try
+                            {
+                                using FileStream fileStream = new(certificateResultItem.FilePath, FileMode.Open, FileAccess.ReadWrite);
+                                bool result = ImagehlpLibrary.ImageRemoveCertificate(fileStream.SafeFileHandle.DangerousGetHandle(), 0);
+                                fileStream.Close();
 
-                            if (!result)
+                                if (!result)
+                                {
+                                    operationFailedList.Add(new OperationFailedModel()
+                                    {
+                                        FileName = certificateResultItem.FileName,
+                                        FilePath = certificateResultItem.FilePath,
+                                        Exception = Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error())
+                                    });
+                                }
+                            }
+                            catch (Exception e)
                             {
                                 operationFailedList.Add(new OperationFailedModel()
                                 {
                                     FileName = certificateResultItem.FileName,
                                     FilePath = certificateResultItem.FilePath,
-                                    Exception = Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error())
+                                    Exception = e
                                 });
                             }
-                        }
-                        catch (Exception e)
-                        {
-                            operationFailedList.Add(new OperationFailedModel()
-                            {
-                                FileName = certificateResultItem.FileName,
-                                FilePath = certificateResultItem.FilePath,
-                                Exception = e
-                            });
                         }
                     }
                 }
@@ -358,9 +375,10 @@ namespace WindowsTools.Views.Pages
                         OperationFailedCollection.Add(operationFailedItem);
                     }
 
-                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, FileCertificateCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
                     lock (fileCertificateLock)
                     {
+                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, FileCertificateCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+
                         FileCertificateCollection.Clear();
                     }
                 });

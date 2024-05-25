@@ -31,8 +31,6 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class DownloadManagerPage : Page, INotifyPropertyChanged
     {
-        private readonly object downloadLock = new();
-
         private string _searchDownload;
 
         public string SearchDownload
@@ -91,15 +89,12 @@ namespace WindowsTools.Views.Pages
 
             if (downloadID != Guid.Empty)
             {
-                lock (downloadLock)
+                foreach (DownloadModel downloadItem in DownloadCollection)
                 {
-                    foreach (DownloadModel downloadItem in DownloadCollection)
+                    if (downloadItem.DownloadID.Equals(downloadID))
                     {
-                        if (downloadItem.DownloadID.Equals(downloadID))
-                        {
-                            downloadItem.IsNotOperated = false;
-                            break;
-                        }
+                        downloadItem.IsNotOperated = false;
+                        break;
                     }
                 }
 
@@ -116,15 +111,12 @@ namespace WindowsTools.Views.Pages
 
             if (downloadID != Guid.Empty)
             {
-                lock (downloadLock)
+                foreach (DownloadModel downloadItem in DownloadCollection)
                 {
-                    foreach (DownloadModel downloadItem in DownloadCollection)
+                    if (downloadItem.DownloadID.Equals(downloadID))
                     {
-                        if (downloadItem.DownloadID.Equals(downloadID))
-                        {
-                            downloadItem.IsNotOperated = false;
-                            break;
-                        }
+                        downloadItem.IsNotOperated = false;
+                        break;
                     }
                 }
 
@@ -178,15 +170,12 @@ namespace WindowsTools.Views.Pages
 
             if (downloadItem.DownloadID != Guid.Empty)
             {
-                lock (downloadLock)
+                foreach (DownloadModel item in DownloadCollection)
                 {
-                    foreach (DownloadModel item in DownloadCollection)
+                    if (downloadItem.DownloadID.Equals(item.DownloadID))
                     {
-                        if (downloadItem.DownloadID.Equals(item.DownloadID))
-                        {
-                            downloadItem.IsNotOperated = false;
-                            break;
-                        }
+                        downloadItem.IsNotOperated = false;
+                        break;
                     }
                 }
 
@@ -196,15 +185,12 @@ namespace WindowsTools.Views.Pages
                 }
                 else
                 {
-                    lock (downloadLock)
+                    foreach (DownloadModel item in DownloadCollection)
                     {
-                        foreach (DownloadModel item in DownloadCollection)
+                        if (downloadItem.DownloadID.Equals(item.DownloadID))
                         {
-                            if (downloadItem.DownloadID.Equals(item.DownloadID))
-                            {
-                                DownloadCollection.Remove(item);
-                                break;
-                            }
+                            DownloadCollection.Remove(item);
+                            break;
                         }
                     }
                 }
@@ -236,15 +222,12 @@ namespace WindowsTools.Views.Pages
 
                     MainWindow.Current.BeginInvoke(() =>
                     {
-                        lock (downloadLock)
+                        foreach (DownloadModel item in DownloadCollection)
                         {
-                            foreach (DownloadModel item in DownloadCollection)
+                            if (downloadItem.DownloadID.Equals(item.DownloadID))
                             {
-                                if (downloadItem.DownloadID.Equals(item.DownloadID))
-                                {
-                                    DownloadCollection.Remove(item);
-                                    break;
-                                }
+                                DownloadCollection.Remove(item);
+                                break;
                             }
                         }
                     });
@@ -320,12 +303,9 @@ namespace WindowsTools.Views.Pages
 
             if (string.IsNullOrEmpty(SearchDownload))
             {
-                lock (downloadLock)
+                foreach (DownloadModel downloadItem in DownloadCollection)
                 {
-                    foreach (DownloadModel downloadItem in DownloadCollection)
-                    {
-                        downloadItem.IsVisible = Visibility.Visible;
-                    }
+                    downloadItem.IsVisible = Visibility.Visible;
                 }
 
                 IsSearchEmpty = false;
@@ -339,15 +319,12 @@ namespace WindowsTools.Views.Pages
         {
             if (!string.IsNullOrEmpty(SearchDownload))
             {
-                lock (downloadLock)
+                foreach (DownloadModel downloadItem in DownloadCollection)
                 {
-                    foreach (DownloadModel downloadItem in DownloadCollection)
-                    {
-                        downloadItem.IsVisible = downloadItem.FileName.Contains(SearchDownload) ? Visibility.Visible : Visibility.Collapsed;
-                    }
-
-                    IsSearchEmpty = DownloadCollection.All(item => item.IsVisible is Visibility.Collapsed);
+                    downloadItem.IsVisible = downloadItem.FileName.Contains(SearchDownload) ? Visibility.Visible : Visibility.Collapsed;
                 }
+
+                IsSearchEmpty = DownloadCollection.All(item => item.IsVisible is Visibility.Collapsed);
             }
         }
 
@@ -370,15 +347,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnStartDownloadClicked(object sender, RoutedEventArgs args)
         {
-            lock (downloadLock)
+            foreach (DownloadModel downloadItem in DownloadCollection)
             {
-                foreach (DownloadModel downloadItem in DownloadCollection)
+                if (downloadItem.DownloadStatus is DownloadStatus.Pause)
                 {
-                    if (downloadItem.DownloadStatus is DownloadStatus.Pause)
-                    {
-                        downloadItem.IsNotOperated = false;
-                        DownloadSchedulerService.ContinueDownload(downloadItem.DownloadID);
-                    }
+                    downloadItem.IsNotOperated = false;
+                    DownloadSchedulerService.ContinueDownload(downloadItem.DownloadID);
                 }
             }
         }
@@ -388,15 +362,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnPauseDownloadClicked(object sender, RoutedEventArgs args)
         {
-            lock (downloadLock)
+            foreach (DownloadModel downloadItem in DownloadCollection)
             {
-                foreach (DownloadModel downloadItem in DownloadCollection)
+                if (downloadItem.DownloadStatus is DownloadStatus.Downloading)
                 {
-                    if (downloadItem.DownloadStatus is DownloadStatus.Downloading)
-                    {
-                        downloadItem.IsNotOperated = false;
-                        DownloadSchedulerService.PauseDownload(downloadItem.DownloadID);
-                    }
+                    downloadItem.IsNotOperated = false;
+                    DownloadSchedulerService.PauseDownload(downloadItem.DownloadID);
                 }
             }
         }
@@ -406,21 +377,18 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDeleteDownloadClicked(object sender, RoutedEventArgs args)
         {
-            lock (downloadLock)
+            for (int index = DownloadCollection.Count - 1; index >= 0; index--)
             {
-                for (int index = DownloadCollection.Count - 1; index >= 0; index--)
-                {
-                    DownloadModel downloadItem = DownloadCollection[index];
-                    downloadItem.IsNotOperated = false;
+                DownloadModel downloadItem = DownloadCollection[index];
+                downloadItem.IsNotOperated = false;
 
-                    if (downloadItem.DownloadStatus is DownloadStatus.Downloading || downloadItem.DownloadStatus is DownloadStatus.Pause)
-                    {
-                        DownloadSchedulerService.DeleteDownload(downloadItem.DownloadID);
-                    }
-                    else
-                    {
-                        DownloadCollection.RemoveAt(index);
-                    }
+                if (downloadItem.DownloadStatus is DownloadStatus.Downloading || downloadItem.DownloadStatus is DownloadStatus.Pause)
+                {
+                    DownloadSchedulerService.DeleteDownload(downloadItem.DownloadID);
+                }
+                else
+                {
+                    DownloadCollection.RemoveAt(index);
                 }
             }
         }
@@ -478,21 +446,18 @@ namespace WindowsTools.Views.Pages
         {
             MainWindow.Current.BeginInvoke(() =>
             {
-                lock (downloadLock)
+                DownloadCollection.Add(new DownloadModel()
                 {
-                    DownloadCollection.Add(new DownloadModel()
-                    {
-                        DownloadID = downloadID,
-                        DownloadStatus = DownloadStatus.Downloading,
-                        FileName = downloadSchedulerItem.FileName,
-                        FilePath = downloadSchedulerItem.FilePath,
-                        FileLink = downloadSchedulerItem.FileLink,
-                        FinishedSize = 0,
-                        IsNotOperated = true,
-                        CurrentSpeed = 0,
-                        TotalSize = downloadSchedulerItem.TotalSize
-                    });
-                }
+                    DownloadID = downloadID,
+                    DownloadStatus = DownloadStatus.Downloading,
+                    FileName = downloadSchedulerItem.FileName,
+                    FilePath = downloadSchedulerItem.FilePath,
+                    FileLink = downloadSchedulerItem.FileLink,
+                    FinishedSize = 0,
+                    IsNotOperated = true,
+                    CurrentSpeed = 0,
+                    TotalSize = downloadSchedulerItem.TotalSize
+                });
             });
         }
 
@@ -503,15 +468,12 @@ namespace WindowsTools.Views.Pages
         {
             MainWindow.Current.BeginInvoke(() =>
             {
-                lock (downloadLock)
+                foreach (DownloadModel downloadItem in DownloadCollection)
                 {
-                    foreach (DownloadModel downloadItem in DownloadCollection)
+                    if (downloadItem.DownloadID.Equals(downloadID))
                     {
-                        if (downloadItem.DownloadID.Equals(downloadID))
-                        {
-                            downloadItem.IsNotOperated = true;
-                            downloadItem.DownloadStatus = DownloadStatus.Downloading;
-                        }
+                        downloadItem.IsNotOperated = true;
+                        downloadItem.DownloadStatus = DownloadStatus.Downloading;
                     }
                 }
             });
@@ -524,15 +486,12 @@ namespace WindowsTools.Views.Pages
         {
             MainWindow.Current.BeginInvoke(() =>
             {
-                lock (downloadLock)
+                foreach (DownloadModel downloadItem in DownloadCollection)
                 {
-                    foreach (DownloadModel downloadItem in DownloadCollection)
+                    if (downloadItem.DownloadID.Equals(downloadID))
                     {
-                        if (downloadItem.DownloadID.Equals(downloadID))
-                        {
-                            downloadItem.IsNotOperated = true;
-                            downloadItem.DownloadStatus = DownloadStatus.Pause;
-                        }
+                        downloadItem.IsNotOperated = true;
+                        downloadItem.DownloadStatus = DownloadStatus.Pause;
                     }
                 }
             });
@@ -545,15 +504,12 @@ namespace WindowsTools.Views.Pages
         {
             MainWindow.Current.BeginInvoke(() =>
             {
-                lock (downloadLock)
+                foreach (DownloadModel downloadItem in DownloadCollection)
                 {
-                    foreach (DownloadModel downloadItem in DownloadCollection)
+                    if (downloadItem.DownloadID.Equals(downloadID))
                     {
-                        if (downloadItem.DownloadID.Equals(downloadID))
-                        {
-                            DownloadCollection.Remove(downloadItem);
-                            break;
-                        }
+                        DownloadCollection.Remove(downloadItem);
+                        break;
                     }
                 }
             });
@@ -566,19 +522,16 @@ namespace WindowsTools.Views.Pages
         {
             MainWindow.Current.BeginInvoke(() =>
             {
-                lock (downloadLock)
+                foreach (DownloadModel downloadItem in DownloadCollection)
                 {
-                    foreach (DownloadModel downloadItem in DownloadCollection)
+                    if (downloadItem.DownloadID.Equals(downloadID))
                     {
-                        if (downloadItem.DownloadID.Equals(downloadID))
-                        {
-                            downloadItem.IsNotOperated = true;
-                            downloadItem.DownloadStatus = downloadSchedulerItem.DownloadStatus;
-                            downloadItem.CurrentSpeed = downloadSchedulerItem.CurrentSpeed;
-                            downloadItem.FinishedSize = downloadSchedulerItem.FinishedSize;
-                            downloadItem.TotalSize = downloadSchedulerItem.TotalSize;
-                            break;
-                        }
+                        downloadItem.IsNotOperated = true;
+                        downloadItem.DownloadStatus = downloadSchedulerItem.DownloadStatus;
+                        downloadItem.CurrentSpeed = downloadSchedulerItem.CurrentSpeed;
+                        downloadItem.FinishedSize = downloadSchedulerItem.FinishedSize;
+                        downloadItem.TotalSize = downloadSchedulerItem.TotalSize;
+                        break;
                     }
                 }
             });
@@ -591,19 +544,16 @@ namespace WindowsTools.Views.Pages
         {
             MainWindow.Current.BeginInvoke(() =>
             {
-                lock (downloadLock)
+                foreach (DownloadModel downloadItem in DownloadCollection)
                 {
-                    foreach (DownloadModel downloadItem in DownloadCollection)
+                    if (downloadItem.DownloadID.Equals(downloadID))
                     {
-                        if (downloadItem.DownloadID.Equals(downloadID))
-                        {
-                            downloadItem.IsNotOperated = true;
-                            downloadItem.DownloadStatus = downloadSchedulerItem.DownloadStatus;
-                            downloadItem.CurrentSpeed = downloadSchedulerItem.CurrentSpeed;
-                            downloadItem.FinishedSize = downloadSchedulerItem.FinishedSize;
-                            downloadItem.TotalSize = downloadSchedulerItem.TotalSize;
-                            break;
-                        }
+                        downloadItem.IsNotOperated = true;
+                        downloadItem.DownloadStatus = downloadSchedulerItem.DownloadStatus;
+                        downloadItem.CurrentSpeed = downloadSchedulerItem.CurrentSpeed;
+                        downloadItem.FinishedSize = downloadSchedulerItem.FinishedSize;
+                        downloadItem.TotalSize = downloadSchedulerItem.TotalSize;
+                        break;
                     }
                 }
             });

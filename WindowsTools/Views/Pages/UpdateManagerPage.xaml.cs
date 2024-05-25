@@ -30,11 +30,6 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class UpdateManagerPage : Page, INotifyPropertyChanged
     {
-        private readonly object availableUpdateLock = new();
-        private readonly object installedUpdateLock = new();
-        private readonly object hiddenUpdateLock = new();
-        private readonly object updateHistoryLock = new();
-
         private readonly UpdateSession updateSession = new();
         private readonly UpdateServiceManager updateServiceManager = new();
         private readonly IUpdateSearcher updateSearcher;
@@ -276,22 +271,16 @@ namespace WindowsTools.Views.Pages
                             {
                                 try
                                 {
-                                    lock (availableUpdateLock)
+                                    for (int index = 0; index < AvailableUpdateCollection.Count; index++)
                                     {
-                                        for (int index = 0; index < AvailableUpdateCollection.Count; index++)
+                                        if (AvailableUpdateCollection[index].UpdateID.Equals(updateItem.UpdateID))
                                         {
-                                            if (AvailableUpdateCollection[index].UpdateID.Equals(updateItem.UpdateID))
-                                            {
-                                                AvailableUpdateCollection.RemoveAt(index);
-                                                break;
-                                            }
+                                            AvailableUpdateCollection.RemoveAt(index);
+                                            break;
                                         }
                                     }
 
-                                    lock (hiddenUpdateLock)
-                                    {
-                                        HiddenUpdateCollection.Add(updateItem);
-                                    }
+                                    HiddenUpdateCollection.Add(updateItem);
 
                                     IsAUExpanderExpanded = true;
                                     IsHUExpanderExpanded = true;
@@ -344,14 +333,11 @@ namespace WindowsTools.Views.Pages
                     double percentage = installationProgressChangedCallback.CallbackArgs.Progress.CurrentUpdatePercentComplete / 100.0;
                     MainWindow.Current.BeginInvoke(() =>
                     {
-                        lock (installedUpdateLock)
+                        foreach (UpdateModel installedItem in InstalledUpdateCollection)
                         {
-                            foreach (UpdateModel installedItem in InstalledUpdateCollection)
+                            if (installedItem.UpdateID.Equals(updateItem.UpdateID))
                             {
-                                if (installedItem.UpdateID.Equals(updateItem.UpdateID))
-                                {
-                                    installedItem.InstallationProgress = percentage;
-                                }
+                                installedItem.InstallationProgress = percentage;
                             }
                         }
                     });
@@ -382,22 +368,16 @@ namespace WindowsTools.Views.Pages
                             {
                                 try
                                 {
-                                    lock (hiddenUpdateLock)
+                                    for (int index = 0; index < HiddenUpdateCollection.Count; index++)
                                     {
-                                        for (int index = 0; index < HiddenUpdateCollection.Count; index++)
+                                        if (HiddenUpdateCollection[index].UpdateID.Equals(updateItem.UpdateID))
                                         {
-                                            if (HiddenUpdateCollection[index].UpdateID.Equals(updateItem.UpdateID))
-                                            {
-                                                HiddenUpdateCollection.RemoveAt(index);
-                                                break;
-                                            }
+                                            HiddenUpdateCollection.RemoveAt(index);
+                                            break;
                                         }
                                     }
 
-                                    lock (availableUpdateLock)
-                                    {
-                                        AvailableUpdateCollection.Add(updateItem);
-                                    }
+                                    AvailableUpdateCollection.Add(updateItem);
 
                                     IsAUExpanderExpanded = true;
                                     IsHUExpanderExpanded = true;
@@ -538,22 +518,16 @@ namespace WindowsTools.Views.Pages
                             {
                                 if (hideItem.Update.IsHidden)
                                 {
-                                    lock (availableUpdateLock)
+                                    for (int index = 0; index < AvailableUpdateCollection.Count; index++)
                                     {
-                                        for (int index = 0; index < AvailableUpdateCollection.Count; index++)
+                                        if (AvailableUpdateCollection[index].UpdateID.Equals(hideItem.UpdateID))
                                         {
-                                            if (AvailableUpdateCollection[index].UpdateID.Equals(hideItem.UpdateID))
-                                            {
-                                                AvailableUpdateCollection.RemoveAt(index);
-                                                break;
-                                            }
+                                            AvailableUpdateCollection.RemoveAt(index);
+                                            break;
                                         }
                                     }
 
-                                    lock (hiddenUpdateLock)
-                                    {
-                                        HiddenUpdateCollection.Add(hideItem);
-                                    }
+                                    HiddenUpdateCollection.Add(hideItem);
 
                                     IsAUExpanderExpanded = true;
                                     IsHUExpanderExpanded = true;
@@ -663,22 +637,16 @@ namespace WindowsTools.Views.Pages
                             {
                                 if (showItem.Update.IsHidden is false)
                                 {
-                                    lock (hiddenUpdateLock)
+                                    for (int index = 0; index < HiddenUpdateCollection.Count; index++)
                                     {
-                                        for (int index = 0; index < HiddenUpdateCollection.Count; index++)
+                                        if (HiddenUpdateCollection[index].UpdateID.Equals(showItem.UpdateID))
                                         {
-                                            if (HiddenUpdateCollection[index].UpdateID.Equals(showItem.UpdateID))
-                                            {
-                                                HiddenUpdateCollection.RemoveAt(index);
-                                                break;
-                                            }
+                                            HiddenUpdateCollection.RemoveAt(index);
+                                            break;
                                         }
                                     }
 
-                                    lock (availableUpdateLock)
-                                    {
-                                        AvailableUpdateCollection.Add(showItem);
-                                    }
+                                    AvailableUpdateCollection.Add(showItem);
 
                                     IsAUExpanderExpanded = true;
                                     IsHUExpanderExpanded = true;
@@ -863,31 +831,22 @@ namespace WindowsTools.Views.Pages
 
                 MainWindow.Current.BeginInvoke(() =>
                 {
-                    lock (availableUpdateLock)
+                    AvailableUpdateCollection.Clear();
+                    foreach (UpdateModel updateItem in availableUpdateList)
                     {
-                        AvailableUpdateCollection.Clear();
-                        foreach (UpdateModel updateItem in availableUpdateList)
-                        {
-                            AvailableUpdateCollection.Add(updateItem);
-                        }
+                        AvailableUpdateCollection.Add(updateItem);
                     }
 
-                    lock (installedUpdateLock)
+                    InstalledUpdateCollection.Clear();
+                    foreach (UpdateModel updateItem in installedUpdateList)
                     {
-                        InstalledUpdateCollection.Clear();
-                        foreach (UpdateModel updateItem in installedUpdateList)
-                        {
-                            InstalledUpdateCollection.Add(updateItem);
-                        }
+                        InstalledUpdateCollection.Add(updateItem);
                     }
 
-                    lock (hiddenUpdateLock)
+                    HiddenUpdateCollection.Clear();
+                    foreach (UpdateModel updateItem in hiddenUpdateList)
                     {
-                        HiddenUpdateCollection.Clear();
-                        foreach (UpdateModel updateItem in hiddenUpdateList)
-                        {
-                            HiddenUpdateCollection.Add(updateItem);
-                        }
+                        HiddenUpdateCollection.Add(updateItem);
                     }
 
                     IsChecking = false;
@@ -948,10 +907,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void GetUpdateHistory()
         {
-            lock (updateHistoryLock)
-            {
-                UpdateHistoryCollection.Clear();
-            }
+            UpdateHistoryCollection.Clear();
 
             Task.Run(() =>
             {
@@ -967,19 +923,16 @@ namespace WindowsTools.Views.Pages
 
                             MainWindow.Current.BeginInvoke(() =>
                             {
-                                lock (updateHistoryLock)
+                                UpdateHistoryCollection.Add(new UpdateModel()
                                 {
-                                    UpdateHistoryCollection.Add(new UpdateModel()
-                                    {
-                                        UpdateName = updateHistoryEntry.Title,
-                                        ApplicationID = updateHistoryEntry.ClientApplicationID,
-                                        Date = updateHistoryEntry.Date,
-                                        UpdateID = updateHistoryEntry.UpdateIdentity.UpdateID,
-                                        Description = updateHistoryEntry.Description,
-                                        SupportURL = updateHistoryEntry.SupportUrl,
-                                        Status = status
-                                    });
-                                }
+                                    UpdateName = updateHistoryEntry.Title,
+                                    ApplicationID = updateHistoryEntry.ClientApplicationID,
+                                    Date = updateHistoryEntry.Date,
+                                    UpdateID = updateHistoryEntry.UpdateIdentity.UpdateID,
+                                    Description = updateHistoryEntry.Description,
+                                    SupportURL = updateHistoryEntry.SupportUrl,
+                                    Status = status
+                                });
                             });
                         }
                     }

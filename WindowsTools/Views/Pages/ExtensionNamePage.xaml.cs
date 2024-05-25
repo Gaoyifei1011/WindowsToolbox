@@ -210,7 +210,14 @@ namespace WindowsTools.Views.Pages
                 if (checkResult)
                 {
                     OperationFailedCollection.Clear();
-                    if (ExtensionNameCollection.Count is 0)
+                    int count = 0;
+
+                    lock (extensionNameLock)
+                    {
+                        count = ExtensionNameCollection.Count;
+                    }
+
+                    if (count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -231,7 +238,14 @@ namespace WindowsTools.Views.Pages
                 if (checkResult)
                 {
                     OperationFailedCollection.Clear();
-                    if (ExtensionNameCollection.Count is 0)
+                    int count = 0;
+
+                    lock (extensionNameLock)
+                    {
+                        count = ExtensionNameCollection.Count;
+                    }
+
+                    if (count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -311,7 +325,14 @@ namespace WindowsTools.Views.Pages
             if (checkResult)
             {
                 OperationFailedCollection.Clear();
-                if (ExtensionNameCollection.Count is 0)
+                int count = 0;
+
+                lock (extensionNameLock)
+                {
+                    count = ExtensionNameCollection.Count;
+                }
+
+                if (count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -335,7 +356,14 @@ namespace WindowsTools.Views.Pages
             if (checkResult)
             {
                 OperationFailedCollection.Clear();
-                if (ExtensionNameCollection.Count is 0)
+                int count = 0;
+
+                lock (extensionNameLock)
+                {
+                    count = ExtensionNameCollection.Count;
+                }
+
+                if (count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -523,33 +551,41 @@ namespace WindowsTools.Views.Pages
             {
                 case ExtensionNameSelectedKind.IsSameExtensionName:
                     {
-                        foreach (OldAndNewNameModel oldAndNewNameItem in ExtensionNameCollection)
+                        lock (extensionNameLock)
                         {
-                            if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                            foreach (OldAndNewNameModel oldAndNewNameItem in ExtensionNameCollection)
                             {
-                                string fileName = Path.GetFileNameWithoutExtension(oldAndNewNameItem.OriginalFileName);
-                                oldAndNewNameItem.NewFileName = fileName + "." + ChangeToText;
-                                oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                                {
+                                    string fileName = Path.GetFileNameWithoutExtension(oldAndNewNameItem.OriginalFileName);
+                                    oldAndNewNameItem.NewFileName = fileName + "." + ChangeToText;
+                                    oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
+                                }
                             }
                         }
+
                         break;
                     }
                 case ExtensionNameSelectedKind.IsFindAndReplaceExtensionName:
                     {
-                        foreach (OldAndNewNameModel oldAndNewNameItem in ExtensionNameCollection)
+                        lock (extensionNameLock)
                         {
-                            if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
+                            foreach (OldAndNewNameModel oldAndNewNameItem in ExtensionNameCollection)
                             {
-                                string fileName = Path.GetFileNameWithoutExtension(oldAndNewNameItem.OriginalFileName);
-                                string extensionName = Path.GetExtension(oldAndNewNameItem.OriginalFileName);
-                                if (extensionName.Contains(SearchText))
+                                if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName))
                                 {
-                                    extensionName = extensionName.Replace(SearchText, ReplaceText);
+                                    string fileName = Path.GetFileNameWithoutExtension(oldAndNewNameItem.OriginalFileName);
+                                    string extensionName = Path.GetExtension(oldAndNewNameItem.OriginalFileName);
+                                    if (extensionName.Contains(SearchText))
+                                    {
+                                        extensionName = extensionName.Replace(SearchText, ReplaceText);
+                                    }
+                                    oldAndNewNameItem.NewFileName = fileName + extensionName;
+                                    oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
                                 }
-                                oldAndNewNameItem.NewFileName = fileName + extensionName;
-                                oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
                             }
                         }
+
                         break;
                     }
             }
@@ -564,22 +600,25 @@ namespace WindowsTools.Views.Pages
             IsModifyingNow = true;
             Task.Run(async () =>
             {
-                foreach (OldAndNewNameModel oldAndNewNameItem in ExtensionNameCollection)
+                lock (extensionNameLock)
                 {
-                    if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName) && !string.IsNullOrEmpty(oldAndNewNameItem.OriginalFilePath))
+                    foreach (OldAndNewNameModel oldAndNewNameItem in ExtensionNameCollection)
                     {
-                        try
+                        if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName) && !string.IsNullOrEmpty(oldAndNewNameItem.OriginalFilePath))
                         {
-                            File.Move(oldAndNewNameItem.OriginalFilePath, oldAndNewNameItem.NewFilePath);
-                        }
-                        catch (Exception e)
-                        {
-                            operationFailedList.Add(new OperationFailedModel()
+                            try
                             {
-                                FileName = oldAndNewNameItem.OriginalFileName,
-                                FilePath = oldAndNewNameItem.OriginalFilePath,
-                                Exception = e
-                            });
+                                File.Move(oldAndNewNameItem.OriginalFilePath, oldAndNewNameItem.NewFilePath);
+                            }
+                            catch (Exception e)
+                            {
+                                operationFailedList.Add(new OperationFailedModel()
+                                {
+                                    FileName = oldAndNewNameItem.OriginalFileName,
+                                    FilePath = oldAndNewNameItem.OriginalFilePath,
+                                    Exception = e
+                                });
+                            }
                         }
                     }
                 }
@@ -594,10 +633,10 @@ namespace WindowsTools.Views.Pages
                         OperationFailedCollection.Add(operationFailedItem);
                     }
 
-                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, ExtensionNameCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
-
                     lock (extensionNameLock)
                     {
+                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, ExtensionNameCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+
                         ExtensionNameCollection.Clear();
                     }
                 });

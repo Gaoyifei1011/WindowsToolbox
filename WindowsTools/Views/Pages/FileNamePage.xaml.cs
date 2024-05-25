@@ -345,7 +345,14 @@ namespace WindowsTools.Views.Pages
                 if (checkResult)
                 {
                     OperationFailedCollection.Clear();
-                    if (FileNameCollection.Count is 0)
+                    int count = 0;
+
+                    lock (fileNameLock)
+                    {
+                        count = FileNameCollection.Count;
+                    }
+
+                    if (count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -366,7 +373,14 @@ namespace WindowsTools.Views.Pages
                 if (checkResult)
                 {
                     OperationFailedCollection.Clear();
-                    if (FileNameCollection.Count is 0)
+                    int count = 0;
+
+                    lock (fileNameLock)
+                    {
+                        count = FileNameCollection.Count;
+                    }
+
+                    if (count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -490,7 +504,14 @@ namespace WindowsTools.Views.Pages
             if (checkResult)
             {
                 OperationFailedCollection.Clear();
-                if (FileNameCollection.Count is 0)
+                int count = 0;
+
+                lock (fileNameLock)
+                {
+                    count = FileNameCollection.Count;
+                }
+
+                if (count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -514,7 +535,14 @@ namespace WindowsTools.Views.Pages
             if (checkResult)
             {
                 OperationFailedCollection.Clear();
-                if (FileNameCollection.Count is 0)
+                int count = 0;
+
+                lock (fileNameLock)
+                {
+                    count = FileNameCollection.Count;
+                }
+
+                if (count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -712,114 +740,117 @@ namespace WindowsTools.Views.Pages
                 int.TryParse(StartNumber, out startIndex);
             }
 
-            int endIndex = FileNameCollection.Count - startIndex;
-            int numberLength = endIndex.ToString().Length;
-
-            foreach (OldAndNewNameModel oldAndNewNameItem in FileNameCollection)
+            lock (fileNameLock)
             {
-                string tempNewFileName = oldAndNewNameItem.OriginalFileName;
-                // 根据改名规则替换
-                if (!string.IsNullOrEmpty(RenameRule))
+                int endIndex = FileNameCollection.Count - startIndex;
+                int numberLength = endIndex.ToString().Length;
+
+                foreach (OldAndNewNameModel oldAndNewNameItem in FileNameCollection)
                 {
-                    try
+                    string tempNewFileName = oldAndNewNameItem.OriginalFileName;
+                    // 根据改名规则替换
+                    if (!string.IsNullOrEmpty(RenameRule))
                     {
-                        string tempFileName = RenameRule;
-                        if (tempFileName.Contains("<#>"))
+                        try
                         {
-                            string formattedIndex = string.Empty;
-                            if (SelectedNumberFormat.Value.Equals(NumberFormatList[0].Value))
+                            string tempFileName = RenameRule;
+                            if (tempFileName.Contains("<#>"))
                             {
-                                formattedIndex = startIndex.ToString().PadLeft(numberLength, '0');
-                            }
-                            else if (SelectedNumberFormat.Value.Equals(NumberFormatList[1].Value))
-                            {
-                                formattedIndex = startIndex.ToString().PadLeft(1, '0');
-                            }
-                            else if (SelectedNumberFormat.Value.Equals(NumberFormatList[2].Value))
-                            {
-                                formattedIndex = startIndex.ToString().PadLeft(2, '0');
-                            }
-                            else if (SelectedNumberFormat.Value.Equals(NumberFormatList[3].Value))
-                            {
-                                formattedIndex = startIndex.ToString().PadLeft(3, '0');
-                            }
-                            else if (SelectedNumberFormat.Value.Equals(NumberFormatList[4].Value))
-                            {
-                                formattedIndex = startIndex.ToString().PadLeft(4, '0');
-                            }
-                            else if (SelectedNumberFormat.Value.Equals(NumberFormatList[5].Value))
-                            {
-                                formattedIndex = startIndex.ToString().PadLeft(5, '0');
-                            }
-                            else if (SelectedNumberFormat.Value.Equals(NumberFormatList[6].Value))
-                            {
-                                formattedIndex = startIndex.ToString().PadLeft(6, '0');
-                            }
-                            else if (SelectedNumberFormat.Value.Equals(NumberFormatList[7].Value))
-                            {
-                                formattedIndex = startIndex.ToString().PadLeft(7, '0');
-                            }
+                                string formattedIndex = string.Empty;
+                                if (SelectedNumberFormat.Value.Equals(NumberFormatList[0].Value))
+                                {
+                                    formattedIndex = startIndex.ToString().PadLeft(numberLength, '0');
+                                }
+                                else if (SelectedNumberFormat.Value.Equals(NumberFormatList[1].Value))
+                                {
+                                    formattedIndex = startIndex.ToString().PadLeft(1, '0');
+                                }
+                                else if (SelectedNumberFormat.Value.Equals(NumberFormatList[2].Value))
+                                {
+                                    formattedIndex = startIndex.ToString().PadLeft(2, '0');
+                                }
+                                else if (SelectedNumberFormat.Value.Equals(NumberFormatList[3].Value))
+                                {
+                                    formattedIndex = startIndex.ToString().PadLeft(3, '0');
+                                }
+                                else if (SelectedNumberFormat.Value.Equals(NumberFormatList[4].Value))
+                                {
+                                    formattedIndex = startIndex.ToString().PadLeft(4, '0');
+                                }
+                                else if (SelectedNumberFormat.Value.Equals(NumberFormatList[5].Value))
+                                {
+                                    formattedIndex = startIndex.ToString().PadLeft(5, '0');
+                                }
+                                else if (SelectedNumberFormat.Value.Equals(NumberFormatList[6].Value))
+                                {
+                                    formattedIndex = startIndex.ToString().PadLeft(6, '0');
+                                }
+                                else if (SelectedNumberFormat.Value.Equals(NumberFormatList[7].Value))
+                                {
+                                    formattedIndex = startIndex.ToString().PadLeft(7, '0');
+                                }
 
-                            tempFileName = tempFileName.Replace("<#>", formattedIndex);
-                            startIndex++;
-                        }
-                        if (tempFileName.Contains("<$>"))
-                        {
-                            tempFileName = tempFileName.Replace("<$>", DateTime.Now.ToString("yyyy-MM-dd"));
-                        }
-                        if (tempFileName.Contains("<&>"))
-                        {
-                            tempFileName = tempFileName.Replace("<&>", oldAndNewNameItem.OriginalFileName);
-                        }
-                        if (tempFileName.Contains("<N>"))
-                        {
-                            if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
-                            {
-                                DirectoryInfo directoryInfo = new(oldAndNewNameItem.OriginalFilePath);
-                                tempFileName = tempFileName.Replace("<N>", directoryInfo.LastWriteTime.ToString("yyyy-MM-dd"));
+                                tempFileName = tempFileName.Replace("<#>", formattedIndex);
+                                startIndex++;
                             }
-                            else
+                            if (tempFileName.Contains("<$>"))
                             {
-                                FileInfo fileInfo = new(oldAndNewNameItem.OriginalFilePath);
-                                tempFileName = tempFileName.Replace("<N>", fileInfo.LastWriteTime.ToString("yyyy-MM-dd"));
+                                tempFileName = tempFileName.Replace("<$>", DateTime.Now.ToString("yyyy-MM-dd"));
                             }
+                            if (tempFileName.Contains("<&>"))
+                            {
+                                tempFileName = tempFileName.Replace("<&>", oldAndNewNameItem.OriginalFileName);
+                            }
+                            if (tempFileName.Contains("<N>"))
+                            {
+                                if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
+                                {
+                                    DirectoryInfo directoryInfo = new(oldAndNewNameItem.OriginalFilePath);
+                                    tempFileName = tempFileName.Replace("<N>", directoryInfo.LastWriteTime.ToString("yyyy-MM-dd"));
+                                }
+                                else
+                                {
+                                    FileInfo fileInfo = new(oldAndNewNameItem.OriginalFilePath);
+                                    tempFileName = tempFileName.Replace("<N>", fileInfo.LastWriteTime.ToString("yyyy-MM-dd"));
+                                }
+                            }
+                            if (tempFileName.Contains("<C>"))
+                            {
+                                if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
+                                {
+                                    DirectoryInfo directoryInfo = new(oldAndNewNameItem.OriginalFilePath);
+                                    tempFileName = tempFileName.Replace("<C>", directoryInfo.CreationTime.ToString("yyyy-MM-dd"));
+                                }
+                                else
+                                {
+                                    FileInfo fileInfo = new(oldAndNewNameItem.OriginalFilePath);
+                                    tempFileName = tempFileName.Replace("<C>", fileInfo.CreationTime.ToString("yyyy-MM-dd"));
+                                }
+                            }
+                            tempNewFileName = tempFileName + Path.GetExtension(oldAndNewNameItem.OriginalFileName);
                         }
-                        if (tempFileName.Contains("<C>"))
+                        catch (Exception)
                         {
-                            if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
-                            {
-                                DirectoryInfo directoryInfo = new(oldAndNewNameItem.OriginalFilePath);
-                                tempFileName = tempFileName.Replace("<C>", directoryInfo.CreationTime.ToString("yyyy-MM-dd"));
-                            }
-                            else
-                            {
-                                FileInfo fileInfo = new(oldAndNewNameItem.OriginalFilePath);
-                                tempFileName = tempFileName.Replace("<C>", fileInfo.CreationTime.ToString("yyyy-MM-dd"));
-                            }
+                            tempNewFileName = oldAndNewNameItem.OriginalFileName;
                         }
-                        tempNewFileName = tempFileName + Path.GetExtension(oldAndNewNameItem.OriginalFileName);
                     }
-                    catch (Exception)
+
+                    // 修改文件扩展名
+                    if (IsChecked)
                     {
-                        tempNewFileName = oldAndNewNameItem.OriginalFileName;
+                        string fileName = Path.GetFileNameWithoutExtension(tempNewFileName);
+                        tempNewFileName = fileName + ExtensionName;
                     }
-                }
 
-                // 修改文件扩展名
-                if (IsChecked)
-                {
-                    string fileName = Path.GetFileNameWithoutExtension(tempNewFileName);
-                    tempNewFileName = fileName + ExtensionName;
-                }
+                    // 查找并替换字符串
+                    if (!string.IsNullOrEmpty(LookUpString) && tempNewFileName.Contains(LookUpString))
+                    {
+                        tempNewFileName = tempNewFileName.Replace(LookUpString, ReplaceString);
+                    }
 
-                // 查找并替换字符串
-                if (!string.IsNullOrEmpty(LookUpString) && tempNewFileName.Contains(LookUpString))
-                {
-                    tempNewFileName = tempNewFileName.Replace(LookUpString, ReplaceString);
+                    oldAndNewNameItem.NewFileName = tempNewFileName;
+                    oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
                 }
-
-                oldAndNewNameItem.NewFileName = tempNewFileName;
-                oldAndNewNameItem.NewFilePath = oldAndNewNameItem.OriginalFilePath.Replace(oldAndNewNameItem.OriginalFileName, oldAndNewNameItem.NewFileName);
             }
         }
 
@@ -832,40 +863,43 @@ namespace WindowsTools.Views.Pages
             IsModifyingNow = true;
             Task.Run(async () =>
             {
-                foreach (OldAndNewNameModel oldAndNewNameItem in FileNameCollection)
+                lock (fileNameLock)
                 {
-                    if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName) && !string.IsNullOrEmpty(oldAndNewNameItem.OriginalFilePath))
+                    foreach (OldAndNewNameModel oldAndNewNameItem in FileNameCollection)
                     {
-                        if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
+                        if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName) && !string.IsNullOrEmpty(oldAndNewNameItem.OriginalFilePath))
                         {
-                            try
+                            if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
                             {
-                                Directory.Move(oldAndNewNameItem.OriginalFilePath, oldAndNewNameItem.NewFilePath);
-                            }
-                            catch (Exception e)
-                            {
-                                operationFailedList.Add(new OperationFailedModel()
+                                try
                                 {
-                                    FileName = oldAndNewNameItem.OriginalFileName,
-                                    FilePath = oldAndNewNameItem.OriginalFilePath,
-                                    Exception = e
-                                });
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                File.Move(oldAndNewNameItem.OriginalFilePath, oldAndNewNameItem.NewFilePath);
-                            }
-                            catch (Exception e)
-                            {
-                                operationFailedList.Add(new OperationFailedModel()
+                                    Directory.Move(oldAndNewNameItem.OriginalFilePath, oldAndNewNameItem.NewFilePath);
+                                }
+                                catch (Exception e)
                                 {
-                                    FileName = oldAndNewNameItem.OriginalFileName,
-                                    FilePath = oldAndNewNameItem.OriginalFilePath,
-                                    Exception = e
-                                });
+                                    operationFailedList.Add(new OperationFailedModel()
+                                    {
+                                        FileName = oldAndNewNameItem.OriginalFileName,
+                                        FilePath = oldAndNewNameItem.OriginalFilePath,
+                                        Exception = e
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    File.Move(oldAndNewNameItem.OriginalFilePath, oldAndNewNameItem.NewFilePath);
+                                }
+                                catch (Exception e)
+                                {
+                                    operationFailedList.Add(new OperationFailedModel()
+                                    {
+                                        FileName = oldAndNewNameItem.OriginalFileName,
+                                        FilePath = oldAndNewNameItem.OriginalFilePath,
+                                        Exception = e
+                                    });
+                                }
                             }
                         }
                     }
@@ -881,9 +915,10 @@ namespace WindowsTools.Views.Pages
                         OperationFailedCollection.Add(operationFailedItem);
                     }
 
-                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, FileNameCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
                     lock (fileNameLock)
                     {
+                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, FileNameCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+
                         FileNameCollection.Clear();
                     }
                 });

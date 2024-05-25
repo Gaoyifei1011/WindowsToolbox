@@ -504,44 +504,47 @@ namespace WindowsTools.Views.Pages
                     {
                         int saveFailedCount = 0;
 
-                        for (int index = 0; index < IconCollection.Count; index++)
+                        lock (iconExtractLock)
                         {
-                            IconModel iconItem = IconCollection[index];
-
-                            if (iconItem is not null)
+                            for (int index = 0; index < IconCollection.Count; index++)
                             {
-                                IntPtr[] phicon = new IntPtr[1];
-                                int[] piconid = new int[1];
-                                int iconIndex = Convert.ToInt32(iconItem.DisplayIndex);
+                                IconModel iconItem = IconCollection[index];
 
-                                int nIcons = User32Library.PrivateExtractIcons(filePath, iconIndex, Convert.ToInt32(SelectedIconSize.Value), Convert.ToInt32(SelectedIconSize.Value), phicon, piconid, 1, 0);
-
-                                if (nIcons is not 0)
+                                if (iconItem is not null)
                                 {
-                                    try
-                                    {
-                                        Icon icon = Icon.FromHandle(phicon[0]);
+                                    IntPtr[] phicon = new IntPtr[1];
+                                    int[] piconid = new int[1];
+                                    int iconIndex = Convert.ToInt32(iconItem.DisplayIndex);
 
-                                        if (icon is not null)
+                                    int nIcons = User32Library.PrivateExtractIcons(filePath, iconIndex, Convert.ToInt32(SelectedIconSize.Value), Convert.ToInt32(SelectedIconSize.Value), phicon, piconid, 1, 0);
+
+                                    if (nIcons is not 0)
+                                    {
+                                        try
                                         {
-                                            if (SelectedIconFormat.Value == IconFormatList[0].Value)
+                                            Icon icon = Icon.FromHandle(phicon[0]);
+
+                                            if (icon is not null)
                                             {
-                                                bool result = SaveIcon(icon, Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value))));
-                                                if (!result)
+                                                if (SelectedIconFormat.Value == IconFormatList[0].Value)
                                                 {
-                                                    saveFailedCount++;
+                                                    bool result = SaveIcon(icon, Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value))));
+                                                    if (!result)
+                                                    {
+                                                        saveFailedCount++;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    icon.ToBitmap().Save(Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.png", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value))), ImageFormat.Png);
                                                 }
                                             }
-                                            else
-                                            {
-                                                icon.ToBitmap().Save(Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.png", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value))), ImageFormat.Png);
-                                            }
                                         }
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        saveFailedCount++;
-                                        LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value)))), e);
+                                        catch (Exception e)
+                                        {
+                                            saveFailedCount++;
+                                            LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value)))), e);
+                                        }
                                     }
                                 }
                             }
@@ -551,8 +554,11 @@ namespace WindowsTools.Views.Pages
 
                         MainWindow.Current.BeginInvoke(() =>
                         {
-                            IsSaving = false;
-                            TeachingTipHelper.Show(new OperationResultTip(OperationKind.IconExtract, IconCollection.Count - saveFailedCount, saveFailedCount));
+                            lock (iconExtractLock)
+                            {
+                                IsSaving = false;
+                                TeachingTipHelper.Show(new OperationResultTip(OperationKind.IconExtract, IconCollection.Count - saveFailedCount, saveFailedCount));
+                            }
                         });
                     });
                 }

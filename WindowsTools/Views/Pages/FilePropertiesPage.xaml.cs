@@ -304,7 +304,14 @@ namespace WindowsTools.Views.Pages
                 if (checkResult)
                 {
                     OperationFailedCollection.Clear();
-                    if (FilePropertiesCollection.Count is 0)
+                    int count = 0;
+
+                    lock (filePropertiesLock)
+                    {
+                        count = FilePropertiesCollection.Count;
+                    }
+
+                    if (count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -325,7 +332,14 @@ namespace WindowsTools.Views.Pages
                 if (checkResult)
                 {
                     OperationFailedCollection.Clear();
-                    if (FilePropertiesCollection.Count is 0)
+                    int count = 0;
+
+                    lock (filePropertiesLock)
+                    {
+                        count = FilePropertiesCollection.Count;
+                    }
+
+                    if (count is 0)
                     {
                         TeachingTipHelper.Show(new ListEmptyTip());
                     }
@@ -386,7 +400,14 @@ namespace WindowsTools.Views.Pages
             if (checkResult)
             {
                 OperationFailedCollection.Clear();
-                if (FilePropertiesCollection.Count is 0)
+                int count = 0;
+
+                lock (filePropertiesLock)
+                {
+                    count = FilePropertiesCollection.Count;
+                }
+
+                if (count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -410,7 +431,14 @@ namespace WindowsTools.Views.Pages
             if (checkResult)
             {
                 OperationFailedCollection.Clear();
-                if (FilePropertiesCollection.Count is 0)
+                int count = 0;
+
+                lock (filePropertiesLock)
+                {
+                    count = FilePropertiesCollection.Count;
+                }
+
+                if (count is 0)
                 {
                     TeachingTipHelper.Show(new ListEmptyTip());
                 }
@@ -661,9 +689,12 @@ namespace WindowsTools.Views.Pages
                 stringBuilder.Append(" ");
             }
 
-            foreach (OldAndNewPropertiesModel oldAndNewPropertiesItem in FilePropertiesCollection)
+            lock (filePropertiesLock)
             {
-                oldAndNewPropertiesItem.FileProperties = stringBuilder.ToString();
+                foreach (OldAndNewPropertiesModel oldAndNewPropertiesItem in FilePropertiesCollection)
+                {
+                    oldAndNewPropertiesItem.FileProperties = stringBuilder.ToString();
+                }
             }
         }
 
@@ -676,36 +707,39 @@ namespace WindowsTools.Views.Pages
             IsModifyingNow = true;
             Task.Run(async () =>
             {
-                foreach (OldAndNewPropertiesModel oldAndNewPropertiesItem in FilePropertiesCollection)
+                lock (filePropertiesLock)
                 {
-                    if (!string.IsNullOrEmpty(oldAndNewPropertiesItem.FileName) && !string.IsNullOrEmpty(oldAndNewPropertiesItem.FilePath))
+                    foreach (OldAndNewPropertiesModel oldAndNewPropertiesItem in FilePropertiesCollection)
                     {
-                        try
+                        if (!string.IsNullOrEmpty(oldAndNewPropertiesItem.FileName) && !string.IsNullOrEmpty(oldAndNewPropertiesItem.FilePath))
                         {
-                            System.IO.FileAttributes fileAttributes = File.GetAttributes(oldAndNewPropertiesItem.FilePath);
-                            if (IsReadOnlyChecked) fileAttributes |= System.IO.FileAttributes.ReadOnly;
-                            if (IsArchiveChecked) fileAttributes |= System.IO.FileAttributes.Archive;
-                            if (IsHideChecked) fileAttributes |= System.IO.FileAttributes.Hidden;
-                            if (IsSystemChecked) fileAttributes |= System.IO.FileAttributes.System;
-                            File.SetAttributes(oldAndNewPropertiesItem.FilePath, fileAttributes);
+                            try
+                            {
+                                System.IO.FileAttributes fileAttributes = File.GetAttributes(oldAndNewPropertiesItem.FilePath);
+                                if (IsReadOnlyChecked) fileAttributes |= System.IO.FileAttributes.ReadOnly;
+                                if (IsArchiveChecked) fileAttributes |= System.IO.FileAttributes.Archive;
+                                if (IsHideChecked) fileAttributes |= System.IO.FileAttributes.Hidden;
+                                if (IsSystemChecked) fileAttributes |= System.IO.FileAttributes.System;
+                                File.SetAttributes(oldAndNewPropertiesItem.FilePath, fileAttributes);
 
-                            if (IsCreateDateChecked)
-                            {
-                                File.SetCreationTime(oldAndNewPropertiesItem.FilePath, CreateDate.Date + CreateTime);
+                                if (IsCreateDateChecked)
+                                {
+                                    File.SetCreationTime(oldAndNewPropertiesItem.FilePath, CreateDate.Date + CreateTime);
+                                }
+                                if (IsModifyDateChecked)
+                                {
+                                    File.SetLastWriteTime(oldAndNewPropertiesItem.FilePath, ModifyDate.Date + ModifyTime);
+                                }
                             }
-                            if (IsModifyDateChecked)
+                            catch (Exception e)
                             {
-                                File.SetLastWriteTime(oldAndNewPropertiesItem.FilePath, ModifyDate.Date + ModifyTime);
+                                operationFailedList.Add(new OperationFailedModel()
+                                {
+                                    FileName = oldAndNewPropertiesItem.FileName,
+                                    FilePath = oldAndNewPropertiesItem.FilePath,
+                                    Exception = e
+                                });
                             }
-                        }
-                        catch (Exception e)
-                        {
-                            operationFailedList.Add(new OperationFailedModel()
-                            {
-                                FileName = oldAndNewPropertiesItem.FileName,
-                                FilePath = oldAndNewPropertiesItem.FilePath,
-                                Exception = e
-                            });
                         }
                     }
                 }
@@ -720,9 +754,10 @@ namespace WindowsTools.Views.Pages
                         OperationFailedCollection.Add(operationFailedItem);
                     }
 
-                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, FilePropertiesCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
                     lock (filePropertiesLock)
                     {
+                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, FilePropertiesCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+
                         FilePropertiesCollection.Clear();
                     }
                 });

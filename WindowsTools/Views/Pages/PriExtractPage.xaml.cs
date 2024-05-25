@@ -40,7 +40,6 @@ namespace WindowsTools.Views.Pages
         private string filePathFileName;
         private ResourceManager resourceManager;
         private ResourceContext resourceContext;
-        private readonly object priExtractLock = new();
 
         private bool _isExtractSaveSamely;
 
@@ -394,23 +393,19 @@ namespace WindowsTools.Views.Pages
             if (!isStringAllSelect)
             {
                 isStringAllSelect = true;
-                lock (priExtractLock)
+
+                foreach (StringModel stringItem in StringCollection)
                 {
-                    foreach (StringModel stringItem in StringCollection)
-                    {
-                        stringItem.IsSelected = true;
-                    }
+                    stringItem.IsSelected = true;
                 }
             }
             else
             {
                 isStringAllSelect = false;
-                lock (priExtractLock)
+
+                foreach (StringModel stringItem in StringCollection)
                 {
-                    foreach (StringModel stringItem in StringCollection)
-                    {
-                        stringItem.IsSelected = false;
-                    }
+                    stringItem.IsSelected = false;
                 }
             }
         }
@@ -423,23 +418,19 @@ namespace WindowsTools.Views.Pages
             if (!isFilePathAllSelect)
             {
                 isFilePathAllSelect = true;
-                lock (priExtractLock)
+
+                foreach (FilePathModel filePathItem in FilePathCollection)
                 {
-                    foreach (FilePathModel filePathItem in FilePathCollection)
-                    {
-                        filePathItem.IsSelected = true;
-                    }
+                    filePathItem.IsSelected = true;
                 }
             }
             else
             {
                 isFilePathAllSelect = false;
-                lock (priExtractLock)
+
+                foreach (FilePathModel filePathItem in FilePathCollection)
                 {
-                    foreach (FilePathModel filePathItem in FilePathCollection)
-                    {
-                        filePathItem.IsSelected = false;
-                    }
+                    filePathItem.IsSelected = false;
                 }
             }
         }
@@ -452,23 +443,19 @@ namespace WindowsTools.Views.Pages
             if (!isEmbeddedDataAllSelect)
             {
                 isEmbeddedDataAllSelect = true;
-                lock (priExtractLock)
+
+                foreach (EmbeddedDataModel embeddedDataItem in EmbeddedDataCollection)
                 {
-                    foreach (EmbeddedDataModel embeddedDataItem in EmbeddedDataCollection)
-                    {
-                        embeddedDataItem.IsSelected = true;
-                    }
+                    embeddedDataItem.IsSelected = true;
                 }
             }
             else
             {
                 isEmbeddedDataAllSelect = false;
-                lock (priExtractLock)
+
+                foreach (EmbeddedDataModel embeddedDataItem in EmbeddedDataCollection)
                 {
-                    foreach (EmbeddedDataModel embeddedDataItem in EmbeddedDataCollection)
-                    {
-                        embeddedDataItem.IsSelected = false;
-                    }
+                    embeddedDataItem.IsSelected = false;
                 }
             }
         }
@@ -751,12 +738,9 @@ namespace WindowsTools.Views.Pages
         public void ParseResourceFile(string filePath)
         {
             IsProcessing = true;
-            lock (priExtractLock)
-            {
-                StringCollection.Clear();
-                FilePathCollection.Clear();
-                EmbeddedDataCollection.Clear();
-            }
+            StringCollection.Clear();
+            FilePathCollection.Clear();
+            EmbeddedDataCollection.Clear();
 
             Task.Run(() =>
             {
@@ -885,22 +869,19 @@ namespace WindowsTools.Views.Pages
                             {
                                 GetResults = string.Format(PriExtract.GetResults, Path.GetFileName(filePath), stringList.Count + filePathList.Count + embeddedDataList.Count);
 
-                                lock (priExtractLock)
+                                foreach (StringModel stringItem in stringList)
                                 {
-                                    foreach (StringModel stringItem in stringList)
-                                    {
-                                        StringCollection.Add(stringItem);
-                                    }
+                                    StringCollection.Add(stringItem);
+                                }
 
-                                    foreach (FilePathModel filePathItem in filePathList)
-                                    {
-                                        FilePathCollection.Add(filePathItem);
-                                    }
+                                foreach (FilePathModel filePathItem in filePathList)
+                                {
+                                    FilePathCollection.Add(filePathItem);
+                                }
 
-                                    foreach (EmbeddedDataModel embeddedDataItem in embeddedDataList)
-                                    {
-                                        EmbeddedDataCollection.Add(embeddedDataItem);
-                                    }
+                                foreach (EmbeddedDataModel embeddedDataItem in embeddedDataList)
+                                {
+                                    EmbeddedDataCollection.Add(embeddedDataItem);
                                 }
 
                                 IsProcessing = false;

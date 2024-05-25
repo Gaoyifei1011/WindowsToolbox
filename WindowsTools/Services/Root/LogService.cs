@@ -54,32 +54,32 @@ namespace WindowsTools.Services.Root
         {
             if (isInitialized)
             {
-                try
+                Task.Run(() =>
                 {
-                    Task.Run(() =>
+                    try
                     {
                         lock (logLock)
                         {
                             File.AppendAllText(
-                                Path.Combine(logDirectory.FullName, string.Format("{0}_{1}.log", logName, DateTime.Now.ToString("yyyy_MM_dd"))),
-                                string.Format("{0}\t{1}:{2}{3}{4}{5}{6}{7}{8}",
-                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                                    "LogType",
-                                    Convert.ToString(logLevel),
-                                    Environment.NewLine,
-                                    "LogContent:",
-                                    logContent,
-                                    Environment.NewLine,
-                                    logBuilder,
-                                    Environment.NewLine)
-                                );
+                                    Path.Combine(logDirectory.FullName, string.Format("{0}_{1}.log", logName, DateTime.Now.ToString("yyyy_MM_dd"))),
+                                    string.Format("{0}\t{1}:{2}{3}{4}{5}{6}{7}{8}",
+                                        DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                                        "LogType",
+                                        Convert.ToString(logLevel),
+                                        Environment.NewLine,
+                                        "LogContent:",
+                                        logContent,
+                                        Environment.NewLine,
+                                        logBuilder,
+                                        Environment.NewLine)
+                                    );
                         }
-                    });
-                }
-                catch (Exception)
-                {
-                    return;
-                }
+                    }
+                    catch (Exception)
+                    {
+                        return;
+                    }
+                });
             }
         }
 
@@ -90,9 +90,9 @@ namespace WindowsTools.Services.Root
         {
             if (isInitialized)
             {
-                try
+                Task.Run(() =>
                 {
-                    Task.Run(() =>
+                    try
                     {
                         StringBuilder exceptionBuilder = new();
                         exceptionBuilder.Append("LogContent:");
@@ -121,12 +121,12 @@ namespace WindowsTools.Services.Root
                                     Environment.NewLine)
                                 );
                         }
-                    });
-                }
-                catch (Exception)
-                {
-                    return;
-                }
+                    }
+                    catch (Exception)
+                    {
+                        return;
+                    }
+                });
             }
         }
 
