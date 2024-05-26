@@ -22,7 +22,7 @@ namespace WindowsTools
         /// 应用程序的主入口点
         /// </summary>
         [STAThread]
-        public static void Main(string[] args)
+        public static void Main()
         {
             if (!RuntimeHelper.IsMSIX)
             {

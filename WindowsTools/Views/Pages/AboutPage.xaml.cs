@@ -119,6 +119,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnPinToStartScreenClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             bool isPinnedSuccessfully = false;
 
             try
@@ -159,6 +162,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             bool isPinnedSuccessfully = false;
 
             try
@@ -200,6 +206,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnShowReleaseNotesClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 Process.Start("https://github.com/Gaoyifei1011/WindowsTools/releases");
@@ -211,6 +220,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnShowLicenseClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             await ContentDialogHelper.ShowAsync(new LicenseDialog(), this);
         }
 
@@ -219,6 +231,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnHelpTranslateClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 Process.Start("https://github.com/Gaoyifei1011/WindowsTools/releases");
@@ -230,6 +245,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnProjectDescriptionClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 Process.Start("https://github.com/Gaoyifei1011/WindowsTools");
@@ -241,6 +259,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSendFeedbackClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 Process.Start("https://github.com/Gaoyifei1011/WindowsTools/issues");
@@ -252,6 +273,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnCheckUpdateClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             if (!IsChecking)
             {
                 IsChecking = true;
@@ -344,6 +368,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSystemInformationClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 Process.Start("ms-settings:about");
@@ -355,6 +382,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnAppInformationClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             await ContentDialogHelper.ShowAsync(new AppInformationDialog(), this);
         }
 
@@ -363,6 +393,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAppSettingsClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             if (RuntimeHelper.IsElevated)
             {
                 Task.Run(() =>
@@ -377,6 +410,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnTroubleShootClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 Process.Start("ms-settings:troubleshoot");

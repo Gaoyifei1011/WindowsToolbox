@@ -12,7 +12,7 @@
   <Identity
     Name="Gaoyifei1011.WindowsTools"
     Publisher="CN=高怡飞"
-    Version="2.4.525.0" />
+    Version="2.5.526.0" />
 
   <Properties>
     <DisplayName>ms-resource:PackageDisplayName</DisplayName>

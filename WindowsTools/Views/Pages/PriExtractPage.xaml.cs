@@ -298,8 +298,10 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 复制字符串到剪贴板
         /// </summary>
-        private void OnStringExecuteRequested(XamlUICommand command, ExecuteRequestedEventArgs args)
+        private void OnStringExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+
             StringModel stringItem = args.Parameter as StringModel;
 
             if (stringItem is not null)
@@ -312,8 +314,10 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 复制文件路径到剪贴板
         /// </summary>
-        private void OnFilePathExecuteRequested(XamlUICommand command, ExecuteRequestedEventArgs args)
+        private void OnFilePathExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+
             FilePathModel filePathItem = args.Parameter as FilePathModel;
 
             if (filePathItem is not null)
@@ -326,8 +330,10 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 导出嵌入数据
         /// </summary>
-        private void OnEmbeddedDataExecuteRequested(XamlUICommand command, ExecuteRequestedEventArgs args)
+        private void OnEmbeddedDataExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+
             EmbeddedDataModel embeddedDataItem = args.Parameter as EmbeddedDataModel;
 
             if (embeddedDataItem is not null)
@@ -390,6 +396,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnStringSelectTapped(object sender, TappedRoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             if (!isStringAllSelect)
             {
                 isStringAllSelect = true;
@@ -415,6 +424,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnFilePathSelectTapped(object sender, TappedRoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             if (!isFilePathAllSelect)
             {
                 isFilePathAllSelect = true;
@@ -440,6 +452,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnEmbeddedDataSelectTapped(object sender, TappedRoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             if (!isEmbeddedDataAllSelect)
             {
                 isEmbeddedDataAllSelect = true;
@@ -465,6 +480,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExtractSaveSamelyClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             if (!IsExtractSaveSamely)
             {
                 IsExtractSaveString = false;
@@ -477,6 +495,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectSaveFolderClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             FolderBrowserDialog dialog = new()
             {
                 Description = PriExtract.SelectFolder,
@@ -496,6 +517,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnInputLanguageTextChanged(object sender, TextChangedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             InputLanguage = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
         }
 
@@ -504,6 +527,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             OpenFileDialog dialog = new()
             {
                 Multiselect = false,
@@ -521,6 +547,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectedResourceCandidateKindClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
             {
@@ -533,6 +561,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnCopySelectedStringClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             IsProcessing = true;
             List<StringModel> selectedStringList = StringCollection.Where(item => item.IsSelected == true).ToList();
             if (selectedStringList.Count > 0)
@@ -553,6 +584,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnCopySelectedFilePathClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             IsProcessing = true;
             List<FilePathModel> selectedFilePathList = FilePathCollection.Where(item => item.IsSelected is true).ToList();
             if (selectedFilePathList.Count > 0)
@@ -573,6 +607,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExportSelectedEmbeddedDataClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             List<EmbeddedDataModel> selectedEmbeddedDataList = EmbeddedDataCollection.Where(item => item.IsSelected is true).ToList();
             if (selectedEmbeddedDataList.Count > 0)
             {
@@ -636,6 +673,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnCopyAllStringClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             IsProcessing = true;
             List<StringModel> stringList = [.. StringCollection];
             if (stringList.Count > 0)
@@ -656,6 +696,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnCopyAllFilePathClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             IsProcessing = true;
             List<FilePathModel> filePathList = [.. FilePathCollection];
             if (filePathList.Count > 0)
@@ -676,6 +719,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExportAllEmbeddedDataClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             FolderBrowserDialog dialog = new()
             {
                 Description = PriExtract.SelectFolder,

@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
@@ -285,6 +286,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             IList<object> selectedItemsList = (sender as GridView).SelectedItems;
             if (selectedItemsList.Count > 0)
             {
@@ -333,6 +336,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnIconFormatClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
             {
@@ -345,6 +350,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnIconSizeClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
             {
@@ -393,6 +400,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             OpenFileDialog dialog = new()
             {
                 Multiselect = false,
@@ -410,6 +420,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExportSelectedIconsClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             if (!string.IsNullOrEmpty(filePath))
             {
                 IList<object> selectedItemsList = IconsGridView.SelectedItems;
@@ -488,6 +501,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExportAllIconsClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             if (!string.IsNullOrEmpty(filePath))
             {
                 FolderBrowserDialog dialog = new()

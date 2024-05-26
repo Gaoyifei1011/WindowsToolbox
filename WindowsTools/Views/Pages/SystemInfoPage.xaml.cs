@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using WindowsTools.Helpers.Root;
 
 namespace WindowsTools.Views.Pages
 {
@@ -20,6 +21,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnComputerManagementClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 Process.Start("CompMgmtLauncher.exe");
@@ -31,6 +35,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnManagementConsoleClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 Process.Start("mmc.exe");
@@ -42,6 +49,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnRegistryEditorClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 Process.Start("Regedit.exe");

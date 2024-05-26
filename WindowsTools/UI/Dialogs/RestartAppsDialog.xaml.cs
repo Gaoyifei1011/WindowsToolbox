@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using WindowsTools.Helpers.Root;
 using WindowsTools.Views.Windows;
 
 namespace WindowsTools.UI.Dialogs
@@ -21,6 +22,9 @@ namespace WindowsTools.UI.Dialogs
         /// </summary>
         private void OnRestartAppsClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 Process.Start(Process.GetCurrentProcess().MainModule.FileName, "Restart");

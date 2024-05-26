@@ -271,6 +271,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnTextChanged(object sender, TextChangedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             global::Windows.UI.Xaml.Controls.TextBox textBox = sender as global::Windows.UI.Xaml.Controls.TextBox;
 
             if (textBox is not null)
@@ -297,6 +299,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnChecked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             global::Windows.UI.Xaml.Controls.CheckBox checkBox = sender as global::Windows.UI.Xaml.Controls.CheckBox;
             if (checkBox is not null)
             {
@@ -309,6 +313,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearListClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             lock (extensionNameLock)
             {
                 ExtensionNameCollection.Clear();
@@ -321,6 +328,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnPreviewClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
@@ -352,6 +362,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnModifyClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
@@ -384,6 +397,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             OpenFileDialog dialog = new()
             {
                 Multiselect = true,
@@ -431,6 +447,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             FolderBrowserDialog dialog = new()
             {
                 Description = ExtensionName.SelectFolder,
@@ -480,6 +499,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnUnchecked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             global::Windows.UI.Xaml.Controls.CheckBox checkBox = sender as global::Windows.UI.Xaml.Controls.CheckBox;
             if (checkBox is not null)
             {
@@ -505,6 +526,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedCollection), this);
         }
 

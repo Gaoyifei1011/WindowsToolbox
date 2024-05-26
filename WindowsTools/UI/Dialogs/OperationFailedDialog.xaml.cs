@@ -31,8 +31,10 @@ namespace WindowsTools.UI.Dialogs
         /// <summary>
         /// 复制异常信息
         /// </summary>
-        private void OnCopyExecuteRequested(XamlUICommand command, ExecuteRequestedEventArgs args)
+        private void OnCopyExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+
             OperationFailedModel operationFailedItem = args.Parameter as OperationFailedModel;
             if (operationFailedItem is not null)
             {

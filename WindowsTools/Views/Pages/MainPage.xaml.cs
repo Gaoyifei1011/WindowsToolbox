@@ -162,6 +162,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnActualThemeChanged(FrameworkElement sender, object args)
         {
+            UnreferenceHelper.Unreference(args);
+
             MainWindow.Current.SetTitleBarColor(sender.ActualTheme);
         }
 
@@ -174,6 +176,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnRestoreClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             MainWindow.Current.WindowState = FormWindowState.Normal;
         }
 
@@ -182,6 +187,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnMoveClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             MenuFlyoutItem menuItem = sender as MenuFlyoutItem;
             if (menuItem.Tag is not null)
             {
@@ -196,6 +203,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSizeClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             MenuFlyoutItem menuItem = sender as MenuFlyoutItem;
             if (menuItem.Tag is not null)
             {
@@ -209,6 +218,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnMinimizeClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             MainWindow.Current.WindowState = FormWindowState.Minimized;
         }
 
@@ -217,6 +229,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnMaximizeClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             MainWindow.Current.WindowState = FormWindowState.Maximized;
         }
 
@@ -225,6 +240,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnCloseClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             MainWindow.Current.Close();
         }
 
@@ -237,6 +255,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             Microsoft.UI.Xaml.Controls.NavigationView navigationView = sender as Microsoft.UI.Xaml.Controls.NavigationView;
             if (navigationView is not null)
             {
@@ -304,6 +324,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnBackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             NavigationFrom();
         }
 
@@ -312,6 +335,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+
             Microsoft.UI.Xaml.Controls.NavigationViewItemBase navigationViewItem = args.InvokedItemContainer;
             if (navigationViewItem.Tag is not null)
             {
@@ -329,6 +354,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExpanding(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemExpandingEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             if (sender.SelectedItem != SelectedItem && SelectedItem.Tag is not "0")
             {
                 sender.SelectedItem = SelectedItem;
@@ -340,6 +367,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnNavigated(object sender, NavigationEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+
             try
             {
                 Type currentPageType = GetCurrentPageType();
@@ -363,6 +392,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+
             args.Handled = true;
             LogService.WriteLog(EventLevel.Warning, string.Format(Strings.Window.NavigationFailed, args.SourcePageType.FullName), args.Exception);
             (global::Windows.UI.Xaml.Application.Current as App).Dispose();

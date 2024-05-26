@@ -406,6 +406,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnTextChanged(object sender, TextChangedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             global::Windows.UI.Xaml.Controls.TextBox textBox = sender as global::Windows.UI.Xaml.Controls.TextBox;
 
             if (textBox is not null)
@@ -440,6 +442,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearListClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             lock (fileNameLock)
             {
                 FileNameCollection.Clear();
@@ -449,6 +454,9 @@ namespace WindowsTools.Views.Pages
 
         private void OnCloseClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             if (NameChangeFlyout.IsOpen)
             {
                 NameChangeFlyout.Hide();
@@ -460,6 +468,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnForwardNavigateClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             CurrentIndex = CurrentIndex == 0 ? 3 : CurrentIndex - 1;
 
             for (int index = 0; index < NameChangeList.Count; index++)
@@ -474,6 +485,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnNextNavigateClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             CurrentIndex = CurrentIndex == 3 ? 0 : CurrentIndex + 1;
 
             for (int index = 0; index < NameChangeList.Count; index++)
@@ -488,6 +502,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnNumberFormatClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
             {
@@ -500,6 +516,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnPreviewClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
@@ -531,6 +550,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnModifyClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
@@ -563,6 +585,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             OpenFileDialog dialog = new()
             {
                 Multiselect = true,
@@ -607,6 +632,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             FolderBrowserDialog dialog = new()
             {
                 Description = FileName.SelectFolder,
@@ -679,6 +707,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnUnchecked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             ExtensionName = string.Empty;
         }
 
@@ -687,6 +718,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedCollection), this);
         }
 

@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
@@ -365,6 +366,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearListClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             lock (filePropertiesLock)
             {
                 FilePropertiesCollection.Clear();
@@ -396,6 +400,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnPreviewClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
@@ -427,6 +434,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnModifyClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
@@ -459,6 +469,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             OpenFileDialog dialog = new()
             {
                 Multiselect = true,
@@ -503,6 +516,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             FolderBrowserDialog dialog = new()
             {
                 Description = FileProperties.SelectFolder,
@@ -594,6 +610,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnUnchecked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             global::Windows.UI.Xaml.Controls.CheckBox checkBox = sender as global::Windows.UI.Xaml.Controls.CheckBox;
             if (checkBox is not null)
             {
@@ -615,6 +633,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedCollection), this);
         }
 

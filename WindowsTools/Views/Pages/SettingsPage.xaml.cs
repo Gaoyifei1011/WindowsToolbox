@@ -9,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
@@ -232,6 +233,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnRestartAppsClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             await ContentDialogHelper.ShowAsync(new RestartAppsDialog(), this);
         }
 
@@ -240,6 +244,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSettingsInstructionClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             (MainWindow.Current.Content as MainPage).NavigateTo(typeof(AboutPage));
         }
 
@@ -248,6 +255,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnBackdropSelectClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
             {
@@ -261,6 +270,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSystemThemeSettingsClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 Process.Start("ms-settings:colors");
@@ -272,6 +284,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSystemBackdropSettingsClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 Process.Start("ms-settings:easeofaccess-visualeffects");
@@ -283,6 +298,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSystemLanguageSettingsClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 Process.Start("ms-settings:regionlanguage-languageoptions");
@@ -294,6 +312,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnThemeSelectClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
             {
@@ -307,6 +327,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnLearnDoEngineClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             (MainWindow.Current.Content as MainPage).NavigateTo(typeof(AboutPage));
         }
 
@@ -316,6 +339,8 @@ namespace WindowsTools.Views.Pages
 
         private void OnDoEngineModeSelectClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleMenuFlyoutItem toggleMenuFlyoutItem = sender as ToggleMenuFlyoutItem;
             if (toggleMenuFlyoutItem.Tag is not null)
             {
@@ -329,6 +354,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnRestartExplorerClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 ProcessStartInfo restartInfo = new()
@@ -346,6 +374,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAlwaysShowBackdropToggled(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
             {
@@ -359,6 +389,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnOpenFolderClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(() =>
             {
                 Process.Start(DownloadFolder);
@@ -370,6 +403,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnChangeFolderClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             MenuFlyoutItem menuFlyoutItem = sender as MenuFlyoutItem;
             if (menuFlyoutItem.Tag is not null)
             {
@@ -413,6 +448,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnFileShellMenuToggled(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
             {
@@ -426,6 +463,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExitModeSelectClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
             {
@@ -439,6 +478,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnTopMostToggled(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
             {
@@ -452,6 +493,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnOpenLogFolderClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             LogService.OpenLogFolder();
         }
 
@@ -460,6 +504,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             bool result = LogService.ClearLog();
             TeachingTipHelper.Show(new LogCleanTip(result));
         }
@@ -469,6 +516,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
             {

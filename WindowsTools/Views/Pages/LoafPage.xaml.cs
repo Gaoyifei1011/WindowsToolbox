@@ -12,6 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using WindowsTools.Extensions.DataType.Enums;
+using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.Views.Windows;
@@ -156,6 +157,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             Task.Run(async () =>
             {
                 try
@@ -217,6 +221,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnStartLoafClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(sender);
+            UnreferenceHelper.Unreference(args);
+
             new LoafWindow((UpdatingKind)SelectedUpdateStyle.Value, DurationTime, BlockAllKeys, LockScreenAutomaticly).Show();
             LoafWindow.Current.FormClosed += OnClosed;
             IsLoafing = true;
@@ -236,6 +243,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnUpdateStyleClicked(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
             {
@@ -248,6 +257,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnBlockAllKeysToggled(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
             {
@@ -272,6 +283,8 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnLockScreenAutomaticlyToggled(object sender, RoutedEventArgs args)
         {
+            UnreferenceHelper.Unreference(args);
+
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
             {
