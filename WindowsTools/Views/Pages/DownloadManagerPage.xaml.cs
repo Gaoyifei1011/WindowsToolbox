@@ -15,7 +15,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Models.Controls.Download;
 using WindowsTools.Services.Controls.Download;
@@ -24,6 +23,9 @@ using WindowsTools.Strings;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
+
+// 抑制 IDE0060 警告
+#pragma warning disable IDE0060
 
 namespace WindowsTools.Views.Pages
 {
@@ -86,8 +88,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnContinueExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-
             Guid downloadID = (Guid)args.Parameter;
 
             if (downloadID != Guid.Empty)
@@ -110,8 +110,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnPauseExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-
             Guid downloadID = (Guid)args.Parameter;
 
             if (downloadID != Guid.Empty)
@@ -134,8 +132,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnOpenFolderExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-
             string filePath = args.Parameter as string;
 
             Task.Run(() =>
@@ -173,8 +169,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDeleteExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-
             DownloadModel downloadItem = args.Parameter as DownloadModel;
 
             if (downloadItem.DownloadID != Guid.Empty)
@@ -211,8 +205,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDeleteWithFileExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-
             DownloadModel downloadItem = args.Parameter as DownloadModel;
 
             Task.Run(() =>
@@ -251,8 +243,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnShareFileExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-
             string filePath = args.Parameter as string;
 
             if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
@@ -286,8 +276,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnFileInformationExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-
             string filePath = args.Parameter as string;
 
             if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
@@ -314,8 +302,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSearchDownloadTextChanged(object sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             SearchDownload = (sender as AutoSuggestBox).Text;
 
             if (string.IsNullOrEmpty(SearchDownload))
@@ -334,9 +320,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSearchDownloadQuerySubmitted(object sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             if (!string.IsNullOrEmpty(SearchDownload))
             {
                 foreach (DownloadModel downloadItem in DownloadCollection)
@@ -353,9 +336,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAddTaskClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             if (AddDownloadTaskWindow.Current is null)
             {
                 new AddDownloadTaskWindow();
@@ -370,9 +350,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnStartDownloadClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             foreach (DownloadModel downloadItem in DownloadCollection)
             {
                 if (downloadItem.DownloadStatus is DownloadStatus.Pause)
@@ -388,9 +365,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnPauseDownloadClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             foreach (DownloadModel downloadItem in DownloadCollection)
             {
                 if (downloadItem.DownloadStatus is DownloadStatus.Downloading)
@@ -406,9 +380,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDeleteDownloadClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             for (int index = DownloadCollection.Count - 1; index >= 0; index--)
             {
                 DownloadModel downloadItem = DownloadCollection[index];
@@ -430,9 +401,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnOpenDefaultDownloadFolderClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             Task.Run(() =>
             {
                 Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
@@ -445,9 +413,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnLearnDeliveryOptimizationClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             Task.Run(() =>
             {
                 Process.Start("https://learn.microsoft.com/windows/deployment/do/waas-delivery-optimization");
@@ -459,9 +424,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnOpenDeliveryOptimizationSettingsClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             Task.Run(() =>
             {
                 Process.Start("ms-settings:delivery-optimization");
@@ -473,9 +435,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDownloadSettingsClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             (MainWindow.Current.Content as MainPage).NavigateTo(typeof(SettingsPage));
         }
 

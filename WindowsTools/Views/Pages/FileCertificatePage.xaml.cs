@@ -25,6 +25,9 @@ using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.Imagehlp;
 
+// 抑制 IDE0060 警告
+#pragma warning disable IDE0060
+
 namespace WindowsTools.Views.Pages
 {
     /// <summary>
@@ -168,9 +171,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearListClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             lock (fileCertificateLock)
             {
                 FileCertificateCollection.Clear();
@@ -183,9 +183,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnModifyClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             OperationFailedCollection.Clear();
             int count = 0;
 
@@ -209,9 +206,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             OpenFileDialog dialog = new()
             {
                 Multiselect = true,
@@ -259,9 +253,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             FolderBrowserDialog dialog = new()
             {
                 Description = FileProperties.SelectFolder,
@@ -311,9 +302,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedCollection), this);
         }
 

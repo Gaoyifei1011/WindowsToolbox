@@ -9,6 +9,9 @@ using WindowsTools.Models;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
 
+// 抑制 IDE0060 警告
+#pragma warning disable IDE0060
+
 namespace WindowsTools.UI.Dialogs
 {
     /// <summary>
@@ -33,8 +36,6 @@ namespace WindowsTools.UI.Dialogs
         /// </summary>
         private void OnCopyExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-
             OperationFailedModel operationFailedItem = args.Parameter as OperationFailedModel;
             if (operationFailedItem is not null)
             {

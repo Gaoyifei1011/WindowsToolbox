@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
-using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Strings;
 using WindowsTools.Views.Windows;
+
+// 抑制 IDE0060 警告
+#pragma warning disable IDE0060
 
 namespace WindowsTools.Views.Pages
 {
@@ -145,8 +147,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnItemClicked(object sender, ItemClickEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-
             ControlItemModel controlItem = args.ClickedItem as ControlItemModel;
 
             if (controlItem is not null)

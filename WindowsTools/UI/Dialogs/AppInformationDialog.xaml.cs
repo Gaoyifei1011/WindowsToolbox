@@ -16,6 +16,9 @@ using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
 
+// 抑制 IDE0060 警告
+#pragma warning disable IDE0060
+
 namespace WindowsTools.UI.Dialogs.About
 {
     /// <summary>
@@ -115,9 +118,6 @@ namespace WindowsTools.UI.Dialogs.About
         /// </summary>
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             Task.Run(() =>
             {
                 IReadOnlyList<Package> dependencyList = Package.Current.Dependencies;

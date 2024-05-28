@@ -27,6 +27,9 @@ using ZXing;
 using ZXing.Common;
 using ZXing.QrCode;
 
+// 抑制 IDE0060 警告
+#pragma warning disable IDE0060
+
 namespace WindowsTools.Views.Pages
 {
     /// <summary>
@@ -291,8 +294,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             RadioButtons radioButtons = sender as RadioButtons;
 
             if (radioButtons is not null && radioButtons.SelectedIndex is not -1)
@@ -316,8 +317,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnGenerateTextChanged(object sender, TextChangedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             GenerateText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
         }
 
@@ -326,9 +325,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSavePhotoClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             if (string.IsNullOrEmpty(GenerateText))
             {
                 TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateTextEmpty));
@@ -389,9 +385,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnPrintPhotoClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             if (string.IsNullOrEmpty(GenerateText))
             {
                 TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateTextEmpty));
@@ -455,9 +448,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnGeneratePhotoClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             if (string.IsNullOrEmpty(GenerateText))
             {
                 TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateTextEmpty));
@@ -536,8 +526,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnGenerateTypeClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
             if (item.Tag is not null)
             {
@@ -559,8 +547,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnIsSquareToggled(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
             {
@@ -600,8 +586,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnReserveBarCodeTextToggled(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
             {
@@ -614,9 +598,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnOpenPhotoClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             OpenFileDialog dialog = new()
             {
                 Multiselect = false,
@@ -647,9 +628,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearRecognizeTextClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             RecognizeText = string.Empty;
         }
 
@@ -658,9 +636,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnReadClipboardPhotoClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             System.Drawing.Image clipboardImage = CopyPasteHelper.ReadClipboardImage();
 
             if (clipboardImage is not null)

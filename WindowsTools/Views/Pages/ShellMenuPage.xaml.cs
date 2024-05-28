@@ -8,12 +8,14 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using WindowsTools.Helpers.Controls.Extensions;
-using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Root;
 using WindowsTools.Services.Shell;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
+
+// 抑制 IDE0060 警告
+#pragma warning disable IDE0060
 
 namespace WindowsTools.Views.Pages
 {
@@ -78,9 +80,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnModifyClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             OpenFileDialog dialog = new()
             {
                 Multiselect = false,
@@ -115,8 +114,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnReturnDefaultClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             global::Windows.UI.Xaml.Controls.Button button = sender as global::Windows.UI.Xaml.Controls.Button;
 
             if (button is not null)
@@ -166,8 +163,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnRootMenuTextChanged(object sender, TextChangedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             RootMenuText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
         }
 
@@ -176,9 +171,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnApplyClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             if (string.IsNullOrEmpty(RootMenuText))
             {
                 RootMenuText = ShellMenuService.RootMenuText;
@@ -197,8 +189,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAddMenuClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
         }
 
         /// <summary>
@@ -206,8 +196,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAddModifyClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
         }
 
         /// <summary>
@@ -215,8 +203,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnRefreshClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
         }
 
         #endregion 第一部分：自定义扩展菜单页面——挂载的事件

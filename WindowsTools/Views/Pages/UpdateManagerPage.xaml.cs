@@ -23,6 +23,9 @@ using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WUApiLib;
 
+// 抑制 IDE0060 警告
+#pragma warning disable IDE0060
+
 namespace WindowsTools.Views.Pages
 {
     /// <summary>
@@ -254,8 +257,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAvailableHideExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-
             UpdateModel updateItem = args.Parameter as UpdateModel;
 
             if (updateItem is not null)
@@ -307,8 +308,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAvailableInstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
         }
 
         /// <summary>
@@ -316,8 +315,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnInstalledUnInstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-
             UpdateModel updateItem = args.Parameter as UpdateModel;
 
             if (updateItem is not null)
@@ -357,8 +354,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnHiddenShowExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-
             UpdateModel updateItem = args.Parameter as UpdateModel;
 
             if (updateItem is not null)
@@ -410,8 +405,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnCopyInformationExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-
             UpdateModel updateModel = args.Parameter as UpdateModel;
 
             if (updateModel is not null)
@@ -438,8 +431,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnOpenSupportUrlExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-
             string supportUrl = args.Parameter as string;
 
             if (!string.IsNullOrEmpty(supportUrl))
@@ -460,9 +451,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnWindowsUpdateClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             Task.Run(() =>
             {
                 Process.Start("ms-settings:windowsupdate");
@@ -474,9 +462,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnWIPSettingsClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             Task.Run(() =>
             {
                 Process.Start("ms-settings:windowsinsider");
@@ -488,9 +473,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAvailableSelectAllClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             foreach (UpdateModel updateItem in AvailableUpdateCollection)
             {
                 updateItem.IsSelected = true;
@@ -502,9 +484,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAvailableSelectNoneClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             foreach (UpdateModel updateItem in AvailableUpdateCollection)
             {
                 updateItem.IsSelected = false;
@@ -516,9 +495,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAvailableHideClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             List<UpdateModel> hideList = AvailableUpdateCollection.Where(item => item.IsSelected is true).ToList();
             Task.Run(() =>
             {
@@ -575,9 +551,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAvailableInstallClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             List<UpdateModel> installList = AvailableUpdateCollection.Where(item => item.IsSelected is true).ToList();
             foreach (UpdateModel hideItem in installList)
             {
@@ -589,9 +562,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnInstalledSelectAllClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             foreach (UpdateModel updateItem in InstalledUpdateCollection)
             {
                 updateItem.IsSelected = true;
@@ -603,9 +573,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnInstalledSelectNoneClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             foreach (UpdateModel updateItem in InstalledUpdateCollection)
             {
                 updateItem.IsSelected = false;
@@ -617,9 +584,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnInstalledUnInstallClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             List<UpdateModel> unInstallList = InstalledUpdateCollection.Where(item => item.IsSelected is true).ToList();
         }
 
@@ -628,9 +592,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnHiddenSelectAllClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             foreach (UpdateModel updateItem in HiddenUpdateCollection)
             {
                 updateItem.IsSelected = true;
@@ -642,9 +603,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnHiddenSelectNoneClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             foreach (UpdateModel updateItem in HiddenUpdateCollection)
             {
                 updateItem.IsSelected = false;
@@ -656,9 +614,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnHiddenShowClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             List<UpdateModel> showList = HiddenUpdateCollection.Where(item => item.IsSelected is true).ToList();
             Task.Run(() =>
             {
@@ -715,9 +670,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnCheckUpdateClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             IsChecking = true;
             CheckUpdate();
         }
@@ -727,8 +679,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExcludeDriversToggled(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
             {
@@ -761,8 +711,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnIncludePotentiallySupersededUpdateToggled(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
             if (toggleSwitch is not null)
             {
@@ -775,8 +723,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnUpdateSourceSelectClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             MenuFlyoutItem menuFlyoutItem = sender as MenuFlyoutItem;
             if (menuFlyoutItem is not null)
             {
@@ -789,8 +735,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnPreviewChannelSelectClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             MenuFlyoutItem menuFlyoutItem = sender as MenuFlyoutItem;
             if (menuFlyoutItem is not null)
             {

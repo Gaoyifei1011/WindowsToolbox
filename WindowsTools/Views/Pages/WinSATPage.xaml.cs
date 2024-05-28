@@ -7,12 +7,14 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WINSATLib;
+
+// 抑制 IDE0060 警告
+#pragma warning disable IDE0060
 
 namespace WindowsTools.Views.Pages
 {
@@ -202,9 +204,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             GetWinSATInfo();
         }
 
@@ -213,9 +212,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnRunAssesssmentClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             IsNotRunningAssessment = false;
             try
             {
@@ -251,9 +247,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnOpenAssessmentLogFolderClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             Task.Run(() =>
             {
                 Process.Start(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), @"performance\winsat\datastore"));
@@ -265,9 +258,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnLearnSystemAssessmentClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             Task.Run(() =>
             {
                 Process.Start("https://learn.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/configure-windows-system-assessment-test-scores");

@@ -8,13 +8,15 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using WindowsTools.Helpers.Controls;
-using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.Views.Windows;
+
+// 抑制 IDE0060 警告
+#pragma warning disable IDE0060
 
 namespace WindowsTools.Views.Pages
 {
@@ -118,8 +120,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDownloadLinkTextChanged(object sender, TextChangedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             DownloadLinkText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
 
             if (!string.IsNullOrEmpty(DownloadLinkText))
@@ -160,8 +160,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDownloadFileNameTextChanged(object sender, TextChangedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             DownloadFileNameText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
 
             IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFileNameText) && !string.IsNullOrEmpty(DownloadFolderText);
@@ -172,8 +170,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDownloadFolderTextChanged(object sender, TextChangedEventArgs args)
         {
-            UnreferenceHelper.Unreference(args);
-
             DownloadFolderText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
         }
 
@@ -182,9 +178,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             FolderBrowserDialog dialog = new()
             {
                 Description = FileProperties.SelectFolder,
@@ -203,9 +196,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnDownloadClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             // 检查文件路径
             if (DownloadFileNameText.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 || DownloadFolderText.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
             {
@@ -238,9 +228,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnCloseClicked(object sender, RoutedEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             AddDownloadTaskWindow.Current?.Close();
         }
     }

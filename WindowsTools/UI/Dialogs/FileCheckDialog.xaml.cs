@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls.Extensions;
-using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Download;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
+
+// 抑制 IDE0060 警告
+#pragma warning disable IDE0060
 
 namespace WindowsTools.UI.Dialogs
 {
@@ -32,9 +34,6 @@ namespace WindowsTools.UI.Dialogs
         /// </summary>
         private void OnPrimaryButtonClicked(object sender, ContentDialogButtonClickEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             Task.Run(() =>
             {
                 try
@@ -58,9 +57,6 @@ namespace WindowsTools.UI.Dialogs
         /// </summary>
         private void OnSecondaryButtonClicked(object sender, ContentDialogButtonClickEventArgs args)
         {
-            UnreferenceHelper.Unreference(sender);
-            UnreferenceHelper.Unreference(args);
-
             Task.Run(() =>
             {
                 Process.Start(Path.GetDirectoryName(downloadFilePath));
