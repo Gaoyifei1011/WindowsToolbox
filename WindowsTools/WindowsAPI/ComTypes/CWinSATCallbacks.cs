@@ -46,7 +46,15 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="strDescription">完成状态的说明。 此字符串在此回调的生命周期内有效。 如果在回调返回后需要，请复制字符串。</param>
         public void WinSATComplete(int hresult, string strDescription)
         {
-            Result = (WINSAT_RESULT)hresult;
+            try
+            {
+                Result = (WINSAT_RESULT)hresult;
+            }
+            catch(Exception)
+            {
+                Result = WINSAT_RESULT.WINSAT_ERROR_COMPLETED_ERROR;
+            }
+
             Description = strDescription;
             StatusCompleted?.Invoke(this, EventArgs.Empty);
         }

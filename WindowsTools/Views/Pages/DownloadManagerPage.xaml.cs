@@ -9,17 +9,23 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
+using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Models.Controls.Download;
 using WindowsTools.Services.Controls.Download;
+using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
+using WindowsTools.UI.Dialogs;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
@@ -34,6 +40,8 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class DownloadManagerPage : Page, INotifyPropertyChanged
     {
+        private bool isAllowClosed = false;
+
         private string _searchDownload;
 
         public string SearchDownload
@@ -66,6 +74,70 @@ namespace WindowsTools.Views.Pages
             }
         }
 
+        private bool _isPrimaryButtonEnabled;
+
+        public bool IsPrimaryButtonEnabled
+        {
+            get { return _isPrimaryButtonEnabled; }
+
+            set
+            {
+                if (!Equals(_isPrimaryButtonEnabled, value))
+                {
+                    _isPrimaryButtonEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsPrimaryButtonEnabled)));
+                }
+            }
+        }
+
+        private string _downloadLinkText;
+
+        public string DownloadLinkText
+        {
+            get { return _downloadLinkText; }
+
+            set
+            {
+                if (!Equals(_downloadLinkText, value))
+                {
+                    _downloadLinkText = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DownloadLinkText)));
+                }
+            }
+        }
+
+        private string _downloadFileNameText;
+
+        public string DownloadFileNameText
+        {
+            get { return _downloadFileNameText; }
+
+            set
+            {
+                if (!Equals(_downloadFileNameText, value))
+                {
+                    _downloadFileNameText = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DownloadFileNameText)));
+                }
+            }
+        }
+
+        private string _downloadFolderText;
+
+        public string DownloadFolderText
+        {
+            get { return _downloadFolderText; }
+
+            set
+            {
+                if (!Equals(_downloadFolderText, value))
+                {
+                    _downloadFolderText = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DownloadFolderText)));
+                }
+            }
+        }
+
         private ObservableCollection<DownloadModel> DownloadCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -73,6 +145,8 @@ namespace WindowsTools.Views.Pages
         public DownloadManagerPage()
         {
             InitializeComponent();
+            DownloadFolderText = DownloadOptionsService.DownloadFolder;
+            IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
             DownloadSchedulerService.DownloadCreated += OnDownloadCreated;
             DownloadSchedulerService.DownloadContinued += OnDownloadContinued;
             DownloadSchedulerService.DownloadPaused += OnDownloadPaused;
@@ -336,13 +410,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAddTaskClicked(object sender, RoutedEventArgs args)
         {
-            if (AddDownloadTaskWindow.Current is null)
+            FlyoutShowOptions flyoutShowOptions = new()
             {
-                new AddDownloadTaskWindow();
-                AddDownloadTaskWindow.Current.Left = MainWindow.Current.Left + (MainWindow.Current.Width - AddDownloadTaskWindow.Current.Width) / 2;
-                AddDownloadTaskWindow.Current.Top = MainWindow.Current.Top + (MainWindow.Current.Height - AddDownloadTaskWindow.Current.Height) / 2;
-                AddDownloadTaskWindow.Current.Show(MainWindow.Current);
-            }
+                Placement = FlyoutPlacementMode.Full,
+                ShowMode = FlyoutShowMode.Standard,
+            };
+            AddDownloadTaskFlyout.ShowAt(MainWindow.Current.Content, flyoutShowOptions);
         }
 
         /// <summary>
@@ -560,6 +633,156 @@ namespace WindowsTools.Views.Pages
                     }
                 }
             });
+        }
+
+        /// <summary>
+        /// 浮出控件打开时触发的事件
+        /// </summary>
+        private void OnOpening(object sender, object args)
+        {
+            DownloadLinkText = string.Empty;
+            DownloadFileNameText = string.Empty;
+            DownloadFolderText = DownloadOptionsService.DownloadFolder;
+            IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
+        }
+
+        /// <summary>
+        /// 浮出控件关闭时触发的事件
+        /// </summary>
+        private void OnClosing(FlyoutBase sender, FlyoutBaseClosingEventArgs args)
+        {
+            if (isAllowClosed)
+            {
+                isAllowClosed = false;
+            }
+            else
+            {
+                args.Cancel = true;
+            }
+        }
+
+        private void OnFlyoutKeyDown(object sender, KeyRoutedEventArgs args)
+        {
+            if (args.Key is VirtualKey.Escape)
+            {
+                isAllowClosed = true;
+                AddDownloadTaskFlyout.Hide();
+            }
+        }
+
+        /// <summary>
+        /// 获取输入的下载链接
+        /// </summary>
+        private void OnDownloadLinkTextChanged(object sender, TextChangedEventArgs args)
+        {
+            DownloadLinkText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
+
+            if (!string.IsNullOrEmpty(DownloadLinkText))
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        bool createSucceeded = Uri.TryCreate(DownloadLinkText, UriKind.Absolute, out Uri uri);
+                        if (createSucceeded && uri.Segments.Length >= 1)
+                        {
+                            string fileName = uri.Segments[uri.Segments.Length - 1];
+                            if (fileName is not "/")
+                            {
+                                MainWindow.Current.BeginInvoke(() =>
+                                {
+                                    DownloadFileNameText = fileName;
+                                    IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
+                                });
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Warning, "Parse download link file name failed", e);
+                    }
+                });
+            }
+            else
+            {
+                DownloadFileNameText = string.Empty;
+                IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
+            }
+        }
+
+        /// <summary>
+        /// 获取输入的下载链接
+        /// </summary>
+        private void OnDownloadFileNameTextChanged(object sender, TextChangedEventArgs args)
+        {
+            DownloadFileNameText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
+
+            IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFileNameText) && !string.IsNullOrEmpty(DownloadFolderText);
+        }
+
+        /// <summary>
+        /// 获取输入的下载目录
+        /// </summary>
+        private void OnDownloadFolderTextChanged(object sender, TextChangedEventArgs args)
+        {
+            DownloadFolderText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
+        }
+
+        /// <summary>
+        /// 选择文件夹
+        /// </summary>
+        private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
+        {
+            FolderBrowserDialog dialog = new()
+            {
+                Description = FileProperties.SelectFolder,
+                ShowNewFolderButton = true,
+                RootFolder = Environment.SpecialFolder.Desktop
+            };
+            DialogResult result = dialog.ShowDialog();
+            if (result is DialogResult.OK || result is DialogResult.Yes)
+            {
+                DownloadFolderText = dialog.SelectedPath;
+            }
+        }
+
+        /// <summary>
+        /// 下载文件
+        /// </summary>
+        private void OnDownloadClicked(object sender, RoutedEventArgs args)
+        {
+            // 检查文件路径
+            if (DownloadFileNameText.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 || DownloadFolderText.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
+            {
+                return;
+            }
+
+            string filePath = Path.Combine(DownloadFolderText, DownloadFileNameText);
+
+            // 检查本地文件是否存在
+            if (File.Exists(filePath))
+            {
+                MainWindow.Current.BeginInvoke(async () =>
+                {
+                    await ContentDialogHelper.ShowAsync(new FileCheckDialog(DownloadLinkText, filePath), MainWindow.Current.Content as FrameworkElement);
+                });
+            }
+            else
+            {
+                DownloadSchedulerService.CreateDownload(DownloadLinkText, Path.Combine(DownloadFolderText, DownloadFileNameText));
+            }
+
+            isAllowClosed = true;
+            AddDownloadTaskFlyout.Hide();
+        }
+
+        /// <summary>
+        /// 关闭对话框
+        /// </summary>
+        private void OnCloseClicked(object sender, RoutedEventArgs args)
+        {
+            isAllowClosed = true;
+            AddDownloadTaskFlyout.Hide();
         }
 
         #endregion 第二部分：自定义事件

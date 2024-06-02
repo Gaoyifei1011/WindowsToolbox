@@ -63,9 +63,27 @@ namespace WindowsTools.Strings {
         /// <summary>
         ///   查找类似 Add download task 的本地化字符串。
         /// </summary>
+        public static string AddTask {
+            get {
+                return ResourceManager.GetString("AddTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Add download task 的本地化字符串。
+        /// </summary>
         public static string AddTaskToolTip {
             get {
                 return ResourceManager.GetString("AddTaskToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cancel 的本地化字符串。
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
             }
         }
         
@@ -151,6 +169,42 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Download 的本地化字符串。
+        /// </summary>
+        public static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please input the download file name 的本地化字符串。
+        /// </summary>
+        public static string DownloadFileNamePHText {
+            get {
+                return ResourceManager.GetString("DownloadFileNamePHText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select the folder to save 的本地化字符串。
+        /// </summary>
+        public static string DownloadFolderPHText {
+            get {
+                return ResourceManager.GetString("DownloadFolderPHText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please input the download link 的本地化字符串。
+        /// </summary>
+        public static string DownloadLinkPHText {
+            get {
+                return ResourceManager.GetString("DownloadLinkPHText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Download settings 的本地化字符串。
         /// </summary>
         public static string DownloadSettings {
@@ -174,6 +228,15 @@ namespace WindowsTools.Strings {
         public static string FileInformation {
             get {
                 return ResourceManager.GetString("FileInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The file path you entered is invalid. Please try again 的本地化字符串。
+        /// </summary>
+        public static string FileNameInvalid {
+            get {
+                return ResourceManager.GetString("FileNameInvalid", resourceCulture);
             }
         }
         
@@ -255,6 +318,15 @@ namespace WindowsTools.Strings {
         public static string SearchEmptyDescription {
             get {
                 return ResourceManager.GetString("SearchEmptyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select folder 的本地化字符串。
+        /// </summary>
+        public static string SelectFolderToolTip {
+            get {
+                return ResourceManager.GetString("SelectFolderToolTip", resourceCulture);
             }
         }
         

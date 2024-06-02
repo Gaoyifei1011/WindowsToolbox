@@ -44,12 +44,6 @@
       <DependentUpon>About.resx</DependentUpon>
     </Compile>
     
-    <Compile Update="Strings\AddDownloadTask.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>AddDownloadTask.resx</DependentUpon>
-    </Compile>
-    
     <Compile Update="Strings\AllTools.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -308,9 +302,6 @@
     <EmbeddedResource Update="Strings\About.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\About.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="About.Designer.cs" />
     <EmbeddedResource Update="Strings\About.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\AddDownloadTask.en-us.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\AddDownloadTask.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="AddDownloadTask.Designer.cs" />
-    <EmbeddedResource Update="Strings\AddDownloadTask.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\AllTools.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\AllTools.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="AllTools.Designer.cs" />
     <EmbeddedResource Update="Strings\AllTools.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />

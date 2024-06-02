@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using WindowsTools.Services.Root;
@@ -129,7 +128,7 @@ namespace WindowsTools.Services.Controls.Download
                             DownloadID = downloadID
                         };
                         backgroundCopyCallback.StatusChanged += OnStatusChanged;
-                        downloadJob.SetNotifyInterface(new UnknownWrapper(backgroundCopyCallback).WrappedObject);
+                        downloadJob.SetNotifyInterface(backgroundCopyCallback);
 
                         downloadJob.GetProgress(out BG_JOB_PROGRESS progress);
                         DownloadCreated?.Invoke(backgroundCopyCallback.DownloadID, Path.GetFileName(saveFilePath), saveFilePath, url, progress.BytesTotal is ulong.MaxValue ? 0 : progress.BytesTotal);

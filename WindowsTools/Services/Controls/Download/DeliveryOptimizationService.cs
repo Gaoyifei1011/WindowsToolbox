@@ -80,7 +80,7 @@ namespace WindowsTools.Services.Controls.Download
 
                         DODownloadStatusCallback doDownloadStatusCallback = new();
                         doDownloadStatusCallback.StatusChanged += OnStatusChanged;
-                        doDownload.SetProperty(DODownloadProperty.DODownloadProperty_CallbackInterface, new UnknownWrapper(doDownloadStatusCallback).WrappedObject);
+                        doDownload.SetProperty(DODownloadProperty.DODownloadProperty_CallbackInterface, new UnknownWrapper(doDownloadStatusCallback));
                         doDownload.SetProperty(DODownloadProperty.DODownloadProperty_ForegroundPriority, true);
 
                         doDownload.GetProperty(DODownloadProperty.DODownloadProperty_Id, out object id);
@@ -96,7 +96,7 @@ namespace WindowsTools.Services.Controls.Download
                             }
                         }
 
-                        doDownload.Start(IntPtr.Zero);
+                        int Result = doDownload.Start(IntPtr.Zero);
                     }
                 }
                 catch (Exception e)

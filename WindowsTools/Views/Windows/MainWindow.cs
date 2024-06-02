@@ -120,8 +120,6 @@ namespace WindowsTools.Views.Windows
             {
                 systemBackdropConfiguration.IsInputActive = true;
             }
-
-            AddDownloadTaskWindow.Current?.Activate();
         }
 
         /// <summary>
@@ -259,7 +257,11 @@ namespace WindowsTools.Views.Windows
                     // 关闭浮出控件
                     if (popupRoot.Child as FlyoutPresenter is not null)
                     {
-                        popupRoot.IsOpen = false;
+                        if (!(popupRoot.Child as FlyoutPresenter).Name.Equals("DialogFlyout"))
+                        {
+                            popupRoot.IsOpen = false;
+                        }
+
                         break;
                     }
 
@@ -299,12 +301,19 @@ namespace WindowsTools.Views.Windows
             if (Content.XamlRoot is not null)
             {
                 IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(Content.XamlRoot);
-                foreach (Popup popup in PopupRoot)
+                foreach (Popup popupRoot in PopupRoot)
                 {
                     // 关闭内容对话框
-                    if (popup.Child as ContentDialog is not null)
+                    if (popupRoot.Child as ContentDialog is not null)
                     {
-                        (popup.Child as ContentDialog).Hide();
+                        (popupRoot.Child as ContentDialog).Hide();
+                        break;
+                    }
+
+                    // 关闭浮出控件
+                    if (popupRoot.Child as FlyoutPresenter is not null)
+                    {
+                        popupRoot.IsOpen = false;
                         break;
                     }
                 }

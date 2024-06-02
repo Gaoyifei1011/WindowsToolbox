@@ -22,6 +22,153 @@
         <XamlUICommand x:Name="DeleteWithFileCommand" ExecuteRequested="{x:Bind OnDeleteWithFileExecuteRequested}" />
         <XamlUICommand x:Name="ShareFileCommand" ExecuteRequested="{x:Bind OnShareFileExecuteRequested}" />
         <XamlUICommand x:Name="FileInformationCommand" ExecuteRequested="{x:Bind OnFileInformationExecuteRequested}" />
+
+        <Flyout
+            x:Name="AddDownloadTaskFlyout"
+            Closing="{x:Bind OnClosing}"
+            Opening="{x:Bind OnOpening}">
+            <Flyout.FlyoutPresenterStyle>
+                <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="MaxWidth" Value="9999" />
+                    <Setter Property="MaxHeight" Value="9999" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Name" Value="DialogFlyout" />
+                </Style>
+            </Flyout.FlyoutPresenterStyle>
+
+            <Grid KeyDown="{x:Bind OnFlyoutKeyDown}">
+                <Rectangle Fill="{ThemeResource ContentDialogSmokeFill}" />
+
+                <Border
+                    MinWidth="{ThemeResource ContentDialogMinWidth}"
+                    MinHeight="{ThemeResource ContentDialogMinHeight}"
+                    MaxWidth="{ThemeResource ContentDialogMaxWidth}"
+                    MaxHeight="{ThemeResource ContentDialogMaxHeight}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
+                    BorderThickness="{ThemeResource ContentDialogBorderWidth}"
+                    CornerRadius="{ThemeResource OverlayCornerRadius}"
+                    RenderTransformOrigin="0.5,0.5">
+
+                    <Grid Width="{ThemeResource ContentDialogMaxWidth}" CornerRadius="{ThemeResource OverlayCornerRadius}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+
+                            <Grid
+                                Padding="{ThemeResource ContentDialogPadding}"
+                                Background="{ThemeResource DialogContentFillColorBrush}"
+                                BorderBrush="{ThemeResource ContentDialogSeparatorBorderBrush}"
+                                BorderThickness="{ThemeResource ContentDialogSeparatorThickness}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock
+                                    Margin="{ThemeResource ContentDialogTitleMargin}"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    FontFamily="{StaticResource ContentControlThemeFontFamily}"
+                                    FontSize="20"
+                                    FontWeight="SemiBold"
+                                    Foreground="{ThemeResource ContentDialogForeground}"
+                                    Text="{x:Bind string:DownloadManager.AddTask}" />
+
+                                <StackPanel Grid.Row="1" Spacing="5">
+                                    <TextBox
+                                        Height="120"
+                                        Margin="0,0,0,5"
+                                        HorizontalAlignment="Stretch"
+                                        FontFamily="{StaticResource ContentControlThemeFontFamily}"
+                                        FontSize="{StaticResource ControlContentThemeFontSize}"
+                                        Foreground="{ThemeResource ContentDialogForeground}"
+                                        PlaceholderText="{x:Bind string:DownloadManager.DownloadLinkPHText}"
+                                        Text="{x:Bind DownloadLinkText, Mode=OneWay}"
+                                        TextAlignment="Justify"
+                                        TextChanged="{x:Bind OnDownloadLinkTextChanged}"
+                                        TextWrapping="Wrap" />
+
+                                    <TextBox
+                                        HorizontalAlignment="Stretch"
+                                        FontFamily="{StaticResource ContentControlThemeFontFamily}"
+                                        FontSize="{StaticResource ControlContentThemeFontSize}"
+                                        Foreground="{ThemeResource ContentDialogForeground}"
+                                        PlaceholderText="{x:Bind string:DownloadManager.DownloadFileNamePHText}"
+                                        Text="{x:Bind DownloadFileNameText, Mode=OneWay}"
+                                        TextChanged="{x:Bind OnDownloadFileNameTextChanged}"
+                                        TextWrapping="NoWrap" />
+
+                                    <Grid ColumnSpacing="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBox
+                                            Grid.Column="0"
+                                            FontFamily="{StaticResource ContentControlThemeFontFamily}"
+                                            FontSize="{StaticResource ControlContentThemeFontSize}"
+                                            Foreground="{ThemeResource ContentDialogForeground}"
+                                            IsReadOnly="True"
+                                            PlaceholderText="{x:Bind string:DownloadManager.DownloadFolderPHText}"
+                                            Text="{x:Bind DownloadFolderText, Mode=OneWay}"
+                                            TextChanged="{x:Bind OnDownloadFolderTextChanged}"
+                                            TextWrapping="NoWrap" />
+
+                                        <Button
+                                            Grid.Column="1"
+                                            Width="32"
+                                            Height="32"
+                                            Padding="0"
+                                            Click="{x:Bind OnSelectFolderClicked}"
+                                            CornerRadius="{StaticResource ControlCornerRadius}"
+                                            ToolTipService.ToolTip="{x:Bind string:DownloadManager.SelectFolderToolTip}">
+
+                                            <Button.Content>
+                                                <FontIcon FontSize="14" Glyph="&#xE8B7;" />
+                                            </Button.Content>
+                                        </Button>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
+
+                        <Grid
+                            Grid.Row="1"
+                            Padding="{ThemeResource ContentDialogPadding}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Bottom"
+                            Background="{ThemeResource ContentDialogBackground}"
+                            ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Button
+                                Grid.Column="0"
+                                HorizontalAlignment="Stretch"
+                                Click="{x:Bind OnDownloadClicked}"
+                                Content="{x:Bind string:DownloadManager.Download}"
+                                IsEnabled="{x:Bind IsPrimaryButtonEnabled, Mode=OneWay}"
+                                Style="{ThemeResource AccentButtonStyle}" />
+
+                            <Button
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                Click="{x:Bind OnCloseClicked}"
+                                Content="{x:Bind string:DownloadManager.Cancel}" />
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Flyout>
     </Page.Resources>
 
     <Grid Padding="0">

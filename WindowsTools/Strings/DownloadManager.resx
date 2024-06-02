@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddTask" xml:space="preserve">
+    <value>Add download task</value>
+  </data>
   <data name="AddTaskToolTip" xml:space="preserve">
     <value>Add download task</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="CompleteDownload" xml:space="preserve">
     <value>Downloaded completed</value>
@@ -147,6 +153,18 @@
   <data name="DeleteWithFileToolTip" xml:space="preserve">
     <value>Local files are deleted when records are deleted</value>
   </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="DownloadFileNamePHText" xml:space="preserve">
+    <value>Please input the download file name</value>
+  </data>
+  <data name="DownloadFolderPHText" xml:space="preserve">
+    <value>Select the folder to save</value>
+  </data>
+  <data name="DownloadLinkPHText" xml:space="preserve">
+    <value>Please input the download link</value>
+  </data>
   <data name="DownloadSettings" xml:space="preserve">
     <value>Download settings</value>
   </data>
@@ -155,6 +173,9 @@
   </data>
   <data name="FileInformation" xml:space="preserve">
     <value>View file information</value>
+  </data>
+  <data name="FileNameInvalid" xml:space="preserve">
+    <value>The file path you entered is invalid. Please try again</value>
   </data>
   <data name="FinishedSizeToolTip" xml:space="preserve">
     <value>Download completed:</value>
@@ -182,6 +203,9 @@
   </data>
   <data name="SearchEmptyDescription" xml:space="preserve">
     <value>No matching download records were found</value>
+  </data>
+  <data name="SelectFolderToolTip" xml:space="preserve">
+    <value>Select folder</value>
   </data>
   <data name="ShareFile" xml:space="preserve">
     <value>Share file</value>

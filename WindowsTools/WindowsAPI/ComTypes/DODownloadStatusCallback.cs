@@ -6,7 +6,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
     /// <summary>
     /// IDODownloadStatusCallback 接口的实现
     /// </summary>
-    public partial class DODownloadStatusCallback : IDODownloadStatusCallback
+    public class DODownloadStatusCallback : IDODownloadStatusCallback
     {
         public Guid DownloadID { get; set; } = Guid.Empty;
 
