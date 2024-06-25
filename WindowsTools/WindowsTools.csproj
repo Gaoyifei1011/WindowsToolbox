@@ -55,6 +55,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CodeScanner.resx</DependentUpon>
     </Compile>
+    
+    <Compile Update="Strings\ColorPicker.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ColorPicker.resx</DependentUpon>
+    </Compile>
 
     <Compile Update="Strings\Dialog.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -108,6 +114,12 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Loaf.resx</DependentUpon>
+    </Compile>
+
+    <Compile Update="Strings\LoopbackManager.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LoopbackManager.resx</DependentUpon>
     </Compile>
 
     <Compile Update="Strings\Notification.Designer.cs">
@@ -224,6 +236,7 @@
     <Content Include="Assets\ControlIcon\FileProperties.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\IconExtract.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Loaf.png" CopyToOutputDirectory="Always" />
+	<Content Include="Assets\ControlIcon\LoopbackManager.png" CopyToOutputDirectory="Always" />  
     <Content Include="Assets\ControlIcon\Personalize.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\PriExtract.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Relaxation.png" CopyToOutputDirectory="Always" />
@@ -289,8 +302,8 @@
     <Content Include="Assets\WindowsTools.ico" CopyToOutputDirectory="Always" />
     
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" IncludeAssets="none" ExcludeAssets="all" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" GeneratePathProperty="true" />
-    <PackageReference Include="Mile.Xaml" Version="2.2.944" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240607001" GeneratePathProperty="true" />
+    <PackageReference Include="Mile.Xaml" Version="2.2.1017" />
     <PackageReference Include="ZXing.Net" Version="0.16.9" />
 
     <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />
@@ -308,6 +321,9 @@
     <EmbeddedResource Update="Strings\CodeScanner.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\CodeScanner.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="CodeScanner.Designer.cs" />
     <EmbeddedResource Update="Strings\CodeScanner.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\ColorPicker.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\ColorPicker.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ColorPicker.Designer.cs" />
+    <EmbeddedResource Update="Strings\ColorPicker.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Dialog.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Dialog.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Dialog.Designer.cs" />
     <EmbeddedResource Update="Strings\Dialog.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
@@ -335,6 +351,9 @@
     <EmbeddedResource Update="Strings\Loaf.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Loaf.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Loaf.Designer.cs" />
     <EmbeddedResource Update="Strings\Loaf.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\LoopbackManager.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\LoopbackManager.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="LoopbackManager.Designer.cs" />
+    <EmbeddedResource Update="Strings\LoopbackManager.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Notification.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\Notification.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Notification.Designer.cs" />
     <EmbeddedResource Update="Strings\Notification.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />

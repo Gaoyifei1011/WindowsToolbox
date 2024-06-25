@@ -159,6 +159,9 @@
   <data name="Loaf" xml:space="preserve">
     <value>摸鱼</value>
   </data>
+  <data name="LoopbackManager" xml:space="preserve">
+    <value>网络回环管理</value>
+  </data>
   <data name="Maximize" xml:space="preserve">
     <value>最大化</value>
   </data>

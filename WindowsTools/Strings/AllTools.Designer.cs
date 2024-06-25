@@ -232,6 +232,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Loop back manager 的本地化字符串。
+        /// </summary>
+        public static string LoopbackManager {
+            get {
+                return ResourceManager.GetString("LoopbackManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enable the local network loopback for the UWP application 的本地化字符串。
+        /// </summary>
+        public static string LoopbackManagerDescription {
+            get {
+                return ResourceManager.GetString("LoopbackManagerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Personalization tools 的本地化字符串。
         /// </summary>
         public static string Personalize {

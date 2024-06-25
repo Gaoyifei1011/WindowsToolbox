@@ -20,7 +20,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="lParam">传递给当前挂钩过程的 lParam 值。 此参数的含义取决于与当前挂钩链关联的挂钩类型。</param>
         /// <returns>此值由链中的下一个挂钩过程返回。 当前挂钩过程还必须返回此值。 返回值的含义取决于挂钩类型。 有关详细信息，请参阅各个挂钩过程的说明。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "CallNextHookEx", SetLastError = false)]
-        public static extern IntPtr CallNextHookEx(IntPtr idHook, int nCode, IntPtr wParam, IntPtr lParam);
+        internal static extern IntPtr CallNextHookEx(IntPtr idHook, int nCode, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
         /// 修改指定窗口的用户界面特权隔离 (UIPI) 消息筛选器。
@@ -32,7 +32,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <returns>如果函数成功，则返回 TRUE;否则，它将返回 FALSE。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilterEx", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ChangeWindowMessageFilterEx(IntPtr hWnd, WindowMessage message, ChangeFilterAction action, in CHANGEFILTERSTRUCT pChangeFilterStruct);
+        internal static extern bool ChangeWindowMessageFilterEx(IntPtr hWnd, WindowMessage message, ChangeFilterAction action, in CHANGEFILTERSTRUCT pChangeFilterStruct);
 
         /// <summary>
         /// 销毁图标并释放图标占用的任何内存。
@@ -41,7 +41,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。 </returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "DestroyIcon", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DestroyIcon(IntPtr hIcon);
+        internal static extern bool DestroyIcon(IntPtr hIcon);
 
         /// <summary>
         /// 检索一个窗口的句柄，该窗口的类名和窗口名称与指定的字符串匹配。 该函数搜索子窗口，从指定子窗口后面的子窗口开始。 此函数不执行区分大小写的搜索。
@@ -52,14 +52,14 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="lpszWindow">窗口名称 (窗口的标题) 。 如果此参数为 NULL，则所有窗口名称都匹配。</param>
         /// <returns>如果函数成功，则返回值是具有指定类和窗口名称的窗口的句柄。如果函数失败，则返回值为 NULL。 要获得更多的错误信息，请调用 GetLastError。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "FindWindowExW", SetLastError = true)]
-        public static extern IntPtr FindWindowEx(IntPtr hWndParent, IntPtr hWndChildAfter, string lpszClass, string lpszWindow);
+        internal static extern IntPtr FindWindowEx(IntPtr hWndParent, IntPtr hWndChildAfter, string lpszClass, string lpszWindow);
 
         /// <summary>
         /// 锁定工作站的显示器。 锁定工作站可防止未经授权的使用。
         /// </summary>
         /// <returns>如果该函数成功，则返回值为非零值。 由于函数以异步方式执行，因此非零返回值指示操作已启动。 它并不指示工作站是否已成功锁定。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "LockWorkStation", SetLastError = true)]
-        public static extern bool LockWorkStation();
+        internal static extern bool LockWorkStation();
 
         /// <summary>
         /// 合成键击。 系统可以使用这种合成的击键来生成 WM_KEYUP 或 WM_KEYDOWN 消息。 键盘驱动程序的中断处理程序调用 keybd_event 函数。
@@ -69,7 +69,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="dwFlags">控制函数操作的各个方面。 此参数可使用以下一个或多个值。</param>
         /// <param name="dwExtraInfo">与键笔划关联的附加值。</param>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "keybd_event", SetLastError = false)]
-        public static extern void keybd_event(Keys bVk, byte bScan, KEYEVENTFLAGS dwFlags, UIntPtr dwExtraInfo);
+        internal static extern void keybd_event(Keys bVk, byte bScan, KEYEVENTFLAGS dwFlags, UIntPtr dwExtraInfo);
 
         /// <summary>
         /// 显示或隐藏光标。
@@ -77,7 +77,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="show">如果 bShow 为 TRUE，则显示计数递增 1。 如果 bShow 为 FALSE，则显示计数将递减 1。</param>
         /// <returns>返回值指定新的显示计数器。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "ShowCursor", SetLastError = true)]
-        public static extern int ShowCursor(bool show);
+        internal static extern int ShowCursor(bool show);
 
         /// <summary>
         /// 创建从指定文件中提取的图标的句柄数组。
@@ -94,7 +94,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// 如果 phicon 参数为 NULL 并且此函数成功，则返回值是文件中的图标数。 如果函数失败，则返回值为 0。如果 phicon 参数不为 NULL 且函数成功，则返回值是提取的图标数。 否则，如果未找到该文件，则返回值0xFFFFFFFF。
         /// </returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "PrivateExtractIconsW", SetLastError = false)]
-        public static extern int PrivateExtractIcons(string lpszFile, int nIconIndex, int cxIcon, int cyIcon, IntPtr[] phicon, int[] piconid, int nIcons, int flags);
+        internal static extern int PrivateExtractIcons(string lpszFile, int nIconIndex, int cxIcon, int cyIcon, IntPtr[] phicon, int[] piconid, int nIcons, int flags);
 
         /// <summary>
         /// 将指定的消息发送到窗口或窗口。SendMessage 函数调用指定窗口的窗口过程，在窗口过程处理消息之前不会返回。
@@ -109,7 +109,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="lParam">其他的消息特定信息。</param>
         /// <returns>返回值指定消息处理的结果;这取决于发送的消息。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SendMessageW", SetLastError = false)]
-        public static extern IntPtr SendMessage(IntPtr hWnd, WindowMessage wMsg, int wParam, IntPtr lParam);
+        internal static extern IntPtr SendMessage(IntPtr hWnd, WindowMessage wMsg, int wParam, IntPtr lParam);
 
         /// <summary>
         /// 将创建指定窗口的线程引入前台并激活窗口。 键盘输入将定向到窗口，并为用户更改各种视觉提示。 系统为创建前台窗口的线程分配的优先级略高于其他线程的优先级。
@@ -118,7 +118,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <returns>如果将窗口带到前台，则返回值为非零值。如果未将窗口带到前台，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetForegroundWindow", SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
+        internal static extern bool SetForegroundWindow(IntPtr hWnd);
 
         /// <summary>
         /// 更改子窗口、弹出窗口或顶级窗口的大小、位置和 Z 顺序。 这些窗口根据屏幕上的外观进行排序。 最上面的窗口接收最高排名，是 Z 顺序中的第一个窗口。
@@ -133,7 +133,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。 </returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowPos", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
+        internal static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
 
         /// <summary>
         /// 将应用程序定义的挂钩过程安装到挂钩链中。 你将安装挂钩过程来监视系统的某些类型的事件。 这些事件与特定线程或与调用线程位于同一桌面中的所有线程相关联。
@@ -144,7 +144,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="dwThreadId">要与挂钩过程关联的线程的标识符。 对于桌面应用，如果此参数为零，则挂钩过程与调用线程在同一桌面中运行的所有现有线程相关联。 对于 Windows 应用商店应用，请参阅“备注”部分。</param>
         /// <returns>如果函数成功，则返回值是挂钩过程的句柄。如果函数失败，则返回值为 NULL。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowsHookExW", SetLastError = false)]
-        public static extern IntPtr SetWindowsHookEx(HOOKTYPE idHook, HOOKPROC lpfn, IntPtr hMod, int dwThreadId);
+        internal static extern IntPtr SetWindowsHookEx(HOOKTYPE idHook, HOOKPROC lpfn, IntPtr hMod, int dwThreadId);
 
         /// <summary>
         /// 删除 SetWindowsHookEx 函数安装在挂钩链中的挂钩过程。
@@ -152,6 +152,6 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="idHook">要移除的挂钩的句柄。 此参数是由先前调用 SetWindowsHookEx 获取的挂钩句柄。</param>
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "UnhookWindowsHookEx", SetLastError = false)]
-        public static extern bool UnhookWindowsHookEx(IntPtr idHook);
+        internal static extern bool UnhookWindowsHookEx(IntPtr idHook);
     }
 }

@@ -17,6 +17,6 @@ namespace WindowsTools.WindowsAPI.PInvoke.Imagehlp
         /// <param name="index">要删除的证书的索引。</param>
         /// <returns>如果函数成功，则返回值为 TRUE。如果函数失败，则返回值为 FALSE。</returns>
         [DllImport(Imagehlp, CharSet = CharSet.Unicode, EntryPoint = "ImageRemoveCertificate", SetLastError = true)]
-        public static extern bool ImageRemoveCertificate(IntPtr handle, int index);
+        internal static extern bool ImageRemoveCertificate(IntPtr handle, int index);
     }
 }

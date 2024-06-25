@@ -1,0 +1,20 @@
+﻿using System;
+
+namespace WindowsTools.WindowsAPI.PInvoke.FirewallAPI
+{
+    /// <summary>
+    /// 包含应用容器中运行的应用程序的二进制路径。
+    /// </summary>
+    public struct INET_FIREWALL_AC_BINARIES
+    {
+        /// <summary>
+        /// 二进制文件成员中的路径数。
+        /// </summary>
+        public uint count;
+
+        /// <summary>
+        /// 应用容器中运行的应用程序的路径。
+        /// </summary>
+        public IntPtr binaries;
+    }
+}

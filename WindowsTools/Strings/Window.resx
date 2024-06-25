@@ -159,6 +159,9 @@
   <data name="Loaf" xml:space="preserve">
     <value>Loaf</value>
   </data>
+  <data name="LoopbackManager" xml:space="preserve">
+    <value>Loop back manager</value>
+  </data>
   <data name="Maximize" xml:space="preserve">
     <value>Maximize</value>
   </data>

@@ -112,6 +112,13 @@ namespace WindowsTools.Views.Pages
             //    ImagePath = "ms-appx:///Assets/ControlIcon/SystemInfo.png",
             //    Tag = "SystemInfo"
             //},
+            new ControlItemModel()
+            {
+                Title = AllTools.LoopbackManager,
+                Description = AllTools.LoopbackManagerDescription,
+                ImagePath = "ms-appx:///Assets/ControlIcon/LoopbackManager.png",
+                Tag = "LoopbackManager"
+            },
             //new ControlItemModel()
             //{
             //    Title = AllTools.DriverManager,

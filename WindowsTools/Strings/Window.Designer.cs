@@ -187,6 +187,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Loop back manager 的本地化字符串。
+        /// </summary>
+        public static string LoopbackManager {
+            get {
+                return ResourceManager.GetString("LoopbackManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Maximize 的本地化字符串。
         /// </summary>
         public static string Maximize {

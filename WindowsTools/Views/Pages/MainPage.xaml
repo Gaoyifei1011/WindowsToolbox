@@ -293,9 +293,16 @@
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
+                        <muxc:NavigationViewItem Content="{x:Bind string:Window.LoopbackManager}" Tag="18">
+
+                            <muxc:NavigationViewItem.Icon>
+                                <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/LoopbackManager.png" />
+                            </muxc:NavigationViewItem.Icon>
+                        </muxc:NavigationViewItem>
+
                         <muxc:NavigationViewItem
                             Content="{x:Bind string:Window.DriverManager}"
-                            Tag="18"
+                            Tag="19"
                             Visibility="Collapsed">
 
                             <muxc:NavigationViewItem.Icon>
@@ -305,7 +312,7 @@
 
                         <muxc:NavigationViewItem
                             Content="{x:Bind string:Window.UpdateManager}"
-                            Tag="19"
+                            Tag="20"
                             Visibility="Collapsed">
 
                             <muxc:NavigationViewItem.Icon>
@@ -313,7 +320,7 @@
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.WinSAT}" Tag="20">
+                        <muxc:NavigationViewItem Content="{x:Bind string:Window.WinSAT}" Tag="21">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/WinSAT.png" />
@@ -324,14 +331,14 @@
             </muxc:NavigationView.MenuItems>
 
             <muxc:NavigationView.FooterMenuItems>
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.About}" Tag="21">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.About}" Tag="22">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/About.png" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
 
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.Settings}" Tag="22">
+                <muxc:NavigationViewItem Content="{x:Bind string:Window.Settings}" Tag="23">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Settings.png" />

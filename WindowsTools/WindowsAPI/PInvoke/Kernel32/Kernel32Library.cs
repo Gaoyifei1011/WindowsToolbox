@@ -19,7 +19,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Kernel32
         /// <param name="applicationUserModelId">指向接收应用程序用户模型 ID 的缓冲区的指针。</param>
         /// <returns>如果该函数成功，则返回 ERROR_SUCCESS。 否则，该函数将返回错误代码。</returns>
         [DllImport(Kernel32, CharSet = CharSet.Unicode, EntryPoint = "GetCurrentApplicationUserModelId", SetLastError = true)]
-        public static extern int GetCurrentApplicationUserModelId(ref uint applicationUserModelIdLength, StringBuilder applicationUserModelId);
+        internal static extern int GetCurrentApplicationUserModelId(ref uint applicationUserModelIdLength, StringBuilder applicationUserModelId);
 
         /// <summary>
         /// 获取调用进程的包全名。
@@ -28,7 +28,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Kernel32
         /// <param name="packageFullName">包全名。</param>
         /// <returns>如果函数成功，则返回 ERROR_SUCCESS。 否则，函数将返回错误代码。</returns>
         [DllImport(Kernel32, CharSet = CharSet.Unicode, EntryPoint = "GetCurrentPackageFullName", SetLastError = true)]
-        public static extern int GetCurrentPackageFullName(ref int packageFullNameLength, StringBuilder packageFullName);
+        internal static extern int GetCurrentPackageFullName(ref int packageFullNameLength, StringBuilder packageFullName);
 
         /// <summary>
         /// 使应用程序能够通知系统它正在使用中，从而防止系统在应用程序运行时进入睡眠状态或关闭显示器。
@@ -36,6 +36,6 @@ namespace WindowsTools.WindowsAPI.PInvoke.Kernel32
         /// <param name="esFlags">线程的执行要求。</param>
         /// <returns>如果函数成功，则返回值为上一个线程执行状态。如果函数失败，则返回值为 NULL。</returns>
         [DllImport(Kernel32, CharSet = CharSet.Unicode, EntryPoint = "SetThreadExecutionState", SetLastError = true)]
-        public static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
+        internal static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
     }
 }

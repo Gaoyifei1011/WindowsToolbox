@@ -18,7 +18,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// <param name="hwnd">正在注册是否接受已删除文件的窗口的标识符。</param>
         /// <param name="fAccept">一个值，该值指示 hWnd 参数标识的窗口是否接受已删除的文件。 如果接受已删除的文件，则此值为 TRUE ;如果值为 FALSE ，则表示停止接受已删除的文件。</param>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragAcceptFiles", SetLastError = false)]
-        public static extern void DragAcceptFiles(IntPtr hwnd, bool fAccept);
+        internal static extern void DragAcceptFiles(IntPtr hwnd, bool fAccept);
 
         /// <summary>
         /// 检索由于成功拖放操作而删除的文件的名称。
@@ -34,7 +34,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// 如果索引值介于零和已删除文件总数之间，并且 lpszFile 缓冲区地址为 NULL，则返回值是缓冲区所需的大小（以字符为单位）， 不包括 终止 null 字符。
         /// </returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragQueryFileW", SetLastError = false)]
-        public static extern uint DragQueryFile(IntPtr hDrop, uint iFile, StringBuilder lpszFile, uint cch);
+        internal static extern uint DragQueryFile(IntPtr hDrop, uint iFile, StringBuilder lpszFile, uint cch);
 
         /// <summary>
         /// 检索在拖放操作期间删除文件时鼠标指针的位置。
@@ -43,14 +43,14 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// <param name="lppt">指向 POINT 结构的指针，当此函数成功返回时，该结构接收删除文件时鼠标指针的坐标。</param>
         /// <returns>如果删除发生在窗口的工作区中，则为 TRUE;否则为 FALSE。</returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragQueryPoint", SetLastError = false)]
-        public static extern bool DragQueryPoint(IntPtr hDrop, ref Point lppt);
+        internal static extern bool DragQueryPoint(IntPtr hDrop, ref Point lppt);
 
         /// <summary>
         /// 描述已删除的文件的结构的标识符。 此句柄是从WM_DROPFILES消息的 wParam 参数检索的。
         /// </summary>
         /// <param name="hDrop">释放系统分配用于将文件名传输到应用程序的内存。</param>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragFinish", SetLastError = false)]
-        public static extern void DragFinish(IntPtr hDrop);
+        internal static extern void DragFinish(IntPtr hDrop);
 
         /// <summary>
         /// 返回与指定文件路径关联的 ITEMIDLIST 结构。
@@ -58,14 +58,14 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// <param name="pszPath">指向包含路径的以 null 结尾的 Unicode 字符串的指针。 此字符串的长度应不超过 MAX_PATH 个字符，包括终止 null 字符。</param>
         /// <returns>返回指向对应于路径的 ITEMIDLIST 结构的指针。</returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILCreateFromPathW", ExactSpelling = false)]
-        public static extern IntPtr ILCreateFromPath(string pszPath);
+        internal static extern IntPtr ILCreateFromPath(string pszPath);
 
         /// <summary>
         /// 释放 Shell 分配的 ITEMIDLIST 结构。
         /// </summary>
         /// <param name="pidl">指向要释放的 ITEMIDLIST 结构的指针。 此参数可以为 NULL。</param>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILFree", ExactSpelling = false)]
-        public static extern void ILFree(IntPtr pidl);
+        internal static extern void ILFree(IntPtr pidl);
 
         /// <summary>
         /// 对指定文件执行操作。
@@ -73,7 +73,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// <param name="lpExecInfo">指向 SHELLEXECUTEINFO 结构的指针，该结构包含并接收有关正在执行的应用程序的信息。</param>
         /// <returns>如果成功，则返回 TRUE ;否则为 FALSE。 调用 GetLastError 获取扩展错误信息。</returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteExW", ExactSpelling = false)]
-        public static extern bool ShellExecuteEx(ref SHELLEXECUTEINFO lpExecInfo);
+        internal static extern bool ShellExecuteEx(ref SHELLEXECUTEINFO lpExecInfo);
 
         /// <summary>
         /// 检索由文件夹的 KNOWNFOLDERID 标识的已知文件夹的完整路径。
@@ -90,7 +90,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// </param>
         /// <returns>如果成功，则返回S_OK，否则返回错误值</returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderPath", SetLastError = true)]
-        public static extern int SHGetKnownFolderPath([MarshalAs(UnmanagedType.LPStruct)] Guid rfid, KNOWN_FOLDER_FLAG dwFlags, IntPtr hToken, out string pszPath);
+        internal static extern int SHGetKnownFolderPath([MarshalAs(UnmanagedType.LPStruct)] Guid rfid, KNOWN_FOLDER_FLAG dwFlags, IntPtr hToken, out string pszPath);
 
         /// <summary>
         /// 打开 Windows 资源管理器窗口，其中选定了特定文件夹中的指定项目。
@@ -101,6 +101,6 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// <param name="dwFlags">可选标志。</param>
         /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHOpenFolderAndSelectItems", ExactSpelling = false)]
-        public static extern int SHOpenFolderAndSelectItems(IntPtr pidlFolder, uint cidl, IntPtr apidl, uint dwFlags);
+        internal static extern int SHOpenFolderAndSelectItems(IntPtr pidlFolder, uint cidl, IntPtr apidl, uint dwFlags);
     }
 }
