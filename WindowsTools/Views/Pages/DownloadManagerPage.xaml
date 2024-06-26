@@ -212,7 +212,7 @@
                 VerticalAlignment="Center"
                 PlaceholderText="{x:Bind string:DownloadManager.SearchDownloadPHText}"
                 QuerySubmitted="{x:Bind OnSearchDownloadQuerySubmitted}"
-                Text="{x:Bind SearchDownload, Mode=OneWay}"
+                Text="{x:Bind SearchDownloadText, Mode=OneWay}"
                 TextChanged="{x:Bind OnSearchDownloadTextChanged}" />
 
             <Button
@@ -223,7 +223,7 @@
                 Padding="0"
                 Click="{x:Bind OnAddTaskClicked}"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                IsEnabled="{x:Bind sys:String.IsNullOrEmpty(SearchDownload), Mode=OneWay}"
+                IsEnabled="{x:Bind sys:String.IsNullOrEmpty(SearchDownloadText), Mode=OneWay}"
                 ToolTipService.ToolTip="{x:Bind string:DownloadManager.AddTaskToolTip}">
 
                 <Button.Content>
@@ -239,7 +239,7 @@
                 Padding="0"
                 Click="{x:Bind OnStartDownloadClicked}"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                IsEnabled="{x:Bind sys:String.IsNullOrEmpty(SearchDownload), Mode=OneWay}"
+                IsEnabled="{x:Bind sys:String.IsNullOrEmpty(SearchDownloadText), Mode=OneWay}"
                 ToolTipService.ToolTip="{x:Bind string:DownloadManager.StartDownloadToolTip}">
 
                 <Button.Content>
@@ -255,7 +255,7 @@
                 Padding="0"
                 Click="{x:Bind OnPauseDownloadClicked}"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                IsEnabled="{x:Bind sys:String.IsNullOrEmpty(SearchDownload), Mode=OneWay}"
+                IsEnabled="{x:Bind sys:String.IsNullOrEmpty(SearchDownloadText), Mode=OneWay}"
                 ToolTipService.ToolTip="{x:Bind string:DownloadManager.PauseDownloadToolTip}">
 
                 <Button.Content>
@@ -271,7 +271,7 @@
                 Padding="0"
                 Click="{x:Bind OnDeleteDownloadClicked}"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                IsEnabled="{x:Bind sys:String.IsNullOrEmpty(SearchDownload), Mode=OneWay}"
+                IsEnabled="{x:Bind sys:String.IsNullOrEmpty(SearchDownloadText), Mode=OneWay}"
                 ToolTipService.ToolTip="{x:Bind string:DownloadManager.DeleteDownloadToolTip}">
 
                 <Button.Content>
@@ -344,7 +344,7 @@
 
         <Grid
             Grid.Row="2"
-            Margin="30,3,30,0"
+            Margin="30,0,30,0"
             Padding="16,12"
             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -367,7 +367,7 @@
 
             <Grid
                 Grid.Row="0"
-                Margin="30,3,30,0"
+                Margin="30,0,30,0"
                 Padding="16,12"
                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -384,7 +384,7 @@
 
             <ListView
                 Grid.Row="1"
-                Padding="30,3,30,30"
+                Padding="30,0,30,30"
                 ItemContainerStyle="{StaticResource CardListViewItemContainerStyle}"
                 ItemsSource="{x:Bind DownloadCollection, Mode=OneWay}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -398,6 +398,7 @@
                     <DataTemplate x:DataType="model:DownloadModel">
                         <Grid
                             Height="66"
+                            Margin="0,0,0,2"
                             Padding="16,12"
                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"

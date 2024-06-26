@@ -15,7 +15,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.FirewallAPI
         /// <param name="ppPublicACs">应用容器结构元素的列表。</param>
         /// <returns>如果成功，则返回ERROR_SUCCESS，否则返回错误值。如果内存不可用，将返回ERROR_OUTOFMEMORY。</returns>
         [DllImport(FirewallAPI, CharSet = CharSet.Unicode, EntryPoint = "NetworkIsolationEnumAppContainers", SetLastError = false)]
-        internal static extern uint NetworkIsolationEnumAppContainers(uint Flags, out uint pdwCntPublicACs, out IntPtr ppPublicACs);
+        internal static extern uint NetworkIsolationEnumAppContainers(NETISO_FLAG Flags, out uint pdwCntPublicACs, out IntPtr ppPublicACs);
 
         /// <summary>
         /// 用于释放分配给一个或多个应用容器的内存资源
@@ -40,6 +40,6 @@ namespace WindowsTools.WindowsAPI.PInvoke.FirewallAPI
         /// <param name="appContainerSids">安全标识符 (允许发送环回流量的应用容器) SID。 用于调试目的。</param>
         /// <returns>如果成功，则返回ERROR_SUCCESS，否则返回错误值。</returns>
         [DllImport(FirewallAPI, CharSet = CharSet.Unicode, EntryPoint = "NetworkIsolationGetAppContainerConfig", SetLastError = false)]
-        internal static extern uint NetworkIsolationSetAppContainerConfig(uint dwNumPublicAppCs, SID_AND_ATTRIBUTES[] appContainerSids);
+        internal static extern uint NetworkIsolationSetAppContainerConfig(int dwNumPublicAppCs, SID_AND_ATTRIBUTES[] appContainerSids);
     }
 }

@@ -117,6 +117,30 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EmptyDescription" xml:space="preserve">
+    <value>该设备没有任何应用</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>重置</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="SearchAppNamePHText" xml:space="preserve">
+    <value>搜索应用名称</value>
+  </data>
+  <data name="SearchEmptyDescription" xml:space="preserve">
+    <value>没有搜索到任何应用</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>全选</value>
+  </data>
+  <data name="SelectNone" xml:space="preserve">
+    <value>全部不选</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>网络回环管理</value>
   </data>

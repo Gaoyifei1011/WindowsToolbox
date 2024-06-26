@@ -61,6 +61,78 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 The device has no application 的本地化字符串。
+        /// </summary>
+        public static string EmptyDescription {
+            get {
+                return ResourceManager.GetString("EmptyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Refresh 的本地化字符串。
+        /// </summary>
+        public static string Refresh {
+            get {
+                return ResourceManager.GetString("Refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Reset 的本地化字符串。
+        /// </summary>
+        public static string Reset {
+            get {
+                return ResourceManager.GetString("Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Save 的本地化字符串。
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Search app name 的本地化字符串。
+        /// </summary>
+        public static string SearchAppNamePHText {
+            get {
+                return ResourceManager.GetString("SearchAppNamePHText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No apps found 的本地化字符串。
+        /// </summary>
+        public static string SearchEmptyDescription {
+            get {
+                return ResourceManager.GetString("SearchEmptyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select all 的本地化字符串。
+        /// </summary>
+        public static string SelectAll {
+            get {
+                return ResourceManager.GetString("SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select none 的本地化字符串。
+        /// </summary>
+        public static string SelectNone {
+            get {
+                return ResourceManager.GetString("SelectNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Loop back manager 的本地化字符串。
         /// </summary>
         public static string Title {

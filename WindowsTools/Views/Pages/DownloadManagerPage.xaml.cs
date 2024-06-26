@@ -42,18 +42,18 @@ namespace WindowsTools.Views.Pages
     {
         private bool isAllowClosed = false;
 
-        private string _searchDownload;
+        private string _searchDownloadText;
 
-        public string SearchDownload
+        public string SearchDownloadText
         {
-            get { return _searchDownload; }
+            get { return _searchDownloadText; }
 
             set
             {
-                if (!Equals(_searchDownload, value))
+                if (!Equals(_searchDownloadText, value))
                 {
-                    _searchDownload = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchDownload)));
+                    _searchDownloadText = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchDownloadText)));
                 }
             }
         }
@@ -376,9 +376,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSearchDownloadTextChanged(object sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            SearchDownload = (sender as AutoSuggestBox).Text;
+            SearchDownloadText = (sender as AutoSuggestBox).Text;
 
-            if (string.IsNullOrEmpty(SearchDownload))
+            if (string.IsNullOrEmpty(SearchDownloadText))
             {
                 foreach (DownloadModel downloadItem in DownloadCollection)
                 {
@@ -394,11 +394,11 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSearchDownloadQuerySubmitted(object sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (!string.IsNullOrEmpty(SearchDownload))
+            if (!string.IsNullOrEmpty(SearchDownloadText))
             {
                 foreach (DownloadModel downloadItem in DownloadCollection)
                 {
-                    downloadItem.IsVisible = downloadItem.FileName.Contains(SearchDownload) ? Visibility.Visible : Visibility.Collapsed;
+                    downloadItem.IsVisible = downloadItem.FileName.Contains(SearchDownloadText) ? Visibility.Visible : Visibility.Collapsed;
                 }
 
                 IsSearchEmpty = DownloadCollection.All(item => item.IsVisible is Visibility.Collapsed);
