@@ -154,7 +154,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:ExtensionName.OriginalFileName}" Visibility="{x:Bind OriginalFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:ExtensionName.OriginalFileName}"
+                            Visibility="{x:Bind OriginalFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -168,7 +171,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:ExtensionName.NewFileName}" Visibility="{x:Bind NewFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:ExtensionName.NewFileName}"
+                            Visibility="{x:Bind NewFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
             </Grid>
@@ -211,6 +217,7 @@
 
                                 <ToolTipService.ToolTip>
                                     <ToolTip
+                                        MaxWidth="9999"
                                         Content="{x:Bind OriginalFilePath, Mode=OneWay}"
                                         Placement="Mouse"
                                         Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(OriginalFilePath), Mode=OneWay}" />
@@ -230,6 +237,7 @@
 
                                 <ToolTipService.ToolTip>
                                     <ToolTip
+                                        MaxWidth="9999"
                                         Content="{x:Bind NewFilePath, Mode=OneWay}"
                                         Placement="Mouse"
                                         Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(NewFilePath), Mode=OneWay}" />

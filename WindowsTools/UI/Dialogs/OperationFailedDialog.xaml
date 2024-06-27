@@ -62,7 +62,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:Dialog.FileName}" Visibility="{x:Bind FileNameText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:Dialog.FileName}"
+                            Visibility="{x:Bind FileNameText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -76,7 +79,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:Dialog.ErrorMessage}" Visibility="{x:Bind ErrorMessageText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:Dialog.ErrorMessage}"
+                            Visibility="{x:Bind ErrorMessageText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -90,7 +96,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:Dialog.ErrorCode}" Visibility="{x:Bind ErrorCodeText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:Dialog.ErrorCode}"
+                            Visibility="{x:Bind ErrorCodeText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -104,7 +113,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:Dialog.Operation}" Visibility="{x:Bind OperationText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:Dialog.Operation}"
+                            Visibility="{x:Bind OperationText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
             </Grid>
@@ -136,7 +148,10 @@
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind FileName}" Visibility="{Binding ElementName=FilePathText, Path=IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind FileName}"
+                                Visibility="{Binding ElementName=FilePathText, Path=IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -151,7 +166,10 @@
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind Exception.Message}" Visibility="{Binding ElementName=MessageText, Path=IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind Exception.Message}"
+                                Visibility="{Binding ElementName=MessageText, Path=IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -166,7 +184,10 @@
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind sys:Convert.ToString(Exception.HResult)}" Visibility="{Binding ElementName=HResultText, Path=IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind sys:Convert.ToString(Exception.HResult)}"
+                                Visibility="{Binding ElementName=HResultText, Path=IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -185,7 +206,10 @@
                                 TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
-                                    <ToolTip Content="{x:Bind string:Dialog.Copy}" Visibility="{Binding ElementName=CopyText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Content="{x:Bind string:Dialog.Copy}"
+                                        Visibility="{Binding ElementName=CopyText, Path=IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
                         </HyperlinkButton.Content>

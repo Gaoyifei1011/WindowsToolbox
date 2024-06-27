@@ -114,7 +114,10 @@
                             TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="{x:Bind string:Settings.ThemeModeDescription}" Visibility="{x:Bind ThemeModeDescription.IsTextTrimmed, Mode=OneWay}" />
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind string:Settings.ThemeModeDescription}"
+                                    Visibility="{x:Bind ThemeModeDescription.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
                     </StackPanel>
@@ -198,7 +201,10 @@
                             TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="{x:Bind string:Settings.BackdropDescription}" Visibility="{x:Bind BackdropDescription.IsTextTrimmed, Mode=OneWay}" />
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind string:Settings.BackdropDescription}"
+                                    Visibility="{x:Bind BackdropDescription.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
                     </StackPanel>
@@ -322,7 +328,10 @@
                             TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="{x:Bind string:Settings.AlwaysShowBackdropDescription}" Visibility="{x:Bind AlwaysShowBackdropDescription.IsTextTrimmed, Mode=OneWay}" />
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind string:Settings.AlwaysShowBackdropDescription}"
+                                    Visibility="{x:Bind AlwaysShowBackdropDescription.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
                     </StackPanel>
@@ -378,7 +387,10 @@
                             TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="{x:Bind string:Settings.LanguageDescription}" Visibility="{x:Bind LanguageDescription.IsTextTrimmed, Mode=OneWay}" />
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind string:Settings.LanguageDescription}"
+                                    Visibility="{x:Bind LanguageDescription.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
                     </StackPanel>
@@ -445,7 +457,10 @@
                             TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="{x:Bind string:Settings.TopMostDescription}" Visibility="{x:Bind TopMostDescription.IsTextTrimmed, Mode=OneWay}" />
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind string:Settings.TopMostDescription}"
+                                    Visibility="{x:Bind TopMostDescription.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
                     </StackPanel>
@@ -519,7 +534,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:Settings.DownloadOptionsDescription}" Visibility="{x:Bind DownloadOptionsDescription.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:Settings.DownloadOptionsDescription}"
+                                            Visibility="{x:Bind DownloadOptionsDescription.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
                             </StackPanel>
@@ -637,7 +655,10 @@
                                         TextWrapping="NoWrap">
 
                                         <ToolTipService.ToolTip>
-                                            <ToolTip Content="{x:Bind string:Settings.DoEngineModeDescription}" Visibility="{x:Bind DoEngineModeDescription.IsTextTrimmed, Mode=OneWay}" />
+                                            <ToolTip
+                                                MaxWidth="9999"
+                                                Content="{x:Bind string:Settings.DoEngineModeDescription}"
+                                                Visibility="{x:Bind DoEngineModeDescription.IsTextTrimmed, Mode=OneWay}" />
                                         </ToolTipService.ToolTip>
                                     </TextBlock>
                                 </StackPanel>
@@ -721,7 +742,10 @@
                             TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="{x:Bind string:Settings.FileShellMenuDescription}" Visibility="{x:Bind FileShellMenuDescription.IsTextTrimmed, Mode=OneWay}" />
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind string:Settings.FileShellMenuDescription}"
+                                    Visibility="{x:Bind FileShellMenuDescription.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
                     </StackPanel>
@@ -781,7 +805,10 @@
                             TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="{x:Bind string:Settings.ExitModeDescription}" Visibility="{x:Bind ExitModeDescription.IsTextTrimmed, Mode=OneWay}" />
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind string:Settings.ExitModeDescription}"
+                                    Visibility="{x:Bind ExitModeDescription.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
                     </StackPanel>
@@ -871,7 +898,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:Settings.LogRecordDescription}" Visibility="{x:Bind LogRecordDescription.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:Settings.LogRecordDescription}"
+                                            Visibility="{x:Bind LogRecordDescription.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
                             </StackPanel>
@@ -910,7 +940,10 @@
                                         TextWrapping="NoWrap">
 
                                         <ToolTipService.ToolTip>
-                                            <ToolTip Content="{x:Bind string:Settings.LogFolderDescription}" Visibility="{x:Bind LogFolderDescription.IsTextTrimmed, Mode=OneWay}" />
+                                            <ToolTip
+                                                MaxWidth="9999"
+                                                Content="{x:Bind string:Settings.LogFolderDescription}"
+                                                Visibility="{x:Bind LogFolderDescription.IsTextTrimmed, Mode=OneWay}" />
                                         </ToolTipService.ToolTip>
                                     </TextBlock>
                                 </StackPanel>
@@ -954,7 +987,10 @@
                                         TextWrapping="NoWrap">
 
                                         <ToolTipService.ToolTip>
-                                            <ToolTip Content="{x:Bind string:Settings.ClearLogDescription}" Visibility="{x:Bind ClearLogDescription.IsTextTrimmed, Mode=OneWay}" />
+                                            <ToolTip
+                                                MaxWidth="9999"
+                                                Content="{x:Bind string:Settings.ClearLogDescription}"
+                                                Visibility="{x:Bind ClearLogDescription.IsTextTrimmed, Mode=OneWay}" />
                                         </ToolTipService.ToolTip>
                                     </TextBlock>
                                 </StackPanel>

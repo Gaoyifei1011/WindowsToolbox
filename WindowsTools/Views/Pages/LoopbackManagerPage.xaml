@@ -247,7 +247,7 @@
                                             IsChecked="{x:Bind IsSelected, Mode=TwoWay}">
 
                                             <ToolTipService.ToolTip>
-                                                <ToolTip>
+                                                <ToolTip MaxWidth="9999">
                                                     <Grid>
                                                         <TextBlock Text="{x:Bind string:LoopbackManager.SelectedToolTip}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
                                                         <TextBlock Text="{x:Bind string:LoopbackManager.UnSelectedToolTip}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
@@ -270,7 +270,10 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind DisplayName}" Visibility="{Binding ElementName=PackageFullNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind DisplayName}"
+                                                        Visibility="{Binding ElementName=PackageFullNameText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
@@ -283,7 +286,10 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind PackageFullName}" Visibility="{Binding ElementName=PackageFullNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind PackageFullName}"
+                                                        Visibility="{Binding ElementName=PackageFullNameText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
                                         </StackPanel>

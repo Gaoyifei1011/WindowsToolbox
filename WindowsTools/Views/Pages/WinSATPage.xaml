@@ -69,7 +69,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:WinSAT.Component}" Visibility="{x:Bind ComponentHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:WinSAT.Component}"
+                            Visibility="{x:Bind ComponentHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -83,7 +86,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:WinSAT.AssessmentItems}" Visibility="{x:Bind AssessmentItemsHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:WinSAT.AssessmentItems}"
+                            Visibility="{x:Bind AssessmentItemsHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -97,7 +103,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:WinSAT.SubScore}" Visibility="{x:Bind SubScoreHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:WinSAT.SubScore}"
+                            Visibility="{x:Bind SubScoreHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -111,7 +120,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:WinSAT.BasicScore}" Visibility="{x:Bind BasicScoreHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:WinSAT.BasicScore}"
+                            Visibility="{x:Bind BasicScoreHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
             </Grid>
@@ -139,7 +151,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:WinSAT.Processor}" Visibility="{x:Bind ProcessorText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:WinSAT.Processor}"
+                            Visibility="{x:Bind ProcessorText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -153,7 +168,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:WinSAT.ProcessorItem}" Visibility="{x:Bind ProcessorItemText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:WinSAT.ProcessorItem}"
+                            Visibility="{x:Bind ProcessorItemText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -167,7 +185,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind ProcessorSubScore, Mode=OneWay}" Visibility="{x:Bind ProcessorSubScoreText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind ProcessorSubScore, Mode=OneWay}"
+                            Visibility="{x:Bind ProcessorSubScoreText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
             </Grid>
@@ -195,7 +216,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:WinSAT.Memory}" Visibility="{x:Bind MemoryText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:WinSAT.Memory}"
+                            Visibility="{x:Bind MemoryText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -209,7 +233,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:WinSAT.MemoryItem}" Visibility="{x:Bind MemoryItemText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:WinSAT.MemoryItem}"
+                            Visibility="{x:Bind MemoryItemText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -223,7 +250,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind MemorySubScore, Mode=OneWay}" Visibility="{x:Bind MemorySubScoreText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind MemorySubScore, Mode=OneWay}"
+                            Visibility="{x:Bind MemorySubScoreText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
             </Grid>
@@ -251,7 +281,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:WinSAT.Graphics}" Visibility="{x:Bind GraphicsText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:WinSAT.Graphics}"
+                            Visibility="{x:Bind GraphicsText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -265,7 +298,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:WinSAT.GraphicsItem}" Visibility="{x:Bind GraphicsItemText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:WinSAT.GraphicsItem}"
+                            Visibility="{x:Bind GraphicsItemText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -279,7 +315,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind GraphicsSubScore, Mode=OneWay}" Visibility="{x:Bind GraphicsSubScoreText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind GraphicsSubScore, Mode=OneWay}"
+                            Visibility="{x:Bind GraphicsSubScoreText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
             </Grid>
@@ -307,7 +346,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:WinSAT.GamingGraphics}" Visibility="{x:Bind GamingGraphicsText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:WinSAT.GamingGraphics}"
+                            Visibility="{x:Bind GamingGraphicsText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -321,7 +363,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:WinSAT.GamingGraphicsItem}" Visibility="{x:Bind GamingGraphicsItemText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:WinSAT.GamingGraphicsItem}"
+                            Visibility="{x:Bind GamingGraphicsItemText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -335,7 +380,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind GamingGraphicsSubScore, Mode=OneWay}" Visibility="{x:Bind GamingGraphicsSubScoreText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind GamingGraphicsSubScore, Mode=OneWay}"
+                            Visibility="{x:Bind GamingGraphicsSubScoreText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
             </Grid>
@@ -363,7 +411,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:WinSAT.PrimaryDisk}" Visibility="{x:Bind PrimaryDiskText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:WinSAT.PrimaryDisk}"
+                            Visibility="{x:Bind PrimaryDiskText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -377,7 +428,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:WinSAT.PrimaryDiskItem}" Visibility="{x:Bind PrimaryDiskItemText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:WinSAT.PrimaryDiskItem}"
+                            Visibility="{x:Bind PrimaryDiskItemText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -391,7 +445,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind PrimaryDiskSubScore, Mode=OneWay}" Visibility="{x:Bind PrimaryDiskSubScoreText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind PrimaryDiskSubScore, Mode=OneWay}"
+                            Visibility="{x:Bind PrimaryDiskSubScoreText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
             </Grid>

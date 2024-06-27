@@ -62,7 +62,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:FileCertificate.FileName}" Visibility="{x:Bind FileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:FileCertificate.FileName}"
+                            Visibility="{x:Bind FileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
             </Grid>
@@ -99,6 +102,7 @@
 
                                 <ToolTipService.ToolTip>
                                     <ToolTip
+                                        MaxWidth="9999"
                                         Content="{x:Bind FilePath, Mode=OneWay}"
                                         Placement="Mouse"
                                         Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(FilePath), Mode=OneWay}" />

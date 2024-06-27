@@ -36,7 +36,10 @@
             TextWrapping="NoWrap">
 
             <ToolTipService.ToolTip>
-                <ToolTip Content="{x:Bind GetResults, Mode=OneWay}" Visibility="{x:Bind GetResultsText.IsTextTrimmed, Mode=OneWay}" />
+                <ToolTip
+                    MaxWidth="9999"
+                    Content="{x:Bind GetResults, Mode=OneWay}"
+                    Visibility="{x:Bind GetResultsText.IsTextTrimmed, Mode=OneWay}" />
             </ToolTipService.ToolTip>
         </TextBlock>
 

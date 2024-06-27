@@ -239,7 +239,7 @@
                                     Style="{StaticResource TimePickerStyle}"
                                     Time="{x:Bind DurationTime, Mode=OneWay}"
                                     TimeChanged="{x:Bind OnTimeChanged}"
-                                    ToolTipService.ToolTip="{x:Bind sys:String.Format(string:Loaf.LoafTimeTooTip, DurationTime.Hours, DurationTime.Minutes), Mode=OneWay}" />
+                                    ToolTipService.ToolTip="{x:Bind sys:String.Format(string:Loaf.LoafTimeToolTip, DurationTime.Hours, DurationTime.Minutes), Mode=OneWay}" />
                             </Grid>
 
                             <MenuFlyoutSeparator />

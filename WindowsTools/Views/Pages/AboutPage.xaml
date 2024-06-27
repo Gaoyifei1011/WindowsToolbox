@@ -283,7 +283,7 @@
                                         </HyperlinkButton.Content>
 
                                         <ToolTipService.ToolTip>
-                                            <ToolTip>
+                                            <ToolTip MaxWidth="9999">
                                                 <TextBlock>
                                                     <Run Text="{x:Bind sys:Convert.ToString(Key)}" />
                                                     <LineBreak />
@@ -463,7 +463,7 @@
                                         </HyperlinkButton.Content>
 
                                         <ToolTipService.ToolTip>
-                                            <ToolTip>
+                                            <ToolTip MaxWidth="9999">
                                                 <TextBlock>
                                                     <Run Text="{x:Bind sys:Convert.ToString(Key)}" />
                                                     <LineBreak />

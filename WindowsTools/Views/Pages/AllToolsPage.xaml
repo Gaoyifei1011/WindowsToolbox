@@ -58,7 +58,10 @@
                         TextTrimming="CharacterEllipsis">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind Description}" Visibility="{Binding ElementName=DescriptionText, Path=IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind Description}"
+                                Visibility="{Binding ElementName=DescriptionText, Path=IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
                 </StackPanel>

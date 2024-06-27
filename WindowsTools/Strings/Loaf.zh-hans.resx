@@ -138,7 +138,7 @@
   <data name="LoadingBingWallpaper" xml:space="preserve">
     <value>正在加载每日必应壁纸...</value>
   </data>
-  <data name="LoafTimeTooTip" xml:space="preserve">
+  <data name="LoafTimeToolTip" xml:space="preserve">
     <value>时长：{0}时{1}分</value>
   </data>
   <data name="LockScreenAutomaticly" xml:space="preserve">

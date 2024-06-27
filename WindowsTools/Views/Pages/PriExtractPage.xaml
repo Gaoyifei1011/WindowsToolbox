@@ -42,7 +42,10 @@
             TextWrapping="NoWrap">
 
             <ToolTipService.ToolTip>
-                <ToolTip Content="{x:Bind GetResults, Mode=OneWay}" Visibility="{x:Bind GetResultsText.IsTextTrimmed, Mode=OneWay}" />
+                <ToolTip
+                    MaxWidth="9999"
+                    Content="{x:Bind GetResults, Mode=OneWay}"
+                    Visibility="{x:Bind GetResultsText.IsTextTrimmed, Mode=OneWay}" />
             </ToolTipService.ToolTip>
         </TextBlock>
 
@@ -94,7 +97,7 @@
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind string:PriExtract.SelectDescription}" />
+                            <ToolTip MaxWidth="9999" Content="{x:Bind string:PriExtract.SelectDescription}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -108,7 +111,10 @@
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind string:PriExtract.Key}" Visibility="{x:Bind StringKeyHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind string:PriExtract.Key}"
+                                Visibility="{x:Bind StringKeyHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -122,7 +128,10 @@
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind string:PriExtract.Content}" Visibility="{x:Bind StringContentHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind string:PriExtract.Content}"
+                                Visibility="{x:Bind StringContentHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -136,7 +145,10 @@
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind string:PriExtract.Operation}" Visibility="{x:Bind StringOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind string:PriExtract.Operation}"
+                                Visibility="{x:Bind StringOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
                 </Grid>
@@ -181,7 +193,7 @@
                                     IsThreeState="False">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip>
+                                        <ToolTip MaxWidth="9999">
                                             <Grid>
                                                 <TextBlock Text="{x:Bind string:PriExtract.SelectedToolTip}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
                                                 <TextBlock Text="{x:Bind string:PriExtract.UnSelectedToolTip}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
@@ -203,7 +215,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind Key}" Visibility="{Binding ElementName=StringKeyText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind Key}"
+                                            Visibility="{Binding ElementName=StringKeyText, Path=IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -220,7 +235,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind Content}" Visibility="{Binding ElementName=StringContentText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind Content}"
+                                            Visibility="{Binding ElementName=StringContentText, Path=IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -277,7 +295,7 @@
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind string:PriExtract.SelectDescription}" />
+                            <ToolTip MaxWidth="9999" Content="{x:Bind string:PriExtract.SelectDescription}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -291,7 +309,10 @@
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind string:PriExtract.Key}" Visibility="{x:Bind FilePathKeyHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind string:PriExtract.Key}"
+                                Visibility="{x:Bind FilePathKeyHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -305,7 +326,10 @@
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind string:PriExtract.AbsolutePath}" Visibility="{x:Bind FilePathAbsolutePathHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind string:PriExtract.AbsolutePath}"
+                                Visibility="{x:Bind FilePathAbsolutePathHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -319,7 +343,10 @@
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind string:PriExtract.Operation}" Visibility="{x:Bind FilePathOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind string:PriExtract.Operation}"
+                                Visibility="{x:Bind FilePathOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
                 </Grid>
@@ -364,7 +391,7 @@
                                     IsThreeState="False">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip>
+                                        <ToolTip MaxWidth="9999">
                                             <Grid>
                                                 <TextBlock Text="{x:Bind string:PriExtract.SelectedToolTip}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
                                                 <TextBlock Text="{x:Bind string:PriExtract.UnSelectedToolTip}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
@@ -386,7 +413,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind Key}" Visibility="{Binding ElementName=FilePathKeyText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind Key}"
+                                            Visibility="{Binding ElementName=FilePathKeyText, Path=IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -403,7 +433,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind AbsolutePath}" Visibility="{Binding ElementName=FilePathAbsolutePathText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind AbsolutePath}"
+                                            Visibility="{Binding ElementName=FilePathAbsolutePathText, Path=IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -459,7 +492,7 @@
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind string:PriExtract.SelectDescription}" />
+                            <ToolTip MaxWidth="9999" Content="{x:Bind string:PriExtract.SelectDescription}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -473,7 +506,10 @@
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind string:PriExtract.Key}" Visibility="{x:Bind EmbeddedDataKeyHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind string:PriExtract.Key}"
+                                Visibility="{x:Bind EmbeddedDataKeyHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -487,7 +523,10 @@
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind string:PriExtract.Operation}" Visibility="{x:Bind EmbeddedDataOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind string:PriExtract.Operation}"
+                                Visibility="{x:Bind EmbeddedDataOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
                 </Grid>
@@ -531,7 +570,7 @@
                                     IsThreeState="False">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip>
+                                        <ToolTip MaxWidth="9999">
                                             <Grid>
                                                 <TextBlock Text="{x:Bind string:PriExtract.SelectedToolTip}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
                                                 <TextBlock Text="{x:Bind string:PriExtract.UnSelectedToolTip}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
@@ -553,7 +592,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind Key}" Visibility="{Binding ElementName=EmbeddedDataKeyText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind Key}"
+                                            Visibility="{Binding ElementName=EmbeddedDataKeyText, Path=IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 

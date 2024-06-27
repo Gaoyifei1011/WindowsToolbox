@@ -190,7 +190,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Select}" Visibility="{x:Bind AvailableSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.Select}"
+                                            Visibility="{x:Bind AvailableSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -204,7 +207,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.UpdateName}" Visibility="{x:Bind AvailableUpdateNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.UpdateName}"
+                                            Visibility="{x:Bind AvailableUpdateNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -218,7 +224,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Date}" Visibility="{x:Bind AvailableDateHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.Date}"
+                                            Visibility="{x:Bind AvailableDateHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -232,7 +241,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Size}" Visibility="{x:Bind AvailableSizeHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.Size}"
+                                            Visibility="{x:Bind AvailableSizeHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -247,7 +259,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Status}" Visibility="{x:Bind AvailableOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.Status}"
+                                            Visibility="{x:Bind AvailableOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
                             </Grid>
@@ -299,7 +314,7 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip>
+                                                    <ToolTip MaxWidth="9999">
                                                         <StackPanel>
                                                             <TextBlock Text="{x:Bind string:UpdateManager.Title}" />
                                                             <TextBlock Text="{x:Bind UpdateName}" TextWrapping="Wrap" />
@@ -324,7 +339,10 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Date.ToString('yyyy/MM/dd')}" Visibility="{Binding ElementName=AvailableDateText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind Date.ToString('yyyy/MM/dd')}"
+                                                        Visibility="{Binding ElementName=AvailableDateText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
@@ -341,7 +359,10 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Size, Mode=OneWay}" Visibility="{Binding ElementName=AvailableSizeText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind Size, Mode=OneWay}"
+                                                        Visibility="{Binding ElementName=AvailableSizeText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
@@ -499,7 +520,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Select}" Visibility="{x:Bind InstalledSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.Select}"
+                                            Visibility="{x:Bind InstalledSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -513,7 +537,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.UpdateName}" Visibility="{x:Bind InstalledUpdateNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.UpdateName}"
+                                            Visibility="{x:Bind InstalledUpdateNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -527,7 +554,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Date}" Visibility="{x:Bind InstalledDateHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.Date}"
+                                            Visibility="{x:Bind InstalledDateHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -541,7 +571,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Size}" Visibility="{x:Bind InstalledSizeHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.Size}"
+                                            Visibility="{x:Bind InstalledSizeHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -556,7 +589,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Operation}" Visibility="{x:Bind InstalledOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.Operation}"
+                                            Visibility="{x:Bind InstalledOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
                             </Grid>
@@ -607,7 +643,7 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip>
+                                                    <ToolTip MaxWidth="9999">
                                                         <StackPanel>
                                                             <TextBlock Text="{x:Bind string:UpdateManager.Title}" />
                                                             <TextBlock Text="{x:Bind UpdateName}" TextWrapping="Wrap" />
@@ -632,7 +668,10 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Date.ToString('yyyy/MM/dd')}" Visibility="{Binding ElementName=InstalledDateText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind Date.ToString('yyyy/MM/dd')}"
+                                                        Visibility="{Binding ElementName=InstalledDateText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
@@ -649,7 +688,10 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Size}" Visibility="{Binding ElementName=InstalledSizeText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind Size}"
+                                                        Visibility="{Binding ElementName=InstalledSizeText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
@@ -799,7 +841,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Select}" Visibility="{x:Bind HiddenSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.Select}"
+                                            Visibility="{x:Bind HiddenSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -813,7 +858,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.UpdateName}" Visibility="{x:Bind HiddenUpdateNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.UpdateName}"
+                                            Visibility="{x:Bind HiddenUpdateNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -827,7 +875,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Date}" Visibility="{x:Bind HiddenDateHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.Date}"
+                                            Visibility="{x:Bind HiddenDateHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -841,7 +892,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Size}" Visibility="{x:Bind HiddenSizeHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.Size}"
+                                            Visibility="{x:Bind HiddenSizeHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -856,7 +910,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Operation}" Visibility="{x:Bind HiddenOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.Operation}"
+                                            Visibility="{x:Bind HiddenOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
                             </Grid>
@@ -907,7 +964,7 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip>
+                                                    <ToolTip MaxWidth="9999">
                                                         <StackPanel>
                                                             <TextBlock Text="{x:Bind string:UpdateManager.Title}" />
                                                             <TextBlock Text="{x:Bind UpdateName}" TextWrapping="Wrap" />
@@ -932,7 +989,10 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Date.ToString('yyyy/MM/dd')}" Visibility="{Binding ElementName=HiddenDateText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind Date.ToString('yyyy/MM/dd')}"
+                                                        Visibility="{Binding ElementName=HiddenDateText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
@@ -949,7 +1009,10 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Size, Mode=OneWay}" Visibility="{Binding ElementName=HiddenSizeText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind Size, Mode=OneWay}"
+                                                        Visibility="{Binding ElementName=HiddenSizeText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
@@ -1055,7 +1118,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.UpdateName}" Visibility="{x:Bind HistoryUpdateNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.UpdateName}"
+                                            Visibility="{x:Bind HistoryUpdateNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -1069,7 +1135,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.ApplicationID}" Visibility="{x:Bind HistoryApplicationIDHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.ApplicationID}"
+                                            Visibility="{x:Bind HistoryApplicationIDHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -1084,7 +1153,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Date}" Visibility="{x:Bind HistoryDateHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.Date}"
+                                            Visibility="{x:Bind HistoryDateHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
 
@@ -1099,7 +1171,10 @@
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind string:UpdateManager.Status}" Visibility="{x:Bind HistoryStatusHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind string:UpdateManager.Status}"
+                                            Visibility="{x:Bind HistoryStatusHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
                             </Grid>
@@ -1139,7 +1214,7 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip>
+                                                    <ToolTip MaxWidth="9999">
                                                         <StackPanel>
                                                             <TextBlock Text="{x:Bind string:UpdateManager.Title}" />
                                                             <TextBlock Text="{x:Bind UpdateName}" TextWrapping="Wrap" />
@@ -1164,7 +1239,10 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind ApplicationID}" Visibility="{Binding ElementName=HistoryApplicationIDText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind ApplicationID}"
+                                                        Visibility="{Binding ElementName=HistoryApplicationIDText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
@@ -1181,7 +1259,10 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Date.ToString('yyyy/MM/dd HH:mm')}" Visibility="{Binding ElementName=HistoryDateText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind Date.ToString('yyyy/MM/dd HH:mm')}"
+                                                        Visibility="{Binding ElementName=HistoryDateText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
@@ -1198,7 +1279,10 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind Status}" Visibility="{Binding ElementName=HistoryStatusText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind Status}"
+                                                        Visibility="{Binding ElementName=HistoryStatusText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 

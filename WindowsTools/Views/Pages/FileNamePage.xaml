@@ -413,7 +413,10 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind string:FileName.OriginalName}" Visibility="{Binding ElementName=OriginalNameHeaderText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind string:FileName.OriginalName}"
+                                                        Visibility="{Binding ElementName=OriginalNameHeaderText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
 
@@ -427,7 +430,10 @@
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{x:Bind string:FileName.ChangedName}" Visibility="{Binding ElementName=ChangedNameHeaderText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind string:FileName.ChangedName}"
+                                                        Visibility="{Binding ElementName=ChangedNameHeaderText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
                                         </Grid>
@@ -459,7 +465,10 @@
                                                     TextWrapping="NoWrap">
 
                                                     <ToolTipService.ToolTip>
-                                                        <ToolTip Content="{x:Bind OriginalFileName}" Visibility="{Binding ElementName=OriginalFileNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                        <ToolTip
+                                                            MaxWidth="9999"
+                                                            Content="{x:Bind OriginalFileName}"
+                                                            Visibility="{Binding ElementName=OriginalFileNameText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                     </ToolTipService.ToolTip>
                                                 </TextBlock>
 
@@ -476,7 +485,10 @@
                                                     TextWrapping="NoWrap">
 
                                                     <ToolTipService.ToolTip>
-                                                        <ToolTip Content="{x:Bind OriginalFileName}" Visibility="{Binding ElementName=NewFileNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                        <ToolTip
+                                                            MaxWidth="9999"
+                                                            Content="{x:Bind OriginalFileName}"
+                                                            Visibility="{Binding ElementName=NewFileNameText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                     </ToolTipService.ToolTip>
                                                 </TextBlock>
                                             </Grid>
@@ -525,7 +537,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:FileName.OriginalFileName}" Visibility="{x:Bind OriginalFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:FileName.OriginalFileName}"
+                            Visibility="{x:Bind OriginalFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
 
@@ -539,7 +554,10 @@
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="{x:Bind string:FileName.NewFileName}" Visibility="{x:Bind NewFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind string:FileName.NewFileName}"
+                            Visibility="{x:Bind NewFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
             </Grid>
@@ -582,6 +600,7 @@
 
                                 <ToolTipService.ToolTip>
                                     <ToolTip
+                                        MaxWidth="9999"
                                         Content="{x:Bind OriginalFilePath, Mode=OneWay}"
                                         Placement="Mouse"
                                         Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(OriginalFilePath), Mode=OneWay}" />
@@ -601,6 +620,7 @@
 
                                 <ToolTipService.ToolTip>
                                     <ToolTip
+                                        MaxWidth="9999"
                                         Content="{x:Bind NewFilePath, Mode=OneWay}"
                                         Placement="Mouse"
                                         Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(NewFilePath), Mode=OneWay}" />

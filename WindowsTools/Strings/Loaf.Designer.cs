@@ -126,9 +126,9 @@ namespace WindowsTools.Strings {
         /// <summary>
         ///   查找类似 Duration: {0} hours,{1} minutes 的本地化字符串。
         /// </summary>
-        public static string LoafTimeTooTip {
+        public static string LoafTimeToolTip {
             get {
-                return ResourceManager.GetString("LoafTimeTooTip", resourceCulture);
+                return ResourceManager.GetString("LoafTimeToolTip", resourceCulture);
             }
         }
         
