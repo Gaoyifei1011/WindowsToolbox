@@ -71,14 +71,7 @@ namespace WindowsTools.Helpers.Converters
         /// </summary>
         public static Visibility StringToVisibilityConvert(string value)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                return Visibility.Collapsed;
-            }
-            else
-            {
-                return Visibility.Visible;
-            }
+            return string.IsNullOrEmpty(value) ? Visibility.Collapsed : Visibility.Visible;
         }
 
         /// <summary>

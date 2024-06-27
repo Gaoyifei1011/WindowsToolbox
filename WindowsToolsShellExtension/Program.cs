@@ -20,7 +20,7 @@ namespace WindowsToolsShellExtension
 
         public static StrategyBasedComWrappers StrategyBasedComWrappers { get; } = new StrategyBasedComWrappers();
 
-        private readonly static IReadOnlyDictionary<Guid, Func<object>> createFunctions = new Dictionary<Guid, Func<object>>()
+        private static readonly IReadOnlyDictionary<Guid, Func<object>> createFunctions = new Dictionary<Guid, Func<object>>()
         {
             [typeof(RootExplorerCommand).GUID] = () => new RootExplorerCommand()
         };

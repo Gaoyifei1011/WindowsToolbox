@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace WindowsTools.WindowsAPI.PInvoke.FirewallAPI
 {
     /// <summary>
     /// 包含有关应用容器功能的信息。
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct INET_FIREWALL_AC_CAPABILITIES
     {
         /// <summary>

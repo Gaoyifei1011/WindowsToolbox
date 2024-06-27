@@ -75,14 +75,7 @@ namespace WindowsTools.Services.Shell
                 RootMenuIconPath = Path.Combine(new string(pathbuffer), @"Assets\WindowsTools.ico");
             }
 
-            if (useDefaultText.HasValue && useDefaultText is false && !string.IsNullOrEmpty(text))
-            {
-                RootMenuText = text;
-            }
-            else
-            {
-                RootMenuText = ShellMenu.RootItemTitle;
-            }
+            RootMenuText = useDefaultText.HasValue && useDefaultText is false && !string.IsNullOrEmpty(text) ? text : ShellMenu.RootItemTitle;
         }
     }
 }

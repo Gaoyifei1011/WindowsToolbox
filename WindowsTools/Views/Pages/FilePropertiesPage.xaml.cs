@@ -645,14 +645,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private bool CheckOperationState()
         {
-            if (IsReadOnlyChecked is false && IsArchiveChecked is false && IsCreateDateChecked is false && IsHideChecked is false && IsSystemChecked is false && IsModifyDateChecked is false)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return IsReadOnlyChecked is true || IsArchiveChecked is true || IsCreateDateChecked is true || IsHideChecked is true || IsSystemChecked is true || IsModifyDateChecked is true;
         }
 
         /// <summary>

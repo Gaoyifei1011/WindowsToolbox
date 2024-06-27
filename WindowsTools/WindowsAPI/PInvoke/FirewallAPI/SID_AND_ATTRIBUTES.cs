@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace WindowsTools.WindowsAPI.PInvoke.FirewallAPI
 {
     /// <summary>
     /// SID_AND_ATTRIBUTES 结构表示 SID) 及其属性安全标识符。 SID 用于唯一标识用户或组。
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SID_AND_ATTRIBUTES
     {
         /// <summary>

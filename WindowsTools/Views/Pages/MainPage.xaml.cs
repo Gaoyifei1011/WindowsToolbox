@@ -650,14 +650,7 @@ namespace WindowsTools.Views.Pages
 
         private bool GetWindowMaximizeState(bool isWindowMaximized, bool isWindowMaximizeEnabled, string isReverse)
         {
-            if (isWindowMaximizeEnabled)
-            {
-                return isReverse == nameof(isReverse) ? isWindowMaximized.Equals(false) : isWindowMaximized;
-            }
-            else
-            {
-                return false;
-            }
+            return isWindowMaximizeEnabled ? isReverse == nameof(isReverse) ? isWindowMaximized.Equals(false) : isWindowMaximized : false;
         }
     }
 }

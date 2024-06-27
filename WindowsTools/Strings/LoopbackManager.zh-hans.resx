@@ -117,8 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AppBinariesPath" xml:space="preserve">
+    <value>应用二进制路径</value>
+  </data>
+  <data name="AppContainerName" xml:space="preserve">
+    <value>应用容器名称</value>
+  </data>
+  <data name="AppContainerSID" xml:space="preserve">
+    <value>应用容器 SID</value>
+  </data>
+  <data name="AppContainerUser" xml:space="preserve">
+    <value>应用容器用户</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>描述信息</value>
+  </data>
   <data name="EmptyDescription" xml:space="preserve">
     <value>该设备没有任何应用</value>
+  </data>
+  <data name="LearnLoopback" xml:space="preserve">
+    <value>了解网络回环</value>
+  </data>
+  <data name="LoadingLoopback" xml:space="preserve">
+    <value>正在加载网络回环信息中，请稍候...</value>
+  </data>
+  <data name="OpenWorkingDirectoryToolTip" xml:space="preserve">
+    <value>打开工作目录</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>刷新</value>
@@ -138,10 +162,22 @@
   <data name="SelectAll" xml:space="preserve">
     <value>全选</value>
   </data>
+  <data name="SelectedToolTip" xml:space="preserve">
+    <value>已选择</value>
+  </data>
   <data name="SelectNone" xml:space="preserve">
     <value>全部不选</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>网络回环管理</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>[未知]</value>
+  </data>
+  <data name="UnSelectedToolTip" xml:space="preserve">
+    <value>未选择</value>
+  </data>
+  <data name="WorkingDirectory" xml:space="preserve">
+    <value>工作目录</value>
   </data>
 </root>

@@ -223,6 +223,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 The network loopback is set failed 的本地化字符串。
+        /// </summary>
+        public static string LoopbackSetResultFailed {
+            get {
+                return ResourceManager.GetString("LoopbackSetResultFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The network loopback is set successfully 的本地化字符串。
+        /// </summary>
+        public static string LoopbackSetResultSuccessfully {
+            get {
+                return ResourceManager.GetString("LoopbackSetResultSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The application is the latest version 的本地化字符串。
         /// </summary>
         public static string NewestVersion {

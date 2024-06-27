@@ -50,7 +50,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
             {
                 Result = (WINSAT_RESULT)hresult;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Result = WINSAT_RESULT.WINSAT_ERROR_COMPLETED_ERROR;
             }

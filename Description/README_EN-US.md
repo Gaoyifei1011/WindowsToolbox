@@ -69,6 +69,7 @@ A toolbox that integrates multiple gadgets.
 | System information                                        | Unfinished                                                           |
 | Driver manager                                            | Unfinished                                                           |
 | Update manager                                            | Unfinished                                                           |
+| Loopback manager                                          | Finished                                                             |
 | Windows system assessment tool                            | Finished                                                             |
 
 ------

@@ -171,6 +171,12 @@
   <data name="LogCleanSuccessfully" xml:space="preserve">
     <value>所有日志记录清除成功</value>
   </data>
+  <data name="LoopbackSetResultFailed" xml:space="preserve">
+    <value>网络回环设置失败</value>
+  </data>
+  <data name="LoopbackSetResultSuccessfully" xml:space="preserve">
+    <value>网络回环设置成功</value>
+  </data>
   <data name="NewestVersion" xml:space="preserve">
     <value>应用已是最新版本</value>
   </data>

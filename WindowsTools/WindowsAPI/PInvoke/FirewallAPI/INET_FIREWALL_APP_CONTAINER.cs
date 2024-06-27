@@ -6,6 +6,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.FirewallAPI
     /// <summary>
     /// 包含有关特定应用容器的信息。
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct INET_FIREWALL_APP_CONTAINER
     {
         /// <summary>

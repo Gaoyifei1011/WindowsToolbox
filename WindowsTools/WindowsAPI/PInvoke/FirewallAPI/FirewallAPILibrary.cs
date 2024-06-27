@@ -39,7 +39,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.FirewallAPI
         /// <param name="dwNumPublicAppCs">appContainerSids 成员中的应用容器数。</param>
         /// <param name="appContainerSids">安全标识符 (允许发送环回流量的应用容器) SID。 用于调试目的。</param>
         /// <returns>如果成功，则返回ERROR_SUCCESS，否则返回错误值。</returns>
-        [DllImport(FirewallAPI, CharSet = CharSet.Unicode, EntryPoint = "NetworkIsolationGetAppContainerConfig", SetLastError = false)]
-        internal static extern uint NetworkIsolationSetAppContainerConfig(int dwNumPublicAppCs, SID_AND_ATTRIBUTES[] appContainerSids);
+        [DllImport(FirewallAPI, CharSet = CharSet.Unicode, EntryPoint = "NetworkIsolationSetAppContainerConfig", SetLastError = false)]
+        internal static extern uint NetworkIsolationSetAppContainerConfig(int dwNumPublicAppCs, [MarshalAs(UnmanagedType.LPArray)] SID_AND_ATTRIBUTES[] appContainerSids);
     }
 }

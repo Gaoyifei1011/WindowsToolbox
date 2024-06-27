@@ -55,11 +55,13 @@ namespace WindowsTools
                 if (disposing)
                 {
                     this.ThreadUninitialize();
+
                     if (MainWindow.Current is not null && !MainWindow.Current.IsDisposed)
                     {
                         MainWindow.Current?.Close();
                     }
 
+                    GlobalNotificationService.SendNotification();
                     DownloadSchedulerService.TerminateDownload();
                     DownloadSchedulerService.CloseDownloadScheduler();
                     SystemTrayService.CloseSystemTray();

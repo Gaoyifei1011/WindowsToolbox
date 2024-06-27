@@ -45,14 +45,7 @@ namespace WindowsTools.Helpers.Root
                 else if (iData.GetDataPresent(DataFormats.FileDrop))
                 {
                     StringCollection files = Clipboard.GetFileDropList();
-                    if (files.Count is 0)
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        return Image.FromFile(files[0]);
-                    }
+                    return files.Count is 0 ? null : Image.FromFile(files[0]);
                 }
                 else if (iData.GetDataPresent(DataFormats.Text))
                 {
@@ -62,14 +55,7 @@ namespace WindowsTools.Helpers.Root
                     {
                         return null;
                     }
-                    if (File.Exists(path))
-                    {
-                        return Image.FromFile(path);
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return File.Exists(path) ? Image.FromFile(path) : null;
                 }
                 else
                 {

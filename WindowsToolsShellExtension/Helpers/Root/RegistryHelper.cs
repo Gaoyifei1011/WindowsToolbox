@@ -57,14 +57,7 @@ namespace WindowsToolsShellExtension.Helpers.Root
                                 }
 
                                 // 布尔值以字符串整数类型值存储
-                                if (typeof(T) == typeof(bool) || typeof(T) == typeof(bool?))
-                                {
-                                    value = (T)(object)BitConverter.ToBoolean(data, 0);
-                                }
-                                else
-                                {
-                                    value = (T)(object)BitConverter.ToUInt32(data, 0);
-                                }
+                                value = typeof(T) == typeof(bool) || typeof(T) == typeof(bool?) ? (T)(object)BitConverter.ToBoolean(data, 0) : (T)(object)BitConverter.ToUInt32(data, 0);
                             }
                             // 字符串序列
                             else if (kind is RegistryValueKind.REG_MULTI_SZ)

@@ -130,14 +130,7 @@ namespace WindowsTools.Views.Windows
             base.OnDeactivate(args);
             if (systemBackdropConfiguration is not null)
             {
-                if (AlwaysShowBackdropService.AlwaysShowBackdropValue)
-                {
-                    systemBackdropConfiguration.IsInputActive = true;
-                }
-                else
-                {
-                    systemBackdropConfiguration.IsInputActive = false;
-                }
+                systemBackdropConfiguration.IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdropValue;
             }
         }
 

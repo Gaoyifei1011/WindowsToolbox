@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -11,8 +12,11 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using WindowsTools.Helpers.Controls.Extensions;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
+using WindowsTools.Strings;
+using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.FirewallAPI;
 using WindowsTools.WindowsAPI.PInvoke.Shlwapi;
@@ -29,18 +33,18 @@ namespace WindowsTools.Views.Pages
     {
         private IntPtr pACs;
 
-        private bool _isProcessing;
+        private bool _isLoadCompleted;
 
-        public bool IsProcessing
+        public bool IsLoadCompleted
         {
-            get { return _isProcessing; }
+            get { return _isLoadCompleted; }
 
             set
             {
-                if (!Equals(_isProcessing, value))
+                if (!Equals(_isLoadCompleted, value))
                 {
-                    _isProcessing = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsProcessing)));
+                    _isLoadCompleted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsLoadCompleted)));
                 }
             }
         }
@@ -100,10 +104,14 @@ namespace WindowsTools.Views.Pages
         public LoopbackManagerPage()
         {
             InitializeComponent();
-            Task.Run(GetLoopbackData);
+
+            IsLoadCompleted = false;
+            IsSaved = false;
+            Task.Run(GetLoopbackDataAsync);
+            GlobalNotificationService.ApplicationExit += OnApplicationExit;
         }
 
-        #region 第一部分：
+        #region 第一部分：XamlUICommand 命令调用时挂载的事件
 
         /// <summary>
         /// 点击复选框时使保存按钮处于可选状态
@@ -116,9 +124,36 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        #endregion 第一部分：
+        /// <summary>
+        /// 打开应用程序的工作目录
+        /// </summary>
+        private void OnOpenWorkingDirectoryRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        {
+            string parameter = args.Parameter as string;
+
+            if (!string.IsNullOrEmpty(parameter))
+            {
+                Task.Run(() =>
+                {
+                    Process.Start(parameter);
+                });
+            }
+        }
+
+        #endregion 第一部分：XamlUICommand 命令调用时挂载的事件
 
         #region 第二部分：网络回环管理页面——挂载的事件
+
+        /// <summary>
+        /// 了解网络回环
+        /// </summary>
+        private void OnLearnLoopbackClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                Process.Start("https://learn.microsoft.com/previous-versions/windows/apps/hh780593(v=win.10)");
+            });
+        }
 
         /// <summary>
         /// 查询搜索内容
@@ -153,7 +188,7 @@ namespace WindowsTools.Views.Pages
                         continue;
                     }
 
-                    if (!string.IsNullOrEmpty(loopbackItem.UserAccountSIDName) && loopbackItem.UserAccountSIDName.Contains(SearchAppNameText))
+                    if (!string.IsNullOrEmpty(loopbackItem.AppContainerUserName) && loopbackItem.AppContainerUserName.Contains(SearchAppNameText))
                     {
                         loopbackItem.IsVisible = Visibility.Visible;
                         continue;
@@ -200,7 +235,7 @@ namespace WindowsTools.Views.Pages
             {
                 if (loopbackItem.IsVisible is Visibility.Visible)
                 {
-                    loopbackItem.IsChecked = true;
+                    loopbackItem.IsSelected = true;
                 }
             }
         }
@@ -215,7 +250,7 @@ namespace WindowsTools.Views.Pages
             {
                 if (loopbackItem.IsVisible is Visibility.Visible)
                 {
-                    loopbackItem.IsChecked = false;
+                    loopbackItem.IsSelected = false;
                 }
             }
         }
@@ -225,10 +260,14 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnResetClicked(object sender, RoutedEventArgs args)
         {
-            IsSaved = true;
+            IsSaved = false;
+            SearchAppNameText = string.Empty;
+            IsSearchEmpty = false;
+
             foreach (LoopbackModel loopbackItem in LoopbackCollection)
             {
-                loopbackItem.IsChecked = loopbackItem.IsOldChecked;
+                loopbackItem.IsVisible = Visibility.Visible;
+                loopbackItem.IsSelected = loopbackItem.IsOldChecked;
             }
         }
 
@@ -237,8 +276,10 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnRefreshClicked(object sender, RoutedEventArgs args)
         {
+            IsLoadCompleted = false;
+            IsSaved = false;
             LoopbackCollection.Clear();
-            Task.Run(GetLoopbackData);
+            Task.Run(GetLoopbackDataAsync);
         }
 
         /// <summary>
@@ -246,14 +287,49 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSaveClicked(object sender, RoutedEventArgs args)
         {
+            IsSaved = false;
+            List<LoopbackModel> selectedLoopbackList = [];
+            foreach (LoopbackModel loopbackItem in LoopbackCollection)
+            {
+                if (loopbackItem.IsSelected is true)
+                {
+                    loopbackItem.IsOldChecked = loopbackItem.IsSelected;
+                    selectedLoopbackList.Add(loopbackItem);
+                }
+            }
+
+            Task.Run(() =>
+            {
+                SetLoopbackState(selectedLoopbackList);
+            });
         }
 
         #endregion 第二部分：网络回环管理页面——挂载的事件
 
+        #region 第三部分：自定义事件
+
+        /// <summary>
+        /// 应用程序退出时触发的事件
+        /// </summary>
+        private void OnApplicationExit(object sender, EventArgs args)
+        {
+            try
+            {
+                FreeResources();
+                GlobalNotificationService.ApplicationExit -= OnApplicationExit;
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, "Release loopback manager resources failed", e);
+            }
+        }
+
+        #endregion 第三部分：自定义事件
+
         /// <summary>
         /// 获取应用数据
         /// </summary>
-        private void GetLoopbackData()
+        private async Task GetLoopbackDataAsync()
         {
             pACs = IntPtr.Zero;
             List<INET_FIREWALL_APP_CONTAINER> inetLoopbackList = GetLoopbackList();
@@ -265,10 +341,10 @@ namespace WindowsTools.Views.Pages
                 {
                     bool isEnabled = GetLoopbackEnabled(inetContainerItem.appContainerSid, inetLoopbackEnabledList);
 
-                    StringBuilder displayNameBuilder = new();
+                    StringBuilder displayNameBuilder = new(1024);
                     ShlwapiLibrary.SHLoadIndirectString(inetContainerItem.displayName, displayNameBuilder, displayNameBuilder.Capacity, IntPtr.Zero);
 
-                    StringBuilder descriptionBuilder = new();
+                    StringBuilder descriptionBuilder = new(1024);
                     ShlwapiLibrary.SHLoadIndirectString(inetContainerItem.description, descriptionBuilder, descriptionBuilder.Capacity, IntPtr.Zero);
 
                     INET_FIREWALL_AC_BINARIES inetBinaries = inetContainerItem.binaries;
@@ -313,24 +389,24 @@ namespace WindowsTools.Views.Pages
                         LogService.WriteLog(EventLevel.Error, "Parse user sid failed", e);
                     }
 
-                    LoopbackModel appContainerItem = new()
+                    LoopbackModel loopbackItem = new()
                     {
-                        AppContainerName = inetContainerItem.appContainerName,
+                        AppContainerName = string.IsNullOrEmpty(inetContainerItem.appContainerName) ? LoopbackManager.Unknown : inetContainerItem.appContainerName,
                         AppContainerSID = inetContainerItem.appContainerSid,
-                        AppContainerSIDName = appContainerSid.ToString(),
-                        DisplayName = displayNameBuilder.ToString(),
-                        Description = descriptionBuilder.ToString(),
-                        WorkingDirectory = inetContainerItem.workingDirectory,
-                        PackageFullName = inetContainerItem.packageFullName,
-                        StringBinaries = stringBinaries is not null ? stringBinaries : [],
-                        UserAccountSIDName = userAccountType is not null ? userAccountType.ToString() : string.Empty,
-                        IsChecked = isEnabled,
+                        AppContainerSIDName = string.IsNullOrEmpty(appContainerSid.ToString()) ? LoopbackManager.Unknown : appContainerSid.ToString(),
+                        DisplayName = string.IsNullOrEmpty(displayNameBuilder.ToString()) ? LoopbackManager.Unknown : displayNameBuilder.ToString(),
+                        Description = string.IsNullOrEmpty(descriptionBuilder.ToString()) ? LoopbackManager.Unknown : descriptionBuilder.ToString(),
+                        WorkingDirectory = string.IsNullOrEmpty(inetContainerItem.workingDirectory) ? LoopbackManager.Unknown : inetContainerItem.workingDirectory,
+                        PackageFullName = string.IsNullOrEmpty(inetContainerItem.packageFullName) ? LoopbackManager.Unknown : inetContainerItem.packageFullName,
+                        AppBinariesPath = stringBinaries is not null ? stringBinaries : LoopbackManager.Unknown.Split(),
+                        AppContainerUserName = userAccountType is not null ? userAccountType.ToString() : LoopbackManager.Unknown,
+                        IsSelected = isEnabled,
                         IsOldChecked = isEnabled,
                     };
 
                     MainWindow.Current.BeginInvoke(() =>
                     {
-                        LoopbackCollection.Add(appContainerItem);
+                        LoopbackCollection.Add(loopbackItem);
                     });
                 }
                 catch (Exception)
@@ -338,6 +414,12 @@ namespace WindowsTools.Views.Pages
                     continue;
                 }
             }
+
+            await Task.Delay(500);
+            MainWindow.Current.BeginInvoke(() =>
+            {
+                IsLoadCompleted = true;
+            });
         }
 
         /// <summary>
@@ -425,15 +507,31 @@ namespace WindowsTools.Views.Pages
 
                 foreach (LoopbackModel loopbackItem in loopbackList)
                 {
-                    if (loopbackItem.IsChecked)
+                    if (loopbackItem.IsSelected)
                     {
-                        sidAndAttributesArray[count].Attributes = 0;
-                        sidAndAttributesArray[count].Sid = loopbackItem.AppContainerSID;
+                        sidAndAttributesArray[count] = new SID_AND_ATTRIBUTES
+                        {
+                            Attributes = 0u,
+                            Sid = loopbackItem.AppContainerSID
+                        };
                         count++;
                     }
                 }
 
-                FirewallAPILibrary.NetworkIsolationSetAppContainerConfig(loopbackList.Count, sidAndAttributesArray);
+                if (FirewallAPILibrary.NetworkIsolationSetAppContainerConfig(loopbackList.Count, sidAndAttributesArray) is 0)
+                {
+                    MainWindow.Current.BeginInvoke(() =>
+                    {
+                        TeachingTipHelper.Show(new LoopbackSetResultToolTip(true));
+                    });
+                }
+                else
+                {
+                    MainWindow.Current.BeginInvoke(() =>
+                    {
+                        TeachingTipHelper.Show(new LoopbackSetResultToolTip(false));
+                    });
+                }
             }
         }
 

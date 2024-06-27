@@ -8,22 +8,10 @@ namespace WindowsToolsShellExtension.Commands
     /// 命令栏的命令枚举接口实现类
     /// </summary>
     [GeneratedComClass]
-    public partial class EnumExplorerCommand : IEnumExplorerCommand
+    public partial class EnumExplorerCommand(SubExplorerCommand[] explorerCommands) : IEnumExplorerCommand
     {
-        private readonly SubExplorerCommand[] subExplorerCommands;
+        private readonly SubExplorerCommand[] subExplorerCommands = explorerCommands is null ? ([]) : explorerCommands;
         private uint index;
-
-        public EnumExplorerCommand(SubExplorerCommand[] explorerCommands)
-        {
-            if (explorerCommands is null)
-            {
-                subExplorerCommands = [];
-            }
-            else
-            {
-                subExplorerCommands = explorerCommands;
-            }
-        }
 
         /// <summary>
         /// 目前尚未实现。

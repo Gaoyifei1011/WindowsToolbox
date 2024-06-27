@@ -35,39 +35,17 @@ namespace WindowsTools.UI.TeachingTips
                         }
                     case DataCopyKind.FilePath:
                         {
-                            if (isMultiSelected)
-                            {
-                                Content = string.Format(Notification.FilePathSelectedCopy, count);
-                            }
-                            else
-                            {
-                                Content = Notification.FilePathCopy;
-                            }
-
+                            Content = isMultiSelected ? string.Format(Notification.FilePathSelectedCopy, count) : (object)Notification.FilePathCopy;
                             break;
                         }
                     case DataCopyKind.OperationFailed:
                         {
-                            if (isMultiSelected)
-                            {
-                                Content = string.Format(Notification.OperationFailedSelectedCopy, count);
-                            }
-                            else
-                            {
-                                Content = Notification.OperationFailedCopy;
-                            }
+                            Content = isMultiSelected ? string.Format(Notification.OperationFailedSelectedCopy, count) : (object)Notification.OperationFailedCopy;
                             break;
                         }
                     case DataCopyKind.String:
                         {
-                            if (isMultiSelected)
-                            {
-                                Content = string.Format(Notification.StringSelectedCopy, count);
-                            }
-                            else
-                            {
-                                Content = Notification.StringCopy;
-                            }
+                            Content = isMultiSelected ? string.Format(Notification.StringSelectedCopy, count) : (object)Notification.StringCopy;
                             break;
                         }
                     case DataCopyKind.UpdateInformation:

@@ -722,14 +722,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private bool CheckOperationState()
         {
-            if (RenameRule == string.Empty && StartNumber == string.Empty && IsChecked == false && LookUpString == string.Empty && ReplaceString == string.Empty)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return RenameRule != string.Empty || StartNumber != string.Empty || IsChecked != false || LookUpString != string.Empty || ReplaceString != string.Empty;
         }
 
         /// <summary>

@@ -117,8 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AppBinariesPath" xml:space="preserve">
+    <value>App binaries path</value>
+  </data>
+  <data name="AppContainerName" xml:space="preserve">
+    <value>App container name</value>
+  </data>
+  <data name="AppContainerSID" xml:space="preserve">
+    <value>App container SID</value>
+  </data>
+  <data name="AppContainerUser" xml:space="preserve">
+    <value>App container user</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
   <data name="EmptyDescription" xml:space="preserve">
     <value>The device has no application</value>
+  </data>
+  <data name="LearnLoopback" xml:space="preserve">
+    <value>Learn loopback</value>
+  </data>
+  <data name="LoadingLoopback" xml:space="preserve">
+    <value>Loading network loopback information, please wait...</value>
+  </data>
+  <data name="OpenWorkingDirectoryToolTip" xml:space="preserve">
+    <value>Open working directory</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
@@ -138,10 +162,22 @@
   <data name="SelectAll" xml:space="preserve">
     <value>Select all</value>
   </data>
+  <data name="SelectedToolTip" xml:space="preserve">
+    <value>Selected</value>
+  </data>
   <data name="SelectNone" xml:space="preserve">
     <value>Select none</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Loop back manager</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>[Unknown]</value>
+  </data>
+  <data name="UnSelectedToolTip" xml:space="preserve">
+    <value>Unselected</value>
+  </data>
+  <data name="WorkingDirectory" xml:space="preserve">
+    <value>Working directory</value>
   </data>
 </root>

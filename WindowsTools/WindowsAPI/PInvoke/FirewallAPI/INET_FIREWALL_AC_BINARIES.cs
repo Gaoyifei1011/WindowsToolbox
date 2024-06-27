@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace WindowsTools.WindowsAPI.PInvoke.FirewallAPI
 {
     /// <summary>
     /// 包含应用容器中运行的应用程序的二进制路径。
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct INET_FIREWALL_AC_BINARIES
     {
         /// <summary>

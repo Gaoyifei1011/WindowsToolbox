@@ -25,18 +25,18 @@ namespace WindowsTools.Models
             }
         }
 
-        private bool _isChecked;
+        private bool _isSelected;
 
-        public bool IsChecked
+        public bool IsSelected
         {
-            get { return _isChecked; }
+            get { return _isSelected; }
 
             set
             {
-                if (!Equals(_isChecked, value))
+                if (!Equals(_isSelected, value))
                 {
-                    _isChecked = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecked)));
+                    _isSelected = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
                 }
             }
         }
@@ -46,7 +46,7 @@ namespace WindowsTools.Models
         /// <summary>
         /// 应用程序运行的二进制路径
         /// </summary>
-        public string[] StringBinaries { get; set; }
+        public string[] AppBinariesPath { get; set; }
 
         /// <summary>
         /// 应用容器的全局唯一名称
@@ -73,7 +73,7 @@ namespace WindowsTools.Models
         /// <summary>
         /// 应用容器所属用户的名称
         /// </summary>
-        public string UserAccountSIDName { get; set; }
+        public string AppContainerUserName { get; set; }
 
         /// <summary>
         /// 应用容器的包标识符

@@ -469,14 +469,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private bool CheckOperationState()
         {
-            if (SelectedType is UpperAndLowerSelectedKind.None)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return SelectedType is not UpperAndLowerSelectedKind.None;
         }
 
         /// <summary>

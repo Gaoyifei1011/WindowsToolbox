@@ -61,11 +61,83 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 App binaries path 的本地化字符串。
+        /// </summary>
+        public static string AppBinariesPath {
+            get {
+                return ResourceManager.GetString("AppBinariesPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 App container name 的本地化字符串。
+        /// </summary>
+        public static string AppContainerName {
+            get {
+                return ResourceManager.GetString("AppContainerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 App container SID 的本地化字符串。
+        /// </summary>
+        public static string AppContainerSID {
+            get {
+                return ResourceManager.GetString("AppContainerSID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 App container user 的本地化字符串。
+        /// </summary>
+        public static string AppContainerUser {
+            get {
+                return ResourceManager.GetString("AppContainerUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Description 的本地化字符串。
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The device has no application 的本地化字符串。
         /// </summary>
         public static string EmptyDescription {
             get {
                 return ResourceManager.GetString("EmptyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Learn loopback 的本地化字符串。
+        /// </summary>
+        public static string LearnLoopback {
+            get {
+                return ResourceManager.GetString("LearnLoopback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Loading network loopback information, please wait... 的本地化字符串。
+        /// </summary>
+        public static string LoadingLoopback {
+            get {
+                return ResourceManager.GetString("LoadingLoopback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open working directory 的本地化字符串。
+        /// </summary>
+        public static string OpenWorkingDirectoryToolTip {
+            get {
+                return ResourceManager.GetString("OpenWorkingDirectoryToolTip", resourceCulture);
             }
         }
         
@@ -124,6 +196,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Selected 的本地化字符串。
+        /// </summary>
+        public static string SelectedToolTip {
+            get {
+                return ResourceManager.GetString("SelectedToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Select none 的本地化字符串。
         /// </summary>
         public static string SelectNone {
@@ -138,6 +219,33 @@ namespace WindowsTools.Strings {
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 [Unknown] 的本地化字符串。
+        /// </summary>
+        public static string Unknown {
+            get {
+                return ResourceManager.GetString("Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unselected 的本地化字符串。
+        /// </summary>
+        public static string UnSelectedToolTip {
+            get {
+                return ResourceManager.GetString("UnSelectedToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Working directory 的本地化字符串。
+        /// </summary>
+        public static string WorkingDirectory {
+            get {
+                return ResourceManager.GetString("WorkingDirectory", resourceCulture);
             }
         }
     }

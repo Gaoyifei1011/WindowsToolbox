@@ -535,14 +535,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private bool CheckOperationState()
         {
-            if (SelectedType is ExtensionNameSelectedKind.None)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return SelectedType is not ExtensionNameSelectedKind.None;
         }
 
         /// <summary>

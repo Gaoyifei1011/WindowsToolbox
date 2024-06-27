@@ -171,6 +171,12 @@
   <data name="LogCleanSuccessfully" xml:space="preserve">
     <value>All log records were cleaned up successfully</value>
   </data>
+  <data name="LoopbackSetResultFailed" xml:space="preserve">
+    <value>The network loopback is set failed</value>
+  </data>
+  <data name="LoopbackSetResultSuccessfully" xml:space="preserve">
+    <value>The network loopback is set successfully</value>
+  </data>
   <data name="NewestVersion" xml:space="preserve">
     <value>The application is the latest version</value>
   </data>

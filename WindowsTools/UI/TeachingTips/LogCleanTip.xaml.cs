@@ -28,7 +28,7 @@ namespace WindowsTools.UI.TeachingTips
             }
             else
             {
-                LogCleanSuccess.Text = Notification.LogCleanFailed;
+                LogCleanFailed.Text = Notification.LogCleanFailed;
                 LogCleanSuccess.Visibility = Visibility.Collapsed;
                 LogCleanFailed.Visibility = Visibility.Visible;
             }
