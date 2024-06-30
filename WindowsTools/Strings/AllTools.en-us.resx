@@ -162,6 +162,12 @@
   <data name="FilePropertiesDescription" xml:space="preserve">
     <value>Batch modify file (folder) properties</value>
   </data>
+  <data name="FileUnlock" xml:space="preserve">
+    <value>File unlock</value>
+  </data>
+  <data name="FileUnlockDescription" xml:space="preserve">
+    <value>Gets and close the process that is using the specified file</value>
+  </data>
   <data name="IconExtract" xml:space="preserve">
     <value>Icon extract</value>
   </data>
@@ -175,7 +181,7 @@
     <value>Take a break when you're not inspired</value>
   </data>
   <data name="LoopbackManager" xml:space="preserve">
-    <value>Loop back manager</value>
+    <value>Loopback manager</value>
   </data>
   <data name="LoopbackManagerDescription" xml:space="preserve">
     <value>Enable the local network loopback for the UWP application</value>

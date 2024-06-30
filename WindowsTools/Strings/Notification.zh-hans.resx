@@ -216,6 +216,12 @@
   <data name="TaskbarSuccessfully" xml:space="preserve">
     <value>已成功将应用固定到任务栏</value>
   </data>
+  <data name="TerminateProcessFailed" xml:space="preserve">
+    <value>进程终止失败，您可以打开任务管理器进行操作</value>
+  </data>
+  <data name="TerminateProcessSuccessfully" xml:space="preserve">
+    <value>进程终止成功</value>
+  </data>
   <data name="TextEmpty" xml:space="preserve">
     <value>不能设置为空文本</value>
   </data>

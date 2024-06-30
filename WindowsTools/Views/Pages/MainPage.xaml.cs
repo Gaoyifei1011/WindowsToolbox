@@ -118,6 +118,7 @@ namespace WindowsTools.Views.Pages
             new KeyValuePair<string, Type>("UpperAndLowerCase", typeof(UpperAndLowerCasePage)),
             new KeyValuePair<string, Type>("FileProperties", typeof(FilePropertiesPage)),
             new KeyValuePair<string, Type>("FileCertificate",typeof(FileCertificatePage)),
+            new KeyValuePair<string, Type>("FileUnlock",typeof(FileUnlockPage)),
             new KeyValuePair<string, Type>("Resource",null),
             new KeyValuePair<string, Type>("DownloadManager",typeof(DownloadManagerPage)),
             new KeyValuePair<string, Type>("CodeScanner",typeof(CodeScannerPage)),
@@ -644,6 +645,14 @@ namespace WindowsTools.Views.Pages
                             LogService.WriteLog(EventLevel.Error, string.Format("Open file {0} failed", filesList[0]), e);
                         }
                     });
+                }
+            }
+            else if (currentPageType.Equals(typeof(FileUnlockPage)))
+            {
+                FileUnlockPage page = (MainNavigationView.Content as Frame).Content as FileUnlockPage;
+                if (filesList.Count is 1)
+                {
+                    page.ParseFile(filesList[0]);
                 }
             }
         }

@@ -26,7 +26,7 @@ namespace WindowsTools
         {
             if (!RuntimeHelper.IsMSIX)
             {
-                Process.Start("explorer.exe", "shell:AppsFolder\\Gaoyifei1011.WindowsTools_pystbwmrmew8c!WindowsTools");
+                Process.Start("explorer.exe", "shell:AppsFolder\\055B5CA4.WindowsTools_zp2hc899bs298!WindowsTools");
                 return;
             }
 

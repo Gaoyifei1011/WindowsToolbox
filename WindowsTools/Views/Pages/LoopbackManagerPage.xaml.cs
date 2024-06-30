@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls.Extensions;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
@@ -522,14 +523,14 @@ namespace WindowsTools.Views.Pages
                 {
                     MainWindow.Current.BeginInvoke(() =>
                     {
-                        TeachingTipHelper.Show(new LoopbackSetResultToolTip(true));
+                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.LoopbackSetResult, true));
                     });
                 }
                 else
                 {
                     MainWindow.Current.BeginInvoke(() =>
                     {
-                        TeachingTipHelper.Show(new LoopbackSetResultToolTip(false));
+                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.LoopbackSetResult, false));
                     });
                 }
             }

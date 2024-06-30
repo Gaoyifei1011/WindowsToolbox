@@ -162,6 +162,12 @@
   <data name="FilePropertiesDescription" xml:space="preserve">
     <value>批量修改文件（夹）属性</value>
   </data>
+  <data name="FileUnlock" xml:space="preserve">
+    <value>文件解锁</value>
+  </data>
+  <data name="FileUnlockDescription" xml:space="preserve">
+    <value>获取并关闭正在使用指定文件的进程</value>
+  </data>
   <data name="IconExtract" xml:space="preserve">
     <value>图标提取</value>
   </data>

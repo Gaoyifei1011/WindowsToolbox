@@ -153,7 +153,7 @@ namespace WindowsTools.Views.Pages
 
                 if (count is 0)
                 {
-                    TeachingTipHelper.Show(new ListEmptyTip());
+                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.ListEmpty));
                 }
                 else
                 {
@@ -193,7 +193,7 @@ namespace WindowsTools.Views.Pages
 
             if (count is 0)
             {
-                TeachingTipHelper.Show(new ListEmptyTip());
+                TeachingTipHelper.Show(new OperationResultTip(OperationKind.ListEmpty));
             }
             else
             {

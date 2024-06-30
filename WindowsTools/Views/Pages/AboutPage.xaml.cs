@@ -302,7 +302,7 @@ namespace WindowsTools.Views.Pages
 
                                         MainWindow.Current.BeginInvoke(() =>
                                         {
-                                            TeachingTipHelper.Show(new CheckUpdateTip(isNewest));
+                                            TeachingTipHelper.Show(new OperationResultTip(OperationKind.CheckUpdate, isNewest));
                                         });
                                     }
                                 }

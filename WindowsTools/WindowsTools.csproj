@@ -103,6 +103,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>FileProperties.resx</DependentUpon>
     </Compile>
+    
+    <Compile Update="Strings\FileUnlock.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FileUnlock.resx</DependentUpon>
+    </Compile>
 
     <Compile Update="Strings\IconExtract.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -234,9 +240,10 @@
     <Content Include="Assets\ControlIcon\FileCertificate.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileName.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\FileProperties.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\FileUnlock.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\IconExtract.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Loaf.png" CopyToOutputDirectory="Always" />
-	<Content Include="Assets\ControlIcon\LoopbackManager.png" CopyToOutputDirectory="Always" />  
+    <Content Include="Assets\ControlIcon\LoopbackManager.png" CopyToOutputDirectory="Always" />  
     <Content Include="Assets\ControlIcon\Personalize.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\PriExtract.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\Relaxation.png" CopyToOutputDirectory="Always" />
@@ -310,6 +317,7 @@
     <Reference Include="Microsoft.Windows.ApplicationModel.Resources" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0\Microsoft.Windows.ApplicationModel.Resources.winmd" IsWinMDFile="true" Private="false" />
     <Reference Include="Microsoft.UI.Windowing" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0.18362\Microsoft.UI.winmd" IsWinMDFile="true" Private="false" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
 
     <EmbeddedResource Update="Strings\About.en-us.resx" Generator="PublicResXFileCodeGenerator" />
@@ -336,6 +344,9 @@
     <EmbeddedResource Update="Strings\ExtensionName.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\ExtensionName.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ExtensionName.Designer.cs" />
     <EmbeddedResource Update="Strings\ExtensionName.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\FileUnlock.en-us.resx" Generator="PublicResXFileCodeGenerator" />
+    <EmbeddedResource Update="Strings\FileUnlock.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="FileUnlock.Designer.cs" />
+    <EmbeddedResource Update="Strings\FileUnlock.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\IconExtract.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\IconExtract.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="IconExtract.Designer.cs" />
     <EmbeddedResource Update="Strings\IconExtract.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
@@ -390,7 +401,7 @@
     <EmbeddedResource Update="Strings\WinSAT.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
   </ItemGroup>
 
-  <Target Name="SignExeFile" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">
+  <!--<Target Name="SignExeFile" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">
     <Exec Command="$(ProjectDir)signtool.exe sign /f $(SolutionDir)$(AssemblyName)Package\$(AssemblyName)Package_SignKey.pfx /t http://timestamp.digicert.com /fd SHA256 $(ProjectDir)$(BaseOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).exe" />
-  </Target>
+  </Target>-->
 </Project>

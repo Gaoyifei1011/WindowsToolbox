@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls.Extensions;
 using WindowsTools.Services.Root;
 using WindowsTools.Services.Shell;
@@ -174,7 +175,7 @@ namespace WindowsTools.Views.Pages
             if (string.IsNullOrEmpty(RootMenuText))
             {
                 RootMenuText = ShellMenuService.RootMenuText;
-                TeachingTipHelper.Show(new TextEmptyTip());
+                TeachingTipHelper.Show(new OperationResultTip(OperationKind.TextEmpty));
                 return;
             }
 

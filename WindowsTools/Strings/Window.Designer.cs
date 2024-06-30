@@ -169,6 +169,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 File unlock 的本地化字符串。
+        /// </summary>
+        public static string FileUnlock {
+            get {
+                return ResourceManager.GetString("FileUnlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Icon extract 的本地化字符串。
         /// </summary>
         public static string IconExtract {
@@ -187,7 +196,7 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Loop back manager 的本地化字符串。
+        ///   查找类似 Loopback manager 的本地化字符串。
         /// </summary>
         public static string LoopbackManager {
             get {

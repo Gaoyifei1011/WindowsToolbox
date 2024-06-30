@@ -358,6 +358,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Process terminated failed. You can open the task Manager to do this 的本地化字符串。
+        /// </summary>
+        public static string TerminateProcessFailed {
+            get {
+                return ResourceManager.GetString("TerminateProcessFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Process terminated successfully 的本地化字符串。
+        /// </summary>
+        public static string TerminateProcessSuccessfully {
+            get {
+                return ResourceManager.GetString("TerminateProcessSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Can not set to empty text 的本地化字符串。
         /// </summary>
         public static string TextEmpty {

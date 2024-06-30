@@ -63,6 +63,13 @@ namespace WindowsTools.Views.Pages
                 Description = AllTools.FileCertificateDescription,
                 ImagePath = "ms-appx:///Assets/ControlIcon/FileCertificate.png",
                 Tag = "FileCertificate"
+            },
+            new ControlItemModel()
+            {
+                Title = AllTools.FileUnlock,
+                Description = AllTools.FileUnlockDescription,
+                ImagePath = "ms-appx:///Assets/ControlIcon/FileUnlock.png",
+                Tag = "FileUnlock"
             }
         ];
 

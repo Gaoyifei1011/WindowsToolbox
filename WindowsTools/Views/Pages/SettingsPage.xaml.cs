@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Controls.Extensions;
 using WindowsTools.Services.Controls.Settings;
@@ -221,7 +222,7 @@ namespace WindowsTools.Views.Pages
                     {
                         AppLanguage = LanguageList[selectedIndex];
                         LanguageService.SetLanguage(AppLanguage);
-                        TeachingTipHelper.Show(new LanguageChangeTip());
+                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.LanguageChange));
                     }
                 };
                 LanguageFlyout.Items.Add(toggleMenuFlyoutItem);
@@ -464,7 +465,7 @@ namespace WindowsTools.Views.Pages
         private void OnClearClicked(object sender, RoutedEventArgs args)
         {
             bool result = LogService.ClearLog();
-            TeachingTipHelper.Show(new LogCleanTip(result));
+            TeachingTipHelper.Show(new OperationResultTip(OperationKind.LogClean, result));
         }
 
         /// <summary>

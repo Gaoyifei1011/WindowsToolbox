@@ -216,6 +216,12 @@
   <data name="TaskbarSuccessfully" xml:space="preserve">
     <value>The app was successfully pinned to the taskbar</value>
   </data>
+  <data name="TerminateProcessFailed" xml:space="preserve">
+    <value>Process terminated failed. You can open the task Manager to do this</value>
+  </data>
+  <data name="TerminateProcessSuccessfully" xml:space="preserve">
+    <value>Process terminated successfully</value>
+  </data>
   <data name="TextEmpty" xml:space="preserve">
     <value>Can not set to empty text</value>
   </data>

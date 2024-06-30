@@ -2,13 +2,21 @@
 {
     public enum OperationKind
     {
-        File = 0,
-        IconExtract = 1,
-        ParsePhotoFailed = 2,
-        GenerateTextEmpty = 3,
-        GenerateBarCodeFailed = 4,
-        GenerateQRCodeFailed = 5,
-        ReadClipboardImageFailed = 6,
-        DeleteFileFailed = 7
+        GenerateTextEmpty = 0,
+        GenerateBarCodeFailed = 1,
+        GenerateQRCodeFailed = 2,
+        ParsePhotoFailed = 3,
+        ReadClipboardImageFailed = 4,
+        DeleteFileFailed = 5,
+        LanguageChange = 6,
+        ListEmpty = 7,
+        TextEmpty = 8,
+        NoOperation = 9,
+        CheckUpdate = 10,
+        LogClean = 11,
+        LoopbackSetResult = 12,
+        TerminateProcess = 13,
+        File = 14,
+        IconExtract = 15,
     }
 }

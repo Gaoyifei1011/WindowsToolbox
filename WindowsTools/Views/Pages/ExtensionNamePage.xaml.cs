@@ -222,7 +222,7 @@ namespace WindowsTools.Views.Pages
 
                     if (count is 0)
                     {
-                        TeachingTipHelper.Show(new ListEmptyTip());
+                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.ListEmpty));
                     }
                     else
                     {
@@ -231,7 +231,7 @@ namespace WindowsTools.Views.Pages
                 }
                 else
                 {
-                    TeachingTipHelper.Show(new NoOperationTip());
+                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.NoOperation));
                 }
             }
             else if (args.Key is VirtualKey.Control && args.Key is VirtualKey.Enter)
@@ -250,7 +250,7 @@ namespace WindowsTools.Views.Pages
 
                     if (count is 0)
                     {
-                        TeachingTipHelper.Show(new ListEmptyTip());
+                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.ListEmpty));
                     }
                     else
                     {
@@ -260,7 +260,7 @@ namespace WindowsTools.Views.Pages
                 }
                 else
                 {
-                    TeachingTipHelper.Show(new NoOperationTip());
+                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.NoOperation));
                 }
             }
         }
@@ -337,7 +337,7 @@ namespace WindowsTools.Views.Pages
 
                 if (count is 0)
                 {
-                    TeachingTipHelper.Show(new ListEmptyTip());
+                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.ListEmpty));
                 }
                 else
                 {
@@ -346,7 +346,7 @@ namespace WindowsTools.Views.Pages
             }
             else
             {
-                TeachingTipHelper.Show(new NoOperationTip());
+                TeachingTipHelper.Show(new OperationResultTip(OperationKind.NoOperation));
             }
         }
 
@@ -368,7 +368,7 @@ namespace WindowsTools.Views.Pages
 
                 if (count is 0)
                 {
-                    TeachingTipHelper.Show(new ListEmptyTip());
+                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.ListEmpty));
                 }
                 else
                 {
@@ -378,7 +378,7 @@ namespace WindowsTools.Views.Pages
             }
             else
             {
-                TeachingTipHelper.Show(new NoOperationTip());
+                TeachingTipHelper.Show(new OperationResultTip(OperationKind.NoOperation));
             }
         }
 

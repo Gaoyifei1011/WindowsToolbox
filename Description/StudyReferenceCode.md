@@ -7,6 +7,8 @@
 > * [DODownloaderDotNet](https://github.com/shishirb-MSFT/DODownloaderDotNet)&emsp;
 > * [ExplorerExtensions.Sample](https://github.com/cnbluefire/ExplorerExtensions.Sample)&emsp;
 > * [Generating valid tokens to access Limited Access Features in Windows 10](https://www.withinrafael.com/2021/01/04/generating-valid-tokens-to-access-limited-access-features-in-windows-10)&emsp;
+> * [How do I find out which process has a file open](https://devblogs.microsoft.com/oldnewthing/?p=8283)&emsp;
 > * [Loaf](https://github.com/DinoChan/Loaf)&emsp;
 > * [Mile.Xaml.Samples](https://github.com/ProjectMile/Mile.Xaml.Samples)&emsp;
+> * [PriTools](https://github.com/chausner/PriTools)&emsp;
 > * [UWP-Loopback-Exemption-Manager](https://github.com/themerror/UWP-Loopback-Exemption-Manager)&emsp;
