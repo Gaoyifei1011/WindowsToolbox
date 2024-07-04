@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using Windows.Globalization;
 using WindowsTools.Extensions.DataType.Constant;
 using WindowsTools.Services.Root;
 
@@ -121,6 +122,8 @@ namespace WindowsTools.Services.Controls.Settings
             AppLanguage = language;
 
             LocalSettingsService.SaveSetting(settingsKey, language.Value);
+
+            ApplicationLanguages.PrimaryLanguageOverride = language.Value.ToString();
         }
     }
 }

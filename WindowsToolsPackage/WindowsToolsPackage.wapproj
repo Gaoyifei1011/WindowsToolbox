@@ -38,7 +38,7 @@
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundleAutoResourcePackageQualifiers>DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-    <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
     <AppxDefaultResourceQualifiers>Language=EN-US;ZH-HANS</AppxDefaultResourceQualifiers>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
@@ -84,10 +84,7 @@
     <None Include="WindowsToolsPackage_SignKey.pfx" />
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" />
     <ProjectReference Include="..\WindowsTools\WindowsTools.csproj" />
-    <!--<ProjectReference Include="..\WindowsToolsShellExtension\WindowsToolsShellExtension.csproj" />-->
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Package.StoreAssociation.xml" />
+    <ProjectReference Include="..\WindowsToolsShellExtension\WindowsToolsShellExtension.csproj" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <!--将生成的文件放到应用包的根目录-->

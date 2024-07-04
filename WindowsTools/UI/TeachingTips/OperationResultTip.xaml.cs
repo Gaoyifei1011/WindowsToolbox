@@ -1,7 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 
 namespace WindowsTools.UI.TeachingTips
@@ -55,7 +54,7 @@ namespace WindowsTools.UI.TeachingTips
             {
                 OperationResultSuccess.Visibility = Visibility.Visible;
                 OperationResultFailed.Visibility = Visibility.Collapsed;
-                OperationResultFailed.Text = Notification.LanguageChange;
+                OperationResultSuccess.Text = Notification.LanguageChange;
             }
             else if (operationKind is OperationKind.ListEmpty)
             {
