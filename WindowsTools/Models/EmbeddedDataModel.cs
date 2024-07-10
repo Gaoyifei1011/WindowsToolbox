@@ -32,9 +32,9 @@ namespace WindowsTools.Models
         public string Key { get; set; }
 
         /// <summary>
-        /// 嵌入的数据对应的索引
+        /// 嵌入的数据
         /// </summary>
-        public uint EmbeddedDataIndex { get; set; }
+        public byte[] EmbeddedData { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

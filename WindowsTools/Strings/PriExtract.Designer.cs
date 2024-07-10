@@ -70,6 +70,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 All language 的本地化字符串。
+        /// </summary>
+        public static string AllLanguage {
+            get {
+                return ResourceManager.GetString("AllLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Content 的本地化字符串。
         /// </summary>
         public static string Content {
@@ -250,20 +259,20 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 If not inputed, the system default language is used 的本地化字符串。
-        /// </summary>
-        public static string InputLanguageToolTip {
-            get {
-                return ResourceManager.GetString("InputLanguageToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Key 的本地化字符串。
         /// </summary>
         public static string Key {
             get {
                 return ResourceManager.GetString("Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Language 的本地化字符串。
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
             }
         }
         
@@ -300,15 +309,6 @@ namespace WindowsTools.Strings {
         public static string Operation {
             get {
                 return ResourceManager.GetString("Operation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Optional:Input language 的本地化字符串。
-        /// </summary>
-        public static string PlaceHolderText {
-            get {
-                return ResourceManager.GetString("PlaceHolderText", resourceCulture);
             }
         }
         

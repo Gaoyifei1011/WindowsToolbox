@@ -309,12 +309,11 @@
     <Content Include="Assets\WindowsTools.ico" CopyToOutputDirectory="Always" />
     
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" IncludeAssets="none" ExcludeAssets="all" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240607001" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" GeneratePathProperty="true" />
     <PackageReference Include="Mile.Xaml" Version="2.2.1017" />
     <PackageReference Include="ZXing.Net" Version="0.16.9" />
 
     <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />
-    <Reference Include="Microsoft.Windows.ApplicationModel.Resources" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0\Microsoft.Windows.ApplicationModel.Resources.winmd" IsWinMDFile="true" Private="false" />
     <Reference Include="Microsoft.UI.Windowing" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0.18362\Microsoft.UI.winmd" IsWinMDFile="true" Private="false" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Management" />
@@ -401,7 +400,7 @@
     <EmbeddedResource Update="Strings\WinSAT.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
   </ItemGroup>
 
-  <!--<Target Name="SignExeFile" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">
+  <Target Name="SignExeFile" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">
     <Exec Command="$(ProjectDir)signtool.exe sign /f $(SolutionDir)$(AssemblyName)Package\$(AssemblyName)Package_SignKey.pfx /t http://timestamp.digicert.com /fd SHA256 $(ProjectDir)$(BaseOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).exe" />
-  </Target>-->
+  </Target>
 </Project>

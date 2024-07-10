@@ -58,21 +58,21 @@ namespace WindowsTools.Views.Pages
         private static Guid ishellLinkCLSID = new("00021401-0000-0000-C000-000000000046");
 
         //项目引用信息
-        private Hashtable ReferenceDict { get; } = new Hashtable()
-        {
-            { "Mile.Xaml","https://github.com/ProjectMile/Mile.Xaml" },
-            { "Microsoft.UI.Xaml","https://github.com/microsoft/microsoft-ui-xaml" },
-            { "Microsoft.WindowsAppSDK","https://github.com/microsoft/windowsappsdk" },
-            { "ZXing.Net","https://github.com/micjahn/ZXing.Net" },
-        };
+        private List<DictionaryEntry> ReferenceDict { get; } =
+        [
+            new DictionaryEntry("Mile.Xaml", "https://github.com/ProjectMile/Mile.Xaml"),
+            new DictionaryEntry("Microsoft.UI.Xaml", "https://github.com/microsoft/microsoft-ui-xaml"),
+            new DictionaryEntry ("Microsoft.WindowsAppSDK", "https://github.com/microsoft/windowsappsdk"),
+            new DictionaryEntry ("ZXing.Net", "https://github.com/micjahn/ZXing.Net"),
+        ];
 
         //项目感谢者信息
-        private Hashtable ThanksDict { get; } = new Hashtable()
-        {
-            { "AndromedaMelody","https://github.com/AndromedaMelody" },
-            { "MicaApps","https://github.com/MicaApps" },
-            { "MouriNaruto" , "https://github.com/MouriNaruto" }
-        };
+        private List<DictionaryEntry> ThanksDict { get; } =
+        [
+            new DictionaryEntry("AndromedaMelody", "https://github.com/AndromedaMelody"),
+            new DictionaryEntry("MicaApps", "https://github.com/MicaApps")  ,
+            new DictionaryEntry("MouriNaruto" , "https://github.com/MouriNaruto")
+        ];
 
         public event PropertyChangedEventHandler PropertyChanged;
 

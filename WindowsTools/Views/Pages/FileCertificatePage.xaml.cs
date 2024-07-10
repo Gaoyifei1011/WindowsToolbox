@@ -343,7 +343,6 @@ namespace WindowsTools.Views.Pages
                             {
                                 using FileStream fileStream = new(certificateResultItem.FilePath, FileMode.Open, FileAccess.ReadWrite);
                                 bool result = ImagehlpLibrary.ImageRemoveCertificate(fileStream.SafeFileHandle.DangerousGetHandle(), 0);
-                                fileStream.Close();
 
                                 if (!result)
                                 {

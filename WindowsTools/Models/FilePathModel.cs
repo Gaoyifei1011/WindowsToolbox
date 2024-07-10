@@ -32,11 +32,6 @@ namespace WindowsTools.Models
         public string Key { get; set; }
 
         /// <summary>
-        /// 文件路径对应的索引
-        /// </summary>
-        public uint FilePathIndex { get; set; }
-
-        /// <summary>
         /// 文件路径对应的绝对路径
         /// </summary>
         public string AbsolutePath { get; set; }

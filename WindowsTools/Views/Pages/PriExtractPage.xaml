@@ -82,6 +82,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="70" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="100" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="70" />
                     </Grid.ColumnDefinitions>
@@ -119,8 +120,25 @@
                     </TextBlock>
 
                     <TextBlock
-                        x:Name="StringContentHeaderText"
+                        x:Name="StringLanguageHeaderText"
                         Grid.Column="2"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind string:PriExtract.Language}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip
+                                MaxWidth="9999"
+                                Content="{x:Bind string:PriExtract.Language}"
+                                Visibility="{x:Bind StringLanguageHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+
+                    <TextBlock
+                        x:Name="StringContentHeaderText"
+                        Grid.Column="3"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
                         Text="{x:Bind string:PriExtract.Content}"
@@ -137,7 +155,7 @@
 
                     <TextBlock
                         x:Name="StringOperationHeaderText"
-                        Grid.Column="3"
+                        Grid.Column="4"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
                         Text="{x:Bind string:PriExtract.Operation}"
@@ -157,6 +175,7 @@
                     Grid.Row="1"
                     Margin="0,0,0,3"
                     IsItemClickEnabled="True"
+                    ItemClick="{x:Bind OnStringItemClicked}"
                     ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
                     ItemsSource="{x:Bind StringCollection, Mode=OneWay}"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -178,6 +197,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="70" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="70" />
                                 </Grid.ColumnDefinitions>
@@ -205,7 +225,6 @@
                                 <TextBlock
                                     x:Name="StringKeyText"
                                     Grid.Column="1"
-                                    MinWidth="50"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     FontSize="14"
@@ -223,9 +242,27 @@
                                 </TextBlock>
 
                                 <TextBlock
-                                    x:Name="StringContentText"
+                                    x:Name="StringLanguageText"
                                     Grid.Column="2"
-                                    MinWidth="50"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{x:Bind Language}"
+                                    TextAlignment="Left"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip
+                                            MaxWidth="9999"
+                                            Content="{x:Bind Language}"
+                                            Visibility="{Binding ElementName=StringLanguageText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+
+                                <TextBlock
+                                    x:Name="StringContentText"
+                                    Grid.Column="3"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     FontSize="14"
@@ -243,7 +280,7 @@
                                 </TextBlock>
 
                                 <HyperlinkButton
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     Command="{StaticResource StringCommand}"
@@ -355,6 +392,7 @@
                     Grid.Row="1"
                     Margin="0,0,0,3"
                     IsItemClickEnabled="True"
+                    ItemClick="{x:Bind OnFilePathItemClicked}"
                     ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
                     ItemsSource="{x:Bind FilePathCollection, Mode=OneWay}"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -403,7 +441,6 @@
                                 <TextBlock
                                     x:Name="FilePathKeyText"
                                     Grid.Column="1"
-                                    MinWidth="50"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     FontSize="14"
@@ -423,7 +460,6 @@
                                 <TextBlock
                                     x:Name="FilePathAbsolutePathText"
                                     Grid.Column="2"
-                                    MinWidth="50"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     FontSize="14"
@@ -535,6 +571,7 @@
                     Grid.Row="1"
                     Margin="0,0,0,3"
                     IsItemClickEnabled="True"
+                    ItemClick="{x:Bind OnEmbeddedDataItemClicked}"
                     ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
                     ItemsSource="{x:Bind EmbeddedDataCollection, Mode=OneWay}"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -582,7 +619,6 @@
                                 <TextBlock
                                     x:Name="EmbeddedDataKeyText"
                                     Grid.Column="1"
-                                    MinWidth="50"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     FontSize="14"
@@ -629,6 +665,9 @@
 
             <Grid Grid.Column="2" Width="260">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -695,15 +734,18 @@
                     Click="{x:Bind OnSelectFileClicked}"
                     Content="{x:Bind string:PriExtract.SelectFile}" />
 
-                <TextBox
+                <ComboBox
                     Grid.Row="9"
                     HorizontalAlignment="Stretch"
-                    PlaceholderText="{x:Bind string:PriExtract.PlaceHolderText}"
-                    Text="{x:Bind InputLanguage, Mode=OneWay}"
-                    TextChanged="{x:Bind OnInputLanguageTextChanged}"
-                    ToolTipService.ToolTip="{x:Bind string:PriExtract.InputLanguageToolTip}" />
+                    DisplayMemberPath="Key"
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(LanguageCollection.Count), Mode=OneWay}"
+                    ItemsSource="{x:Bind LanguageCollection, Mode=OneWay}"
+                    SelectedIndex="{x:Bind SelectedIndex, Mode=OneWay}"
+                    SelectedValuePath="Value"
+                    SelectionChanged="{x:Bind OnSelectionChnaged}"
+                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind, ResourceCandidateKindList[0]), Mode=OneWay}" />
 
-                <MenuFlyoutSeparator Grid.Row="10" Margin="5,3" />
+                <MenuFlyoutSeparator Grid.Row="10" Margin="5,3,5,3" />
 
                 <muxc:DropDownButton
                     Grid.Row="11"
@@ -756,7 +798,7 @@
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}" />
 
                 <Button
-                    Grid.Row="12"
+                    Grid.Row="13"
                     Margin="0,0,0,3"
                     HorizontalAlignment="Stretch"
                     Click="{x:Bind OnCopySelectedFilePathClicked}"
@@ -765,7 +807,7 @@
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}" />
 
                 <Button
-                    Grid.Row="12"
+                    Grid.Row="14"
                     Margin="0,0,0,3"
                     HorizontalAlignment="Stretch"
                     Click="{x:Bind OnExportSelectedEmbeddedDataClicked}"
@@ -774,7 +816,7 @@
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}" />
 
                 <Button
-                    Grid.Row="13"
+                    Grid.Row="15"
                     HorizontalAlignment="Stretch"
                     Click="{x:Bind OnCopyAllStringClicked}"
                     Content="{x:Bind string:PriExtract.CopyAllString}"
@@ -782,7 +824,7 @@
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}" />
 
                 <Button
-                    Grid.Row="13"
+                    Grid.Row="16"
                     HorizontalAlignment="Stretch"
                     Click="{x:Bind OnCopyAllFilePathClicked}"
                     Content="{x:Bind string:PriExtract.CopyAllFilePath}"
@@ -790,7 +832,7 @@
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}" />
 
                 <Button
-                    Grid.Row="13"
+                    Grid.Row="17"
                     HorizontalAlignment="Stretch"
                     Click="{x:Bind OnExportAllEmbeddedDataClicked}"
                     Content="{x:Bind string:PriExtract.ExportAllEmbeddedData}"
@@ -798,7 +840,7 @@
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}" />
 
                 <StackPanel
-                    Grid.Row="14"
+                    Grid.Row="18"
                     Margin="0,0,0,5"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"

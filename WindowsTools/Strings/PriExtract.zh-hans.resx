@@ -120,6 +120,9 @@
   <data name="AbsolutePath" xml:space="preserve">
     <value>绝对路径</value>
   </data>
+  <data name="AllLanguage" xml:space="preserve">
+    <value>所有语言</value>
+  </data>
   <data name="Content" xml:space="preserve">
     <value>内容</value>
   </data>
@@ -180,11 +183,11 @@
   <data name="GetResults" xml:space="preserve">
     <value>从文件 {0} 中获取到 {1} 条数据</value>
   </data>
-  <data name="InputLanguageToolTip" xml:space="preserve">
-    <value>未填入时则使用系统默认的语言</value>
-  </data>
   <data name="Key" xml:space="preserve">
     <value>键</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>语言</value>
   </data>
   <data name="NoMultiFile" xml:space="preserve">
     <value>请不要选择多个文件</value>
@@ -197,9 +200,6 @@
   </data>
   <data name="Operation" xml:space="preserve">
     <value>操作</value>
-  </data>
-  <data name="PlaceHolderText" xml:space="preserve">
-    <value>选填：输入语言</value>
   </data>
   <data name="ProcessingNow" xml:space="preserve">
     <value>正在进行中</value>

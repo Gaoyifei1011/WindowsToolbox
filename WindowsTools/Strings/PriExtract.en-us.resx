@@ -120,6 +120,9 @@
   <data name="AbsolutePath" xml:space="preserve">
     <value>Absolute path</value>
   </data>
+  <data name="AllLanguage" xml:space="preserve">
+    <value>All language</value>
+  </data>
   <data name="Content" xml:space="preserve">
     <value>Content</value>
   </data>
@@ -180,11 +183,11 @@
   <data name="GetResults" xml:space="preserve">
     <value>Get {1} datas from file {0}</value>
   </data>
-  <data name="InputLanguageToolTip" xml:space="preserve">
-    <value>If not inputed, the system default language is used</value>
-  </data>
   <data name="Key" xml:space="preserve">
     <value>Key</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
   </data>
   <data name="NoMultiFile" xml:space="preserve">
     <value>Please do not select multiple files</value>
