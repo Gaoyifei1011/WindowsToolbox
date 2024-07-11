@@ -82,7 +82,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="WindowsToolsPackage_SignKey.pfx" />
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" />
     <ProjectReference Include="..\WindowsTools\WindowsTools.csproj" />
     <ProjectReference Include="..\WindowsToolsShellExtension\WindowsToolsShellExtension.csproj" />
   </ItemGroup>
@@ -110,6 +109,9 @@
       <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('.xr.xml'))" />
       <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('Microsoft.UI.Xaml.pri'))" />
       <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(FileName)%(Extension)'=='Microsoft.WindowsAppRuntime.Bootstrap.dll'" />
+      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(AppxPackagePayload.TargetPath)'=='runtimes\win-x86\native\WebView2Loader.dll'" />
+      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(AppxPackagePayload.TargetPath)'=='runtimes\win-x64\native\WebView2Loader.dll'" />
+      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(AppxPackagePayload.TargetPath)'=='runtimes\win-arm64\native\WebView2Loader.dll'" />
     </ItemGroup>
   </Target>
 </Project>
