@@ -77,11 +77,13 @@
 
 ### 项目引用（按英文首字母排序）
 
-> * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [Microsoft.UI.Xaml](https://github.com/microsoft/microsoft-ui-xaml)&emsp;
+> * [Microsoft.Windows.SDK.Contracts](https://aka.ms/WinSDKProjectURL)&emsp;
 > * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
+> * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
+> * [System.Numerics.Vectors](https://dot.net)&emsp;
 > * [ZXing.Net](https://github.com/micjahn/ZXing.Net)&emsp;
-  
+	
 [学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;
 
 ------

@@ -1,5 +1,4 @@
-﻿using Microsoft.UI.Composition.SystemBackdrops;
-using Microsoft.UI.Input;
+﻿using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Mile.Xaml;
 using System;
@@ -10,23 +9,22 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Windows.System;
 using Windows.UI;
-using Windows.UI.Composition;
 using Windows.UI.Composition.Desktop;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
+using WindowsTools.Helpers.Backdrop;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
+using WindowsTools.UI.Backdrop;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.Views.Pages;
-using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Comctl32;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 using WindowsTools.WindowsAPI.PInvoke.User32;
@@ -41,13 +39,13 @@ namespace WindowsTools.Views.Windows
         private readonly IntPtr inputNonClientPointerSourceHandle;
         private readonly IContainer components = new Container();
         private readonly WindowsXamlHost windowsXamlHost = new();
-        private readonly SystemBackdropConfiguration systemBackdropConfiguration = new();
+        private readonly Microsoft.UI.Composition.SystemBackdrops.SystemBackdropConfiguration systemBackdropConfiguration = new();
         private readonly SUBCLASSPROC inputNonClientPointerSourceSubClassProc;
 
         private DesktopWindowTarget desktopWindowTarget;
-        private dynamic systemBackdropController;
+        private SystemBackdrop systemBackdrop;
 
-        public AppWindow AppWindow { get; private set; }
+        private AppWindow AppWindow { get; }
 
         public UIElement Content { get; set; } = new MainPage();
 
@@ -89,9 +87,10 @@ namespace WindowsTools.Views.Windows
             if (inputNonClientPointerSourceHandle != IntPtr.Zero)
             {
                 inputNonClientPointerSourceSubClassProc = new SUBCLASSPROC(InputNonClientPointerSourceSubClassProc);
-                Comctl32Library.SetWindowSubclass((IntPtr)AppWindow.Id.Value, inputNonClientPointerSourceSubClassProc, 0, IntPtr.Zero);
+                Comctl32Library.SetWindowSubclass(Handle, inputNonClientPointerSourceSubClassProc, 0, IntPtr.Zero);
             }
 
+            AlwaysShowBackdropService.PropertyChanged += OnServicePropertyChanged;
             ThemeService.PropertyChanged += OnServicePropertyChanged;
             BackdropService.PropertyChanged += OnServicePropertyChanged;
             TopMostService.PropertyChanged += OnServicePropertyChanged;
@@ -187,8 +186,8 @@ namespace WindowsTools.Views.Windows
 
                     if (desktopWindowTarget is not null)
                     {
-                        systemBackdropController?.Dispose();
-                        systemBackdropController = null;
+                        systemBackdrop?.Dispose();
+                        systemBackdrop = null;
                     }
 
                     ThemeService.PropertyChanged -= OnServicePropertyChanged;
@@ -217,8 +216,8 @@ namespace WindowsTools.Views.Windows
             base.OnLoad(args);
             SetWindowTheme();
             TopMost = TopMostService.TopMostValue;
+            desktopWindowTarget = BackdropHelper.InitializeDesktopWindowTarget(this, false);
             SystemTrayService.SetMenuTheme();
-            InitializeDesktopWindowTarget(Handle, false);
             SetWindowBackdrop();
 
             if (inputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
@@ -329,6 +328,13 @@ namespace WindowsTools.Views.Windows
         {
             BeginInvoke(() =>
             {
+                if (args.PropertyName.Equals(nameof(AlwaysShowBackdropService.AlwaysShowBackdropValue)))
+                {
+                    if (systemBackdrop is not null)
+                    {
+                        systemBackdrop.IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdropValue;
+                    }
+                }
                 if (args.PropertyName.Equals(nameof(ThemeService.AppTheme)))
                 {
                     SetWindowTheme();
@@ -571,14 +577,14 @@ namespace WindowsTools.Views.Windows
                 {
                     if (systemBackdropConfiguration is not null)
                     {
-                        systemBackdropConfiguration.Theme = SystemBackdropTheme.Light;
+                        systemBackdropConfiguration.Theme = Microsoft.UI.Composition.SystemBackdrops.SystemBackdropTheme.Light;
                     }
                 }
                 else
                 {
                     if (systemBackdropConfiguration is not null)
                     {
-                        systemBackdropConfiguration.Theme = SystemBackdropTheme.Dark;
+                        systemBackdropConfiguration.Theme = Microsoft.UI.Composition.SystemBackdrops.SystemBackdropTheme.Dark;
                     }
                 }
             }
@@ -586,14 +592,14 @@ namespace WindowsTools.Views.Windows
             {
                 if (systemBackdropConfiguration is not null)
                 {
-                    systemBackdropConfiguration.Theme = SystemBackdropTheme.Light;
+                    systemBackdropConfiguration.Theme = Microsoft.UI.Composition.SystemBackdrops.SystemBackdropTheme.Light;
                 }
             }
             else if (ThemeService.AppTheme.Value.Equals(ThemeService.ThemeList[2].Value))
             {
                 if (systemBackdropConfiguration is not null)
                 {
-                    systemBackdropConfiguration.Theme = SystemBackdropTheme.Dark;
+                    systemBackdropConfiguration.Theme = Microsoft.UI.Composition.SystemBackdrops.SystemBackdropTheme.Dark;
                 }
             }
         }
@@ -606,10 +612,11 @@ namespace WindowsTools.Views.Windows
             if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[0].Value))
             {
                 VisualStateManager.GoToState(Content as MainPage, "BackgroundDefault", false);
-                if (desktopWindowTarget is not null)
+
+                if (systemBackdrop is not null)
                 {
-                    systemBackdropController?.Dispose();
-                    systemBackdropController = null;
+                    systemBackdrop?.Dispose();
+                    systemBackdrop = null;
                 }
             }
             else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[1].Value))
@@ -617,17 +624,18 @@ namespace WindowsTools.Views.Windows
                 VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)
                 {
-                    systemBackdropController?.Dispose();
-                    systemBackdropController = null;
-                    if (systemBackdropController is null)
+                    if (systemBackdrop is not null)
                     {
-                        systemBackdropController = new MicaController() { Kind = MicaKind.Base };
-                        systemBackdropController.SetTarget(AppWindow.Id, desktopWindowTarget);
-
-                        systemBackdropController.SetSystemBackdropConfiguration(systemBackdropConfiguration);
-                        systemBackdropConfiguration.IsInputActive = true;
-                        systemBackdropConfiguration.Theme = (SystemBackdropTheme)Enum.Parse(typeof(SystemBackdropTheme), ThemeService.AppTheme.Value.ToString());
+                        systemBackdrop?.Dispose();
+                        systemBackdrop = null;
                     }
+
+                    systemBackdrop ??= new MicaBackdrop(desktopWindowTarget, Content as FrameworkElement, this)
+                    {
+                        IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdropValue,
+                        Kind = MicaKind.Base
+                    };
+                    systemBackdrop.InitializeBackdrop();
                 }
             }
             else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[2].Value))
@@ -635,17 +643,18 @@ namespace WindowsTools.Views.Windows
                 VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)
                 {
-                    systemBackdropController?.Dispose();
-                    systemBackdropController = null;
-                    if (systemBackdropController is null)
+                    if (systemBackdrop is not null)
                     {
-                        systemBackdropController = new MicaController() { Kind = MicaKind.BaseAlt };
-                        systemBackdropController.SetTarget(AppWindow.Id, desktopWindowTarget);
-
-                        systemBackdropController.SetSystemBackdropConfiguration(systemBackdropConfiguration);
-                        systemBackdropConfiguration.IsInputActive = true;
-                        systemBackdropConfiguration.Theme = (SystemBackdropTheme)Enum.Parse(typeof(SystemBackdropTheme), ThemeService.AppTheme.Value.ToString());
+                        systemBackdrop?.Dispose();
+                        systemBackdrop = null;
                     }
+
+                    systemBackdrop ??= new MicaBackdrop(desktopWindowTarget, Content as FrameworkElement, this)
+                    {
+                        IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdropValue,
+                        Kind = MicaKind.BaseAlt
+                    };
+                    systemBackdrop.InitializeBackdrop();
                 }
             }
             else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[3].Value))
@@ -653,17 +662,19 @@ namespace WindowsTools.Views.Windows
                 VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)
                 {
-                    systemBackdropController?.Dispose();
-                    systemBackdropController = null;
-                    if (systemBackdropController is null)
+                    if (systemBackdrop is not null)
                     {
-                        systemBackdropController = new DesktopAcrylicController() { Kind = DesktopAcrylicKind.Default };
-                        systemBackdropController.SetTarget(AppWindow.Id, desktopWindowTarget);
-
-                        systemBackdropController.SetSystemBackdropConfiguration(systemBackdropConfiguration);
-                        systemBackdropConfiguration.IsInputActive = true;
-                        systemBackdropConfiguration.Theme = (SystemBackdropTheme)Enum.Parse(typeof(SystemBackdropTheme), ThemeService.AppTheme.Value.ToString());
+                        systemBackdrop?.Dispose();
+                        systemBackdrop = null;
                     }
+
+                    systemBackdrop ??= new DesktopAcrylicBackdrop(desktopWindowTarget, Content as FrameworkElement, this)
+                    {
+                        IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdropValue,
+                        Kind = DesktopAcrylicKind.Default,
+                        UseHostBackdropBrush = true
+                    };
+                    systemBackdrop.InitializeBackdrop();
                 }
             }
             else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[4].Value))
@@ -671,17 +682,19 @@ namespace WindowsTools.Views.Windows
                 VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)
                 {
-                    systemBackdropController?.Dispose();
-                    systemBackdropController = null;
-                    if (systemBackdropController is null)
+                    if (systemBackdrop is not null)
                     {
-                        systemBackdropController = new DesktopAcrylicController() { Kind = DesktopAcrylicKind.Base };
-                        systemBackdropController.SetTarget(AppWindow.Id, desktopWindowTarget);
-
-                        systemBackdropController.SetSystemBackdropConfiguration(systemBackdropConfiguration);
-                        systemBackdropConfiguration.IsInputActive = true;
-                        systemBackdropConfiguration.Theme = (SystemBackdropTheme)Enum.Parse(typeof(SystemBackdropTheme), ThemeService.AppTheme.Value.ToString());
+                        systemBackdrop?.Dispose();
+                        systemBackdrop = null;
                     }
+
+                    systemBackdrop ??= new DesktopAcrylicBackdrop(desktopWindowTarget, Content as FrameworkElement, this)
+                    {
+                        IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdropValue,
+                        Kind = DesktopAcrylicKind.Base,
+                        UseHostBackdropBrush = true
+                    };
+                    systemBackdrop.InitializeBackdrop();
                 }
             }
             else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[5].Value))
@@ -689,39 +702,23 @@ namespace WindowsTools.Views.Windows
                 VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)
                 {
-                    systemBackdropController?.Dispose();
-                    systemBackdropController = null;
-                    if (systemBackdropController is null)
+                    if (systemBackdrop is not null)
                     {
-                        systemBackdropController = new DesktopAcrylicController() { Kind = DesktopAcrylicKind.Thin };
-                        systemBackdropController.SetTarget(AppWindow.Id, desktopWindowTarget);
-
-                        systemBackdropController.SetSystemBackdropConfiguration(systemBackdropConfiguration);
-                        systemBackdropConfiguration.IsInputActive = true;
-                        systemBackdropConfiguration.Theme = (SystemBackdropTheme)Enum.Parse(typeof(SystemBackdropTheme), ThemeService.AppTheme.Value.ToString());
+                        systemBackdrop?.Dispose();
+                        systemBackdrop = null;
                     }
+
+                    systemBackdrop ??= new DesktopAcrylicBackdrop(desktopWindowTarget, Content as FrameworkElement, this)
+                    {
+                        IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdropValue,
+                        Kind = DesktopAcrylicKind.Thin,
+                        UseHostBackdropBrush = true
+                    };
+                    systemBackdrop.InitializeBackdrop();
                 }
             }
         }
 
         #endregion 第四部分：窗口属性设置
-
-        /// <summary>
-        /// 初始化 DesktopWindowTarget（表示作为合成目标的窗口）
-        /// </summary>
-        private void InitializeDesktopWindowTarget(IntPtr handle, bool isTopMost)
-        {
-            if (DispatcherQueue.GetForCurrentThread() is not null && desktopWindowTarget is null)
-            {
-                Compositor compositor = new();
-                ICompositorDesktopInterop interop = compositor as object as ICompositorDesktopInterop;
-                interop.CreateDesktopWindowTarget(handle, isTopMost, out desktopWindowTarget);
-
-                if (desktopWindowTarget is not null)
-                {
-                    desktopWindowTarget.Root = compositor.CreateContainerVisual();
-                }
-            }
-        }
     }
 }

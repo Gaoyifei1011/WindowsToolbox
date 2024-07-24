@@ -1,4 +1,5 @@
-﻿using WindowsTools.Extensions.DataType.Constant;
+﻿using System.ComponentModel;
+using WindowsTools.Extensions.DataType.Constant;
 using WindowsTools.Services.Root;
 
 namespace WindowsTools.Services.Controls.Settings
@@ -12,7 +13,23 @@ namespace WindowsTools.Services.Controls.Settings
 
         private static readonly bool defaultAlwaysShowBackdropValue = false;
 
-        public static bool AlwaysShowBackdropValue { get; private set; }
+        private static bool _alwaysShowBackdropValue;
+
+        public static bool AlwaysShowBackdropValue
+        {
+            get { return _alwaysShowBackdropValue; }
+
+            private set
+            {
+                if (!Equals(_alwaysShowBackdropValue, value))
+                {
+                    _alwaysShowBackdropValue = value;
+                    PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(AlwaysShowBackdropValue)));
+                }
+            }
+        }
+
+        public static event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// 应用在初始化前获取设置存储的始终显示背景色值

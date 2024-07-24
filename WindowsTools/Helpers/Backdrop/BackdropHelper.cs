@@ -1,0 +1,54 @@
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using Windows.System;
+using Windows.UI.Composition.Desktop;
+using Windows.UI.Xaml;
+using WindowsTools.WindowsAPI.ComTypes;
+using WindowsTools.WindowsAPI.PInvoke.Combase;
+
+namespace WindowsTools.Helpers.Backdrop
+{
+    /// <summary>
+    /// 背景色辅助类
+    /// </summary>
+    public static class BackdropHelper
+    {
+        public static Lazy<IPropertyValueStatics> PropertyValueStatics { get; } = new(() => GetActivationFactory<IPropertyValueStatics>("Windows.Foundation.PropertyValue", typeof(IPropertyValueStatics).GUID));
+
+        /// <summary>
+        /// 获取指定运行时类的激活工厂。
+        /// </summary>
+        public static T GetActivationFactory<T>(string activatableClassId, Guid iid)
+        {
+            if (!string.IsNullOrEmpty(activatableClassId))
+            {
+                CombaseLibrary.RoGetActivationFactory(activatableClassId, iid, out IntPtr comp);
+                return (T)Marshal.GetObjectForIUnknown(comp);
+            }
+            else
+            {
+                return default;
+            }
+        }
+
+        /// <summary>
+        /// 初始化 DesktopWindowTarget（表示作为合成目标的窗口）
+        /// </summary>
+        public static DesktopWindowTarget InitializeDesktopWindowTarget(Form form, bool isTopMost)
+        {
+            if (form.Handle == IntPtr.Zero)
+            {
+                throw new NullReferenceException("窗口尚未初始化");
+            }
+
+            DesktopWindowTarget desktopWindowTarget = null;
+            if (DispatcherQueue.GetForCurrentThread() is not null)
+            {
+                ICompositorDesktopInterop interop = Window.Current.Compositor as object as ICompositorDesktopInterop;
+                interop.CreateDesktopWindowTarget(form.Handle, isTopMost, out desktopWindowTarget);
+            }
+            return desktopWindowTarget;
+        }
+    }
+}

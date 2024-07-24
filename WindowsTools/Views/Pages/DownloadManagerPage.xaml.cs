@@ -325,7 +325,7 @@ namespace WindowsTools.Views.Pages
                 {
                     IDataTransferManagerInterop dataTransferManagerInterop = (IDataTransferManagerInterop)WindowsRuntimeMarshal.GetActivationFactory(typeof(DataTransferManager));
 
-                    DataTransferManager dataTransferManager = dataTransferManagerInterop.GetForWindow((IntPtr)MainWindow.Current.AppWindow.Id.Value, new("A5CAEE9B-8708-49D1-8D36-67D25A8DA00C"));
+                    DataTransferManager dataTransferManager = dataTransferManagerInterop.GetForWindow(MainWindow.Current.Handle, new("A5CAEE9B-8708-49D1-8D36-67D25A8DA00C"));
 
                     dataTransferManager.DataRequested += async (sender, args) =>
                     {
@@ -336,7 +336,7 @@ namespace WindowsTools.Views.Pages
                         deferral.Complete();
                     };
 
-                    dataTransferManagerInterop.ShowShareUIForWindow((IntPtr)MainWindow.Current.AppWindow.Id.Value);
+                    dataTransferManagerInterop.ShowShareUIForWindow((IntPtr)MainWindow.Current.Handle);
                 }
                 catch (Exception e)
                 {

@@ -4,6 +4,8 @@
 ------
 
 > * [BITS-Manager](https://github.com/Microsoft/BITS-Manager)&emsp;
+> * [BlueFire.Toolkit.WinUI3](https://github.com/cnbluefire/BlueFire.Toolkit.WinUI3)&emsp;
+> * [DirectN](https://github.com/smourier/DirectN)&emsp;
 > * [DODownloaderDotNet](https://github.com/shishirb-MSFT/DODownloaderDotNet)&emsp;
 > * [ExplorerExtensions.Sample](https://github.com/cnbluefire/ExplorerExtensions.Sample)&emsp;
 > * [Generating valid tokens to access Limited Access Features in Windows 10](https://www.withinrafael.com/2021/01/04/generating-valid-tokens-to-access-limited-access-features-in-windows-10)&emsp;
@@ -11,4 +13,6 @@
 > * [Loaf](https://github.com/DinoChan/Loaf)&emsp;
 > * [Mile.Xaml.Samples](https://github.com/ProjectMile/Mile.Xaml.Samples)&emsp;
 > * [PriTools](https://github.com/chausner/PriTools)&emsp;
+> * [Uno](https://github.com/unoplatform/uno)&emsp;
 > * [UWP-Loopback-Exemption-Manager](https://github.com/themerror/UWP-Loopback-Exemption-Manager)&emsp;
+> * [Wice](https://github.com/aelyo-softworks/Wice)&emsp;

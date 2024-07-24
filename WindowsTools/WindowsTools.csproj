@@ -302,6 +302,7 @@
     <Content Include="Assets\StoreLogo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\StoreLogo.scale-400.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Images\LoafWallpaper.jpg" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Images\NoiseAsset_256x256_PNG.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
@@ -310,8 +311,11 @@
     <Content Include="Assets\WindowsTools.ico" CopyToOutputDirectory="Always" />
     
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" />
+    
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" GeneratePathProperty="true" />
     <PackageReference Include="Mile.Xaml" Version="2.2.1017" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     <PackageReference Include="ZXing.Net" Version="0.16.9" />
 
     <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />

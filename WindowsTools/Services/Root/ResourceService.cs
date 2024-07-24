@@ -1,9 +1,9 @@
-﻿using Microsoft.UI.Composition.SystemBackdrops;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 using WindowsTools.Strings;
+using WindowsTools.UI.Backdrop;
 
 namespace WindowsTools.Services.Root
 {
@@ -46,7 +46,7 @@ namespace WindowsTools.Services.Root
         /// </summary>
         private static void InitializeBackdropList()
         {
-            BackdropList.Add(new DictionaryEntry(Settings.BackdropDefault, nameof(SystemBackdropTheme.Default)));
+            BackdropList.Add(new DictionaryEntry(Settings.BackdropDefault, nameof(ElementTheme.Default)));
             BackdropList.Add(new DictionaryEntry(Settings.BackdropMica, nameof(MicaKind) + nameof(MicaKind.Base)));
             BackdropList.Add(new DictionaryEntry(Settings.BackdropMicaAlt, nameof(MicaKind) + nameof(MicaKind.BaseAlt)));
             BackdropList.Add(new DictionaryEntry(Settings.BackdropAcrylic, nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Default)));

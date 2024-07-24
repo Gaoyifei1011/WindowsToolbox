@@ -77,9 +77,11 @@ A toolbox that integrates multiple gadgets.
 
 ### Project References (Sort by alphabetical order)
 
-> * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [Microsoft.UI.Xaml](https://github.com/microsoft/microsoft-ui-xaml)&emsp;
+> * [Microsoft.Windows.SDK.Contracts](https://aka.ms/WinSDKProjectURL)&emsp;
 > * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
+> * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
+> * [System.Numerics.Vectors](https://dot.net)&emsp;
 > * [ZXing.Net](https://github.com/micjahn/ZXing.Net)&emsp;
 
 [Code referenced or used during the learning process](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;

@@ -60,10 +60,12 @@ namespace WindowsTools.Views.Pages
         //项目引用信息
         private List<DictionaryEntry> ReferenceDict { get; } =
         [
-            new DictionaryEntry("Mile.Xaml", "https://github.com/ProjectMile/Mile.Xaml"),
             new DictionaryEntry("Microsoft.UI.Xaml", "https://github.com/microsoft/microsoft-ui-xaml"),
-            new DictionaryEntry ("Microsoft.WindowsAppSDK", "https://github.com/microsoft/windowsappsdk"),
-            new DictionaryEntry ("ZXing.Net", "https://github.com/micjahn/ZXing.Net"),
+            new DictionaryEntry("Microsoft.Windows.SDK.Contracts", "https://aka.ms/WinSDKProjectURL"),
+            new DictionaryEntry("Microsoft.WindowsAppSDK", "https://github.com/microsoft/windowsappsdk"),
+            new DictionaryEntry("Mile.Xaml", "https://github.com/ProjectMile/Mile.Xaml"),
+            new DictionaryEntry("System.Numerics.Vectors", "https://dot.net"),
+            new DictionaryEntry("ZXing.Net", "https://github.com/micjahn/ZXing.Net")
         ];
 
         //项目感谢者信息

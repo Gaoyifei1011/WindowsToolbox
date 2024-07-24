@@ -68,7 +68,7 @@
 | 批量修改文件的大写小写名称       | 已完成                                                             |
 | 批量修改文件的属性               | 已完成                                                             |
 | 删除已签名文件的证书             | 已完成                                                             |
-| 文件解锁                        | 已完成                                                             |
+| 文件解锁                         | 已完成                                                             |
 | 下载管理（传递优化）             | 已完成                                                             |
 | 条形码二维码生成解析             | 已完成                                                             |
 | 提取文件图标                     | 已完成                                                             |
@@ -84,9 +84,11 @@
 
 ### 项目引用（按英文首字母排序）
 
-> * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [Microsoft.UI.Xaml](https://github.com/microsoft/microsoft-ui-xaml)&emsp;
+> * [Microsoft.Windows.SDK.Contracts](https://aka.ms/WinSDKProjectURL)&emsp;
 > * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
+> * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
+> * [System.Numerics.Vectors](https://dot.net)&emsp;
 > * [ZXing.Net](https://github.com/micjahn/ZXing.Net)&emsp;
 
 [学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;

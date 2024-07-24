@@ -667,180 +667,152 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <TextBlock
-                    Grid.Row="0"
-                    Margin="0,0,0,3"
-                    FontSize="16"
-                    Text="{x:Bind string:PriExtract.ExtractOptions}" />
+                <StackPanel Grid.Row="0">
 
-                <CheckBox
-                    Grid.Row="1"
-                    Click="{x:Bind OnExtractSaveSamelyClicked}"
-                    Content="{x:Bind string:PriExtract.ExtractSaveSamely}"
-                    IsChecked="{x:Bind IsExtractSaveSamely, Mode=TwoWay}" />
+                    <TextBlock
+                        Margin="0,0,0,3"
+                        FontSize="16"
+                        Text="{x:Bind string:PriExtract.ExtractOptions}" />
 
-                <CheckBox
-                    Grid.Row="2"
-                    Content="{x:Bind string:PriExtract.ExtractSaveString}"
-                    IsChecked="{x:Bind IsExtractSaveString, Mode=TwoWay}"
-                    IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}" />
+                    <CheckBox
+                        Click="{x:Bind OnExtractSaveSamelyClicked}"
+                        Content="{x:Bind string:PriExtract.ExtractSaveSamely}"
+                        IsChecked="{x:Bind IsExtractSaveSamely, Mode=TwoWay}" />
 
-                <CheckBox
-                    Grid.Row="3"
-                    Content="{x:Bind string:PriExtract.ExtractSaveFilePath}"
-                    IsChecked="{x:Bind IsExtractSaveFilePath, Mode=TwoWay}"
-                    IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}" />
+                    <CheckBox
+                        Content="{x:Bind string:PriExtract.ExtractSaveString}"
+                        IsChecked="{x:Bind IsExtractSaveString, Mode=TwoWay}"
+                        IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}" />
 
-                <CheckBox
-                    Grid.Row="4"
-                    Content="{x:Bind string:PriExtract.ExtractSaveEmbeddedData}"
-                    IsChecked="{x:Bind IsExtractSaveEmbeddedData, Mode=TwoWay}"
-                    IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}" />
+                    <CheckBox
+                        Content="{x:Bind string:PriExtract.ExtractSaveFilePath}"
+                        IsChecked="{x:Bind IsExtractSaveFilePath, Mode=TwoWay}"
+                        IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}" />
 
-                <MenuFlyoutSeparator Grid.Row="5" Margin="5,3" />
+                    <CheckBox
+                        Content="{x:Bind string:PriExtract.ExtractSaveEmbeddedData}"
+                        IsChecked="{x:Bind IsExtractSaveEmbeddedData, Mode=TwoWay}"
+                        IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}" />
 
-                <Button
-                    Grid.Row="6"
-                    HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnSelectSaveFolderClicked}"
-                    Content="{x:Bind string:PriExtract.SelectSaveFolder}"
-                    IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}"
-                    ToolTipService.ToolTip="{x:Bind sys:String.Format(string:PriExtract.SelectedFolder, SelectedSaveFolder), Mode=OneWay}" />
+                    <MenuFlyoutSeparator Grid.Row="5" Margin="5,3" />
 
-                <MenuFlyoutSeparator Grid.Row="7" Margin="5,3" />
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        Click="{x:Bind OnSelectSaveFolderClicked}"
+                        Content="{x:Bind string:PriExtract.SelectSaveFolder}"
+                        IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}"
+                        ToolTipService.ToolTip="{x:Bind sys:String.Format(string:PriExtract.SelectedFolder, SelectedSaveFolder), Mode=OneWay}" />
 
-                <Button
-                    Grid.Row="8"
-                    Margin="0,0,0,3"
-                    HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnSelectFileClicked}"
-                    Content="{x:Bind string:PriExtract.SelectFile}" />
+                    <MenuFlyoutSeparator Margin="5,3" />
 
-                <ComboBox
-                    Grid.Row="9"
-                    HorizontalAlignment="Stretch"
-                    DisplayMemberPath="Key"
-                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(LanguageCollection.Count), Mode=OneWay}"
-                    ItemsSource="{x:Bind LanguageCollection, Mode=OneWay}"
-                    SelectedIndex="{x:Bind SelectedIndex, Mode=OneWay}"
-                    SelectedValuePath="Value"
-                    SelectionChanged="{x:Bind OnSelectionChnaged}"
-                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind, ResourceCandidateKindList[0]), Mode=OneWay}" />
+                    <Button
+                        Margin="0,0,0,3"
+                        HorizontalAlignment="Stretch"
+                        Click="{x:Bind OnSelectFileClicked}"
+                        Content="{x:Bind string:PriExtract.SelectFile}" />
 
-                <MenuFlyoutSeparator Grid.Row="10" Margin="5,3,5,3" />
+                    <ComboBox
+                        HorizontalAlignment="Stretch"
+                        DisplayMemberPath="Key"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(LanguageCollection.Count), Mode=OneWay}"
+                        ItemsSource="{x:Bind LanguageCollection, Mode=OneWay}"
+                        SelectedIndex="{x:Bind SelectedIndex, Mode=OneWay}"
+                        SelectedValuePath="Value"
+                        SelectionChanged="{x:Bind OnSelectionChnaged}"
+                        Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind, ResourceCandidateKindList[0]), Mode=OneWay}" />
 
-                <muxc:DropDownButton
-                    Grid.Row="11"
-                    Margin="0,0,0,3"
-                    HorizontalAlignment="Stretch"
-                    Content="{x:Bind SelectedResourceCandidateKind.Key, Mode=OneWay}">
+                    <MenuFlyoutSeparator Margin="5,3,5,3" />
 
-                    <muxc:DropDownButton.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <MenuFlyout.MenuFlyoutPresenterStyle>
-                                <Style BasedOn="{StaticResource DefaultMenuFlyoutPresenterStyle}" TargetType="MenuFlyoutPresenter">
-                                    <Setter Property="MinWidth" Value="260" />
-                                </Style>
-                            </MenuFlyout.MenuFlyoutPresenterStyle>
+                    <muxc:DropDownButton
+                        Margin="0,0,0,3"
+                        HorizontalAlignment="Stretch"
+                        Content="{x:Bind SelectedResourceCandidateKind.Key, Mode=OneWay}">
 
-                            <ToggleMenuFlyoutItem
-                                Height="32"
-                                Padding="11,0"
-                                Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
-                                IsChecked="{x:Bind SelectedResourceCandidateKind.Value.Equals(ResourceCandidateKindList[0].Value), Mode=OneWay}"
-                                Tag="0"
-                                Text="{x:Bind sys:Convert.ToString(ResourceCandidateKindList[0].Key)}" />
+                        <muxc:DropDownButton.Flyout>
+                            <MenuFlyout Placement="Bottom">
+                                <MenuFlyout.MenuFlyoutPresenterStyle>
+                                    <Style BasedOn="{StaticResource DefaultMenuFlyoutPresenterStyle}" TargetType="MenuFlyoutPresenter">
+                                        <Setter Property="MinWidth" Value="260" />
+                                    </Style>
+                                </MenuFlyout.MenuFlyoutPresenterStyle>
 
-                            <ToggleMenuFlyoutItem
-                                Height="32"
-                                Padding="11,0"
-                                Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
-                                IsChecked="{x:Bind SelectedResourceCandidateKind.Value.Equals(ResourceCandidateKindList[1].Value), Mode=OneWay}"
-                                Tag="1"
-                                Text="{x:Bind sys:Convert.ToString(ResourceCandidateKindList[1].Key)}" />
+                                <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
+                                    Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
+                                    IsChecked="{x:Bind SelectedResourceCandidateKind.Value.Equals(ResourceCandidateKindList[0].Value), Mode=OneWay}"
+                                    Tag="0"
+                                    Text="{x:Bind sys:Convert.ToString(ResourceCandidateKindList[0].Key)}" />
 
-                            <ToggleMenuFlyoutItem
-                                Height="32"
-                                Padding="11,0"
-                                Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
-                                IsChecked="{x:Bind SelectedResourceCandidateKind.Value.Equals(ResourceCandidateKindList[2].Value), Mode=OneWay}"
-                                Tag="2"
-                                Text="{x:Bind sys:Convert.ToString(ResourceCandidateKindList[2].Key)}" />
-                        </MenuFlyout>
-                    </muxc:DropDownButton.Flyout>
-                </muxc:DropDownButton>
+                                <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
+                                    Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
+                                    IsChecked="{x:Bind SelectedResourceCandidateKind.Value.Equals(ResourceCandidateKindList[1].Value), Mode=OneWay}"
+                                    Tag="1"
+                                    Text="{x:Bind sys:Convert.ToString(ResourceCandidateKindList[1].Key)}" />
 
-                <Button
-                    Grid.Row="12"
-                    Margin="0,0,0,3"
-                    HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnCopySelectedStringClicked}"
-                    Content="{x:Bind string:PriExtract.CopySelectedString}"
-                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(StringCollection.Count), Mode=OneWay}"
-                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}" />
+                                <ToggleMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
+                                    Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
+                                    IsChecked="{x:Bind SelectedResourceCandidateKind.Value.Equals(ResourceCandidateKindList[2].Value), Mode=OneWay}"
+                                    Tag="2"
+                                    Text="{x:Bind sys:Convert.ToString(ResourceCandidateKindList[2].Key)}" />
+                            </MenuFlyout>
+                        </muxc:DropDownButton.Flyout>
+                    </muxc:DropDownButton>
 
-                <Button
-                    Grid.Row="13"
-                    Margin="0,0,0,3"
-                    HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnCopySelectedFilePathClicked}"
-                    Content="{x:Bind string:PriExtract.CopySelectedFilePath}"
-                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(FilePathCollection.Count), Mode=OneWay}"
-                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}" />
+                    <Button
+                        Margin="0,0,0,3"
+                        HorizontalAlignment="Stretch"
+                        Click="{x:Bind OnCopySelectedStringClicked}"
+                        Content="{x:Bind string:PriExtract.CopySelectedString}"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(StringCollection.Count), Mode=OneWay}"
+                        Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}" />
 
-                <Button
-                    Grid.Row="14"
-                    Margin="0,0,0,3"
-                    HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnExportSelectedEmbeddedDataClicked}"
-                    Content="{x:Bind string:PriExtract.ExportSelectedEmbeddedData}"
-                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(EmbeddedDataCollection.Count), Mode=OneWay}"
-                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}" />
+                    <Button
+                        Margin="0,0,0,3"
+                        HorizontalAlignment="Stretch"
+                        Click="{x:Bind OnCopySelectedFilePathClicked}"
+                        Content="{x:Bind string:PriExtract.CopySelectedFilePath}"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(FilePathCollection.Count), Mode=OneWay}"
+                        Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}" />
 
-                <Button
-                    Grid.Row="15"
-                    HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnCopyAllStringClicked}"
-                    Content="{x:Bind string:PriExtract.CopyAllString}"
-                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(StringCollection.Count), Mode=OneWay}"
-                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}" />
+                    <Button
+                        Margin="0,0,0,3"
+                        HorizontalAlignment="Stretch"
+                        Click="{x:Bind OnExportSelectedEmbeddedDataClicked}"
+                        Content="{x:Bind string:PriExtract.ExportSelectedEmbeddedData}"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(EmbeddedDataCollection.Count), Mode=OneWay}"
+                        Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}" />
 
-                <Button
-                    Grid.Row="16"
-                    HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnCopyAllFilePathClicked}"
-                    Content="{x:Bind string:PriExtract.CopyAllFilePath}"
-                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(FilePathCollection.Count), Mode=OneWay}"
-                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}" />
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        Click="{x:Bind OnCopyAllStringClicked}"
+                        Content="{x:Bind string:PriExtract.CopyAllString}"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(StringCollection.Count), Mode=OneWay}"
+                        Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}" />
 
-                <Button
-                    Grid.Row="17"
-                    HorizontalAlignment="Stretch"
-                    Click="{x:Bind OnExportAllEmbeddedDataClicked}"
-                    Content="{x:Bind string:PriExtract.ExportAllEmbeddedData}"
-                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(EmbeddedDataCollection.Count), Mode=OneWay}"
-                    Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}" />
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        Click="{x:Bind OnCopyAllFilePathClicked}"
+                        Content="{x:Bind string:PriExtract.CopyAllFilePath}"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(FilePathCollection.Count), Mode=OneWay}"
+                        Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}" />
+
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        Click="{x:Bind OnExportAllEmbeddedDataClicked}"
+                        Content="{x:Bind string:PriExtract.ExportAllEmbeddedData}"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(EmbeddedDataCollection.Count), Mode=OneWay}"
+                        Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}" />
+                </StackPanel>
 
                 <StackPanel
-                    Grid.Row="18"
+                    Grid.Row="1"
                     Margin="0,0,0,5"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
