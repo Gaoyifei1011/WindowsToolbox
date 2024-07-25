@@ -72,6 +72,7 @@ namespace WindowsTools.Views.Pages
         private List<DictionaryEntry> ThanksDict { get; } =
         [
             new DictionaryEntry("AndromedaMelody", "https://github.com/AndromedaMelody"),
+            new DictionaryEntry("cnbluefire", "https://github.com/cnbluefire"),
             new DictionaryEntry("MicaApps", "https://github.com/MicaApps")  ,
             new DictionaryEntry("MouriNaruto" , "https://github.com/MouriNaruto")
         ];

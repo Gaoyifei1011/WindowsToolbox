@@ -476,7 +476,7 @@ namespace WindowsTools.Views.Windows
         /// <summary>
         /// 应用拖拽区域窗口消息处理
         /// </summary>
-        private IntPtr InputNonClientPointerSourceSubClassProc(IntPtr hWnd, WindowMessage Msg, IntPtr wParam, IntPtr lParam, uint uIdSubclass, IntPtr dwRefData)
+        private IntPtr InputNonClientPointerSourceSubClassProc(IntPtr hWnd, WindowMessage Msg, UIntPtr wParam, IntPtr lParam, uint uIdSubclass, IntPtr dwRefData)
         {
             switch (Msg)
             {

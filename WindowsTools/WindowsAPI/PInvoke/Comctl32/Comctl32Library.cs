@@ -21,7 +21,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Comctl32
         /// <returns>如果成功安装子类回调，则为 TRUE;否则为 FALSE。</returns>
         [DllImport(Comctl32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowSubclass", SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool SetWindowSubclass(IntPtr hWnd, SUBCLASSPROC pfnSubclass, uint uIdSubclass, IntPtr dwRefData);
+        public static extern bool SetWindowSubclass(IntPtr hWnd, SUBCLASSPROC pfnSubclass, uint uIdSubclass, IntPtr dwRefData);
 
         /// <summary>
         /// 在窗口的子类链中调用下一个处理程序。 子类链中的最后一个处理程序调用窗口的原始窗口过程。
@@ -32,6 +32,17 @@ namespace WindowsTools.WindowsAPI.PInvoke.Comctl32
         /// <param name="lParam">指定附加消息信息。 此参数的内容取决于窗口消息的值。 注意：在 64 位版本的 Windows LPARAM 上是一个 64 位值。</param>
         /// <returns>返回的值特定于发送的消息。 应忽略此值。</returns>
         [DllImport(Comctl32, CharSet = CharSet.Unicode, EntryPoint = "DefSubclassProc", SetLastError = false)]
-        internal static extern IntPtr DefSubclassProc(IntPtr hWnd, WindowMessage uMsg, IntPtr wParam, IntPtr lParam);
+        public static extern IntPtr DefSubclassProc(IntPtr hWnd, WindowMessage uMsg, UIntPtr wParam, IntPtr lParam);
+
+        /// <summary>
+        /// 从窗口中删除子类回调。
+        /// </summary>
+        /// <param name="hWnd">正在子类化的窗口的句柄。</param>
+        /// <param name="pfnSubclass">指向窗口过程的指针。 此指针和子类 ID 唯一标识此子类回调。 有关回调函数原型，请参阅 SUBCLASSPROC。</param>
+        /// <param name="uIdSubclass">UINT_PTR子类 ID。 此 ID 和回调指针唯一标识此子类回调。 注意：在 64 位版本的 Windows 上，这是一个 64 位值。</param>
+        /// <returns>如果成功删除子类回调，则为 TRUE;否则为 FALSE。</returns>
+        [DllImport(Comctl32, CharSet = CharSet.Unicode, EntryPoint = "RemoveWindowSubclass", SetLastError = false)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool RemoveWindowSubclass(IntPtr hWnd, SUBCLASSPROC pfnSubclass, uint uIdSubclass);
     }
 }

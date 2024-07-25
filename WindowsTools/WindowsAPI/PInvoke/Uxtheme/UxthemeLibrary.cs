@@ -14,12 +14,12 @@ namespace WindowsTools.WindowsAPI.PInvoke.Uxtheme
         /// </summary>
         /// <param name="preferredAppMode">菜单样式</param>
         [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "#135", SetLastError = false)]
-        internal static extern int SetPreferredAppMode(PreferredAppMode preferredAppMode);
+        public static extern int SetPreferredAppMode(PreferredAppMode preferredAppMode);
 
         /// <summary>
         /// 刷新右键菜单样式
         /// </summary>
         [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "#136", SetLastError = false)]
-        internal static extern int FlushMenuThemes();
+        public static extern int FlushMenuThemes();
     }
 }

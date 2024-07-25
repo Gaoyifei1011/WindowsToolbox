@@ -1,13 +1,16 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using Windows.Foundation.Metadata;
-using Windows.System.Power;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Composition.Desktop;
 using Windows.UI.Xaml;
+using WindowsAPI.PInvoke.User32;
+using WindowsTools.WindowsAPI.PInvoke.Comctl32;
+using WindowsTools.WindowsAPI.PInvoke.Kernel32;
+using WindowsTools.WindowsAPI.PInvoke.User32;
 
 namespace WindowsTools.UI.Backdrop
 {
@@ -16,10 +19,17 @@ namespace WindowsTools.UI.Backdrop
     /// </summary>
     public class MicaBackdrop : SystemBackdrop
     {
+        private const int PBT_POWERSETTINGCHANGE = 0x8013;
+
         private bool isInitialized;
         private bool isFormClosed;
+        private bool isEnergySaverEnabled;
         private bool isActivated = true;
         private bool useMicaBrush;
+
+        private IntPtr hPowerNotify;
+        private Guid GUID_POWER_SAVING_STATUS = new("E00958C0-C213-4ACE-AC77-FECCED2EEEA5");
+
         private readonly Form formRoot;
         private readonly FrameworkElement rootElement;
         private readonly CompositionCapabilities compositionCapabilities = CompositionCapabilities.GetForCurrentView();
@@ -41,6 +51,8 @@ namespace WindowsTools.UI.Backdrop
         private readonly Color defaultMicaAltLightFallbackColor = Color.FromArgb(255, 218, 218, 218);
         private readonly Color defaultMicaAltDarkTintColor = Color.FromArgb(255, 10, 10, 10);
         private readonly Color defaultMicaAltDarkFallbackColor = Color.FromArgb(255, 10, 10, 10);
+
+        private SUBCLASSPROC formSubClassProc;
 
         public MicaKind Kind { get; set; } = MicaKind.Base;
 
@@ -225,7 +237,7 @@ namespace WindowsTools.UI.Backdrop
 
         public override bool IsSupported
         {
-            get { return ApiInformation.IsMethodPresent(typeof(Compositor).FullName, nameof(Compositor.TryCreateBlurredWallpaperBackdropBrush)); }
+            get { return Environment.OSVersion.Version >= new Version(10, 0, 22000, 0); }
         }
 
         public MicaBackdrop(DesktopWindowTarget target, FrameworkElement element, Form form) : base(target)
@@ -283,7 +295,6 @@ namespace WindowsTools.UI.Backdrop
                 }
 
                 SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
-                PowerManager.EnergySaverStatusChanged += OnEnergySaverStatusChanged;
                 formRoot.SizeChanged += OnSizeChanged;
                 formRoot.DpiChanged += OnDpiChanged;
                 formRoot.FormClosed += OnFormClosed;
@@ -295,6 +306,11 @@ namespace WindowsTools.UI.Backdrop
                 {
                     rootElement.ActualThemeChanged += OnActualThemeChanged;
                 }
+
+                formSubClassProc = new SUBCLASSPROC(OnFormSubClassProc);
+                Comctl32Library.SetWindowSubclass(formRoot.Handle, formSubClassProc, 0, IntPtr.Zero);
+
+                IntPtr hPowerNotify = User32Library.RegisterPowerSettingNotification(formRoot.Handle, ref GUID_POWER_SAVING_STATUS, 0);
 
                 isInitialized = true;
 
@@ -332,6 +348,7 @@ namespace WindowsTools.UI.Backdrop
 
             _requestedTheme = ElementTheme.Default;
             _isInputActive = false;
+
             if (isInitialized)
             {
                 UpdateBrush();
@@ -360,6 +377,14 @@ namespace WindowsTools.UI.Backdrop
                     rootElement.ActualThemeChanged -= OnActualThemeChanged;
                 }
 
+                if (hPowerNotify != IntPtr.Zero)
+                {
+                    User32Library.UnregisterPowerSettingNotification(hPowerNotify);
+                    hPowerNotify = IntPtr.Zero;
+                }
+
+                Comctl32Library.RemoveWindowSubclass(formRoot.Handle, formSubClassProc, 0);
+
                 if (DesktopWindowTarget.Root as SpriteVisual is not null && (DesktopWindowTarget.Root as SpriteVisual).Brush is not null)
                 {
                     (DesktopWindowTarget.Root as SpriteVisual).Brush.Dispose();
@@ -372,14 +397,6 @@ namespace WindowsTools.UI.Backdrop
         /// 在用户首选项发生更改时触发的事件
         /// </summary>
         private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs args)
-        {
-            formRoot.BeginInvoke(UpdateBrush);
-        }
-
-        /// <summary>
-        /// 当设备的节电模式状态发生更改时触发的事件
-        /// </summary>
-        private void OnEnergySaverStatusChanged(object sender, object args)
         {
             formRoot.BeginInvoke(UpdateBrush);
         }
@@ -500,7 +517,7 @@ namespace WindowsTools.UI.Backdrop
                     fallbackColor = DarkFallbackColor;
                 }
 
-                useMicaBrush = IsSupported && IsAdvancedEffectsEnabled() && PowerManager.EnergySaverStatus is not EnergySaverStatus.On && compositionCapabilities.AreEffectsSupported() && (IsInputActive || isActivated);
+                useMicaBrush = IsSupported && IsAdvancedEffectsEnabled() && !isEnergySaverEnabled && compositionCapabilities.AreEffectsSupported() && (IsInputActive || isActivated);
 
                 if (SystemInformation.HighContrast)
                 {
@@ -639,6 +656,34 @@ namespace WindowsTools.UI.Backdrop
             animation.InsertKeyFrame(1.0f, 1.0f, linearEasing);
             animation.Duration = TimeSpan.FromMilliseconds(250);
             return animation;
+        }
+
+        /// <summary>
+        /// 应用主窗口消息处理
+        /// </summary>
+        private IntPtr OnFormSubClassProc(IntPtr hWnd, WindowMessage Msg, UIntPtr wParam, IntPtr lParam, uint uIdSubclass, IntPtr dwRefData)
+        {
+            // 设备节电模式的状态发生更改时触发的消息
+            if (Msg is WindowMessage.WM_POWERBROADCAST && (int)wParam is PBT_POWERSETTINGCHANGE)
+            {
+                POWERBROADCAST_SETTING setting = (POWERBROADCAST_SETTING)Marshal.PtrToStructure(lParam, typeof(POWERBROADCAST_SETTING));
+
+                if (setting.PowerSetting == GUID_POWER_SAVING_STATUS)
+                {
+                    Kernel32Library.GetSystemPowerStatus(out SYSTEM_POWER_STATUS status);
+                    isEnergySaverEnabled = Convert.ToBoolean(status.SystemStatusFlag);
+
+                    if (isInitialized)
+                    {
+                        formRoot.BeginInvoke(() =>
+                        {
+                            UpdateBrush();
+                        });
+                    }
+                }
+            }
+
+            return Comctl32Library.DefSubclassProc(hWnd, Msg, wParam, lParam);
         }
     }
 }

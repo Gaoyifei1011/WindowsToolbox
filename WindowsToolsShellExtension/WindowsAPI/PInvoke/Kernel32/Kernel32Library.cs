@@ -87,7 +87,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Kernel32
         /// 如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。
         /// 请注意，函数在进程完成初始化之前返回 。 如果找不到所需的 DLL 或无法初始化，则进程将终止。 若要获取进程的终止状态，请调用 GetExitCodeProcess。
         /// </returns>
-        [LibraryImport(Kernel32, EntryPoint = "CreateProcessW", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+        [LibraryImport(Kernel32, EntryPoint = "CreateProcessW", SetLastError = false, StringMarshalling = StringMarshalling.Utf16)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static partial bool CreateProcess(
             string lpApplicationName,
@@ -107,7 +107,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Kernel32
         /// <param name="length">输入时， 路径 缓冲区的大小（以字符为单位）。 输出时，返回的包路径的大小（以字符为单位），包括 null 终止符。</param>
         /// <param name="path">包路径。</param>
         /// <returns>如果函数成功，则返回 ERROR_SUCCESS。 否则，函数将返回错误代码。</returns>
-        [LibraryImport(Kernel32, EntryPoint = "GetCurrentPackagePath", SetLastError = true)]
+        [LibraryImport(Kernel32, EntryPoint = "GetCurrentPackagePath", SetLastError = false)]
         public static unsafe partial uint GetCurrentPackagePath(ref int length, char* path);
 
         /// <summary>

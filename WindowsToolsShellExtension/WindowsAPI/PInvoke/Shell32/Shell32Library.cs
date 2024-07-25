@@ -24,7 +24,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Shell32
         /// 此方法返回时，包含指向以 null 结尾的 Unicode 字符串的指针的地址，该字符串指定已知文件夹的路径。 调用进程负责通过调用 CoTaskMemFree 不再需要此资源后释放此资源，无论 SHGetKnownFolderPath 是否成功。 返回的路径不包括尾随反斜杠。 例如，返回“C：\Users”而不是“C：\Users\”。
         /// </param>
         /// <returns>如果成功，则返回S_OK，否则返回错误值</returns>
-        [LibraryImport(Shell32, EntryPoint = "SHGetKnownFolderPath", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
+        [LibraryImport(Shell32, EntryPoint = "SHGetKnownFolderPath", SetLastError = false, StringMarshalling = StringMarshalling.Utf16)]
         public static partial int SHGetKnownFolderPath(in Guid rfid, KNOWN_FOLDER_FLAG dwFlags, IntPtr hToken, out string pszPath);
     }
 }

@@ -112,15 +112,6 @@
 > * 还原完成后，右键WindowsToolboxPackage，将该项目设为启动项目，并点击部署。
 > * 部署完成后打开“开始”菜单即可运行应用。
 
-未打包版本
-> * 克隆项目并下载代码到本地
-> * 使用Visual Studio 2022打开WindowsToolbox.sln文件，如果解决方案提示部分工具没有安装，请完成安装工具步骤后再次打开该解决方案。
-> * 还原项目的Nuget包。
-> * 还原完成后，右键WindowsToolboxPackage，并点击生成（不要部署）。
-> * WindowsToolboxPackage项目生成完成后，右键WindowsToolbox，将该项目设为启动项目，并点击生成。
-  * WindowsToolbox项目生成完成后，打开本地生成的目录（相对路径：WindowsToolbox\bin\x64\Debug(Release)\net481\win10-x64）,并同时打开WindowsToolboxPackage项目生成的目录（相对路径：WindowsToolboxPackage\bin\x64\Debug(Release)）,将该目录下的resources.pri文件拷贝到WindowsToolbox项目生成的目录下。
-  * 拷贝完成后即可运行未打包的WindowsToolbox.exe程序。
-
 #### <p align="center">应用本地化</p>
 ##### 项目在最初仅提供简体中文和英文两种语言格式，如果您想将应用翻译到您熟悉的语言或纠正已完成翻译的内容中存在的错误，请参考下面的步骤。
 
@@ -140,6 +131,7 @@
 ### 感谢（按英文首字母排序）
 
 > * [AndromedaMelody](https://github.com/AndromedaMelody)&emsp;
+> * [cnbluefire](https://github.com/cnbluefire)&emsp;
 > * [MicaApps](https://github.com/MicaApps)&emsp;
 > * [MouriNaruto](https://github.com/MouriNaruto)&emsp;
 
