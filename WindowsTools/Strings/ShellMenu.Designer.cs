@@ -61,11 +61,11 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Add menu 的本地化字符串。
+        ///   查找类似 Add menu item 的本地化字符串。
         /// </summary>
-        public static string AddMenu {
+        public static string AddMenuItem {
             get {
-                return ResourceManager.GetString("AddMenu", resourceCulture);
+                return ResourceManager.GetString("AddMenuItem", resourceCulture);
             }
         }
         
@@ -79,11 +79,38 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Apply modify 的本地化字符串。
+        ///   查找类似 Clear menu items 的本地化字符串。
         /// </summary>
-        public static string ApplyModify {
+        public static string ClearMenu {
             get {
-                return ResourceManager.GetString("ApplyModify", resourceCulture);
+                return ResourceManager.GetString("ClearMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Clear all custom menu items 的本地化字符串。
+        /// </summary>
+        public static string ClearMenuToolTip {
+            get {
+                return ResourceManager.GetString("ClearMenuToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Dark theme icon 的本地化字符串。
+        /// </summary>
+        public static string DarkThemeIcon {
+            get {
+                return ResourceManager.GetString("DarkThemeIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Default icon 的本地化字符串。
+        /// </summary>
+        public static string DefaultIcon {
+            get {
+                return ResourceManager.GetString("DefaultIcon", resourceCulture);
             }
         }
         
@@ -97,11 +124,65 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Edit 的本地化字符串。
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 There&apos;s no menu items 的本地化字符串。
+        /// </summary>
+        public static string EmptyDescription {
+            get {
+                return ResourceManager.GetString("EmptyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Icon file(*.ico)|*.ico 的本地化字符串。
         /// </summary>
         public static string FilterCondition {
             get {
                 return ResourceManager.GetString("FilterCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 First level menu 的本地化字符串。
+        /// </summary>
+        public static string FirstLevelMenu {
+            get {
+                return ResourceManager.GetString("FirstLevelMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Light theme icon 的本地化字符串。
+        /// </summary>
+        public static string LightThemeIcon {
+            get {
+                return ResourceManager.GetString("LightThemeIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Menu icon 的本地化字符串。
+        /// </summary>
+        public static string MenuIcon {
+            get {
+                return ResourceManager.GetString("MenuIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Menu icon path: 的本地化字符串。
+        /// </summary>
+        public static string MenuIconToolTip {
+            get {
+                return ResourceManager.GetString("MenuIconToolTip", resourceCulture);
             }
         }
         
@@ -115,11 +196,128 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Menu order 的本地化字符串。
+        /// </summary>
+        public static string MenuOrder {
+            get {
+                return ResourceManager.GetString("MenuOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Program file path 的本地化字符串。
+        /// </summary>
+        public static string MenuProgramPath {
+            get {
+                return ResourceManager.GetString("MenuProgramPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The application path is not set 的本地化字符串。
+        /// </summary>
+        public static string MenuProgramPathPHText {
+            get {
+                return ResourceManager.GetString("MenuProgramPathPHText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Menu program path:  的本地化字符串。
+        /// </summary>
+        public static string MenuProgramPathToolTip {
+            get {
+                return ResourceManager.GetString("MenuProgramPathToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Menu settings 的本地化字符串。
+        /// </summary>
+        public static string MenuSettings {
+            get {
+                return ResourceManager.GetString("MenuSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Menu title 的本地化字符串。
+        /// </summary>
+        public static string MenuTitle {
+            get {
+                return ResourceManager.GetString("MenuTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please input the menu title 的本地化字符串。
+        /// </summary>
+        public static string MenuTitlePHText {
+            get {
+                return ResourceManager.GetString("MenuTitlePHText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Menu title:  的本地化字符串。
+        /// </summary>
+        public static string MenuTitleToolTip {
+            get {
+                return ResourceManager.GetString("MenuTitleToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Modify 的本地化字符串。
         /// </summary>
         public static string Modify {
             get {
                 return ResourceManager.GetString("Modify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Operation 的本地化字符串。
+        /// </summary>
+        public static string Operation {
+            get {
+                return ResourceManager.GetString("Operation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Precautions 的本地化字符串。
+        /// </summary>
+        public static string Precautions {
+            get {
+                return ResourceManager.GetString("Precautions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 1.The submenu level is only supported up to the secondary menu 的本地化字符串。
+        /// </summary>
+        public static string PrecautionsContent1 {
+            get {
+                return ResourceManager.GetString("PrecautionsContent1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 2.After the menu content is updated, there may be a delay. Please open it after a period of time 的本地化字符串。
+        /// </summary>
+        public static string PrecautionsContent2 {
+            get {
+                return ResourceManager.GetString("PrecautionsContent2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 3. It is recommended to avoid too many secondary menus, because this may lead to a long menu loading time, which will cause a deadlock. 的本地化字符串。
+        /// </summary>
+        public static string PrecautionsContent3 {
+            get {
+                return ResourceManager.GetString("PrecautionsContent3", resourceCulture);
             }
         }
         
@@ -169,11 +367,56 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Second level menu 的本地化字符串。
+        /// </summary>
+        public static string SecondLevelMenu {
+            get {
+                return ResourceManager.GetString("SecondLevelMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Select icon 的本地化字符串。
         /// </summary>
         public static string SelectIcon {
             get {
                 return ResourceManager.GetString("SelectIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Whether to enable theme icon 的本地化字符串。
+        /// </summary>
+        public static string ShouldEnableThemeIcon {
+            get {
+                return ResourceManager.GetString("ShouldEnableThemeIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No 的本地化字符串。
+        /// </summary>
+        public static string ShouldEnableThemeIconOffContent {
+            get {
+                return ResourceManager.GetString("ShouldEnableThemeIconOffContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Yes 的本地化字符串。
+        /// </summary>
+        public static string ShouldEnableThemeIconOnContent {
+            get {
+                return ResourceManager.GetString("ShouldEnableThemeIconOnContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 When turned on, you can set menu icon individually for light and dark themes 的本地化字符串。
+        /// </summary>
+        public static string ShouldEnableThemeIconToolTip {
+            get {
+                return ResourceManager.GetString("ShouldEnableThemeIconToolTip", resourceCulture);
             }
         }
         
@@ -187,11 +430,29 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 After the menu content is updated, there may be a delay. Please open it after a period of time 的本地化字符串。
+        ///   查找类似 The dark theme icon path is not set 的本地化字符串。
         /// </summary>
-        public static string TitleDescription {
+        public static string UnknownDarkThemeIconPath {
             get {
-                return ResourceManager.GetString("TitleDescription", resourceCulture);
+                return ResourceManager.GetString("UnknownDarkThemeIconPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The icon path is not set 的本地化字符串。
+        /// </summary>
+        public static string UnknownDefaultIconPath {
+            get {
+                return ResourceManager.GetString("UnknownDefaultIconPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The light theme icon path is not set 的本地化字符串。
+        /// </summary>
+        public static string UnknownLightThemeIconPath {
+            get {
+                return ResourceManager.GetString("UnknownLightThemeIconPath", resourceCulture);
             }
         }
     }

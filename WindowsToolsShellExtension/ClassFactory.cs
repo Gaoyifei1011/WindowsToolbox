@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using WindowsToolsShellExtension.Commands;
 using WindowsToolsShellExtension.WindowsAPI.ComTypes;
 
 namespace WindowsToolsShellExtension
@@ -9,27 +10,22 @@ namespace WindowsToolsShellExtension
     /// 允许创建对象的类。
     /// </summary>
     [GeneratedComClass]
-    public partial class ClassFactory(Func<object> createFunc) : IClassFactory
+    public partial class ClassFactory : IClassFactory
     {
-        private readonly Func<object> createFunc = createFunc;
+        private readonly Func<object> rootExplorerCommandFunc = new(() => { return new RootExplorerCommand(); });
 
-        public unsafe int CreateInstance([Optional] void* pUnkOuter, in Guid riid, void** ppvObject)
+        public int CreateInstance(IntPtr pUnkOuter, in Guid riid, out object ppvObject)
         {
-            object obj = createFunc.Invoke();
-
-            IntPtr result = Program.StrategyBasedComWrappers.GetOrCreateComInterfaceForObject(obj!, CreateComInterfaceFlags.None);
-
-            IUnknown* punk = (IUnknown*)result;
-            int hr = punk->QueryInterface(riid, out var pvObject);
-
-            if (hr is 0)
+            if (pUnkOuter != IntPtr.Zero)
             {
-                *ppvObject = pvObject;
+                ppvObject = null;
+                const int CLASS_E_NOAGGREGATION = unchecked((int)0x80040110);
+                throw new COMException("Class does not support aggregation", CLASS_E_NOAGGREGATION);
             }
 
-            punk->Release();
-
-            return hr;
+            object obj = rootExplorerCommandFunc.Invoke();
+            ppvObject = obj;
+            return 0;
         }
 
         public int LockServer([MarshalAs(UnmanagedType.Bool)] bool fLock)

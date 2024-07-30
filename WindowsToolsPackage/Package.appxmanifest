@@ -7,7 +7,8 @@
   xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
   xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
   xmlns:desktop5="http://schemas.microsoft.com/appx/manifest/desktop/windows10/5"
-  IgnorableNamespaces="uap rescap com desktop4 desktop5">
+  xmlns:desktop10="http://schemas.microsoft.com/appx/manifest/desktop/windows10/10"
+  IgnorableNamespaces="uap rescap com desktop4 desktop5 desktop10">
 
   <Identity
 	  Name="Gaoyifei1011.WindowsTools"
@@ -60,11 +61,14 @@
         <desktop4:Extension Category="windows.fileExplorerContextMenus">
           <desktop4:FileExplorerContextMenus>
             <desktop4:ItemType Type="*">
-              <desktop4:Verb Id="CWindowsToolsCommand1" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
+              <desktop4:Verb Id="CWindowsToolsCommand" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
             </desktop4:ItemType>
             <desktop5:ItemType Type="Directory">
-              <desktop5:Verb Id="CWindowsToolsCommand2" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
+              <desktop5:Verb Id="CWindowsToolsCommand" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
             </desktop5:ItemType>
+            <desktop10:ItemType Type="Drive">
+              <desktop10:Verb Id="CWindowsToolsCommand" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
+            </desktop10:ItemType>
           </desktop4:FileExplorerContextMenus>
         </desktop4:Extension>
       </Extensions>

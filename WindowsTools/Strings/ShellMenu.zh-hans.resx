@@ -117,26 +117,92 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddMenu" xml:space="preserve">
-    <value>添加菜单</value>
+  <data name="AddMenuItem" xml:space="preserve">
+    <value>添加菜单项</value>
   </data>
   <data name="Apply" xml:space="preserve">
     <value>应用</value>
   </data>
-  <data name="ApplyModify" xml:space="preserve">
-    <value>应用更改</value>
+  <data name="ClearMenu" xml:space="preserve">
+    <value>清空菜单项</value>
+  </data>
+  <data name="ClearMenuToolTip" xml:space="preserve">
+    <value>清空所有的自定义菜单项</value>
+  </data>
+  <data name="DarkThemeIcon" xml:space="preserve">
+    <value>深色主题图标</value>
+  </data>
+  <data name="DefaultIcon" xml:space="preserve">
+    <value>默认图标</value>
   </data>
   <data name="DefaultRootText" xml:space="preserve">
     <value>Windows 工具箱</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="EmptyDescription" xml:space="preserve">
+    <value>菜单没有任何内容</value>
+  </data>
   <data name="FilterCondition" xml:space="preserve">
     <value>图标文件(*.ico)|*.ico</value>
+  </data>
+  <data name="FirstLevelMenu" xml:space="preserve">
+    <value>一级菜单</value>
+  </data>
+  <data name="LightThemeIcon" xml:space="preserve">
+    <value>浅色主题图标</value>
+  </data>
+  <data name="MenuIcon" xml:space="preserve">
+    <value>菜单图标</value>
+  </data>
+  <data name="MenuIconToolTip" xml:space="preserve">
+    <value>菜单图标路径：</value>
   </data>
   <data name="MenuList" xml:space="preserve">
     <value>菜单列表</value>
   </data>
+  <data name="MenuOrder" xml:space="preserve">
+    <value>菜单顺序</value>
+  </data>
+  <data name="MenuProgramPath" xml:space="preserve">
+    <value>程序文件路径</value>
+  </data>
+  <data name="MenuProgramPathPHText" xml:space="preserve">
+    <value>未设置应用程序路径</value>
+  </data>
+  <data name="MenuProgramPathToolTip" xml:space="preserve">
+    <value>菜单程序文件路径：</value>
+  </data>
+  <data name="MenuSettings" xml:space="preserve">
+    <value>菜单设置</value>
+  </data>
+  <data name="MenuTitle" xml:space="preserve">
+    <value>菜单标题</value>
+  </data>
+  <data name="MenuTitlePHText" xml:space="preserve">
+    <value>请输入菜单标题</value>
+  </data>
+  <data name="MenuTitleToolTip" xml:space="preserve">
+    <value>菜单标题：</value>
+  </data>
   <data name="Modify" xml:space="preserve">
     <value>修改</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="Precautions" xml:space="preserve">
+    <value>注意事项</value>
+  </data>
+  <data name="PrecautionsContent1" xml:space="preserve">
+    <value>1.子菜单级别只支持到二级菜单</value>
+  </data>
+  <data name="PrecautionsContent2" xml:space="preserve">
+    <value>2.菜单内容更新后，可能会存在延迟，请过一段时间再打开</value>
+  </data>
+  <data name="PrecautionsContent3" xml:space="preserve">
+    <value>3.建议避免过多的二级菜单，因为这可能会导致菜单加载时间过长，从而引发卡顿现象。</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>刷新</value>
@@ -153,13 +219,34 @@
   <data name="RootMenuSettings" xml:space="preserve">
     <value>根菜单设置</value>
   </data>
+  <data name="SecondLevelMenu" xml:space="preserve">
+    <value>二级菜单</value>
+  </data>
   <data name="SelectIcon" xml:space="preserve">
     <value>选择图标</value>
+  </data>
+  <data name="ShouldEnableThemeIcon" xml:space="preserve">
+    <value>是否启用主题图标</value>
+  </data>
+  <data name="ShouldEnableThemeIconOffContent" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="ShouldEnableThemeIconOnContent" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="ShouldEnableThemeIconToolTip" xml:space="preserve">
+    <value>开启后可以针对明暗主题单独设置菜单图标</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>自定义扩展菜单</value>
   </data>
-  <data name="TitleDescription" xml:space="preserve">
-    <value>菜单内容更新后，可能会存在延迟，请过一段时间再打开</value>
+  <data name="UnknownDarkThemeIconPath" xml:space="preserve">
+    <value>未设置深色主题图标路径</value>
+  </data>
+  <data name="UnknownDefaultIconPath" xml:space="preserve">
+    <value>未设置默认图标路径</value>
+  </data>
+  <data name="UnknownLightThemeIconPath" xml:space="preserve">
+    <value>未设置浅色主题图标路径</value>
   </data>
 </root>

@@ -117,26 +117,92 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddMenu" xml:space="preserve">
-    <value>Add menu</value>
+  <data name="AddMenuItem" xml:space="preserve">
+    <value>Add menu item</value>
   </data>
   <data name="Apply" xml:space="preserve">
     <value>Apply</value>
   </data>
-  <data name="ApplyModify" xml:space="preserve">
-    <value>Apply modify</value>
+  <data name="ClearMenu" xml:space="preserve">
+    <value>Clear menu items</value>
+  </data>
+  <data name="ClearMenuToolTip" xml:space="preserve">
+    <value>Clear all custom menu items</value>
+  </data>
+  <data name="DarkThemeIcon" xml:space="preserve">
+    <value>Dark theme icon</value>
+  </data>
+  <data name="DefaultIcon" xml:space="preserve">
+    <value>Default icon</value>
   </data>
   <data name="DefaultRootText" xml:space="preserve">
     <value>Windows tools</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EmptyDescription" xml:space="preserve">
+    <value>There's no menu items</value>
+  </data>
   <data name="FilterCondition" xml:space="preserve">
     <value>Icon file(*.ico)|*.ico</value>
+  </data>
+  <data name="FirstLevelMenu" xml:space="preserve">
+    <value>First level menu</value>
+  </data>
+  <data name="LightThemeIcon" xml:space="preserve">
+    <value>Light theme icon</value>
+  </data>
+  <data name="MenuIcon" xml:space="preserve">
+    <value>Menu icon</value>
+  </data>
+  <data name="MenuIconToolTip" xml:space="preserve">
+    <value>Menu icon path:</value>
   </data>
   <data name="MenuList" xml:space="preserve">
     <value>Menu list</value>
   </data>
+  <data name="MenuOrder" xml:space="preserve">
+    <value>Menu order</value>
+  </data>
+  <data name="MenuProgramPath" xml:space="preserve">
+    <value>Program file path</value>
+  </data>
+  <data name="MenuProgramPathPHText" xml:space="preserve">
+    <value>The application path is not set</value>
+  </data>
+  <data name="MenuProgramPathToolTip" xml:space="preserve">
+    <value>Menu program path: </value>
+  </data>
+  <data name="MenuSettings" xml:space="preserve">
+    <value>Menu settings</value>
+  </data>
+  <data name="MenuTitle" xml:space="preserve">
+    <value>Menu title</value>
+  </data>
+  <data name="MenuTitlePHText" xml:space="preserve">
+    <value>Please input the menu title</value>
+  </data>
+  <data name="MenuTitleToolTip" xml:space="preserve">
+    <value>Menu title: </value>
+  </data>
   <data name="Modify" xml:space="preserve">
     <value>Modify</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="Precautions" xml:space="preserve">
+    <value>Precautions</value>
+  </data>
+  <data name="PrecautionsContent1" xml:space="preserve">
+    <value>1.The submenu level is only supported up to the secondary menu</value>
+  </data>
+  <data name="PrecautionsContent2" xml:space="preserve">
+    <value>2.After the menu content is updated, there may be a delay. Please open it after a period of time</value>
+  </data>
+  <data name="PrecautionsContent3" xml:space="preserve">
+    <value>3. It is recommended to avoid too many secondary menus, because this may lead to a long menu loading time, which will cause a deadlock.</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
@@ -153,13 +219,34 @@
   <data name="RootMenuSettings" xml:space="preserve">
     <value>Root menu settings</value>
   </data>
+  <data name="SecondLevelMenu" xml:space="preserve">
+    <value>Second level menu</value>
+  </data>
   <data name="SelectIcon" xml:space="preserve">
     <value>Select icon</value>
+  </data>
+  <data name="ShouldEnableThemeIcon" xml:space="preserve">
+    <value>Whether to enable theme icon</value>
+  </data>
+  <data name="ShouldEnableThemeIconOffContent" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ShouldEnableThemeIconOnContent" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="ShouldEnableThemeIconToolTip" xml:space="preserve">
+    <value>When turned on, you can set menu icon individually for light and dark themes</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Custom shell menu</value>
   </data>
-  <data name="TitleDescription" xml:space="preserve">
-    <value>After the menu content is updated, there may be a delay. Please open it after a period of time</value>
+  <data name="UnknownDarkThemeIconPath" xml:space="preserve">
+    <value>The dark theme icon path is not set</value>
+  </data>
+  <data name="UnknownDefaultIconPath" xml:space="preserve">
+    <value>The icon path is not set</value>
+  </data>
+  <data name="UnknownLightThemeIconPath" xml:space="preserve">
+    <value>The light theme icon path is not set</value>
   </data>
 </root>

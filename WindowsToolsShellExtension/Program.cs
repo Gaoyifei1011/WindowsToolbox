@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
@@ -18,13 +17,6 @@ namespace WindowsToolsShellExtension
     {
         private static long g_cRefModule = 0;
 
-        public static StrategyBasedComWrappers StrategyBasedComWrappers { get; } = new StrategyBasedComWrappers();
-
-        private static readonly IReadOnlyDictionary<Guid, Func<object>> createFunctions = new Dictionary<Guid, Func<object>>()
-        {
-            [typeof(RootExplorerCommand).GUID] = () => new RootExplorerCommand()
-        };
-
         static Program()
         {
             string language = LanguageService.GetLanguage();
@@ -42,7 +34,7 @@ namespace WindowsToolsShellExtension
         /// </summary>
         /// <returns>OLE 不提供此函数。 支持 OLE 组件对象模型 (COM) 的 DLL 应实现并导出 DllCanUnloadNow。</returns>
         [UnmanagedCallersOnly(EntryPoint = "DllCanUnloadNow")]
-        private static int DllCanUnloadNow()
+        public static int DllCanUnloadNow()
         {
             return g_cRefModule >= 1 ? 1 : 0;
         }
@@ -65,20 +57,17 @@ namespace WindowsToolsShellExtension
         /// <param name="ppv">接收 riid 中请求的接口指针的指针变量的地址。 成功返回后，*ppv 包含请求的接口指针。 如果发生错误，接口指针为 NULL。</param>
         /// <returns>此函数可以返回标准返回值E_INVALIDARG、E_OUTOFMEMORY和E_UNEXPECTED，以及以下值。</returns>
         [UnmanagedCallersOnly(EntryPoint = "DllGetClassObject")]
-        private static unsafe int DllGetClassObject([In] Guid clsid, [In] Guid riid, void** ppv)
+        public static unsafe int DllGetClassObject(Guid clsid, Guid riid, IntPtr* ppv)
         {
-            foreach ((Guid guid, Func<object> func) in createFunctions)
+            if (clsid.Equals(typeof(RootExplorerCommand).GUID))
             {
-                if (clsid.Equals(guid))
-                {
-                    ClassFactory classFactory = new(func);
-                    IntPtr pClassFactory = StrategyBasedComWrappers.GetOrCreateComInterfaceForObject(classFactory, CreateComInterfaceFlags.None);
+                ClassFactory classFactory = new();
+                IntPtr pIUnknown = (IntPtr)ComInterfaceMarshaller<ClassFactory>.ConvertToUnmanaged(classFactory);
 
-                    ((IUnknown*)pClassFactory)->QueryInterface(riid, ppv);
-                    ((IUnknown*)pClassFactory)->Release();
+                int hresult = Marshal.QueryInterface(pIUnknown, in riid, out *ppv);
+                Marshal.Release(pIUnknown);
 
-                    return 0;
-                }
+                return hresult;
             }
 
             return unchecked((int)0x80040111);

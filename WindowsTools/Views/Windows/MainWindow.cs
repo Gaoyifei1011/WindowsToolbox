@@ -57,7 +57,7 @@ namespace WindowsTools.Views.Windows
             AutoScaleMode = AutoScaleMode.Font;
             Current = this;
             Controls.Add(windowsXamlHost);
-            Icon = System.Drawing.Icon.ExtractAssociatedIcon(Process.GetCurrentProcess().MainModule.FileName);
+            Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
             MinimumSize = new System.Drawing.Size(Convert.ToInt32(1024 * ((double)DeviceDpi) / 96), Convert.ToInt32(768 * ((double)DeviceDpi / 96)));
             Size = new System.Drawing.Size(Convert.ToInt32(1024 * ((double)DeviceDpi) / 96), Convert.ToInt32(768 * ((double)DeviceDpi / 96)));
             StartPosition = FormStartPosition.CenterScreen;
@@ -504,7 +504,8 @@ namespace WindowsTools.Views.Windows
                 // 当用户按下鼠标右键并释放时，光标位于窗口的非工作区内的消息
                 case WindowMessage.WM_NCRBUTTONUP:
                     {
-                        if (Content is not null && Content.XamlRoot is not null)
+                        // HTCAPTION 在标题栏中
+                        if (wParam.ToUInt32() is 2 && Content is not null && Content.XamlRoot is not null)
                         {
                             System.Drawing.Point clientPoint = PointToClient(MousePosition);
 
@@ -518,6 +519,7 @@ namespace WindowsTools.Views.Windows
                             };
                             (Content as MainPage).TitlebarMenuFlyout.ShowAt(null, options);
                         }
+
                         return IntPtr.Zero;
                     }
             }

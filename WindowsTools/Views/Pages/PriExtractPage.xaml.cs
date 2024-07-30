@@ -670,7 +670,7 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 复制选中的嵌入数据
+        /// 导出选中的嵌入数据
         /// </summary>
         private void OnExportSelectedEmbeddedDataClicked(object sender, RoutedEventArgs args)
         {
@@ -691,6 +691,11 @@ namespace WindowsTools.Views.Pages
                     {
                         try
                         {
+                            foreach (EmbeddedDataModel embeddedDataItem in selectedEmbeddedDataList)
+                            {
+                                File.WriteAllBytes(Path.Combine(dialog.SelectedPath, Path.GetFileName(embeddedDataItem.Key)), embeddedDataItem.EmbeddedData);
+                            }
+
                             Process.Start(dialog.SelectedPath);
                         }
                         catch (Exception e)
@@ -717,16 +722,16 @@ namespace WindowsTools.Views.Pages
         private void OnCopyAllStringClicked(object sender, RoutedEventArgs args)
         {
             IsProcessing = true;
-            List<StringModel> stringList = [.. StringCollection];
-            if (stringList.Count > 0)
+            List<StringModel> copyAllStringList = [.. StringCollection];
+            if (copyAllStringList.Count > 0)
             {
                 StringBuilder copyStringBuilder = new();
-                foreach (StringModel stringItem in stringList)
+                foreach (StringModel stringItem in copyAllStringList)
                 {
                     copyStringBuilder.AppendLine(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
                 }
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyStringBuilder.ToString());
-                TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, true, stringList.Count));
+                TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, true, copyAllStringList.Count));
             }
             IsProcessing = false;
         }
@@ -737,16 +742,16 @@ namespace WindowsTools.Views.Pages
         private void OnCopyAllFilePathClicked(object sender, RoutedEventArgs args)
         {
             IsProcessing = true;
-            List<FilePathModel> filePathList = [.. FilePathCollection];
-            if (filePathList.Count > 0)
+            List<FilePathModel> copyAllFilePathList = [.. FilePathCollection];
+            if (copyAllFilePathList.Count > 0)
             {
                 StringBuilder copyFilePathBuilder = new();
-                foreach (FilePathModel filePathItem in filePathList)
+                foreach (FilePathModel filePathItem in copyAllFilePathList)
                 {
                     copyFilePathBuilder.AppendLine(string.Format("Key:{0}, AbsolutePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
                 }
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyFilePathBuilder.ToString());
-                TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, true, filePathList.Count));
+                TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, true, copyAllFilePathList.Count));
             }
             IsProcessing = false;
         }
@@ -767,14 +772,14 @@ namespace WindowsTools.Views.Pages
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
                 IsProcessing = true;
-                List<EmbeddedDataModel> embeddedDataList = [.. EmbeddedDataCollection];
-                if (embeddedDataList.Count > 0)
+                List<EmbeddedDataModel> exportAllEmbeddedDataList = [.. EmbeddedDataCollection];
+                if (exportAllEmbeddedDataList.Count > 0)
                 {
                     Task.Run(() =>
                     {
                         try
                         {
-                            foreach (EmbeddedDataModel embeddedDataItem in embeddedDataList)
+                            foreach (EmbeddedDataModel embeddedDataItem in exportAllEmbeddedDataList)
                             {
                                 File.WriteAllBytes(Path.Combine(dialog.SelectedPath, Path.GetFileName(embeddedDataItem.Key)), embeddedDataItem.EmbeddedData);
                             }

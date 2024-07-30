@@ -1,38 +1,73 @@
 <Page
     x:Class="WindowsTools.Views.Pages.ShellMenuPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:collection="using:System.Collections"
+    xmlns:converter="using:WindowsTools.Helpers.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:WindowsTools.Strings"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <XamlUICommand x:Name="EditCommand" ExecuteRequested="{x:Bind OnEditExecuteRequested}" />
+        <XamlUICommand x:Name="OpenProgramPathCommand" ExecuteRequested="{x:Bind OnOpenProgramPathRequested}" />
+    </Page.Resources>
+
     <Grid Padding="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock
-            Grid.Row="0"
-            Margin="30,15,30,6"
-            FontSize="22"
-            Text="{x:Bind string:ShellMenu.Title}" />
+        <Grid Grid.Row="0" Margin="30,15,30,3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
 
-        <TextBlock
-            Grid.Row="1"
-            Margin="32,0,32,6"
-            Text="{x:Bind string:ShellMenu.TitleDescription}" />
+            <muxc:BreadcrumbBar
+                Grid.Row="0"
+                VerticalAlignment="Center"
+                ItemClicked="{x:Bind OnItemClicked}"
+                ItemsSource="{x:Bind BreadCollection, Mode=OneWay}">
 
+                <muxc:BreadcrumbBar.Resources>
+                    <Thickness x:Key="BreadcrumbBarChevronPadding">6,0</Thickness>
+                    <x:Double x:Key="BreadcrumbBarChevronFontSize">16</x:Double>
+                </muxc:BreadcrumbBar.Resources>
+
+                <muxc:BreadcrumbBar.ItemTemplate>
+                    <DataTemplate x:DataType="collection:DictionaryEntry">
+                        <muxc:BreadcrumbBarItem Content="{Binding}">
+                            <muxc:BreadcrumbBarItem.ContentTemplate>
+                                <DataTemplate x:DataType="collection:DictionaryEntry">
+                                    <TextBlock FontSize="22" Text="{x:Bind Key}" />
+                                </DataTemplate>
+                            </muxc:BreadcrumbBarItem.ContentTemplate>
+                        </muxc:BreadcrumbBarItem>
+                    </DataTemplate>
+                </muxc:BreadcrumbBar.ItemTemplate>
+            </muxc:BreadcrumbBar>
+
+            <Button
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Click="{x:Bind OnMenuSettingsClicked}"
+                Content="{x:Bind string:ShellMenu.MenuSettings}" />
+        </Grid>
+
+        <!--  主菜单页面  -->
         <ScrollViewer
-            Grid.Row="2"
+            Grid.Row="1"
             HorizontalScrollBarVisibility="Disabled"
             HorizontalScrollMode="Disabled"
             VerticalScrollBarVisibility="Auto"
-            VerticalScrollMode="Auto">
+            VerticalScrollMode="Auto"
+            Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentControl(BreadCollection.Count, 1), Mode=OneWay}">
 
             <StackPanel Margin="30,0,30,30">
 
@@ -151,7 +186,7 @@
 
                 <Grid
                     Height="48"
-                    Padding="16,0,16,0"
+                    Padding="16,0,12,0"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Center"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -180,7 +215,7 @@
                     <AppBarButton
                         Grid.Column="2"
                         Click="{x:Bind OnAddMenuClicked}"
-                        Label="{x:Bind string:ShellMenu.AddMenu}"
+                        Label="{x:Bind string:ShellMenu.AddMenuItem}"
                         Style="{StaticResource AppBarButtonStyle}">
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xE710;" />
@@ -189,11 +224,12 @@
 
                     <AppBarButton
                         Grid.Column="3"
-                        Click="{x:Bind OnAddModifyClicked}"
-                        Label="{x:Bind string:ShellMenu.ApplyModify}"
-                        Style="{StaticResource AppBarButtonStyle}">
+                        Click="{x:Bind OnClearMenuClicked}"
+                        Label="{x:Bind string:ShellMenu.ClearMenu}"
+                        Style="{StaticResource AppBarButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind string:ShellMenu.ClearMenuToolTip}">
                         <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE74E;" />
+                            <FontIcon Glyph="&#xE74D;" />
                         </AppBarButton.Icon>
                     </AppBarButton>
 
@@ -206,6 +242,615 @@
                             <FontIcon Glyph="&#xE72C;" />
                         </AppBarButton.Icon>
                     </AppBarButton>
+                </Grid>
+
+                <Grid
+                    Padding="16,12"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1,0,1,1"
+                    CornerRadius="0,0,4,4"
+                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(ShellMenuItemCollection.Count), Mode=OneWay}">
+
+                    <TextBlock
+                        Margin="0,10"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind string:ShellMenu.EmptyDescription}"
+                        TextAlignment="Center" />
+                </Grid>
+
+                <ListView
+                    CornerRadius="0,0,4,4"
+                    ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
+                    ItemsSource="{x:Bind ShellMenuItemCollection}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.HorizontalScrollMode="Disabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.VerticalScrollMode="Enabled"
+                    SelectionMode="None"
+                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(ShellMenuItemCollection.Count), Mode=OneWay}">
+
+                    <ListView.Header>
+                        <Grid
+                            Height="35"
+                            Padding="6,0,0,0"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1,0,1,1">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="70" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                x:Name="MenuIconHeaderText"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind string:ShellMenu.MenuIcon}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap">
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Content="{x:Bind string:ShellMenu.MenuIcon}"
+                                        Visibility="{x:Bind MenuIconHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+
+                            <TextBlock
+                                x:Name="MenuTitleHeaderText"
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind string:ShellMenu.MenuTitle}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap">
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Content="{x:Bind string:ShellMenu.MenuTitle}"
+                                        Visibility="{x:Bind MenuTitleHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+
+                            <TextBlock
+                                x:Name="MenuProgramPathHeaderText"
+                                Grid.Column="2"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind string:ShellMenu.MenuProgramPath}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap">
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Content="{x:Bind string:ShellMenu.MenuProgramPath}"
+                                        Visibility="{x:Bind MenuProgramPathHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+
+                            <TextBlock
+                                x:Name="OperationText"
+                                Grid.Column="3"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind string:ShellMenu.Operation}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap">
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Content="{x:Bind string:ShellMenu.Operation}"
+                                        Visibility="{x:Bind OperationText.IsTextTrimmed, Mode=OneWay}" />
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+                        </Grid>
+                    </ListView.Header>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="model:ShellMenuItemModel">
+                            <Grid
+                                Height="35"
+                                Padding="6,0,0,0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1,0,1,1">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="70" />
+                                </Grid.ColumnDefinitions>
+
+                                <muxc:ImageIcon
+                                    Grid.Column="0"
+                                    Width="20"
+                                    Height="20"
+                                    VerticalAlignment="Center"
+                                    Source="{x:Bind Icon, Mode=OneWay}">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip MaxWidth="9999">
+                                            <TextBlock>
+                                                <Run Text="{x:Bind string:ShellMenu.MenuIconToolTip}" />
+                                                <Run Text="{x:Bind IconPath, Mode=OneWay}" />
+                                            </TextBlock>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </muxc:ImageIcon>
+
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{x:Bind Title, Mode=OneWay}"
+                                    TextAlignment="Left"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip MaxWidth="9999">
+                                            <TextBlock>
+                                                <Run Text="{x:Bind string:ShellMenu.MenuTitleToolTip}" />
+                                                <Run Text="{x:Bind Title, Mode=OneWay}" />
+                                            </TextBlock>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+
+                                <HyperlinkButton
+                                    Grid.Column="2"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Command="{StaticResource OpenProgramPathCommand}"
+                                    CommandParameter="{x:Bind ProgramPath}"
+                                    FontSize="14"
+                                    Style="{StaticResource HyperlinkButtonStyle}">
+
+                                    <HyperlinkButton.Content>
+                                        <TextBlock
+                                            Text="{x:Bind ProgramPath, Mode=OneWay}"
+                                            TextAlignment="Left"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap" />
+                                    </HyperlinkButton.Content>
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip MaxWidth="9999">
+                                            <TextBlock>
+                                                <Run Text="{x:Bind string:ShellMenu.MenuProgramPathToolTip}" />
+                                                <Run Text="{x:Bind ProgramPath, Mode=OneWay}" />
+                                            </TextBlock>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </HyperlinkButton>
+
+                                <HyperlinkButton
+                                    Grid.Column="3"
+                                    Margin="9,0,0,0"
+                                    Command="{StaticResource EditCommand}"
+                                    CommandParameter="{x:Bind MenuIndex}"
+                                    Content="{x:Bind string:ShellMenu.Edit}"
+                                    Style="{StaticResource HyperlinkButtonStyle}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <muxc:Expander
+                    Margin="0,3,0,3"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    IsExpanded="True">
+
+                    <muxc:Expander.Header>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon
+                                Grid.Column="0"
+                                Margin="0,0,12,0"
+                                FontSize="16"
+                                Glyph="&#xE7BA;" />
+
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind string:ShellMenu.Precautions}" />
+                        </Grid>
+                    </muxc:Expander.Header>
+
+                    <muxc:Expander.Content>
+                        <StackPanel Margin="0">
+
+                            <TextBlock
+                                Margin="44,10,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                Text="{x:Bind string:ShellMenu.PrecautionsContent1}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Margin="44,0,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                Text="{x:Bind string:ShellMenu.PrecautionsContent2}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Margin="44,0,16,10"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                Text="{x:Bind string:ShellMenu.PrecautionsContent3}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </muxc:Expander.Content>
+                </muxc:Expander>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!--  一级菜单编辑页面  -->
+        <ScrollViewer
+            Grid.Row="1"
+            HorizontalScrollBarVisibility="Disabled"
+            HorizontalScrollMode="Disabled"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Auto"
+            Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentControl(BreadCollection.Count, 2), Mode=OneWay}">
+
+            <StackPanel Margin="30,0,30,30">
+
+                <!--  菜单标题设置  -->
+                <Grid
+                    Height="61"
+                    Margin="0,0,0,3"
+                    Padding="16,12"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <FontIcon
+                        Grid.Column="0"
+                        Margin="0,0,12,0"
+                        FontSize="16"
+                        Glyph="&#xE71D;" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind string:ShellMenu.MenuTitle}" />
+
+                    <TextBox
+                        Grid.Column="2"
+                        MinWidth="200"
+                        VerticalAlignment="Center"
+                        PlaceholderText="{x:Bind string:ShellMenu.MenuTitlePHText}"
+                        Text="{x:Bind FLMTitle, Mode=OneWay}"
+                        TextChanged="{x:Bind OnFLMTitleTextChanged}" />
+                </Grid>
+
+                <!--  菜单图标设置  -->
+                <muxc:Expander
+                    Margin="0,0,0,3"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    IsExpanded="True">
+
+                    <muxc:Expander.Header>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon
+                                Grid.Column="0"
+                                Margin="0,0,12,0"
+                                FontSize="16"
+                                Glyph="&#xE8B9;" />
+
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="0,12"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource BodyTextBlockStyle}"
+                                Text="{x:Bind string:ShellMenu.MenuIcon}" />
+                        </Grid>
+                    </muxc:Expander.Header>
+
+                    <muxc:Expander.Content>
+                        <StackPanel Padding="0" HorizontalAlignment="Stretch">
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind string:ShellMenu.ShouldEnableThemeIcon}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    FlowDirection="RightToLeft"
+                                    IsOn="{x:Bind FLMShouldEnableThemeIcon, Mode=OneWay}"
+                                    OffContent="{x:Bind string:ShellMenu.ShouldEnableThemeIconOffContent}"
+                                    OnContent="{x:Bind string:ShellMenu.ShouldEnableThemeIconOnContent}"
+                                    Toggled="{x:Bind OnFLMShouldEnableThemeIconToggled}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
+                            <!--  默认图标  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                ColumnSpacing="10"
+                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(FLMShouldEnableThemeIcon), Mode=OneWay}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind string:ShellMenu.DefaultIcon}" />
+
+                                <muxc:ImageIcon
+                                    Grid.Column="1"
+                                    Width="28"
+                                    Height="28"
+                                    VerticalAlignment="Center"
+                                    Source="{x:Bind FLMDefaultIconImage, Mode=OneWay}" />
+
+                                <TextBox
+                                    Grid.Column="2"
+                                    Width="500"
+                                    VerticalAlignment="Center"
+                                    IsReadOnly="True"
+                                    PlaceholderText="{x:Bind string:ShellMenu.UnknownDefaultIconPath}"
+                                    Text="{x:Bind FLMDefaultIconPath, Mode=OneWay}" />
+
+                                <Button
+                                    Grid.Column="3"
+                                    VerticalAlignment="Center"
+                                    Content="{x:Bind string:ShellMenu.Modify}" />
+                            </Grid>
+
+                            <!--  浅色主题图标  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                ColumnSpacing="10"
+                                Visibility="{x:Bind FLMShouldEnableThemeIcon, Mode=OneWay}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind string:ShellMenu.LightThemeIcon}" />
+
+                                <muxc:ImageIcon
+                                    Grid.Column="1"
+                                    Width="28"
+                                    Height="28"
+                                    VerticalAlignment="Center"
+                                    Source="{x:Bind FLMDarkThemeIconImage, Mode=OneWay}" />
+
+                                <TextBox
+                                    Grid.Column="2"
+                                    Width="500"
+                                    VerticalAlignment="Center"
+                                    IsReadOnly="True"
+                                    PlaceholderText="{x:Bind string:ShellMenu.UnknownLightThemeIconPath}"
+                                    Text="{x:Bind FLMLightThemeIconPath, Mode=OneWay}" />
+
+                                <Button
+                                    Grid.Column="3"
+                                    VerticalAlignment="Center"
+                                    Click="{x:Bind OnFLMLightThemeIconModifyClicked}"
+                                    Content="{x:Bind string:ShellMenu.Modify}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator Visibility="{x:Bind FLMShouldEnableThemeIcon, Mode=OneWay}" />
+
+                            <!--  深色主题图标  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                ColumnSpacing="10"
+                                Visibility="{x:Bind FLMShouldEnableThemeIcon, Mode=OneWay}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind string:ShellMenu.DarkThemeIcon}" />
+
+                                <muxc:ImageIcon
+                                    Grid.Column="1"
+                                    Width="28"
+                                    Height="28"
+                                    VerticalAlignment="Center"
+                                    Source="{x:Bind RootMenuImage, Mode=OneWay}" />
+
+                                <TextBox
+                                    Grid.Column="2"
+                                    Width="500"
+                                    VerticalAlignment="Center"
+                                    IsReadOnly="True"
+                                    PlaceholderText="{x:Bind string:ShellMenu.UnknownDarkThemeIconPath}"
+                                    Text="{x:Bind FLMDarkThemeIconPath, Mode=OneWay}" />
+
+                                <Button
+                                    Grid.Column="3"
+                                    VerticalAlignment="Center"
+                                    Click="{x:Bind OnFLMDarkThemeIconModifyClicked}"
+                                    Content="{x:Bind string:ShellMenu.Modify}" />
+                            </Grid>
+                        </StackPanel>
+                    </muxc:Expander.Content>
+                </muxc:Expander>
+
+                <!--  菜单顺序设置  -->
+                <Grid
+                    Height="61"
+                    Margin="0,0,0,3"
+                    Padding="16,12"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <FontIcon
+                        Grid.Column="0"
+                        Margin="0,0,12,0"
+                        FontSize="16"
+                        Glyph="&#xE8CB;" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind string:ShellMenu.MenuOrder}" />
+
+                    <muxc:NumberBox
+                        Grid.Column="2"
+                        MinWidth="120"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        PlaceholderText="{x:Bind string:ShellMenu.MenuTitlePHText}"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="{x:Bind OnFLMOrderChanged, Mode=OneWay}"
+                        Value="{x:Bind FLMOrder, Mode=OneWay}" />
+                </Grid>
+
+                <!--  程序路径  -->
+                <Grid
+                    Height="61"
+                    Margin="0,0,0,3"
+                    Padding="16,12"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <FontIcon
+                        Grid.Column="0"
+                        Margin="0,0,12,0"
+                        FontSize="16"
+                        Glyph="&#xE8A1;" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind string:ShellMenu.MenuProgramPath}" />
+
+                    <TextBox
+                        Grid.Column="2"
+                        Width="500"
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Center"
+                        IsReadOnly="True"
+                        PlaceholderText="{x:Bind string:ShellMenu.MenuProgramPathPHText}"
+                        Text="{x:Bind FLMMenuProgramPathText, Mode=OneWay}" />
+
+                    <Button
+                        Grid.Column="3"
+                        VerticalAlignment="Center"
+                        Click="{x:Bind OnFLMMenuProgramPathModifyClicked}"
+                        Content="{x:Bind string:ShellMenu.Modify}" />
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!--  二级菜单编辑页面  -->
+        <ScrollViewer
+            Grid.Row="1"
+            HorizontalScrollBarVisibility="Disabled"
+            HorizontalScrollMode="Disabled"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Auto"
+            Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentControl(BreadCollection.Count, 3), Mode=OneWay}">
+
+            <StackPanel Margin="30,0,30,30">
+
+                <Grid>
+                    <TextBlock Text="Second level menu" />
                 </Grid>
             </StackPanel>
         </ScrollViewer>

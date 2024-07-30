@@ -35,8 +35,16 @@ namespace WindowsToolsShellExtension.Helpers.Root
 
             if (createResult)
             {
-                if (processInformation.hProcess != IntPtr.Zero) Kernel32Library.CloseHandle(processInformation.hProcess);
-                if (processInformation.hThread != IntPtr.Zero) Kernel32Library.CloseHandle(processInformation.hThread);
+                if (processInformation.hProcess != IntPtr.Zero)
+                {
+                    Kernel32Library.CloseHandle(processInformation.hProcess);
+                }
+
+                if (processInformation.hThread != IntPtr.Zero)
+                {
+                    Kernel32Library.CloseHandle(processInformation.hThread);
+                }
+
                 processid = processInformation.dwProcessId;
             }
             else

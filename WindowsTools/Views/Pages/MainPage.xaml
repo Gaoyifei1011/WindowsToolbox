@@ -262,8 +262,7 @@
                 <!--  个性化工具  -->
                 <muxc:NavigationViewItem
                     Content="{x:Bind string:Window.Personalize}"
-                    Tag="15"
-                    Visibility="Collapsed">
+                    Tag="15">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Personalize.png" />
@@ -272,8 +271,7 @@
                     <muxc:NavigationViewItem.MenuItems>
                         <muxc:NavigationViewItem
                             Content="{x:Bind string:Window.ShellMenu}"
-                            Tag="16"
-                            Visibility="Collapsed">
+                            Tag="16">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/ShellMenu.png" />

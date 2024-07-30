@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using WindowsTools.Services.Shell;
 using WindowsToolsShellExtension.WindowsAPI.ComTypes;
 
 namespace WindowsToolsShellExtension.Commands
 {
+    /// <summary>
+    /// 子菜单命令
+    /// </summary>
     [GeneratedComClass]
     public partial class SubExplorerCommand : IExplorerCommand
     {
@@ -28,7 +32,7 @@ namespace WindowsToolsShellExtension.Commands
 
         public int GetIcon(IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.LPWStr)] out string ppszIcon)
         {
-            ppszIcon = string.Empty;
+            ppszIcon = ShellMenuService.RootMenuIconPath;
             return 0;
         }
 

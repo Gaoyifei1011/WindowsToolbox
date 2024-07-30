@@ -11,7 +11,7 @@ namespace WindowsToolsShellExtension.Commands
     public partial class EnumExplorerCommand(SubExplorerCommand[] explorerCommands) : IEnumExplorerCommand
     {
         private readonly SubExplorerCommand[] subExplorerCommands = explorerCommands is null ? ([]) : explorerCommands;
-        private uint index;
+        private int index = 0;
 
         /// <summary>
         /// 目前尚未实现。
@@ -33,26 +33,27 @@ namespace WindowsToolsShellExtension.Commands
         {
             pceltFetched = 0;
 
-            if (index <= subExplorerCommands.Length)
+            if (subExplorerCommands.Length is 0)
             {
-                uint uIndex = 0;
-
-                while (uIndex < celt && index < subExplorerCommands.Length)
-                {
-                    pUICommand[uIndex] = subExplorerCommands[index];
-                    uIndex++;
-                    index++;
-                }
-
-                pceltFetched = uIndex;
-
-                if (uIndex == celt)
-                {
-                    return 0;
-                }
+                return unchecked((int)0x80004001);
             }
 
-            return 1;
+            int start = index;
+            for (int i = 0; i < celt && start + i < explorerCommands.Length; i++)
+            {
+                pUICommand[i] = subExplorerCommands[index];
+                index++;
+            }
+            pceltFetched = (uint)(index - start);
+
+            if (index - start == celt)
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
         }
 
         /// <summary>
@@ -69,13 +70,7 @@ namespace WindowsToolsShellExtension.Commands
         /// </summary>
         public int Skip(uint celt)
         {
-            index += celt;
-            if (index > subExplorerCommands.Length)
-            {
-                index = (uint)subExplorerCommands.Length;
-                return 1;
-            }
-            return 0;
+            return unchecked((int)0x80004001);
         }
     }
 }

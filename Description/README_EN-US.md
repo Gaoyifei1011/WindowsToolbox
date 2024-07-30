@@ -66,7 +66,8 @@ A toolbox that integrates multiple gadgets.
 | Bar code,QR code generate and parse                       | Finished                                                             |
 | Extract file icons                                        | Finished                                                             |
 | Extract the package resource index(.pri) file conten      | Finished                                                             |
-| Customize the right-click menu                            | Unfinished                                                           |
+| Color picker                                              | Unfinished                                                           |
+| Customize the right-click menu                            | Processing                                                           |
 | System information                                        | Unfinished                                                           |
 | Driver manager                                            | Unfinished                                                           |
 | Update manager                                            | Unfinished                                                           |

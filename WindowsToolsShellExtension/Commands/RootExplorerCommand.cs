@@ -1,17 +1,14 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using WindowsTools.Services.Shell;
-using WindowsToolsShellExtension.Helpers.Root;
 using WindowsToolsShellExtension.Services.Controls.Settings;
 using WindowsToolsShellExtension.WindowsAPI.ComTypes;
-using WindowsToolsShellExtension.WindowsAPI.PInvoke.Kernel32;
 
 namespace WindowsToolsShellExtension.Commands
 {
     /// <summary>
-    /// 根菜单项目
+    /// 根菜单项目（请勿修改）
     /// </summary>
     [GeneratedComClass, Guid("5A730150-DE8D-0C88-FD1A-99B7E954BDDB")]
     public partial class RootExplorerCommand : IExplorerCommand
@@ -66,12 +63,6 @@ namespace WindowsToolsShellExtension.Commands
         /// </summary>
         public unsafe int Invoke(IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.Interface)] object pbc)
         {
-            char* pathbuffer = stackalloc char[256];
-            int length = 256;
-            Kernel32Library.GetCurrentPackagePath(ref length, pathbuffer);
-            string exePath = Path.Combine(new string(pathbuffer), "WindowsTools.exe");
-
-            ProcessHelper.StartProcess(exePath, string.Empty, out int processid);
             return 0;
         }
 
@@ -80,7 +71,7 @@ namespace WindowsToolsShellExtension.Commands
         /// </summary>
         public int GetFlags(out EXPCMDFLAGS pFlags)
         {
-            pFlags = EXPCMDFLAGS.ECF_DEFAULT;
+            pFlags = EXPCMDFLAGS.ECF_HASSUBCOMMANDS;
             return 0;
         }
 
@@ -89,7 +80,7 @@ namespace WindowsToolsShellExtension.Commands
         /// </summary>
         public int EnumSubCommands(out IEnumExplorerCommand ppEnum)
         {
-            SubExplorerCommand[] subExplorerCommands = [new SubExplorerCommand()];
+            SubExplorerCommand[] subExplorerCommands = [new SubExplorerCommand(), new SubExplorerCommand(), new SubExplorerCommand()];
             if (subExplorerCommands.Length > 0)
             {
                 EnumExplorerCommand enumExplorerCommand = new(subExplorerCommands);
