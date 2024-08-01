@@ -324,7 +324,14 @@ namespace WindowsTools.Views.Pages
 
                 if (navigationItem.NavigationPage is not null && SelectedItem != navigationItem.NavigationItem)
                 {
-                    NavigateTo(navigationItem.NavigationPage);
+                    if (navigationItem.NavigationPage == typeof(ShellMenuPage))
+                    {
+                        NavigateTo(navigationItem.NavigationPage, "ShellMenu");
+                    }
+                    else
+                    {
+                        NavigateTo(navigationItem.NavigationPage);
+                    }
                 }
             }
         }
@@ -416,6 +423,17 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         public void NavigationFrom()
         {
+            ShellMenuPage shellMenuPage = (MainNavigationView.Content as Frame).Content as ShellMenuPage;
+
+            if (shellMenuPage is not null)
+            {
+                if (shellMenuPage.BreadCollection is not null && shellMenuPage.BreadCollection.Count > 1)
+                {
+                    shellMenuPage.BreadCollection.RemoveAt(shellMenuPage.BreadCollection.Count - 1);
+                    return;
+                }
+            }
+
             if ((MainNavigationView.Content as Frame).CanGoBack)
             {
                 // 在向后导航前，如果向后导航选中的是子项，而父项没有展开，则自动展开父项中所有的子项

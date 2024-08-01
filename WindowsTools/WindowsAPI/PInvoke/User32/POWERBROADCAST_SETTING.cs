@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace WindowsAPI.PInvoke.User32
+namespace WindowsTools.WindowsAPI.PInvoke.User32
 {
     /// <summary>
     /// 随电源设置事件一起发送，并包含有关特定更改的数据。

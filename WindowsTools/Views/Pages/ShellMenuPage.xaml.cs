@@ -1,5 +1,4 @@
 using Microsoft.UI.Xaml.Controls;
-using Models;
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -15,8 +14,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Services.Shell;
 using WindowsTools.Strings;
@@ -69,169 +70,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private bool _fLMShouldEnableThemeIcon;
-
-        public bool FLMShouldEnableThemeIcon
-        {
-            get { return _fLMShouldEnableThemeIcon; }
-
-            set
-            {
-                if (!Equals(_fLMShouldEnableThemeIcon, value))
-                {
-                    _fLMShouldEnableThemeIcon = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FLMShouldEnableThemeIcon)));
-                }
-            }
-        }
-
-        private string _fLMTitle;
-
-        public string FLMTitle
-        {
-            get { return _fLMTitle; }
-
-            set
-            {
-                if (!Equals(_fLMTitle, value))
-                {
-                    _fLMTitle = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FLMTitle)));
-                }
-            }
-        }
-
-        private BitmapImage _fLMDefaultIconImage;
-
-        public BitmapImage FLMDefaultIconImage
-        {
-            get { return _fLMDefaultIconImage; }
-
-            set
-            {
-                if (!Equals(_fLMDefaultIconImage, value))
-                {
-                    _fLMDefaultIconImage = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FLMDefaultIconImage)));
-                }
-            }
-        }
-
-        private string _fLMDefaultIconPath;
-
-        public string FLMDefaultIconPath
-        {
-            get { return _fLMDefaultIconPath; }
-
-            set
-            {
-                if (!Equals(_fLMDefaultIconPath, value))
-                {
-                    _fLMDefaultIconPath = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FLMDefaultIconPath)));
-                }
-            }
-        }
-
-        private BitmapImage _fLMLightThemeIconImage;
-
-        public BitmapImage FLMLightThemeIconImage
-        {
-            get { return _fLMLightThemeIconImage; }
-
-            set
-            {
-                if (!Equals(_fLMLightThemeIconImage, value))
-                {
-                    _fLMLightThemeIconImage = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FLMLightThemeIconImage)));
-                }
-            }
-        }
-
-        private string _fLMLightThemeIconPath;
-
-        public string FLMLightThemeIconPath
-        {
-            get { return _fLMLightThemeIconPath; }
-
-            set
-            {
-                if (!Equals(_fLMLightThemeIconPath, value))
-                {
-                    _fLMLightThemeIconPath = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FLMLightThemeIconPath)));
-                }
-            }
-        }
-
-        private BitmapImage _fLMDrkThemeIconImage;
-
-        public BitmapImage FLMDarkThemeIconImage
-        {
-            get { return _fLMDrkThemeIconImage; }
-
-            set
-            {
-                if (!Equals(_fLMDrkThemeIconImage, value))
-                {
-                    _fLMDrkThemeIconImage = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FLMDarkThemeIconImage)));
-                }
-            }
-        }
-
-        private string _fLMDarkThemeIconPath;
-
-        public string FLMDarkThemeIconPath
-        {
-            get { return _fLMDarkThemeIconPath; }
-
-            set
-            {
-                if (!Equals(_fLMDarkThemeIconPath, value))
-                {
-                    _fLMDarkThemeIconPath = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FLMDarkThemeIconPath)));
-                }
-            }
-        }
-
-        private double _fLMOrder = 0;
-
-        public double FLMOrder
-        {
-            get { return _fLMOrder; }
-
-            set
-            {
-                if (!Equals(_fLMOrder, value))
-                {
-                    _fLMOrder = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FLMOrder)));
-                }
-            }
-        }
-
-        private string _fLMMenuProgramPathText;
-
-        public string FLMMenuProgramPathText
-        {
-            get { return _fLMMenuProgramPathText; }
-
-            set
-            {
-                if (!Equals(_fLMMenuProgramPathText, value))
-                {
-                    _fLMMenuProgramPathText = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FLMMenuProgramPathText)));
-                }
-            }
-        }
-
-        private ObservableCollection<DictionaryEntry> BreadCollection { get; } =
+        public ObservableCollection<DictionaryEntry> BreadCollection { get; } =
         [
-            new DictionaryEntry(ShellMenu.Title, "Title"),
+            new DictionaryEntry(ShellMenu.Title, "Title")
         ];
 
         private ObservableCollection<ShellMenuItemModel> ShellMenuItemCollection { get; } = [];
@@ -269,7 +110,29 @@ namespace WindowsTools.Views.Pages
             });
         }
 
-        #region 第一部分：XamlUICommand 命令调用时挂载的事件
+        #region 第一部分：重写父类事件
+
+        /// <summary>
+        /// 导航到该页面触发的事件
+        /// </summary>
+        protected override void OnNavigatedTo(NavigationEventArgs args)
+        {
+            base.OnNavigatedTo(args);
+
+            string parameter = args.Parameter as string;
+
+            if (!string.IsNullOrEmpty(parameter))
+            {
+                while (BreadCollection.Count > 1)
+                {
+                    BreadCollection.RemoveAt(1);
+                }
+            }
+        }
+
+        #endregion 第一部分：重写父类事件
+
+        #region 第二部分：XamlUICommand 命令调用时挂载的事件
 
         /// <summary>
         /// 编辑菜单项
@@ -328,9 +191,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        #endregion 第一部分：XamlUICommand 命令调用时挂载的事件
+        #endregion 第二部分：XamlUICommand 命令调用时挂载的事件
 
-        #region 第二部分：根菜单页面——挂载的事件
+        #region 第三部分：根菜单页面——挂载的事件
 
         /// <summary>
         /// 单击痕迹栏条目时发生的事件
@@ -368,6 +231,21 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
+        /// 保存更改
+        /// </summary>
+        private void OnSaveClicked(object sender, RoutedEventArgs args)
+        {
+            // 保存一级菜单内容
+            if (BreadCollection.Count is 2)
+            {
+            }
+            // 保存二级菜单内容
+            else if (BreadCollection.Count is 3)
+            {
+            }
+        }
+
+        /// <summary>
         /// 修改根菜单图标
         /// </summary>
         private void OnModifyClicked(object sender, RoutedEventArgs args)
@@ -375,7 +253,7 @@ namespace WindowsTools.Views.Pages
             OpenFileDialog dialog = new()
             {
                 Multiselect = false,
-                Filter = ShellMenu.FilterCondition,
+                Filter = ShellMenu.IconFilterCondition,
                 Title = ShellMenu.SelectIcon
             };
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
@@ -497,103 +375,6 @@ namespace WindowsTools.Views.Pages
         {
         }
 
-        #endregion 第二部分：根菜单页面——挂载的事件
-
-        #region 一级菜单页面——挂载的事件
-
-        /// <summary>
-        /// 菜单标题内容发生更改时的事件
-        /// </summary>
-        private void OnFLMTitleTextChanged(object sender, TextChangedEventArgs args)
-        {
-            FLMTitle = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
-        }
-
-        /// <summary>
-        /// 是否启用主题图标按钮修改时触发的事件
-        /// </summary>
-        private void OnFLMShouldEnableThemeIconToggled(object sender, RoutedEventArgs args)
-        {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-
-            if (toggleSwitch is not null)
-            {
-                FLMShouldEnableThemeIcon = toggleSwitch.IsOn;
-            }
-        }
-
-        /// <summary>
-        /// 默认图标修改
-        /// </summary>
-        private void OnFLMDefaultIconModifyClicked(object sender, RoutedEventArgs args)
-        {
-            OpenFileDialog dialog = new()
-            {
-                Multiselect = false,
-                Filter = ShellMenu.FilterCondition,
-                Title = ShellMenu.SelectIcon
-            };
-            if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
-            {
-            }
-        }
-
-        /// <summary>
-        /// 浅色主题图标修改
-        /// </summary>
-        private void OnFLMLightThemeIconModifyClicked(object sender, RoutedEventArgs args)
-        {
-            OpenFileDialog dialog = new()
-            {
-                Multiselect = false,
-                Filter = ShellMenu.FilterCondition,
-                Title = ShellMenu.SelectIcon
-            };
-            if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
-            {
-            }
-        }
-
-        /// <summary>
-        /// 深色主题图标修改
-        /// </summary>
-        private void OnFLMDarkThemeIconModifyClicked(object sender, RoutedEventArgs args)
-        {
-            OpenFileDialog dialog = new()
-            {
-                Multiselect = false,
-                Filter = ShellMenu.FilterCondition,
-                Title = ShellMenu.SelectIcon
-            };
-            if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
-            {
-            }
-        }
-
-        /// <summary>
-        /// 菜单顺序变化时触发的事件
-        /// </summary>
-        private void OnFLMOrderChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
-        {
-            FLMOrder = args.NewValue;
-        }
-
-        /// <summary>
-        /// 修改菜单程序文件路径
-        /// </summary>
-        private void OnFLMMenuProgramPathModifyClicked(object sender, RoutedEventArgs args)
-        {
-            OpenFileDialog dialog = new()
-            {
-                Multiselect = false,
-                Filter = ShellMenu.FilterCondition,
-                Title = ShellMenu.SelectIcon
-            };
-            if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
-            {
-            }
-        }
-
-        #endregion 一级菜单页面——挂载的事件
+        #endregion 第三部分：根菜单页面——挂载的事件
     }
 }

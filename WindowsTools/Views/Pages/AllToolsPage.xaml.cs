@@ -178,7 +178,14 @@ namespace WindowsTools.Views.Pages
 
                 if (navigationItem is not null)
                 {
-                    (MainWindow.Current.Content as MainPage).NavigateTo(navigationItem.NavigationPage);
+                    if (navigationItem.NavigationPage == typeof(ShellMenuPage))
+                    {
+                        (MainWindow.Current.Content as MainPage).NavigateTo(navigationItem.NavigationPage, "ShellMenu");
+                    }
+                    else
+                    {
+                        (MainWindow.Current.Content as MainPage).NavigateTo(navigationItem.NavigationPage);
+                    }
                 }
             }
         }

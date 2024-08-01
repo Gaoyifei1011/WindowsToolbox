@@ -5,6 +5,7 @@
 
 > * [BITS-Manager](https://github.com/Microsoft/BITS-Manager)&emsp;
 > * [BlueFire.Toolkit.WinUI3](https://github.com/cnbluefire/BlueFire.Toolkit.WinUI3)&emsp;
+> * [ContextMenuForWindows11](https://github.com/ikas-mc/ContextMenuForWindows11)&emsp;
 > * [DirectN](https://github.com/smourier/DirectN)&emsp;
 > * [DODownloaderDotNet](https://github.com/shishirb-MSFT/DODownloaderDotNet)&emsp;
 > * [ExplorerExtensions.Sample](https://github.com/cnbluefire/ExplorerExtensions.Sample)&emsp;

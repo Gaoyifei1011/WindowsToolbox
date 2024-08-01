@@ -120,8 +120,14 @@
   <data name="AddMenuItem" xml:space="preserve">
     <value>添加菜单项</value>
   </data>
+  <data name="All" xml:space="preserve">
+    <value>所有</value>
+  </data>
   <data name="Apply" xml:space="preserve">
     <value>应用</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>背景</value>
   </data>
   <data name="ClearMenu" xml:space="preserve">
     <value>清空菜单项</value>
@@ -138,20 +144,56 @@
   <data name="DefaultRootText" xml:space="preserve">
     <value>Windows 工具箱</value>
   </data>
+  <data name="Desktop" xml:space="preserve">
+    <value>桌面</value>
+  </data>
+  <data name="Directory" xml:space="preserve">
+    <value>目录</value>
+  </data>
+  <data name="Drive" xml:space="preserve">
+    <value>驱动器</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>编辑</value>
   </data>
   <data name="EmptyDescription" xml:space="preserve">
     <value>菜单没有任何内容</value>
   </data>
-  <data name="FilterCondition" xml:space="preserve">
-    <value>图标文件(*.ico)|*.ico</value>
+  <data name="EmptySecondLevelMenu" xml:space="preserve">
+    <value>二级菜单内容为空</value>
+  </data>
+  <data name="Extension" xml:space="preserve">
+    <value>扩展名称</value>
   </data>
   <data name="FirstLevelMenu" xml:space="preserve">
     <value>一级菜单</value>
   </data>
+  <data name="IconFilterCondition" xml:space="preserve">
+    <value>图标文件(*.ico)|*.ico</value>
+  </data>
   <data name="LightThemeIcon" xml:space="preserve">
     <value>浅色主题图标</value>
+  </data>
+  <data name="MenuFileExtensionFormat" xml:space="preserve">
+    <value>例如：.exe | .jpg | .txt</value>
+  </data>
+  <data name="MenuFileMatch" xml:space="preserve">
+    <value>文件匹配类型</value>
+  </data>
+  <data name="MenuFileMatchFormat" xml:space="preserve">
+    <value>匹配格式</value>
+  </data>
+  <data name="MenuFileMatchRule" xml:space="preserve">
+    <value>匹配规则</value>
+  </data>
+  <data name="MenuFileNameFormat" xml:space="preserve">
+    <value>例如：WindowsTools.exe | ShellMenu.jpg</value>
+  </data>
+  <data name="MenuFileNameRegexFormat" xml:space="preserve">
+    <value>例如：[\s\S]+.jpg | [\w\W]*.jpg</value>
+  </data>
+  <data name="MenuFolderMatch" xml:space="preserve">
+    <value>文件夹匹配类型</value>
   </data>
   <data name="MenuIcon" xml:space="preserve">
     <value>菜单图标</value>
@@ -164,6 +206,12 @@
   </data>
   <data name="MenuOrder" xml:space="preserve">
     <value>菜单顺序</value>
+  </data>
+  <data name="MenuParameter" xml:space="preserve">
+    <value>菜单参数</value>
+  </data>
+  <data name="MenuParameterPHText" xml:space="preserve">
+    <value>未设置应用参数</value>
   </data>
   <data name="MenuProgramPath" xml:space="preserve">
     <value>程序文件路径</value>
@@ -189,6 +237,21 @@
   <data name="Modify" xml:space="preserve">
     <value>修改</value>
   </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>下移</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>上移</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="NameRegex" xml:space="preserve">
+    <value>名称（正则表达式）</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>不匹配</value>
+  </data>
   <data name="Operation" xml:space="preserve">
     <value>操作</value>
   </data>
@@ -203,6 +266,9 @@
   </data>
   <data name="PrecautionsContent3" xml:space="preserve">
     <value>3.建议避免过多的二级菜单，因为这可能会导致菜单加载时间过长，从而引发卡顿现象。</value>
+  </data>
+  <data name="ProgramFilterCondition" xml:space="preserve">
+    <value>可执行文件(*.exe)|*.exe</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>刷新</value>
@@ -219,11 +285,17 @@
   <data name="RootMenuSettings" xml:space="preserve">
     <value>根菜单设置</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
   <data name="SecondLevelMenu" xml:space="preserve">
     <value>二级菜单</value>
   </data>
   <data name="SelectIcon" xml:space="preserve">
     <value>选择图标</value>
+  </data>
+  <data name="SelectProgram" xml:space="preserve">
+    <value>选择程序</value>
   </data>
   <data name="ShouldEnableThemeIcon" xml:space="preserve">
     <value>是否启用主题图标</value>
@@ -236,6 +308,24 @@
   </data>
   <data name="ShouldEnableThemeIconToolTip" xml:space="preserve">
     <value>开启后可以针对明暗主题单独设置菜单图标</value>
+  </data>
+  <data name="ShouldUseProgramIcon" xml:space="preserve">
+    <value>是否使用应用程序图标</value>
+  </data>
+  <data name="ShouldUseProgramIconOffContent" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="ShouldUseProgramIconOnContent" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="ShouldUseSecondLevelMenu" xml:space="preserve">
+    <value>是否启用二级菜单</value>
+  </data>
+  <data name="ShouldUseSecondLevelMenuOffContent" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="ShouldUseSecondLevelMenuOnContent" xml:space="preserve">
+    <value>是</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>自定义扩展菜单</value>

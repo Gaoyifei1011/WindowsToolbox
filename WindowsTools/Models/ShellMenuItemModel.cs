@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 
-namespace Models
+namespace WindowsTools.Models
 {
     /// <summary>
     /// 扩展菜单项数据模型

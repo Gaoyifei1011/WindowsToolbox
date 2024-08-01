@@ -120,8 +120,14 @@
   <data name="AddMenuItem" xml:space="preserve">
     <value>Add menu item</value>
   </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
   <data name="Apply" xml:space="preserve">
     <value>Apply</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
   </data>
   <data name="ClearMenu" xml:space="preserve">
     <value>Clear menu items</value>
@@ -138,20 +144,56 @@
   <data name="DefaultRootText" xml:space="preserve">
     <value>Windows tools</value>
   </data>
+  <data name="Desktop" xml:space="preserve">
+    <value>Desktop</value>
+  </data>
+  <data name="Directory" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="Drive" xml:space="preserve">
+    <value>Drive</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
   <data name="EmptyDescription" xml:space="preserve">
     <value>There's no menu items</value>
   </data>
-  <data name="FilterCondition" xml:space="preserve">
-    <value>Icon file(*.ico)|*.ico</value>
+  <data name="EmptySecondLevelMenu" xml:space="preserve">
+    <value>The content of the secondary menu is empty</value>
+  </data>
+  <data name="Extension" xml:space="preserve">
+    <value>Extension name</value>
   </data>
   <data name="FirstLevelMenu" xml:space="preserve">
     <value>First level menu</value>
   </data>
+  <data name="IconFilterCondition" xml:space="preserve">
+    <value>Icon file(*.ico)|*.ico</value>
+  </data>
   <data name="LightThemeIcon" xml:space="preserve">
     <value>Light theme icon</value>
+  </data>
+  <data name="MenuFileExtensionFormat" xml:space="preserve">
+    <value>For example: .exe | .jpg | .txt</value>
+  </data>
+  <data name="MenuFileMatch" xml:space="preserve">
+    <value>Match file type</value>
+  </data>
+  <data name="MenuFileMatchFormat" xml:space="preserve">
+    <value>Match format</value>
+  </data>
+  <data name="MenuFileMatchRule" xml:space="preserve">
+    <value>Match rule</value>
+  </data>
+  <data name="MenuFileNameFormat" xml:space="preserve">
+    <value>For example: WindowsTools.exe | ShellMenu.jpg</value>
+  </data>
+  <data name="MenuFileNameRegexFormat" xml:space="preserve">
+    <value>For example: [\s\S]+.jpg | [\w\W]*.jpg</value>
+  </data>
+  <data name="MenuFolderMatch" xml:space="preserve">
+    <value>Match folder type</value>
   </data>
   <data name="MenuIcon" xml:space="preserve">
     <value>Menu icon</value>
@@ -164,6 +206,12 @@
   </data>
   <data name="MenuOrder" xml:space="preserve">
     <value>Menu order</value>
+  </data>
+  <data name="MenuParameter" xml:space="preserve">
+    <value>Menu parameter</value>
+  </data>
+  <data name="MenuParameterPHText" xml:space="preserve">
+    <value>The application parameter is not set</value>
   </data>
   <data name="MenuProgramPath" xml:space="preserve">
     <value>Program file path</value>
@@ -189,6 +237,21 @@
   <data name="Modify" xml:space="preserve">
     <value>Modify</value>
   </data>
+  <data name="MoveDown" xml:space="preserve">
+    <value>Move down</value>
+  </data>
+  <data name="MoveUp" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NameRegex" xml:space="preserve">
+    <value>Name (Regex)</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
   <data name="Operation" xml:space="preserve">
     <value>Operation</value>
   </data>
@@ -203,6 +266,9 @@
   </data>
   <data name="PrecautionsContent3" xml:space="preserve">
     <value>3. It is recommended to avoid too many secondary menus, because this may lead to a long menu loading time, which will cause a deadlock.</value>
+  </data>
+  <data name="ProgramFilterCondition" xml:space="preserve">
+    <value>Executable file (*.exe)|*.exe</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
@@ -219,14 +285,20 @@
   <data name="RootMenuSettings" xml:space="preserve">
     <value>Root menu settings</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="SecondLevelMenu" xml:space="preserve">
     <value>Second level menu</value>
   </data>
   <data name="SelectIcon" xml:space="preserve">
     <value>Select icon</value>
   </data>
+  <data name="SelectProgram" xml:space="preserve">
+    <value>Select program</value>
+  </data>
   <data name="ShouldEnableThemeIcon" xml:space="preserve">
-    <value>Whether to enable theme icon</value>
+    <value>Should enable theme icon</value>
   </data>
   <data name="ShouldEnableThemeIconOffContent" xml:space="preserve">
     <value>No</value>
@@ -236,6 +308,24 @@
   </data>
   <data name="ShouldEnableThemeIconToolTip" xml:space="preserve">
     <value>When turned on, you can set menu icon individually for light and dark themes</value>
+  </data>
+  <data name="ShouldUseProgramIcon" xml:space="preserve">
+    <value>Should use program icon</value>
+  </data>
+  <data name="ShouldUseProgramIconOffContent" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ShouldUseProgramIconOnContent" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="ShouldUseSecondLevelMenu" xml:space="preserve">
+    <value>Should use second level menu</value>
+  </data>
+  <data name="ShouldUseSecondLevelMenuOffContent" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ShouldUseSecondLevelMenuOnContent" xml:space="preserve">
+    <value>Yes</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Custom shell menu</value>

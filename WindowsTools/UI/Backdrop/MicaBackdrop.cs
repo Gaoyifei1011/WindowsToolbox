@@ -7,7 +7,6 @@ using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Composition.Desktop;
 using Windows.UI.Xaml;
-using WindowsAPI.PInvoke.User32;
 using WindowsTools.WindowsAPI.PInvoke.Comctl32;
 using WindowsTools.WindowsAPI.PInvoke.Kernel32;
 using WindowsTools.WindowsAPI.PInvoke.User32;

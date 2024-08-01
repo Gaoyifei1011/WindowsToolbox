@@ -70,11 +70,29 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 All 的本地化字符串。
+        /// </summary>
+        public static string All {
+            get {
+                return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Apply 的本地化字符串。
         /// </summary>
         public static string Apply {
             get {
                 return ResourceManager.GetString("Apply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Background 的本地化字符串。
+        /// </summary>
+        public static string Background {
+            get {
+                return ResourceManager.GetString("Background", resourceCulture);
             }
         }
         
@@ -124,6 +142,33 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Desktop 的本地化字符串。
+        /// </summary>
+        public static string Desktop {
+            get {
+                return ResourceManager.GetString("Desktop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Directory 的本地化字符串。
+        /// </summary>
+        public static string Directory {
+            get {
+                return ResourceManager.GetString("Directory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Drive 的本地化字符串。
+        /// </summary>
+        public static string Drive {
+            get {
+                return ResourceManager.GetString("Drive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Edit 的本地化字符串。
         /// </summary>
         public static string Edit {
@@ -142,11 +187,20 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Icon file(*.ico)|*.ico 的本地化字符串。
+        ///   查找类似 The content of the secondary menu is empty 的本地化字符串。
         /// </summary>
-        public static string FilterCondition {
+        public static string EmptySecondLevelMenu {
             get {
-                return ResourceManager.GetString("FilterCondition", resourceCulture);
+                return ResourceManager.GetString("EmptySecondLevelMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extension name 的本地化字符串。
+        /// </summary>
+        public static string Extension {
+            get {
+                return ResourceManager.GetString("Extension", resourceCulture);
             }
         }
         
@@ -160,11 +214,83 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Icon file(*.ico)|*.ico 的本地化字符串。
+        /// </summary>
+        public static string IconFilterCondition {
+            get {
+                return ResourceManager.GetString("IconFilterCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Light theme icon 的本地化字符串。
         /// </summary>
         public static string LightThemeIcon {
             get {
                 return ResourceManager.GetString("LightThemeIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 For example: .exe | .jpg | .txt 的本地化字符串。
+        /// </summary>
+        public static string MenuFileExtensionFormat {
+            get {
+                return ResourceManager.GetString("MenuFileExtensionFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Match file type 的本地化字符串。
+        /// </summary>
+        public static string MenuFileMatch {
+            get {
+                return ResourceManager.GetString("MenuFileMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Match format 的本地化字符串。
+        /// </summary>
+        public static string MenuFileMatchFormat {
+            get {
+                return ResourceManager.GetString("MenuFileMatchFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Match rule 的本地化字符串。
+        /// </summary>
+        public static string MenuFileMatchRule {
+            get {
+                return ResourceManager.GetString("MenuFileMatchRule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 For example: WindowsTools.exe | ShellMenu.jpg 的本地化字符串。
+        /// </summary>
+        public static string MenuFileNameFormat {
+            get {
+                return ResourceManager.GetString("MenuFileNameFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 For example: [\s\S]+.jpg | [\w\W]*.jpg 的本地化字符串。
+        /// </summary>
+        public static string MenuFileNameRegexFormat {
+            get {
+                return ResourceManager.GetString("MenuFileNameRegexFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Match folder type 的本地化字符串。
+        /// </summary>
+        public static string MenuFolderMatch {
+            get {
+                return ResourceManager.GetString("MenuFolderMatch", resourceCulture);
             }
         }
         
@@ -201,6 +327,24 @@ namespace WindowsTools.Strings {
         public static string MenuOrder {
             get {
                 return ResourceManager.GetString("MenuOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Menu parameter 的本地化字符串。
+        /// </summary>
+        public static string MenuParameter {
+            get {
+                return ResourceManager.GetString("MenuParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The application parameter is not set 的本地化字符串。
+        /// </summary>
+        public static string MenuParameterPHText {
+            get {
+                return ResourceManager.GetString("MenuParameterPHText", resourceCulture);
             }
         }
         
@@ -277,6 +421,51 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Move down 的本地化字符串。
+        /// </summary>
+        public static string MoveDown {
+            get {
+                return ResourceManager.GetString("MoveDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Move up 的本地化字符串。
+        /// </summary>
+        public static string MoveUp {
+            get {
+                return ResourceManager.GetString("MoveUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Name 的本地化字符串。
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Name (Regex) 的本地化字符串。
+        /// </summary>
+        public static string NameRegex {
+            get {
+                return ResourceManager.GetString("NameRegex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 None 的本地化字符串。
+        /// </summary>
+        public static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Operation 的本地化字符串。
         /// </summary>
         public static string Operation {
@@ -318,6 +507,15 @@ namespace WindowsTools.Strings {
         public static string PrecautionsContent3 {
             get {
                 return ResourceManager.GetString("PrecautionsContent3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Executable file (*.exe)|*.exe 的本地化字符串。
+        /// </summary>
+        public static string ProgramFilterCondition {
+            get {
+                return ResourceManager.GetString("ProgramFilterCondition", resourceCulture);
             }
         }
         
@@ -367,6 +565,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Save 的本地化字符串。
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Second level menu 的本地化字符串。
         /// </summary>
         public static string SecondLevelMenu {
@@ -385,7 +592,16 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Whether to enable theme icon 的本地化字符串。
+        ///   查找类似 Select program 的本地化字符串。
+        /// </summary>
+        public static string SelectProgram {
+            get {
+                return ResourceManager.GetString("SelectProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Should enable theme icon 的本地化字符串。
         /// </summary>
         public static string ShouldEnableThemeIcon {
             get {
@@ -417,6 +633,60 @@ namespace WindowsTools.Strings {
         public static string ShouldEnableThemeIconToolTip {
             get {
                 return ResourceManager.GetString("ShouldEnableThemeIconToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Should use program icon 的本地化字符串。
+        /// </summary>
+        public static string ShouldUseProgramIcon {
+            get {
+                return ResourceManager.GetString("ShouldUseProgramIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No 的本地化字符串。
+        /// </summary>
+        public static string ShouldUseProgramIconOffContent {
+            get {
+                return ResourceManager.GetString("ShouldUseProgramIconOffContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Yes 的本地化字符串。
+        /// </summary>
+        public static string ShouldUseProgramIconOnContent {
+            get {
+                return ResourceManager.GetString("ShouldUseProgramIconOnContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Should use second level menu 的本地化字符串。
+        /// </summary>
+        public static string ShouldUseSecondLevelMenu {
+            get {
+                return ResourceManager.GetString("ShouldUseSecondLevelMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No 的本地化字符串。
+        /// </summary>
+        public static string ShouldUseSecondLevelMenuOffContent {
+            get {
+                return ResourceManager.GetString("ShouldUseSecondLevelMenuOffContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Yes 的本地化字符串。
+        /// </summary>
+        public static string ShouldUseSecondLevelMenuOnContent {
+            get {
+                return ResourceManager.GetString("ShouldUseSecondLevelMenuOnContent", resourceCulture);
             }
         }
         
