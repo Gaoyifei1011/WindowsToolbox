@@ -169,29 +169,11 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Edit 的本地化字符串。
+        ///   查找类似 Edit menu 的本地化字符串。
         /// </summary>
-        public static string Edit {
+        public static string EditMenu {
             get {
-                return ResourceManager.GetString("Edit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 There&apos;s no menu items 的本地化字符串。
-        /// </summary>
-        public static string EmptyDescription {
-            get {
-                return ResourceManager.GetString("EmptyDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 The content of the secondary menu is empty 的本地化字符串。
-        /// </summary>
-        public static string EmptySecondLevelMenu {
-            get {
-                return ResourceManager.GetString("EmptySecondLevelMenu", resourceCulture);
+                return ResourceManager.GetString("EditMenu", resourceCulture);
             }
         }
         
@@ -201,15 +183,6 @@ namespace WindowsTools.Strings {
         public static string Extension {
             get {
                 return ResourceManager.GetString("Extension", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 First level menu 的本地化字符串。
-        /// </summary>
-        public static string FirstLevelMenu {
-            get {
-                return ResourceManager.GetString("FirstLevelMenu", resourceCulture);
             }
         }
         
@@ -322,15 +295,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Menu order 的本地化字符串。
-        /// </summary>
-        public static string MenuOrder {
-            get {
-                return ResourceManager.GetString("MenuOrder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Menu parameter 的本地化字符串。
         /// </summary>
         public static string MenuParameter {
@@ -363,15 +327,6 @@ namespace WindowsTools.Strings {
         public static string MenuProgramPathPHText {
             get {
                 return ResourceManager.GetString("MenuProgramPathPHText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Menu program path:  的本地化字符串。
-        /// </summary>
-        public static string MenuProgramPathToolTip {
-            get {
-                return ResourceManager.GetString("MenuProgramPathToolTip", resourceCulture);
             }
         }
         
@@ -462,15 +417,6 @@ namespace WindowsTools.Strings {
         public static string None {
             get {
                 return ResourceManager.GetString("None", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Operation 的本地化字符串。
-        /// </summary>
-        public static string Operation {
-            get {
-                return ResourceManager.GetString("Operation", resourceCulture);
             }
         }
         
@@ -574,15 +520,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Second level menu 的本地化字符串。
-        /// </summary>
-        public static string SecondLevelMenu {
-            get {
-                return ResourceManager.GetString("SecondLevelMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Select icon 的本地化字符串。
         /// </summary>
         public static string SelectIcon {
@@ -660,33 +597,6 @@ namespace WindowsTools.Strings {
         public static string ShouldUseProgramIconOnContent {
             get {
                 return ResourceManager.GetString("ShouldUseProgramIconOnContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Should use second level menu 的本地化字符串。
-        /// </summary>
-        public static string ShouldUseSecondLevelMenu {
-            get {
-                return ResourceManager.GetString("ShouldUseSecondLevelMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 No 的本地化字符串。
-        /// </summary>
-        public static string ShouldUseSecondLevelMenuOffContent {
-            get {
-                return ResourceManager.GetString("ShouldUseSecondLevelMenuOffContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Yes 的本地化字符串。
-        /// </summary>
-        public static string ShouldUseSecondLevelMenuOnContent {
-            get {
-                return ResourceManager.GetString("ShouldUseSecondLevelMenuOnContent", resourceCulture);
             }
         }
         

@@ -19,20 +19,20 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="dwFlags">控制进度对话框操作的标志。 </param>
         /// <param name="pvResevered">保留。 设置为 NULL。</param>
         [PreserveSig]
-        void StartProgressDialog(IntPtr hwndParent, [MarshalAs(UnmanagedType.IUnknown)] object punkEnableModless, PROGDLG dwFlags, IntPtr pvResevered);
+        int StartProgressDialog(IntPtr hwndParent, [MarshalAs(UnmanagedType.IUnknown)] object punkEnableModless, PROGDLG dwFlags, IntPtr pvResevered);
 
         /// <summary>
         /// 停止进度对话框并将其从屏幕中删除。
         /// </summary>
         [PreserveSig]
-        void StopProgressDialog();
+        int StopProgressDialog();
 
         /// <summary>
         /// 设置进度对话框的标题。
         /// </summary>
         /// <param name="pwzTitle">指向包含对话框标题的以 null 结尾的 Unicode 字符串的指针。</param>
         [PreserveSig]
-        void SetTitle([MarshalAs(UnmanagedType.LPWStr)] string pwzTitle);
+        int SetTitle([MarshalAs(UnmanagedType.LPWStr)] string pwzTitle);
 
         /// <summary>
         /// 指定在对话框中运行的 Audio-Video 交错 (AVI) 剪辑。
@@ -40,7 +40,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="hInstAnimation">应从中加载 AVI 资源的模块的实例句柄。</param>
         /// <param name="idAnimation">AVI 资源标识符。 若要创建此值，请使用 MAKEINTRESOURCE 宏。 控件从 hInstAnimation 指定的模块加载 AVI 资源。</param>
         [PreserveSig]
-        void SetAnimation(IntPtr hInstAnimation, uint idAnimation);
+        int SetAnimation(IntPtr hInstAnimation, uint idAnimation);
 
         /// <summary>
         /// 检查用户是否已取消操作。
@@ -56,7 +56,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="dwCompleted">应用程序定义的值，指示调用方法时已完成的操作比例。</param>
         /// <param name="dwTotal">应用程序定义的值，指定当操作完成时 dwCompleted 将具有的值。</param>
         [PreserveSig]
-        void SetProgress(uint dwCompleted, uint dwTotal);
+        int SetProgress(uint dwCompleted, uint dwTotal);
 
         /// <summary>
         /// 汇报包含操作的当前状态的进度对话框。
@@ -64,7 +64,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="ullCompleted">一个应用程序定义的值，指示调用方法时已完成操作的比例。</param>
         /// <param name="ullTotal">一个应用程序定义的值，该值指定操作完成时 ullCompleted 将具有的值。</param>
         [PreserveSig]
-        void SetProgress64(ulong ullCompleted, ulong ullTotal);
+        int SetProgress64(ulong ullCompleted, ulong ullTotal);
 
         /// <summary>
         /// 在进度对话框中显示一条消息。
@@ -76,7 +76,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="fCompactPath">如果 路径字符串太大而无法容纳在行上，则为 TRUE。 路径使用 PathCompactPath 进行压缩。</param>
         /// <param name="pvResevered">保留。 设置为 NULL。</param>
         [PreserveSig]
-        void SetLine(uint dwLineNum, [MarshalAs(UnmanagedType.LPWStr)] string pwzString, [MarshalAs(UnmanagedType.VariantBool)] bool fCompactPath, IntPtr pvResevered);
+        int SetLine(uint dwLineNum, [MarshalAs(UnmanagedType.LPWStr)] string pwzString, [MarshalAs(UnmanagedType.VariantBool)] bool fCompactPath, IntPtr pvResevered);
 
         /// <summary>
         /// 设置在用户取消操作时要显示的消息。
@@ -84,7 +84,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="pwzCancelMsg">指向以 null 结尾的 Unicode 字符串的指针，该字符串包含要显示的消息。</param>
         /// <param name="pvResevered">保留。 设置为 NULL。</param>
         [PreserveSig]
-        void SetCancelMsg([MarshalAs(UnmanagedType.LPWStr)] string pwzCancelMsg, object pvResevered);
+        int SetCancelMsg([MarshalAs(UnmanagedType.LPWStr)] string pwzCancelMsg, object pvResevered);
 
         /// <summary>
         /// 将进度对话框计时器重置为零。
@@ -92,6 +92,6 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="dwTimerAction">指示计时器要执行的操作的标志。</param>
         /// <param name="pvResevered">保留。 设置为 NULL。</param>
         [PreserveSig]
-        void Timer(PDTIMER dwTimerAction, object pvResevered);
+        int Timer(PDTIMER dwTimerAction, object pvResevered);
     }
 }

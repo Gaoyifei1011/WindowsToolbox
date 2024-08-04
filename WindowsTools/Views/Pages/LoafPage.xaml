@@ -53,7 +53,6 @@
 
                         <Image
                             HorizontalAlignment="Center"
-                            Loaded="{x:Bind OnLoaded}"
                             Source="{x:Bind LoafImage, Mode=OneWay}"
                             Stretch="Uniform" />
                     </Grid>

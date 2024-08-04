@@ -9,6 +9,7 @@ using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -22,7 +23,6 @@ using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
-using WindowsTools.Views.Windows;
 using ZXing;
 using ZXing.Common;
 using ZXing.QrCode;
@@ -38,6 +38,7 @@ namespace WindowsTools.Views.Pages
     public sealed partial class CodeScannerPage : Page, INotifyPropertyChanged
     {
         private readonly BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase | BindingFlags.Static;
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private PrintPreviewDialog printPreviewDialog;
         private PrintDialog printDialog;
         private PrintDocument printDocument;
@@ -465,7 +466,7 @@ namespace WindowsTools.Views.Pages
                         barCodeBitmap.Save(memoryStream, ImageFormat.Png);
                         memoryStream.Position = 0;
 
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             try
                             {
@@ -477,13 +478,10 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                MainWindow.Current.BeginInvoke(() =>
-                                {
-                                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateBarCodeFailed));
-                                });
+                                TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateBarCodeFailed));
                                 LogService.WriteLog(EventLevel.Error, "Display generated bar code photo failed", e);
                             }
-                        });
+                        }, null);
                     }
                 }
                 // 二维码
@@ -497,7 +495,7 @@ namespace WindowsTools.Views.Pages
                         qrCodeBitmap.Save(memoryStream, ImageFormat.Png);
                         memoryStream.Position = 0;
 
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             try
                             {
@@ -509,13 +507,10 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                MainWindow.Current.BeginInvoke(() =>
-                                {
-                                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateQRCodeFailed));
-                                });
+                                TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateQRCodeFailed));
                                 LogService.WriteLog(EventLevel.Error, "Display generated qr code photo failed", e);
                             }
-                        });
+                        }, null);
                     }
                 }
             });
@@ -752,25 +747,25 @@ namespace WindowsTools.Views.Pages
 
                     if (result is not null)
                     {
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             RecognizeText = result.Text;
-                        });
+                        }, null);
                     }
                     else
                     {
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             TeachingTipHelper.Show(new OperationResultTip(OperationKind.ParsePhotoFailed));
-                        });
+                        }, null);
                     }
                 }
                 catch (Exception e)
                 {
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         TeachingTipHelper.Show(new OperationResultTip(OperationKind.ParsePhotoFailed));
-                    });
+                    }, null);
                     LogService.WriteLog(EventLevel.Error, string.Format("Parse code file failed"), e);
                 }
             });

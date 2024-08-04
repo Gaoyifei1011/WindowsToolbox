@@ -16,12 +16,14 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="appWindow">要检索其 DataTransferManager 实例的窗口。</param>
         /// <param name="riid">DataTransferManager 实例的请求接口 ID。</param>
         /// <returns>接收 DataTransferManager 实例。</returns>
-        DataTransferManager GetForWindow(IntPtr appWindow, ref Guid riid);
+        [PreserveSig]
+        int GetForWindow(IntPtr appWindow, ref Guid riid, out DataTransferManager dataTransferManager);
 
         /// <summary>
         /// 显示用于共享指定窗口内容的 UI。
         /// </summary>
         /// <param name="appWindow">要为其显示共享 UI 的窗口。</param>
-        void ShowShareUIForWindow(IntPtr appWindow);
+        [PreserveSig]
+        int ShowShareUIForWindow(IntPtr appWindow);
     }
 }

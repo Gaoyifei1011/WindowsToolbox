@@ -10,6 +10,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Management;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -24,7 +25,6 @@ using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
-using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.Rstrtmgr;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
@@ -38,6 +38,8 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class FileUnlockPage : Page, INotifyPropertyChanged
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+
         private InfoBarSeverity _resultSeverity = InfoBarSeverity.Informational;
 
         public InfoBarSeverity ResultSeverity
@@ -175,10 +177,10 @@ namespace WindowsTools.Views.Pages
 
                         if (filesList.Count is 1)
                         {
-                            MainWindow.Current.BeginInvoke(() =>
+                            synchronizationContext.Post(_ =>
                             {
                                 ParseFile(filesList[0].Path);
-                            });
+                            }, null);
                         }
                     }
                 }
@@ -210,7 +212,7 @@ namespace WindowsTools.Views.Pages
                         Process process = Process.GetProcessById(processid);
                         process?.Kill();
 
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             foreach (ProcessInfoModel processItem in ProcessInfoCollection)
                             {
@@ -222,15 +224,15 @@ namespace WindowsTools.Views.Pages
                             }
 
                             TeachingTipHelper.Show(new OperationResultTip(OperationKind.TerminateProcess, true));
-                        });
+                        }, null);
                     }
                     catch (Exception e)
                     {
                         LogService.WriteLog(EventLevel.Error, string.Format("Terminate process id {0} failed", processid), e);
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             TeachingTipHelper.Show(new OperationResultTip(OperationKind.TerminateProcess, false));
-                        });
+                        }, null);
                     }
                 });
             }
@@ -333,12 +335,12 @@ namespace WindowsTools.Views.Pages
                 if (result is not 0)
                 {
                     await Task.Delay(500);
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         ResultSeverity = InfoBarSeverity.Error;
                         IsRingActive = false;
                         StateInfoText = string.Format(FileUnlock.ParseFileFailed, FileName);
-                    });
+                    }, null);
                 }
 
                 try
@@ -353,12 +355,12 @@ namespace WindowsTools.Views.Pages
                     if (result is not 0)
                     {
                         await Task.Delay(500);
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             ResultSeverity = InfoBarSeverity.Error;
                             IsRingActive = false;
                             StateInfoText = string.Format(FileUnlock.ParseFileFailed, FileName);
-                        });
+                        }, null);
                     }
 
                     result = RstrtmgrLibrary.RmGetList(handle, out uint pnProcInfoNeeded, ref pnProcInfo, null, ref lpdwRebootReasons);
@@ -390,13 +392,13 @@ namespace WindowsTools.Views.Pages
                         if (processList.Count is 0)
                         {
                             await Task.Delay(500);
-                            MainWindow.Current.BeginInvoke(() =>
+                            synchronizationContext.Post(_ =>
                             {
                                 ResultControlVisable = true;
                                 ResultSeverity = InfoBarSeverity.Success;
                                 IsRingActive = false;
                                 StateInfoText = string.Format(FileUnlock.ParseFileSuccessfully, FileName);
-                            });
+                            }, null);
                         }
                         else
                         {
@@ -408,7 +410,7 @@ namespace WindowsTools.Views.Pages
                             }
 
                             await Task.Delay(500);
-                            MainWindow.Current.BeginInvoke(() =>
+                            synchronizationContext.Post(_ =>
                             {
                                 ResultControlVisable = true;
                                 ResultSeverity = InfoBarSeverity.Success;
@@ -441,32 +443,32 @@ namespace WindowsTools.Views.Pages
                                         continue;
                                     }
                                 }
-                            });
+                            }, null);
                         }
                     }
                     // 解析成功，文件没有被占用
                     else
                     {
                         await Task.Delay(500);
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             ResultControlVisable = true;
                             ResultSeverity = InfoBarSeverity.Success;
                             IsRingActive = false;
                             StateInfoText = string.Format(FileUnlock.ParseFileSuccessfully, FileName);
-                        });
+                        }, null);
                     }
                 }
                 catch (Exception)
                 {
                     await Task.Delay(500);
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         ResultControlVisable = false;
                         ResultSeverity = InfoBarSeverity.Error;
                         IsRingActive = false;
                         StateInfoText = string.Format(FileUnlock.ParseFileFailed, FileName);
-                    });
+                    }, null);
                 }
             });
         }

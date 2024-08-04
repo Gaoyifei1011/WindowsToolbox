@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -40,6 +41,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class DownloadManagerPage : Page, INotifyPropertyChanged
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private bool isAllowClosed = false;
 
         private string _searchDownloadText;
@@ -297,7 +299,7 @@ namespace WindowsTools.Views.Pages
                         }
                     }
 
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         foreach (DownloadModel item in DownloadCollection)
                         {
@@ -307,7 +309,7 @@ namespace WindowsTools.Views.Pages
                                 break;
                             }
                         }
-                    });
+                    }, null);
                 }
             });
         }
@@ -325,8 +327,7 @@ namespace WindowsTools.Views.Pages
                 {
                     IDataTransferManagerInterop dataTransferManagerInterop = (IDataTransferManagerInterop)WindowsRuntimeMarshal.GetActivationFactory(typeof(DataTransferManager));
 
-                    DataTransferManager dataTransferManager = dataTransferManagerInterop.GetForWindow(MainWindow.Current.Handle, new("A5CAEE9B-8708-49D1-8D36-67D25A8DA00C"));
-
+                    dataTransferManagerInterop.GetForWindow(MainWindow.Current.Handle, new("A5CAEE9B-8708-49D1-8D36-67D25A8DA00C"), out DataTransferManager dataTransferManager);
                     dataTransferManager.DataRequested += async (sender, args) =>
                     {
                         DataRequestDeferral deferral = args.Request.GetDeferral();
@@ -336,7 +337,7 @@ namespace WindowsTools.Views.Pages
                         deferral.Complete();
                     };
 
-                    dataTransferManagerInterop.ShowShareUIForWindow((IntPtr)MainWindow.Current.Handle);
+                    dataTransferManagerInterop.ShowShareUIForWindow(MainWindow.Current.Handle);
                 }
                 catch (Exception e)
                 {
@@ -520,7 +521,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDownloadCreated(Guid downloadID, DownloadSchedulerModel downloadSchedulerItem)
         {
-            MainWindow.Current.BeginInvoke(() =>
+            synchronizationContext.Post(_ =>
             {
                 DownloadCollection.Add(new DownloadModel()
                 {
@@ -534,7 +535,7 @@ namespace WindowsTools.Views.Pages
                     CurrentSpeed = 0,
                     TotalSize = downloadSchedulerItem.TotalSize
                 });
-            });
+            }, null);
         }
 
         /// <summary>
@@ -542,7 +543,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDownloadContinued(Guid downloadID)
         {
-            MainWindow.Current.BeginInvoke(() =>
+            synchronizationContext.Post(_ =>
             {
                 foreach (DownloadModel downloadItem in DownloadCollection)
                 {
@@ -552,7 +553,7 @@ namespace WindowsTools.Views.Pages
                         downloadItem.DownloadStatus = DownloadStatus.Downloading;
                     }
                 }
-            });
+            }, null);
         }
 
         /// <summary>
@@ -560,7 +561,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDownloadPaused(Guid downloadID)
         {
-            MainWindow.Current.BeginInvoke(() =>
+            synchronizationContext.Post(_ =>
             {
                 foreach (DownloadModel downloadItem in DownloadCollection)
                 {
@@ -570,7 +571,7 @@ namespace WindowsTools.Views.Pages
                         downloadItem.DownloadStatus = DownloadStatus.Pause;
                     }
                 }
-            });
+            }, null);
         }
 
         /// <summary>
@@ -578,7 +579,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDownloadDeleted(Guid downloadID)
         {
-            MainWindow.Current.BeginInvoke(() =>
+            synchronizationContext.Post(_ =>
             {
                 foreach (DownloadModel downloadItem in DownloadCollection)
                 {
@@ -588,7 +589,7 @@ namespace WindowsTools.Views.Pages
                         break;
                     }
                 }
-            });
+            }, null);
         }
 
         /// <summary>
@@ -596,7 +597,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDownloadProgressing(Guid downloadID, DownloadSchedulerModel downloadSchedulerItem)
         {
-            MainWindow.Current.BeginInvoke(() =>
+            synchronizationContext.Post(_ =>
             {
                 foreach (DownloadModel downloadItem in DownloadCollection)
                 {
@@ -610,7 +611,7 @@ namespace WindowsTools.Views.Pages
                         break;
                     }
                 }
-            });
+            }, null);
         }
 
         /// <summary>
@@ -618,7 +619,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDownloadCompleted(Guid downloadID, DownloadSchedulerModel downloadSchedulerItem)
         {
-            MainWindow.Current.BeginInvoke(() =>
+            synchronizationContext.Post(_ =>
             {
                 foreach (DownloadModel downloadItem in DownloadCollection)
                 {
@@ -632,7 +633,7 @@ namespace WindowsTools.Views.Pages
                         break;
                     }
                 }
-            });
+            }, null);
         }
 
         /// <summary>
@@ -689,11 +690,11 @@ namespace WindowsTools.Views.Pages
                             string fileName = uri.Segments[uri.Segments.Length - 1];
                             if (fileName is not "/")
                             {
-                                MainWindow.Current.BeginInvoke(() =>
+                                synchronizationContext.Post(_ =>
                                 {
                                     DownloadFileNameText = fileName;
                                     IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
-                                });
+                                }, null);
                             }
                         }
                     }
@@ -762,10 +763,10 @@ namespace WindowsTools.Views.Pages
             // 检查本地文件是否存在
             if (File.Exists(filePath))
             {
-                MainWindow.Current.BeginInvoke(async () =>
+                synchronizationContext.Post(async (_) =>
                 {
                     await ContentDialogHelper.ShowAsync(new FileCheckDialog(DownloadLinkText, filePath), MainWindow.Current.Content as FrameworkElement);
-                });
+                }, null);
             }
             else
             {

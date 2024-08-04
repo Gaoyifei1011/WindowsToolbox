@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,7 +19,6 @@ using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
-using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.FirewallAPI;
 using WindowsTools.WindowsAPI.PInvoke.Shlwapi;
 
@@ -32,6 +32,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class LoopbackManagerPage : Page, INotifyPropertyChanged
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private IntPtr pACs;
 
         private bool _isLoadCompleted;
@@ -405,10 +406,10 @@ namespace WindowsTools.Views.Pages
                         IsOldChecked = isEnabled,
                     };
 
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         LoopbackCollection.Add(loopbackItem);
-                    });
+                    }, null);
                 }
                 catch (Exception)
                 {
@@ -417,10 +418,10 @@ namespace WindowsTools.Views.Pages
             }
 
             await Task.Delay(500);
-            MainWindow.Current.BeginInvoke(() =>
+            synchronizationContext.Post(_ =>
             {
                 IsLoadCompleted = true;
-            });
+            }, null);
         }
 
         /// <summary>
@@ -521,17 +522,17 @@ namespace WindowsTools.Views.Pages
 
                 if (FirewallAPILibrary.NetworkIsolationSetAppContainerConfig(loopbackList.Count, sidAndAttributesArray) is 0)
                 {
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         TeachingTipHelper.Show(new OperationResultTip(OperationKind.LoopbackSetResult, true));
-                    });
+                    }, null);
                 }
                 else
                 {
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         TeachingTipHelper.Show(new OperationResultTip(OperationKind.LoopbackSetResult, false));
-                    });
+                    }, null);
                 }
             }
         }

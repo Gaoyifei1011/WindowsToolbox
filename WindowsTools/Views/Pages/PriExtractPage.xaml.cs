@@ -9,6 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -25,7 +26,6 @@ using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
-using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
 // 抑制 IDE0060 警告
@@ -38,6 +38,8 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class PriExtractPage : Page, INotifyPropertyChanged
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+
         private bool isStringAllSelect = false;
         private bool isFilePathAllSelect = false;
         private bool isEmbeddedDataAllSelect = false;
@@ -298,20 +300,20 @@ namespace WindowsTools.Views.Pages
 
                         if (filesList.Count is 1)
                         {
-                            MainWindow.Current.BeginInvoke(() =>
+                            synchronizationContext.Post(_ =>
                             {
                                 ParseResourceFile(filesList[0].Path);
-                            });
+                            }, null);
                         }
                     }
                 }
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Warning, "Drop file in pri extract page failed", e);
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         IsProcessing = false;
-                    });
+                    }, null);
                 }
             });
             deferral.Complete();
@@ -386,10 +388,10 @@ namespace WindowsTools.Views.Pages
                             LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
                         }
 
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             IsProcessing = false;
-                        });
+                        }, null);
                     });
                 }
             }
@@ -579,13 +581,13 @@ namespace WindowsTools.Views.Pages
                                 {
                                     List<StringModel> coincidentStringList = stringList.Where(item => item.Language.Equals(LanguageCollection[SelectedIndex].Value as string, StringComparison.OrdinalIgnoreCase)).ToList();
 
-                                    MainWindow.Current.BeginInvoke(() =>
+                                    synchronizationContext.Post(_ =>
                                     {
                                         foreach (StringModel stringItem in coincidentStringList)
                                         {
                                             StringCollection.Add(stringItem);
                                         }
-                                    });
+                                    }, null);
                                 });
                             }
 
@@ -703,10 +705,10 @@ namespace WindowsTools.Views.Pages
                             LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
                         }
 
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             IsProcessing = false;
-                        });
+                        }, null);
                     });
                 }
                 else
@@ -791,10 +793,10 @@ namespace WindowsTools.Views.Pages
                             LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
                         }
 
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             IsProcessing = false;
-                        });
+                        }, null);
                     });
                 }
             }
@@ -1204,7 +1206,7 @@ namespace WindowsTools.Views.Pages
                     embeddedDataList.Sort((item1, item2) => item1.Key.CompareTo(item2.Key));
 
                     // 显示获取到的所有内容
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         LanguageCollection.Add(new DictionaryEntry(PriExtract.AllLanguage, "AllLanguage"));
 
@@ -1234,18 +1236,18 @@ namespace WindowsTools.Views.Pages
                         IsProcessing = false;
                         GetResults = string.Format(PriExtract.GetResults, Path.GetFileName(filePath), stringList.Count + filePathList.Count + embeddedDataList.Count);
                         isLoadCompleted = true;
-                    });
+                    }, null);
                 }
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Error, string.Format("Parse file {0} resources failed", filePath), e);
 
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         IsProcessing = false;
                         GetResults = string.Format(PriExtract.GetResults, Path.GetFileName(filePath), 0);
                         isLoadCompleted = true;
-                    });
+                    }, null);
 
                     return;
                 }

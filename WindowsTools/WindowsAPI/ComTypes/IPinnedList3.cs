@@ -30,9 +30,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="pfLaunchable">标记固定项是否可启动</param>
         /// <returns>如果项目不是可固定的，返回 S_FALSE</returns>
         [PreserveSig]
-        int GetPinnableInfo(IDataObject dataObject, int pinnableFlag,
-             [Out] out IntPtr ppsiApplication, [Out] out IntPtr ppsiDestination,
-             [Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder ppszAppID, [Out] uint pfLaunchable);
+        int GetPinnableInfo(IDataObject dataObject, int pinnableFlag, [Out] out IntPtr ppsiApplication, [Out] out IntPtr ppsiDestination, [Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder ppszAppID, [Out] uint pfLaunchable);
 
         /// <summary>
         /// 数据对象是否可固定的标志

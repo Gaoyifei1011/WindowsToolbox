@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -22,7 +23,6 @@ using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
-using WindowsTools.Views.Windows;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
@@ -34,6 +34,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class FileNamePage : Page, INotifyPropertyChanged
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly object fileNameLock = new();
 
         private bool _isChecked = false;
@@ -700,7 +701,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         public void AddToFileNamePage(List<OldAndNewNameModel> filenameList)
         {
-            MainWindow.Current.BeginInvoke(() =>
+            synchronizationContext.Post(_ =>
             {
                 lock (fileNameLock)
                 {
@@ -709,7 +710,7 @@ namespace WindowsTools.Views.Pages
                         FileNameCollection.Add(oldAndNewNameItem);
                     }
                 }
-            });
+            }, null);
         }
 
         private string GetChangeRule(int index)
@@ -903,7 +904,7 @@ namespace WindowsTools.Views.Pages
 
                 await Task.Delay(300);
 
-                MainWindow.Current.BeginInvoke(() =>
+                synchronizationContext.Post(_ =>
                 {
                     IsModifyingNow = false;
                     foreach (OperationFailedModel operationFailedItem in operationFailedList)
@@ -917,7 +918,7 @@ namespace WindowsTools.Views.Pages
 
                         FileNameCollection.Clear();
                     }
-                });
+                }, null);
             });
         }
     }

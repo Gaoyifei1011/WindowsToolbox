@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using WindowsTools.Views.Windows;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
@@ -14,6 +14,8 @@ namespace WindowsTools.UI.Dialogs
     /// </summary>
     public sealed partial class RestartAppsDialog : ContentDialog
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+
         public RestartAppsDialog()
         {
             InitializeComponent();
@@ -27,10 +29,10 @@ namespace WindowsTools.UI.Dialogs
             Task.Run(() =>
             {
                 Process.Start(Process.GetCurrentProcess().MainModule.FileName, "Restart");
-                MainWindow.Current.BeginInvoke(() =>
+                synchronizationContext.Post(_ =>
                 {
                     (Application.Current as App).Dispose();
-                });
+                }, null);
             });
         }
     }

@@ -1,5 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Windows.UI.Xaml.Media;
+using WindowsTools.Extensions.DataType.Enums;
 
 namespace WindowsTools.Models
 {
@@ -8,6 +11,32 @@ namespace WindowsTools.Models
     /// </summary>
     public class ShellMenuItemModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// 菜单 Guid 号
+        /// </summary>
+        public Guid MenuGuid { get; set; }
+
+        /// <summary>
+        /// 菜单类型
+        /// </summary>
+        public MenuType MenuType { get; set; }
+
+        private bool _isSelected;
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+
+            set
+            {
+                if (!Equals(_isSelected, value))
+                {
+                    _isSelected = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
+                }
+            }
+        }
+
         /// <summary>
         /// 菜单项索引
         /// </summary>
@@ -19,7 +48,7 @@ namespace WindowsTools.Models
 
             set
             {
-                if (!Equals(value, _menuIndex))
+                if (!Equals(_menuIndex, value))
                 {
                     _menuIndex = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MenuIndex)));
@@ -103,21 +132,10 @@ namespace WindowsTools.Models
             }
         }
 
-        private string _param;
-
-        public string Param
-        {
-            get { return _param; }
-
-            set
-            {
-                if (!Equals(_param, value))
-                {
-                    _param = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Param)));
-                }
-            }
-        }
+        /// <summary>
+        /// 子菜单
+        /// </summary>
+        public ObservableCollection<ShellMenuItemModel> SubMenuItemCollection { get; set; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

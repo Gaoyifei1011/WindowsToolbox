@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.System;
@@ -27,6 +28,8 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+
         private ElementTheme _windowTheme;
 
         public ElementTheme WindowTheme
@@ -425,13 +428,10 @@ namespace WindowsTools.Views.Pages
         {
             ShellMenuPage shellMenuPage = (MainNavigationView.Content as Frame).Content as ShellMenuPage;
 
-            if (shellMenuPage is not null)
+            if (shellMenuPage is not null && shellMenuPage.BreadCollection is not null && shellMenuPage.BreadCollection.Count > 1)
             {
-                if (shellMenuPage.BreadCollection is not null && shellMenuPage.BreadCollection.Count > 1)
-                {
-                    shellMenuPage.BreadCollection.RemoveAt(shellMenuPage.BreadCollection.Count - 1);
-                    return;
-                }
+                shellMenuPage.BreadCollection.RemoveAt(shellMenuPage.BreadCollection.Count - 1);
+                return;
             }
 
             if ((MainNavigationView.Content as Frame).CanGoBack)
@@ -652,10 +652,10 @@ namespace WindowsTools.Views.Pages
                             System.Drawing.Image image = System.Drawing.Image.FromFile(filesList[0]);
                             if (image is not null)
                             {
-                                MainWindow.Current.BeginInvoke(() =>
+                                synchronizationContext.Post(_ =>
                                 {
                                     page.ParseCodeImage(image);
-                                });
+                                }, null);
                             }
                         }
                         catch (Exception e)
@@ -677,7 +677,7 @@ namespace WindowsTools.Views.Pages
 
         private bool GetWindowMaximizeState(bool isWindowMaximized, bool isWindowMaximizeEnabled, string isReverse)
         {
-            return isWindowMaximizeEnabled ? isReverse == nameof(isReverse) ? isWindowMaximized.Equals(false) : isWindowMaximized : false;
+            return isWindowMaximizeEnabled && (isReverse == nameof(isReverse) ? isWindowMaximized.Equals(false) : isWindowMaximized);
         }
     }
 }

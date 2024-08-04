@@ -12,6 +12,7 @@
     ActualThemeChanged="{x:Bind OnActualThemeChanged}"
     RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}"
     mc:Ignorable="d">
+
     <Grid>
         <!--  应用标题栏内容  -->
         <Grid
@@ -132,6 +133,7 @@
             ItemInvoked="{x:Bind OnItemInvoked}"
             Loaded="{x:Bind OnLoaded}"
             OpenPaneLength="220"
+            x:FieldModifier="public"
             PaneDisplayMode="Left"
             SelectedItem="{x:Bind SelectedItem, Mode=OneWay}">
 

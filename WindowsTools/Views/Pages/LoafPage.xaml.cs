@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.Storage.Streams;
@@ -26,6 +27,8 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class LoafPage : Page, INotifyPropertyChanged
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+
         private bool _loadImageCompleted = false;
 
         public bool LoadImageCompleted
@@ -150,15 +153,7 @@ namespace WindowsTools.Views.Pages
         {
             InitializeComponent();
             SelectedUpdateStyle = UpdateStyleList[0];
-        }
 
-        #region 第一部分：摸鱼页面——挂载的事件
-
-        /// <summary>
-        /// 加载每日必应壁纸图片
-        /// </summary>
-        private void OnLoaded(object sender, RoutedEventArgs args)
-        {
             Task.Run(async () =>
             {
                 try
@@ -175,7 +170,7 @@ namespace WindowsTools.Views.Pages
                         Stream stream = await responseMessage.Content.ReadAsStreamAsync();
                         IRandomAccessStream randomAccessStream = stream.AsRandomAccessStream();
 
-                        MainWindow.Current.BeginInvoke(async () =>
+                        synchronizationContext.Post(async (_) =>
                         {
                             try
                             {
@@ -192,28 +187,30 @@ namespace WindowsTools.Views.Pages
                                 LoadImageCompleted = true;
                                 LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
                             }
-                        });
+                        }, null);
                     }
                     else
                     {
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             LoafImage = new(new Uri("ms-appx:///Assets/Images/LoafWallpaper.jpg"));
                             LoadImageCompleted = true;
-                        });
+                        }, null);
                     }
                 }
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         LoafImage = new(new Uri("ms-appx:///Assets/Images/LoafWallpaper.jpg"));
                         LoadImageCompleted = true;
-                    });
+                    }, null);
                 }
             });
         }
+
+        #region 第一部分：摸鱼页面——挂载的事件
 
         /// <summary>
         /// 开始摸鱼

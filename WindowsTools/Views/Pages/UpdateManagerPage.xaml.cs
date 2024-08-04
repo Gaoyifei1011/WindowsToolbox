@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -19,7 +20,6 @@ using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
-using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WUApiLib;
 
@@ -33,6 +33,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class UpdateManagerPage : Page, INotifyPropertyChanged
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly UpdateSession updateSession = new();
         private readonly UpdateServiceManager updateServiceManager = new();
         private readonly IUpdateSearcher updateSearcher;
@@ -270,7 +271,7 @@ namespace WindowsTools.Views.Pages
                         {
                             updateItem.Update.IsHidden = true;
 
-                            MainWindow.Current.BeginInvoke(() =>
+                            synchronizationContext.Post(_ =>
                             {
                                 try
                                 {
@@ -292,7 +293,7 @@ namespace WindowsTools.Views.Pages
                                 {
                                     LogService.WriteLog(EventLevel.Error, "Hide updates update UI failed", e);
                                 }
-                            });
+                            }, null);
                         }
                         catch (Exception e)
                         {
@@ -334,7 +335,7 @@ namespace WindowsTools.Views.Pages
                 installationProgressChangedCallback.InstallationProgressChanged += (sender, args) =>
                 {
                     double percentage = installationProgressChangedCallback.CallbackArgs.Progress.CurrentUpdatePercentComplete / 100.0;
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         foreach (UpdateModel installedItem in InstalledUpdateCollection)
                         {
@@ -343,7 +344,7 @@ namespace WindowsTools.Views.Pages
                                 installedItem.InstallationProgress = percentage;
                             }
                         }
-                    });
+                    }, null);
                 };
                 updateInstaller.BeginUninstall(installationProgressChangedCallback, installationCompletedCallback, null);
             }
@@ -367,7 +368,7 @@ namespace WindowsTools.Views.Pages
                         {
                             updateItem.Update.IsHidden = false;
 
-                            MainWindow.Current.BeginInvoke(() =>
+                            synchronizationContext.Post(_ =>
                             {
                                 try
                                 {
@@ -389,7 +390,7 @@ namespace WindowsTools.Views.Pages
                                 {
                                     LogService.WriteLog(EventLevel.Error, "Show updates update UI failed", e);
                                 }
-                            });
+                            }, null);
                         }
                         catch (Exception e)
                         {
@@ -417,11 +418,11 @@ namespace WindowsTools.Views.Pages
                     copyInformationBuilder.AppendLine(UpdateManager.Description);
                     copyInformationBuilder.AppendLine(updateModel.Description);
 
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         bool copyResult = CopyPasteHelper.CopyToClipboard(copyInformationBuilder.ToString());
                         TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.UpdateInformation, copyResult));
-                    });
+                    }, null);
                 });
             }
         }
@@ -513,7 +514,7 @@ namespace WindowsTools.Views.Pages
                         }
                     }
 
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         foreach (UpdateModel hideItem in hideList)
                         {
@@ -541,7 +542,7 @@ namespace WindowsTools.Views.Pages
                                 LogService.WriteLog(EventLevel.Error, "Hide updates update UI failed", e);
                             }
                         }
-                    });
+                    }, null);
                 }
             });
         }
@@ -632,7 +633,7 @@ namespace WindowsTools.Views.Pages
                         }
                     }
 
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         foreach (UpdateModel showItem in showList)
                         {
@@ -660,7 +661,7 @@ namespace WindowsTools.Views.Pages
                                 LogService.WriteLog(EventLevel.Error, "Show updates update UI failed", e);
                             }
                         }
-                    });
+                    }, null);
                 }
             });
         }
@@ -696,10 +697,10 @@ namespace WindowsTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             IsExcludeDrivers = !IsExcludeDrivers;
-                        });
+                        }, null);
                         LogService.WriteLog(EventLevel.Warning, "Set exclude driver options failed", e);
                     }
                 });
@@ -771,13 +772,13 @@ namespace WindowsTools.Views.Pages
                         LogService.WriteLog(EventLevel.Error, "Unregister SearchCompletedCallback SearchCompleted event failed", ex);
                     }
 
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         IsChecking = false;
                         IsAUExpanderExpanded = true;
                         IsIUExpanderExpanded = true;
                         IsHUExpanderExpanded = true;
-                    });
+                    }, null);
                     return;
                 }
 
@@ -832,7 +833,7 @@ namespace WindowsTools.Views.Pages
                     }
                 }
 
-                MainWindow.Current.BeginInvoke(() =>
+                synchronizationContext.Post(_ =>
                 {
                     AvailableUpdateCollection.Clear();
                     foreach (UpdateModel updateItem in availableUpdateList)
@@ -856,7 +857,7 @@ namespace WindowsTools.Views.Pages
                     IsAUExpanderExpanded = true;
                     IsIUExpanderExpanded = true;
                     IsHUExpanderExpanded = true;
-                });
+                }, null);
 
                 GetUpdateHistory();
             }
@@ -894,13 +895,13 @@ namespace WindowsTools.Views.Pages
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Error, "Search update failed", e);
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         IsChecking = false;
                         IsAUExpanderExpanded = true;
                         IsIUExpanderExpanded = true;
                         IsHUExpanderExpanded = true;
-                    });
+                    }, null);
                 }
             });
         }
@@ -924,7 +925,7 @@ namespace WindowsTools.Views.Pages
                         {
                             string status = GetStatus(updateHistoryEntry.ResultCode, updateHistoryEntry.HResult);
 
-                            MainWindow.Current.BeginInvoke(() =>
+                            synchronizationContext.Post(_ =>
                             {
                                 UpdateHistoryCollection.Add(new UpdateModel()
                                 {
@@ -936,15 +937,15 @@ namespace WindowsTools.Views.Pages
                                     SupportURL = updateHistoryEntry.SupportUrl,
                                     Status = status
                                 });
-                            });
+                            }, null);
                         }
                     }
                 }
 
-                MainWindow.Current.BeginInvoke(() =>
+                synchronizationContext.Post(_ =>
                 {
                     IsUHExpanderExpanded = true;
-                });
+                }, null);
             });
         }
 

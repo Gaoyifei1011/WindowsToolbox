@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -21,7 +22,6 @@ using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
-using WindowsTools.Views.Windows;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
@@ -33,6 +33,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class FilePropertiesPage : Page, INotifyPropertyChanged
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly object filePropertiesLock = new();
 
         private bool _isReadOnlyChecked = false;
@@ -628,7 +629,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         public void AddToFilePropertiesPage(List<OldAndNewPropertiesModel> filePropertiesList)
         {
-            MainWindow.Current.BeginInvoke(() =>
+            synchronizationContext.Post(_ =>
             {
                 lock (filePropertiesLock)
                 {
@@ -637,7 +638,7 @@ namespace WindowsTools.Views.Pages
                         FilePropertiesCollection.Add(oldAndNewPropertiesItem);
                     }
                 }
-            });
+            }, null);
         }
 
         /// <summary>
@@ -742,7 +743,7 @@ namespace WindowsTools.Views.Pages
 
                 await Task.Delay(300);
 
-                MainWindow.Current.BeginInvoke(() =>
+                synchronizationContext.Post(_ =>
                 {
                     IsModifyingNow = false;
                     foreach (OperationFailedModel operationFailedItem in operationFailedList)
@@ -756,7 +757,7 @@ namespace WindowsTools.Views.Pages
 
                         FilePropertiesCollection.Clear();
                     }
-                });
+                }, null);
             });
         }
     }

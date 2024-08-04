@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -21,7 +22,6 @@ using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
-using WindowsTools.Views.Windows;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
@@ -33,6 +33,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class ExtensionNamePage : Page, INotifyPropertyChanged
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly object extensionNameLock = new();
 
         private bool _isModifyingNow = false;
@@ -518,7 +519,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         public void AddToExtensionNamePage(List<OldAndNewNameModel> extensionNameList)
         {
-            MainWindow.Current.BeginInvoke(() =>
+            synchronizationContext.Post(_ =>
             {
                 lock (extensionNameLock)
                 {
@@ -527,7 +528,7 @@ namespace WindowsTools.Views.Pages
                         ExtensionNameCollection.Add(oldAndNewNameItem);
                     }
                 }
-            });
+            }, null);
         }
 
         /// <summary>
@@ -621,7 +622,7 @@ namespace WindowsTools.Views.Pages
 
                 await Task.Delay(300);
 
-                MainWindow.Current.BeginInvoke(() =>
+                synchronizationContext.Post(_ =>
                 {
                     IsModifyingNow = false;
                     foreach (OperationFailedModel operationFailedItem in operationFailedList)
@@ -635,7 +636,7 @@ namespace WindowsTools.Views.Pages
 
                         ExtensionNameCollection.Clear();
                     }
-                });
+                }, null);
             });
         }
     }

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -22,7 +23,6 @@ using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
-using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.Imagehlp;
 
 // 抑制 IDE0060 警告
@@ -35,6 +35,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class FileCertificatePage : Page, INotifyPropertyChanged
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly object fileCertificateLock = new();
 
         private bool _isModifyingNow = false;
@@ -312,7 +313,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         public void AddToFileCertificatePage(List<CertificateResultModel> fileCertificateList)
         {
-            MainWindow.Current.BeginInvoke(() =>
+            synchronizationContext.Post(_ =>
             {
                 lock (fileCertificateLock)
                 {
@@ -321,7 +322,7 @@ namespace WindowsTools.Views.Pages
                         FileCertificateCollection.Add(certificateResultItem);
                     }
                 }
-            });
+            }, null);
         }
 
         /// <summary>
@@ -369,7 +370,7 @@ namespace WindowsTools.Views.Pages
 
                 await Task.Delay(300);
 
-                MainWindow.Current.BeginInvoke(() =>
+                synchronizationContext.Post(_ =>
                 {
                     IsModifyingNow = false;
                     foreach (OperationFailedModel operationFailedItem in operationFailedList)
@@ -383,7 +384,7 @@ namespace WindowsTools.Views.Pages
 
                         FileCertificateCollection.Clear();
                     }
-                });
+                }, null);
             });
         }
     }

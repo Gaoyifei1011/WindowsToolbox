@@ -8,7 +8,6 @@
     Title="{x:Bind string:Dialog.AppInformationTitle}"
     BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
     CloseButtonText="{x:Bind string:Dialog.CloseDialog}"
-    Loaded="{x:Bind OnLoaded}"
     PrimaryButtonClick="{x:Bind OnCopyAppInformationClicked}"
     PrimaryButtonStyle="{ThemeResource AccentButtonStyle}"
     PrimaryButtonText="{x:Bind string:Dialog.CopyAppInformation}"

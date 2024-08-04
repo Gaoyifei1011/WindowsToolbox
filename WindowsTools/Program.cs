@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.Globalization;
 using System.Threading;
@@ -10,6 +9,7 @@ using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Services.Shell;
 using WindowsTools.Views.Windows;
+using WindowsTools.WindowsAPI.ComTypes;
 
 namespace WindowsTools
 {
@@ -18,6 +18,8 @@ namespace WindowsTools
     /// </summary>
     public class Program
     {
+        private static Guid applicationActivationManagerCLSID = new("45BA127D-10A8-46EA-8AB7-56EA9078943C");
+
         /// <summary>
         /// 应用程序的主入口点
         /// </summary>
@@ -26,7 +28,8 @@ namespace WindowsTools
         {
             if (!RuntimeHelper.IsMSIX)
             {
-                Process.Start("explorer.exe", "shell:AppsFolder\\055B5CA4.WindowsTools_zp2hc899bs298!WindowsTools");
+                IApplicationActivationManager applicationActivationManager = (IApplicationActivationManager)Activator.CreateInstance(Type.GetTypeFromCLSID(applicationActivationManagerCLSID));
+                applicationActivationManager.ActivateApplication("Gaoyifei1011.WindowsTools_pystbwmrmew8c!WindowsTools", string.Empty, ACTIVATEOPTIONS.AO_NONE, out uint _);
                 return;
             }
 

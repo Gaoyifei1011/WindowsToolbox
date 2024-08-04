@@ -5,16 +5,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls.Extensions;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
-using WindowsTools.Views.Windows;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
@@ -26,6 +25,8 @@ namespace WindowsTools.UI.Dialogs.About
     /// </summary>
     public sealed partial class AppInformationDialog : ContentDialog, INotifyPropertyChanged
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+
         private string _windowsAppSDKVersion;
 
         public string WindowsAppSDKVersion
@@ -111,13 +112,7 @@ namespace WindowsTools.UI.Dialogs.About
         public AppInformationDialog()
         {
             InitializeComponent();
-        }
 
-        /// <summary>
-        /// 初始化应用信息
-        /// </summary>
-        private void OnLoaded(object sender, RoutedEventArgs args)
-        {
             Task.Run(() =>
             {
                 IReadOnlyList<Package> dependencyList = Package.Current.Dependencies;
@@ -127,14 +122,14 @@ namespace WindowsTools.UI.Dialogs.About
                     if (dependency.DisplayName.Contains("WindowsAppRuntime"))
                     {
                         // Windows 应用 SDK 版本信息
-                        MainWindow.Current.Invoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             WindowsAppSDKVersion = string.Format("{0}.{1}.{2}.{3}",
                                 dependency.Id.Version.Major,
                                 dependency.Id.Version.Minor,
                                 dependency.Id.Version.Build,
                                 dependency.Id.Version.Revision);
-                        });
+                        }, null);
                     }
 
                     // WinUI 2 版本信息
@@ -142,14 +137,14 @@ namespace WindowsTools.UI.Dialogs.About
                     {
                         FileVersionInfo winUI2File = FileVersionInfo.GetVersionInfo(Path.Combine(dependency.InstalledPath, "Microsoft.UI.Xaml.dll"));
 
-                        MainWindow.Current.Invoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             WinUI2Version = string.Format("{0}.{1}.{2}.{3}",
                                 winUI2File.ProductMajorPart,
                                 winUI2File.ProductMinorPart,
                                 winUI2File.ProductBuildPart,
                                 winUI2File.ProductPrivatePart);
-                        });
+                        }, null);
                     }
                 }
 
@@ -157,7 +152,7 @@ namespace WindowsTools.UI.Dialogs.About
 
                 FileVersionInfo mileXamlFile = FileVersionInfo.GetVersionInfo(Path.Combine(AppContext.BaseDirectory, @"Mile.Xaml.Managed.dll"));
 
-                MainWindow.Current.Invoke(() =>
+                synchronizationContext.Post(_ =>
                 {
                     WindowsUIVersion = string.Format("{0}.{1}.{2}.{3}",
                         windowsUIFile.ProductMajorPart,
@@ -170,7 +165,7 @@ namespace WindowsTools.UI.Dialogs.About
 
                     // .NET 版本信息
                     DoNetVersion = Convert.ToString(RuntimeInformation.FrameworkDescription.Remove(0, 15));
-                });
+                }, null);
             });
         }
 

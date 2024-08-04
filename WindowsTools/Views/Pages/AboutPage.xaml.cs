@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
@@ -24,7 +25,6 @@ using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.Dialogs.About;
 using WindowsTools.UI.TeachingTips;
-using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Kernel32;
 
@@ -38,6 +38,11 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class AboutPage : Page, INotifyPropertyChanged
     {
+        private static Guid taskbarPinCLSID = new("90AA3A4E-1CBA-4233-B8BB-535773D48449");
+        private static Guid ishellLinkCLSID = new("00021401-0000-0000-C000-000000000046");
+
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+
         private bool _isChecking;
 
         public bool IsChecking
@@ -53,9 +58,6 @@ namespace WindowsTools.Views.Pages
                 }
             }
         }
-
-        private static Guid taskbarPinCLSID = new("90AA3A4E-1CBA-4233-B8BB-535773D48449");
-        private static Guid ishellLinkCLSID = new("00021401-0000-0000-C000-000000000046");
 
         //项目引用信息
         private List<DictionaryEntry> ReferenceDict { get; } =
@@ -112,10 +114,10 @@ namespace WindowsTools.Views.Pages
                 }
                 finally
                 {
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.Desktop, isCreatedSuccessfully));
-                    });
+                    }, null);
                 }
             });
         }
@@ -153,10 +155,10 @@ namespace WindowsTools.Views.Pages
             }
             finally
             {
-                MainWindow.Current.BeginInvoke(() =>
+                synchronizationContext.Post(_ =>
                 {
                     TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.StartScreen, isPinnedSuccessfully));
-                });
+                }, null);
             }
         }
 
@@ -303,10 +305,10 @@ namespace WindowsTools.Views.Pages
                                     {
                                         bool isNewest = InfoHelper.AppVersion >= tagVersion;
 
-                                        MainWindow.Current.BeginInvoke(() =>
+                                        synchronizationContext.Post(_ =>
                                         {
                                             TeachingTipHelper.Show(new OperationResultTip(OperationKind.CheckUpdate, isNewest));
-                                        });
+                                        }, null);
                                     }
                                 }
                             }
@@ -336,10 +338,10 @@ namespace WindowsTools.Views.Pages
                     }
                     finally
                     {
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             IsChecking = false;
-                        });
+                        }, null);
                     }
                 });
             }

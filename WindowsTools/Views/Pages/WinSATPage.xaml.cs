@@ -4,12 +4,12 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
-using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WINSATLib;
 
@@ -23,6 +23,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class WinSATPage : Page, INotifyPropertyChanged
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly CInitiateWinSAT cInitiateWinSAT = new();
         private readonly Guid progressDialogCLSID = new("F8383852-FCD3-11d1-A6B9-006097DF5BD4");
 
@@ -195,17 +196,10 @@ namespace WindowsTools.Views.Pages
         public WinSATPage()
         {
             InitializeComponent();
+            GetWinSATInfo();
         }
 
         #region 第一部分：系统评估页面——挂载的事件
-
-        /// <summary>
-        /// 初始化系统评估信息
-        /// </summary>
-        private void OnLoaded(object sender, RoutedEventArgs args)
-        {
-            GetWinSATInfo();
-        }
 
         /// <summary>
         /// 运行评估
@@ -275,7 +269,7 @@ namespace WindowsTools.Views.Pages
         {
             if (cWinSATCallbacks is not null && progressDialog is not null)
             {
-                MainWindow.Current.BeginInvoke(() =>
+                synchronizationContext.Post(_ =>
                 {
                     try
                     {
@@ -302,7 +296,7 @@ namespace WindowsTools.Views.Pages
                         progressDialog = null;
                         IsNotRunningAssessment = true;
                     }
-                });
+                }, null);
             }
         }
 
@@ -313,7 +307,7 @@ namespace WindowsTools.Views.Pages
         {
             if (cWinSATCallbacks is not null && progressDialog is not null)
             {
-                MainWindow.Current.BeginInvoke(() =>
+                synchronizationContext.Post(_ =>
                 {
                     try
                     {
@@ -332,7 +326,7 @@ namespace WindowsTools.Views.Pages
                         progressDialog = null;
                         IsNotRunningAssessment = true;
                     }
-                });
+                }, null);
             }
         }
 
@@ -363,7 +357,7 @@ namespace WindowsTools.Views.Pages
                     primaryDiskSubScore = queryWinSAT.Info.GetAssessmentInfo(WINSAT_ASSESSMENT_TYPE.WINSAT_ASSESSMENT_DISK).Score;
                     dynamic assessmentDate = queryWinSAT.Info.AssessmentDateTime;
 
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         BasicScoreExisted = basicScore is not 0.0;
                         BasicScore = basicScore is 0.0 ? "N/A" : basicScore.ToString("F1");
@@ -374,12 +368,12 @@ namespace WindowsTools.Views.Pages
                         PrimaryDiskSubScore = primaryDiskSubScore is 0.0 ? "N/A" : primaryDiskSubScore.ToString("F1");
                         ResultMessage = basicScore is 0.0 ? WinSAT.ErrorMessage : string.Format(WinSAT.SuccessMessage, assessmentDate);
                         ResultServerity = basicScore is 0.0 ? InfoBarSeverity.Warning : InfoBarSeverity.Success;
-                    });
+                    }, null);
                 }
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Error, "Query WinSAT score failed", e);
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         BasicScoreExisted = false;
                         BasicScore = "N/A";
@@ -390,7 +384,7 @@ namespace WindowsTools.Views.Pages
                         PrimaryDiskSubScore = "N/A";
                         ResultMessage = WinSAT.ErrorMessage;
                         ResultServerity = InfoBarSeverity.Warning;
-                    });
+                    }, null);
                 }
             });
         }

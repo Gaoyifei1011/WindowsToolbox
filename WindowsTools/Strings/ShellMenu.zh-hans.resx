@@ -153,20 +153,14 @@
   <data name="Drive" xml:space="preserve">
     <value>驱动器</value>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>编辑</value>
+  <data name="EditMenu" xml:space="preserve">
+    <value>编辑菜单</value>
   </data>
   <data name="EmptyDescription" xml:space="preserve">
     <value>菜单没有任何内容</value>
   </data>
-  <data name="EmptySecondLevelMenu" xml:space="preserve">
-    <value>二级菜单内容为空</value>
-  </data>
   <data name="Extension" xml:space="preserve">
     <value>扩展名称</value>
-  </data>
-  <data name="FirstLevelMenu" xml:space="preserve">
-    <value>一级菜单</value>
   </data>
   <data name="IconFilterCondition" xml:space="preserve">
     <value>图标文件(*.ico)|*.ico</value>
@@ -204,9 +198,6 @@
   <data name="MenuList" xml:space="preserve">
     <value>菜单列表</value>
   </data>
-  <data name="MenuOrder" xml:space="preserve">
-    <value>菜单顺序</value>
-  </data>
   <data name="MenuParameter" xml:space="preserve">
     <value>菜单参数</value>
   </data>
@@ -218,9 +209,6 @@
   </data>
   <data name="MenuProgramPathPHText" xml:space="preserve">
     <value>未设置应用程序路径</value>
-  </data>
-  <data name="MenuProgramPathToolTip" xml:space="preserve">
-    <value>菜单程序文件路径：</value>
   </data>
   <data name="MenuSettings" xml:space="preserve">
     <value>菜单设置</value>
@@ -251,9 +239,6 @@
   </data>
   <data name="None" xml:space="preserve">
     <value>不匹配</value>
-  </data>
-  <data name="Operation" xml:space="preserve">
-    <value>操作</value>
   </data>
   <data name="Precautions" xml:space="preserve">
     <value>注意事项</value>
@@ -288,9 +273,6 @@
   <data name="Save" xml:space="preserve">
     <value>保存</value>
   </data>
-  <data name="SecondLevelMenu" xml:space="preserve">
-    <value>二级菜单</value>
-  </data>
   <data name="SelectIcon" xml:space="preserve">
     <value>选择图标</value>
   </data>
@@ -316,15 +298,6 @@
     <value>否</value>
   </data>
   <data name="ShouldUseProgramIconOnContent" xml:space="preserve">
-    <value>是</value>
-  </data>
-  <data name="ShouldUseSecondLevelMenu" xml:space="preserve">
-    <value>是否启用二级菜单</value>
-  </data>
-  <data name="ShouldUseSecondLevelMenuOffContent" xml:space="preserve">
-    <value>否</value>
-  </data>
-  <data name="ShouldUseSecondLevelMenuOnContent" xml:space="preserve">
     <value>是</value>
   </data>
   <data name="Title" xml:space="preserve">

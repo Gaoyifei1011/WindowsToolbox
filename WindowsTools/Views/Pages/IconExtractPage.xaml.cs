@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -22,7 +23,6 @@ using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
-using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
 // 抑制 IDE0060 警告
@@ -35,6 +35,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class IconExtractPage : Page, INotifyPropertyChanged
     {
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly object iconExtractLock = new();
 
         private string filePath;
@@ -264,10 +265,10 @@ namespace WindowsTools.Views.Pages
 
                         if (filesList.Count is 1)
                         {
-                            MainWindow.Current.BeginInvoke(() =>
+                            synchronizationContext.Post(_ =>
                             {
                                 ParseIconFile(filesList[0].Path);
-                            });
+                            }, null);
                         }
                     }
                 }
@@ -476,11 +477,11 @@ namespace WindowsTools.Views.Pages
 
                         await Task.Delay(300);
 
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             IsSaving = false;
                             TeachingTipHelper.Show(new OperationResultTip(OperationKind.IconExtract, selectedItemsList.Count - saveFailedCount, saveFailedCount));
-                        });
+                        }, null);
                     });
                 }
             }
@@ -555,14 +556,14 @@ namespace WindowsTools.Views.Pages
 
                         await Task.Delay(300);
 
-                        MainWindow.Current.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             lock (iconExtractLock)
                             {
                                 IsSaving = false;
                                 TeachingTipHelper.Show(new OperationResultTip(OperationKind.IconExtract, IconCollection.Count - saveFailedCount, saveFailedCount));
                             }
-                        });
+                        }, null);
                     });
                 }
             }
@@ -610,7 +611,7 @@ namespace WindowsTools.Views.Pages
                         User32Library.DestroyIcon(phicon[index]);
                     }
 
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         try
                         {
@@ -640,17 +641,17 @@ namespace WindowsTools.Views.Pages
                         {
                             LogService.WriteLog(EventLevel.Error, string.Format("Display {0} icons failed", iconsList), e);
                         }
-                    });
+                    }, null);
                 }
                 catch (Exception e)
                 {
-                    MainWindow.Current.BeginInvoke(() =>
+                    synchronizationContext.Post(_ =>
                     {
                         GetResults = string.Format(IconExtract.GetResults, Path.GetFileName(filePath), 0);
                         NoResources = string.Format(IconExtract.NoResources, Path.GetFileName(filePath));
                         ImageSource = null;
                         IsImageEmpty = true;
-                    });
+                    }, null);
 
                     LogService.WriteLog(EventLevel.Error, string.Format("Parse {0} file icons failed", filePath), e);
                 }

@@ -2,6 +2,7 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -32,6 +33,7 @@ namespace WindowsTools.UI.Backdrop
         private readonly Form formRoot;
         private readonly FrameworkElement rootElement;
         private readonly CompositionCapabilities compositionCapabilities = CompositionCapabilities.GetForCurrentView();
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
 
         private readonly float defaultMicaBaseLightTintOpacity = 0.5f;
         private readonly float defaultMicaBaseLightLuminosityOpacity = 1;
@@ -397,7 +399,10 @@ namespace WindowsTools.UI.Backdrop
         /// </summary>
         private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs args)
         {
-            formRoot.BeginInvoke(UpdateBrush);
+            synchronizationContext.Post(_ =>
+            {
+                UpdateBrush();
+            }, null);
         }
 
         /// <summary>
@@ -405,14 +410,14 @@ namespace WindowsTools.UI.Backdrop
         /// </summary>
         private void OnSizeChanged(object sender, EventArgs args)
         {
-            formRoot.BeginInvoke(() =>
+            synchronizationContext.Post(_ =>
             {
                 SpriteVisual spriteVisual = DesktopWindowTarget.Root as SpriteVisual;
                 if (spriteVisual is not null)
                 {
                     spriteVisual.Size = new Vector2(formRoot.Width, formRoot.Height);
                 }
-            });
+            }, null);
         }
 
         /// <summary>
@@ -420,14 +425,14 @@ namespace WindowsTools.UI.Backdrop
         /// </summary>
         private void OnDpiChanged(object sender, DpiChangedEventArgs args)
         {
-            formRoot.BeginInvoke(() =>
+            synchronizationContext.Post(_ =>
             {
                 SpriteVisual spriteVisual = DesktopWindowTarget.Root as SpriteVisual;
                 if (spriteVisual is not null)
                 {
                     spriteVisual.Size = new Vector2(formRoot.Width, formRoot.Height);
                 }
-            });
+            }, null);
         }
 
         /// <summary>
@@ -465,7 +470,10 @@ namespace WindowsTools.UI.Backdrop
         /// </summary>
         private void OnCompositionCapabilitiesChanged(CompositionCapabilities sender, object args)
         {
-            formRoot.BeginInvoke(UpdateBrush);
+            synchronizationContext.Post(_ =>
+            {
+                UpdateBrush();
+            }, null);
         }
 
         /// <summary>
@@ -674,10 +682,10 @@ namespace WindowsTools.UI.Backdrop
 
                     if (isInitialized)
                     {
-                        formRoot.BeginInvoke(() =>
+                        synchronizationContext.Post(_ =>
                         {
                             UpdateBrush();
-                        });
+                        }, null);
                     }
                 }
             }

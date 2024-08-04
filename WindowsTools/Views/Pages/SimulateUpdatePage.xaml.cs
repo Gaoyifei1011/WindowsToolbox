@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.Tracing;
+using System.Threading;
 using System.Timers;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
@@ -15,7 +16,8 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class SimulateUpdatePage : Page, INotifyPropertyChanged
     {
-        private Timer simulateUpdateTimer = new();
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+        private System.Timers.Timer simulateUpdateTimer = new();
 
         private readonly int simulateTotalTime = 0;
         private int simulatePassedTime = 0;
@@ -84,17 +86,20 @@ namespace WindowsTools.Views.Pages
                 // 到达约定时间，自动停止
                 if (simulatePassedTime > simulateTotalTime)
                 {
-                    LoafWindow.Current.BeginInvoke(LoafWindow.Current.StopLoaf);
+                    synchronizationContext.Post(_ =>
+                    {
+                        LoafWindow.Current.StopLoaf();
+                    }, null);
 
                     return;
                 }
 
-                LoafWindow.Current.BeginInvoke(() =>
+                synchronizationContext.Post(_ =>
                 {
                     string percentage = ((double)simulatePassedTime / simulateTotalTime).ToString("0%");
                     Windows11UpdateText = string.Format(SimulateUpdate.Windows11UpdateText1, percentage);
                     Windows10UpdateText = string.Format(SimulateUpdate.Windows10UpdateText1, percentage);
-                });
+                }, null);
             }
             catch (Exception e)
             {
