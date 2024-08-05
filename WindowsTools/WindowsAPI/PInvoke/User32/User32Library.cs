@@ -19,8 +19,8 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="wParam">传递给当前挂钩过程的 wParam 值。 此参数的含义取决于与当前挂钩链关联的挂钩类型。</param>
         /// <param name="lParam">传递给当前挂钩过程的 lParam 值。 此参数的含义取决于与当前挂钩链关联的挂钩类型。</param>
         /// <returns>此值由链中的下一个挂钩过程返回。 当前挂钩过程还必须返回此值。 返回值的含义取决于挂钩类型。 有关详细信息，请参阅各个挂钩过程的说明。</returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "CallNextHookEx", SetLastError = false)]
-        public static extern IntPtr CallNextHookEx(IntPtr idHook, int nCode, IntPtr wParam, IntPtr lParam);
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "CallNextHookEx", SetLastError = false), PreserveSig]
+        public static extern IntPtr CallNextHookEx(IntPtr idHook, int nCode, UIntPtr wParam, IntPtr lParam);
 
         /// <summary>
         /// 修改指定窗口的用户界面特权隔离 (UIPI) 消息筛选器。
@@ -30,18 +30,9 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="action">要执行的操作，可以执行以下值</param>
         /// <param name="pChangeFilterStruct">指向 CHANGEFILTERSTRUCT 结构的可选指针。</param>
         /// <returns>如果函数成功，则返回 TRUE;否则，它将返回 FALSE。</returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilterEx", SetLastError = false)]
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilterEx", SetLastError = false), PreserveSig]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ChangeWindowMessageFilterEx(IntPtr hWnd, WindowMessage message, ChangeFilterAction action, in CHANGEFILTERSTRUCT pChangeFilterStruct);
-
-        /// <summary>
-        /// 销毁图标并释放图标占用的任何内存。
-        /// </summary>
-        /// <param name="hIcon">要销毁的图标的句柄。 图标不得处于使用中。</param>
-        /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。 </returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "DestroyIcon", SetLastError = false)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DestroyIcon(IntPtr hIcon);
 
         /// <summary>
         /// 检索一个窗口的句柄，该窗口的类名和窗口名称与指定的字符串匹配。 该函数搜索子窗口，从指定子窗口后面的子窗口开始。 此函数不执行区分大小写的搜索。
@@ -51,14 +42,15 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="lpszClass">类名或上一次对 RegisterClass 或 RegisterClassEx 函数的调用创建的类名或类原子。 原子必须置于 lpszClass 的低序单词中;高阶单词必须为零。如果 lpszClass 是字符串，则指定窗口类名。 类名可以是注册到 RegisterClass 或 RegisterClassEx 的任何名称，也可以是预定义的控件类名称，也可以是 MAKEINTATOM(0x8000)。 在此后一种情况下，0x8000是菜单类的原子。 </param>
         /// <param name="lpszWindow">窗口名称 (窗口的标题) 。 如果此参数为 NULL，则所有窗口名称都匹配。</param>
         /// <returns>如果函数成功，则返回值是具有指定类和窗口名称的窗口的句柄。如果函数失败，则返回值为 NULL。 要获得更多的错误信息，请调用 GetLastError。</returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "FindWindowExW", SetLastError = false)]
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "FindWindowExW", SetLastError = false), PreserveSig]
         public static extern IntPtr FindWindowEx(IntPtr hWndParent, IntPtr hWndChildAfter, string lpszClass, string lpszWindow);
 
         /// <summary>
         /// 锁定工作站的显示器。 锁定工作站可防止未经授权的使用。
         /// </summary>
         /// <returns>如果该函数成功，则返回值为非零值。 由于函数以异步方式执行，因此非零返回值指示操作已启动。 它并不指示工作站是否已成功锁定。</returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "LockWorkStation", SetLastError = false)]
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "LockWorkStation", SetLastError = false), PreserveSig]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool LockWorkStation();
 
         /// <summary>
@@ -68,16 +60,8 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="bScan">密钥的硬件扫描代码。</param>
         /// <param name="dwFlags">控制函数操作的各个方面。 此参数可使用以下一个或多个值。</param>
         /// <param name="dwExtraInfo">与键笔划关联的附加值。</param>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "keybd_event", SetLastError = false)]
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "keybd_event", SetLastError = false), PreserveSig]
         public static extern void keybd_event(Keys bVk, byte bScan, KEYEVENTFLAGS dwFlags, UIntPtr dwExtraInfo);
-
-        /// <summary>
-        /// 显示或隐藏光标。
-        /// </summary>
-        /// <param name="show">如果 bShow 为 TRUE，则显示计数递增 1。 如果 bShow 为 FALSE，则显示计数将递减 1。</param>
-        /// <returns>返回值指定新的显示计数器。</returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "ShowCursor", SetLastError = false)]
-        public static extern int ShowCursor(bool show);
 
         /// <summary>
         /// 创建从指定文件中提取的图标的句柄数组。
@@ -93,7 +77,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <returns>
         /// 如果 phicon 参数为 NULL 并且此函数成功，则返回值是文件中的图标数。 如果函数失败，则返回值为 0。如果 phicon 参数不为 NULL 且函数成功，则返回值是提取的图标数。 否则，如果未找到该文件，则返回值0xFFFFFFFF。
         /// </returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "PrivateExtractIconsW", SetLastError = false)]
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "PrivateExtractIconsW", SetLastError = false), PreserveSig]
         public static extern int PrivateExtractIcons(string lpszFile, int nIconIndex, int cxIcon, int cyIcon, IntPtr[] phicon, int[] piconid, int nIcons, int flags);
 
         /// <summary>
@@ -106,8 +90,8 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// DEVICE_NOTIFY_SERVICE_HANDLE：通知发送到 HandlerEx 回调函数，其中 dwControl 参数 为 SERVICE_CONTROL_POWEREVENT ， dwEventType为 PBT_POWERSETTINGCHANGE。
         /// </param>
         /// <returns>返回用于取消注册电源通知的通知句柄。 如果函数失败，则返回值为 NULL。</returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", SetLastError = false)]
-        public static extern IntPtr RegisterPowerSettingNotification(IntPtr hRecipient, ref Guid PowerSettingGuid, uint Flags);
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", SetLastError = false), PreserveSig]
+        public static extern IntPtr RegisterPowerSettingNotification(IntPtr hRecipient, [MarshalAs(UnmanagedType.LPStruct)] ref Guid PowerSettingGuid, uint Flags);
 
         /// <summary>
         /// 将指定的消息发送到窗口或窗口。SendMessage 函数调用指定窗口的窗口过程，在窗口过程处理消息之前不会返回。
@@ -121,17 +105,8 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="wParam">其他的消息特定信息。</param>
         /// <param name="lParam">其他的消息特定信息。</param>
         /// <returns>返回值指定消息处理的结果;这取决于发送的消息。</returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SendMessageW", SetLastError = false)]
-        public static extern IntPtr SendMessage(IntPtr hWnd, WindowMessage wMsg, int wParam, IntPtr lParam);
-
-        /// <summary>
-        /// 将创建指定窗口的线程引入前台并激活窗口。 键盘输入将定向到窗口，并为用户更改各种视觉提示。 系统为创建前台窗口的线程分配的优先级略高于其他线程的优先级。
-        /// </summary>
-        /// <param name="hWnd">应激活并带到前台的窗口的句柄。</param>
-        /// <returns>如果将窗口带到前台，则返回值为非零值。如果未将窗口带到前台，则返回值为零。</returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetForegroundWindow", SetLastError = false)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SendMessageW", SetLastError = false), PreserveSig]
+        public static extern IntPtr SendMessage(IntPtr hWnd, WindowMessage wMsg, UIntPtr wParam, IntPtr lParam);
 
         /// <summary>
         /// 更改子窗口、弹出窗口或顶级窗口的大小、位置和 Z 顺序。 这些窗口根据屏幕上的外观进行排序。 最上面的窗口接收最高排名，是 Z 顺序中的第一个窗口。
@@ -144,7 +119,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="cy">窗口的新高度（以像素为单位）。</param>
         /// <param name="uFlags">窗口大小调整和定位标志。</param>
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。 </returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowPos", SetLastError = false)]
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowPos", SetLastError = false), PreserveSig]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
 
@@ -156,7 +131,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="hMod">DLL 的句柄，其中包含 lpfn 参数指向的挂钩过程。 如果 dwThreadId 参数指定当前进程创建的线程，并且挂钩过程位于与当前进程关联的代码中，则必须将 hMod 参数设置为 NULL。</param>
         /// <param name="dwThreadId">要与挂钩过程关联的线程的标识符。 对于桌面应用，如果此参数为零，则挂钩过程与调用线程在同一桌面中运行的所有现有线程相关联。 对于 Windows 应用商店应用，请参阅“备注”部分。</param>
         /// <returns>如果函数成功，则返回值是挂钩过程的句柄。如果函数失败，则返回值为 NULL。</returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowsHookExW", SetLastError = false)]
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowsHookExW", SetLastError = false), PreserveSig]
         public static extern IntPtr SetWindowsHookEx(HOOKTYPE idHook, HOOKPROC lpfn, IntPtr hMod, int dwThreadId);
 
         /// <summary>
@@ -164,7 +139,8 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// </summary>
         /// <param name="idHook">要移除的挂钩的句柄。 此参数是由先前调用 SetWindowsHookEx 获取的挂钩句柄。</param>
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "UnhookWindowsHookEx", SetLastError = false)]
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "UnhookWindowsHookEx", SetLastError = false), PreserveSig]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool UnhookWindowsHookEx(IntPtr idHook);
 
         /// <summary>
@@ -172,7 +148,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// </summary>
         /// <param name="handle">从 RegisterPowerSettingNotification 函数返回的句柄。</param>
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "UnregisterPowerSettingNotification", SetLastError = false)]
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "UnregisterPowerSettingNotification", SetLastError = false), PreserveSig]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool UnregisterPowerSettingNotification(IntPtr handle);
     }

@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using WindowsTools.Services.Root;
 using WindowsTools.WindowsAPI.ComTypes;
-using WindowsTools.WindowsAPI.PInvoke.Ole32;
 
 namespace WindowsTools.Services.Controls.Download
 {
@@ -19,7 +18,6 @@ namespace WindowsTools.Services.Controls.Download
         private static readonly string displayName = "WindowsTools";
         private static readonly object bitsLock = new();
         private static Guid CLSID_BackgroundCopyManager = new("4991D34B-80A1-4291-83B6-3328366B9097");
-        private static Guid IID_IBackgroundCopyManager = new("5CE34C0D-0DC9-4C1F-897C-DAA1B78CEE7C");
 
         private static IBackgroundCopyManager backgroundCopyManager;
 
@@ -48,12 +46,7 @@ namespace WindowsTools.Services.Controls.Download
                 {
                     try
                     {
-                        int createResult = Ole32Library.CoCreateInstance(ref CLSID_BackgroundCopyManager, null, CLSCTX.CLSCTX_LOCAL_SERVER, ref IID_IBackgroundCopyManager, out object ppv);
-
-                        if (createResult is 0)
-                        {
-                            backgroundCopyManager = (IBackgroundCopyManager)ppv;
-                        }
+                        backgroundCopyManager = (IBackgroundCopyManager)Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_BackgroundCopyManager));
                     }
                     catch (Exception e)
                     {

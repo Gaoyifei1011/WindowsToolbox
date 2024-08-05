@@ -16,14 +16,12 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using WindowsTools.Helpers.Backdrop;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.Backdrop;
-using WindowsTools.UI.Dialogs;
 using WindowsTools.Views.Pages;
 using WindowsTools.WindowsAPI.PInvoke.Comctl32;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
@@ -406,17 +404,6 @@ namespace WindowsTools.Views.Windows
         {
             switch (m.Msg)
             {
-                case (int)WindowMessage.WM_COPYDATA:
-                    {
-                        COPYDATASTRUCT copyDataStruct = Marshal.PtrToStructure<COPYDATASTRUCT>(m.LParam);
-
-                        User32Library.SetForegroundWindow(Handle);
-                        BeginInvoke(async () =>
-                        {
-                            await ContentDialogHelper.ShowAsync(new AppRunningDialog(), Content as FrameworkElement);
-                        });
-                        break;
-                    }
                 // 应用主题设置跟随系统发生变化时，当系统主题设置发生变化时修改修改应用背景色
                 case (int)WindowMessage.WM_SETTINGCHANGE:
                     {

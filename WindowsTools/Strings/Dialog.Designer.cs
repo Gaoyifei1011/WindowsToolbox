@@ -70,24 +70,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 WindowsTools 的本地化字符串。
-        /// </summary>
-        public static string AppName {
-            get {
-                return ResourceManager.GetString("AppName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 The application is running 的本地化字符串。
-        /// </summary>
-        public static string AppRunning {
-            get {
-                return ResourceManager.GetString("AppRunning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Cancel 的本地化字符串。
         /// </summary>
         public static string Cancel {

@@ -16,7 +16,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Kernel32
         /// 如果应用程序在调试器下运行，则如果函数收到无效的句柄值或伪句柄值，该函数将引发异常。
         /// 如果两次关闭句柄，或者对 FindFirstFile 函数返回的句柄调用 CloseHandle，而不是调用 FindClose 函数，则可能会出现这种情况。
         /// </returns>
-        [LibraryImport(Kernel32, EntryPoint = "CloseHandle", SetLastError = false)]
+        [LibraryImport(Kernel32, EntryPoint = "CloseHandle", SetLastError = false), PreserveSig]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static partial bool CloseHandle(IntPtr hObject);
 
@@ -87,11 +87,11 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Kernel32
         /// 如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。
         /// 请注意，函数在进程完成初始化之前返回 。 如果找不到所需的 DLL 或无法初始化，则进程将终止。 若要获取进程的终止状态，请调用 GetExitCodeProcess。
         /// </returns>
-        [LibraryImport(Kernel32, EntryPoint = "CreateProcessW", SetLastError = false, StringMarshalling = StringMarshalling.Utf16)]
+        [LibraryImport(Kernel32, EntryPoint = "CreateProcessW", SetLastError = false, StringMarshalling = StringMarshalling.Utf16), PreserveSig]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static partial bool CreateProcess(
             string lpApplicationName,
-            string lpCommandLine,
+            [MarshalAs(UnmanagedType.LPStr)] string lpCommandLine,
             IntPtr lpProcessAttributes,
             IntPtr lpThreadAttributes,
             [MarshalAs(UnmanagedType.Bool)] bool bInheritHandles,
@@ -107,14 +107,14 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Kernel32
         /// <param name="length">输入时， 路径 缓冲区的大小（以字符为单位）。 输出时，返回的包路径的大小（以字符为单位），包括 null 终止符。</param>
         /// <param name="path">包路径。</param>
         /// <returns>如果函数成功，则返回 ERROR_SUCCESS。 否则，函数将返回错误代码。</returns>
-        [LibraryImport(Kernel32, EntryPoint = "GetCurrentPackagePath", SetLastError = false)]
+        [LibraryImport(Kernel32, EntryPoint = "GetCurrentPackagePath", SetLastError = false), PreserveSig]
         public static unsafe partial uint GetCurrentPackagePath(ref int length, char* path);
 
         /// <summary>
         /// 检索创建调用进程时指定的 STARTUPINFO 结构的内容。
         /// </summary>
         /// <param name="lpStartupInfo">指向接收启动信息的 STARTUPINFO 结构的指针。</param>
-        [LibraryImport(Kernel32, EntryPoint = "GetStartupInfoW", SetLastError = false)]
+        [LibraryImport(Kernel32, EntryPoint = "GetStartupInfoW", SetLastError = false), PreserveSig]
         public static partial void GetStartupInfo(out STARTUPINFO lpStartupInfo);
     }
 }

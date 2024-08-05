@@ -1,15 +1,15 @@
 <Page
     x:Class="WindowsTools.Views.Pages.UpdateManagerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:sys="using:System"
     xmlns:converter="using:WindowsTools.Helpers.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="using:WindowsTools.Helpers.Root"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:WindowsTools.Strings"
+    xmlns:sys="using:System"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 

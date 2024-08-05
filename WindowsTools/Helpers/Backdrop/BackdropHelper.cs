@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
-using Windows.System;
 using Windows.UI.Composition.Desktop;
 using Windows.UI.Xaml;
 using WindowsTools.WindowsAPI.ComTypes;
@@ -43,7 +43,7 @@ namespace WindowsTools.Helpers.Backdrop
             }
 
             DesktopWindowTarget desktopWindowTarget = null;
-            if (DispatcherQueue.GetForCurrentThread() is not null)
+            if (SynchronizationContext.Current is not null)
             {
                 ICompositorDesktopInterop interop = Window.Current.Compositor as object as ICompositorDesktopInterop;
                 interop.CreateDesktopWindowTarget(form.Handle, isTopMost, out desktopWindowTarget);

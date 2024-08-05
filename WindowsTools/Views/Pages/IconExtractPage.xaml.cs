@@ -318,7 +318,6 @@ namespace WindowsTools.Views.Pages
                         IsImageEmpty = false;
                         icon.Dispose();
                         memoryStream.Dispose();
-                        User32Library.DestroyIcon(phicon[0]);
                     }
                     catch (Exception e)
                     {
@@ -381,7 +380,6 @@ namespace WindowsTools.Views.Pages
                             IsImageEmpty = false;
                             icon.Dispose();
                             memoryStream.Dispose();
-                            User32Library.DestroyIcon(phicon[0]);
                         }
                         catch (Exception e)
                         {
@@ -608,7 +606,6 @@ namespace WindowsTools.Views.Pages
                         });
 
                         icon.Dispose();
-                        User32Library.DestroyIcon(phicon[index]);
                     }
 
                     synchronizationContext.Post(_ =>

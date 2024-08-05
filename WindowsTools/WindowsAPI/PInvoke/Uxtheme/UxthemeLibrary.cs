@@ -13,13 +13,13 @@ namespace WindowsTools.WindowsAPI.PInvoke.Uxtheme
         /// 设置 win32 右键菜单的样式
         /// </summary>
         /// <param name="preferredAppMode">菜单样式</param>
-        [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "#135", SetLastError = false)]
+        [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "#135", SetLastError = false), PreserveSig]
         public static extern int SetPreferredAppMode(PreferredAppMode preferredAppMode);
 
         /// <summary>
         /// 刷新右键菜单样式
         /// </summary>
-        [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "#136", SetLastError = false)]
+        [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "#136", SetLastError = false), PreserveSig]
         public static extern int FlushMenuThemes();
     }
 }

@@ -19,7 +19,6 @@ namespace WindowsTools.Services.Controls.Download
         private static readonly string displayName = "WindowsTools";
         private static readonly object deliveryOptimizationLock = new();
         private static Guid CLSID_DeliveryOptimization = new("5B99FA76-721C-423C-ADAC-56D03C8A8007");
-        private static Guid IID_DOManager = new("400E2D4A-1431-4C1A-A748-39CA472CFDB1");
 
         private static Dictionary<Guid, Tuple<IDODownload, DODownloadStatusCallback>> DeliveryOptimizationDict { get; } = [];
 
@@ -60,44 +59,39 @@ namespace WindowsTools.Services.Controls.Download
                 try
                 {
                     IDOManager doManager = null;
-                    IDODownload doDownload = null;
 
                     // 创建 IDoManager
-                    int createResult = Ole32Library.CoCreateInstance(ref CLSID_DeliveryOptimization, null, CLSCTX.CLSCTX_LOCAL_SERVER, ref IID_DOManager, out object ppv);
-                    if (createResult is 0)
+                    doManager = (IDOManager)Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_DeliveryOptimization));
+                    doManager.CreateDownload(out IDODownload doDownload);
+                    IntPtr pInterface = Marshal.GetComInterfaceForObject<object, IDODownload>(doDownload);
+                    Ole32Library.CoSetProxyBlanket(pInterface, uint.MaxValue, uint.MaxValue, unchecked((IntPtr)ulong.MaxValue), 0, 3, IntPtr.Zero, 32);
+                    Marshal.Release(pInterface);
+                    Marshal.FinalReleaseComObject(doManager);
+
+                    // 添加下载信息
+                    doDownload.SetProperty(DODownloadProperty.DODownloadProperty_DisplayName, displayName);
+                    doDownload.SetProperty(DODownloadProperty.DODownloadProperty_Uri, url);
+                    doDownload.SetProperty(DODownloadProperty.DODownloadProperty_LocalPath, saveFilePath);
+
+                    DODownloadStatusCallback doDownloadStatusCallback = new();
+                    doDownloadStatusCallback.StatusChanged += OnStatusChanged;
+                    doDownload.SetProperty(DODownloadProperty.DODownloadProperty_CallbackInterface, new UnknownWrapper(doDownloadStatusCallback));
+                    doDownload.SetProperty(DODownloadProperty.DODownloadProperty_ForegroundPriority, true);
+
+                    doDownload.GetProperty(DODownloadProperty.DODownloadProperty_Id, out object id);
+                    doDownload.GetProperty(DODownloadProperty.DODownloadProperty_TotalSizeBytes, out object size);
+                    doDownloadStatusCallback.DownloadID = new(Convert.ToString(id));
+                    DownloadCreated?.Invoke(doDownloadStatusCallback.DownloadID, Path.GetFileName(saveFilePath), saveFilePath, url, Convert.ToDouble(size));
+
+                    lock (deliveryOptimizationLock)
                     {
-                        doManager = (IDOManager)ppv;
-                        doManager.CreateDownload(out doDownload);
-                        IntPtr pInterface = Marshal.GetComInterfaceForObject<object, IDODownload>(doDownload);
-                        Ole32Library.CoSetProxyBlanket(pInterface, uint.MaxValue, uint.MaxValue, unchecked((IntPtr)ulong.MaxValue), 0, 3, IntPtr.Zero, 32);
-                        Marshal.Release(pInterface);
-                        Marshal.FinalReleaseComObject(doManager);
-
-                        // 添加下载信息
-                        doDownload.SetProperty(DODownloadProperty.DODownloadProperty_DisplayName, displayName);
-                        doDownload.SetProperty(DODownloadProperty.DODownloadProperty_Uri, url);
-                        doDownload.SetProperty(DODownloadProperty.DODownloadProperty_LocalPath, saveFilePath);
-
-                        DODownloadStatusCallback doDownloadStatusCallback = new();
-                        doDownloadStatusCallback.StatusChanged += OnStatusChanged;
-                        doDownload.SetProperty(DODownloadProperty.DODownloadProperty_CallbackInterface, new UnknownWrapper(doDownloadStatusCallback));
-                        doDownload.SetProperty(DODownloadProperty.DODownloadProperty_ForegroundPriority, true);
-
-                        doDownload.GetProperty(DODownloadProperty.DODownloadProperty_Id, out object id);
-                        doDownload.GetProperty(DODownloadProperty.DODownloadProperty_TotalSizeBytes, out object size);
-                        doDownloadStatusCallback.DownloadID = new(Convert.ToString(id));
-                        DownloadCreated?.Invoke(doDownloadStatusCallback.DownloadID, Path.GetFileName(saveFilePath), saveFilePath, url, Convert.ToDouble(size));
-
-                        lock (deliveryOptimizationLock)
+                        if (!DeliveryOptimizationDict.ContainsKey(doDownloadStatusCallback.DownloadID))
                         {
-                            if (!DeliveryOptimizationDict.ContainsKey(doDownloadStatusCallback.DownloadID))
-                            {
-                                DeliveryOptimizationDict.Add(doDownloadStatusCallback.DownloadID, Tuple.Create(doDownload, doDownloadStatusCallback));
-                            }
+                            DeliveryOptimizationDict.Add(doDownloadStatusCallback.DownloadID, Tuple.Create(doDownload, doDownloadStatusCallback));
                         }
-
-                        int Result = doDownload.Start(IntPtr.Zero);
                     }
+
+                    doDownload.Start(IntPtr.Zero);
                 }
                 catch (Exception e)
                 {

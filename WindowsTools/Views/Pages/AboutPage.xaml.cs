@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Shell;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -25,7 +26,6 @@ using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.Dialogs.About;
 using WindowsTools.UI.TeachingTips;
-using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Kernel32;
 
 // 抑制 IDE0060 警告
@@ -165,32 +165,20 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 将应用固定到任务栏
         /// </summary>
-        private void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
+        private async void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
         {
             bool isPinnedSuccessfully = false;
 
             try
             {
-                IShellLink appLink = (IShellLink)Activator.CreateInstance(Type.GetTypeFromCLSID(ishellLinkCLSID));
-                uint aumidLength = 260;
-                StringBuilder aumidBuilder = new((int)aumidLength);
-                Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
-                appLink.SetPath(string.Format(@"shell:AppsFolder\{0}", aumidBuilder.ToString()));
-                appLink.GetIDList(out IntPtr pidl);
+                string featureId = "com.microsoft.windows.taskbar.pin";
+                string token = FeatureAccessHelper.GenerateTokenFromFeatureId(featureId);
+                string attestation = FeatureAccessHelper.GenerateAttestation(featureId);
+                LimitedAccessFeatureRequestResult accessResult = LimitedAccessFeatures.TryUnlockFeature(featureId, token, attestation);
 
-                IPinnedList3 pinnedList = (IPinnedList3)Activator.CreateInstance(Type.GetTypeFromCLSID(taskbarPinCLSID));
-
-                if (pinnedList is not null)
+                if (accessResult.Status is LimitedAccessFeatureStatus.Available)
                 {
-                    PIDLIST_ABSOLUTE pidlFrom = new()
-                    {
-                        Ptr = IntPtr.Zero
-                    };
-                    PIDLIST_ABSOLUTE pidlTo = new()
-                    {
-                        Ptr = pidl
-                    };
-                    isPinnedSuccessfully = pinnedList.Modify(pidlFrom, pidlTo, PLMC.PLMC_EXPLORER) is 0;
+                    isPinnedSuccessfully = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
                 }
             }
             catch (Exception e)
@@ -199,7 +187,10 @@ namespace WindowsTools.Views.Pages
             }
             finally
             {
-                TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.Taskbar, isPinnedSuccessfully));
+                synchronizationContext.Send(_ =>
+                {
+                    TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.Taskbar, isPinnedSuccessfully));
+                }, null);
             }
         }
 

@@ -43,15 +43,7 @@ namespace WindowsTools.Views.Windows
             windowsXamlHost.Dock = DockStyle.Fill;
             _blockAllKeys = blockAllKeys;
             _lockScreenAutomaticly = lockScreenAutomaticly;
-            // 先显示鼠标光标，然后再隐藏
-            while (User32Library.ShowCursor(true) < 0)
-            {
-                User32Library.ShowCursor(true);
-            }
-            while (User32Library.ShowCursor(false) >= 0)
-            {
-                User32Library.ShowCursor(false);
-            }
+            Cursor.Hide();
             windowsXamlHost.Child = new SimulateUpdatePage(updatingKind, duration);
             // 阻止系统睡眠，阻止屏幕关闭。
             SystemSleepHelper.PreventForCurrentThread();
@@ -133,7 +125,7 @@ namespace WindowsTools.Views.Windows
         /// <summary>
         /// 自定义钩子消息处理
         /// </summary>
-        public IntPtr OnKeyboardHookProc(int nCode, IntPtr wParam, IntPtr lParam)
+        public IntPtr OnKeyboardHookProc(int nCode, UIntPtr wParam, IntPtr lParam)
         {
             // 处理键盘钩子消息
             if (nCode >= 0)
@@ -200,11 +192,7 @@ namespace WindowsTools.Views.Windows
         /// </summary>
         public void StopLoaf()
         {
-            // 显示光标
-            while (User32Library.ShowCursor(true) < 0)
-            {
-                User32Library.ShowCursor(true);
-            }
+            Cursor.Show();
             StopHook();
             (windowsXamlHost.Child as SimulateUpdatePage).StopSimulateUpdate();
             if (_lockScreenAutomaticly)

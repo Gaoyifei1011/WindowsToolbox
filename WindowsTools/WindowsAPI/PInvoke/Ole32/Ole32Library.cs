@@ -11,23 +11,9 @@ namespace WindowsTools.WindowsAPI.PInvoke.Ole32
         private const string Ole32 = "ole32.dll";
 
         /// <summary>
-        /// 创建和默认初始化与指定 CLSID 关联的类的单个对象。
-        /// 如果只想在本地系统上创建一个对象，请调用 CoCreateInstance 。 若要在远程系统上创建单个对象，请调用 CoCreateInstanceEx 函数。 若要基于单个 CLSID 创建多个对象，请调用 CoGetClassObject 函数。
-        /// </summary>
-        /// <param name="rclsid">与要用于创建对象的数据和代码关联的 CLSID。</param>
-        /// <param name="pUnkOuter">
-        /// 如果 为 NULL，则指示对象未作为聚合的一部分创建。 如果为非 NULL，则指向聚合对象的 IUnknown 接口的指针 (控制 IUnknown) 。
-        /// </param>
-        /// <param name="dwClsContext">管理新创建对象的代码将在其中运行的上下文。 这些值取自枚举 CLSCTX。</param>
-        /// <param name="riid">对要用于与对象通信的接口标识符的引用。</param>
-        /// <param name="ppv">接收 riid 中请求的接口指针的指针变量的地址。 成功返回后，*ppv 包含请求的接口指针。 失败后，*ppv 包含 NULL。</param>
-        [DllImport(Ole32, CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstance", SetLastError = false)]
-        public static extern int CoCreateInstance(ref Guid rclsid, [MarshalAs(UnmanagedType.IUnknown)] object pUnkOuter, CLSCTX dwClsContext, ref Guid riid, [MarshalAs(UnmanagedType.IUnknown)] out object ppv);
-
-        /// <summary>
         /// 设置将用于对指定代理进行调用的身份验证信息。 这是 IClientSecurity：：SetBlanket 的帮助程序函数。
         /// </summary>
-        /// <param name="punk">要设置的代理。</param>
+        /// <param name="proxy">要设置的代理。</param>
         /// <param name="dwAuthnSvc">要使用的身份验证服务。 有关可能值的列表，请参阅 身份验证服务常量。 如果不需要身份验证，请使用 RPC_C_AUTHN_NONE。 如果指定了RPC_C_AUTHN_DEFAULT，DCOM 将按照其常规安全一揽子协商算法选择身份验证服务。</param>
         /// <param name="dwAuthzSvc">要使用的授权服务。 有关可能值的列表，请参阅 授权常量。 如果指定了RPC_C_AUTHZ_DEFAULT，DCOM 将按照其正常的安全一揽子协商算法选择授权服务。 如果使用 NTLMSSP、Kerberos 或 Schannel 作为身份验证服务，则应将RPC_C_AUTHZ_NONE用作授权服务。</param>
         /// <param name="pServerPrincName">
@@ -48,7 +34,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Ole32
         /// 如果设置了 pAuthInfo 并在 dwCapabilities 参数中设置了其中一个隐藏标志，CoSetProxyBlanket 将失败。
         /// </param>
         /// <param name="dwCapabilities">此代理的功能。 有关可能值的列表，请参阅 EOLE_AUTHENTICATION_CAPABILITIES 枚举。 唯一可以通过此函数设置的标志是EOAC_MUTUAL_AUTH、EOAC_STATIC_CLOAKING、EOAC_DYNAMIC_CLOAKING，EOAC_ANY_AUTHORITY (此标志已弃用) 、EOAC_MAKE_FULLSIC和EOAC_DEFAULT。 如果未设置 pAuthInfo 且 Schannel 不是身份验证服务，则可以设置 EOAC_STATIC_CLOAKING 或 EOAC_DYNAMIC_CLOAKING。 (有关详细信息，请参阅 隐藏 。) 如果设置了此处提及的功能以外的任何功能标志， CoSetProxyBlanket 将失败。</param>
-        [DllImport(Ole32, CharSet = CharSet.Unicode, EntryPoint = "CoSetProxyBlanket", SetLastError = false)]
-        public static extern int CoSetProxyBlanket([In] IntPtr punk, [In] uint dwAuthnSvc, [In] uint dwAuthzSvc, [In] IntPtr pServerPrincName, [In] uint dwAuthLevel, [In] uint dwImpLevel, [In] IntPtr pAuthInfo, [In] uint dwCapabilities);
+        [DllImport(Ole32, CharSet = CharSet.Unicode, EntryPoint = "CoSetProxyBlanket", SetLastError = false), PreserveSig]
+        public static extern int CoSetProxyBlanket([In] IntPtr proxy, [In] uint dwAuthnSvc, [In] uint dwAuthzSvc, [In] IntPtr pServerPrincName, [In] uint dwAuthLevel, [In] uint dwImpLevel, [In] IntPtr pAuthInfo, [In] uint dwCapabilities);
     }
 }

@@ -195,7 +195,7 @@ namespace WindowsTools.Views.Pages
             {
                 ((MenuFlyout)menuItem.Tag).Hide();
                 await Task.Delay(10);
-                User32Library.SendMessage(MainWindow.Current.Handle, WindowMessage.WM_SYSCOMMAND, 0xF010, IntPtr.Zero);
+                User32Library.SendMessage(MainWindow.Current.Handle, WindowMessage.WM_SYSCOMMAND, new UIntPtr(0xF010), IntPtr.Zero);
             }
         }
 
@@ -208,7 +208,7 @@ namespace WindowsTools.Views.Pages
             if (menuItem.Tag is not null)
             {
                 ((MenuFlyout)menuItem.Tag).Hide();
-                User32Library.SendMessage(MainWindow.Current.Handle, WindowMessage.WM_SYSCOMMAND, 0xF000, IntPtr.Zero);
+                User32Library.SendMessage(MainWindow.Current.Handle, WindowMessage.WM_SYSCOMMAND, new UIntPtr(0xF000), IntPtr.Zero);
             }
         }
 

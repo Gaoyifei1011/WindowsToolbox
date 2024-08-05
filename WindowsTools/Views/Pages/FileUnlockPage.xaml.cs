@@ -470,6 +470,10 @@ namespace WindowsTools.Views.Pages
                         StateInfoText = string.Format(FileUnlock.ParseFileFailed, FileName);
                     }, null);
                 }
+                finally
+                {
+                    RstrtmgrLibrary.RmEndSession(handle);
+                }
             });
         }
 

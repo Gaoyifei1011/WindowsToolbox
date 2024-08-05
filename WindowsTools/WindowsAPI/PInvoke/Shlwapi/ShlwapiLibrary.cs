@@ -4,6 +4,9 @@ using System.Text;
 
 namespace WindowsTools.WindowsAPI.PInvoke.Shlwapi
 {
+    /// <summary>
+    /// Shlwapi.dll 函数库
+    /// </summary>
     public static class ShlwapiLibrary
     {
         public const string Shlwapi = "shlwapi.dll";
@@ -16,7 +19,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shlwapi
         /// <param name="cchOutBuf">pszOutBuf 指向的缓冲区的大小（以字符为单位）。</param>
         /// <param name="ppvReserved">未使用;设置为 NULL。</param>
         /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
-        [DllImport(Shlwapi, CharSet = CharSet.Unicode, EntryPoint = "SHLoadIndirectString", ExactSpelling = true)]
+        [DllImport(Shlwapi, CharSet = CharSet.Unicode, EntryPoint = "SHLoadIndirectString", ExactSpelling = true), PreserveSig]
         public static extern int SHLoadIndirectString(string pszSource, StringBuilder pszOutBuf, int cchOutBuf, IntPtr ppvReserved);
     }
 }

@@ -120,12 +120,6 @@
   <data name="AppInformationTitle" xml:space="preserve">
     <value>App information</value>
   </data>
-  <data name="AppName" xml:space="preserve">
-    <value>WindowsTools</value>
-  </data>
-  <data name="AppRunning" xml:space="preserve">
-    <value>The application is running</value>
-  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
