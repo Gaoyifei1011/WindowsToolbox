@@ -16,6 +16,7 @@ namespace WindowsTools.Services.Controls.Download
     /// </summary>
     public static class DownloadSchedulerService
     {
+        private static bool isInitialized;
         private static DictionaryEntry doEngineMode;
 
         public static SemaphoreSlim DownloadSchedulerSemaphoreSlim { get; private set; } = new SemaphoreSlim(1, 1);
@@ -438,28 +439,33 @@ namespace WindowsTools.Services.Controls.Download
         /// </summary>
         public static void InitializeDownloadScheduler()
         {
-            // 获取当前下载引擎
-            doEngineMode = DownloadOptionsService.DoEngineMode;
+            if (!isInitialized)
+            {
+                isInitialized = true;
 
-            // 初始化下载服务
-            if (doEngineMode.Equals(DownloadOptionsService.DoEngineModeList[0]))
-            {
-                DeliveryOptimizationService.DownloadCreated += OnDeliveryOptimizationCreated;
-                DeliveryOptimizationService.DownloadContinued += OnDeliveryOptimizationContinued;
-                DeliveryOptimizationService.DownloadPaused += OnDeliveryOptimizationPaused;
-                DeliveryOptimizationService.DownloadDeleted += OnDeliveryOptimizationDeleted;
-                DeliveryOptimizationService.DownloadProgressing += OnDeliveryOptimizationProgressing;
-                DeliveryOptimizationService.DownloadCompleted += OnDeliveryOptimizationCompleted;
-            }
-            else
-            {
-                BitsService.Initialize();
-                BitsService.DownloadCreated += OnBitsCreated;
-                BitsService.DownloadContinued += OnBitsContinued;
-                BitsService.DownloadPaused += OnBitsPaused;
-                BitsService.DownloadDeleted += OnBitsDeleted;
-                BitsService.DownloadProgressing += OnBitsProgressing;
-                BitsService.DownloadCompleted += OnBitsCompleted;
+                // 获取当前下载引擎
+                doEngineMode = DownloadOptionsService.DoEngineMode;
+
+                // 初始化下载服务
+                if (doEngineMode.Equals(DownloadOptionsService.DoEngineModeList[0]))
+                {
+                    DeliveryOptimizationService.DownloadCreated += OnDeliveryOptimizationCreated;
+                    DeliveryOptimizationService.DownloadContinued += OnDeliveryOptimizationContinued;
+                    DeliveryOptimizationService.DownloadPaused += OnDeliveryOptimizationPaused;
+                    DeliveryOptimizationService.DownloadDeleted += OnDeliveryOptimizationDeleted;
+                    DeliveryOptimizationService.DownloadProgressing += OnDeliveryOptimizationProgressing;
+                    DeliveryOptimizationService.DownloadCompleted += OnDeliveryOptimizationCompleted;
+                }
+                else
+                {
+                    BitsService.Initialize();
+                    BitsService.DownloadCreated += OnBitsCreated;
+                    BitsService.DownloadContinued += OnBitsContinued;
+                    BitsService.DownloadPaused += OnBitsPaused;
+                    BitsService.DownloadDeleted += OnBitsDeleted;
+                    BitsService.DownloadProgressing += OnBitsProgressing;
+                    BitsService.DownloadCompleted += OnBitsCompleted;
+                }
             }
         }
 
@@ -468,27 +474,32 @@ namespace WindowsTools.Services.Controls.Download
         /// </summary>
         public static void CloseDownloadScheduler()
         {
-            DownloadSchedulerSemaphoreSlim.Dispose();
-            DownloadSchedulerSemaphoreSlim = null;
+            if (isInitialized)
+            {
+                isInitialized = false;
 
-            // 注销下载服务
-            if (doEngineMode.Equals(DownloadOptionsService.DoEngineModeList[0]))
-            {
-                DeliveryOptimizationService.DownloadCreated -= OnDeliveryOptimizationCreated;
-                DeliveryOptimizationService.DownloadContinued -= OnDeliveryOptimizationContinued;
-                DeliveryOptimizationService.DownloadPaused -= OnDeliveryOptimizationPaused;
-                DeliveryOptimizationService.DownloadDeleted -= OnDeliveryOptimizationDeleted;
-                DeliveryOptimizationService.DownloadProgressing -= OnDeliveryOptimizationProgressing;
-                DeliveryOptimizationService.DownloadCompleted -= OnDeliveryOptimizationCompleted;
-            }
-            else
-            {
-                BitsService.DownloadCreated -= OnBitsCreated;
-                BitsService.DownloadContinued -= OnBitsContinued;
-                BitsService.DownloadPaused -= OnBitsPaused;
-                BitsService.DownloadDeleted -= OnBitsDeleted;
-                BitsService.DownloadProgressing -= OnBitsProgressing;
-                BitsService.DownloadCompleted -= OnBitsCompleted;
+                DownloadSchedulerSemaphoreSlim?.Dispose();
+                DownloadSchedulerSemaphoreSlim = null;
+
+                // 注销下载服务
+                if (doEngineMode.Equals(DownloadOptionsService.DoEngineModeList[0]))
+                {
+                    DeliveryOptimizationService.DownloadCreated -= OnDeliveryOptimizationCreated;
+                    DeliveryOptimizationService.DownloadContinued -= OnDeliveryOptimizationContinued;
+                    DeliveryOptimizationService.DownloadPaused -= OnDeliveryOptimizationPaused;
+                    DeliveryOptimizationService.DownloadDeleted -= OnDeliveryOptimizationDeleted;
+                    DeliveryOptimizationService.DownloadProgressing -= OnDeliveryOptimizationProgressing;
+                    DeliveryOptimizationService.DownloadCompleted -= OnDeliveryOptimizationCompleted;
+                }
+                else
+                {
+                    BitsService.DownloadCreated -= OnBitsCreated;
+                    BitsService.DownloadContinued -= OnBitsContinued;
+                    BitsService.DownloadPaused -= OnBitsPaused;
+                    BitsService.DownloadDeleted -= OnBitsDeleted;
+                    BitsService.DownloadProgressing -= OnBitsProgressing;
+                    BitsService.DownloadCompleted -= OnBitsCompleted;
+                }
             }
         }
 

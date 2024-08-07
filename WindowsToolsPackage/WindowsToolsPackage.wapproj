@@ -34,11 +34,11 @@
   </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
-    <AssetTargetFallback>$(AssetTargetFallback);net8.0-windows10.0.26100.0;net481</AssetTargetFallback>
+    <AssetTargetFallback>$(AssetTargetFallback);net9.0-windows10.0.26100.0;net481</AssetTargetFallback>
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundleAutoResourcePackageQualifiers>DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-    <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
     <AppxDefaultResourceQualifiers>Language=EN-US;ZH-HANS</AppxDefaultResourceQualifiers>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>

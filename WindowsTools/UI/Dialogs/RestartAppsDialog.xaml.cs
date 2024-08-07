@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
+﻿using System.Threading;
 using Windows.UI.Xaml.Controls;
 
 // 抑制 IDE0060 警告
@@ -26,14 +23,7 @@ namespace WindowsTools.UI.Dialogs
         /// </summary>
         private void OnRestartAppsClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            Task.Run(() =>
-            {
-                Process.Start(Process.GetCurrentProcess().MainModule.FileName, "Restart");
-                synchronizationContext.Post(_ =>
-                {
-                    (Application.Current as App).Dispose();
-                }, null);
-            });
+            System.Windows.Forms.Application.Restart();
         }
     }
 }

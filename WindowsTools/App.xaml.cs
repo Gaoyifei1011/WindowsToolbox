@@ -65,7 +65,7 @@ namespace WindowsTools
                     DownloadSchedulerService.TerminateDownload();
                     DownloadSchedulerService.CloseDownloadScheduler();
                     SystemTrayService.CloseSystemTray();
-                    Environment.Exit(0);
+                    System.Windows.Forms.Application.Exit();
                 }
 
                 isDisposed = true;

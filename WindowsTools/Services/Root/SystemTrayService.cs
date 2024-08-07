@@ -70,18 +70,6 @@ namespace WindowsTools.Services.Root
         }
 
         /// <summary>
-        /// 显示通知
-        /// </summary>
-        public static void ShowNotification(string title, string text, ToolTipIcon toolTipIcon)
-        {
-            if (notifyIcon is not null)
-            {
-                notifyIcon.Visible = true;
-                notifyIcon.ShowBalloonTip(0, title, text, toolTipIcon);
-            }
-        }
-
-        /// <summary>
         /// 处理托盘菜单鼠标点击事件
         /// </summary>
         private static void OnItemClick(object sender, EventArgs args)

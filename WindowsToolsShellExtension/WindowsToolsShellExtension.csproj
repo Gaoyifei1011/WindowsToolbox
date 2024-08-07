@@ -15,11 +15,11 @@
     <PublishAot>True</PublishAot>
     <PublishTrimmed>True</PublishTrimmed>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <TargetPlatformVersion>10.0.26100.0</TargetPlatformVersion>
   </PropertyGroup>
-
+  
   <PropertyGroup Condition="'$(Platform)'=='x86'">
     <RuntimeIdentifier>win-x86</RuntimeIdentifier>
   </PropertyGroup>
@@ -45,7 +45,7 @@
     <SdkSupportedTargetPlatformVersion Include="10.0.26100.0" />
   </ItemGroup>
 
-  <!--在 Debug 调试模式下测试 AOT 发布后的文件，如果在 Release 模式下，需要注释掉这段代码-->
+  <!-- 在 Debug 调试模式下测试 AOT 发布后的文件 -->
   <Target Name="AutoPublish" AfterTargets="AfterBuild" Condition="$(Configuration) == 'Debug'">
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Publish" />
     <Copy SourceFiles="$(NativeOutputPath)$(AssemblyName).dll" DestinationFiles="$(ProjectDir)bin\$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).dll" />
