@@ -186,10 +186,10 @@
   <data name="Tips" xml:space="preserve">
     <value>Tips</value>
   </data>
-  <data name="TipsContent1" xml:space="preserve">
+  <data name="TipContent1" xml:space="preserve">
     <value>1.It may take a few minutes to run the assessment. The screen may blink during the scoring process.</value>
   </data>
-  <data name="TipsContent2" xml:space="preserve">
+  <data name="TipContent2" xml:space="preserve">
     <value>2.During the operation evaluation, a large amount of device resources will be occupied for a short period of time. During this period, the device may stall. Therefore, you are advised not to perform operations during this period. After the assesement is complete, the device returns to normal.</value>
   </data>
   <data name="Title" xml:space="preserve">

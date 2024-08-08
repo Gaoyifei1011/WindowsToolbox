@@ -6,7 +6,7 @@ namespace WindowsTools.Models
     /// <summary>
     /// 包文件索引字符串数据模型
     /// </summary>
-    public class StringModel : INotifyPropertyChanged, IComparable<StringModel>
+    public sealed class StringModel : INotifyPropertyChanged, IComparable<StringModel>
     {
         /// <summary>
         /// 是否已选择

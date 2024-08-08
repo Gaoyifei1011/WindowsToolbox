@@ -1,6 +1,6 @@
 ﻿namespace WindowsTools.Extensions.PriExtract
 {
-    public class ScopeExInfo
+    public sealed class ScopeExInfo
     {
         public ushort ScopeIndex { get; set; }
 

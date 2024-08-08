@@ -5,7 +5,7 @@ namespace WindowsTools.Models
     /// <summary>
     /// 包文件索引嵌入的数据内容数据模型
     /// </summary>
-    public class EmbeddedDataModel : INotifyPropertyChanged
+    public sealed class EmbeddedDataModel : INotifyPropertyChanged
     {
         /// <summary>
         /// 是否已选择

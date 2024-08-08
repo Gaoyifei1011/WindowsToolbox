@@ -2,7 +2,7 @@
 
 namespace WindowsTools.Extensions.PriExtract
 {
-    public struct DistinctQualifierInfo
+    public sealed class DistinctQualifierInfo
     {
         public QualifierType QualifierType { get; set; }
 

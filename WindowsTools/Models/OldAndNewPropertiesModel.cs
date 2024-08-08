@@ -5,7 +5,7 @@ namespace WindowsTools.Models
     /// <summary>
     /// 文件属性模型
     /// </summary>
-    public class OldAndNewPropertiesModel : INotifyPropertyChanged
+    public sealed class OldAndNewPropertiesModel : INotifyPropertyChanged
     {
         /// <summary>
         /// 文件名称

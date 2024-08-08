@@ -5,7 +5,7 @@ namespace WindowsTools.Models
     /// <summary>
     /// 包文件索引文件路径数据模型
     /// </summary>
-    public class FilePathModel : INotifyPropertyChanged
+    public sealed class FilePathModel : INotifyPropertyChanged
     {
         /// <summary>
         /// 是否已选择

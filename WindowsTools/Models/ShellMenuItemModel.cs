@@ -9,7 +9,7 @@ namespace WindowsTools.Models
     /// <summary>
     /// 扩展菜单项数据模型
     /// </summary>
-    public class ShellMenuItemModel : INotifyPropertyChanged
+    public sealed class ShellMenuItemModel : INotifyPropertyChanged
     {
         /// <summary>
         /// 菜单 Guid 号

@@ -7,7 +7,7 @@ using WindowsTools.WindowsAPI.ComTypes;
 namespace WindowsTools.UI.Backdrop
 {
     [Guid("1FEB6D69-2FE6-4AC9-8C58-1D7F93E7A6A5")]
-    public class GaussianBlurEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
+    public sealed class GaussianBlurEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
     {
         private Guid clsid = new("1FEB6D69-2FE6-4AC9-8C58-1D7F93E7A6A5");
 

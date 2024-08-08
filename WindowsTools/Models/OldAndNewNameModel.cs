@@ -5,7 +5,7 @@ namespace WindowsTools.Models
     /// <summary>
     /// 文件名称模型
     /// </summary>
-    public class OldAndNewNameModel : INotifyPropertyChanged
+    public sealed class OldAndNewNameModel : INotifyPropertyChanged
     {
         /// <summary>
         /// 文件的初始名称

@@ -5,7 +5,7 @@ namespace WindowsTools.Models
     /// <summary>
     /// 操作失败信息数据模型
     /// </summary>
-    public class OperationFailedModel
+    public sealed class OperationFailedModel
     {
         /// <summary>
         /// 文件名称

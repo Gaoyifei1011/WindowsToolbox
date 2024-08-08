@@ -1,6 +1,6 @@
 ﻿namespace WindowsTools.Extensions.PriExtract
 {
-    public class ItemInfo
+    public sealed class ItemInfo
     {
         public uint Decision { get; set; }
 

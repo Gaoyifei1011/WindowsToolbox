@@ -5,7 +5,7 @@ using WindowsTools.Extensions.DataType.Methods;
 
 namespace WindowsTools.Extensions.PriExtract
 {
-    public class HierarchicalSchemaSection
+    public sealed class HierarchicalSchemaSection
     {
         public uint SectionQualifier { get; private set; }
 

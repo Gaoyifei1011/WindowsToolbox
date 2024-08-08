@@ -178,6 +178,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Menu option description 的本地化字符串。
+        /// </summary>
+        public static string EditMenuTip {
+            get {
+                return ResourceManager.GetString("EditMenuTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Extension name 的本地化字符串。
         /// </summary>
         public static string Extension {
@@ -597,6 +606,42 @@ namespace WindowsTools.Strings {
         public static string ShouldUseProgramIconOnContent {
             get {
                 return ResourceManager.GetString("ShouldUseProgramIconOnContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 1.The menu title and program file path are mandatory 的本地化字符串。
+        /// </summary>
+        public static string TipContent1 {
+            get {
+                return ResourceManager.GetString("TipContent1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 2. For menu parameters, use the following rules to match file and folder matching types 的本地化字符串。
+        /// </summary>
+        public static string TipContent2 {
+            get {
+                return ResourceManager.GetString("TipContent2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ① Single file matching rules: {file} and {folder} represent the first selected file 的本地化字符串。
+        /// </summary>
+        public static string TipContent3 {
+            get {
+                return ResourceManager.GetString("TipContent3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ② Multiple file matching rules: {files-split:&apos;&apos;} and {files-split:&apos;&apos;} indicate all files selected, and the single quotation marks in split:&apos; &apos; add file splitting parameters. For example, split:&apos; &apos; indicates that all files selected are split by white space 的本地化字符串。
+        /// </summary>
+        public static string TipContent4 {
+            get {
+                return ResourceManager.GetString("TipContent4", resourceCulture);
             }
         }
         

@@ -270,18 +270,18 @@ namespace WindowsTools.Strings {
         /// <summary>
         ///   查找类似 1.It may take a few minutes to run the assessment. The screen may blink during the scoring process. 的本地化字符串。
         /// </summary>
-        public static string TipsContent1 {
+        public static string TipContent1 {
             get {
-                return ResourceManager.GetString("TipsContent1", resourceCulture);
+                return ResourceManager.GetString("TipContent1", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 2.During the operation evaluation, a large amount of device resources will be occupied for a short period of time. During this period, the device may stall. Therefore, you are advised not to perform operations during this period. After the assesement is complete, the device returns to normal. 的本地化字符串。
         /// </summary>
-        public static string TipsContent2 {
+        public static string TipContent2 {
             get {
-                return ResourceManager.GetString("TipsContent2", resourceCulture);
+                return ResourceManager.GetString("TipContent2", resourceCulture);
             }
         }
         

@@ -6,7 +6,7 @@ using WindowsTools.Extensions.DataType.Methods;
 
 namespace WindowsTools.Extensions.PriExtract
 {
-    public class DecisionInfoSection
+    public sealed class DecisionInfoSection
     {
         public uint SectionQualifier { get; private set; }
 

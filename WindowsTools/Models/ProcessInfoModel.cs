@@ -5,7 +5,7 @@ namespace WindowsTools.Models
     /// <summary>
     /// 进程信息数据模型
     /// </summary>
-    public class ProcessInfoModel
+    public sealed class ProcessInfoModel
     {
         /// <summary>
         /// 进程名称

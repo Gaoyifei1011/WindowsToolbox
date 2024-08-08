@@ -2,7 +2,7 @@
 
 namespace WindowsTools.Extensions.PriExtract
 {
-    public class CandidateInfo
+    public sealed class CandidateInfo
     {
         public byte Type { get; set; }
 

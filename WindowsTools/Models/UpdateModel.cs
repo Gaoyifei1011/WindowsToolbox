@@ -7,7 +7,7 @@ namespace WindowsTools.Models
     /// <summary>
     /// Windows 更新数据模型
     /// </summary>
-    public class UpdateModel : INotifyPropertyChanged
+    public sealed class UpdateModel : INotifyPropertyChanged
     {
         /// <summary>
         /// 更新名称

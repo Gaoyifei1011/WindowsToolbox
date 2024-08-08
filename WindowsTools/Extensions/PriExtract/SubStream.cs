@@ -3,7 +3,7 @@ using System.IO;
 
 namespace WindowsTools.Extensions.PriExtract
 {
-    public class SubStream(Stream baseStream, long subStreamPosition, long subStreamLength) : Stream
+    public sealed class SubStream(Stream baseStream, long subStreamPosition, long subStreamLength) : Stream
     {
         private readonly Stream baseStream = baseStream;
         private readonly long subStreamPosition = subStreamPosition;

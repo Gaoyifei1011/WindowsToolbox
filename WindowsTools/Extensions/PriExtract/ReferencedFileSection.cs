@@ -5,7 +5,7 @@ using WindowsTools.Extensions.DataType.Methods;
 
 namespace WindowsTools.Extensions.PriExtract
 {
-    public class ReferencedFileSection
+    public sealed class ReferencedFileSection
     {
         public uint SectionQualifier { get; private set; }
 

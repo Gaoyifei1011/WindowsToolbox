@@ -1,6 +1,6 @@
 ﻿namespace WindowsTools.Extensions.PriExtract
 {
-    public class QualifierSetInfo
+    public sealed class QualifierSetInfo
     {
         public ushort FirstQualifierIndexIndex { get; set; }
 

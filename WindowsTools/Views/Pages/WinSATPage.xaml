@@ -582,14 +582,14 @@
                         Margin="44,10,16,5"
                         FontSize="14"
                         FontWeight="Normal"
-                        Text="{x:Bind string:WinSAT.TipsContent1}"
+                        Text="{x:Bind string:WinSAT.TipContent1}"
                         TextAlignment="Justify"
                         TextWrapping="Wrap" />
                     <TextBlock
                         Margin="44,0,16,10"
                         FontSize="14"
                         FontWeight="Normal"
-                        Text="{x:Bind string:WinSAT.TipsContent2}"
+                        Text="{x:Bind string:WinSAT.TipContent2}"
                         TextAlignment="Justify"
                         TextWrapping="Wrap" />
                 </StackPanel>

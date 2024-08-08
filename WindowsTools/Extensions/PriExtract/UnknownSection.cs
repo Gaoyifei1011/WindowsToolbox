@@ -4,7 +4,7 @@ using WindowsTools.Extensions.DataType.Methods;
 
 namespace WindowsTools.Extensions.PriExtract
 {
-    public class UnknownSection
+    public sealed class UnknownSection
     {
         public uint SectionQualifier { get; private set; }
 

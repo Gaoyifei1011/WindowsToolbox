@@ -186,10 +186,10 @@
   <data name="Tips" xml:space="preserve">
     <value>小提示</value>
   </data>
-  <data name="TipsContent1" xml:space="preserve">
+  <data name="TipContent1" xml:space="preserve">
     <value>1.运行评估可能会需要几分钟时间。评分过程中屏幕可能会闪烁。</value>
   </data>
-  <data name="TipsContent2" xml:space="preserve">
+  <data name="TipContent2" xml:space="preserve">
     <value>2.运行评估中会短暂占用设备大量资源，在这期间可能会造成设备卡顿，建议您不要在这段时间内进行操作。评估运行完成后，设备恢复正常。</value>
   </data>
   <data name="Title" xml:space="preserve">

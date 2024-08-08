@@ -6,7 +6,7 @@ using WindowsTools.Extensions.DataType.Methods;
 
 namespace WindowsTools.Extensions.PriExtract
 {
-    public class ReverseMapSection
+    public sealed class ReverseMapSection
     {
         public string SectionIdentifier { get; private set; }
 

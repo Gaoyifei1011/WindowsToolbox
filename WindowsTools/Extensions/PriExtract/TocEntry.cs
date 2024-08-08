@@ -1,6 +1,6 @@
 ﻿namespace WindowsTools.Extensions.PriExtract
 {
-    public class TocEntry
+    public sealed class TocEntry
     {
         public string SectionIdentifier { get; set; }
 

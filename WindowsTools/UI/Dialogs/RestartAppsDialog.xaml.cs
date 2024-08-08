@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml.Controls;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
@@ -11,8 +10,6 @@ namespace WindowsTools.UI.Dialogs
     /// </summary>
     public sealed partial class RestartAppsDialog : ContentDialog
     {
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-
         public RestartAppsDialog()
         {
             InitializeComponent();

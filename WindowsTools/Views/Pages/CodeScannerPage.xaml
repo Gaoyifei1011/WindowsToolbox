@@ -348,7 +348,7 @@
                                 Margin="44,10,16,5"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:CodeScanner.TipsContent1}"
+                                Text="{x:Bind string:CodeScanner.TipContent1}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                         </StackPanel>

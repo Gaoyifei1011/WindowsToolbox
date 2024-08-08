@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using WindowsTools.Extensions.PriExtract;
 
-namespace WindowsTools.Extensions.DataType.Enums
+namespace WindowsTools.Extensions.PriExtract
 {
-    public class Decision
+    public sealed class Decision
     {
         public ushort Index { get; set; }
 

@@ -7,7 +7,7 @@ using WindowsTools.Extensions.DataType.Methods;
 
 namespace WindowsTools.Extensions.PriExtract
 {
-    public class ResourceMapSection
+    public sealed class ResourceMapSection
     {
         public uint SectionQualifier { get; private set; }
 

@@ -2,7 +2,7 @@
 
 namespace WindowsTools.Extensions.PriExtract
 {
-    public class QualifierSet
+    public sealed class QualifierSet
     {
         public ushort Index { get; set; }
 

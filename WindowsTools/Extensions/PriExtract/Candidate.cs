@@ -3,7 +3,7 @@ using WindowsTools.Extensions.DataType.Enums;
 
 namespace WindowsTools.Extensions.PriExtract
 {
-    public class Candidate
+    public sealed class Candidate
     {
         public ushort QualifierSet { get; set; }
 

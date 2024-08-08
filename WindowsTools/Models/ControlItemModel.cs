@@ -3,7 +3,7 @@
     /// <summary>
     /// 主页面项目数据模型
     /// </summary>
-    public class ControlItemModel
+    public sealed class ControlItemModel
     {
         /// <summary>
         /// 主页面项目标题

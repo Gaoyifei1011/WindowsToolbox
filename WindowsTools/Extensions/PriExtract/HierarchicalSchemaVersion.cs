@@ -1,6 +1,6 @@
 ﻿namespace WindowsTools.Extensions.PriExtract
 {
-    public class HierarchicalSchemaVersion
+    public sealed class HierarchicalSchemaVersion
     {
         public ushort MajorVersion { get; set; }
 

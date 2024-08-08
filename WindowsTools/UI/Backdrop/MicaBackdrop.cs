@@ -17,7 +17,7 @@ namespace WindowsTools.UI.Backdrop
     /// <summary>
     /// Mica 背景色
     /// </summary>
-    public class MicaBackdrop : SystemBackdrop
+    public sealed class MicaBackdrop : SystemBackdrop
     {
         private const int PBT_POWERSETTINGCHANGE = 0x8013;
 

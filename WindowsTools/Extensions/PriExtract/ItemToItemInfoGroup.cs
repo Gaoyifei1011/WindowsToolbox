@@ -1,6 +1,6 @@
 ﻿namespace WindowsTools.Extensions.PriExtract
 {
-    public class ItemToItemInfoGroup
+    public sealed class ItemToItemInfoGroup
     {
         public uint FirstItem { get; set; }
 

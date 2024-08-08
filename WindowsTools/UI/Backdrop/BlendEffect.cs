@@ -7,7 +7,7 @@ using WindowsTools.WindowsAPI.ComTypes;
 namespace WindowsTools.UI.Backdrop
 {
     [Guid("81C5B77B-13F8-4CDD-AD20-C890547AC65D")]
-    public class BlendEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
+    public sealed class BlendEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
     {
         private Guid clsid = new("81C5B77B-13F8-4CDD-AD20-C890547AC65D");
 

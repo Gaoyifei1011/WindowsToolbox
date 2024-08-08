@@ -6,7 +6,7 @@ namespace WindowsTools.Models
     /// <summary>
     /// 文件图标数据模型
     /// </summary>
-    public class IconModel
+    public sealed class IconModel
     {
         /// <summary>
         /// 文件图标显示的索引

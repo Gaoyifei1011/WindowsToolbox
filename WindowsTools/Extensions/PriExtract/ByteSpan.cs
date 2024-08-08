@@ -1,6 +1,6 @@
 ﻿namespace WindowsTools.Extensions.PriExtract
 {
-    public class ByteSpan
+    public sealed class ByteSpan
     {
         public long Offset { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace WindowsTools.Extensions.PriExtract
 {
-    public class ResourceMapScopeAndItem
+    public sealed class ResourceMapScopeAndItem
     {
         public ushort Index { get; set; }
 

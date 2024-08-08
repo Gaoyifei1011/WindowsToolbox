@@ -7,7 +7,7 @@ using WindowsTools.WindowsAPI.ComTypes;
 namespace WindowsTools.UI.Backdrop
 {
     [Guid("2A2D49C0-4ACF-43C7-8C6A-7C4A27874D27")]
-    public class BorderEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
+    public sealed class BorderEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
     {
         private Guid clsid = new("2A2D49C0-4ACF-43C7-8C6A-7C4A27874D27");
 

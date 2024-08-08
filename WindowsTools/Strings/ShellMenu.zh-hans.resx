@@ -156,6 +156,9 @@
   <data name="EditMenu" xml:space="preserve">
     <value>编辑菜单</value>
   </data>
+  <data name="EditMenuTip" xml:space="preserve">
+    <value>菜单选项说明</value>
+  </data>
   <data name="EmptyDescription" xml:space="preserve">
     <value>菜单没有任何内容</value>
   </data>
@@ -299,6 +302,18 @@
   </data>
   <data name="ShouldUseProgramIconOnContent" xml:space="preserve">
     <value>是</value>
+  </data>
+  <data name="TipContent1" xml:space="preserve">
+    <value>1.菜单标题、程序文件路径为必填项</value>
+  </data>
+  <data name="TipContent2" xml:space="preserve">
+    <value>2.菜单参数使用以下规则匹配文件和文件夹匹配类型</value>
+  </data>
+  <data name="TipContent3" xml:space="preserve">
+    <value>① 单个文件匹配规则：{file} 和 {folder} 表示选中的第一个文件</value>
+  </data>
+  <data name="TipContent4" xml:space="preserve">
+    <value>② 多个文件匹配规则：{files-split:''} 和 {folders-split:''} 表示选中的所有文件，split:'' 中的单引号添加文件分割参数。例如 split:' ' 表示以 ' ' 分割选中的所有文件</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>自定义扩展菜单</value>

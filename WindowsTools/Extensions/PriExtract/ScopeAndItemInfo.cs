@@ -1,6 +1,6 @@
 ﻿namespace WindowsTools.Extensions.PriExtract
 {
-    public class ScopeAndItemInfo
+    public sealed class ScopeAndItemInfo
     {
         public ushort Parent { get; set; }
 

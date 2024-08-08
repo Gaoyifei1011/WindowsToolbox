@@ -18,7 +18,7 @@ namespace WindowsTools.UI.Backdrop
     /// <summary>
     /// Desktop Acrylic 背景色
     /// </summary>
-    public class DesktopAcrylicBackdrop : SystemBackdrop
+    public sealed class DesktopAcrylicBackdrop : SystemBackdrop
     {
         private const int PBT_POWERSETTINGCHANGE = 0x8013;
 

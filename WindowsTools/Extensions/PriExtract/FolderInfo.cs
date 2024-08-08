@@ -1,6 +1,6 @@
 ﻿namespace WindowsTools.Extensions.PriExtract
 {
-    public class FolderInfo
+    public sealed class FolderInfo
     {
         public ushort ParentFolder { get; set; }
 

@@ -159,10 +159,10 @@
   <data name="Tips" xml:space="preserve">
     <value>Tips</value>
   </data>
-  <data name="TipsContent1" xml:space="preserve">
+  <data name="TipContent1" xml:space="preserve">
     <value>1.After running the fish, you can press Esc to exit.</value>
   </data>
-  <data name="TipsContent2" xml:space="preserve">
+  <data name="TipContent2" xml:space="preserve">
     <value>2. When running fish, do not shield Ctrl + Alt + Del keys on the keyboard.</value>
   </data>
   <data name="Title" xml:space="preserve">

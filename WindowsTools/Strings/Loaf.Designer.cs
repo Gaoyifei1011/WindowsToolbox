@@ -189,18 +189,18 @@ namespace WindowsTools.Strings {
         /// <summary>
         ///   查找类似 1.After running the fish, you can press Esc to exit. 的本地化字符串。
         /// </summary>
-        public static string TipsContent1 {
+        public static string TipContent1 {
             get {
-                return ResourceManager.GetString("TipsContent1", resourceCulture);
+                return ResourceManager.GetString("TipContent1", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 2. When running fish, do not shield Ctrl + Alt + Del keys on the keyboard. 的本地化字符串。
         /// </summary>
-        public static string TipsContent2 {
+        public static string TipContent2 {
             get {
-                return ResourceManager.GetString("TipsContent2", resourceCulture);
+                return ResourceManager.GetString("TipContent2", resourceCulture);
             }
         }
         

@@ -7,7 +7,7 @@ namespace WindowsTools.Models
     /// <summary>
     /// 网络回环数据模型
     /// </summary>
-    public class LoopbackModel : INotifyPropertyChanged
+    public sealed class LoopbackModel : INotifyPropertyChanged
     {
         private Visibility _isVisible;
 

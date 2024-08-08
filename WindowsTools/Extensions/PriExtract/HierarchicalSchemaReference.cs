@@ -1,6 +1,6 @@
 ﻿namespace WindowsTools.Extensions.PriExtract
 {
-    public class HierarchicalSchemaReference
+    public sealed class HierarchicalSchemaReference
     {
         public HierarchicalSchemaVersion Version { get; set; }
 

@@ -5,7 +5,7 @@ using WindowsTools.Extensions.DataType.Enums;
 
 namespace WindowsTools.Models
 {
-    public class DownloadModel : INotifyPropertyChanged
+    public sealed class DownloadModel : INotifyPropertyChanged
     {
         private Visibility _isVisible;
 

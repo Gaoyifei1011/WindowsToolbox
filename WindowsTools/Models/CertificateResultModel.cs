@@ -5,7 +5,7 @@ namespace WindowsTools.Models
     /// <summary>
     /// 文件操作结果数据模型
     /// </summary>
-    public class CertificateResultModel : INotifyPropertyChanged
+    public sealed class CertificateResultModel : INotifyPropertyChanged
     {
         /// <summary>
         /// 文件名称

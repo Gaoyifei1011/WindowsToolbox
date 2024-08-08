@@ -308,14 +308,14 @@
                                 Margin="44,10,16,5"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:Loaf.TipsContent1}"
+                                Text="{x:Bind string:Loaf.TipContent1}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                             <TextBlock
                                 Margin="44,0,16,10"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:Loaf.TipsContent2}"
+                                Text="{x:Bind string:Loaf.TipContent2}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                         </StackPanel>

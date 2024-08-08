@@ -2,7 +2,7 @@
 
 namespace WindowsTools.Extensions.PriExtract
 {
-    public class ReferencedFileOrFolder
+    public sealed class ReferencedFileOrFolder
     {
         public string Name { get; set; }
 
