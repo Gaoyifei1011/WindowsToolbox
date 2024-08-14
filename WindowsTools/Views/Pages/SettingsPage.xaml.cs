@@ -483,6 +483,14 @@ namespace WindowsTools.Views.Pages
 
         #endregion 第一部分：设置页面——挂载的事件
 
+        /// <summary>
+        /// 获取 ToggleSwitch 的文字转向
+        /// </summary>
+        private global::Windows.UI.Xaml.FlowDirection GetToggleSwitchDirection(RightToLeft rightToLeft)
+        {
+            return rightToLeft is RightToLeft.Yes ? global::Windows.UI.Xaml.FlowDirection.LeftToRight : global::Windows.UI.Xaml.FlowDirection.RightToLeft;
+        }
+
         private string LocalizeDisplayNumber(DictionaryEntry selectedBackdrop)
         {
             int index = BackdropList.FindIndex(item => item.Value.Equals(selectedBackdrop.Value));

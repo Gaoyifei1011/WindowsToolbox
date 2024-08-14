@@ -97,15 +97,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Open this page and you can try to relax for a few moments 的本地化字符串。
-        /// </summary>
-        public static string Description {
-            get {
-                return ResourceManager.GetString("Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Duration time 的本地化字符串。
         /// </summary>
         public static string DurationTime {
@@ -178,15 +169,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Tips 的本地化字符串。
-        /// </summary>
-        public static string Tips {
-            get {
-                return ResourceManager.GetString("Tips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 1.After running the fish, you can press Esc to exit. 的本地化字符串。
         /// </summary>
         public static string TipContent1 {
@@ -201,6 +183,15 @@ namespace WindowsTools.Strings {
         public static string TipContent2 {
             get {
                 return ResourceManager.GetString("TipContent2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Tips 的本地化字符串。
+        /// </summary>
+        public static string Tips {
+            get {
+                return ResourceManager.GetString("Tips", resourceCulture);
             }
         }
         

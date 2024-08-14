@@ -385,15 +385,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Options 的本地化字符串。
-        /// </summary>
-        public static string Options {
-            get {
-                return ResourceManager.GetString("Options", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Release preview 的本地化字符串。
         /// </summary>
         public static string ReleasePreview {
@@ -498,15 +489,6 @@ namespace WindowsTools.Strings {
         public static string UnInstall {
             get {
                 return ResourceManager.GetString("UnInstall", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Unknown 的本地化字符串。
-        /// </summary>
-        public static string Unknown {
-            get {
-                return ResourceManager.GetString("Unknown", resourceCulture);
             }
         }
         

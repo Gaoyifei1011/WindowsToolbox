@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
+using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WINSATLib;
 
@@ -225,7 +226,7 @@ namespace WindowsTools.Views.Pages
                 {
                     progressDialog.SetTitle(WinSAT.WEI);
                     progressDialog.SetLine(2, WinSAT.WEITipContent, false, IntPtr.Zero);
-                    progressDialog.StartProgressDialog(IntPtr.Zero, null, PROGDLG.PROGDLG_NOMINIMIZE, IntPtr.Zero);
+                    progressDialog.StartProgressDialog(MainWindow.Current.Handle, null, PROGDLG.PROGDLG_MODAL | PROGDLG.PROGDLG_NOMINIMIZE, IntPtr.Zero);
                 }
             }
             catch (Exception e)
@@ -273,21 +274,24 @@ namespace WindowsTools.Views.Pages
                 {
                     try
                     {
-                        // 用户主动取消了操作
-                        if (progressDialog.HasUserCancelled())
+                        if (progressDialog is not null)
                         {
-                            progressDialog.StopProgressDialog();
-                            cInitiateWinSAT.CancelAssessment();
-                            cWinSATCallbacks.StatusCompleted -= OnStatusUpdated;
-                            cWinSATCallbacks.StatusUpdated -= OnStatusUpdated;
-                            cWinSATCallbacks = null;
-                            progressDialog = null;
-                            IsNotRunningAssessment = true;
-                            return;
-                        }
+                            // 用户主动取消了操作
+                            if (progressDialog.HasUserCancelled())
+                            {
+                                progressDialog.StopProgressDialog();
+                                cInitiateWinSAT.CancelAssessment();
+                                cWinSATCallbacks.StatusCompleted -= OnStatusUpdated;
+                                cWinSATCallbacks.StatusUpdated -= OnStatusUpdated;
+                                cWinSATCallbacks = null;
+                                progressDialog = null;
+                                IsNotRunningAssessment = true;
+                                return;
+                            }
 
-                        progressDialog.SetLine(1, cWinSATCallbacks.CurrentState, false, IntPtr.Zero);
-                        progressDialog.SetProgress(cWinSATCallbacks.CurrentTick, cWinSATCallbacks.TickTotal);
+                            progressDialog.SetLine(1, cWinSATCallbacks.CurrentState, false, IntPtr.Zero);
+                            progressDialog.SetProgress(cWinSATCallbacks.CurrentTick, cWinSATCallbacks.TickTotal);
+                        }
                     }
                     catch (Exception e)
                     {
@@ -311,13 +315,16 @@ namespace WindowsTools.Views.Pages
                 {
                     try
                     {
-                        progressDialog.StopProgressDialog();
-                        cWinSATCallbacks.StatusCompleted -= OnStatusUpdated;
-                        cWinSATCallbacks.StatusUpdated -= OnStatusUpdated;
-                        cWinSATCallbacks = null;
-                        progressDialog = null;
-                        GetWinSATInfo();
-                        IsNotRunningAssessment = true;
+                        if (progressDialog is not null)
+                        {
+                            progressDialog.StopProgressDialog();
+                            cWinSATCallbacks.StatusCompleted -= OnStatusUpdated;
+                            cWinSATCallbacks.StatusUpdated -= OnStatusUpdated;
+                            cWinSATCallbacks = null;
+                            progressDialog = null;
+                            GetWinSATInfo();
+                            IsNotRunningAssessment = true;
+                        }
                     }
                     catch (Exception e)
                     {

@@ -225,9 +225,6 @@
   <data name="OperationResult" xml:space="preserve">
     <value>Operation result</value>
   </data>
-  <data name="Options" xml:space="preserve">
-    <value>Options</value>
-  </data>
   <data name="ReleasePreview" xml:space="preserve">
     <value>Release preview</value>
   </data>
@@ -263,9 +260,6 @@
   </data>
   <data name="UnInstall" xml:space="preserve">
     <value>Uninstall</value>
-  </data>
-  <data name="Unknown" xml:space="preserve">
-    <value>Unknown</value>
   </data>
   <data name="UpdateConfiguration" xml:space="preserve">
     <value>Update configuration (run as administrator)</value>

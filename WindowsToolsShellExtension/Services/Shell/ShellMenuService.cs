@@ -58,10 +58,12 @@ namespace WindowsTools.Services.Shell
         /// </summary>
         private static unsafe void InitializeRootMenu()
         {
-            bool? useDefaultIcon = RegistryHelper.ReadRegistryValue<bool?>(string.Format(@"{0}\{1}", shellMenuKey, "RootMenu"), "UseDefaultIcon");
-            string iconPath = RegistryHelper.ReadRegistryValue<string>(string.Format(@"{0}\{1}", shellMenuKey, "RootMenu"), "IconPath");
-            bool? useDefaultText = RegistryHelper.ReadRegistryValue<bool?>(string.Format(@"{0}\{1}", shellMenuKey, "RootMenu"), "UseDefaultText");
-            string text = RegistryHelper.ReadRegistryValue<string>(string.Format(@"{0}\{1}", shellMenuKey, "RootMenu"), "Text");
+            string rootMenuKey = string.Format(@"{0}\{1}", shellMenuKey, "RootMenu");
+
+            bool? useDefaultIcon = RegistryHelper.ReadRegistryValue<bool?>(rootMenuKey, "UseDefaultIcon");
+            string iconPath = RegistryHelper.ReadRegistryValue<string>(rootMenuKey, "IconPath");
+            bool? useDefaultText = RegistryHelper.ReadRegistryValue<bool?>(rootMenuKey, "UseDefaultText");
+            string text = RegistryHelper.ReadRegistryValue<string>(rootMenuKey, "Text");
 
             if (useDefaultIcon.HasValue && useDefaultIcon.Value is false && File.Exists(iconPath))
             {

@@ -153,9 +153,6 @@
   <data name="ProcessId" xml:space="preserve">
     <value>进程 ID：</value>
   </data>
-  <data name="ProcessList" xml:space="preserve">
-    <value>使用 {0} 文件的进程列表</value>
-  </data>
   <data name="ProcessName" xml:space="preserve">
     <value>进程名称：</value>
   </data>

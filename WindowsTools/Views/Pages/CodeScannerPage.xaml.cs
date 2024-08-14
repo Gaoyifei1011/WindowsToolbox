@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls.Extensions;
 using WindowsTools.Helpers.Root;
+using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
@@ -392,12 +393,84 @@ namespace WindowsTools.Views.Pages
                 return;
             }
 
+            AutoResetEvent autoResetEvent = new(false);
+            Task.Run(() =>
+            {
+                // 条形码
+                if (SelectedGenerateType.Equals(GenerateTypeList[0]))
+                {
+                    Bitmap barCodeBitmap = GenerateBarCode(GenerateText, 300, 150);
+                    if (barCodeBitmap is not null)
+                    {
+                        MemoryStream memoryStream = new();
+                        barCodeBitmap.Save(memoryStream, ImageFormat.Png);
+                        memoryStream.Position = 0;
+                        autoResetEvent.Set();
+
+                        synchronizationContext.Post(_ =>
+                        {
+                            try
+                            {
+                                BitmapImage bitmapImage = new();
+                                bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
+                                GeneratedImage = bitmapImage;
+                                barCodeBitmap.Dispose();
+                                memoryStream.Dispose();
+                            }
+                            catch (Exception e)
+                            {
+                                TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateBarCodeFailed));
+                                LogService.WriteLog(EventLevel.Error, "Display generated bar code photo failed", e);
+                            }
+                        }, null);
+                    }
+                }
+                // 二维码
+                else if (SelectedGenerateType.Equals(GenerateTypeList[1]))
+                {
+                    Bitmap qrCodeBitmap = GenerateQRCode(GenerateText, 200, 200);
+
+                    if (qrCodeBitmap is not null)
+                    {
+                        MemoryStream memoryStream = new();
+                        qrCodeBitmap.Save(memoryStream, ImageFormat.Png);
+                        memoryStream.Position = 0;
+                        autoResetEvent.Set();
+
+                        synchronizationContext.Post(_ =>
+                        {
+                            try
+                            {
+                                BitmapImage bitmapImage = new();
+                                bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
+                                GeneratedImage = bitmapImage;
+                                qrCodeBitmap.Dispose();
+                                memoryStream.Dispose();
+                            }
+                            catch (Exception e)
+                            {
+                                TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateQRCodeFailed));
+                                LogService.WriteLog(EventLevel.Error, "Display generated qr code photo failed", e);
+                            }
+                        }, null);
+                    }
+                }
+            });
+
+            autoResetEvent.WaitOne();
+            autoResetEvent.Dispose();
+            autoResetEvent = null;
+
             // 未初始化打印预览对话框，初始化打印预览对话框
             if (printPreviewDialog is null)
             {
                 try
                 {
-                    printPreviewDialog = new PrintPreviewDialog();
+                    printPreviewDialog = new PrintPreviewDialog
+                    {
+                        RightToLeft = LanguageService.RightToLeft,
+                        RightToLeftLayout = LanguageService.RightToLeft is RightToLeft.Yes
+                    };
                     Type printPreviewDialogType = typeof(PrintPreviewDialog);
 
                     FieldInfo printToolStripButtonFieldInfo = printPreviewDialogType.GetField("printToolStripButton", bindingFlags);
@@ -730,6 +803,14 @@ namespace WindowsTools.Views.Pages
 
             barcodeWriter.Options = qrCodeEncodingOptions;
             return barcodeWriter.Write(content);
+        }
+
+        /// <summary>
+        /// 获取 ToggleSwitch 的文字转向
+        /// </summary>
+        private global::Windows.UI.Xaml.FlowDirection GetToggleSwitchDirection(RightToLeft rightToLeft)
+        {
+            return rightToLeft is RightToLeft.Yes ? global::Windows.UI.Xaml.FlowDirection.LeftToRight : global::Windows.UI.Xaml.FlowDirection.RightToLeft;
         }
 
         /// <summary>

@@ -138,9 +138,6 @@
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="DeleteDownloadingToolTip" xml:space="preserve">
-    <value>Deletes the currently downloaded record</value>
-  </data>
   <data name="DeleteDownloadToolTip" xml:space="preserve">
     <value>Delete all</value>
   </data>

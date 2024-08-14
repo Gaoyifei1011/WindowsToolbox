@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using WindowsTools.Extensions.DataType.Enums;
 
 namespace WindowsTools.Models
@@ -12,15 +12,81 @@ namespace WindowsTools.Models
     public sealed class ShellMenuItemModel : INotifyPropertyChanged
     {
         /// <summary>
-        /// 菜单 Guid 号
+        /// 菜单标题
         /// </summary>
-        public Guid MenuGuid { get; set; }
+        private string _menuTitleText;
+
+        public string MenuTitleText
+        {
+            get { return _menuTitleText; }
+
+            set
+            {
+                if (!Equals(_menuTitleText, value))
+                {
+                    _menuTitleText = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MenuTitleText)));
+                }
+            }
+        }
 
         /// <summary>
-        /// 菜单类型
+        /// 是否使用应用程序图标
         /// </summary>
-        public MenuType MenuType { get; set; }
+        private bool _shouldUseProgramIcon;
 
+        public bool ShouldUseProgramIcon
+        {
+            get { return _shouldUseProgramIcon; }
+
+            set
+            {
+                if (!Equals(_shouldUseProgramIcon, value))
+                {
+                    _shouldUseProgramIcon = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShouldUseProgramIcon)));
+                }
+            }
+        }
+
+        private bool _shouldEnableThemeIcon;
+
+        public bool ShouldEnableThemeIcon
+        {
+            get { return _shouldEnableThemeIcon; }
+
+            set
+            {
+                if (!Equals(_shouldEnableThemeIcon, value))
+                {
+                    _shouldEnableThemeIcon = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShouldEnableThemeIcon)));
+                }
+            }
+        }
+
+        /// <summary>
+        /// 菜单项图标
+        /// </summary>
+        private BitmapSource _menuIcon;
+
+        public BitmapSource MenuIcon
+        {
+            get { return _menuIcon; }
+
+            set
+            {
+                if (!Equals(_menuIcon, value))
+                {
+                    _menuIcon = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MenuIcon)));
+                }
+            }
+        }
+
+        /// <summary>
+        /// 是否选中当前菜单项
+        /// </summary>
         private bool _isSelected;
 
         public bool IsSelected
@@ -57,80 +123,74 @@ namespace WindowsTools.Models
         }
 
         /// <summary>
-        /// 菜单名称
+        /// 菜单键值
         /// </summary>
-        private string _title;
-
-        public string Title
-        {
-            get { return _title; }
-
-            set
-            {
-                if (!Equals(_title, value))
-                {
-                    _title = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
-                }
-            }
-        }
+        public string MenuKey { get; set; }
 
         /// <summary>
-        /// 菜单图标
+        /// 菜单项 GUID 值
         /// </summary>
-        private ImageSource _icon;
-
-        public ImageSource Icon
-        {
-            get { return _icon; }
-
-            set
-            {
-                if (!Equals(_icon, value))
-                {
-                    _icon = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Icon)));
-                }
-            }
-        }
+        public Guid MenuGuid { get; set; }
 
         /// <summary>
-        /// 图标路径
+        /// 菜单类型
         /// </summary>
-        private string _iconPath;
-
-        public string IconPath
-        {
-            get { return _iconPath; }
-
-            set
-            {
-                if (!Equals(_iconPath, value))
-                {
-                    _iconPath = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IconPath)));
-                }
-            }
-        }
+        public MenuType MenuType { get; set; }
 
         /// <summary>
-        /// 应用程序路径
+        /// 默认的菜单项图标
         /// </summary>
-        private string _programPath;
+        public string DefaultIconPath { get; set; }
 
-        public string ProgramPath
-        {
-            get { return _programPath; }
+        /// <summary>
+        /// 浅色主题下的菜单项图标
+        /// </summary>
+        public string LightThemeIconPath { get; set; }
 
-            set
-            {
-                if (!Equals(_programPath, value))
-                {
-                    _programPath = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ProgramPath)));
-                }
-            }
-        }
+        /// <summary>
+        /// 深色主题下的菜单项图标
+        /// </summary>
+        public string DarkThemeIconPath { get; set; }
+
+        /// <summary>
+        /// 菜单程序路径
+        /// </summary>
+        public string MenuProgramPathText { get; set; }
+
+        /// <summary>
+        /// 菜单参数
+        /// </summary>
+        public string MenuParameter { get; set; }
+
+        /// <summary>
+        /// 是否启用文件夹背景菜单项
+        /// </summary>
+        public bool FolderBackground { get; set; }
+
+        /// <summary>
+        /// 是否启用文件夹桌面菜单项
+        /// </summary>
+        public bool FolderDesktop { get; set; }
+
+        /// <summary>
+        /// 是否启用文件夹目录菜单项
+        /// </summary>
+        public bool FolderDirectory { get; set; }
+
+        /// <summary>
+        /// 是否启用文件夹驱动器菜单项
+        /// </summary>
+        public bool FolderDrive { get; set; }
+
+        /// <summary>
+        /// 菜单项文件匹配规则
+        /// </summary>
+        public string MenuFileMatchRule { get; set; }
+
+        /// <summary>
+        /// 菜单项文件匹配格式
+        /// </summary>
+        public string MenuFileMatchFormatText { get; set; }
 
         /// <summary>
         /// 子菜单

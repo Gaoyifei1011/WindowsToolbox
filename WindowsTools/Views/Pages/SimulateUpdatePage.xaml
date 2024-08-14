@@ -6,8 +6,10 @@
     xmlns:enum="using:WindowsTools.Extensions.DataType.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:service="using:WindowsTools.Services.Controls.Settings"
     xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
+    FlowDirection="{x:Bind GetControlDirection(service:LanguageService.RightToLeft)}"
     mc:Ignorable="d">
 
     <Grid>

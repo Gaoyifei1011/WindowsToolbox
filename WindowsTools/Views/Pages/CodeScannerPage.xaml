@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:service="using:WindowsTools.Services.Controls.Settings"
     xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
     AllowDrop="True"
@@ -219,7 +220,7 @@
                                 <ToggleSwitch
                                     Grid.Column="1"
                                     MinHeight="0"
-                                    FlowDirection="RightToLeft"
+                                    FlowDirection="{x:Bind GetToggleSwitchDirection(service:LanguageService.RightToLeft)}"
                                     IsEnabled="{x:Bind SelectedGenerateType.Value.Equals(GenerateTypeList[1].Value), Mode=OneWay}"
                                     IsOn="{x:Bind IsSquare, Mode=OneWay}"
                                     OffContent="{x:Bind string:CodeScanner.IsPhotoSquareOffContent}"
@@ -302,7 +303,7 @@
                                 <ToggleSwitch
                                     Grid.Column="1"
                                     MinHeight="0"
-                                    FlowDirection="RightToLeft"
+                                    FlowDirection="{x:Bind GetToggleSwitchDirection(service:LanguageService.RightToLeft)}"
                                     IsEnabled="{x:Bind SelectedGenerateType.Value.Equals(GenerateTypeList[0].Value), Mode=OneWay}"
                                     IsOn="{x:Bind IsReserveBarCodeText, Mode=OneWay}"
                                     OffContent="{x:Bind string:CodeScanner.ReserveBarCodeTextOffContent}"

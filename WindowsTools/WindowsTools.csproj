@@ -313,9 +313,10 @@
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" />
     
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" GeneratePathProperty="true" />
-    <PackageReference Include="Mile.Xaml" Version="2.2.1017" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240802000" GeneratePathProperty="true" />
+    <PackageReference Include="Mile.Xaml" Version="2.3.1064" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+    <PackageReference Include="System.Private.Uri" Version="4.3.2" />
     <PackageReference Include="ZXing.Net" Version="0.16.9" />
 
     <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />

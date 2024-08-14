@@ -79,15 +79,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Apply 的本地化字符串。
-        /// </summary>
-        public static string Apply {
-            get {
-                return ResourceManager.GetString("Apply", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Background 的本地化字符串。
         /// </summary>
         public static string Background {
@@ -129,15 +120,6 @@ namespace WindowsTools.Strings {
         public static string DefaultIcon {
             get {
                 return ResourceManager.GetString("DefaultIcon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Windows tools 的本地化字符串。
-        /// </summary>
-        public static string DefaultRootText {
-            get {
-                return ResourceManager.GetString("DefaultRootText", resourceCulture);
             }
         }
         
@@ -282,15 +264,6 @@ namespace WindowsTools.Strings {
         public static string MenuIcon {
             get {
                 return ResourceManager.GetString("MenuIcon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Menu icon path: 的本地化字符串。
-        /// </summary>
-        public static string MenuIconToolTip {
-            get {
-                return ResourceManager.GetString("MenuIconToolTip", resourceCulture);
             }
         }
         
@@ -484,42 +457,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Return default 的本地化字符串。
-        /// </summary>
-        public static string ReturnDefault {
-            get {
-                return ResourceManager.GetString("ReturnDefault", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Root menu icon 的本地化字符串。
-        /// </summary>
-        public static string RootMenuIcon {
-            get {
-                return ResourceManager.GetString("RootMenuIcon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Root menu name 的本地化字符串。
-        /// </summary>
-        public static string RootMenuName {
-            get {
-                return ResourceManager.GetString("RootMenuName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Root menu settings 的本地化字符串。
-        /// </summary>
-        public static string RootMenuSettings {
-            get {
-                return ResourceManager.GetString("RootMenuSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Save 的本地化字符串。
         /// </summary>
         public static string Save {
@@ -570,15 +507,6 @@ namespace WindowsTools.Strings {
         public static string ShouldEnableThemeIconOnContent {
             get {
                 return ResourceManager.GetString("ShouldEnableThemeIconOnContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 When turned on, you can set menu icon individually for light and dark themes 的本地化字符串。
-        /// </summary>
-        public static string ShouldEnableThemeIconToolTip {
-            get {
-                return ResourceManager.GetString("ShouldEnableThemeIconToolTip", resourceCulture);
             }
         }
         

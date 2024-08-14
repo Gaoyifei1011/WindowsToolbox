@@ -248,7 +248,7 @@
                             Padding="15,0,0,0"
                             FontSize="16"
                             FontWeight="Medium"
-                            Text="{x:Bind string:About.ReferenceTitle}" />
+                            Text="{x:Bind string:About.Reference}" />
                     </muxc:Expander.Header>
 
                     <muxc:Expander.Content>
@@ -428,7 +428,7 @@
                             Padding="15,0,0,0"
                             FontSize="16"
                             FontWeight="Medium"
-                            Text="{x:Bind string:About.ThanksTitle}" />
+                            Text="{x:Bind string:About.Thanks}" />
                     </muxc:Expander.Header>
 
                     <muxc:Expander.Content>

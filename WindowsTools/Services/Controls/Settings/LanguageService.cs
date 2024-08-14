@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using Windows.Globalization;
+using System.Windows.Forms;
 using WindowsTools.Extensions.DataType.Constant;
 using WindowsTools.Services.Root;
 
@@ -20,6 +20,8 @@ namespace WindowsTools.Services.Controls.Settings
         private static DictionaryEntry defaultAppLanguage;
 
         public static DictionaryEntry AppLanguage { get; private set; }
+
+        public static RightToLeft RightToLeft { get; private set; }
 
         private static readonly List<string> AppLanguagesList = [];
 
@@ -56,15 +58,18 @@ namespace WindowsTools.Services.Controls.Settings
         /// <summary>
         /// 当设置中的键值为空时，判断当前系统语言是否存在于语言列表中
         /// </summary>
-        private static bool IsExistsInLanguageList(string currentSystemLanguage)
+        private static bool IsExistsInLanguageList(CultureInfo currentCulture, out DictionaryEntry language)
         {
             foreach (DictionaryEntry languageItem in LanguageList)
             {
-                if (languageItem.Value.ToString().Equals(currentSystemLanguage, StringComparison.OrdinalIgnoreCase))
+                if (languageItem.Value.ToString().Equals(currentCulture.Name, StringComparison.OrdinalIgnoreCase))
                 {
+                    language = languageItem;
                     return true;
                 }
             }
+
+            language = new();
             return false;
         }
 
@@ -87,31 +92,49 @@ namespace WindowsTools.Services.Controls.Settings
         {
             string language = LocalSettingsService.ReadSetting<string>(settingsKey);
 
-            // 当前系统的语言值
-            string currentSystemLanguage = CultureInfo.CurrentCulture.Parent.Parent.Name;
+            // 当前系统语言和当前系统语言的父区域性的语言
+            CultureInfo currentCultureInfo = CultureInfo.CurrentCulture.Parent.Parent;
+            CultureInfo currentParentCultureInfo = CultureInfo.CurrentCulture.Parent.Parent.Parent;
+            bool existResult = false;
 
             if (string.IsNullOrEmpty(language))
             {
                 // 判断当前系统语言是否存在应用默认添加的语言列表中
-                bool result = IsExistsInLanguageList(currentSystemLanguage);
+                existResult = IsExistsInLanguageList(currentCultureInfo, out DictionaryEntry currentLanguage);
 
                 // 如果存在，设置存储值和应用初次设置的语言为当前系统的语言
-                if (result)
+                if (existResult)
                 {
-                    DictionaryEntry currentLanguage = LanguageList.Find(item => item.Value.ToString().Equals(currentSystemLanguage, StringComparison.OrdinalIgnoreCase));
                     SetLanguage(currentLanguage);
+                    RightToLeft = currentCultureInfo.TextInfo.IsRightToLeft ? RightToLeft.Yes : RightToLeft.No;
                     return currentLanguage;
                 }
-
-                // 不存在，设置存储值和应用初次设置的语言为默认语言：English(United States)
                 else
                 {
-                    SetLanguage(defaultAppLanguage);
-                    return LanguageList.Find(item => item.Value.ToString().Equals(defaultAppLanguage.Value.ToString(), StringComparison.OrdinalIgnoreCase));
+                    existResult = IsExistsInLanguageList(currentParentCultureInfo, out DictionaryEntry currentParentLanguage);
+
+                    // 如果存在，设置存储值和应用初次设置的语言为当前系统语言的父区域性的语言
+                    if (existResult)
+                    {
+                        SetLanguage(currentParentLanguage);
+                        RightToLeft = currentParentCultureInfo.TextInfo.IsRightToLeft ? RightToLeft.Yes : RightToLeft.No;
+                        return currentParentLanguage;
+                    }
+
+                    // 不存在，设置存储值和应用初次设置的语言为默认语言：English(United States)
+                    else
+                    {
+                        SetLanguage(defaultAppLanguage);
+                        CultureInfo defaultCultureInfo = CultureInfo.GetCultureInfo(defaultAppLanguage.Value.ToString());
+                        RightToLeft = defaultCultureInfo.TextInfo.IsRightToLeft ? RightToLeft.Yes : RightToLeft.No;
+                        return defaultAppLanguage;
+                    }
                 }
             }
 
-            return LanguageList.Find(item => item.Value.ToString().Equals(language, StringComparison.OrdinalIgnoreCase));
+            CultureInfo savedCultureInfo = CultureInfo.GetCultureInfo(language.ToString());
+            RightToLeft = savedCultureInfo.TextInfo.IsRightToLeft ? RightToLeft.Yes : RightToLeft.No;
+            return LanguageList.Find(item => language.Equals(item.Value.ToString(), StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
@@ -120,10 +143,7 @@ namespace WindowsTools.Services.Controls.Settings
         public static void SetLanguage(DictionaryEntry language)
         {
             AppLanguage = language;
-
             LocalSettingsService.SaveSetting(settingsKey, language.Value);
-
-            ApplicationLanguages.PrimaryLanguageOverride = language.Value.ToString();
         }
     }
 }

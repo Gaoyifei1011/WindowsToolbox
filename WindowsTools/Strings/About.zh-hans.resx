@@ -201,12 +201,6 @@
   <data name="ProjectHomePage" xml:space="preserve">
     <value>项目主页</value>
   </data>
-  <data name="QuickOperation" xml:space="preserve">
-    <value>快捷操作</value>
-  </data>
-  <data name="Reference" xml:space="preserve">
-    <value>项目引用</value>
-  </data>
   <data name="ReferenceTitle" xml:space="preserve">
     <value>项目引用（按英文首字母排序）</value>
   </data>
@@ -248,8 +242,5 @@
   </data>
   <data name="TroubleShoot" xml:space="preserve">
     <value>疑难解答</value>
-  </data>
-  <data name="UpdateAndLicensing" xml:space="preserve">
-    <value>更新和许可</value>
   </data>
 </root>

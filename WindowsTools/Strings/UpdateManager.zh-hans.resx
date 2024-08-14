@@ -225,9 +225,6 @@
   <data name="OperationResult" xml:space="preserve">
     <value>操作结果</value>
   </data>
-  <data name="Options" xml:space="preserve">
-    <value>选项</value>
-  </data>
   <data name="ReleasePreview" xml:space="preserve">
     <value>发布预览</value>
   </data>
@@ -263,9 +260,6 @@
   </data>
   <data name="UnInstall" xml:space="preserve">
     <value>卸载</value>
-  </data>
-  <data name="Unknown" xml:space="preserve">
-    <value>未知</value>
   </data>
   <data name="UpdateConfiguration" xml:space="preserve">
     <value>更新配置（管理员身份运行）</value>

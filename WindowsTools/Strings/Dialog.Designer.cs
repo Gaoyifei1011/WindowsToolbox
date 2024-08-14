@@ -142,15 +142,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Download 的本地化字符串。
-        /// </summary>
-        public static string Download {
-            get {
-                return ResourceManager.GetString("Download", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Error code 的本地化字符串。
         /// </summary>
         public static string ErrorCode {

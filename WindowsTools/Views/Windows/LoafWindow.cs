@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Root;
+using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Views.Pages;
 using WindowsTools.WindowsAPI.PInvoke.User32;
@@ -36,6 +37,8 @@ namespace WindowsTools.Views.Windows
             Current = this;
             Controls.Add(windowsXamlHost);
             FormBorderStyle = FormBorderStyle.None;
+            RightToLeft = LanguageService.RightToLeft;
+            RightToLeftLayout = LanguageService.RightToLeft is RightToLeft.Yes;
             WindowState = FormWindowState.Maximized;
             ShowInTaskbar = false;
             TopMost = true;
@@ -45,7 +48,6 @@ namespace WindowsTools.Views.Windows
             _lockScreenAutomaticly = lockScreenAutomaticly;
             Cursor.Hide();
             windowsXamlHost.Child = new SimulateUpdatePage(updatingKind, duration);
-            // 阻止系统睡眠，阻止屏幕关闭。
             SystemSleepHelper.PreventForCurrentThread();
             StartHook();
         }

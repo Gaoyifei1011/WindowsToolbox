@@ -129,9 +129,6 @@
   <data name="ConfigOptions" xml:space="preserve">
     <value>Configuration options</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Open this page and you can try to relax for a few moments</value>
-  </data>
   <data name="DurationTime" xml:space="preserve">
     <value>Duration time</value>
   </data>

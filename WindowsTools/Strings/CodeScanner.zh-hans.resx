@@ -171,9 +171,6 @@
   <data name="PhotoHeight" xml:space="preserve">
     <value>图片高度</value>
   </data>
-  <data name="PhotoSize" xml:space="preserve">
-    <value>生成的图片尺寸</value>
-  </data>
   <data name="PhotoWidth" xml:space="preserve">
     <value>图片宽度</value>
   </data>

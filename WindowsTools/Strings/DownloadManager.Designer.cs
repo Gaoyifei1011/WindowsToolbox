@@ -124,15 +124,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Deletes the currently downloaded record 的本地化字符串。
-        /// </summary>
-        public static string DeleteDownloadingToolTip {
-            get {
-                return ResourceManager.GetString("DeleteDownloadingToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Delete all 的本地化字符串。
         /// </summary>
         public static string DeleteDownloadToolTip {

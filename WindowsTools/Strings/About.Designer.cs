@@ -313,29 +313,11 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Quick operation 的本地化字符串。
-        /// </summary>
-        public static string QuickOperation {
-            get {
-                return ResourceManager.GetString("QuickOperation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Project references 的本地化字符串。
+        ///   查找类似 Project references (Sort by alphabetical order) 的本地化字符串。
         /// </summary>
         public static string Reference {
             get {
                 return ResourceManager.GetString("Reference", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Project references (Sort by alphabetical order) 的本地化字符串。
-        /// </summary>
-        public static string ReferenceTitle {
-            get {
-                return ResourceManager.GetString("ReferenceTitle", resourceCulture);
             }
         }
         
@@ -453,15 +435,6 @@ namespace WindowsTools.Strings {
         public static string TroubleShoot {
             get {
                 return ResourceManager.GetString("TroubleShoot", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Update and licensing 的本地化字符串。
-        /// </summary>
-        public static string UpdateAndLicensing {
-            get {
-                return ResourceManager.GetString("UpdateAndLicensing", resourceCulture);
             }
         }
     }

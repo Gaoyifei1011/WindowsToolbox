@@ -106,15 +106,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 The representative symbol can be placed anywhere, and the content can be customized before and after 的本地化字符串。
-        /// </summary>
-        public static string ChangeRuleDescription {
-            get {
-                return ResourceManager.GetString("ChangeRuleDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Clear list 的本地化字符串。
         /// </summary>
         public static string ClearList {

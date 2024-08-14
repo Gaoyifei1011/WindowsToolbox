@@ -171,9 +171,6 @@
   <data name="PhotoHeight" xml:space="preserve">
     <value>Photo height</value>
   </data>
-  <data name="PhotoSize" xml:space="preserve">
-    <value>The size of the generated picture</value>
-  </data>
   <data name="PhotoWidth" xml:space="preserve">
     <value>Photo width</value>
   </data>

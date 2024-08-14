@@ -1,5 +1,4 @@
-﻿using Microsoft.UI.Input;
-using Microsoft.UI.Windowing;
+﻿using Microsoft.UI.Windowing;
 using Mile.Xaml;
 using System;
 using System.Collections.Generic;
@@ -37,7 +36,6 @@ namespace WindowsTools.Views.Windows
         private readonly IntPtr inputNonClientPointerSourceHandle;
         private readonly IContainer components = new Container();
         private readonly WindowsXamlHost windowsXamlHost = new();
-        private readonly Microsoft.UI.Composition.SystemBackdrops.SystemBackdropConfiguration systemBackdropConfiguration = new();
         private readonly SUBCLASSPROC inputNonClientPointerSourceSubClassProc;
 
         private DesktopWindowTarget desktopWindowTarget;
@@ -63,6 +61,8 @@ namespace WindowsTools.Views.Windows
             windowsXamlHost.AutoSize = true;
             windowsXamlHost.Dock = DockStyle.Fill;
             windowsXamlHost.Child = Content;
+            RightToLeft = LanguageService.RightToLeft;
+            RightToLeftLayout = LanguageService.RightToLeft is RightToLeft.Yes;
 
             if (RuntimeHelper.IsElevated)
             {
@@ -78,9 +78,10 @@ namespace WindowsTools.Views.Windows
 
             AppWindow = AppWindow.GetFromWindowId(new Microsoft.UI.WindowId() { Value = (ulong)Handle });
             AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+
             SetTitleBarColor((Content as FrameworkElement).ActualTheme);
 
-            inputNonClientPointerSourceHandle = User32Library.FindWindowEx(Handle, IntPtr.Zero, typeof(InputNonClientPointerSource).Name, null);
+            inputNonClientPointerSourceHandle = User32Library.FindWindowEx(Handle, IntPtr.Zero, "InputNonClientPointerSource", null);
 
             if (inputNonClientPointerSourceHandle != IntPtr.Zero)
             {
@@ -106,30 +107,6 @@ namespace WindowsTools.Views.Windows
         }
 
         #region 第一部分：窗口类内置需要重载的事件
-
-        /// <summary>
-        /// 当使用代码激活或用户激活窗体时发生的事件。
-        /// </summary>
-        protected override void OnActivated(EventArgs args)
-        {
-            base.OnActivated(args);
-            if (systemBackdropConfiguration is not null)
-            {
-                systemBackdropConfiguration.IsInputActive = true;
-            }
-        }
-
-        /// <summary>
-        /// 当窗体失去焦点并不再是活动窗体时发生的事件。
-        /// </summary>
-        protected override void OnDeactivate(EventArgs args)
-        {
-            base.OnDeactivate(args);
-            if (systemBackdropConfiguration is not null)
-            {
-                systemBackdropConfiguration.IsInputActive = AlwaysShowBackdropService.AlwaysShowBackdropValue;
-            }
-        }
 
         /// <summary>
         /// 处置由主窗体占用的资源
@@ -495,15 +472,35 @@ namespace WindowsTools.Views.Windows
                         if (wParam.ToUInt32() is 2 && Content is not null && Content.XamlRoot is not null)
                         {
                             System.Drawing.Point clientPoint = PointToClient(MousePosition);
-
                             FlyoutShowOptions options = new()
                             {
                                 Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft,
                                 ShowMode = FlyoutShowMode.Standard,
-                                Position = InfoHelper.SystemVersion.Build >= 22000 ?
-                                new global::Windows.Foundation.Point(clientPoint.X / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96)) :
-                                new global::Windows.Foundation.Point(clientPoint.X, clientPoint.Y)
                             };
+
+                            if (RightToLeft is RightToLeft.Yes)
+                            {
+                                if (InfoHelper.SystemVersion.Build >= 22000)
+                                {
+                                    options.Position = new global::Windows.Foundation.Point((ClientSize.Width - clientPoint.X) / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96));
+                                }
+                                else
+                                {
+                                    options.Position = new global::Windows.Foundation.Point(ClientSize.Width - clientPoint.X, clientPoint.Y);
+                                }
+                            }
+                            else
+                            {
+                                if (InfoHelper.SystemVersion.Build >= 22000)
+                                {
+                                    options.Position = new global::Windows.Foundation.Point(clientPoint.X / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96));
+                                }
+                                else
+                                {
+                                    options.Position = new global::Windows.Foundation.Point(clientPoint.X, clientPoint.Y);
+                                }
+                            }
+
                             (Content as MainPage).TitlebarMenuFlyout.ShowAt(null, options);
                         }
 
@@ -559,38 +556,6 @@ namespace WindowsTools.Views.Windows
         public void SetWindowTheme()
         {
             (Content as MainPage).WindowTheme = (ElementTheme)Enum.Parse(typeof(ElementTheme), ThemeService.AppTheme.Value.ToString());
-
-            if (ThemeService.AppTheme.Value.Equals(ThemeService.ThemeList[0].Value))
-            {
-                if (global::Windows.UI.Xaml.Application.Current.RequestedTheme is ApplicationTheme.Light)
-                {
-                    if (systemBackdropConfiguration is not null)
-                    {
-                        systemBackdropConfiguration.Theme = Microsoft.UI.Composition.SystemBackdrops.SystemBackdropTheme.Light;
-                    }
-                }
-                else
-                {
-                    if (systemBackdropConfiguration is not null)
-                    {
-                        systemBackdropConfiguration.Theme = Microsoft.UI.Composition.SystemBackdrops.SystemBackdropTheme.Dark;
-                    }
-                }
-            }
-            else if (ThemeService.AppTheme.Value.Equals(ThemeService.ThemeList[1].Value))
-            {
-                if (systemBackdropConfiguration is not null)
-                {
-                    systemBackdropConfiguration.Theme = Microsoft.UI.Composition.SystemBackdrops.SystemBackdropTheme.Light;
-                }
-            }
-            else if (ThemeService.AppTheme.Value.Equals(ThemeService.ThemeList[2].Value))
-            {
-                if (systemBackdropConfiguration is not null)
-                {
-                    systemBackdropConfiguration.Theme = Microsoft.UI.Composition.SystemBackdrops.SystemBackdropTheme.Dark;
-                }
-            }
         }
 
         /// <summary>

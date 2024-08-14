@@ -132,9 +132,6 @@
   <data name="ChangeRule" xml:space="preserve">
     <value>改名规则：{0}</value>
   </data>
-  <data name="ChangeRuleDescription" xml:space="preserve">
-    <value>代表符号可以放在任意位置，前后可以自定义内容</value>
-  </data>
   <data name="ClearList" xml:space="preserve">
     <value>清空列表</value>
   </data>

@@ -223,15 +223,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 The size of the generated picture 的本地化字符串。
-        /// </summary>
-        public static string PhotoSize {
-            get {
-                return ResourceManager.GetString("PhotoSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Photo width 的本地化字符串。
         /// </summary>
         public static string PhotoWidth {
@@ -322,20 +313,20 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Tips 的本地化字符串。
-        /// </summary>
-        public static string Tips {
-            get {
-                return ResourceManager.GetString("Tips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 1. The content of the generated bar code can only be composed of numbers or letters 的本地化字符串。
         /// </summary>
         public static string TipContent1 {
             get {
                 return ResourceManager.GetString("TipContent1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Tips 的本地化字符串。
+        /// </summary>
+        public static string Tips {
+            get {
+                return ResourceManager.GetString("Tips", resourceCulture);
             }
         }
         

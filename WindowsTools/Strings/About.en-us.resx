@@ -201,12 +201,6 @@
   <data name="ProjectHomePage" xml:space="preserve">
     <value>Project home page</value>
   </data>
-  <data name="QuickOperation" xml:space="preserve">
-    <value>Quick operation</value>
-  </data>
-  <data name="Reference" xml:space="preserve">
-    <value>Project references</value>
-  </data>
   <data name="ReferenceTitle" xml:space="preserve">
     <value>Project references (Sort by alphabetical order)</value>
   </data>
@@ -248,8 +242,5 @@
   </data>
   <data name="TroubleShoot" xml:space="preserve">
     <value>Trouble shoot</value>
-  </data>
-  <data name="UpdateAndLicensing" xml:space="preserve">
-    <value>Update and licensing</value>
   </data>
 </root>

@@ -675,6 +675,14 @@ namespace WindowsTools.Views.Pages
             }
         }
 
+        /// <summary>
+        /// 获取控件的文字转向
+        /// </summary>
+        private global::Windows.UI.Xaml.FlowDirection GetControlDirection(RightToLeft rightToLeft)
+        {
+            return rightToLeft is RightToLeft.Yes ? global::Windows.UI.Xaml.FlowDirection.RightToLeft : global::Windows.UI.Xaml.FlowDirection.LeftToRight;
+        }
+
         private bool GetWindowMaximizeState(bool isWindowMaximized, bool isWindowMaximizeEnabled, string isReverse)
         {
             return isWindowMaximizeEnabled && (isReverse == nameof(isReverse) ? isWindowMaximized.Equals(false) : isWindowMaximized);

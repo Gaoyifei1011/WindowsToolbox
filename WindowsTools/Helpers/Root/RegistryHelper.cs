@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Diagnostics.Tracing;
+using System.IO;
+using WindowsTools.Extensions.Registry;
 using WindowsTools.Services.Root;
 
 namespace WindowsTools.Helpers.Root
@@ -135,6 +137,43 @@ namespace WindowsTools.Helpers.Root
             {
                 LogService.WriteLog(EventLevel.Error, string.Format("Save Registry rootkey {0} and key {1} value failed", rootkey, key), e);
             }
+        }
+
+        /// <summary>
+        /// 枚举并递归当前注册表项的所有子项
+        /// </summary>
+        public static RegistryEnumKeyItem EnumSubKey(string rootKey)
+        {
+            RegistryEnumKeyItem registryEnumKeyItem = new();
+
+            try
+            {
+                RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(rootKey);
+
+                if (registryKey is not null)
+                {
+                    // 添加当前项信息
+                    registryEnumKeyItem.RootKey = rootKey;
+
+                    // 获取当前项的所有子项列表
+                    string[] subKeyArray = registryKey.GetSubKeyNames();
+
+                    // 递归遍历所有子项列表
+                    foreach (string subKey in subKeyArray)
+                    {
+                        registryEnumKeyItem.SubRegistryKeyList.Add(EnumSubKey(Path.Combine(rootKey, subKey)));
+                    }
+
+                    registryKey.Close();
+                    registryKey.Dispose();
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, string.Format("Enumerate Registry rootkey {0} failed", rootKey), e);
+            }
+
+            return registryEnumKeyItem;
         }
     }
 }

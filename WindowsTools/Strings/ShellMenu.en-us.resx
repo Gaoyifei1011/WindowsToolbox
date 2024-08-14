@@ -123,9 +123,6 @@
   <data name="All" xml:space="preserve">
     <value>All</value>
   </data>
-  <data name="Apply" xml:space="preserve">
-    <value>Apply</value>
-  </data>
   <data name="Background" xml:space="preserve">
     <value>Background</value>
   </data>
@@ -140,9 +137,6 @@
   </data>
   <data name="DefaultIcon" xml:space="preserve">
     <value>Default icon</value>
-  </data>
-  <data name="DefaultRootText" xml:space="preserve">
-    <value>Windows tools</value>
   </data>
   <data name="Desktop" xml:space="preserve">
     <value>Desktop</value>
@@ -191,9 +185,6 @@
   </data>
   <data name="MenuIcon" xml:space="preserve">
     <value>Menu icon</value>
-  </data>
-  <data name="MenuIconToolTip" xml:space="preserve">
-    <value>Menu icon path:</value>
   </data>
   <data name="MenuList" xml:space="preserve">
     <value>Menu list</value>
@@ -258,18 +249,6 @@
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
   </data>
-  <data name="ReturnDefault" xml:space="preserve">
-    <value>Return default</value>
-  </data>
-  <data name="RootMenuIcon" xml:space="preserve">
-    <value>Root menu icon</value>
-  </data>
-  <data name="RootMenuName" xml:space="preserve">
-    <value>Root menu name</value>
-  </data>
-  <data name="RootMenuSettings" xml:space="preserve">
-    <value>Root menu settings</value>
-  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
@@ -287,9 +266,6 @@
   </data>
   <data name="ShouldEnableThemeIconOnContent" xml:space="preserve">
     <value>Yes</value>
-  </data>
-  <data name="ShouldEnableThemeIconToolTip" xml:space="preserve">
-    <value>When turned on, you can set menu icon individually for light and dark themes</value>
   </data>
   <data name="ShouldUseProgramIcon" xml:space="preserve">
     <value>Should use program icon</value>

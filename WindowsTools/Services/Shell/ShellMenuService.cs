@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Diagnostics.Tracing;
 using System.IO;
+using WindowsTools.Extensions.Registry;
+using WindowsTools.Extensions.ShellMenu;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
 namespace WindowsTools.Services.Shell
@@ -15,11 +16,8 @@ namespace WindowsTools.Services.Shell
     {
         private static readonly string shellMenuKey = @"Software\WindowsTools\ShellMenu";
         private static Guid FOLDERID_LocalAppData = new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091");
+
         public static DirectoryInfo ShellMenuConfigDirectory { get; private set; }
-
-        public static string RootMenuIconPath { get; private set; }
-
-        public static string RootMenuText { get; private set; }
 
         /// <summary>
         /// 初始化自定义扩展菜单配置
@@ -27,7 +25,6 @@ namespace WindowsTools.Services.Shell
         public static void InitializeShellMenu()
         {
             InitializeConfigDirectory();
-            InitializeRootMenu();
         }
 
         /// <summary>
@@ -55,70 +52,126 @@ namespace WindowsTools.Services.Shell
         }
 
         /// <summary>
-        /// 初始化根菜单内容
+        /// 获取菜单项
         /// </summary>
-        private static void InitializeRootMenu()
+        public static ShellMenuItem GetShellMenuItem()
         {
-            bool? useDefaultIcon = RegistryHelper.ReadRegistryValue<bool?>(string.Format(@"{0}\{1}", shellMenuKey, "RootMenu"), "UseDefaultIcon");
-            string iconPath = RegistryHelper.ReadRegistryValue<string>(string.Format(@"{0}\{1}", shellMenuKey, "RootMenu"), "IconPath");
-            bool? useDefaultText = RegistryHelper.ReadRegistryValue<bool?>(string.Format(@"{0}\{1}", shellMenuKey, "RootMenu"), "UseDefaultText");
-            string text = RegistryHelper.ReadRegistryValue<string>(string.Format(@"{0}\{1}", shellMenuKey, "RootMenu"), "Text");
+            // 获取 ShellMenu 项下的所有子项（包括递归后的项）
+            RegistryEnumKeyItem shellMenuRegistryKeyItem = RegistryHelper.EnumSubKey(shellMenuKey);
 
-            if (useDefaultIcon.HasValue && useDefaultIcon.Value is false)
-            {
-                RootMenuIconPath = iconPath;
-            }
-            else
-            {
-                SetRootMenuIcon(true, string.Empty);
-                RootMenuIconPath = Path.Combine(AppContext.BaseDirectory, @"Assets\WindowsTools.ico");
-            }
-
-            if (useDefaultText.HasValue && useDefaultText is false)
-            {
-                RootMenuText = text;
-            }
-            else
-            {
-                SetRootMenuText(true, string.Empty);
-                RootMenuText = ShellMenu.DefaultRootText;
-            }
+            return shellMenuRegistryKeyItem.SubRegistryKeyList.Count is 1
+                ? EnumShellMenuItem(shellMenuRegistryKeyItem.SubRegistryKeyList[0])
+                : null;
         }
 
         /// <summary>
-        /// 设置根菜单图标
+        /// 保存菜单项设置
         /// </summary>
-        public static void SetRootMenuIcon(bool useDefaultIcon, string iconPath = "")
+        public static void SaveShellMenuItem(string menuKey, ShellMenuItem shellMenuItem)
         {
-            RegistryHelper.SaveRegistryValue(string.Format(@"{0}\{1}", shellMenuKey, "RootMenu"), "UseDefaultIcon", useDefaultIcon);
-            if (useDefaultIcon)
-            {
-                RootMenuIconPath = Path.Combine(AppContext.BaseDirectory, @"Assets\WindowsTools.ico");
-                RegistryHelper.SaveRegistryValue(string.Format(@"{0}\{1}", shellMenuKey, "RootMenu"), "IconPath", string.Empty);
-            }
-            else
-            {
-                RootMenuIconPath = iconPath;
-                RegistryHelper.SaveRegistryValue(string.Format(@"{0}\{1}", shellMenuKey, "RootMenu"), "IconPath", iconPath);
-            }
+            menuKey = Path.Combine(shellMenuKey, menuKey);
+
+            RegistryHelper.SaveRegistryValue(menuKey, "MenuGuid", shellMenuItem.MenuGuid.ToString());
+            RegistryHelper.SaveRegistryValue(menuKey, "MenuTitleText", shellMenuItem.MenuTitleText);
+            RegistryHelper.SaveRegistryValue(menuKey, "ShouldUseProgramIcon", shellMenuItem.ShouldUseProgramIcon);
+            RegistryHelper.SaveRegistryValue(menuKey, "ShouldEnableThemeIcon", shellMenuItem.ShouldEnableThemeIcon);
+            RegistryHelper.SaveRegistryValue(menuKey, "DefaultIconPath", shellMenuItem.DefaultIconPath);
+            RegistryHelper.SaveRegistryValue(menuKey, "LightThemeIconPath", shellMenuItem.LightThemeIconPath);
+            RegistryHelper.SaveRegistryValue(menuKey, "DarkThemeIconPath", shellMenuItem.DarkThemeIconPath);
+            RegistryHelper.SaveRegistryValue(menuKey, "MenuProgramPathText", shellMenuItem.MenuProgramPathText);
+            RegistryHelper.SaveRegistryValue(menuKey, "MenuParameter", shellMenuItem.MenuParameter);
+            RegistryHelper.SaveRegistryValue(menuKey, "FolderBackground", shellMenuItem.FolderBackground);
+            RegistryHelper.SaveRegistryValue(menuKey, "FolderDesktop", shellMenuItem.FolderDesktop);
+            RegistryHelper.SaveRegistryValue(menuKey, "FolderDirectory", shellMenuItem.FolderDirectory);
+            RegistryHelper.SaveRegistryValue(menuKey, "FolderDrive", shellMenuItem.FolderDrive);
+            RegistryHelper.SaveRegistryValue(menuKey, "MenuFileMatchRule", shellMenuItem.MenuFileMatchRule);
+            RegistryHelper.SaveRegistryValue(menuKey, "MenuFileMatchFormatText", shellMenuItem.MenuFileMatchFormatText);
+            RegistryHelper.SaveRegistryValue(menuKey, "MenuIndex", shellMenuItem.MenuIndex);
         }
 
         /// <summary>
-        /// 设置根菜单文本
+        /// 枚举并递归所有子项
         /// </summary>
-        public static void SetRootMenuText(bool useDefaultText, string text = "")
+        private static ShellMenuItem EnumShellMenuItem(RegistryEnumKeyItem registryEnumKeyItem)
         {
-            RegistryHelper.SaveRegistryValue(string.Format(@"{0}\{1}", shellMenuKey, "RootMenu"), "UseDefaultText", useDefaultText);
-            if (useDefaultText)
+            ShellMenuItem currentMenuItem = GetShellItemInfo(registryEnumKeyItem.RootKey);
+            ShellMenuItem shellMenuItem = new()
             {
-                RootMenuText = ShellMenu.DefaultRootText;
-                RegistryHelper.SaveRegistryValue(string.Format(@"{0}\{1}", shellMenuKey, "RootMenu"), "Text", string.Empty);
-            }
-            else
+                MenuKey = currentMenuItem.MenuKey,
+                MenuGuid = currentMenuItem.MenuGuid,
+                MenuTitleText = currentMenuItem.MenuTitleText,
+                ShouldUseProgramIcon = currentMenuItem.ShouldUseProgramIcon,
+                ShouldEnableThemeIcon = currentMenuItem.ShouldEnableThemeIcon,
+                DefaultIconPath = currentMenuItem.DefaultIconPath,
+                LightThemeIconPath = currentMenuItem.LightThemeIconPath,
+                DarkThemeIconPath = currentMenuItem.DarkThemeIconPath,
+                MenuProgramPathText = currentMenuItem.MenuProgramPathText,
+                MenuParameter = currentMenuItem.MenuParameter,
+                FolderBackground = currentMenuItem.FolderBackground,
+                FolderDesktop = currentMenuItem.FolderDesktop,
+                FolderDirectory = currentMenuItem.FolderDirectory,
+                FolderDrive = currentMenuItem.FolderDrive,
+                MenuFileMatchRule = currentMenuItem.MenuFileMatchFormatText,
+                MenuFileMatchFormatText = currentMenuItem.MenuFileMatchFormatText
+            };
+
+            // 获取子菜单项
+            if (registryEnumKeyItem.SubRegistryKeyList.Count > 0)
             {
-                RootMenuText = text;
-                RegistryHelper.SaveRegistryValue(string.Format(@"{0}\{1}", shellMenuKey, "RootMenu"), "Text", text);
+                foreach (RegistryEnumKeyItem subRegistryKeyItem in registryEnumKeyItem.SubRegistryKeyList)
+                {
+                    shellMenuItem.SubShellMenuItem.Add(EnumShellMenuItem(subRegistryKeyItem));
+                }
             }
+
+            return shellMenuItem;
+        }
+
+        /// <summary>
+        /// 获取菜单项信息
+        /// </summary>
+        private static ShellMenuItem GetShellItemInfo(string menuKey)
+        {
+            ShellMenuItem shellMenuItem = new();
+
+            string menuTitleText = RegistryHelper.ReadRegistryValue<string>(menuKey, "MenuTitleText");
+            string menuGuid = RegistryHelper.ReadRegistryValue<string>(menuKey, "MenuGuid");
+            bool? shouldUseProgramIcon = RegistryHelper.ReadRegistryValue<bool?>(menuKey, "ShouldUseProgramIcon");
+            bool? shouldEnableThemeIcon = RegistryHelper.ReadRegistryValue<bool?>(menuKey, "ShouldEnableThemeIcon");
+            string defaultIconPath = RegistryHelper.ReadRegistryValue<string>(menuKey, "DefaultIconPath");
+            string lightThemeIconPath = RegistryHelper.ReadRegistryValue<string>(menuKey, "LightThemeIconPath");
+            string darkThemeIconPath = RegistryHelper.ReadRegistryValue<string>(menuKey, "DarkThemeIconPath");
+            string menuProgramPathText = RegistryHelper.ReadRegistryValue<string>(menuKey, "MenuProgramPathText");
+            string menuParameter = RegistryHelper.ReadRegistryValue<string>(menuKey, "MenuParameter");
+            bool? folderBackground = RegistryHelper.ReadRegistryValue<bool?>(menuKey, "FolderBackground");
+            bool? folderDesktop = RegistryHelper.ReadRegistryValue<bool?>(menuKey, "FolderDesktop");
+            bool? folderDirectory = RegistryHelper.ReadRegistryValue<bool?>(menuKey, "FolderDirectory");
+            bool? folderDrive = RegistryHelper.ReadRegistryValue<bool?>(menuKey, "FolderDrive");
+            string menuFileMatchRule = RegistryHelper.ReadRegistryValue<string>(menuKey, "MenuFileMatchRule");
+            string menuFileMatchFormatText = RegistryHelper.ReadRegistryValue<string>(menuKey, "MenuFileMatchFormatText");
+            int? menuIndex = RegistryHelper.ReadRegistryValue<int?>(menuKey, "MenuIndex");
+
+            shellMenuItem.MenuKey = menuKey;
+            shellMenuItem.MenuGuid = string.IsNullOrEmpty(menuGuid) ? Guid.Empty : new Guid(menuGuid);
+            shellMenuItem.MenuTitleText = menuTitleText;
+            shellMenuItem.ShouldUseProgramIcon = shouldUseProgramIcon.HasValue && shouldUseProgramIcon.Value;
+            shellMenuItem.ShouldEnableThemeIcon = shouldEnableThemeIcon.HasValue && shouldEnableThemeIcon.Value;
+            shellMenuItem.DefaultIconPath = defaultIconPath;
+            shellMenuItem.LightThemeIconPath = lightThemeIconPath;
+            shellMenuItem.DarkThemeIconPath = darkThemeIconPath;
+            shellMenuItem.MenuProgramPathText = menuProgramPathText;
+            shellMenuItem.DarkThemeIconPath = darkThemeIconPath;
+            shellMenuItem.MenuProgramPathText = menuProgramPathText;
+            shellMenuItem.MenuParameter = menuParameter;
+            shellMenuItem.FolderBackground = folderBackground.HasValue && folderBackground.Value;
+            shellMenuItem.FolderDesktop = folderDesktop.HasValue && folderDesktop.Value;
+            shellMenuItem.FolderDirectory = folderDirectory.HasValue && folderDirectory.Value;
+            shellMenuItem.FolderDrive = folderDrive.HasValue && folderDrive.Value;
+            shellMenuItem.MenuFileMatchRule = menuFileMatchRule;
+            shellMenuItem.MenuFileMatchFormatText = menuFileMatchFormatText;
+            shellMenuItem.MenuIndex = menuIndex ?? 0;
+
+            return shellMenuItem;
         }
     }
 }

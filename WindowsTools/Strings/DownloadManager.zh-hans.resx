@@ -138,9 +138,6 @@
   <data name="Delete" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="DeleteDownloadingToolTip" xml:space="preserve">
-    <value>删除当前下载的记录</value>
-  </data>
   <data name="DeleteDownloadToolTip" xml:space="preserve">
     <value>全部删除</value>
   </data>

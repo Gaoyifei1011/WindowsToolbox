@@ -169,15 +169,6 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 List of processes using the {0} file 的本地化字符串。
-        /// </summary>
-        public static string ProcessList {
-            get {
-                return ResourceManager.GetString("ProcessList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Process name : 的本地化字符串。
         /// </summary>
         public static string ProcessName {

@@ -60,7 +60,7 @@ namespace WindowsTools.UI.TeachingTips
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.TextEmpty;
+                OperationResultFailed.Text = Notification.ListEmpty;
             }
             else if (operationKind is OperationKind.TextEmpty)
             {

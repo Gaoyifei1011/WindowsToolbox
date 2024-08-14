@@ -8,8 +8,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:service="using:WindowsTools.Services.Controls.Settings"
     xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
+    ActualThemeChanged="{x:Bind OnActualThemeChanged}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -75,119 +77,6 @@
 
             <StackPanel Margin="30,0,30,30">
                 <Grid
-                    Height="48"
-                    Padding="16,0,16,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1,1,1,1"
-                    CornerRadius="4,4,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <FontIcon
-                        Grid.Column="0"
-                        Margin="0,0,12,0"
-                        FontSize="16"
-                        Glyph="&#xE713;" />
-
-                    <TextBlock
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Text="{x:Bind string:ShellMenu.RootMenuSettings}" />
-                </Grid>
-
-                <Grid
-                    Height="52"
-                    Padding="44,0,16,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1,0,1,1"
-                    ColumnSpacing="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Text="{x:Bind string:ShellMenu.RootMenuIcon}" />
-
-                    <muxc:ImageIcon
-                        Grid.Column="1"
-                        Width="28"
-                        Height="28"
-                        VerticalAlignment="Center"
-                        Source="{x:Bind RootMenuImage, Mode=OneWay}" />
-
-                    <Button
-                        Grid.Column="2"
-                        VerticalAlignment="Center"
-                        Click="{x:Bind OnModifyClicked}"
-                        Content="{x:Bind string:ShellMenu.Modify}" />
-
-                    <Button
-                        Grid.Column="3"
-                        VerticalAlignment="Center"
-                        Click="{x:Bind OnReturnDefaultClicked}"
-                        Content="{x:Bind string:ShellMenu.ReturnDefault}"
-                        Tag="Icon" />
-                </Grid>
-
-                <Grid
-                    Height="52"
-                    Margin="0,0,0,3"
-                    Padding="44,0,16,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1,0,1,1"
-                    ColumnSpacing="5"
-                    CornerRadius="0,0,4,4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Text="{x:Bind string:ShellMenu.RootMenuName}" />
-
-                    <TextBox
-                        Grid.Column="1"
-                        MinWidth="150"
-                        MaxWidth="450"
-                        VerticalAlignment="Center"
-                        Text="{x:Bind RootMenuText, Mode=OneWay}"
-                        TextChanged="{x:Bind OnRootMenuTextChanged}" />
-
-                    <Button
-                        Grid.Column="2"
-                        VerticalAlignment="Center"
-                        Click="{x:Bind OnApplyClicked}"
-                        Content="{x:Bind string:ShellMenu.Apply}" />
-
-                    <Button
-                        Grid.Column="3"
-                        VerticalAlignment="Center"
-                        Click="{x:Bind OnReturnDefaultClicked}"
-                        Content="{x:Bind string:ShellMenu.ReturnDefault}"
-                        Tag="Text" />
-                </Grid>
-
-                <Grid
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
@@ -232,7 +121,7 @@
 
                         <muxc:TreeView
                             Grid.Column="0"
-                            Height="300"
+                            Height="450"
                             ItemInvoked="{x:Bind OnItemInvoked}"
                             ItemsSource="{x:Bind ShellMenuItemCollection, Mode=OneWay}"
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -255,24 +144,14 @@
                                                 Width="20"
                                                 Height="20"
                                                 VerticalAlignment="Center"
-                                                Source="{x:Bind Icon, Mode=OneWay}">
-
-                                                <ToolTipService.ToolTip>
-                                                    <ToolTip MaxWidth="9999">
-                                                        <TextBlock>
-                                                            <Run Text="{x:Bind string:ShellMenu.MenuIconToolTip}" />
-                                                            <Run Text="{x:Bind IconPath, Mode=OneWay}" />
-                                                        </TextBlock>
-                                                    </ToolTip>
-                                                </ToolTipService.ToolTip>
-                                            </muxc:ImageIcon>
+                                                Source="{x:Bind MenuIcon, Mode=OneWay}" />
 
                                             <TextBlock
                                                 Grid.Column="1"
                                                 Margin="15,0,0,0"
                                                 VerticalAlignment="Center"
                                                 FontSize="14"
-                                                Text="{x:Bind Title, Mode=OneWay}"
+                                                Text="{x:Bind MenuTitleText, Mode=OneWay}"
                                                 TextAlignment="Left"
                                                 TextTrimming="CharacterEllipsis"
                                                 TextWrapping="NoWrap">
@@ -281,7 +160,7 @@
                                                     <ToolTip MaxWidth="9999">
                                                         <TextBlock>
                                                             <Run Text="{x:Bind string:ShellMenu.MenuTitleToolTip}" />
-                                                            <Run Text="{x:Bind Title, Mode=OneWay}" />
+                                                            <Run Text="{x:Bind MenuTitleText, Mode=OneWay}" />
                                                         </TextBlock>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
@@ -490,7 +369,7 @@
 
                                 <ToggleSwitch
                                     Grid.Column="1"
-                                    FlowDirection="RightToLeft"
+                                    FlowDirection="{x:Bind GetToggleSwitchDirection(service:LanguageService.RightToLeft)}"
                                     IsOn="{x:Bind ShouldUseProgramIcon, Mode=OneWay}"
                                     OffContent="{x:Bind string:ShellMenu.ShouldUseProgramIconOffContent}"
                                     OnContent="{x:Bind string:ShellMenu.ShouldUseProgramIconOnContent}"
@@ -521,7 +400,7 @@
 
                                     <ToggleSwitch
                                         Grid.Column="1"
-                                        FlowDirection="RightToLeft"
+                                        FlowDirection="{x:Bind GetToggleSwitchDirection(service:LanguageService.RightToLeft)}"
                                         IsOn="{x:Bind ShouldEnableThemeIcon, Mode=OneWay}"
                                         OffContent="{x:Bind string:ShellMenu.ShouldEnableThemeIconOffContent}"
                                         OnContent="{x:Bind string:ShellMenu.ShouldEnableThemeIconOnContent}"

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -985,6 +986,14 @@ namespace WindowsTools.Views.Pages
                         return string.Empty;
                     }
             }
+        }
+
+        /// <summary>
+        /// 获取 ToggleSwitch 的文字转向
+        /// </summary>
+        private global::Windows.UI.Xaml.FlowDirection GetToggleSwitchDirection(RightToLeft rightToLeft)
+        {
+            return rightToLeft is RightToLeft.Yes ? global::Windows.UI.Xaml.FlowDirection.LeftToRight : global::Windows.UI.Xaml.FlowDirection.RightToLeft;
         }
     }
 }

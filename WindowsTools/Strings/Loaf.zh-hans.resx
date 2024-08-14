@@ -129,9 +129,6 @@
   <data name="ConfigOptions" xml:space="preserve">
     <value>配置选项</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>打开这个页面，你可以尝试休闲放松些许时刻</value>
-  </data>
   <data name="DurationTime" xml:space="preserve">
     <value>持续时间</value>
   </data>

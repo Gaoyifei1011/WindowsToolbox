@@ -83,6 +83,7 @@
 > * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [System.Numerics.Vectors](https://dot.net)&emsp;
+> * [System.Private.Uri](https://dot.net)&emsp;
 > * [ZXing.Net](https://github.com/micjahn/ZXing.Net)&emsp;
 	
 [学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;

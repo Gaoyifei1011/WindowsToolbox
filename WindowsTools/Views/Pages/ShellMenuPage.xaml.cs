@@ -16,12 +16,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Extensions.ShellMenu;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Services.Shell;
 using WindowsTools.Strings;
-using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
 
 // 抑制 IDE0060 警告
@@ -35,44 +34,13 @@ namespace WindowsTools.Views.Pages
     public sealed partial class ShellMenuPage : Page, INotifyPropertyChanged
     {
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-        private Guid editMenuGuid = Guid.Empty;
+        private Guid editMenuGuid;
+        private string editMenuKey;
         private string selectedDefaultIconPath = string.Empty;
         private string selectedLightThemeIconPath = string.Empty;
         private string selectedDarkThemeIconPath = string.Empty;
 
         private ShellMenuItemModel selectedItem;
-
-        private BitmapImage _rootMenuImage;
-
-        public BitmapImage RootMenuImage
-        {
-            get { return _rootMenuImage; }
-
-            set
-            {
-                if (!Equals(_rootMenuImage, value))
-                {
-                    _rootMenuImage = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RootMenuImage)));
-                }
-            }
-        }
-
-        private string _rootMenuText;
-
-        public string RootMenuText
-        {
-            get { return _rootMenuText; }
-
-            set
-            {
-                if (!Equals(_rootMenuText, value))
-                {
-                    _rootMenuText = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RootMenuText)));
-                }
-            }
-        }
 
         private bool _isAddMenuEnabled;
 
@@ -431,117 +399,40 @@ namespace WindowsTools.Views.Pages
         public ShellMenuPage()
         {
             InitializeComponent();
-            try
-            {
-                RootMenuImage = new() { UriSource = new Uri(ShellMenuService.RootMenuIconPath) };
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(EventLevel.Error, "Set root menu icon failed", e);
-            }
-
-            RootMenuText = ShellMenuService.RootMenuText;
-
-            Icon icon = Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
-
-            MemoryStream memoryStream = new();
-            icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
-
-            ShellMenuItemModel shellMenuItemModel = new ShellMenuItemModel()
-            {
-                Title = "Windows 工具箱",
-                MenuIndex = 0,
-                IsSelected = true,
-                MenuGuid = Guid.Empty,
-                MenuType = MenuType.RootMenu,
-                ProgramPath = System.Windows.Forms.Application.ExecutablePath,
-                IconPath = System.Windows.Forms.Application.ExecutablePath,
-                Icon = bitmapImage,
-            };
-
-            ShellMenuItemModel secondMenuItemModel1 = new ShellMenuItemModel()
-            {
-                Title = "Windows 工具箱21",
-                MenuIndex = 0,
-                MenuGuid = Guid.Empty,
-                IsSelected = false,
-                MenuType = MenuType.SecondLevelMenu,
-                ProgramPath = System.Windows.Forms.Application.ExecutablePath,
-                IconPath = System.Windows.Forms.Application.ExecutablePath,
-                Icon = bitmapImage,
-            };
-
-            ShellMenuItemModel secondMenuItemModel2 = new ShellMenuItemModel()
-            {
-                Title = "Windows 工具箱22",
-                MenuIndex = 0,
-                MenuGuid = Guid.Empty,
-                IsSelected = false,
-                MenuType = MenuType.SecondLevelMenu,
-                ProgramPath = System.Windows.Forms.Application.ExecutablePath,
-                IconPath = System.Windows.Forms.Application.ExecutablePath,
-                Icon = bitmapImage,
-            };
-
-            ShellMenuItemModel firstLevelMenuItem1 = new ShellMenuItemModel()
-            {
-                Title = "Windows 工具箱11",
-                MenuIndex = 0,
-                MenuGuid = Guid.Empty,
-                IsSelected = false,
-                MenuType = MenuType.FirstLevelMenu,
-                ProgramPath = System.Windows.Forms.Application.ExecutablePath,
-                IconPath = System.Windows.Forms.Application.ExecutablePath,
-                Icon = bitmapImage,
-            };
-
-            ShellMenuItemModel firstLevelMenuItem2 = new ShellMenuItemModel()
-            {
-                Title = "Windows 工具箱12",
-                MenuIndex = 0,
-                MenuGuid = Guid.Empty,
-                IsSelected = false,
-                MenuType = MenuType.FirstLevelMenu,
-                ProgramPath = System.Windows.Forms.Application.ExecutablePath,
-                IconPath = System.Windows.Forms.Application.ExecutablePath,
-                Icon = bitmapImage,
-            };
-
-            ShellMenuItemModel firstLevelMenuItem3 = new ShellMenuItemModel()
-            {
-                Title = "Windows 工具箱13",
-                MenuIndex = 0,
-                MenuGuid = Guid.Empty,
-                IsSelected = false,
-                MenuType = MenuType.FirstLevelMenu,
-                ProgramPath = System.Windows.Forms.Application.ExecutablePath,
-                IconPath = System.Windows.Forms.Application.ExecutablePath,
-                Icon = bitmapImage,
-            };
-
-            firstLevelMenuItem1.SubMenuItemCollection.Add(secondMenuItemModel1);
-            firstLevelMenuItem1.SubMenuItemCollection.Add(secondMenuItemModel2);
-
-            firstLevelMenuItem2.SubMenuItemCollection.Add(secondMenuItemModel1);
-            firstLevelMenuItem2.SubMenuItemCollection.Add(secondMenuItemModel2);
-
-            firstLevelMenuItem3.SubMenuItemCollection.Add(secondMenuItemModel1);
-            firstLevelMenuItem3.SubMenuItemCollection.Add(secondMenuItemModel2);
-
-            shellMenuItemModel.SubMenuItemCollection.Add(firstLevelMenuItem1);
-            shellMenuItemModel.SubMenuItemCollection.Add(firstLevelMenuItem2);
-            shellMenuItemModel.SubMenuItemCollection.Add(firstLevelMenuItem3);
-
-            ShellMenuItemCollection.Add(shellMenuItemModel);
-
-            selectedItem = ShellMenuItemCollection[0];
-            IsAddMenuEnabled = true;
-            IsEditMenuEnabled = false;
-
             SelectedFileMatchRule = FileMatchRuleList[4];
+
+            Task.Run(() =>
+            {
+                ShellMenuItem rootShellMenuItem = ShellMenuService.GetShellMenuItem();
+
+                synchronizationContext.Send(_ =>
+                {
+                    if (rootShellMenuItem is not null)
+                    {
+                        ShellMenuItemCollection.Add(EnumShellMenuItem(rootShellMenuItem, MenuType.RootMenu));
+
+                        IsAddMenuEnabled = true;
+
+                        if (ShellMenuItemCollection.Count is 0)
+                        {
+                            selectedItem = null;
+                            IsEditMenuEnabled = false;
+                        }
+                        else
+                        {
+                            ShellMenuItemCollection[0].IsSelected = true;
+                            selectedItem = ShellMenuItemCollection[0];
+                            IsEditMenuEnabled = true;
+                        }
+                    }
+                    else
+                    {
+                        IsAddMenuEnabled = true;
+                        selectedItem = null;
+                        IsEditMenuEnabled = false;
+                    }
+                }, null);
+            });
         }
 
         #region 第一部分：重写父类事件
@@ -567,6 +458,17 @@ namespace WindowsTools.Views.Pages
         #endregion 第一部分：重写父类事件
 
         #region 第二部分：根菜单页面——挂载的事件
+
+        /// <summary>
+        /// 当前应用主题发生变化时对应的事件
+        /// </summary>
+        private void OnActualThemeChanged(FrameworkElement sender, object args)
+        {
+            if (ShellMenuItemCollection.Count is 1)
+            {
+                EnumModifyShellMenuItemTheme(ShellMenuItemCollection[0]);
+            }
+        }
 
         /// <summary>
         /// 单击痕迹栏条目时发生的事件
@@ -599,118 +501,66 @@ namespace WindowsTools.Views.Pages
         {
             if (BreadCollection.Count is 2)
             {
-                SaveSettingsInformation();
-                BreadCollection.RemoveAt(1);
-            }
-        }
-
-        /// <summary>
-        /// 修改根菜单图标
-        /// </summary>
-        private void OnModifyClicked(object sender, RoutedEventArgs args)
-        {
-            OpenFileDialog dialog = new()
-            {
-                Multiselect = false,
-                Filter = ShellMenu.IconFilterCondition,
-                Title = ShellMenu.SelectIcon
-            };
-            if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
-            {
-                try
-                {
-                    Task.Run(() =>
-                    {
-                        string rootMenuFilePath = Path.Combine(ShellMenuService.ShellMenuConfigDirectory.FullName, "RootMenu.png");
-                        File.Copy(dialog.FileName, rootMenuFilePath, true);
-                        ShellMenuService.SetRootMenuIcon(false, rootMenuFilePath);
-
-                        synchronizationContext.Post(_ =>
-                        {
-                            RootMenuImage = new() { UriSource = new Uri(rootMenuFilePath) };
-                        }, null);
-                    });
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(EventLevel.Error, "Set root menu icon failed", e);
-                }
-            }
-        }
-
-        /// <summary>
-        /// 还原默认
-        /// </summary>
-        private void OnReturnDefaultClicked(object sender, RoutedEventArgs args)
-        {
-            global::Windows.UI.Xaml.Controls.Button button = sender as global::Windows.UI.Xaml.Controls.Button;
-
-            if (button is not null)
-            {
-                string tag = Convert.ToString(button.Tag);
-
                 Task.Run(() =>
                 {
-                    if (tag.Equals("Icon"))
+                    ShellMenuItem shellMenuItem = new()
                     {
-                        ShellMenuService.SetRootMenuIcon(true, string.Empty);
+                        MenuGuid = editMenuGuid,
+                        MenuTitleText = MenuTitleText,
+                        ShouldUseProgramIcon = ShouldUseProgramIcon,
+                        ShouldEnableThemeIcon = ShouldEnableThemeIcon,
+                        DefaultIconPath = DefaultIconPath,
+                        LightThemeIconPath = LightThemeIconPath,
+                        DarkThemeIconPath = DarkThemeIconPath,
+                        MenuProgramPathText = MenuProgramPathText,
+                        MenuParameter = MenuParameterText,
+                        FolderBackground = FolderBackgroundMatch,
+                        FolderDesktop = FolderDesktopMatch,
+                        FolderDirectory = FolderDirectoryMatch,
+                        FolderDrive = FolderDriveMatch,
+                        MenuFileMatchRule = SelectedFileMatchRule.Value.ToString(),
+                        MenuFileMatchFormatText = MenuFileMatchFormatText
+                    };
 
-                        try
+                    ShellMenuService.SaveShellMenuItem(editMenuKey, shellMenuItem);
+                    ShellMenuItem rootShellMenuItem = ShellMenuService.GetShellMenuItem();
+
+                    synchronizationContext.Send(_ =>
+                    {
+                        ShellMenuItemCollection.Clear();
+
+                        if (rootShellMenuItem is not null)
                         {
-                            string rootMenuFilePath = Path.Combine(ShellMenuService.ShellMenuConfigDirectory.FullName, "RootMenu.png");
-
-                            if (File.Exists(rootMenuFilePath))
+                            synchronizationContext.Send(_ =>
                             {
-                                File.Delete(rootMenuFilePath);
-                            }
+                                ShellMenuItemCollection.Add(EnumShellMenuItem(rootShellMenuItem, MenuType.RootMenu));
+
+                                IsAddMenuEnabled = true;
+
+                                if (ShellMenuItemCollection.Count is 0)
+                                {
+                                    selectedItem = null;
+                                    IsEditMenuEnabled = false;
+                                }
+                                else
+                                {
+                                    ShellMenuItemCollection[0].IsSelected = true;
+                                    selectedItem = ShellMenuItemCollection[0];
+                                    IsEditMenuEnabled = true;
+                                }
+                            }, null);
                         }
-                        catch (Exception e)
+                        else
                         {
-                            LogService.WriteLog(EventLevel.Warning, "Delete RootMenu.png failed", e);
+                            IsAddMenuEnabled = true;
+                            selectedItem = null;
+                            IsEditMenuEnabled = false;
                         }
 
-                        synchronizationContext.Post(_ =>
-                        {
-                            RootMenuImage = new() { UriSource = new Uri(ShellMenuService.RootMenuIconPath) };
-                        }, null);
-                    }
-                    else if (tag.Equals("Text"))
-                    {
-                        ShellMenuService.SetRootMenuText(true, string.Empty);
-
-                        synchronizationContext.Post(_ =>
-                        {
-                            RootMenuText = ShellMenuService.RootMenuText;
-                        }, null);
-                    }
+                        BreadCollection.RemoveAt(1);
+                    }, null);
                 });
             }
-        }
-
-        /// <summary>
-        /// 根菜单文字设置框文本内容发生变化时的事件
-        /// </summary>
-        private void OnRootMenuTextChanged(object sender, TextChangedEventArgs args)
-        {
-            RootMenuText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
-        }
-
-        /// <summary>
-        /// 应用修改的根菜单名称
-        /// </summary>
-        private void OnApplyClicked(object sender, RoutedEventArgs args)
-        {
-            if (string.IsNullOrEmpty(RootMenuText))
-            {
-                RootMenuText = ShellMenuService.RootMenuText;
-                TeachingTipHelper.Show(new OperationResultTip(OperationKind.TextEmpty));
-                return;
-            }
-
-            Task.Run(() =>
-            {
-                ShellMenuService.SetRootMenuText(false, RootMenuText);
-            });
         }
 
         /// <summary>
@@ -719,7 +569,18 @@ namespace WindowsTools.Views.Pages
         private void OnAddMenuItemClicked(object sender, RoutedEventArgs args)
         {
             Guid menuGuid = Guid.NewGuid();
-            AddShellMenu(menuGuid);
+            string menuKey = string.Empty;
+
+            if (selectedItem is null)
+            {
+                menuKey = menuGuid.ToString();
+            }
+            else if (selectedItem.MenuType is MenuType.RootMenu || selectedItem.MenuType is MenuType.FirstLevelMenu)
+            {
+                menuKey = Path.Combine(selectedItem.MenuKey, menuGuid.ToString());
+            }
+
+            AddShellMenu(menuKey, Guid.NewGuid());
             BreadCollection.Add(new DictionaryEntry(ShellMenu.EditMenu, "EditMenu"));
         }
 
@@ -728,13 +589,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearMenuClicked(object sender, RoutedEventArgs args)
         {
-            for (int index = ShellMenuItemCollection[0].SubMenuItemCollection.Count - 1; index >= 0; index--)
-            {
-                // 更新删除操作
-                ShellMenuItemCollection[0].SubMenuItemCollection.RemoveAt(index);
-            }
-
-            ShellMenuItemCollection[0].IsSelected = true;
+            // 更新删除操作
+            ShellMenuItemCollection.Clear();
+            selectedItem = null;
             IsAddMenuEnabled = true;
             IsEditMenuEnabled = false;
         }
@@ -744,11 +601,40 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnRefreshClicked(object sender, RoutedEventArgs args)
         {
-            ShellMenuItemCollection[0].SubMenuItemCollection.Clear();
-            ShellMenuItemCollection[0].IsSelected = true;
-            IsAddMenuEnabled = true;
-            IsEditMenuEnabled = false;
-            // 添加子菜单读取操作
+            ShellMenuItemCollection.Clear();
+
+            Task.Run(() =>
+            {
+                ShellMenuItem rootShellMenuItem = ShellMenuService.GetShellMenuItem();
+
+                synchronizationContext.Send(_ =>
+                {
+                    if (rootShellMenuItem is not null)
+                    {
+                        ShellMenuItemCollection.Add(EnumShellMenuItem(rootShellMenuItem, MenuType.RootMenu));
+
+                        IsAddMenuEnabled = true;
+
+                        if (ShellMenuItemCollection.Count is 0)
+                        {
+                            selectedItem = null;
+                            IsEditMenuEnabled = false;
+                        }
+                        else
+                        {
+                            ShellMenuItemCollection[0].IsSelected = true;
+                            selectedItem = ShellMenuItemCollection[0];
+                            IsEditMenuEnabled = true;
+                        }
+                    }
+                    else
+                    {
+                        IsAddMenuEnabled = true;
+                        selectedItem = null;
+                        IsEditMenuEnabled = false;
+                    }
+                }, null);
+            });
         }
 
         /// <summary>
@@ -758,7 +644,80 @@ namespace WindowsTools.Views.Pages
         {
             if (selectedItem is not null && BreadCollection.Count is 1)
             {
-                QueryShellMenu(selectedItem.MenuGuid);
+                editMenuGuid = selectedItem.MenuGuid;
+                MenuTitleText = selectedItem.MenuTitleText;
+                ShouldUseProgramIcon = selectedItem.ShouldUseProgramIcon;
+                ShouldEnableThemeIcon = selectedItem.ShouldEnableThemeIcon;
+                DefaultIconPath = selectedItem.DefaultIconPath;
+                LightThemeIconPath = selectedItem.LightThemeIconPath;
+                DarkThemeIconPath = selectedItem.DarkThemeIconPath;
+                MenuProgramPathText = selectedItem.MenuProgramPathText;
+                MenuParameterText = selectedItem.MenuParameter;
+                FolderBackgroundMatch = selectedItem.FolderBackground;
+                FolderDesktopMatch = selectedItem.FolderDesktop;
+                FolderDirectoryMatch = selectedItem.FolderDirectory;
+                FolderDriveMatch = selectedItem.FolderDrive;
+                MenuFileMatchFormatText = selectedItem.MenuFileMatchFormatText;
+
+                for (int index = 0; index < FileMatchRuleList.Count; index++)
+                {
+                    if (selectedItem.MenuFileMatchRule.Equals(FileMatchRuleList[index].Value))
+                    {
+                        SelectedFileMatchRule = FileMatchRuleList[index];
+                    }
+                }
+
+                if (File.Exists(DefaultIconPath))
+                {
+                    try
+                    {
+                        Icon defaultIcon = Icon.ExtractAssociatedIcon(DefaultIconPath);
+                        MemoryStream memoryStream = new();
+                        defaultIcon.ToBitmap().Save(memoryStream, ImageFormat.Png);
+                        memoryStream.Seek(0, SeekOrigin.Begin);
+                        DefaultIconImage.SetSource(memoryStream.AsRandomAccessStream());
+                        memoryStream.Dispose();
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Load default icon image failed", e);
+                    }
+                }
+
+                if (File.Exists(LightThemeIconPath))
+                {
+                    try
+                    {
+                        Icon defaultIcon = Icon.ExtractAssociatedIcon(LightThemeIconPath);
+                        MemoryStream memoryStream = new();
+                        defaultIcon.ToBitmap().Save(memoryStream, ImageFormat.Png);
+                        memoryStream.Seek(0, SeekOrigin.Begin);
+                        DefaultIconImage.SetSource(memoryStream.AsRandomAccessStream());
+                        memoryStream.Dispose();
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Load light theme icon image failed", e);
+                    }
+                }
+
+                if (File.Exists(LightThemeIconPath))
+                {
+                    try
+                    {
+                        Icon defaultIcon = Icon.ExtractAssociatedIcon(DarkThemeIconPath);
+                        MemoryStream memoryStream = new();
+                        defaultIcon.ToBitmap().Save(memoryStream, ImageFormat.Png);
+                        memoryStream.Seek(0, SeekOrigin.Begin);
+                        DefaultIconImage.SetSource(memoryStream.AsRandomAccessStream());
+                        memoryStream.Dispose();
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Load dark theme icon image failed", e);
+                    }
+                }
+
                 BreadCollection.Add(new DictionaryEntry(ShellMenu.EditMenu, "EditMenu"));
             }
         }
@@ -778,21 +737,8 @@ namespace WindowsTools.Views.Pages
             if (selectedItem is not null)
             {
                 selectedItem.IsSelected = true;
-                if (selectedItem.MenuType is MenuType.RootMenu)
-                {
-                    IsAddMenuEnabled = true;
-                    IsEditMenuEnabled = false;
-                }
-                else if (selectedItem.MenuType is MenuType.FirstLevelMenu)
-                {
-                    IsAddMenuEnabled = true;
-                    IsEditMenuEnabled = true;
-                }
-                else
-                {
-                    IsAddMenuEnabled = false;
-                    IsEditMenuEnabled = true;
-                }
+                IsEditMenuEnabled = true;
+                IsAddMenuEnabled = selectedItem.MenuType is MenuType.RootMenu || selectedItem.MenuType is MenuType.FirstLevelMenu;
             }
         }
 
@@ -994,8 +940,9 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 添加菜单项信息
         /// </summary>
-        public void AddShellMenu(Guid menuGuid)
+        private void AddShellMenu(string menuKey, Guid menuGuid)
         {
+            editMenuKey = menuKey;
             editMenuGuid = menuGuid;
             selectedDefaultIconPath = string.Empty;
             selectedLightThemeIconPath = string.Empty;
@@ -1019,27 +966,214 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 检索设置中的菜单项信息
+        /// 枚举并递归菜单项信息
         /// </summary>
-        public void QueryShellMenu(Guid menuGuid)
+        private ShellMenuItemModel EnumShellMenuItem(ShellMenuItem menuItem, MenuType menuType)
         {
-            editMenuGuid = menuGuid;
-
-            Task.Run(() =>
+            ShellMenuItemModel shellMenuItem = new()
             {
-                // 检索窗口信息
+                IsSelected = menuType is MenuType.RootMenu,
+                MenuType = menuType,
+                MenuTitleText = menuItem.MenuTitleText,
+                MenuGuid = menuItem.MenuGuid,
+                DefaultIconPath = menuItem.DefaultIconPath,
+                LightThemeIconPath = menuItem.LightThemeIconPath,
+                DarkThemeIconPath = menuItem.DarkThemeIconPath,
+                MenuProgramPathText = menuItem.MenuProgramPathText,
+                MenuParameter = menuItem.MenuParameter,
+                FolderBackground = menuItem.FolderBackground,
+                FolderDesktop = menuItem.FolderDesktop,
+                FolderDirectory = menuItem.FolderDirectory,
+                FolderDrive = menuItem.FolderDrive,
+                MenuFileMatchRule = menuItem.MenuFileMatchRule,
+                MenuFileMatchFormatText = menuItem.MenuFileMatchFormatText
+            };
 
-                synchronizationContext.Post(_ =>
+            if (shellMenuItem.ShouldUseProgramIcon)
+            {
+                if (File.Exists(shellMenuItem.MenuProgramPathText) && Path.GetExtension(shellMenuItem.MenuProgramPathText).Equals(".exe"))
                 {
-                }, null);
-            });
+                    try
+                    {
+                        Icon icon = Icon.ExtractAssociatedIcon(shellMenuItem.MenuProgramPathText);
+                        MemoryStream memoryStream = new();
+                        icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
+                        memoryStream.Seek(0, SeekOrigin.Begin);
+                        DarkThemeIconImage.SetSource(memoryStream.AsRandomAccessStream());
+                        memoryStream.Dispose();
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Get program icon failed", e);
+                    }
+                }
+            }
+            else
+            {
+                if (shellMenuItem.ShouldEnableThemeIcon)
+                {
+                    if (ActualTheme is ElementTheme.Light)
+                    {
+                        if (File.Exists(shellMenuItem.LightThemeIconPath))
+                        {
+                            try
+                            {
+                                Icon icon = Icon.ExtractAssociatedIcon(shellMenuItem.LightThemeIconPath);
+                                MemoryStream memoryStream = new();
+                                icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
+                                memoryStream.Seek(0, SeekOrigin.Begin);
+                                DarkThemeIconImage.SetSource(memoryStream.AsRandomAccessStream());
+                                memoryStream.Dispose();
+                            }
+                            catch (Exception e)
+                            {
+                                LogService.WriteLog(EventLevel.Error, "Get light theme icon failed", e);
+                            }
+                        }
+                    }
+                    else if (ActualTheme is ElementTheme.Dark)
+                    {
+                        if (File.Exists(shellMenuItem.DarkThemeIconPath))
+                        {
+                            try
+                            {
+                                Icon icon = Icon.ExtractAssociatedIcon(shellMenuItem.DarkThemeIconPath);
+                                MemoryStream memoryStream = new();
+                                icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
+                                memoryStream.Seek(0, SeekOrigin.Begin);
+                                DarkThemeIconImage.SetSource(memoryStream.AsRandomAccessStream());
+                                memoryStream.Dispose();
+                            }
+                            catch (Exception e)
+                            {
+                                LogService.WriteLog(EventLevel.Error, "Get light theme icon failed", e);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (File.Exists(shellMenuItem.DefaultIconPath))
+                    {
+                        try
+                        {
+                            Icon icon = Icon.ExtractAssociatedIcon(shellMenuItem.DefaultIconPath);
+                            MemoryStream memoryStream = new();
+                            icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
+                            memoryStream.Seek(0, SeekOrigin.Begin);
+                            DarkThemeIconImage.SetSource(memoryStream.AsRandomAccessStream());
+                            memoryStream.Dispose();
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, "Get default icon failed", e);
+                        }
+                    }
+                }
+            }
+
+            foreach (ShellMenuItem subMenuItem in menuItem.SubShellMenuItem)
+            {
+                if (menuType is MenuType.RootMenu)
+                {
+                    shellMenuItem.SubMenuItemCollection.Add(EnumShellMenuItem(subMenuItem, MenuType.FirstLevelMenu));
+                }
+                else if (menuType is MenuType.FirstLevelMenu)
+                {
+                    shellMenuItem.SubMenuItemCollection.Add(EnumShellMenuItem(subMenuItem, MenuType.SecondLevelMenu));
+                }
+            }
+
+            return shellMenuItem;
         }
 
         /// <summary>
-        /// 保存修改后的菜单项信息
+        /// 枚举并递归修改带主题的菜单项
         /// </summary>
-        public void SaveSettingsInformation()
+        private void EnumModifyShellMenuItemTheme(ShellMenuItemModel shellMenuItem)
         {
+            if (!shellMenuItem.ShouldUseProgramIcon && shellMenuItem.ShouldEnableThemeIcon)
+            {
+                if (ActualTheme is ElementTheme.Light)
+                {
+                    if (File.Exists(shellMenuItem.LightThemeIconPath))
+                    {
+                        try
+                        {
+                            Icon icon = Icon.ExtractAssociatedIcon(shellMenuItem.LightThemeIconPath);
+                            MemoryStream memoryStream = new();
+                            icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
+                            memoryStream.Seek(0, SeekOrigin.Begin);
+                            DarkThemeIconImage.SetSource(memoryStream.AsRandomAccessStream());
+                            memoryStream.Dispose();
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, "Get light theme icon failed", e);
+                        }
+                    }
+                }
+                else if (ActualTheme is ElementTheme.Dark)
+                {
+                    if (File.Exists(shellMenuItem.DarkThemeIconPath))
+                    {
+                        try
+                        {
+                            Icon icon = Icon.ExtractAssociatedIcon(shellMenuItem.DarkThemeIconPath);
+                            MemoryStream memoryStream = new();
+                            icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
+                            memoryStream.Seek(0, SeekOrigin.Begin);
+                            DarkThemeIconImage.SetSource(memoryStream.AsRandomAccessStream());
+                            memoryStream.Dispose();
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, "Get light theme icon failed", e);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 枚举并递归修改主题项信息
+        /// </summary>
+        private bool EnumModifyShellMenuItemData(ShellMenuItemModel shellMenuItem, ShellMenuItem menuItem)
+        {
+            if (shellMenuItem.MenuKey.Equals(menuItem.MenuKey))
+            {
+                shellMenuItem.MenuTitleText = menuItem.MenuTitleText;
+                shellMenuItem.MenuGuid = menuItem.MenuGuid;
+                shellMenuItem.DefaultIconPath = menuItem.DefaultIconPath;
+                shellMenuItem.LightThemeIconPath = menuItem.LightThemeIconPath;
+                shellMenuItem.DarkThemeIconPath = menuItem.DarkThemeIconPath;
+                shellMenuItem.MenuProgramPathText = menuItem.MenuProgramPathText;
+                shellMenuItem.MenuParameter = menuItem.MenuParameter;
+                shellMenuItem.FolderBackground = menuItem.FolderBackground;
+                shellMenuItem.FolderDesktop = menuItem.FolderDesktop;
+                shellMenuItem.FolderDirectory = menuItem.FolderDirectory;
+                shellMenuItem.FolderDrive = menuItem.FolderDrive;
+                shellMenuItem.MenuFileMatchRule = menuItem.MenuFileMatchRule;
+                shellMenuItem.MenuFileMatchFormatText = menuItem.MenuFileMatchFormatText;
+                return true;
+            }
+            else
+            {
+                foreach (ShellMenuItemModel subMenuItem in shellMenuItem.SubMenuItemCollection)
+                {
+                    return EnumModifyShellMenuItemData(subMenuItem, menuItem);
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 获取 ToggleSwitch 的文字转向
+        /// </summary>
+        private global::Windows.UI.Xaml.FlowDirection GetToggleSwitchDirection(RightToLeft rightToLeft)
+        {
+            return rightToLeft is RightToLeft.Yes ? global::Windows.UI.Xaml.FlowDirection.LeftToRight : global::Windows.UI.Xaml.FlowDirection.RightToLeft;
         }
     }
 }

@@ -144,9 +144,6 @@
   <data name="DoNetVersion" xml:space="preserve">
     <value>.NET Framework 版本：</value>
   </data>
-  <data name="Download" xml:space="preserve">
-    <value>下载</value>
-  </data>
   <data name="ErrorCode" xml:space="preserve">
     <value>错误代码</value>
   </data>

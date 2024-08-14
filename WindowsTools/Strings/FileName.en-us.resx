@@ -132,9 +132,6 @@
   <data name="ChangeRule" xml:space="preserve">
     <value>Name change rule:{0}</value>
   </data>
-  <data name="ChangeRuleDescription" xml:space="preserve">
-    <value>The representative symbol can be placed anywhere, and the content can be customized before and after</value>
-  </data>
   <data name="ClearList" xml:space="preserve">
     <value>Clear list</value>
   </data>

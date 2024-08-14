@@ -67,6 +67,7 @@ namespace WindowsTools.Views.Pages
             new DictionaryEntry("Microsoft.WindowsAppSDK", "https://github.com/microsoft/windowsappsdk"),
             new DictionaryEntry("Mile.Xaml", "https://github.com/ProjectMile/Mile.Xaml"),
             new DictionaryEntry("System.Numerics.Vectors", "https://dot.net"),
+            new DictionaryEntry("System.Private.Uri", "https://dot.net"),
             new DictionaryEntry("ZXing.Net", "https://github.com/micjahn/ZXing.Net")
         ];
 

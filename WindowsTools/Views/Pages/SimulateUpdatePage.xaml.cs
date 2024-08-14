@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using System.Threading;
 using System.Timers;
+using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Services.Root;
@@ -108,6 +109,14 @@ namespace WindowsTools.Views.Pages
         }
 
         #endregion 第一部分：自定义事件
+
+        /// <summary>
+        /// 获取控件的文字转向
+        /// </summary>
+        private global::Windows.UI.Xaml.FlowDirection GetControlDirection(RightToLeft rightToLeft)
+        {
+            return rightToLeft is RightToLeft.Yes ? global::Windows.UI.Xaml.FlowDirection.RightToLeft : global::Windows.UI.Xaml.FlowDirection.LeftToRight;
+        }
 
         /// <summary>
         /// 停止模拟自动更新

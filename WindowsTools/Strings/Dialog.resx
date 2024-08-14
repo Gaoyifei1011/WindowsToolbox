@@ -144,9 +144,6 @@
   <data name="DoNetVersion" xml:space="preserve">
     <value>.NET Framework version:</value>
   </data>
-  <data name="Download" xml:space="preserve">
-    <value>Download</value>
-  </data>
   <data name="ErrorCode" xml:space="preserve">
     <value>Error code</value>
   </data>
