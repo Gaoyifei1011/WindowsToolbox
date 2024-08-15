@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls.Extensions;
@@ -62,6 +63,14 @@ namespace WindowsTools.UI.Dialogs
             {
                 Process.Start(Path.GetDirectoryName(downloadFilePath));
             });
+        }
+
+        /// <summary>
+        /// 获取控件的文字转向
+        /// </summary>
+        private Windows.UI.Xaml.FlowDirection GetControlDirection(RightToLeft rightToLeft)
+        {
+            return rightToLeft is RightToLeft.Yes ? Windows.UI.Xaml.FlowDirection.RightToLeft : Windows.UI.Xaml.FlowDirection.LeftToRight;
         }
     }
 }

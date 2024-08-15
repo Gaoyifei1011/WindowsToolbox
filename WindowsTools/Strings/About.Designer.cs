@@ -394,20 +394,11 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Thanks 的本地化字符串。
+        ///   查找类似 Thanks (Sort by alphabetical order) 的本地化字符串。
         /// </summary>
         public static string Thanks {
             get {
                 return ResourceManager.GetString("Thanks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Thanks (Sort by alphabetical order) 的本地化字符串。
-        /// </summary>
-        public static string ThanksTitle {
-            get {
-                return ResourceManager.GetString("ThanksTitle", resourceCulture);
             }
         }
         

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
@@ -76,6 +77,14 @@ namespace WindowsTools.UI.Dialogs
             bool copyResult = CopyPasteHelper.CopyToClipboard(builder.ToString());
             sender.Hide();
             TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, true, OperationFailedCollection.Count));
+        }
+
+        /// <summary>
+        /// 获取控件的文字转向
+        /// </summary>
+        private Windows.UI.Xaml.FlowDirection GetControlDirection(RightToLeft rightToLeft)
+        {
+            return rightToLeft is RightToLeft.Yes ? Windows.UI.Xaml.FlowDirection.RightToLeft : Windows.UI.Xaml.FlowDirection.LeftToRight;
         }
     }
 }

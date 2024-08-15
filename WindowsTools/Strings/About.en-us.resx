@@ -201,7 +201,7 @@
   <data name="ProjectHomePage" xml:space="preserve">
     <value>Project home page</value>
   </data>
-  <data name="ReferenceTitle" xml:space="preserve">
+  <data name="Reference" xml:space="preserve">
     <value>Project references (Sort by alphabetical order)</value>
   </data>
   <data name="ReferenceToolTip" xml:space="preserve">
@@ -227,9 +227,6 @@
   </data>
   <data name="SystemInformation" xml:space="preserve">
     <value>View system information</value>
-  </data>
-  <data name="Thanks" xml:space="preserve">
-    <value>Thanks</value>
   </data>
   <data name="ThanksTitle" xml:space="preserve">
     <value>Thanks (Sort by alphabetical order)</value>

@@ -229,9 +229,6 @@
     <value>View system information</value>
   </data>
   <data name="Thanks" xml:space="preserve">
-    <value>Thanks</value>
-  </data>
-  <data name="ThanksTitle" xml:space="preserve">
     <value>Thanks (Sort by alphabetical order)</value>
   </data>
   <data name="ThanksToolTip" xml:space="preserve">

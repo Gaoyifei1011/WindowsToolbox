@@ -201,7 +201,7 @@
   <data name="ProjectHomePage" xml:space="preserve">
     <value>项目主页</value>
   </data>
-  <data name="ReferenceTitle" xml:space="preserve">
+  <data name="Reference" xml:space="preserve">
     <value>项目引用（按英文首字母排序）</value>
   </data>
   <data name="ReferenceToolTip" xml:space="preserve">
@@ -227,9 +227,6 @@
   </data>
   <data name="SystemInformation" xml:space="preserve">
     <value>查看系统信息</value>
-  </data>
-  <data name="Thanks" xml:space="preserve">
-    <value>感谢</value>
   </data>
   <data name="ThanksTitle" xml:space="preserve">
     <value>感谢（按英文首字母排序）</value>

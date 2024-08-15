@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System.Windows.Forms;
+using Windows.UI.Xaml.Controls;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
@@ -20,7 +21,15 @@ namespace WindowsTools.UI.Dialogs
         /// </summary>
         private void OnRestartAppsClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            System.Windows.Forms.Application.Restart();
+            Application.Restart();
+        }
+
+        /// <summary>
+        /// 获取控件的文字转向
+        /// </summary>
+        private Windows.UI.Xaml.FlowDirection GetControlDirection(RightToLeft rightToLeft)
+        {
+            return rightToLeft is RightToLeft.Yes ? Windows.UI.Xaml.FlowDirection.RightToLeft : Windows.UI.Xaml.FlowDirection.LeftToRight;
         }
     }
 }
