@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Tracing;
 using System.IO;
+using System.Threading.Tasks;
 using WindowsTools.Extensions.Registry;
 using WindowsTools.Extensions.ShellMenu;
 using WindowsTools.Helpers.Root;
@@ -14,7 +15,7 @@ namespace WindowsTools.Services.Shell
     /// </summary>
     public static class ShellMenuService
     {
-        private static readonly string shellMenuKey = @"Software\WindowsTools\ShellMenu";
+        private static readonly string shellMenuKey = @"Software\WindowsTools\ShellMenuTest";
         private static Guid FOLDERID_LocalAppData = new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091");
 
         public static DirectoryInfo ShellMenuConfigDirectory { get; private set; }
@@ -56,7 +57,7 @@ namespace WindowsTools.Services.Shell
         /// </summary>
         public static ShellMenuItem GetShellMenuItem()
         {
-            // 获取 ShellMenu 项下的所有子项（包括递归后的项）
+            // 获取根菜单项下的所有子项（包括递归后的项）
             RegistryEnumKeyItem shellMenuRegistryKeyItem = RegistryHelper.EnumSubKey(shellMenuKey);
 
             return shellMenuRegistryKeyItem.SubRegistryKeyList.Count is 1
@@ -71,22 +72,34 @@ namespace WindowsTools.Services.Shell
         {
             menuKey = Path.Combine(shellMenuKey, menuKey);
 
-            RegistryHelper.SaveRegistryValue(menuKey, "MenuGuid", shellMenuItem.MenuGuid.ToString());
-            RegistryHelper.SaveRegistryValue(menuKey, "MenuTitleText", shellMenuItem.MenuTitleText);
-            RegistryHelper.SaveRegistryValue(menuKey, "ShouldUseProgramIcon", shellMenuItem.ShouldUseProgramIcon);
-            RegistryHelper.SaveRegistryValue(menuKey, "ShouldEnableThemeIcon", shellMenuItem.ShouldEnableThemeIcon);
-            RegistryHelper.SaveRegistryValue(menuKey, "DefaultIconPath", shellMenuItem.DefaultIconPath);
-            RegistryHelper.SaveRegistryValue(menuKey, "LightThemeIconPath", shellMenuItem.LightThemeIconPath);
-            RegistryHelper.SaveRegistryValue(menuKey, "DarkThemeIconPath", shellMenuItem.DarkThemeIconPath);
-            RegistryHelper.SaveRegistryValue(menuKey, "MenuProgramPathText", shellMenuItem.MenuProgramPathText);
-            RegistryHelper.SaveRegistryValue(menuKey, "MenuParameter", shellMenuItem.MenuParameter);
-            RegistryHelper.SaveRegistryValue(menuKey, "FolderBackground", shellMenuItem.FolderBackground);
-            RegistryHelper.SaveRegistryValue(menuKey, "FolderDesktop", shellMenuItem.FolderDesktop);
-            RegistryHelper.SaveRegistryValue(menuKey, "FolderDirectory", shellMenuItem.FolderDirectory);
-            RegistryHelper.SaveRegistryValue(menuKey, "FolderDrive", shellMenuItem.FolderDrive);
-            RegistryHelper.SaveRegistryValue(menuKey, "MenuFileMatchRule", shellMenuItem.MenuFileMatchRule);
-            RegistryHelper.SaveRegistryValue(menuKey, "MenuFileMatchFormatText", shellMenuItem.MenuFileMatchFormatText);
-            RegistryHelper.SaveRegistryValue(menuKey, "MenuIndex", shellMenuItem.MenuIndex);
+            RegistryHelper.SaveRegistryKey(menuKey, "MenuGuid", shellMenuItem.MenuGuid.ToString());
+            RegistryHelper.SaveRegistryKey(menuKey, "MenuTitleText", shellMenuItem.MenuTitleText);
+            RegistryHelper.SaveRegistryKey(menuKey, "ShouldUseIcon", shellMenuItem.ShouldUseIcon);
+            RegistryHelper.SaveRegistryKey(menuKey, "ShouldUseProgramIcon", shellMenuItem.ShouldUseProgramIcon);
+            RegistryHelper.SaveRegistryKey(menuKey, "ShouldUseThemeIcon", shellMenuItem.ShouldUseThemeIcon);
+            RegistryHelper.SaveRegistryKey(menuKey, "DefaultIconPath", shellMenuItem.DefaultIconPath);
+            RegistryHelper.SaveRegistryKey(menuKey, "LightThemeIconPath", shellMenuItem.LightThemeIconPath);
+            RegistryHelper.SaveRegistryKey(menuKey, "DarkThemeIconPath", shellMenuItem.DarkThemeIconPath);
+            RegistryHelper.SaveRegistryKey(menuKey, "MenuProgramPathText", shellMenuItem.MenuProgramPathText);
+            RegistryHelper.SaveRegistryKey(menuKey, "MenuParameter", shellMenuItem.MenuParameter);
+            RegistryHelper.SaveRegistryKey(menuKey, "FolderBackground", shellMenuItem.FolderBackground);
+            RegistryHelper.SaveRegistryKey(menuKey, "FolderDesktop", shellMenuItem.FolderDesktop);
+            RegistryHelper.SaveRegistryKey(menuKey, "FolderDirectory", shellMenuItem.FolderDirectory);
+            RegistryHelper.SaveRegistryKey(menuKey, "FolderDrive", shellMenuItem.FolderDrive);
+            RegistryHelper.SaveRegistryKey(menuKey, "MenuFileMatchRule", shellMenuItem.MenuFileMatchRule);
+            RegistryHelper.SaveRegistryKey(menuKey, "MenuFileMatchFormatText", shellMenuItem.MenuFileMatchFormatText);
+            RegistryHelper.SaveRegistryKey(menuKey, "MenuIndex", shellMenuItem.MenuIndex);
+        }
+
+        /// <summary>
+        /// 删除菜单项
+        /// </summary>
+        public static void RemoveShellMenuItem(string menuKey)
+        {
+            Task.Run(() =>
+            {
+                RegistryHelper.RemoveRegistryKey(menuKey);
+            });
         }
 
         /// <summary>
@@ -94,14 +107,16 @@ namespace WindowsTools.Services.Shell
         /// </summary>
         private static ShellMenuItem EnumShellMenuItem(RegistryEnumKeyItem registryEnumKeyItem)
         {
+            // 获取该项菜单内容
             ShellMenuItem currentMenuItem = GetShellItemInfo(registryEnumKeyItem.RootKey);
             ShellMenuItem shellMenuItem = new()
             {
                 MenuKey = currentMenuItem.MenuKey,
                 MenuGuid = currentMenuItem.MenuGuid,
                 MenuTitleText = currentMenuItem.MenuTitleText,
+                ShouldUseIcon = currentMenuItem.ShouldUseIcon,
                 ShouldUseProgramIcon = currentMenuItem.ShouldUseProgramIcon,
-                ShouldEnableThemeIcon = currentMenuItem.ShouldEnableThemeIcon,
+                ShouldUseThemeIcon = currentMenuItem.ShouldUseThemeIcon,
                 DefaultIconPath = currentMenuItem.DefaultIconPath,
                 LightThemeIconPath = currentMenuItem.LightThemeIconPath,
                 DarkThemeIconPath = currentMenuItem.DarkThemeIconPath,
@@ -122,6 +137,9 @@ namespace WindowsTools.Services.Shell
                 {
                     shellMenuItem.SubShellMenuItem.Add(EnumShellMenuItem(subRegistryKeyItem));
                 }
+
+                // 递归获取完子列表后，根据列表的索引进行排序
+                shellMenuItem.SubShellMenuItem.Sort((item1, item2) => item1.MenuIndex.CompareTo(item2.MenuIndex));
             }
 
             return shellMenuItem;
@@ -134,28 +152,30 @@ namespace WindowsTools.Services.Shell
         {
             ShellMenuItem shellMenuItem = new();
 
-            string menuTitleText = RegistryHelper.ReadRegistryValue<string>(menuKey, "MenuTitleText");
-            string menuGuid = RegistryHelper.ReadRegistryValue<string>(menuKey, "MenuGuid");
-            bool? shouldUseProgramIcon = RegistryHelper.ReadRegistryValue<bool?>(menuKey, "ShouldUseProgramIcon");
-            bool? shouldEnableThemeIcon = RegistryHelper.ReadRegistryValue<bool?>(menuKey, "ShouldEnableThemeIcon");
-            string defaultIconPath = RegistryHelper.ReadRegistryValue<string>(menuKey, "DefaultIconPath");
-            string lightThemeIconPath = RegistryHelper.ReadRegistryValue<string>(menuKey, "LightThemeIconPath");
-            string darkThemeIconPath = RegistryHelper.ReadRegistryValue<string>(menuKey, "DarkThemeIconPath");
-            string menuProgramPathText = RegistryHelper.ReadRegistryValue<string>(menuKey, "MenuProgramPathText");
-            string menuParameter = RegistryHelper.ReadRegistryValue<string>(menuKey, "MenuParameter");
-            bool? folderBackground = RegistryHelper.ReadRegistryValue<bool?>(menuKey, "FolderBackground");
-            bool? folderDesktop = RegistryHelper.ReadRegistryValue<bool?>(menuKey, "FolderDesktop");
-            bool? folderDirectory = RegistryHelper.ReadRegistryValue<bool?>(menuKey, "FolderDirectory");
-            bool? folderDrive = RegistryHelper.ReadRegistryValue<bool?>(menuKey, "FolderDrive");
-            string menuFileMatchRule = RegistryHelper.ReadRegistryValue<string>(menuKey, "MenuFileMatchRule");
-            string menuFileMatchFormatText = RegistryHelper.ReadRegistryValue<string>(menuKey, "MenuFileMatchFormatText");
-            int? menuIndex = RegistryHelper.ReadRegistryValue<int?>(menuKey, "MenuIndex");
+            string menuTitleText = RegistryHelper.ReadRegistryKey<string>(menuKey, "MenuTitleText");
+            string menuGuid = RegistryHelper.ReadRegistryKey<string>(menuKey, "MenuGuid");
+            bool? shouldUseIcon = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "ShouldUseIcon");
+            bool? shouldUseProgramIcon = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "ShouldUseProgramIcon");
+            bool? ShouldUseThemeIcon = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "ShouldUseThemeIcon");
+            string defaultIconPath = RegistryHelper.ReadRegistryKey<string>(menuKey, "DefaultIconPath");
+            string lightThemeIconPath = RegistryHelper.ReadRegistryKey<string>(menuKey, "LightThemeIconPath");
+            string darkThemeIconPath = RegistryHelper.ReadRegistryKey<string>(menuKey, "DarkThemeIconPath");
+            string menuProgramPathText = RegistryHelper.ReadRegistryKey<string>(menuKey, "MenuProgramPathText");
+            string menuParameter = RegistryHelper.ReadRegistryKey<string>(menuKey, "MenuParameter");
+            bool? folderBackground = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "FolderBackground");
+            bool? folderDesktop = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "FolderDesktop");
+            bool? folderDirectory = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "FolderDirectory");
+            bool? folderDrive = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "FolderDrive");
+            string menuFileMatchRule = RegistryHelper.ReadRegistryKey<string>(menuKey, "MenuFileMatchRule");
+            string menuFileMatchFormatText = RegistryHelper.ReadRegistryKey<string>(menuKey, "MenuFileMatchFormatText");
+            int? menuIndex = RegistryHelper.ReadRegistryKey<int?>(menuKey, "MenuIndex");
 
             shellMenuItem.MenuKey = menuKey;
             shellMenuItem.MenuGuid = string.IsNullOrEmpty(menuGuid) ? Guid.Empty : new Guid(menuGuid);
             shellMenuItem.MenuTitleText = menuTitleText;
+            shellMenuItem.ShouldUseIcon = shouldUseIcon.HasValue && shouldUseIcon.Value;
             shellMenuItem.ShouldUseProgramIcon = shouldUseProgramIcon.HasValue && shouldUseProgramIcon.Value;
-            shellMenuItem.ShouldEnableThemeIcon = shouldEnableThemeIcon.HasValue && shouldEnableThemeIcon.Value;
+            shellMenuItem.ShouldUseThemeIcon = ShouldUseThemeIcon.HasValue && ShouldUseThemeIcon.Value;
             shellMenuItem.DefaultIconPath = defaultIconPath;
             shellMenuItem.LightThemeIconPath = lightThemeIconPath;
             shellMenuItem.DarkThemeIconPath = darkThemeIconPath;

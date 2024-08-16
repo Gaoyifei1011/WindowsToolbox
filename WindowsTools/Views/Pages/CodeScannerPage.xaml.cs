@@ -18,7 +18,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
@@ -325,11 +325,11 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 保存图片
         /// </summary>
-        private void OnSavePhotoClicked(object sender, RoutedEventArgs args)
+        private async void OnSavePhotoClicked(object sender, RoutedEventArgs args)
         {
             if (string.IsNullOrEmpty(GenerateText))
             {
-                TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateTextEmpty));
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.GenerateTextEmpty));
                 return;
             }
 
@@ -340,7 +340,7 @@ namespace WindowsTools.Views.Pages
 
             if (saveFileDialog.ShowDialog() is DialogResult.OK)
             {
-                Task.Run(() =>
+                await Task.Run(() =>
                 {
                     // 条形码
                     if (SelectedGenerateType.Equals(GenerateTypeList[0]))
@@ -385,16 +385,16 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 打印图片
         /// </summary>
-        private void OnPrintPhotoClicked(object sender, RoutedEventArgs args)
+        private async void OnPrintPhotoClicked(object sender, RoutedEventArgs args)
         {
             if (string.IsNullOrEmpty(GenerateText))
             {
-                TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateTextEmpty));
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.GenerateTextEmpty));
                 return;
             }
 
             AutoResetEvent autoResetEvent = new(false);
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 // 条形码
                 if (SelectedGenerateType.Equals(GenerateTypeList[0]))
@@ -407,7 +407,7 @@ namespace WindowsTools.Views.Pages
                         memoryStream.Position = 0;
                         autoResetEvent.Set();
 
-                        synchronizationContext.Post(_ =>
+                        synchronizationContext.Post(async (_) =>
                         {
                             try
                             {
@@ -419,7 +419,7 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateBarCodeFailed));
+                                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.GenerateBarCodeFailed));
                                 LogService.WriteLog(EventLevel.Error, "Display generated bar code photo failed", e);
                             }
                         }, null);
@@ -437,7 +437,7 @@ namespace WindowsTools.Views.Pages
                         memoryStream.Position = 0;
                         autoResetEvent.Set();
 
-                        synchronizationContext.Post(_ =>
+                        synchronizationContext.Post(async (_) =>
                         {
                             try
                             {
@@ -449,7 +449,7 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateQRCodeFailed));
+                                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.GenerateQRCodeFailed));
                                 LogService.WriteLog(EventLevel.Error, "Display generated qr code photo failed", e);
                             }
                         }, null);
@@ -520,14 +520,14 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 生成图片
         /// </summary>
-        private void OnGeneratePhotoClicked(object sender, RoutedEventArgs args)
+        private async void OnGeneratePhotoClicked(object sender, RoutedEventArgs args)
         {
             if (string.IsNullOrEmpty(GenerateText))
             {
-                TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateTextEmpty));
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.GenerateTextEmpty));
             }
 
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 // 条形码
                 if (SelectedGenerateType.Equals(GenerateTypeList[0]))
@@ -539,7 +539,7 @@ namespace WindowsTools.Views.Pages
                         barCodeBitmap.Save(memoryStream, ImageFormat.Png);
                         memoryStream.Position = 0;
 
-                        synchronizationContext.Post(_ =>
+                        synchronizationContext.Post(async (_) =>
                         {
                             try
                             {
@@ -551,7 +551,7 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateBarCodeFailed));
+                                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.GenerateBarCodeFailed));
                                 LogService.WriteLog(EventLevel.Error, "Display generated bar code photo failed", e);
                             }
                         }, null);
@@ -568,7 +568,7 @@ namespace WindowsTools.Views.Pages
                         qrCodeBitmap.Save(memoryStream, ImageFormat.Png);
                         memoryStream.Position = 0;
 
-                        synchronizationContext.Post(_ =>
+                        synchronizationContext.Post(async (_) =>
                         {
                             try
                             {
@@ -580,7 +580,7 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                TeachingTipHelper.Show(new OperationResultTip(OperationKind.GenerateQRCodeFailed));
+                                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.GenerateQRCodeFailed));
                                 LogService.WriteLog(EventLevel.Error, "Display generated qr code photo failed", e);
                             }
                         }, null);
@@ -702,7 +702,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 读取剪贴板图片
         /// </summary>
-        private void OnReadClipboardPhotoClicked(object sender, RoutedEventArgs args)
+        private async void OnReadClipboardPhotoClicked(object sender, RoutedEventArgs args)
         {
             System.Drawing.Image clipboardImage = CopyPasteHelper.ReadClipboardImage();
 
@@ -712,7 +712,7 @@ namespace WindowsTools.Views.Pages
             }
             else
             {
-                TeachingTipHelper.Show(new OperationResultTip(OperationKind.ReadClipboardImageFailed));
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ReadClipboardImageFailed));
             }
         }
 
@@ -806,14 +806,6 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 获取 ToggleSwitch 的文字转向
-        /// </summary>
-        private global::Windows.UI.Xaml.FlowDirection GetToggleSwitchDirection(RightToLeft rightToLeft)
-        {
-            return rightToLeft is RightToLeft.Yes ? global::Windows.UI.Xaml.FlowDirection.LeftToRight : global::Windows.UI.Xaml.FlowDirection.RightToLeft;
-        }
-
-        /// <summary>
         /// 解析图片文件
         /// </summary>
         public void ParseCodeImage(System.Drawing.Image image)
@@ -835,17 +827,17 @@ namespace WindowsTools.Views.Pages
                     }
                     else
                     {
-                        synchronizationContext.Post(_ =>
+                        synchronizationContext.Post(async (_) =>
                         {
-                            TeachingTipHelper.Show(new OperationResultTip(OperationKind.ParsePhotoFailed));
+                            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ParsePhotoFailed));
                         }, null);
                     }
                 }
                 catch (Exception e)
                 {
-                    synchronizationContext.Post(_ =>
+                    synchronizationContext.Post(async (_) =>
                     {
-                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.ParsePhotoFailed));
+                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ParsePhotoFailed));
                     }, null);
                     LogService.WriteLog(EventLevel.Error, string.Format("Parse code file failed"), e);
                 }

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using Windows.Globalization;
 using WindowsTools.Extensions.DataType.Constant;
 using WindowsTools.Services.Root;
 
@@ -40,6 +41,7 @@ namespace WindowsTools.Services.Controls.Settings
                 {
                     AppLanguagesList.Add(Path.GetFileName(Path.GetDirectoryName(file)));
                 }
+                AppLanguagesList.Sort();
             }
             catch
             {
@@ -144,6 +146,7 @@ namespace WindowsTools.Services.Controls.Settings
         {
             AppLanguage = language;
             LocalSettingsService.SaveSetting(settingsKey, language.Value);
+            ApplicationLanguages.PrimaryLanguageOverride = language.Value.ToString();
         }
     }
 }

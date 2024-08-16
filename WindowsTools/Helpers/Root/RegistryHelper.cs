@@ -15,12 +15,12 @@ namespace WindowsTools.Helpers.Root
         /// <summary>
         /// 读取注册表指定项的内容
         /// </summary>
-        public static T ReadRegistryValue<T>(string rootkey, string key)
+        public static T ReadRegistryKey<T>(string rootKey, string key)
         {
             T value = default;
             try
             {
-                RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(rootkey);
+                RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(rootKey, false);
 
                 if (registryKey is not null)
                 {
@@ -69,7 +69,7 @@ namespace WindowsTools.Helpers.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format("Read Registry rootkey {0} and key {1} value failed", rootkey, key), e);
+                LogService.WriteLog(EventLevel.Error, string.Format("Read Registry rootKey {0} and key {1} value failed", rootKey, key), e);
             }
 
             return value;
@@ -78,11 +78,11 @@ namespace WindowsTools.Helpers.Root
         /// <summary>
         /// 保存注册表指定项的内容
         /// </summary>
-        public static void SaveRegistryValue<T>(string rootkey, string key, T value, bool isExpandString = false)
+        public static void SaveRegistryKey<T>(string rootKey, string key, T value, bool isExpandString = false)
         {
             try
             {
-                RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(rootkey, true);
+                RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(rootKey, true);
 
                 if (registryKey is not null)
                 {
@@ -135,7 +135,31 @@ namespace WindowsTools.Helpers.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format("Save Registry rootkey {0} and key {1} value failed", rootkey, key), e);
+                LogService.WriteLog(EventLevel.Error, string.Format("Save Registry rootKey {0} and key {1} value failed", rootKey, key), e);
+            }
+        }
+
+        /// <summary>
+        /// 移除注册表指定项
+        /// </summary>
+
+        public static void RemoveRegistryKey(string rootKey)
+        {
+            try
+            {
+                RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(rootKey, true);
+
+                if (registryKey is not null)
+                {
+                    Registry.CurrentUser.DeleteSubKeyTree(rootKey, false);
+                }
+
+                registryKey.Close();
+                registryKey.Dispose();
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, string.Format("Remove registry rootkey {0} failed", rootKey), e);
             }
         }
 
@@ -170,7 +194,7 @@ namespace WindowsTools.Helpers.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format("Enumerate Registry rootkey {0} failed", rootKey), e);
+                LogService.WriteLog(EventLevel.Error, string.Format("Enumerate Registry rootKey {0} failed", rootKey), e);
             }
 
             return registryEnumKeyItem;

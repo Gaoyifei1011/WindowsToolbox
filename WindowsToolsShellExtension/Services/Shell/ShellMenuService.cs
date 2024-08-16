@@ -5,7 +5,7 @@ using WindowsToolsShellExtension.Strings;
 using WindowsToolsShellExtension.WindowsAPI.PInvoke.Kernel32;
 using WindowsToolsShellExtension.WindowsAPI.PInvoke.Shell32;
 
-namespace WindowsTools.Services.Shell
+namespace WindowsToolsShellExtension.Services.Shell
 {
     /// <summary>
     /// 自定义扩展菜单服务

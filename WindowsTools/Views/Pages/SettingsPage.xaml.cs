@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
-using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Models;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
@@ -176,11 +178,11 @@ namespace WindowsTools.Views.Pages
 
         private List<DictionaryEntry> BackdropList { get; } = BackdropService.BackdropList;
 
-        private List<DictionaryEntry> LanguageList { get; } = LanguageService.LanguageList;
-
         private List<DictionaryEntry> DoEngineModeList { get; } = DownloadOptionsService.DoEngineModeList;
 
         private List<DictionaryEntry> ExitModeList { get; } = ExitModeService.ExitModeList;
+
+        private ObservableCollection<LanguageModel> LanguageCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -188,48 +190,62 @@ namespace WindowsTools.Views.Pages
         {
             InitializeComponent();
 
-            for (int index = 0; index < LanguageList.Count; index++)
+            foreach (DictionaryEntry languageItem in LanguageService.LanguageList)
             {
-                DictionaryEntry languageItem = LanguageList[index];
-                ToggleMenuFlyoutItem toggleMenuFlyoutItem = new()
+                if (LanguageService.AppLanguage.Value.Equals(languageItem.Value))
                 {
-                    Text = languageItem.Key.ToString(),
-                    Height = 32,
-                    Padding = new Thickness(11, 0, 11, 0),
-                    Tag = index
-                };
-
-                if (AppLanguage.Value.Equals(LanguageList[index].Value))
-                {
-                    toggleMenuFlyoutItem.IsChecked = true;
+                    AppLanguage = languageItem;
+                    LanguageCollection.Add(new LanguageModel()
+                    {
+                        LangaugeInfo = languageItem,
+                        IsChecked = true
+                    });
                 }
-
-                toggleMenuFlyoutItem.Click += (sender, args) =>
+                else
                 {
-                    foreach (MenuFlyoutItemBase menuFlyoutItemBase in LanguageFlyout.Items)
+                    LanguageCollection.Add(new LanguageModel()
                     {
-                        ToggleMenuFlyoutItem toggleMenuFlyoutItem = menuFlyoutItemBase as ToggleMenuFlyoutItem;
-                        if (toggleMenuFlyoutItem is not null && toggleMenuFlyoutItem.IsChecked)
-                        {
-                            toggleMenuFlyoutItem.IsChecked = false;
-                        }
-                    }
-
-                    int selectedIndex = Convert.ToInt32((sender as ToggleMenuFlyoutItem).Tag);
-                    (LanguageFlyout.Items[selectedIndex] as ToggleMenuFlyoutItem).IsChecked = true;
-
-                    if (AppLanguage.Value.ToString() != LanguageList[selectedIndex].Value.ToString())
-                    {
-                        AppLanguage = LanguageList[selectedIndex];
-                        LanguageService.SetLanguage(AppLanguage);
-                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.LanguageChange));
-                    }
-                };
-                LanguageFlyout.Items.Add(toggleMenuFlyoutItem);
+                        LangaugeInfo = languageItem,
+                        IsChecked = false
+                    });
+                }
             }
         }
 
-        #region 第一部分：设置页面——挂载的事件
+        #region 第一部分：XamlUICommand 命令调用时挂载的事件
+
+        /// <summary>
+        /// 修改应用语言
+        /// </summary>
+        private async void OnLanguageExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        {
+            if (LanguageFlyout.IsOpen)
+            {
+                LanguageFlyout.Hide();
+            }
+
+            LanguageModel languageItem = args.Parameter as LanguageModel;
+
+            if (languageItem is not null)
+            {
+                foreach (LanguageModel item in LanguageCollection)
+                {
+                    item.IsChecked = false;
+                    if (languageItem.LangaugeInfo.Value.Equals(item.LangaugeInfo.Value))
+                    {
+                        AppLanguage = item.LangaugeInfo;
+                        item.IsChecked = true;
+                    }
+                }
+
+                LanguageService.SetLanguage(AppLanguage);
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.LanguageChange));
+            }
+        }
+
+        #endregion 第一部分：XamlUICommand 命令调用时挂载的事件
+
+        #region 第二部分：设置页面——挂载的事件
 
         /// <summary>
         /// 打开重启应用确认的窗口对话框
@@ -359,6 +375,21 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
+        /// 语言设置菜单打开时自动定位到选中项
+        /// </summary>
+        private void OnOpened(object sender, object args)
+        {
+            foreach (LanguageModel languageItem in LanguageCollection)
+            {
+                if (languageItem.IsChecked)
+                {
+                    LanguageListView.ScrollIntoView(languageItem);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
         /// 打开文件存放目录
         /// </summary>
         private void OnOpenFolderClicked(object sender, RoutedEventArgs args)
@@ -462,10 +493,10 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 清除所有日志记录
         /// </summary>
-        private void OnClearClicked(object sender, RoutedEventArgs args)
+        private async void OnClearClicked(object sender, RoutedEventArgs args)
         {
             bool result = LogService.ClearLog();
-            TeachingTipHelper.Show(new OperationResultTip(OperationKind.LogClean, result));
+            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.LogClean, result));
         }
 
         /// <summary>
@@ -481,15 +512,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        #endregion 第一部分：设置页面——挂载的事件
-
-        /// <summary>
-        /// 获取 ToggleSwitch 的文字转向
-        /// </summary>
-        private global::Windows.UI.Xaml.FlowDirection GetToggleSwitchDirection(RightToLeft rightToLeft)
-        {
-            return rightToLeft is RightToLeft.Yes ? global::Windows.UI.Xaml.FlowDirection.LeftToRight : global::Windows.UI.Xaml.FlowDirection.RightToLeft;
-        }
+        #endregion 第二部分：设置页面——挂载的事件
 
         private string LocalizeDisplayNumber(DictionaryEntry selectedBackdrop)
         {

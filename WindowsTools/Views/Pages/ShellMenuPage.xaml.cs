@@ -36,6 +36,7 @@ namespace WindowsTools.Views.Pages
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private Guid editMenuGuid;
         private string editMenuKey;
+        private int editMenuIndex;
         private string selectedDefaultIconPath = string.Empty;
         private string selectedLightThemeIconPath = string.Empty;
         private string selectedDarkThemeIconPath = string.Empty;
@@ -74,6 +75,38 @@ namespace WindowsTools.Views.Pages
             }
         }
 
+        private bool _isMoveUpEnabled;
+
+        public bool IsMoveUpEnabled
+        {
+            get { return _isMoveUpEnabled; }
+
+            set
+            {
+                if (!Equals(_isMoveUpEnabled, value))
+                {
+                    _isMoveUpEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsMoveUpEnabled)));
+                }
+            }
+        }
+
+        private bool _isMoveDownEnabled;
+
+        public bool IsMoveDownEnabled
+        {
+            get { return _isMoveDownEnabled; }
+
+            set
+            {
+                if (!Equals(_isMoveDownEnabled, value))
+                {
+                    _isMoveDownEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsMoveDownEnabled)));
+                }
+            }
+        }
+
         private string _menuTitleText;
 
         public string MenuTitleText
@@ -86,6 +119,22 @@ namespace WindowsTools.Views.Pages
                 {
                     _menuTitleText = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MenuTitleText)));
+                }
+            }
+        }
+
+        private bool _shouldUseIcon;
+
+        public bool ShouldUseIcon
+        {
+            get { return _shouldUseIcon; }
+
+            set
+            {
+                if (!Equals(_shouldUseIcon, value))
+                {
+                    _shouldUseIcon = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShouldUseIcon)));
                 }
             }
         }
@@ -106,18 +155,18 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private bool _shouldEnableThemeIcon;
+        private bool _shouldUseThemeIcon;
 
-        public bool ShouldEnableThemeIcon
+        public bool ShouldUseThemeIcon
         {
-            get { return _shouldEnableThemeIcon; }
+            get { return _shouldUseThemeIcon; }
 
             set
             {
-                if (!Equals(_shouldEnableThemeIcon, value))
+                if (!Equals(_shouldUseThemeIcon, value))
                 {
-                    _shouldEnableThemeIcon = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShouldEnableThemeIcon)));
+                    _shouldUseThemeIcon = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShouldUseThemeIcon)));
                 }
             }
         }
@@ -380,11 +429,11 @@ namespace WindowsTools.Views.Pages
 
         private List<DictionaryEntry> FileMatchRuleList { get; } =
         [
-            new DictionaryEntry(ShellMenu.None,"None"),
-            new DictionaryEntry(ShellMenu.Name,"Name"),
-            new DictionaryEntry(ShellMenu.NameRegex,"NameRegex"),
-            new DictionaryEntry(ShellMenu.Extension,"Extension"),
-            new DictionaryEntry(ShellMenu.All,"All")
+            new DictionaryEntry(ShellMenu.None, "None"),
+            new DictionaryEntry(ShellMenu.Name, "Name"),
+            new DictionaryEntry(ShellMenu.NameRegex, "NameRegex"),
+            new DictionaryEntry(ShellMenu.Extension, "Extension"),
+            new DictionaryEntry(ShellMenu.All, "All")
         ];
 
         public ObservableCollection<DictionaryEntry> BreadCollection { get; } =
@@ -403,6 +452,7 @@ namespace WindowsTools.Views.Pages
 
             Task.Run(() =>
             {
+                // 获取所有菜单项信息
                 ShellMenuItem rootShellMenuItem = ShellMenuService.GetShellMenuItem();
 
                 synchronizationContext.Send(_ =>
@@ -412,6 +462,8 @@ namespace WindowsTools.Views.Pages
                         ShellMenuItemCollection.Add(EnumShellMenuItem(rootShellMenuItem, MenuType.RootMenu));
 
                         IsAddMenuEnabled = true;
+                        IsMoveUpEnabled = false;
+                        IsMoveDownEnabled = false;
 
                         if (ShellMenuItemCollection.Count is 0)
                         {
@@ -430,6 +482,8 @@ namespace WindowsTools.Views.Pages
                         IsAddMenuEnabled = true;
                         selectedItem = null;
                         IsEditMenuEnabled = false;
+                        IsMoveUpEnabled = false;
+                        IsMoveDownEnabled = false;
                     }
                 }, null);
             });
@@ -464,9 +518,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnActualThemeChanged(FrameworkElement sender, object args)
         {
-            if (ShellMenuItemCollection.Count is 1)
+            foreach (ShellMenuItemModel shellMenuItem in ShellMenuItemCollection)
             {
-                EnumModifyShellMenuItemTheme(ShellMenuItemCollection[0]);
+                EnumModifyShellMenuItemTheme(shellMenuItem);
             }
         }
 
@@ -503,12 +557,15 @@ namespace WindowsTools.Views.Pages
             {
                 Task.Run(() =>
                 {
+                    // 保存指定菜单项信息
                     ShellMenuItem shellMenuItem = new()
                     {
                         MenuGuid = editMenuGuid,
+                        MenuIndex = editMenuIndex,
                         MenuTitleText = MenuTitleText,
+                        ShouldUseIcon = ShouldUseIcon,
                         ShouldUseProgramIcon = ShouldUseProgramIcon,
-                        ShouldEnableThemeIcon = ShouldEnableThemeIcon,
+                        ShouldUseThemeIcon = ShouldUseThemeIcon,
                         DefaultIconPath = DefaultIconPath,
                         LightThemeIconPath = LightThemeIconPath,
                         DarkThemeIconPath = DarkThemeIconPath,
@@ -536,6 +593,8 @@ namespace WindowsTools.Views.Pages
                                 ShellMenuItemCollection.Add(EnumShellMenuItem(rootShellMenuItem, MenuType.RootMenu));
 
                                 IsAddMenuEnabled = true;
+                                IsMoveUpEnabled = false;
+                                IsMoveDownEnabled = false;
 
                                 if (ShellMenuItemCollection.Count is 0)
                                 {
@@ -555,6 +614,8 @@ namespace WindowsTools.Views.Pages
                             IsAddMenuEnabled = true;
                             selectedItem = null;
                             IsEditMenuEnabled = false;
+                            IsMoveUpEnabled = false;
+                            IsMoveDownEnabled = false;
                         }
 
                         BreadCollection.RemoveAt(1);
@@ -568,20 +629,52 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAddMenuItemClicked(object sender, RoutedEventArgs args)
         {
-            Guid menuGuid = Guid.NewGuid();
-            string menuKey = string.Empty;
-
-            if (selectedItem is null)
+            Task.Run(() =>
             {
-                menuKey = menuGuid.ToString();
-            }
-            else if (selectedItem.MenuType is MenuType.RootMenu || selectedItem.MenuType is MenuType.FirstLevelMenu)
-            {
-                menuKey = Path.Combine(selectedItem.MenuKey, menuGuid.ToString());
-            }
+                Guid menuGuid = Guid.NewGuid();
+                string menuKey = string.Empty;
+                int menuIndex = 0;
 
-            AddShellMenu(menuKey, Guid.NewGuid());
-            BreadCollection.Add(new DictionaryEntry(ShellMenu.EditMenu, "EditMenu"));
+                if (selectedItem is null)
+                {
+                    menuKey = menuGuid.ToString();
+                }
+                else if (selectedItem.MenuType is MenuType.RootMenu || selectedItem.MenuType is MenuType.FirstLevelMenu)
+                {
+                    menuKey = Path.Combine(selectedItem.MenuKey, menuGuid.ToString());
+                    menuIndex = selectedItem.SubMenuItemCollection.Count;
+                }
+
+                synchronizationContext.Send(_ =>
+                {
+                    // 添加菜单项信息
+                    editMenuKey = menuKey;
+                    editMenuGuid = menuGuid;
+                    editMenuIndex = menuIndex;
+                    selectedDefaultIconPath = string.Empty;
+                    selectedLightThemeIconPath = string.Empty;
+                    selectedDarkThemeIconPath = string.Empty;
+                    MenuTitleText = string.Empty;
+                    ShouldUseIcon = true;
+                    ShouldUseProgramIcon = true;
+                    ShouldUseThemeIcon = true;
+                    DefaultIconPath = string.Empty;
+                    LightThemeIconPath = string.Empty;
+                    DarkThemeIconPath = string.Empty;
+                    MenuProgramPathText = string.Empty;
+                    MenuParameterText = string.Empty;
+                    FolderBackgroundMatch = false;
+                    FolderDesktopMatch = false;
+                    FolderDirectoryMatch = false;
+                    FolderDriveMatch = false;
+                    SelectedFileMatchRule = FileMatchRuleList[4];
+                    NeedInputMatchFormat = false;
+                    MenuFileMatchFormatPHText = string.Empty;
+                    MenuFileMatchFormatText = string.Empty;
+
+                    BreadCollection.Add(new DictionaryEntry(ShellMenu.EditMenu, "EditMenu"));
+                }, null);
+            });
         }
 
         /// <summary>
@@ -589,11 +682,23 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnClearMenuClicked(object sender, RoutedEventArgs args)
         {
-            // 更新删除操作
-            ShellMenuItemCollection.Clear();
-            selectedItem = null;
-            IsAddMenuEnabled = true;
-            IsEditMenuEnabled = false;
+            string rootMenuKey = ShellMenuItemCollection[0].MenuKey;
+
+            Task.Run(() =>
+            {
+                // 清空所有菜单项信息
+                ShellMenuService.RemoveShellMenuItem(rootMenuKey);
+
+                synchronizationContext.Send(_ =>
+                {
+                    ShellMenuItemCollection.Clear();
+                    selectedItem = null;
+                    IsAddMenuEnabled = true;
+                    IsEditMenuEnabled = false;
+                    IsMoveUpEnabled = false;
+                    IsMoveDownEnabled = false;
+                }, null);
+            });
         }
 
         /// <summary>
@@ -605,6 +710,7 @@ namespace WindowsTools.Views.Pages
 
             Task.Run(() =>
             {
+                // 获取所有菜单项信息
                 ShellMenuItem rootShellMenuItem = ShellMenuService.GetShellMenuItem();
 
                 synchronizationContext.Send(_ =>
@@ -614,6 +720,8 @@ namespace WindowsTools.Views.Pages
                         ShellMenuItemCollection.Add(EnumShellMenuItem(rootShellMenuItem, MenuType.RootMenu));
 
                         IsAddMenuEnabled = true;
+                        IsMoveUpEnabled = false;
+                        IsMoveDownEnabled = false;
 
                         if (ShellMenuItemCollection.Count is 0)
                         {
@@ -632,6 +740,8 @@ namespace WindowsTools.Views.Pages
                         IsAddMenuEnabled = true;
                         selectedItem = null;
                         IsEditMenuEnabled = false;
+                        IsMoveUpEnabled = false;
+                        IsMoveDownEnabled = false;
                     }
                 }, null);
             });
@@ -642,12 +752,14 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnEditMenuClicked(object sender, RoutedEventArgs args)
         {
+            // 获取选中项的菜单信息
             if (selectedItem is not null && BreadCollection.Count is 1)
             {
                 editMenuGuid = selectedItem.MenuGuid;
                 MenuTitleText = selectedItem.MenuTitleText;
+                ShouldUseIcon = selectedItem.ShouldUseIcon;
                 ShouldUseProgramIcon = selectedItem.ShouldUseProgramIcon;
-                ShouldEnableThemeIcon = selectedItem.ShouldEnableThemeIcon;
+                ShouldUseThemeIcon = selectedItem.ShouldUseThemeIcon;
                 DefaultIconPath = selectedItem.DefaultIconPath;
                 LightThemeIconPath = selectedItem.LightThemeIconPath;
                 DarkThemeIconPath = selectedItem.DarkThemeIconPath;
@@ -723,22 +835,31 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
+        /// 向上移动菜单项
+        /// </summary>
+        private void OnMoveUpClicked(object sender, RoutedEventArgs args)
+        {
+            EnumMoveUpShellMenuItem(selectedItem, ShellMenuItemCollection);
+        }
+
+        /// <summary>
+        /// 向下移动菜单项
+        /// </summary>
+        private void OnMoveDownClicked(object sender, RoutedEventArgs args)
+        {
+            EnumMoveDownShellMenuItem(selectedItem, ShellMenuItemCollection);
+        }
+
+        /// <summary>
         /// 点击选中项触发的事件
         /// </summary>
         private void OnItemInvoked(Microsoft.UI.Xaml.Controls.TreeView sender, Microsoft.UI.Xaml.Controls.TreeViewItemInvokedEventArgs args)
         {
-            if (selectedItem is not null)
-            {
-                selectedItem.IsSelected = false;
-            }
-
             selectedItem = args.InvokedItem as ShellMenuItemModel;
 
             if (selectedItem is not null)
             {
-                selectedItem.IsSelected = true;
-                IsEditMenuEnabled = true;
-                IsAddMenuEnabled = selectedItem.MenuType is MenuType.RootMenu || selectedItem.MenuType is MenuType.FirstLevelMenu;
+                EnumModifySelectedItem(selectedItem, ShellMenuItemCollection);
             }
         }
 
@@ -751,15 +872,15 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 是否启用主题图标按钮修改时触发的事件
+        /// 是否使用图标修改时触发的事件
         /// </summary>
-        private void OnShouldEnableThemeIconToggled(object sender, RoutedEventArgs args)
+        private void OnShouldUseIconToggled(object sender, RoutedEventArgs args)
         {
             ToggleSwitch toggleSwitch = sender as ToggleSwitch;
 
             if (toggleSwitch is not null)
             {
-                ShouldEnableThemeIcon = toggleSwitch.IsOn;
+                ShouldUseIcon = toggleSwitch.IsOn;
             }
         }
 
@@ -773,6 +894,19 @@ namespace WindowsTools.Views.Pages
             if (toggleSwitch is not null)
             {
                 ShouldUseProgramIcon = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 是否启用主题图标按钮修改时触发的事件
+        /// </summary>
+        private void OnShouldUseThemeIconToggled(object sender, RoutedEventArgs args)
+        {
+            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
+
+            if (toggleSwitch is not null)
+            {
+                ShouldUseThemeIcon = toggleSwitch.IsOn;
             }
         }
 
@@ -937,41 +1071,17 @@ namespace WindowsTools.Views.Pages
 
         #endregion 第二部分：根菜单页面——挂载的事件
 
-        /// <summary>
-        /// 添加菜单项信息
-        /// </summary>
-        private void AddShellMenu(string menuKey, Guid menuGuid)
-        {
-            editMenuKey = menuKey;
-            editMenuGuid = menuGuid;
-            selectedDefaultIconPath = string.Empty;
-            selectedLightThemeIconPath = string.Empty;
-            selectedDarkThemeIconPath = string.Empty;
-            MenuTitleText = string.Empty;
-            ShouldUseProgramIcon = true;
-            ShouldEnableThemeIcon = true;
-            DefaultIconPath = string.Empty;
-            LightThemeIconPath = string.Empty;
-            DarkThemeIconPath = string.Empty;
-            MenuProgramPathText = string.Empty;
-            MenuParameterText = string.Empty;
-            FolderBackgroundMatch = false;
-            FolderDesktopMatch = false;
-            FolderDirectoryMatch = false;
-            FolderDriveMatch = false;
-            SelectedFileMatchRule = FileMatchRuleList[4];
-            NeedInputMatchFormat = false;
-            MenuFileMatchFormatPHText = string.Empty;
-            MenuFileMatchFormatText = string.Empty;
-        }
+        #region 第三部分：递归遍历
 
         /// <summary>
         /// 枚举并递归菜单项信息
         /// </summary>
         private ShellMenuItemModel EnumShellMenuItem(ShellMenuItem menuItem, MenuType menuType)
         {
+            // 读取遍历到的当前项的信息
             ShellMenuItemModel shellMenuItem = new()
             {
+                MenuKey = menuItem.MenuKey,
                 IsSelected = menuType is MenuType.RootMenu,
                 MenuType = menuType,
                 MenuTitleText = menuItem.MenuTitleText,
@@ -986,35 +1096,42 @@ namespace WindowsTools.Views.Pages
                 FolderDirectory = menuItem.FolderDirectory,
                 FolderDrive = menuItem.FolderDrive,
                 MenuFileMatchRule = menuItem.MenuFileMatchRule,
-                MenuFileMatchFormatText = menuItem.MenuFileMatchFormatText
+                MenuFileMatchFormatText = menuItem.MenuFileMatchFormatText,
+                MenuIndex = menuItem.MenuIndex,
+                ShouldUseIcon = menuItem.ShouldUseIcon,
+                ShouldUseThemeIcon = menuItem.ShouldUseThemeIcon,
+                ShouldUseProgramIcon = menuItem.ShouldUseProgramIcon,
             };
 
-            if (shellMenuItem.ShouldUseProgramIcon)
+            if (shellMenuItem.ShouldUseIcon)
             {
-                if (File.Exists(shellMenuItem.MenuProgramPathText) && Path.GetExtension(shellMenuItem.MenuProgramPathText).Equals(".exe"))
+                // 使用应用程序图标
+                if (shellMenuItem.ShouldUseProgramIcon)
                 {
-                    try
+                    if (File.Exists(shellMenuItem.MenuProgramPathText) && Path.GetExtension(shellMenuItem.MenuProgramPathText).Equals(".exe"))
                     {
-                        Icon icon = Icon.ExtractAssociatedIcon(shellMenuItem.MenuProgramPathText);
-                        MemoryStream memoryStream = new();
-                        icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
-                        memoryStream.Seek(0, SeekOrigin.Begin);
-                        DarkThemeIconImage.SetSource(memoryStream.AsRandomAccessStream());
-                        memoryStream.Dispose();
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLevel.Error, "Get program icon failed", e);
+                        try
+                        {
+                            Icon icon = Icon.ExtractAssociatedIcon(shellMenuItem.MenuProgramPathText);
+                            MemoryStream memoryStream = new();
+                            icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
+                            memoryStream.Seek(0, SeekOrigin.Begin);
+                            shellMenuItem.MenuIcon.SetSource(memoryStream.AsRandomAccessStream());
+                            memoryStream.Dispose();
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, "Get program icon failed", e);
+                        }
                     }
                 }
-            }
-            else
-            {
-                if (shellMenuItem.ShouldEnableThemeIcon)
+                else
                 {
-                    if (ActualTheme is ElementTheme.Light)
+                    // 使用主题菜单图标
+                    if (shellMenuItem.ShouldUseThemeIcon)
                     {
-                        if (File.Exists(shellMenuItem.LightThemeIconPath))
+                        // 浅色主题图标
+                        if (ActualTheme is ElementTheme.Light && File.Exists(shellMenuItem.LightThemeIconPath))
                         {
                             try
                             {
@@ -1022,7 +1139,7 @@ namespace WindowsTools.Views.Pages
                                 MemoryStream memoryStream = new();
                                 icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
                                 memoryStream.Seek(0, SeekOrigin.Begin);
-                                DarkThemeIconImage.SetSource(memoryStream.AsRandomAccessStream());
+                                shellMenuItem.MenuIcon.SetSource(memoryStream.AsRandomAccessStream());
                                 memoryStream.Dispose();
                             }
                             catch (Exception e)
@@ -1030,10 +1147,8 @@ namespace WindowsTools.Views.Pages
                                 LogService.WriteLog(EventLevel.Error, "Get light theme icon failed", e);
                             }
                         }
-                    }
-                    else if (ActualTheme is ElementTheme.Dark)
-                    {
-                        if (File.Exists(shellMenuItem.DarkThemeIconPath))
+                        // 深色主题图标
+                        else if (ActualTheme is ElementTheme.Dark && File.Exists(shellMenuItem.DarkThemeIconPath))
                         {
                             try
                             {
@@ -1041,7 +1156,7 @@ namespace WindowsTools.Views.Pages
                                 MemoryStream memoryStream = new();
                                 icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
                                 memoryStream.Seek(0, SeekOrigin.Begin);
-                                DarkThemeIconImage.SetSource(memoryStream.AsRandomAccessStream());
+                                shellMenuItem.MenuIcon.SetSource(memoryStream.AsRandomAccessStream());
                                 memoryStream.Dispose();
                             }
                             catch (Exception e)
@@ -1050,28 +1165,30 @@ namespace WindowsTools.Views.Pages
                             }
                         }
                     }
-                }
-                else
-                {
-                    if (File.Exists(shellMenuItem.DefaultIconPath))
+                    else
                     {
-                        try
+                        // 默认图标
+                        if (File.Exists(shellMenuItem.DefaultIconPath))
                         {
-                            Icon icon = Icon.ExtractAssociatedIcon(shellMenuItem.DefaultIconPath);
-                            MemoryStream memoryStream = new();
-                            icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
-                            memoryStream.Seek(0, SeekOrigin.Begin);
-                            DarkThemeIconImage.SetSource(memoryStream.AsRandomAccessStream());
-                            memoryStream.Dispose();
-                        }
-                        catch (Exception e)
-                        {
-                            LogService.WriteLog(EventLevel.Error, "Get default icon failed", e);
+                            try
+                            {
+                                Icon icon = Icon.ExtractAssociatedIcon(shellMenuItem.DefaultIconPath);
+                                MemoryStream memoryStream = new();
+                                icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
+                                memoryStream.Seek(0, SeekOrigin.Begin);
+                                shellMenuItem.MenuIcon.SetSource(memoryStream.AsRandomAccessStream());
+                                memoryStream.Dispose();
+                            }
+                            catch (Exception e)
+                            {
+                                LogService.WriteLog(EventLevel.Error, "Get default icon failed", e);
+                            }
                         }
                     }
                 }
             }
 
+            // 递归遍历子项
             foreach (ShellMenuItem subMenuItem in menuItem.SubShellMenuItem)
             {
                 if (menuType is MenuType.RootMenu)
@@ -1088,11 +1205,59 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
+        /// 枚举并修改选中项
+        /// </summary>
+        private void EnumModifySelectedItem(ShellMenuItemModel selectedItem, ObservableCollection<ShellMenuItemModel> shellMenuItemCollection)
+        {
+            // 递归遍历列表，修改遍历到的当前项
+            for (int index = 0; index < shellMenuItemCollection.Count; index++)
+            {
+                // 修改遍历到的当前项
+                shellMenuItemCollection[index].IsSelected = false;
+                if (selectedItem is not null && selectedItem.MenuKey.Equals(shellMenuItemCollection[index].MenuKey))
+                {
+                    selectedItem.IsSelected = true;
+                    IsEditMenuEnabled = true;
+                    IsAddMenuEnabled = selectedItem.MenuType is MenuType.RootMenu || selectedItem.MenuType is MenuType.FirstLevelMenu;
+                    bool isFirstOrLast = false;
+
+                    // 第一项，不可向上移动
+                    if (selectedItem.MenuIndex is 0)
+                    {
+                        IsMoveUpEnabled = false;
+                        isFirstOrLast = true;
+                    }
+
+                    // 最后一项，不可向下移动
+                    if (selectedItem.MenuIndex.Equals(shellMenuItemCollection.Count - 1))
+                    {
+                        IsMoveDownEnabled = false;
+                        isFirstOrLast = true;
+                    }
+
+                    // 不是首项也不是最后一项，可以向上移动，也可以向下移动
+                    if (!isFirstOrLast)
+                    {
+                        IsMoveUpEnabled = true;
+                        IsMoveDownEnabled = true;
+                    }
+                }
+            }
+
+            // 递归遍历子项
+            foreach (ShellMenuItemModel subMenuItem in shellMenuItemCollection)
+            {
+                EnumModifySelectedItem(selectedItem, subMenuItem.SubMenuItemCollection);
+            }
+        }
+
+        /// <summary>
         /// 枚举并递归修改带主题的菜单项
         /// </summary>
         private void EnumModifyShellMenuItemTheme(ShellMenuItemModel shellMenuItem)
         {
-            if (!shellMenuItem.ShouldUseProgramIcon && shellMenuItem.ShouldEnableThemeIcon)
+            // 修改遍历到的当前项
+            if (shellMenuItem.ShouldUseIcon && !shellMenuItem.ShouldUseProgramIcon && shellMenuItem.ShouldUseThemeIcon)
             {
                 if (ActualTheme is ElementTheme.Light)
                 {
@@ -1133,47 +1298,178 @@ namespace WindowsTools.Views.Pages
                     }
                 }
             }
+
+            // 递归遍历子项
+            foreach (ShellMenuItemModel subMenuItem in shellMenuItem.SubMenuItemCollection)
+            {
+                EnumModifyShellMenuItemTheme(subMenuItem);
+            }
         }
 
         /// <summary>
-        /// 枚举并递归修改主题项信息
+        /// 枚举并递归获取选中项，向上移动
         /// </summary>
-        private bool EnumModifyShellMenuItemData(ShellMenuItemModel shellMenuItem, ShellMenuItem menuItem)
+        private void EnumMoveUpShellMenuItem(ShellMenuItemModel selectedItem, ObservableCollection<ShellMenuItemModel> shellMenuItemCollection)
         {
-            if (shellMenuItem.MenuKey.Equals(menuItem.MenuKey))
+            // 递归遍历列表，修改选中项顺序
+            for (int index = 1; index < shellMenuItemCollection.Count; index++)
             {
-                shellMenuItem.MenuTitleText = menuItem.MenuTitleText;
-                shellMenuItem.MenuGuid = menuItem.MenuGuid;
-                shellMenuItem.DefaultIconPath = menuItem.DefaultIconPath;
-                shellMenuItem.LightThemeIconPath = menuItem.LightThemeIconPath;
-                shellMenuItem.DarkThemeIconPath = menuItem.DarkThemeIconPath;
-                shellMenuItem.MenuProgramPathText = menuItem.MenuProgramPathText;
-                shellMenuItem.MenuParameter = menuItem.MenuParameter;
-                shellMenuItem.FolderBackground = menuItem.FolderBackground;
-                shellMenuItem.FolderDesktop = menuItem.FolderDesktop;
-                shellMenuItem.FolderDirectory = menuItem.FolderDirectory;
-                shellMenuItem.FolderDrive = menuItem.FolderDrive;
-                shellMenuItem.MenuFileMatchRule = menuItem.MenuFileMatchRule;
-                shellMenuItem.MenuFileMatchFormatText = menuItem.MenuFileMatchFormatText;
-                return true;
-            }
-            else
-            {
-                foreach (ShellMenuItemModel subMenuItem in shellMenuItem.SubMenuItemCollection)
+                if (selectedItem.MenuKey.Equals(shellMenuItemCollection[index].MenuKey))
                 {
-                    return EnumModifyShellMenuItemData(subMenuItem, menuItem);
+                    shellMenuItemCollection[index].MenuIndex = index - 1;
+                    shellMenuItemCollection[index - 1].MenuIndex = index;
+
+                    AutoResetEvent autoResetEvent = new(false);
+
+                    // 修改已保存的数据
+                    Task.Run(() =>
+                    {
+                        // 修改顺序后的菜单项信息
+                        ShellMenuItem swappedMenuItem = new()
+                        {
+                            MenuGuid = shellMenuItemCollection[index - 1].MenuGuid,
+                            MenuIndex = shellMenuItemCollection[index - 1].MenuIndex,
+                            MenuTitleText = shellMenuItemCollection[index - 1].MenuTitleText,
+                            ShouldUseIcon = shellMenuItemCollection[index - 1].ShouldUseIcon,
+                            ShouldUseProgramIcon = shellMenuItemCollection[index - 1].ShouldUseProgramIcon,
+                            ShouldUseThemeIcon = shellMenuItemCollection[index - 1].ShouldUseThemeIcon,
+                            DefaultIconPath = shellMenuItemCollection[index - 1].DefaultIconPath,
+                            LightThemeIconPath = shellMenuItemCollection[index - 1].LightThemeIconPath,
+                            DarkThemeIconPath = shellMenuItemCollection[index - 1].DarkThemeIconPath,
+                            MenuProgramPathText = shellMenuItemCollection[index - 1].MenuProgramPathText,
+                            MenuParameter = shellMenuItemCollection[index - 1].MenuParameter,
+                            FolderBackground = shellMenuItemCollection[index - 1].FolderBackground,
+                            FolderDesktop = shellMenuItemCollection[index - 1].FolderDesktop,
+                            FolderDirectory = shellMenuItemCollection[index - 1].FolderDirectory,
+                            FolderDrive = shellMenuItemCollection[index - 1].FolderDrive,
+                            MenuFileMatchRule = shellMenuItemCollection[index - 1].MenuFileMatchRule,
+                            MenuFileMatchFormatText = shellMenuItemCollection[index - 1].MenuFileMatchFormatText,
+                        };
+
+                        // 选中项菜单信息
+                        ShellMenuItem selectedMenuItem = new()
+                        {
+                            MenuGuid = shellMenuItemCollection[index].MenuGuid,
+                            MenuIndex = shellMenuItemCollection[index].MenuIndex,
+                            MenuTitleText = shellMenuItemCollection[index].MenuTitleText,
+                            ShouldUseIcon = shellMenuItemCollection[index].ShouldUseIcon,
+                            ShouldUseProgramIcon = shellMenuItemCollection[index].ShouldUseProgramIcon,
+                            ShouldUseThemeIcon = shellMenuItemCollection[index].ShouldUseThemeIcon,
+                            DefaultIconPath = shellMenuItemCollection[index].DefaultIconPath,
+                            LightThemeIconPath = shellMenuItemCollection[index].LightThemeIconPath,
+                            DarkThemeIconPath = shellMenuItemCollection[index].DarkThemeIconPath,
+                            MenuProgramPathText = shellMenuItemCollection[index].MenuProgramPathText,
+                            MenuParameter = shellMenuItemCollection[index].MenuParameter,
+                            FolderBackground = shellMenuItemCollection[index].FolderBackground,
+                            FolderDesktop = shellMenuItemCollection[index].FolderDesktop,
+                            FolderDirectory = shellMenuItemCollection[index].FolderDirectory,
+                            FolderDrive = shellMenuItemCollection[index].FolderDrive,
+                            MenuFileMatchRule = shellMenuItemCollection[index].MenuFileMatchRule,
+                            MenuFileMatchFormatText = shellMenuItemCollection[index].MenuFileMatchFormatText,
+                        };
+
+                        ShellMenuService.SaveShellMenuItem(shellMenuItemCollection[index - 1].MenuKey, swappedMenuItem);
+                        ShellMenuService.SaveShellMenuItem(shellMenuItemCollection[index].MenuKey, selectedMenuItem);
+                        autoResetEvent.Set();
+                    });
+
+                    autoResetEvent.WaitOne();
+                    autoResetEvent.Dispose();
+                    autoResetEvent = null;
+
+                    (shellMenuItemCollection[index], shellMenuItemCollection[index - 1]) = (shellMenuItemCollection[index - 1], shellMenuItemCollection[index]);
                 }
             }
 
-            return false;
+            // 递归遍历子项
+            foreach (ShellMenuItemModel shellMenuItem in shellMenuItemCollection)
+            {
+                EnumMoveUpShellMenuItem(selectedItem, shellMenuItem.SubMenuItemCollection);
+            }
         }
 
         /// <summary>
-        /// 获取 ToggleSwitch 的文字转向
+        /// 枚举并递归获取选中项，向下移动
         /// </summary>
-        private global::Windows.UI.Xaml.FlowDirection GetToggleSwitchDirection(RightToLeft rightToLeft)
+        private void EnumMoveDownShellMenuItem(ShellMenuItemModel selectedItem, ObservableCollection<ShellMenuItemModel> shellMenuItemCollection)
         {
-            return rightToLeft is RightToLeft.Yes ? global::Windows.UI.Xaml.FlowDirection.LeftToRight : global::Windows.UI.Xaml.FlowDirection.RightToLeft;
+            // 递归遍历列表，修改选中项顺序
+            for (int index = shellMenuItemCollection.Count - 1; index > 0; index--)
+            {
+                if (selectedItem.MenuKey.Equals(shellMenuItemCollection[index].MenuKey))
+                {
+                    shellMenuItemCollection[index].MenuIndex = index + 1;
+                    shellMenuItemCollection[index + 1].MenuIndex = index;
+
+                    AutoResetEvent autoResetEvent = new(false);
+
+                    Task.Run(() =>
+                    {
+                        // 保存修改顺序后的菜单项信息
+                        ShellMenuItem swappedMenuItem = new()
+                        {
+                            MenuGuid = shellMenuItemCollection[index + 1].MenuGuid,
+                            MenuIndex = shellMenuItemCollection[index + 1].MenuIndex,
+                            MenuTitleText = shellMenuItemCollection[index + 1].MenuTitleText,
+                            ShouldUseIcon = shellMenuItemCollection[index + 1].ShouldUseIcon,
+                            ShouldUseProgramIcon = shellMenuItemCollection[index + 1].ShouldUseProgramIcon,
+                            ShouldUseThemeIcon = shellMenuItemCollection[index + 1].ShouldUseThemeIcon,
+                            DefaultIconPath = shellMenuItemCollection[index + 1].DefaultIconPath,
+                            LightThemeIconPath = shellMenuItemCollection[index + 1].LightThemeIconPath,
+                            DarkThemeIconPath = shellMenuItemCollection[index + 1].DarkThemeIconPath,
+                            MenuProgramPathText = shellMenuItemCollection[index + 1].MenuProgramPathText,
+                            MenuParameter = shellMenuItemCollection[index + 1].MenuParameter,
+                            FolderBackground = shellMenuItemCollection[index + 1].FolderBackground,
+                            FolderDesktop = shellMenuItemCollection[index + 1].FolderDesktop,
+                            FolderDirectory = shellMenuItemCollection[index + 1].FolderDirectory,
+                            FolderDrive = shellMenuItemCollection[index + 1].FolderDrive,
+                            MenuFileMatchRule = shellMenuItemCollection[index + 1].MenuFileMatchRule,
+                            MenuFileMatchFormatText = shellMenuItemCollection[index + 1].MenuFileMatchFormatText,
+                        };
+
+                        // 选中项菜单信息
+                        ShellMenuItem selectedMenuItem = new()
+                        {
+                            MenuGuid = shellMenuItemCollection[index].MenuGuid,
+                            MenuIndex = shellMenuItemCollection[index].MenuIndex,
+                            MenuTitleText = shellMenuItemCollection[index].MenuTitleText,
+                            ShouldUseIcon = shellMenuItemCollection[index].ShouldUseIcon,
+                            ShouldUseProgramIcon = shellMenuItemCollection[index].ShouldUseProgramIcon,
+                            ShouldUseThemeIcon = shellMenuItemCollection[index].ShouldUseThemeIcon,
+                            DefaultIconPath = shellMenuItemCollection[index].DefaultIconPath,
+                            LightThemeIconPath = shellMenuItemCollection[index].LightThemeIconPath,
+                            DarkThemeIconPath = shellMenuItemCollection[index].DarkThemeIconPath,
+                            MenuProgramPathText = shellMenuItemCollection[index].MenuProgramPathText,
+                            MenuParameter = shellMenuItemCollection[index].MenuParameter,
+                            FolderBackground = shellMenuItemCollection[index].FolderBackground,
+                            FolderDesktop = shellMenuItemCollection[index].FolderDesktop,
+                            FolderDirectory = shellMenuItemCollection[index].FolderDirectory,
+                            FolderDrive = shellMenuItemCollection[index].FolderDrive,
+                            MenuFileMatchRule = shellMenuItemCollection[index].MenuFileMatchRule,
+                            MenuFileMatchFormatText = shellMenuItemCollection[index].MenuFileMatchFormatText,
+                        };
+
+                        ShellMenuService.SaveShellMenuItem(shellMenuItemCollection[index + 1].MenuKey, swappedMenuItem);
+                        ShellMenuService.SaveShellMenuItem(shellMenuItemCollection[index].MenuKey, selectedMenuItem);
+                        autoResetEvent.Set();
+                    });
+
+                    autoResetEvent.WaitOne();
+                    autoResetEvent.Dispose();
+                    autoResetEvent = null;
+
+                    // 修改已保存的数据
+                    (shellMenuItemCollection[index], shellMenuItemCollection[index + 1]) = (shellMenuItemCollection[index + 1], shellMenuItemCollection[index]);
+                }
+            }
+
+            // 递归遍历子项
+            foreach (ShellMenuItemModel shellMenuItem in shellMenuItemCollection)
+            {
+                EnumMoveDownShellMenuItem(selectedItem, shellMenuItem.SubMenuItemCollection);
+            }
         }
+
+        #endregion 第三部分：递归遍历
     }
 }

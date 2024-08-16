@@ -15,7 +15,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
-using WindowsTools.Helpers.Controls.Extensions;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
@@ -154,7 +153,7 @@ namespace WindowsTools.Views.Pages
         /// 按下 Enter 键发生的事件（预览修改内容）
         /// 按下 Ctrl + Enter 键发生的事件（修改内容）
         /// </summary>
-        protected override void OnKeyDown(KeyRoutedEventArgs args)
+        protected override async void OnKeyDown(KeyRoutedEventArgs args)
         {
             base.OnKeyDown(args);
             if (args.Key is VirtualKey.Enter)
@@ -173,7 +172,7 @@ namespace WindowsTools.Views.Pages
 
                     if (count is 0)
                     {
-                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.ListEmpty));
+                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ListEmpty));
                     }
                     else
                     {
@@ -182,7 +181,7 @@ namespace WindowsTools.Views.Pages
                 }
                 else
                 {
-                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.NoOperation));
+                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.NoOperation));
                 }
             }
             else if (args.Key is VirtualKey.Control && args.Key is VirtualKey.Enter)
@@ -201,7 +200,7 @@ namespace WindowsTools.Views.Pages
 
                     if (count is 0)
                     {
-                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.ListEmpty));
+                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ListEmpty));
                     }
                     else
                     {
@@ -211,7 +210,7 @@ namespace WindowsTools.Views.Pages
                 }
                 else
                 {
-                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.NoOperation));
+                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.NoOperation));
                 }
             }
         }
@@ -247,7 +246,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 预览修改的内容
         /// </summary>
-        private void OnPreviewClicked(object sender, RoutedEventArgs args)
+        private async void OnPreviewClicked(object sender, RoutedEventArgs args)
         {
             bool checkResult = CheckOperationState();
             if (checkResult)
@@ -262,7 +261,7 @@ namespace WindowsTools.Views.Pages
 
                 if (count is 0)
                 {
-                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.ListEmpty));
+                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ListEmpty));
                 }
                 else
                 {
@@ -271,14 +270,14 @@ namespace WindowsTools.Views.Pages
             }
             else
             {
-                TeachingTipHelper.Show(new OperationResultTip(OperationKind.NoOperation));
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.NoOperation));
             }
         }
 
         /// <summary>
         /// 修改内容
         /// </summary>
-        private void OnModifyClicked(object sender, RoutedEventArgs args)
+        private async void OnModifyClicked(object sender, RoutedEventArgs args)
         {
             bool checkResult = CheckOperationState();
             if (checkResult)
@@ -293,7 +292,7 @@ namespace WindowsTools.Views.Pages
 
                 if (count is 0)
                 {
-                    TeachingTipHelper.Show(new OperationResultTip(OperationKind.ListEmpty));
+                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ListEmpty));
                 }
                 else
                 {
@@ -303,7 +302,7 @@ namespace WindowsTools.Views.Pages
             }
             else
             {
-                TeachingTipHelper.Show(new OperationResultTip(OperationKind.NoOperation));
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.NoOperation));
             }
         }
 
@@ -664,7 +663,7 @@ namespace WindowsTools.Views.Pages
 
                 await Task.Delay(300);
 
-                synchronizationContext.Post(_ =>
+                synchronizationContext.Post(async (_) =>
                 {
                     IsModifyingNow = false;
                     foreach (OperationFailedModel operationFailedItem in operationFailedList)
@@ -674,10 +673,10 @@ namespace WindowsTools.Views.Pages
 
                     lock (upperAndLowerCaseLock)
                     {
-                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.File, UpperAndLowerCaseCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
-
                         UpperAndLowerCaseCollection.Clear();
                     }
+
+                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, UpperAndLowerCaseCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
                 }, null);
             });
         }

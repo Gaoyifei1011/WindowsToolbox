@@ -31,6 +31,25 @@ namespace WindowsTools.Models
         }
 
         /// <summary>
+        /// 是否使用图标
+        /// </summary>
+        private bool _shouldUseIcon;
+
+        public bool ShouldUseIcon
+        {
+            get { return _shouldUseIcon; }
+
+            set
+            {
+                if (!Equals(_shouldUseIcon, value))
+                {
+                    _shouldUseIcon = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShouldUseIcon)));
+                }
+            }
+        }
+
+        /// <summary>
         /// 是否使用应用程序图标
         /// </summary>
         private bool _shouldUseProgramIcon;
@@ -49,18 +68,21 @@ namespace WindowsTools.Models
             }
         }
 
-        private bool _shouldEnableThemeIcon;
+        /// <summary>
+        /// 是否使用主题图标
+        /// </summary>
+        private bool _shouldUseThemeIcon;
 
-        public bool ShouldEnableThemeIcon
+        public bool ShouldUseThemeIcon
         {
-            get { return _shouldEnableThemeIcon; }
+            get { return _shouldUseThemeIcon; }
 
             set
             {
-                if (!Equals(_shouldEnableThemeIcon, value))
+                if (!Equals(_shouldUseThemeIcon, value))
                 {
-                    _shouldEnableThemeIcon = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShouldEnableThemeIcon)));
+                    _shouldUseThemeIcon = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShouldUseThemeIcon)));
                 }
             }
         }
@@ -68,9 +90,9 @@ namespace WindowsTools.Models
         /// <summary>
         /// 菜单项图标
         /// </summary>
-        private BitmapSource _menuIcon;
+        private BitmapImage _menuIcon = new();
 
-        public BitmapSource MenuIcon
+        public BitmapImage MenuIcon
         {
             get { return _menuIcon; }
 

@@ -258,13 +258,13 @@
   <data name="SelectProgram" xml:space="preserve">
     <value>选择程序</value>
   </data>
-  <data name="ShouldEnableThemeIcon" xml:space="preserve">
+  <data name="ShouldUseThemeIcon" xml:space="preserve">
     <value>是否启用主题图标</value>
   </data>
-  <data name="ShouldEnableThemeIconOffContent" xml:space="preserve">
+  <data name="ShouldUseThemeIconOffContent" xml:space="preserve">
     <value>否</value>
   </data>
-  <data name="ShouldEnableThemeIconOnContent" xml:space="preserve">
+  <data name="ShouldUseThemeIconOnContent" xml:space="preserve">
     <value>是</value>
   </data>
   <data name="ShouldUseProgramIcon" xml:space="preserve">
@@ -299,5 +299,14 @@
   </data>
   <data name="UnknownLightThemeIconPath" xml:space="preserve">
     <value>未设置浅色主题图标路径</value>
+  </data>
+  <data name="ShouldUseIconOffContent" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="ShouldUseIcon" xml:space="preserve">
+    <value>是否使用图标</value>
+  </data>
+  <data name="ShouldUseIconOnContent" xml:space="preserve">
+    <value>是</value>
   </data>
 </root>

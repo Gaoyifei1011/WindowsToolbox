@@ -484,29 +484,29 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Should enable theme icon 的本地化字符串。
+        ///   查找类似 Should use icon 的本地化字符串。
         /// </summary>
-        public static string ShouldEnableThemeIcon {
+        public static string ShouldUseIcon {
             get {
-                return ResourceManager.GetString("ShouldEnableThemeIcon", resourceCulture);
+                return ResourceManager.GetString("ShouldUseIcon", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 No 的本地化字符串。
         /// </summary>
-        public static string ShouldEnableThemeIconOffContent {
+        public static string ShouldUseIconOffContent {
             get {
-                return ResourceManager.GetString("ShouldEnableThemeIconOffContent", resourceCulture);
+                return ResourceManager.GetString("ShouldUseIconOffContent", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 Yes 的本地化字符串。
         /// </summary>
-        public static string ShouldEnableThemeIconOnContent {
+        public static string ShouldUseIconOnContent {
             get {
-                return ResourceManager.GetString("ShouldEnableThemeIconOnContent", resourceCulture);
+                return ResourceManager.GetString("ShouldUseIconOnContent", resourceCulture);
             }
         }
         
@@ -534,6 +534,33 @@ namespace WindowsTools.Strings {
         public static string ShouldUseProgramIconOnContent {
             get {
                 return ResourceManager.GetString("ShouldUseProgramIconOnContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Should enable theme icon 的本地化字符串。
+        /// </summary>
+        public static string ShouldUseThemeIcon {
+            get {
+                return ResourceManager.GetString("ShouldUseThemeIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No 的本地化字符串。
+        /// </summary>
+        public static string ShouldUseThemeIconOffContent {
+            get {
+                return ResourceManager.GetString("ShouldUseThemeIconOffContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Yes 的本地化字符串。
+        /// </summary>
+        public static string ShouldUseThemeIconOnContent {
+            get {
+                return ResourceManager.GetString("ShouldUseThemeIconOnContent", resourceCulture);
             }
         }
         

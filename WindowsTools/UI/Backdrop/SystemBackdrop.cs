@@ -31,8 +31,6 @@ namespace WindowsTools.UI.Backdrop
 
         public abstract bool IsInputActive { get; set; }
 
-        public abstract bool IsSupported { get; }
-
         public DesktopWindowTarget DesktopWindowTarget { get; } = target;
 
         public abstract void InitializeBackdrop();

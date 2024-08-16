@@ -2,16 +2,22 @@
     x:Class="WindowsTools.Views.Pages.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:backdrop="using:WindowsTools.UI.Backdrop"
     xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helper="using:WindowsTools.Helpers.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:service="using:WindowsTools.Services.Controls.Settings"
     xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
-    xmlns:systembackdrop="using:Microsoft.UI.Composition.SystemBackdrops"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <XamlUICommand x:Name="LanguageCommand" ExecuteRequested="{x:Bind OnLanguageExecuteRequested}" />
+    </Page.Resources>
 
     <Grid Padding="0">
 
@@ -235,7 +241,7 @@
                                     x:Name="MicaFlyoutItem"
                                     Height="32"
                                     Padding="11,0,11,0"
-                                    x:Load="{x:Bind systembackdrop:MicaController.IsSupported()}"
+                                    x:Load="{x:Bind backdrop:MicaBackdrop.IsSupported}"
                                     Text="{x:Bind string:Settings.Mica}">
 
                                     <ToggleMenuFlyoutItem
@@ -259,7 +265,7 @@
                                     x:Name="DesktopAcrylicFlyoutItem"
                                     Height="32"
                                     Padding="11,0,11,0"
-                                    x:Load="{x:Bind systembackdrop:DesktopAcrylicController.IsSupported()}"
+                                    x:Load="{x:Bind backdrop:DesktopAcrylicBackdrop.IsSupported}"
                                     Text="{x:Bind string:Settings.DesktopAcrylic}">
 
                                     <ToggleMenuFlyoutItem
@@ -341,7 +347,7 @@
                         Grid.Column="2"
                         MinWidth="0"
                         Margin="0,-2,0,0"
-                        FlowDirection="{x:Bind GetToggleSwitchDirection(service:LanguageService.RightToLeft)}"
+                        FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                         IsEnabled="{x:Bind converter:ValueConverterHelper.ObjectCompareReverseConvert(Backdrop.Value, BackdropList[0].Value), Mode=OneWay}"
                         IsEnabledChanged="{x:Bind OnIsEnabledChanged}"
                         IsOn="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}"
@@ -409,13 +415,52 @@
                         Content="{x:Bind AppLanguage.Key, Mode=OneWay}">
 
                         <muxc:DropDownButton.Flyout>
-                            <MenuFlyout x:Name="LanguageFlyout" Placement="Bottom">
-                                <MenuFlyout.MenuFlyoutPresenterStyle>
-                                    <Style BasedOn="{StaticResource DefaultMenuFlyoutPresenterStyle}" TargetType="MenuFlyoutPresenter">
-                                        <Setter Property="MaxHeight" Value="200" />
+                            <Flyout
+                                x:Name="LanguageFlyout"
+                                Opened="{x:Bind OnOpened}"
+                                Placement="Bottom"
+                                ShouldConstrainToRootBounds="False">
+
+                                <Flyout.FlyoutPresenterStyle>
+                                    <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="MinHeight" Value="0" />
                                     </Style>
-                                </MenuFlyout.MenuFlyoutPresenterStyle>
-                            </MenuFlyout>
+                                </Flyout.FlyoutPresenterStyle>
+
+                                <ListView
+                                    x:Name="LanguageListView"
+                                    MaxHeight="300"
+                                    Background="Transparent"
+                                    ItemsSource="{x:Bind LanguageCollection, Mode=OneWay}"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                    ScrollViewer.HorizontalScrollMode="Disabled"
+                                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                    ScrollViewer.VerticalScrollMode="Enabled"
+                                    SelectionMode="None">
+
+                                    <ListView.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="Margin" Value="0,1" />
+                                            <Setter Property="MinHeight" Value="0 " />
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="model:LanguageModel">
+                                            <ToggleMenuFlyoutItem
+                                                Height="32"
+                                                Padding="11,0"
+                                                Command="{StaticResource LanguageCommand}"
+                                                CommandParameter="{x:Bind}"
+                                                IsChecked="{x:Bind IsChecked, Mode=OneWay}"
+                                                Text="{x:Bind sys:Convert.ToString(LangaugeInfo.Key)}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Flyout>
                         </muxc:DropDownButton.Flyout>
                     </muxc:DropDownButton>
                 </Grid>
@@ -470,7 +515,7 @@
                         Grid.Column="2"
                         MinWidth="0"
                         Margin="0,-2,0,0"
-                        FlowDirection="{x:Bind GetToggleSwitchDirection(service:LanguageService.RightToLeft)}"
+                        FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                         IsOn="{x:Bind TopMostValue, Mode=OneWay}"
                         OffContent="{x:Bind string:Settings.TopMostOffContent}"
                         OnContent="{x:Bind string:Settings.TopMostOnContent}"
@@ -760,7 +805,7 @@
                         Grid.Column="3"
                         MinWidth="0"
                         Margin="0,-2,0,0"
-                        FlowDirection="{x:Bind GetToggleSwitchDirection(service:LanguageService.RightToLeft)}"
+                        FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                         IsOn="{x:Bind FileShellMenuValue, Mode=OneWay}"
                         OffContent="{x:Bind string:Settings.FileShellMenuOffContent}"
                         OnContent="{x:Bind string:Settings.FileShellMenuOnContent}"

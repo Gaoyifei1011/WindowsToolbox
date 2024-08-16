@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
@@ -212,7 +212,7 @@ namespace WindowsTools.Views.Pages
                         Process process = Process.GetProcessById(processid);
                         process?.Kill();
 
-                        synchronizationContext.Post(_ =>
+                        synchronizationContext.Post(async (_) =>
                         {
                             foreach (ProcessInfoModel processItem in ProcessInfoCollection)
                             {
@@ -223,15 +223,15 @@ namespace WindowsTools.Views.Pages
                                 }
                             }
 
-                            TeachingTipHelper.Show(new OperationResultTip(OperationKind.TerminateProcess, true));
+                            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.TerminateProcess, true));
                         }, null);
                     }
                     catch (Exception e)
                     {
                         LogService.WriteLog(EventLevel.Error, string.Format("Terminate process id {0} failed", processid), e);
-                        synchronizationContext.Post(_ =>
+                        synchronizationContext.Post(async (_) =>
                         {
-                            TeachingTipHelper.Show(new OperationResultTip(OperationKind.TerminateProcess, false));
+                            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.TerminateProcess, false));
                         }, null);
                     }
                 });

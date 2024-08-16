@@ -3,9 +3,9 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using System.Threading;
-using WindowsTools.Services.Shell;
 using WindowsToolsShellExtension.Commands;
 using WindowsToolsShellExtension.Services.Controls.Settings;
+using WindowsToolsShellExtension.Services.Shell;
 using WindowsToolsShellExtension.Strings;
 
 namespace WindowsToolsShellExtension

@@ -23,13 +23,5 @@ namespace WindowsTools.UI.Dialogs
         {
             Application.Restart();
         }
-
-        /// <summary>
-        /// 获取控件的文字转向
-        /// </summary>
-        private Windows.UI.Xaml.FlowDirection GetControlDirection(RightToLeft rightToLeft)
-        {
-            return rightToLeft is RightToLeft.Yes ? Windows.UI.Xaml.FlowDirection.RightToLeft : Windows.UI.Xaml.FlowDirection.LeftToRight;
-        }
     }
 }

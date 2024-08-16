@@ -14,7 +14,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
@@ -522,16 +522,16 @@ namespace WindowsTools.Views.Pages
 
                 if (FirewallAPILibrary.NetworkIsolationSetAppContainerConfig(loopbackList.Count, sidAndAttributesArray) is 0)
                 {
-                    synchronizationContext.Post(_ =>
+                    synchronizationContext.Post(async (_) =>
                     {
-                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.LoopbackSetResult, true));
+                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.LoopbackSetResult, true));
                     }, null);
                 }
                 else
                 {
-                    synchronizationContext.Post(_ =>
+                    synchronizationContext.Post(async (_) =>
                     {
-                        TeachingTipHelper.Show(new OperationResultTip(OperationKind.LoopbackSetResult, false));
+                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.LoopbackSetResult, false));
                     }, null);
                 }
             }

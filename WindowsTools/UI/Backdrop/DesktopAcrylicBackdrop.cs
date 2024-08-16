@@ -278,7 +278,7 @@ namespace WindowsTools.UI.Backdrop
             }
         }
 
-        public override bool IsSupported
+        public static bool IsSupported
         {
             get
             {
@@ -296,7 +296,7 @@ namespace WindowsTools.UI.Backdrop
             }
         }
 
-        public bool IsHostBackdropSupported
+        public static bool IsHostBackdropSupported
         {
             get { return Environment.OSVersion.Version >= new Version(10, 0, 22000, 0); }
         }

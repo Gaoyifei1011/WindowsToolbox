@@ -24,6 +24,11 @@ namespace WindowsTools.Extensions.ShellMenu
         public string MenuTitleText { get; set; }
 
         /// <summary>
+        /// 是否使用图标
+        /// </summary>
+        public bool ShouldUseIcon { get; set; }
+
+        /// <summary>
         /// 是否使用应用程序图标
         /// </summary>
         public bool ShouldUseProgramIcon { get; set; }
@@ -31,7 +36,7 @@ namespace WindowsTools.Extensions.ShellMenu
         /// <summary>
         /// 是否使用主题图标
         /// </summary>
-        public bool ShouldEnableThemeIcon { get; set; }
+        public bool ShouldUseThemeIcon { get; set; }
 
         /// <summary>
         /// 默认的菜单项图标

@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
@@ -475,10 +475,10 @@ namespace WindowsTools.Views.Pages
 
                         await Task.Delay(300);
 
-                        synchronizationContext.Post(_ =>
+                        synchronizationContext.Post(async (_) =>
                         {
                             IsSaving = false;
-                            TeachingTipHelper.Show(new OperationResultTip(OperationKind.IconExtract, selectedItemsList.Count - saveFailedCount, saveFailedCount));
+                            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.IconExtract, selectedItemsList.Count - saveFailedCount, saveFailedCount));
                         }, null);
                     });
                 }
@@ -554,13 +554,14 @@ namespace WindowsTools.Views.Pages
 
                         await Task.Delay(300);
 
-                        synchronizationContext.Post(_ =>
+                        synchronizationContext.Post(async (_) =>
                         {
                             lock (iconExtractLock)
                             {
                                 IsSaving = false;
-                                TeachingTipHelper.Show(new OperationResultTip(OperationKind.IconExtract, IconCollection.Count - saveFailedCount, saveFailedCount));
                             }
+
+                            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.IconExtract, IconCollection.Count - saveFailedCount, saveFailedCount));
                         }, null);
                     });
                 }

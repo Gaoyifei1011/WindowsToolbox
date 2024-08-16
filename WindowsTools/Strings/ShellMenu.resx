@@ -258,13 +258,13 @@
   <data name="SelectProgram" xml:space="preserve">
     <value>Select program</value>
   </data>
-  <data name="ShouldEnableThemeIcon" xml:space="preserve">
+  <data name="ShouldUseThemeIcon" xml:space="preserve">
     <value>Should enable theme icon</value>
   </data>
-  <data name="ShouldEnableThemeIconOffContent" xml:space="preserve">
+  <data name="ShouldUseThemeIconOffContent" xml:space="preserve">
     <value>No</value>
   </data>
-  <data name="ShouldEnableThemeIconOnContent" xml:space="preserve">
+  <data name="ShouldUseThemeIconOnContent" xml:space="preserve">
     <value>Yes</value>
   </data>
   <data name="ShouldUseProgramIcon" xml:space="preserve">
@@ -299,5 +299,14 @@
   </data>
   <data name="UnknownLightThemeIconPath" xml:space="preserve">
     <value>The light theme icon path is not set</value>
+  </data>
+  <data name="ShouldUseIconOffContent" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ShouldUseIcon" xml:space="preserve">
+    <value>Should use icon</value>
+  </data>
+  <data name="ShouldUseIconOnContent" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

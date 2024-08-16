@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
-using WindowsTools.Services.Shell;
+using WindowsToolsShellExtension.Services.Shell;
 using WindowsToolsShellExtension.WindowsAPI.ComTypes;
 
 namespace WindowsToolsShellExtension.Commands

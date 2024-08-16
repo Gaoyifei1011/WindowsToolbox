@@ -2,6 +2,7 @@
     x:Class="WindowsTools.Views.Pages.UpdateManagerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controlHelper="using:WindowsTools.Helpers.Controls"
     xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="using:WindowsTools.Helpers.Root"
@@ -15,6 +16,10 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <CornerRadius x:Key="ListViewItemCornerRadius">0</CornerRadius>
+        <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="ListViewItemBackgroundPressed" Color="Transparent" />
+
         <XamlUICommand x:Name="AvailableHideCommand" ExecuteRequested="{x:Bind OnAvailableHideExecuteRequested}" />
         <XamlUICommand x:Name="AvailableInstallCommand" ExecuteRequested="{x:Bind OnAvailableInstallExecuteRequested}" />
         <XamlUICommand x:Name="InstalledUnInstallCommand" ExecuteRequested="{x:Bind OnInstalledUnInstallExecuteRequested}" />
@@ -270,10 +275,18 @@
 
                             <ListView
                                 IsItemClickEnabled="True"
-                                ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
                                 ItemsSource="{x:Bind AvailableUpdateCollection, Mode=OneWay}"
                                 SelectionMode="None"
                                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(AvailableUpdateCollection.Count), Mode=OneWay}">
+
+                                <ListView.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="MinHeight" Value="0" />
+                                        <Setter Property="Padding" Value="0" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
 
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="model:UpdateModel">
@@ -600,10 +613,18 @@
 
                             <ListView
                                 IsItemClickEnabled="True"
-                                ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
                                 ItemsSource="{x:Bind InstalledUpdateCollection, Mode=OneWay}"
                                 SelectionMode="None"
                                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(InstalledUpdateCollection.Count), Mode=OneWay}">
+
+                                <ListView.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="MinHeight" Value="0" />
+                                        <Setter Property="Padding" Value="0" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
 
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="model:UpdateModel">
@@ -921,10 +942,18 @@
 
                             <ListView
                                 IsItemClickEnabled="True"
-                                ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
                                 ItemsSource="{x:Bind HiddenUpdateCollection, Mode=OneWay}"
                                 SelectionMode="None"
                                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(HiddenUpdateCollection.Count), Mode=OneWay}">
+
+                                <ListView.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="MinHeight" Value="0" />
+                                        <Setter Property="Padding" Value="0" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
 
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="model:UpdateModel">
@@ -1182,10 +1211,18 @@
 
                             <ListView
                                 IsItemClickEnabled="True"
-                                ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
                                 ItemsSource="{x:Bind UpdateHistoryCollection, Mode=OneWay}"
                                 SelectionMode="None"
                                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(UpdateHistoryCollection.Count), Mode=OneWay}">
+
+                                <ListView.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="MinHeight" Value="0" />
+                                        <Setter Property="Padding" Value="0" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
 
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="model:UpdateModel">
@@ -1463,7 +1500,7 @@
                                     Grid.Column="1"
                                     MinWidth="0"
                                     Margin="0,-2,0,0"
-                                    FlowDirection="{x:Bind GetToggleSwitchDirection(service:LanguageService.RightToLeft)}"
+                                    FlowDirection="{x:Bind controlHelper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                     IsOn="{x:Bind IsIncludePotentiallySupersededUpdate}"
                                     OffContent="{x:Bind string:UpdateManager.IncludePotentiallySupersededUpdateOffContent}"
                                     OnContent="{x:Bind string:UpdateManager.IncludePotentiallySupersededUpdateOnContent}"
@@ -1589,7 +1626,7 @@
                                         Grid.Column="1"
                                         MinWidth="0"
                                         Margin="0,-2,0,0"
-                                        FlowDirection="{x:Bind GetToggleSwitchDirection(service:LanguageService.RightToLeft)}"
+                                        FlowDirection="{x:Bind controlHelper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                         IsOn="{x:Bind IsExcludeDrivers}"
                                         OffContent="{x:Bind string:UpdateManager.ExcludeDriversOffContent}"
                                         OnContent="{x:Bind string:UpdateManager.ExcludeDriversOnContent}"

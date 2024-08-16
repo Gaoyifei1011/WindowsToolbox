@@ -1,10 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Text;
-using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Strings;
@@ -35,7 +34,7 @@ namespace WindowsTools.UI.Dialogs
         /// <summary>
         /// 复制异常信息
         /// </summary>
-        private void OnCopyExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnCopyExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
             OperationFailedModel operationFailedItem = args.Parameter as OperationFailedModel;
             if (operationFailedItem is not null)
@@ -50,14 +49,14 @@ namespace WindowsTools.UI.Dialogs
                 builder.Append(Dialog.ExceptionCode);
                 builder.AppendLine(operationFailedItem.Exception.HResult.ToString());
                 bool copyResult = CopyPasteHelper.CopyToClipboard(builder.ToString());
-                TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, false));
+                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, false));
             }
         }
 
         /// <summary>
         /// 复制所有的错误内容到剪贴板
         /// </summary>
-        private void OnCopyOperationFailedClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void OnCopyOperationFailedClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             args.Cancel = true;
 
@@ -76,15 +75,7 @@ namespace WindowsTools.UI.Dialogs
             }
             bool copyResult = CopyPasteHelper.CopyToClipboard(builder.ToString());
             sender.Hide();
-            TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, true, OperationFailedCollection.Count));
-        }
-
-        /// <summary>
-        /// 获取控件的文字转向
-        /// </summary>
-        private Windows.UI.Xaml.FlowDirection GetControlDirection(RightToLeft rightToLeft)
-        {
-            return rightToLeft is RightToLeft.Yes ? Windows.UI.Xaml.FlowDirection.RightToLeft : Windows.UI.Xaml.FlowDirection.LeftToRight;
+            await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, true, OperationFailedCollection.Count));
         }
     }
 }

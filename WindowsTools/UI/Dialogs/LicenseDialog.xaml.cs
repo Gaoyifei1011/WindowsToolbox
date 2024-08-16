@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Text;
-using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
 
 namespace WindowsTools.UI.Dialogs
@@ -32,14 +31,6 @@ namespace WindowsTools.UI.Dialogs
         {
             InitializeComponent();
             LicenseText = Encoding.UTF8.GetString(Strings.Resources.LICENSE);
-        }
-
-        /// <summary>
-        /// 获取控件的文字转向
-        /// </summary>
-        private Windows.UI.Xaml.FlowDirection GetControlDirection(RightToLeft rightToLeft)
-        {
-            return rightToLeft is RightToLeft.Yes ? Windows.UI.Xaml.FlowDirection.RightToLeft : Windows.UI.Xaml.FlowDirection.LeftToRight;
         }
     }
 }

@@ -228,7 +228,7 @@
   <data name="SystemInformation" xml:space="preserve">
     <value>查看系统信息</value>
   </data>
-  <data name="ThanksTitle" xml:space="preserve">
+  <data name="Thanks" xml:space="preserve">
     <value>感谢（按英文首字母排序）</value>
   </data>
   <data name="ThanksToolTip" xml:space="preserve">

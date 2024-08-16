@@ -7,11 +7,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
@@ -19,7 +18,7 @@ using WindowsTools.UI.TeachingTips;
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
 
-namespace WindowsTools.UI.Dialogs.About
+namespace WindowsTools.UI.Dialogs
 {
     /// <summary>
     /// 应用信息对话框
@@ -173,7 +172,7 @@ namespace WindowsTools.UI.Dialogs.About
         /// <summary>
         /// 复制应用信息
         /// </summary>
-        private void OnCopyAppInformationClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void OnCopyAppInformationClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             args.Cancel = true;
 
@@ -186,15 +185,7 @@ namespace WindowsTools.UI.Dialogs.About
 
             bool copyResult = CopyPasteHelper.CopyToClipboard(stringBuilder.ToString());
             sender.Hide();
-            TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.AppInformation, copyResult));
-        }
-
-        /// <summary>
-        /// 获取控件的文字转向
-        /// </summary>
-        private Windows.UI.Xaml.FlowDirection GetControlDirection(RightToLeft rightToLeft)
-        {
-            return rightToLeft is RightToLeft.Yes ? Windows.UI.Xaml.FlowDirection.RightToLeft : Windows.UI.Xaml.FlowDirection.LeftToRight;
+            await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.AppInformation, copyResult));
         }
     }
 }

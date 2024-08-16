@@ -5,6 +5,7 @@
     xmlns:collection="using:System.Collections"
     xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helper="using:WindowsTools.Helpers.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
@@ -203,6 +204,20 @@
                                 Content="{x:Bind string:ShellMenu.EditMenu}"
                                 IsEnabled="{x:Bind IsEditMenuEnabled, Mode=OneWay}"
                                 ToolTipService.ToolTip="{x:Bind string:ShellMenu.Refresh}" />
+
+                            <MenuFlyoutSeparator />
+
+                            <Button
+                                HorizontalAlignment="Stretch"
+                                Click="{x:Bind OnMoveUpClicked}"
+                                Content="{x:Bind string:ShellMenu.MoveUp}"
+                                IsEnabled="{x:Bind IsMoveUpEnabled, Mode=OneWay}" />
+
+                            <Button
+                                HorizontalAlignment="Stretch"
+                                Click="{x:Bind OnMoveDownClicked}"
+                                Content="{x:Bind string:ShellMenu.MoveUp}"
+                                IsEnabled="{x:Bind IsMoveDownEnabled, Mode=OneWay}" />
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -349,7 +364,7 @@
 
                     <muxc:Expander.Content>
                         <StackPanel Padding="0" HorizontalAlignment="Stretch">
-                            <!--  是否使用应用程序图标  -->
+                            <!--  是否使用图标  -->
                             <Grid
                                 Height="52"
                                 Padding="44,0,16,0"
@@ -365,22 +380,22 @@
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
                                     Style="{StaticResource BodyTextBlockStyle}"
-                                    Text="{x:Bind string:ShellMenu.ShouldUseProgramIcon}" />
+                                    Text="{x:Bind string:ShellMenu.ShouldUseIcon}" />
 
                                 <ToggleSwitch
                                     Grid.Column="1"
-                                    FlowDirection="{x:Bind GetToggleSwitchDirection(service:LanguageService.RightToLeft)}"
-                                    IsOn="{x:Bind ShouldUseProgramIcon, Mode=OneWay}"
-                                    OffContent="{x:Bind string:ShellMenu.ShouldUseProgramIconOffContent}"
-                                    OnContent="{x:Bind string:ShellMenu.ShouldUseProgramIconOnContent}"
-                                    Toggled="{x:Bind OnShouldUseProgramIconToggled}" />
+                                    FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
+                                    IsOn="{x:Bind ShouldUseIcon, Mode=OneWay}"
+                                    OffContent="{x:Bind string:ShellMenu.ShouldUseIconOffContent}"
+                                    OnContent="{x:Bind string:ShellMenu.ShouldUseIconOnContent}"
+                                    Toggled="{x:Bind OnShouldUseIconToggled}" />
                             </Grid>
 
-                            <StackPanel Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(ShouldUseProgramIcon), Mode=OneWay}">
+                            <StackPanel Visibility="{x:Bind ShouldUseIcon, Mode=OneWay}">
 
                                 <MenuFlyoutSeparator />
 
-                                <!--  是否启用主题图标  -->
+                                <!--  是否使用应用程序图标  -->
                                 <Grid
                                     Height="52"
                                     Padding="44,0,16,0"
@@ -396,77 +411,58 @@
                                         Grid.Column="0"
                                         VerticalAlignment="Center"
                                         Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind string:ShellMenu.ShouldEnableThemeIcon}" />
+                                        Text="{x:Bind string:ShellMenu.ShouldUseProgramIcon}" />
 
                                     <ToggleSwitch
                                         Grid.Column="1"
-                                        FlowDirection="{x:Bind GetToggleSwitchDirection(service:LanguageService.RightToLeft)}"
-                                        IsOn="{x:Bind ShouldEnableThemeIcon, Mode=OneWay}"
-                                        OffContent="{x:Bind string:ShellMenu.ShouldEnableThemeIconOffContent}"
-                                        OnContent="{x:Bind string:ShellMenu.ShouldEnableThemeIconOnContent}"
-                                        Toggled="{x:Bind OnShouldEnableThemeIconToggled}" />
+                                        FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
+                                        IsOn="{x:Bind ShouldUseProgramIcon, Mode=OneWay}"
+                                        OffContent="{x:Bind string:ShellMenu.ShouldUseProgramIconOffContent}"
+                                        OnContent="{x:Bind string:ShellMenu.ShouldUseProgramIconOnContent}"
+                                        Toggled="{x:Bind OnShouldUseProgramIconToggled}" />
                                 </Grid>
 
-                                <MenuFlyoutSeparator />
+                                <StackPanel Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(ShouldUseProgramIcon), Mode=OneWay}">
 
-                                <!--  默认图标  -->
-                                <Grid
-                                    Height="52"
-                                    Padding="44,0,16,0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    ColumnSpacing="10"
-                                    Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(ShouldEnableThemeIcon), Mode=OneWay}">
+                                    <MenuFlyoutSeparator />
 
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="180" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
+                                    <!--  是否启用主题图标  -->
+                                    <Grid
+                                        Height="52"
+                                        Padding="44,0,16,0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center">
 
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind string:ShellMenu.DefaultIcon}" />
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
 
-                                    <StackPanel
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Right"
-                                        Orientation="Horizontal">
-
-                                        <muxc:ImageIcon
-                                            Width="28"
-                                            Height="28"
+                                        <TextBlock
+                                            Grid.Column="0"
                                             VerticalAlignment="Center"
-                                            Source="{x:Bind DefaultIconImage, Mode=OneWay}" />
+                                            Style="{StaticResource BodyTextBlockStyle}"
+                                            Text="{x:Bind string:ShellMenu.ShouldUseThemeIcon}" />
 
-                                        <TextBox
-                                            Width="300"
-                                            Margin="10,0,0,0"
-                                            VerticalAlignment="Center"
-                                            IsReadOnly="True"
-                                            PlaceholderText="{x:Bind string:ShellMenu.UnknownDefaultIconPath}"
-                                            Text="{x:Bind DefaultIconPath, Mode=OneWay}" />
-                                    </StackPanel>
+                                        <ToggleSwitch
+                                            Grid.Column="1"
+                                            FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
+                                            IsOn="{x:Bind ShouldUseThemeIcon, Mode=OneWay}"
+                                            OffContent="{x:Bind string:ShellMenu.ShouldUseThemeIconOffContent}"
+                                            OnContent="{x:Bind string:ShellMenu.ShouldUseThemeIconOnContent}"
+                                            Toggled="{x:Bind OnShouldUseThemeIconToggled}" />
+                                    </Grid>
 
-                                    <Button
-                                        Grid.Column="2"
-                                        VerticalAlignment="Center"
-                                        Click="{x:Bind OnDefaultIconModifyClicked}"
-                                        Content="{x:Bind string:ShellMenu.Modify}" />
-                                </Grid>
+                                    <MenuFlyoutSeparator />
 
-                                <StackPanel Visibility="{x:Bind ShouldEnableThemeIcon, Mode=OneWay}">
-
-                                    <!--  浅色主题图标  -->
+                                    <!--  默认图标  -->
                                     <Grid
                                         Height="52"
                                         Padding="44,0,16,0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
                                         ColumnSpacing="10"
-                                        Visibility="{x:Bind ShouldEnableThemeIcon, Mode=OneWay}">
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(ShouldUseThemeIcon), Mode=OneWay}">
 
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="180" />
@@ -478,7 +474,7 @@
                                             Grid.Column="0"
                                             VerticalAlignment="Center"
                                             Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{x:Bind string:ShellMenu.LightThemeIcon}" />
+                                            Text="{x:Bind string:ShellMenu.DefaultIcon}" />
 
                                         <StackPanel
                                             Grid.Column="1"
@@ -489,74 +485,125 @@
                                                 Width="28"
                                                 Height="28"
                                                 VerticalAlignment="Center"
-                                                Source="{x:Bind DarkThemeIconImage, Mode=OneWay}" />
+                                                Source="{x:Bind DefaultIconImage, Mode=OneWay}" />
 
                                             <TextBox
                                                 Width="300"
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
                                                 IsReadOnly="True"
-                                                PlaceholderText="{x:Bind string:ShellMenu.UnknownLightThemeIconPath}"
-                                                Text="{x:Bind LightThemeIconPath, Mode=OneWay}" />
+                                                PlaceholderText="{x:Bind string:ShellMenu.UnknownDefaultIconPath}"
+                                                Text="{x:Bind DefaultIconPath, Mode=OneWay}" />
                                         </StackPanel>
 
                                         <Button
                                             Grid.Column="2"
                                             VerticalAlignment="Center"
-                                            Click="{x:Bind OnLightThemeIconModifyClicked}"
+                                            Click="{x:Bind OnDefaultIconModifyClicked}"
                                             Content="{x:Bind string:ShellMenu.Modify}" />
                                     </Grid>
 
-                                    <MenuFlyoutSeparator Visibility="{x:Bind ShouldEnableThemeIcon, Mode=OneWay}" />
+                                    <StackPanel Visibility="{x:Bind ShouldUseThemeIcon, Mode=OneWay}">
 
-                                    <!--  深色主题图标  -->
-                                    <Grid
-                                        Height="52"
-                                        Padding="44,0,16,0"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                                        ColumnSpacing="10"
-                                        Visibility="{x:Bind ShouldEnableThemeIcon, Mode=OneWay}">
-
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="180" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <TextBlock
-                                            Grid.Column="0"
+                                        <!--  浅色主题图标  -->
+                                        <Grid
+                                            Height="52"
+                                            Padding="44,0,16,0"
+                                            HorizontalAlignment="Stretch"
                                             VerticalAlignment="Center"
-                                            Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{x:Bind string:ShellMenu.DarkThemeIcon}" />
+                                            ColumnSpacing="10"
+                                            Visibility="{x:Bind ShouldUseThemeIcon, Mode=OneWay}">
 
-                                        <StackPanel
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Right"
-                                            Orientation="Horizontal">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="180" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
 
-                                            <muxc:ImageIcon
-                                                Width="28"
-                                                Height="28"
+                                            <TextBlock
+                                                Grid.Column="0"
                                                 VerticalAlignment="Center"
-                                                Source="{x:Bind DarkThemeIconImage, Mode=OneWay}" />
+                                                Style="{StaticResource BodyTextBlockStyle}"
+                                                Text="{x:Bind string:ShellMenu.LightThemeIcon}" />
 
-                                            <TextBox
-                                                Width="300"
-                                                Margin="10,0,0,0"
+                                            <StackPanel
+                                                Grid.Column="1"
                                                 HorizontalAlignment="Right"
-                                                VerticalAlignment="Center"
-                                                IsReadOnly="True"
-                                                PlaceholderText="{x:Bind string:ShellMenu.UnknownDarkThemeIconPath}"
-                                                Text="{x:Bind DarkThemeIconPath, Mode=OneWay}" />
-                                        </StackPanel>
+                                                Orientation="Horizontal">
 
-                                        <Button
-                                            Grid.Column="2"
+                                                <muxc:ImageIcon
+                                                    Width="28"
+                                                    Height="28"
+                                                    VerticalAlignment="Center"
+                                                    Source="{x:Bind DarkThemeIconImage, Mode=OneWay}" />
+
+                                                <TextBox
+                                                    Width="300"
+                                                    Margin="10,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    IsReadOnly="True"
+                                                    PlaceholderText="{x:Bind string:ShellMenu.UnknownLightThemeIconPath}"
+                                                    Text="{x:Bind LightThemeIconPath, Mode=OneWay}" />
+                                            </StackPanel>
+
+                                            <Button
+                                                Grid.Column="2"
+                                                VerticalAlignment="Center"
+                                                Click="{x:Bind OnLightThemeIconModifyClicked}"
+                                                Content="{x:Bind string:ShellMenu.Modify}" />
+                                        </Grid>
+
+                                        <MenuFlyoutSeparator Visibility="{x:Bind ShouldUseThemeIcon, Mode=OneWay}" />
+
+                                        <!--  深色主题图标  -->
+                                        <Grid
+                                            Height="52"
+                                            Padding="44,0,16,0"
+                                            HorizontalAlignment="Stretch"
                                             VerticalAlignment="Center"
-                                            Click="{x:Bind OnDarkThemeIconModifyClicked}"
-                                            Content="{x:Bind string:ShellMenu.Modify}" />
-                                    </Grid>
+                                            ColumnSpacing="10"
+                                            Visibility="{x:Bind ShouldUseThemeIcon, Mode=OneWay}">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="180" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock
+                                                Grid.Column="0"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource BodyTextBlockStyle}"
+                                                Text="{x:Bind string:ShellMenu.DarkThemeIcon}" />
+
+                                            <StackPanel
+                                                Grid.Column="1"
+                                                HorizontalAlignment="Right"
+                                                Orientation="Horizontal">
+
+                                                <muxc:ImageIcon
+                                                    Width="28"
+                                                    Height="28"
+                                                    VerticalAlignment="Center"
+                                                    Source="{x:Bind DarkThemeIconImage, Mode=OneWay}" />
+
+                                                <TextBox
+                                                    Width="300"
+                                                    Margin="10,0,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    IsReadOnly="True"
+                                                    PlaceholderText="{x:Bind string:ShellMenu.UnknownDarkThemeIconPath}"
+                                                    Text="{x:Bind DarkThemeIconPath, Mode=OneWay}" />
+                                            </StackPanel>
+
+                                            <Button
+                                                Grid.Column="2"
+                                                VerticalAlignment="Center"
+                                                Click="{x:Bind OnDarkThemeIconModifyClicked}"
+                                                Content="{x:Bind string:ShellMenu.Modify}" />
+                                        </Grid>
+                                    </StackPanel>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>

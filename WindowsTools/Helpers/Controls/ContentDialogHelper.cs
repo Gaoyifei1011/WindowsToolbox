@@ -8,7 +8,7 @@ using WindowsTools.Views.Windows;
 namespace WindowsTools.Helpers.Controls
 {
     /// <summary>
-    /// 扩展后的内容对话框辅助类，只允许在同一时间段内打开一个内容对话框
+    /// 扩展后的内容对话框控件辅助类
     /// </summary>
     public static class ContentDialogHelper
     {
@@ -37,6 +37,14 @@ namespace WindowsTools.Helpers.Controls
                 isDialogOpening = false;
             }
             return dialogResult;
+        }
+
+        /// <summary>
+        /// 获取内容对话框的文字转向
+        /// </summary>
+        public static Windows.UI.Xaml.FlowDirection GetControlDirection(RightToLeft rightToLeft)
+        {
+            return rightToLeft is RightToLeft.Yes ? Windows.UI.Xaml.FlowDirection.RightToLeft : Windows.UI.Xaml.FlowDirection.LeftToRight;
         }
     }
 }

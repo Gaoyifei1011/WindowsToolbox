@@ -13,6 +13,12 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <CornerRadius x:Key="ListViewItemCornerRadius">0</CornerRadius>
+        <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="ListViewItemBackgroundPressed" Color="Transparent" />
+    </Page.Resources>
+
     <Grid Padding="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -74,13 +80,21 @@
                 Grid.Row="1"
                 Margin="0,0,0,3"
                 IsItemClickEnabled="True"
-                ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
                 ItemsSource="{x:Bind FileCertificateCollection, Mode=OneWay}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 ScrollViewer.HorizontalScrollMode="Disabled"
                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                 ScrollViewer.VerticalScrollMode="Enabled"
                 SelectionMode="None">
+
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="MinHeight" Value="0" />
+                        <Setter Property="Padding" Value="0" />
+                    </Style>
+                </ListView.ItemContainerStyle>
 
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:CertificateResultModel">

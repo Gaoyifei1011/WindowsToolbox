@@ -10,12 +10,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
@@ -419,10 +418,10 @@ namespace WindowsTools.Views.Pages
                     copyInformationBuilder.AppendLine(UpdateManager.Description);
                     copyInformationBuilder.AppendLine(updateModel.Description);
 
-                    synchronizationContext.Post(_ =>
+                    synchronizationContext.Post(async (_) =>
                     {
                         bool copyResult = CopyPasteHelper.CopyToClipboard(copyInformationBuilder.ToString());
-                        TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.UpdateInformation, copyResult));
+                        await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.UpdateInformation, copyResult));
                     }, null);
                 });
             }
@@ -986,14 +985,6 @@ namespace WindowsTools.Views.Pages
                         return string.Empty;
                     }
             }
-        }
-
-        /// <summary>
-        /// 获取 ToggleSwitch 的文字转向
-        /// </summary>
-        private global::Windows.UI.Xaml.FlowDirection GetToggleSwitchDirection(RightToLeft rightToLeft)
-        {
-            return rightToLeft is RightToLeft.Yes ? global::Windows.UI.Xaml.FlowDirection.LeftToRight : global::Windows.UI.Xaml.FlowDirection.RightToLeft;
         }
     }
 }

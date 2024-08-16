@@ -14,6 +14,10 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <CornerRadius x:Key="ListViewItemCornerRadius">0</CornerRadius>
+        <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="ListViewItemBackgroundPressed" Color="Transparent" />
+
         <XamlUICommand x:Name="StringCommand" ExecuteRequested="{x:Bind OnStringExecuteRequested}" />
         <XamlUICommand x:Name="FilePathCommand" ExecuteRequested="{x:Bind OnFilePathExecuteRequested}" />
         <XamlUICommand x:Name="EmbeddedDataCommand" ExecuteRequested="{x:Bind OnEmbeddedDataExecuteRequested}" />
@@ -176,7 +180,6 @@
                     Margin="0,0,0,3"
                     IsItemClickEnabled="True"
                     ItemClick="{x:Bind OnStringItemClicked}"
-                    ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
                     ItemsSource="{x:Bind StringCollection, Mode=OneWay}"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     ScrollViewer.HorizontalScrollMode="Disabled"
@@ -184,6 +187,15 @@
                     ScrollViewer.VerticalScrollMode="Enabled"
                     SelectionMode="None"
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}">
+
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="MinHeight" Value="0" />
+                            <Setter Property="Padding" Value="0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
 
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="model:StringModel">
@@ -393,7 +405,6 @@
                     Margin="0,0,0,3"
                     IsItemClickEnabled="True"
                     ItemClick="{x:Bind OnFilePathItemClicked}"
-                    ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
                     ItemsSource="{x:Bind FilePathCollection, Mode=OneWay}"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     ScrollViewer.HorizontalScrollMode="Disabled"
@@ -401,6 +412,15 @@
                     ScrollViewer.VerticalScrollMode="Enabled"
                     SelectionMode="None"
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}">
+
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="MinHeight" Value="0" />
+                            <Setter Property="Padding" Value="0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
 
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="model:FilePathModel">
@@ -572,7 +592,6 @@
                     Margin="0,0,0,3"
                     IsItemClickEnabled="True"
                     ItemClick="{x:Bind OnEmbeddedDataItemClicked}"
-                    ItemContainerStyle="{StaticResource DataGridListViewItemStyle}"
                     ItemsSource="{x:Bind EmbeddedDataCollection, Mode=OneWay}"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     ScrollViewer.HorizontalScrollMode="Disabled"
@@ -580,6 +599,15 @@
                     ScrollViewer.VerticalScrollMode="Enabled"
                     SelectionMode="None"
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}">
+
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="MinHeight" Value="0" />
+                            <Setter Property="Padding" Value="0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
 
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="model:EmbeddedDataModel">

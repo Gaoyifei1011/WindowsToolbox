@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Extensions.DataType.Methods;
 using WindowsTools.Extensions.PriExtract;
-using WindowsTools.Helpers.Controls.Extensions;
+using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
@@ -326,28 +326,28 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 复制字符串到剪贴板
         /// </summary>
-        private void OnStringExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnStringExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
             StringModel stringItem = args.Parameter as StringModel;
 
             if (stringItem is not null)
             {
                 bool copyResult = CopyPasteHelper.CopyToClipboard(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
-                TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, false));
+                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.String, copyResult, false));
             }
         }
 
         /// <summary>
         /// 复制文件路径到剪贴板
         /// </summary>
-        private void OnFilePathExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnFilePathExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
             FilePathModel filePathItem = args.Parameter as FilePathModel;
 
             if (filePathItem is not null)
             {
                 bool copyResult = CopyPasteHelper.CopyToClipboard(string.Format("Key:{0}, FilePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
-                TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, false));
+                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.String, copyResult, false));
             }
         }
 
@@ -634,7 +634,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 复制选中的字符串
         /// </summary>
-        private void OnCopySelectedStringClicked(object sender, RoutedEventArgs args)
+        private async void OnCopySelectedStringClicked(object sender, RoutedEventArgs args)
         {
             IsProcessing = true;
             List<StringModel> selectedStringList = StringCollection.Where(item => item.IsSelected is true).ToList();
@@ -646,7 +646,7 @@ namespace WindowsTools.Views.Pages
                     copyStringBuilder.AppendLine(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
                 }
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyStringBuilder.ToString());
-                TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, true, selectedStringList.Count));
+                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, selectedStringList.Count));
             }
             IsProcessing = false;
         }
@@ -654,7 +654,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 复制选中的文件路径
         /// </summary>
-        private void OnCopySelectedFilePathClicked(object sender, RoutedEventArgs args)
+        private async void OnCopySelectedFilePathClicked(object sender, RoutedEventArgs args)
         {
             IsProcessing = true;
             List<FilePathModel> selectedFilePathList = FilePathCollection.Where(item => item.IsSelected is true).ToList();
@@ -666,7 +666,7 @@ namespace WindowsTools.Views.Pages
                     copyFilePathBuilder.AppendLine(string.Format("Key:{0}, AbsolutePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
                 }
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyFilePathBuilder.ToString());
-                TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, true, selectedFilePathList.Count));
+                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, selectedFilePathList.Count));
             }
             IsProcessing = false;
         }
@@ -721,7 +721,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 复制所有的字符串
         /// </summary>
-        private void OnCopyAllStringClicked(object sender, RoutedEventArgs args)
+        private async void OnCopyAllStringClicked(object sender, RoutedEventArgs args)
         {
             IsProcessing = true;
             List<StringModel> copyAllStringList = [.. StringCollection];
@@ -733,7 +733,7 @@ namespace WindowsTools.Views.Pages
                     copyStringBuilder.AppendLine(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
                 }
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyStringBuilder.ToString());
-                TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, true, copyAllStringList.Count));
+                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, copyAllStringList.Count));
             }
             IsProcessing = false;
         }
@@ -741,7 +741,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 复制所有的文件路径
         /// </summary>
-        private void OnCopyAllFilePathClicked(object sender, RoutedEventArgs args)
+        private async void OnCopyAllFilePathClicked(object sender, RoutedEventArgs args)
         {
             IsProcessing = true;
             List<FilePathModel> copyAllFilePathList = [.. FilePathCollection];
@@ -753,7 +753,7 @@ namespace WindowsTools.Views.Pages
                     copyFilePathBuilder.AppendLine(string.Format("Key:{0}, AbsolutePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
                 }
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyFilePathBuilder.ToString());
-                TeachingTipHelper.Show(new DataCopyTip(DataCopyKind.String, copyResult, true, copyAllFilePathList.Count));
+                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, copyAllFilePathList.Count));
             }
             IsProcessing = false;
         }

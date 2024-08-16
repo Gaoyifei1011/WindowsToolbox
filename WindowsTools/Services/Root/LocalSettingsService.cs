@@ -14,7 +14,7 @@ namespace WindowsTools.Services.Root
         /// </summary>
         public static T ReadSetting<T>(string key)
         {
-            return RegistryHelper.ReadRegistryValue<T>(settingsKey, key);
+            return RegistryHelper.ReadRegistryKey<T>(settingsKey, key);
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace WindowsTools.Services.Root
         /// </summary>
         public static void SaveSetting<T>(string key, T value)
         {
-            RegistryHelper.SaveRegistryValue(settingsKey, key, value);
+            RegistryHelper.SaveRegistryKey(settingsKey, key, value);
         }
     }
 }

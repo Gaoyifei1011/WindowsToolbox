@@ -19,12 +19,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
-using WindowsTools.Helpers.Controls.Extensions;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
-using WindowsTools.UI.Dialogs.About;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.PInvoke.Kernel32;
 
@@ -115,9 +113,9 @@ namespace WindowsTools.Views.Pages
                 }
                 finally
                 {
-                    synchronizationContext.Post(_ =>
+                    synchronizationContext.Post(async (_) =>
                     {
-                        TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.Desktop, isCreatedSuccessfully));
+                        await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.Desktop, isCreatedSuccessfully));
                     }, null);
                 }
             });
@@ -156,9 +154,9 @@ namespace WindowsTools.Views.Pages
             }
             finally
             {
-                synchronizationContext.Post(_ =>
+                synchronizationContext.Post(async (_) =>
                 {
-                    TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.StartScreen, isPinnedSuccessfully));
+                    await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.StartScreen, isPinnedSuccessfully));
                 }, null);
             }
         }
@@ -188,9 +186,9 @@ namespace WindowsTools.Views.Pages
             }
             finally
             {
-                synchronizationContext.Send(_ =>
+                synchronizationContext.Send(async (_) =>
                 {
-                    TeachingTipHelper.Show(new QuickOperationTip(QuickOperationKind.Taskbar, isPinnedSuccessfully));
+                    await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.Taskbar, isPinnedSuccessfully));
                 }, null);
             }
         }
@@ -297,9 +295,9 @@ namespace WindowsTools.Views.Pages
                                     {
                                         bool isNewest = InfoHelper.AppVersion >= tagVersion;
 
-                                        synchronizationContext.Post(_ =>
+                                        synchronizationContext.Post(async (_) =>
                                         {
-                                            TeachingTipHelper.Show(new OperationResultTip(OperationKind.CheckUpdate, isNewest));
+                                            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.CheckUpdate, isNewest));
                                         }, null);
                                     }
                                 }
