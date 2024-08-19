@@ -1,7 +1,7 @@
 ﻿using System;
 using WindowsTools.Extensions.DataType.Enums;
 
-namespace WindowsTools.Models.Controls.Download
+namespace WindowsTools.Models
 {
     /// <summary>
     /// 下载调度服务数据模型

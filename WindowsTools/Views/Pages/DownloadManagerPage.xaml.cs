@@ -21,7 +21,6 @@ using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
-using WindowsTools.Models.Controls.Download;
 using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
@@ -734,10 +733,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            FolderBrowserDialog dialog = new()
+            OpenFolderDialog dialog = new()
             {
                 Description = FileProperties.SelectFolder,
-                ShowNewFolderButton = true,
                 RootFolder = Environment.SpecialFolder.Desktop
             };
             DialogResult result = dialog.ShowDialog();
@@ -745,6 +743,7 @@ namespace WindowsTools.Views.Pages
             {
                 DownloadFolderText = dialog.SelectedPath;
             }
+            dialog.Dispose();
         }
 
         /// <summary>

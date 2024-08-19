@@ -378,6 +378,7 @@ namespace WindowsTools.Views.Pages
                             qrCodeBitmap.Save(saveFileDialog.FileName, ImageFormat.Bmp);
                         }
                     }
+                    saveFileDialog.Dispose();
                 });
             }
         }
@@ -687,7 +688,13 @@ namespace WindowsTools.Views.Pages
                     {
                         LogService.WriteLog(EventLevel.Error, string.Format("Open file {0} failed", dialog.FileName), e);
                     }
+
+                    dialog.Dispose();
                 });
+            }
+            else
+            {
+                dialog.Dispose();
             }
         }
 

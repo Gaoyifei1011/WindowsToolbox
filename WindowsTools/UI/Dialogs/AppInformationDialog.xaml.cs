@@ -15,9 +15,6 @@ using WindowsTools.Helpers.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
 
-// 抑制 IDE0060 警告
-#pragma warning disable IDE0060
-
 namespace WindowsTools.UI.Dialogs
 {
     /// <summary>

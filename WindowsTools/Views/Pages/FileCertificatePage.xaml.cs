@@ -22,6 +22,7 @@ using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
+using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Imagehlp;
 
 // 抑制 IDE0060 警告
@@ -243,8 +244,13 @@ namespace WindowsTools.Views.Pages
                         }
                     }
 
+                    dialog.Dispose();
                     AddToFileCertificatePage(fileCertificateList);
                 });
+            }
+            else
+            {
+                dialog.Dispose();
             }
         }
 
@@ -253,10 +259,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            FolderBrowserDialog dialog = new()
+            OpenFolderDialog dialog = new()
             {
                 Description = FileProperties.SelectFolder,
-                ShowNewFolderButton = true,
                 RootFolder = Environment.SpecialFolder.Desktop
             };
             DialogResult result = dialog.ShowDialog();
@@ -291,9 +296,14 @@ namespace WindowsTools.Views.Pages
                             LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} fileInfo information failed", dialog.SelectedPath), e);
                         }
 
+                        dialog.Dispose();
                         AddToFileCertificatePage(fileNameList);
                     });
                 }
+            }
+            else
+            {
+                dialog.Dispose();
             }
         }
 

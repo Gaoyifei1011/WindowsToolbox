@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace WindowsTools.WindowsAPI.ComTypes
 {
-    [ComImport, Guid("2e941141-7f97-4756-ba1d-9decde894a3d"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid("2E941141-7F97-4756-BA1D-9DECDE894A3D"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IApplicationActivationManager
     {
         /// <summary>

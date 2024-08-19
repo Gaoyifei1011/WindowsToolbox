@@ -146,7 +146,7 @@ namespace WindowsTools.Extensions.PriExtract
 
             for (int i = 0; i < numQualifierSets; i++)
             {
-                List<Qualifier> qualifiersInSet = new List<Qualifier>(qualifierSetInfosList[i].NumQualifiersInSet);
+                List<Qualifier> qualifiersInSet = new(qualifierSetInfosList[i].NumQualifiersInSet);
 
                 for (int j = 0; j < qualifierSetInfosList[i].NumQualifiersInSet; j++)
                 {
@@ -166,7 +166,7 @@ namespace WindowsTools.Extensions.PriExtract
 
             for (int i = 0; i < numDecisions; i++)
             {
-                List<QualifierSet> qualifierSetsInDecision = new List<QualifierSet>(decisionInfosList[i].NumQualifierSetsInDecision);
+                List<QualifierSet> qualifierSetsInDecision = new(decisionInfosList[i].NumQualifierSetsInDecision);
 
                 for (int j = 0; j < decisionInfosList[i].NumQualifierSetsInDecision; j++)
                 {

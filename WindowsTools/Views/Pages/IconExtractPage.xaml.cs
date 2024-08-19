@@ -23,6 +23,7 @@ using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
+using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
 // 抑制 IDE0060 警告
@@ -405,6 +406,7 @@ namespace WindowsTools.Views.Pages
             {
                 ParseIconFile(dialog.FileName);
             }
+            dialog.Dispose();
         }
 
         /// <summary>
@@ -416,10 +418,9 @@ namespace WindowsTools.Views.Pages
             {
                 IList<object> selectedItemsList = IconsGridView.SelectedItems;
 
-                FolderBrowserDialog dialog = new()
+                OpenFolderDialog dialog = new()
                 {
                     Description = IconExtract.SelectFolder,
-                    ShowNewFolderButton = true,
                     RootFolder = Environment.SpecialFolder.Desktop
                 };
                 DialogResult result = dialog.ShowDialog();
@@ -473,6 +474,8 @@ namespace WindowsTools.Views.Pages
                             }
                         }
 
+                        dialog.Dispose();
+
                         await Task.Delay(300);
 
                         synchronizationContext.Post(async (_) =>
@@ -481,6 +484,10 @@ namespace WindowsTools.Views.Pages
                             await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.IconExtract, selectedItemsList.Count - saveFailedCount, saveFailedCount));
                         }, null);
                     });
+                }
+                else
+                {
+                    dialog.Dispose();
                 }
             }
         }
@@ -492,10 +499,9 @@ namespace WindowsTools.Views.Pages
         {
             if (!string.IsNullOrEmpty(filePath))
             {
-                FolderBrowserDialog dialog = new()
+                OpenFolderDialog dialog = new()
                 {
                     Description = IconExtract.SelectFolder,
-                    ShowNewFolderButton = true,
                     RootFolder = Environment.SpecialFolder.Desktop
                 };
                 DialogResult result = dialog.ShowDialog();
@@ -552,6 +558,7 @@ namespace WindowsTools.Views.Pages
                             }
                         }
 
+                        dialog.Dispose();
                         await Task.Delay(300);
 
                         synchronizationContext.Post(async (_) =>
@@ -564,6 +571,10 @@ namespace WindowsTools.Views.Pages
                             await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.IconExtract, IconCollection.Count - saveFailedCount, saveFailedCount));
                         }, null);
                     });
+                }
+                else
+                {
+                    dialog.Dispose();
                 }
             }
         }

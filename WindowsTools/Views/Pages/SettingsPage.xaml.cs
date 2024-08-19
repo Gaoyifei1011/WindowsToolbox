@@ -18,6 +18,7 @@ using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
+using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
 // 抑制 IDE0060 警告
@@ -425,10 +426,9 @@ namespace WindowsTools.Views.Pages
                         }
                     case "Custom":
                         {
-                            FolderBrowserDialog dialog = new()
+                            OpenFolderDialog dialog = new()
                             {
                                 Description = Settings.SelectFolder,
-                                ShowNewFolderButton = true,
                                 RootFolder = Environment.SpecialFolder.Desktop
                             };
                             DialogResult result = dialog.ShowDialog();
@@ -437,6 +437,7 @@ namespace WindowsTools.Views.Pages
                                 DownloadFolder = dialog.SelectedPath;
                                 DownloadOptionsService.SetFolder(DownloadFolder);
                             }
+                            dialog.Dispose();
                             break;
                         }
                 }

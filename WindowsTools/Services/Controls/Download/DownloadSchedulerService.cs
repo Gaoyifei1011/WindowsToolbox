@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Threading;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Models.Controls.Download;
+using WindowsTools.Models;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.WindowsAPI.ComTypes;

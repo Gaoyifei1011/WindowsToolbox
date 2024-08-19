@@ -22,6 +22,7 @@ using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
+using WindowsTools.WindowsAPI.ComTypes;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
@@ -450,6 +451,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
+        /// <summary>
+        /// 关闭改名示例提示
+        /// </summary>
         private void OnCloseClicked(object sender, RoutedEventArgs args)
         {
             if (NameChangeFlyout.IsOpen)
@@ -600,9 +604,11 @@ namespace WindowsTools.Views.Pages
                         }
                     }
 
+                    dialog.Dispose();
                     AddToFileNamePage(fileNameList);
                 });
             }
+            dialog.Dispose();
         }
 
         /// <summary>
@@ -610,11 +616,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            FolderBrowserDialog dialog = new()
+            OpenFolderDialog dialog = new()
             {
                 Description = FileName.SelectFolder,
-                ShowNewFolderButton = true,
-                RootFolder = Environment.SpecialFolder.Desktop
             };
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
@@ -670,10 +674,15 @@ namespace WindowsTools.Views.Pages
                             LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} information failed", dialog.SelectedPath), e);
                         }
 
+                        dialog.Dispose();
                         AddToFileNamePage(directoryNameList);
                         AddToFileNamePage(fileNameList);
                     });
                 }
+            }
+            else
+            {
+                dialog.Dispose();
             }
         }
 

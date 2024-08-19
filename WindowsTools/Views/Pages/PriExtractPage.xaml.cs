@@ -26,6 +26,7 @@ using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
+using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
 // 抑制 IDE0060 警告
@@ -360,10 +361,9 @@ namespace WindowsTools.Views.Pages
 
             if (embeddedDataItem is not null)
             {
-                FolderBrowserDialog dialog = new()
+                OpenFolderDialog dialog = new()
                 {
                     Description = PriExtract.SelectFolder,
-                    ShowNewFolderButton = true,
                     RootFolder = Environment.SpecialFolder.Desktop
                 };
 
@@ -388,11 +388,16 @@ namespace WindowsTools.Views.Pages
                             LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
                         }
 
+                        dialog.Dispose();
                         synchronizationContext.Post(_ =>
                         {
                             IsProcessing = false;
                         }, null);
                     });
+                }
+                else
+                {
+                    dialog.Dispose();
                 }
             }
         }
@@ -536,18 +541,17 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectSaveFolderClicked(object sender, RoutedEventArgs args)
         {
-            FolderBrowserDialog dialog = new()
+            OpenFolderDialog dialog = new()
             {
                 Description = PriExtract.SelectFolder,
-                ShowNewFolderButton = true,
-                RootFolder = Environment.SpecialFolder.Desktop,
-                SelectedPath = SelectedSaveFolder
+                RootFolder = Environment.SpecialFolder.Desktop
             };
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
                 SelectedSaveFolder = dialog.SelectedPath;
             }
+            dialog.Dispose();
         }
 
         /// <summary>
@@ -617,6 +621,7 @@ namespace WindowsTools.Views.Pages
             {
                 ParseResourceFile(dialog.FileName);
             }
+            dialog.Dispose();
         }
 
         /// <summary>
@@ -680,10 +685,9 @@ namespace WindowsTools.Views.Pages
             if (selectedEmbeddedDataList.Count > 0)
             {
                 IsProcessing = true;
-                FolderBrowserDialog dialog = new()
+                OpenFolderDialog dialog = new()
                 {
                     Description = PriExtract.SelectFolder,
-                    ShowNewFolderButton = true,
                     RootFolder = Environment.SpecialFolder.Desktop
                 };
                 DialogResult result = dialog.ShowDialog();
@@ -705,6 +709,7 @@ namespace WindowsTools.Views.Pages
                             LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
                         }
 
+                        dialog.Dispose();
                         synchronizationContext.Post(_ =>
                         {
                             IsProcessing = false;
@@ -714,6 +719,7 @@ namespace WindowsTools.Views.Pages
                 else
                 {
                     IsProcessing = false;
+                    dialog.Dispose();
                 }
             }
         }
@@ -763,10 +769,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExportAllEmbeddedDataClicked(object sender, RoutedEventArgs args)
         {
-            FolderBrowserDialog dialog = new()
+            OpenFolderDialog dialog = new()
             {
                 Description = PriExtract.SelectFolder,
-                ShowNewFolderButton = true,
                 RootFolder = Environment.SpecialFolder.Desktop
             };
 
@@ -793,12 +798,17 @@ namespace WindowsTools.Views.Pages
                             LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
                         }
 
+                        dialog.Dispose();
                         synchronizationContext.Post(_ =>
                         {
                             IsProcessing = false;
                         }, null);
                     });
                 }
+            }
+            else
+            {
+                dialog.Dispose();
             }
         }
 

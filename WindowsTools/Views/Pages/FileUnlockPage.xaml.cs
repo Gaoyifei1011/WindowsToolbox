@@ -308,6 +308,7 @@ namespace WindowsTools.Views.Pages
             {
                 ParseFile(dialog.FileName);
             }
+            dialog.Dispose();
         }
 
         #endregion 第三部分：文件解锁页面——挂载的事件

@@ -939,6 +939,7 @@ namespace WindowsTools.Views.Pages
                     LogService.WriteLog(EventLevel.Error, "Set Default lightThemeIcon failed", e);
                 }
             }
+            dialog.Dispose();
         }
 
         /// <summary>
@@ -970,6 +971,7 @@ namespace WindowsTools.Views.Pages
                     LogService.WriteLog(EventLevel.Error, "Set light theme icon failed", e);
                 }
             }
+            dialog.Dispose();
         }
 
         /// <summary>
@@ -1001,6 +1003,7 @@ namespace WindowsTools.Views.Pages
                     LogService.WriteLog(EventLevel.Error, "Set dark theme icon failed", e);
                 }
             }
+            dialog.Dispose();
         }
 
         /// <summary>
@@ -1018,6 +1021,7 @@ namespace WindowsTools.Views.Pages
             {
                 MenuProgramPathText = dialog.FileName;
             }
+            dialog.Dispose();
         }
 
         /// <summary>

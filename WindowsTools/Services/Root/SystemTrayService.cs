@@ -14,7 +14,7 @@ namespace WindowsTools.Services.Root
     /// </summary>
     public static class SystemTrayService
     {
-        private static NotifyIcon notifyIcon;
+        public static NotifyIcon notifyIcon;
 
         public static event EventHandler MenuItemClick;
 
@@ -70,21 +70,16 @@ namespace WindowsTools.Services.Root
         }
 
         /// <summary>
-        /// 处理托盘菜单鼠标点击事件
+        /// 显示应用通知
         /// </summary>
-        private static void OnItemClick(object sender, EventArgs args)
+        public static void ShowToolTip(string title, string content, ToolTipIcon toolTipIcon)
         {
-            MenuItemClick?.Invoke(sender, args);
+            notifyIcon.ShowBalloonTip(30, title, content, toolTipIcon);
         }
 
         /// <summary>
-        /// 处理托盘菜单鼠标双击事件
+        /// 设置系统托盘图标右键菜单主题色
         /// </summary>
-        private static void OnMouseDoubleClick(object sender, MouseEventArgs args)
-        {
-            MouseDoubleClick?.Invoke(sender, args);
-        }
-
         public static void SetMenuTheme()
         {
             if (ThemeService.AppTheme.Equals(ThemeService.ThemeList[0]))
@@ -110,6 +105,22 @@ namespace WindowsTools.Services.Root
                 UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
                 UxthemeLibrary.FlushMenuThemes();
             }
+        }
+
+        /// <summary>
+        /// 处理托盘菜单鼠标点击事件
+        /// </summary>
+        private static void OnItemClick(object sender, EventArgs args)
+        {
+            MenuItemClick?.Invoke(sender, args);
+        }
+
+        /// <summary>
+        /// 处理托盘菜单鼠标双击事件
+        /// </summary>
+        private static void OnMouseDoubleClick(object sender, MouseEventArgs args)
+        {
+            MouseDoubleClick?.Invoke(sender, args);
         }
     }
 }

@@ -85,7 +85,7 @@ namespace WindowsToolsShellExtension.Helpers.Root
                         }
                     }
                 }
-                Advapi32Library.RegCloseKey(hKey);
+                _ = Advapi32Library.RegCloseKey(hKey);
                 return value;
             }
             catch (Exception)

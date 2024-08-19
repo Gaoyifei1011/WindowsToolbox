@@ -257,6 +257,11 @@ namespace WindowsTools.UI.Backdrop
             rootElement = element;
         }
 
+        ~MicaBackdrop()
+        {
+            Dispose(false);
+        }
+
         /// <summary>
         /// 初始化系统背景色
         /// </summary>
@@ -361,35 +366,52 @@ namespace WindowsTools.UI.Backdrop
         /// </summary>
         public override void Dispose()
         {
-            if (isInitialized)
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// 关闭背景色
+        /// </summary>
+        private void Dispose(bool disposing)
+        {
+            if (!disposing)
             {
-                isInitialized = false;
+                return;
+            }
 
-                SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
-                formRoot.SizeChanged -= OnSizeChanged;
-                formRoot.DpiChanged -= OnDpiChanged;
-                formRoot.FormClosed -= OnFormClosed;
-                formRoot.Activated -= OnActivated;
-                formRoot.Deactivate -= OnDeactivated;
-                compositionCapabilities.Changed -= OnCompositionCapabilitiesChanged;
-
-                if (rootElement is not null)
+            lock (this)
+            {
+                if (isInitialized)
                 {
-                    rootElement.ActualThemeChanged -= OnActualThemeChanged;
-                }
+                    isInitialized = false;
 
-                if (hPowerNotify != IntPtr.Zero)
-                {
-                    User32Library.UnregisterPowerSettingNotification(hPowerNotify);
-                    hPowerNotify = IntPtr.Zero;
-                }
+                    SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+                    formRoot.SizeChanged -= OnSizeChanged;
+                    formRoot.DpiChanged -= OnDpiChanged;
+                    formRoot.FormClosed -= OnFormClosed;
+                    formRoot.Activated -= OnActivated;
+                    formRoot.Deactivate -= OnDeactivated;
+                    compositionCapabilities.Changed -= OnCompositionCapabilitiesChanged;
 
-                Comctl32Library.RemoveWindowSubclass(formRoot.Handle, formSubClassProc, 0);
+                    if (rootElement is not null)
+                    {
+                        rootElement.ActualThemeChanged -= OnActualThemeChanged;
+                    }
 
-                if (DesktopWindowTarget.Root as SpriteVisual is not null && (DesktopWindowTarget.Root as SpriteVisual).Brush is not null)
-                {
-                    (DesktopWindowTarget.Root as SpriteVisual).Brush.Dispose();
-                    (DesktopWindowTarget.Root as SpriteVisual).Brush = null;
+                    if (hPowerNotify != IntPtr.Zero)
+                    {
+                        User32Library.UnregisterPowerSettingNotification(hPowerNotify);
+                        hPowerNotify = IntPtr.Zero;
+                    }
+
+                    Comctl32Library.RemoveWindowSubclass(formRoot.Handle, formSubClassProc, 0);
+
+                    if (DesktopWindowTarget.Root as SpriteVisual is not null && (DesktopWindowTarget.Root as SpriteVisual).Brush is not null)
+                    {
+                        (DesktopWindowTarget.Root as SpriteVisual).Brush.Dispose();
+                        (DesktopWindowTarget.Root as SpriteVisual).Brush = null;
+                    }
                 }
             }
         }

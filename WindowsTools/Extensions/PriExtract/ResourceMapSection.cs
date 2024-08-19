@@ -217,7 +217,7 @@ namespace WindowsTools.Extensions.PriExtract
                 }
             }
 
-            List<CandidateInfo> candidateInfos = new List<CandidateInfo>((int)numCandidates);
+            List<CandidateInfo> candidateInfos = new((int)numCandidates);
             for (int i = 0; i < numCandidates; i++)
             {
                 byte type = binaryReader.ReadByte();

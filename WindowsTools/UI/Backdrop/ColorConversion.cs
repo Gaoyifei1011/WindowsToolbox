@@ -43,7 +43,7 @@ namespace WindowsTools.UI.Backdrop
             const double blackMaxOpacity = 0.85; // 0% luminosity
 
             (double, double, double) rgb = (tintColor.R / 255.0, tintColor.G / 255.0, tintColor.B / 255.0);
-            (double h, double s, double v) = RgbToHsv(rgb);
+            (double _, double s, double v) = RgbToHsv(rgb);
 
             double opacityModifier = midPointMaxOpacity;
 

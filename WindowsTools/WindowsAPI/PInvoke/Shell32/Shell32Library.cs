@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using WindowsTools.WindowsAPI.ComTypes;
 
 namespace WindowsTools.WindowsAPI.PInvoke.Shell32
 {
@@ -58,14 +60,14 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// </summary>
         /// <param name="pszPath">指向包含路径的以 null 结尾的 Unicode 字符串的指针。 此字符串的长度应不超过 MAX_PATH 个字符，包括终止 null 字符。</param>
         /// <returns>返回指向对应于路径的 ITEMIDLIST 结构的指针。</returns>
-        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILCreateFromPathW", ExactSpelling = false)]
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILCreateFromPathW", SetLastError = false)]
         public static extern IntPtr ILCreateFromPath(string pszPath);
 
         /// <summary>
         /// 释放 Shell 分配的 ITEMIDLIST 结构。
         /// </summary>
         /// <param name="pidl">指向要释放的 ITEMIDLIST 结构的指针。 此参数可以为 NULL。</param>
-        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILFree", ExactSpelling = false)]
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILFree", SetLastError = false)]
         public static extern void ILFree(IntPtr pidl);
 
         /// <summary>
@@ -73,9 +75,28 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// </summary>
         /// <param name="lpExecInfo">指向 SHELLEXECUTEINFO 结构的指针，该结构包含并接收有关正在执行的应用程序的信息。</param>
         /// <returns>如果成功，则返回 TRUE ;否则为 FALSE。 调用 GetLastError 获取扩展错误信息。</returns>
-        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteExW", ExactSpelling = false)]
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteExW", SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ShellExecuteEx(ref SHELLEXECUTEINFO lpExecInfo);
+
+        /// <summary>
+        /// 从分析名称创建和初始化命令行管理程序项对象。
+        /// </summary>
+        /// <param name="pszPath">指向显示名称的指针。</param>
+        /// <param name="pbc">
+        /// 自选。指向绑定上下文的指针，用于将参数作为输入和输出传递给分析函数。
+        /// 这些传递的参数通常特定于数据源，并由数据源所有者记录。
+        /// 例如，文件系统数据源接受正在使用STR_FILE_SYS_BIND_DATA绑定上下文参数分析的名称（作为 <see cref="WIN32_FIND_DATA"> 结构）。
+        /// 可以传递STR_PARSE_PREFER_FOLDER_BROWSING以指示在可能的情况下使用文件系统数据源分析 URL。
+        /// 使用 CreateBindCtx 构造绑定上下文对象，并使用IBindCtx::RegisterObjectParam 填充值。
+        /// 有关这些键的完整列表，请参阅绑定上下文字符串键。有关使用此参数的示例，请参阅使用参数进行分析示例。
+        /// 如果没有数据传递到分析函数或从分析函数接收任何数据，则此值可以为NULL。
+        /// </param>
+        /// <param name="riid">对接口的 IID 的引用，以通过ppv（通常为IID_IShellItem或IID_IShellItem2）进行检索。</param>
+        /// <param name="ppv">此方法成功返回时，包含 riid 中请求的接口指针。这通常是IShellItem或IShellItem2。</param>
+        /// <returns>此方法成功返回时，包含riid 中请求的接口指针。这通常是 <see cref="IShellItem"> 或IShellItem2。</returns>
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHCreateItemFromParsingName", SetLastError = false), PreserveSig]
+        public static extern int SHCreateItemFromParsingName([MarshalAs(UnmanagedType.LPWStr)] string pszPath, IBindCtx pbc, [MarshalAs(UnmanagedType.LPStruct)] Guid riid, [MarshalAs(UnmanagedType.Interface)] out IShellItem ppv);
 
         /// <summary>
         /// 检索由文件夹的 KNOWNFOLDERID 标识的已知文件夹的完整路径。
