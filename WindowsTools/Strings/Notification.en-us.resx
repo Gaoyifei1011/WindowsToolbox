@@ -228,4 +228,22 @@
   <data name="UpdateInformationCopy" xml:space="preserve">
     <value>The update information was successfully copied to the clipboard</value>
   </data>
+  <data name="MenuMatchRuleEmpty" xml:space="preserve">
+    <value>The file matching format content is empty. Please enter the matching format content</value>
+  </data>
+  <data name="MenuTitleEmpty" xml:space="preserve">
+    <value>The menu title is empty. Please enter the menu title</value>
+  </data>
+  <data name="MenuProgramPathEmpty" xml:space="preserve">
+    <value>Menu Program file path is empty, please select program file</value>
+  </data>
+  <data name="MenuDefaultIconPathEmpty" xml:space="preserve">
+    <value>The menu icon is empty by default. Please select the icon file</value>
+  </data>
+  <data name="MenuLightThemeIconPathEmpty" xml:space="preserve">
+    <value>The menu light theme icon is empty, please select icon file</value>
+  </data>
+  <data name="MenuDarkThemeIconPathEmpty" xml:space="preserve">
+    <value>The menu dark theme icon is empty, please select icon file</value>
+  </data>
 </root>

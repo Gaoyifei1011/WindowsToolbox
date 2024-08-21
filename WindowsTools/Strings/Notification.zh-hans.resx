@@ -228,4 +228,22 @@
   <data name="UpdateInformationCopy" xml:space="preserve">
     <value>更新描述信息已成功复制到剪贴板</value>
   </data>
+  <data name="MenuMatchRuleEmpty" xml:space="preserve">
+    <value>文件匹配格式内容为空，请输入匹配格式内容</value>
+  </data>
+  <data name="MenuTitleEmpty" xml:space="preserve">
+    <value>菜单标题内容为空，请输入菜单标题</value>
+  </data>
+  <data name="MenuProgramPathEmpty" xml:space="preserve">
+    <value>菜单程序文件路径为空，请选择程序文件</value>
+  </data>
+  <data name="MenuDefaultIconPathEmpty" xml:space="preserve">
+    <value>菜单默认图标为空，请选择图标文件</value>
+  </data>
+  <data name="MenuLightThemeIconPathEmpty" xml:space="preserve">
+    <value>菜单浅色主题图标为空，请选择图标文件</value>
+  </data>
+  <data name="MenuDarkThemeIconPathEmpty" xml:space="preserve">
+    <value>菜单深色主题图标为空，请选择图标文件</value>
+  </data>
 </root>

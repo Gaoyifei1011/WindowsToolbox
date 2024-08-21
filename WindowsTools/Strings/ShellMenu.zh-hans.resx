@@ -309,4 +309,16 @@
   <data name="ShouldUseIconOnContent" xml:space="preserve">
     <value>是</value>
   </data>
+  <data name="Browser" xml:space="preserve">
+    <value>浏览</value>
+  </data>
+  <data name="RemoveMenuItem" xml:space="preserve">
+    <value>移除菜单项</value>
+  </data>
+  <data name="EmptyShellMenu" xml:space="preserve">
+    <value>菜单列表为空，快去添加菜单项吧</value>
+  </data>
+  <data name="LoadingNow" xml:space="preserve">
+    <value>正在加载菜单项中，请稍候</value>
+  </data>
 </root>

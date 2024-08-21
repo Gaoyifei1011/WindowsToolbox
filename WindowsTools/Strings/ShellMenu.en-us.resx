@@ -309,4 +309,16 @@
   <data name="ShouldUseIconOnContent" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="Browser" xml:space="preserve">
+    <value>Browser   </value>
+  </data>
+  <data name="RemoveMenuItem" xml:space="preserve">
+    <value>Remove menu item</value>
+  </data>
+  <data name="EmptyShellMenu" xml:space="preserve">
+    <value>The menu list is empty. Go ahead and add menu items</value>
+  </data>
+  <data name="LoadingNow" xml:space="preserve">
+    <value>Please wait while loading menu items</value>
+  </data>
 </root>

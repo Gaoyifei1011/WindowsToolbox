@@ -114,111 +114,152 @@
                             Text="{x:Bind string:ShellMenu.MenuList}" />
                     </Grid>
 
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="1" Height="450">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <muxc:TreeView
-                            Grid.Column="0"
-                            Height="450"
-                            ItemInvoked="{x:Bind OnItemInvoked}"
-                            ItemsSource="{x:Bind ShellMenuItemCollection, Mode=OneWay}"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                            ScrollViewer.HorizontalScrollMode="Disabled"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            ScrollViewer.VerticalScrollMode="Enabled"
-                            SelectionMode="Single">
+                        <Grid Grid.Column="0" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsLoading), Mode=OneWay}">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                Text="{x:Bind string:ShellMenu.EmptyShellMenu}"
+                                TextWrapping="Wrap"
+                                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(ShellMenuItemCollection.Count), Mode=OneWay}" />
 
-                            <muxc:TreeView.ItemTemplate>
-                                <DataTemplate x:DataType="model:ShellMenuItemModel">
-                                    <muxc:TreeViewItem IsSelected="{x:Bind IsSelected, Mode=OneWay}" ItemsSource="{x:Bind SubMenuItemCollection}">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
+                            <muxc:TreeView
+                                ItemInvoked="{x:Bind OnItemInvoked}"
+                                ItemsSource="{x:Bind ShellMenuItemCollection, Mode=OneWay}"
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                ScrollViewer.HorizontalScrollMode="Disabled"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.VerticalScrollMode="Enabled"
+                                SelectionMode="Single">
 
-                                            <muxc:ImageIcon
-                                                Grid.Column="0"
-                                                Width="20"
-                                                Height="20"
-                                                VerticalAlignment="Center"
-                                                Source="{x:Bind MenuIcon, Mode=OneWay}" />
+                                <muxc:TreeView.ItemTemplate>
+                                    <DataTemplate x:DataType="model:ShellMenuItemModel">
+                                        <muxc:TreeViewItem
+                                            IsExpanded="True"
+                                            IsSelected="{x:Bind IsSelected, Mode=OneWay}"
+                                            ItemsSource="{x:Bind SubMenuItemCollection}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
 
-                                            <TextBlock
-                                                Grid.Column="1"
-                                                Margin="15,0,0,0"
-                                                VerticalAlignment="Center"
-                                                FontSize="14"
-                                                Text="{x:Bind MenuTitleText, Mode=OneWay}"
-                                                TextAlignment="Left"
-                                                TextTrimming="CharacterEllipsis"
-                                                TextWrapping="NoWrap">
+                                                <muxc:ImageIcon
+                                                    Grid.Column="0"
+                                                    Width="20"
+                                                    Height="20"
+                                                    VerticalAlignment="Center"
+                                                    Source="{x:Bind MenuIcon, Mode=OneWay}" />
 
-                                                <ToolTipService.ToolTip>
-                                                    <ToolTip MaxWidth="9999">
-                                                        <TextBlock>
-                                                            <Run Text="{x:Bind string:ShellMenu.MenuTitleToolTip}" />
-                                                            <Run Text="{x:Bind MenuTitleText, Mode=OneWay}" />
-                                                        </TextBlock>
-                                                    </ToolTip>
-                                                </ToolTipService.ToolTip>
-                                            </TextBlock>
-                                        </Grid>
-                                    </muxc:TreeViewItem>
-                                </DataTemplate>
-                            </muxc:TreeView.ItemTemplate>
-                        </muxc:TreeView>
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    Margin="15,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="14"
+                                                    Text="{x:Bind MenuTitleText, Mode=OneWay}"
+                                                    TextAlignment="Left"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    TextWrapping="NoWrap">
 
-                        <StackPanel
-                            Grid.Column="1"
-                            Width="200"
-                            Padding="5"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1,0,0,0"
-                            Spacing="5">
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip MaxWidth="9999">
+                                                            <TextBlock>
+                                                                <Run Text="{x:Bind string:ShellMenu.MenuTitleToolTip}" />
+                                                                <Run Text="{x:Bind MenuTitleText, Mode=OneWay}" />
+                                                            </TextBlock>
+                                                        </ToolTip>
+                                                    </ToolTipService.ToolTip>
+                                                </TextBlock>
+                                            </Grid>
+                                        </muxc:TreeViewItem>
+                                    </DataTemplate>
+                                </muxc:TreeView.ItemTemplate>
+                            </muxc:TreeView>
+                        </Grid>
 
-                            <Button
-                                HorizontalAlignment="Stretch"
-                                Click="{x:Bind OnAddMenuItemClicked}"
-                                Content="{x:Bind string:ShellMenu.AddMenuItem}"
-                                IsEnabled="{x:Bind IsAddMenuEnabled, Mode=OneWay}" />
+                        <Grid
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            RowSpacing="5"
+                            Visibility="{x:Bind IsLoading, Mode=OneWay}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-                            <Button
-                                HorizontalAlignment="Stretch"
-                                Click="{x:Bind OnClearMenuClicked}"
-                                Content="{x:Bind string:ShellMenu.ClearMenu}"
-                                ToolTipService.ToolTip="{x:Bind string:ShellMenu.ClearMenuToolTip}" />
+                            <muxc:ProgressRing
+                                Grid.Row="0"
+                                Width="50"
+                                Height="50" />
 
-                            <Button
-                                HorizontalAlignment="Stretch"
-                                Click="{x:Bind OnRefreshClicked}"
-                                Content="{x:Bind string:ShellMenu.Refresh}"
-                                ToolTipService.ToolTip="{x:Bind string:ShellMenu.Refresh}" />
+                            <TextBlock
+                                Grid.Row="1"
+                                FontSize="16"
+                                Text="{x:Bind string:ShellMenu.LoadingNow}"
+                                TextWrapping="Wrap" />
+                        </Grid>
 
-                            <Button
-                                HorizontalAlignment="Stretch"
-                                Click="{x:Bind OnEditMenuClicked}"
-                                Content="{x:Bind string:ShellMenu.EditMenu}"
-                                IsEnabled="{x:Bind IsEditMenuEnabled, Mode=OneWay}"
-                                ToolTipService.ToolTip="{x:Bind string:ShellMenu.Refresh}" />
+                        <ContentControl Grid.Column="1" IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsLoading), Mode=OneWay}">
 
-                            <MenuFlyoutSeparator />
+                            <StackPanel
+                                Width="200"
+                                Padding="5"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1,0,0,0"
+                                Spacing="5">
 
-                            <Button
-                                HorizontalAlignment="Stretch"
-                                Click="{x:Bind OnMoveUpClicked}"
-                                Content="{x:Bind string:ShellMenu.MoveUp}"
-                                IsEnabled="{x:Bind IsMoveUpEnabled, Mode=OneWay}" />
+                                <Button
+                                    HorizontalAlignment="Stretch"
+                                    Click="{x:Bind OnAddMenuItemClicked}"
+                                    Content="{x:Bind string:ShellMenu.AddMenuItem}"
+                                    IsEnabled="{x:Bind IsAddMenuEnabled, Mode=OneWay}" />
 
-                            <Button
-                                HorizontalAlignment="Stretch"
-                                Click="{x:Bind OnMoveDownClicked}"
-                                Content="{x:Bind string:ShellMenu.MoveUp}"
-                                IsEnabled="{x:Bind IsMoveDownEnabled, Mode=OneWay}" />
-                        </StackPanel>
+                                <Button
+                                    HorizontalAlignment="Stretch"
+                                    Click="{x:Bind OnRemoveMenuItemClicked}"
+                                    Content="{x:Bind string:ShellMenu.RemoveMenuItem}"
+                                    IsEnabled="{x:Bind IsRemoveMenuEnabled, Mode=OneWay}" />
+
+                                <Button
+                                    HorizontalAlignment="Stretch"
+                                    Click="{x:Bind OnClearMenuClicked}"
+                                    Content="{x:Bind string:ShellMenu.ClearMenu}"
+                                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(ShellMenuItemCollection.Count), Mode=OneWay}"
+                                    ToolTipService.ToolTip="{x:Bind string:ShellMenu.ClearMenuToolTip}" />
+
+                                <Button
+                                    HorizontalAlignment="Stretch"
+                                    Click="{x:Bind OnRefreshClicked}"
+                                    Content="{x:Bind string:ShellMenu.Refresh}" />
+
+                                <Button
+                                    HorizontalAlignment="Stretch"
+                                    Click="{x:Bind OnEditMenuClicked}"
+                                    Content="{x:Bind string:ShellMenu.EditMenu}"
+                                    IsEnabled="{x:Bind IsEditMenuEnabled, Mode=OneWay}"
+                                    ToolTipService.ToolTip="{x:Bind string:ShellMenu.EditMenuTip}" />
+
+                                <MenuFlyoutSeparator />
+
+                                <Button
+                                    HorizontalAlignment="Stretch"
+                                    Click="{x:Bind OnMoveUpClicked}"
+                                    Content="{x:Bind string:ShellMenu.MoveUp}"
+                                    IsEnabled="{x:Bind IsMoveUpEnabled, Mode=OneWay}" />
+
+                                <Button
+                                    HorizontalAlignment="Stretch"
+                                    Click="{x:Bind OnMoveDownClicked}"
+                                    Content="{x:Bind string:ShellMenu.MoveDown}"
+                                    IsEnabled="{x:Bind IsMoveDownEnabled, Mode=OneWay}" />
+                            </StackPanel>
+                        </ContentControl>
                     </Grid>
                 </Grid>
 
@@ -322,6 +363,7 @@
                         Text="{x:Bind string:ShellMenu.MenuTitle}" />
 
                     <TextBox
+                        x:Name="MenuTitleTextBox"
                         Grid.Column="2"
                         Width="350"
                         HorizontalAlignment="Right"
@@ -497,10 +539,11 @@
                                         </StackPanel>
 
                                         <Button
+                                            x:Name="MenuDefaultIconBrowserButton"
                                             Grid.Column="2"
                                             VerticalAlignment="Center"
-                                            Click="{x:Bind OnDefaultIconModifyClicked}"
-                                            Content="{x:Bind string:ShellMenu.Modify}" />
+                                            Click="{x:Bind OnDefaultIconBrowserClicked}"
+                                            Content="{x:Bind string:ShellMenu.Browser}" />
                                     </Grid>
 
                                     <StackPanel Visibility="{x:Bind ShouldUseThemeIcon, Mode=OneWay}">
@@ -535,7 +578,7 @@
                                                     Width="28"
                                                     Height="28"
                                                     VerticalAlignment="Center"
-                                                    Source="{x:Bind DarkThemeIconImage, Mode=OneWay}" />
+                                                    Source="{x:Bind LightThemeIconImage, Mode=OneWay}" />
 
                                                 <TextBox
                                                     Width="300"
@@ -547,10 +590,11 @@
                                             </StackPanel>
 
                                             <Button
+                                                x:Name="MenuLigthThemeIconBrowserButton"
                                                 Grid.Column="2"
                                                 VerticalAlignment="Center"
-                                                Click="{x:Bind OnLightThemeIconModifyClicked}"
-                                                Content="{x:Bind string:ShellMenu.Modify}" />
+                                                Click="{x:Bind OnLightThemeIconBrowserClicked}"
+                                                Content="{x:Bind string:ShellMenu.Browser}" />
                                         </Grid>
 
                                         <MenuFlyoutSeparator Visibility="{x:Bind ShouldUseThemeIcon, Mode=OneWay}" />
@@ -598,10 +642,11 @@
                                             </StackPanel>
 
                                             <Button
+                                                x:Name="MenuDarkThemeIconBrowserButton"
                                                 Grid.Column="2"
                                                 VerticalAlignment="Center"
-                                                Click="{x:Bind OnDarkThemeIconModifyClicked}"
-                                                Content="{x:Bind string:ShellMenu.Modify}" />
+                                                Click="{x:Bind OnDarkThemeIconBrowserClicked}"
+                                                Content="{x:Bind string:ShellMenu.Browser}" />
                                         </Grid>
                                     </StackPanel>
                                 </StackPanel>
@@ -650,10 +695,11 @@
                         Text="{x:Bind MenuProgramPathText, Mode=OneWay}" />
 
                     <Button
+                        x:Name="MenuProgramBrowserButton"
                         Grid.Column="3"
                         VerticalAlignment="Center"
-                        Click="{x:Bind OnMenuProgramPathModifyClicked}"
-                        Content="{x:Bind string:ShellMenu.Modify}" />
+                        Click="{x:Bind OnMenuProgramPathBrowserClicked}"
+                        Content="{x:Bind string:ShellMenu.Browser}" />
                 </Grid>
 
                 <!--  ²Ëµ¥²ÎÊý  -->
@@ -873,6 +919,7 @@
                                         Text="{x:Bind string:ShellMenu.MenuFileMatchFormat}" />
 
                                     <TextBox
+                                        x:Name="MenuFileMatchFormatTextBox"
                                         Grid.Column="1"
                                         Width="350"
                                         Margin="10,0,0,0"

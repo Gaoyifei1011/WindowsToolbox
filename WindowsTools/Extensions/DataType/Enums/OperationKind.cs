@@ -18,5 +18,11 @@
         TerminateProcess = 13,
         File = 14,
         IconExtract = 15,
+        MenuTitleEmpty = 16,
+        MenuDefaultIconPathEmpty = 17,
+        MenuLightThemeIconPathEmpty = 18,
+        MenuDarkThemeIconPathEmpty = 19,
+        MenuProgramPathEmpty = 20,
+        MenuMatchRuleEmpty = 21
     }
 }

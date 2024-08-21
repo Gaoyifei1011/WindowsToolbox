@@ -88,6 +88,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Browser 的本地化字符串。
+        /// </summary>
+        public static string Browser {
+            get {
+                return ResourceManager.GetString("Browser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Clear menu items 的本地化字符串。
         /// </summary>
         public static string ClearMenu {
@@ -169,6 +178,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 The menu list is empty. Go ahead and add menu items. 的本地化字符串。
+        /// </summary>
+        public static string EmptyShellMenu {
+            get {
+                return ResourceManager.GetString("EmptyShellMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Extension name 的本地化字符串。
         /// </summary>
         public static string Extension {
@@ -192,6 +210,15 @@ namespace WindowsTools.Strings {
         public static string LightThemeIcon {
             get {
                 return ResourceManager.GetString("LightThemeIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please wait while loading menu items 的本地化字符串。
+        /// </summary>
+        public static string LoadingNow {
+            get {
+                return ResourceManager.GetString("LoadingNow", resourceCulture);
             }
         }
         
@@ -453,6 +480,15 @@ namespace WindowsTools.Strings {
         public static string Refresh {
             get {
                 return ResourceManager.GetString("Refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Remove menu item 的本地化字符串。
+        /// </summary>
+        public static string RemoveMenuItem {
+            get {
+                return ResourceManager.GetString("RemoveMenuItem", resourceCulture);
             }
         }
         

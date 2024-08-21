@@ -68,6 +68,42 @@ namespace WindowsTools.UI.TeachingTips
                 OperationResultFailed.Visibility = Visibility.Visible;
                 OperationResultFailed.Text = Notification.TextEmpty;
             }
+            else if (operationKind is OperationKind.MenuTitleEmpty)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultFailed.Text = Notification.MenuTitleEmpty;
+            }
+            else if (operationKind is OperationKind.MenuDefaultIconPathEmpty)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultFailed.Text = Notification.MenuDefaultIconPathEmpty;
+            }
+            else if (operationKind is OperationKind.MenuLightThemeIconPathEmpty)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultFailed.Text = Notification.MenuLightThemeIconPathEmpty;
+            }
+            else if (operationKind is OperationKind.MenuDarkThemeIconPathEmpty)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultFailed.Text = Notification.MenuDarkThemeIconPathEmpty;
+            }
+            else if (operationKind is OperationKind.MenuProgramPathEmpty)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultFailed.Text = Notification.MenuProgramPathEmpty;
+            }
+            else if (operationKind is OperationKind.MenuMatchRuleEmpty)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultFailed.Text = Notification.MenuMatchRuleEmpty;
+            }
             else if (operationKind is OperationKind.NoOperation)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+// 抑制 CA1401 警告
+#pragma warning disable CA1401
+
 namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Advapi32
 {
     /// <summary>
@@ -17,6 +20,9 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Advapi32
         /// <returns>如果函数成功，则返回值为 ERROR_SUCCESS。如果函数失败，则返回值为 Winerror.h 中定义的非零错误代码。</returns>
         [LibraryImport(Advapi32, EntryPoint = "RegCloseKey", SetLastError = false), PreserveSig]
         public static partial int RegCloseKey(UIntPtr hKey);
+
+        [LibraryImport(Advapi32, EntryPoint = "RegCreateKeyExW", StringMarshalling = StringMarshalling.Utf16)]
+        public static partial int RegCreateKeyEx(UIntPtr hKey, string lpSubKey, int Reserved, string lpClass, int dwOptions, int samDesired, ref UIntPtr secAttrs, out UIntPtr hkResult, out int lpdwDisposition);
 
         /// <summary>
         /// 打开指定的注册表项。 请注意，键名称不区分大小写。

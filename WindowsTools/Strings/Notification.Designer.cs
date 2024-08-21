@@ -241,6 +241,60 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 The menu dark theme icon is empty, please select icon file 的本地化字符串。
+        /// </summary>
+        public static string MenuDarkThemeIconPathEmpty {
+            get {
+                return ResourceManager.GetString("MenuDarkThemeIconPathEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The menu icon is empty by default. Please select the icon file 的本地化字符串。
+        /// </summary>
+        public static string MenuDefaultIconPathEmpty {
+            get {
+                return ResourceManager.GetString("MenuDefaultIconPathEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The menu light theme icon is empty, please select icon file 的本地化字符串。
+        /// </summary>
+        public static string MenuLightThemeIconPathEmpty {
+            get {
+                return ResourceManager.GetString("MenuLightThemeIconPathEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The file matching format content is empty. Please enter the matching format content 的本地化字符串。
+        /// </summary>
+        public static string MenuMatchRuleEmpty {
+            get {
+                return ResourceManager.GetString("MenuMatchRuleEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Menu Program file path is empty, please select program file 的本地化字符串。
+        /// </summary>
+        public static string MenuProgramPathEmpty {
+            get {
+                return ResourceManager.GetString("MenuProgramPathEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The menu title is empty. Please enter the menu title 的本地化字符串。
+        /// </summary>
+        public static string MenuTitleEmpty {
+            get {
+                return ResourceManager.GetString("MenuTitleEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The application is the latest version 的本地化字符串。
         /// </summary>
         public static string NewestVersion {

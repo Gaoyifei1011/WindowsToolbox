@@ -15,7 +15,9 @@ namespace WindowsTools.Services.Shell
     /// </summary>
     public static class ShellMenuService
     {
+        // Stable Software\WindowsTools\Personalize\ShellMenu
         private static readonly string shellMenuKey = @"Software\WindowsTools\ShellMenuTest";
+
         private static Guid FOLDERID_LocalAppData = new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091");
 
         public static DirectoryInfo ShellMenuConfigDirectory { get; private set; }
@@ -70,8 +72,6 @@ namespace WindowsTools.Services.Shell
         /// </summary>
         public static void SaveShellMenuItem(string menuKey, ShellMenuItem shellMenuItem)
         {
-            menuKey = Path.Combine(shellMenuKey, menuKey);
-
             RegistryHelper.SaveRegistryKey(menuKey, "MenuGuid", shellMenuItem.MenuGuid.ToString());
             RegistryHelper.SaveRegistryKey(menuKey, "MenuTitleText", shellMenuItem.MenuTitleText);
             RegistryHelper.SaveRegistryKey(menuKey, "ShouldUseIcon", shellMenuItem.ShouldUseIcon);
@@ -98,6 +98,10 @@ namespace WindowsTools.Services.Shell
         {
             Task.Run(() =>
             {
+                // 获取当前菜单项下的所有子项（包括递归后的项）
+                RegistryEnumKeyItem menuKeyItem = RegistryHelper.EnumSubKey(menuKey);
+
+                EnumRemoveMenuItem(menuKeyItem);
                 RegistryHelper.RemoveRegistryKey(menuKey);
             });
         }
@@ -127,7 +131,8 @@ namespace WindowsTools.Services.Shell
                 FolderDirectory = currentMenuItem.FolderDirectory,
                 FolderDrive = currentMenuItem.FolderDrive,
                 MenuFileMatchRule = currentMenuItem.MenuFileMatchFormatText,
-                MenuFileMatchFormatText = currentMenuItem.MenuFileMatchFormatText
+                MenuFileMatchFormatText = currentMenuItem.MenuFileMatchFormatText,
+                MenuIndex = currentMenuItem.MenuIndex
             };
 
             // 获取子菜单项
@@ -143,6 +148,113 @@ namespace WindowsTools.Services.Shell
             }
 
             return shellMenuItem;
+        }
+
+        /// <summary>
+        /// 枚举并递归删除所有该项及子项的资源文件
+        /// </summary>
+        private static void EnumRemoveMenuItem(RegistryEnumKeyItem registryEnumKeyItem)
+        {
+            // 获取该项菜单内容
+            ShellMenuItem currentMenuItem = GetShellItemInfo(registryEnumKeyItem.RootKey);
+
+            // 删除该项菜单的所有图标文件
+            if (File.Exists(currentMenuItem.DefaultIconPath))
+            {
+                try
+                {
+                    File.Delete(currentMenuItem.DefaultIconPath);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, string.Format("Delete default icon {0} failed", currentMenuItem.DefaultIconPath), e);
+                }
+            }
+
+            if (File.Exists(currentMenuItem.LightThemeIconPath))
+            {
+                try
+                {
+                    File.Delete(currentMenuItem.LightThemeIconPath);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, string.Format("Delete light theme icon {0} failed", currentMenuItem.LightThemeIconPath), e);
+                }
+            }
+
+            if (File.Exists(currentMenuItem.DarkThemeIconPath))
+            {
+                try
+                {
+                    File.Delete(currentMenuItem.DarkThemeIconPath);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, string.Format("Delete dark icon {0} failed", currentMenuItem.DarkThemeIconPath), e);
+                }
+            }
+
+            // 查找图标对应的文件夹路径，并删除文件夹
+            try
+            {
+                if (!string.IsNullOrEmpty(currentMenuItem.DefaultIconPath))
+                {
+                    string defaultIconDirectoryPath = Path.GetDirectoryName(currentMenuItem.DefaultIconPath);
+
+                    if (Directory.Exists(defaultIconDirectoryPath))
+                    {
+                        Directory.Delete(defaultIconDirectoryPath);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, "Delete default icon path failed", e);
+            }
+
+            try
+            {
+                if (!string.IsNullOrEmpty(currentMenuItem.LightThemeIconPath))
+                {
+                    string lightThemeIconDirectoryPath = Path.GetDirectoryName(currentMenuItem.LightThemeIconPath);
+
+                    if (Directory.Exists(lightThemeIconDirectoryPath))
+                    {
+                        Directory.Delete(lightThemeIconDirectoryPath);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, "Delete light icon path failed", e);
+            }
+
+            try
+            {
+                if (!string.IsNullOrEmpty(currentMenuItem.DarkThemeIconPath))
+                {
+                    string darkThemeIconDirectoryPath = Path.GetDirectoryName(currentMenuItem.DarkThemeIconPath);
+
+                    if (Directory.Exists(darkThemeIconDirectoryPath))
+                    {
+                        Directory.Delete(darkThemeIconDirectoryPath);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, "Delete icon path failed", e);
+            }
+
+            // 获取子菜单项
+            if (registryEnumKeyItem.SubRegistryKeyList.Count > 0)
+            {
+                foreach (RegistryEnumKeyItem subRegistryKeyItem in registryEnumKeyItem.SubRegistryKeyList)
+                {
+                    EnumRemoveMenuItem(subRegistryKeyItem);
+                }
+            }
         }
 
         /// <summary>
