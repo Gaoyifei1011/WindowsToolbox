@@ -60,10 +60,10 @@ namespace WindowsToolsShellExtension.Services.Shell
         {
             string rootMenuKey = string.Format(@"{0}\{1}", shellMenuKey, "RootMenu");
 
-            bool? useDefaultIcon = RegistryHelper.ReadRegistryValue<bool?>(rootMenuKey, "UseDefaultIcon");
-            string iconPath = RegistryHelper.ReadRegistryValue<string>(rootMenuKey, "IconPath");
-            bool? useDefaultText = RegistryHelper.ReadRegistryValue<bool?>(rootMenuKey, "UseDefaultText");
-            string text = RegistryHelper.ReadRegistryValue<string>(rootMenuKey, "Text");
+            bool? useDefaultIcon = RegistryHelper.ReadRegistryKey<bool?>(rootMenuKey, "UseDefaultIcon");
+            string iconPath = RegistryHelper.ReadRegistryKey<string>(rootMenuKey, "IconPath");
+            bool? useDefaultText = RegistryHelper.ReadRegistryKey<bool?>(rootMenuKey, "UseDefaultText");
+            string text = RegistryHelper.ReadRegistryKey<string>(rootMenuKey, "Text");
 
             if (useDefaultIcon.HasValue && useDefaultIcon.Value is false && File.Exists(iconPath))
             {

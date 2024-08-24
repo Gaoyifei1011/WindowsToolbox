@@ -1,7 +1,7 @@
 ﻿namespace WindowsTools.WindowsAPI.ComTypes
 {
     /// <summary>
-    /// 请求通过 <see cref="IShellItem.GetDisplayName"> 和 SHGetNameFromIDList 检索项的显示名称的形式。
+    /// 请求通过 IShellItem.GetDisplayName 和 SHGetNameFromIDList 检索项的显示名称的形式。
     /// </summary>
     public enum SIGDN : uint
     {
@@ -31,12 +31,12 @@
         SIGDN_DESKTOPABSOLUTEEDITING = 0x8004c000,
 
         /// <summary>
-        /// 返回项的文件系统路径（如果有）。只有报告 <see cref="SFGAO.SFGAO_FILESYSTEM"> 具有文件系统路径的项目。当项目没有文件系统路径时，对该项的 <see cref="IShellItem.GetDisplayName"> 的调用将失败。在某些情况下，在 UI 中，此名称适合向用户显示，但请注意，可能未为所有项指定此名称。
+        /// 返回项的文件系统路径（如果有）。只有报告 SFGAO.SFGAO_FILESYSTEM 具有文件系统路径的项目。当项目没有文件系统路径时，对该项的 IShellItem.GetDisplayName" 的调用将失败。在某些情况下，在 UI 中，此名称适合向用户显示，但请注意，可能未为所有项指定此名称。
         /// </summary>
         SIGDN_FILESYSPATH = 0x80058000,
 
         /// <summary>
-        /// 返回项的 URL（如果有）。某些项没有 URL，在这些情况下，对 <see cref="IShellItem.GetDisplayName"> 的调用将失败。在某些情况下，此名称适合向用户显示，但请注意，可能未为所有项目指定此名称。
+        /// 返回项的 URL（如果有）。某些项没有 URL，在这些情况下，对 IShellItem.GetDisplayName" 的调用将失败。在某些情况下，此名称适合向用户显示，但请注意，可能未为所有项目指定此名称。
         /// </summary>
         SIGDN_URL = 0x80068000,
 
@@ -53,6 +53,6 @@
         /// <summary>
         /// 在 Windows 8 中引入。
         /// </summary>
-        SIGDN_PARENTRELATIVEFORUI = 0x80094001,
+        SIGDN_PARENTRELATIVEFORUI = 0x80094001
     }
 }

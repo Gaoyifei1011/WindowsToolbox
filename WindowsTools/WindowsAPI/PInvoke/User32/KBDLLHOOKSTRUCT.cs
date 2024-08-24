@@ -4,6 +4,9 @@ using System.Windows.Forms;
 
 namespace WindowsTools.WindowsAPI.PInvoke.User32
 {
+    /// <summary>
+    /// 包含有关低级别键盘输入事件的信息。
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public class KBDLLHOOKSTRUCT
     {

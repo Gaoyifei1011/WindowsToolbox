@@ -13,7 +13,7 @@ namespace WindowsToolsShellExtension.Helpers.Root
         /// <summary>
         /// 创建进程
         /// </summary>
-        public static void StartProcess(string processName, string arguments, out int processid)
+        public static unsafe void StartProcess(string processName, string arguments, out int processid)
         {
             Kernel32Library.GetStartupInfo(out STARTUPINFO startupInfo);
             startupInfo.lpReserved = IntPtr.Zero;
@@ -29,7 +29,7 @@ namespace WindowsToolsShellExtension.Helpers.Root
             startupInfo.wShowWindow = WindowShowStyle.SW_SHOWNORMAL;
             startupInfo.cbReserved2 = 0;
             startupInfo.lpReserved2 = IntPtr.Zero;
-            startupInfo.cb = Marshal.SizeOf<STARTUPINFO>();
+            startupInfo.cb = sizeof(STARTUPINFO);
 
             bool createResult = Kernel32Library.CreateProcess(null, string.Format("{0} {1}", processName, arguments), IntPtr.Zero, IntPtr.Zero, false, CREATE_PROCESS_FLAGS.None, IntPtr.Zero, null, ref startupInfo, out PROCESS_INFORMATION processInformation);
 

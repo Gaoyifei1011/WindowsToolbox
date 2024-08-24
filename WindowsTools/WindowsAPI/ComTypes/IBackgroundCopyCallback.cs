@@ -38,6 +38,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="pJob">包含用于访问作业的属性、进度和状态信息的方法。 不释放 pJob; 当 JobModification 方法返回时，BITS 释放接口。</param>
         /// <param name="dwReserved">保留供将来使用。</param>
         /// <returns>此方法应返回 S_OK。</returns>
-        [PreserveSig] int JobModification([MarshalAs(UnmanagedType.Interface)] IBackgroundCopyJob pJob, uint dwReserved);
+        [PreserveSig]
+        int JobModification([MarshalAs(UnmanagedType.Interface)] IBackgroundCopyJob pJob, uint dwReserved);
     }
 }

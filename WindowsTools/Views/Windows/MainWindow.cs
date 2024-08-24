@@ -68,7 +68,7 @@ namespace WindowsTools.Views.Windows
             {
                 CHANGEFILTERSTRUCT changeFilterStatus = new()
                 {
-                    cbSize = Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT))
+                    cbSize = Marshal.SizeOf<CHANGEFILTERSTRUCT>()
                 };
                 User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_DROPFILES, ChangeFilterAction.MSGFLT_ALLOW, in changeFilterStatus);
                 User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_ALLOW, in changeFilterStatus);
@@ -154,7 +154,7 @@ namespace WindowsTools.Views.Windows
                     {
                         CHANGEFILTERSTRUCT changeFilterStatus = new()
                         {
-                            cbSize = Marshal.SizeOf(typeof(CHANGEFILTERSTRUCT))
+                            cbSize = Marshal.SizeOf<CHANGEFILTERSTRUCT>()
                         };
                         User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_RESET, in changeFilterStatus);
                     }
@@ -391,9 +391,9 @@ namespace WindowsTools.Views.Windows
                 // 选择窗口右键菜单的条目时接收到的消息
                 case (int)WindowMessage.WM_SYSCOMMAND:
                     {
-                        SystemCommand sysCommand = (SystemCommand)(m.WParam.ToInt32() & 0xFFF0);
+                        SYSTEMCOMMAND sysCommand = (SYSTEMCOMMAND)(m.WParam.ToInt32() & 0xFFF0);
 
-                        if (sysCommand is SystemCommand.SC_MOUSEMENU || sysCommand is SystemCommand.SC_KEYMENU)
+                        if (sysCommand is SYSTEMCOMMAND.SC_MOUSEMENU || sysCommand is SYSTEMCOMMAND.SC_KEYMENU)
                         {
                             FlyoutShowOptions options = new()
                             {
@@ -555,7 +555,10 @@ namespace WindowsTools.Views.Windows
         /// </summary>
         public void SetWindowTheme()
         {
-            (Content as MainPage).WindowTheme = (ElementTheme)Enum.Parse(typeof(ElementTheme), ThemeService.AppTheme.Value.ToString());
+            if (Enum.TryParse(ThemeService.AppTheme.Value.ToString(), out ElementTheme theme))
+            {
+                (Content as MainPage).WindowTheme = theme;
+            }
         }
 
         /// <summary>

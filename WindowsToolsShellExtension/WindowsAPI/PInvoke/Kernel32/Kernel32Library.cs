@@ -89,17 +89,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Kernel32
         /// </returns>
         [LibraryImport(Kernel32, EntryPoint = "CreateProcessW", SetLastError = false, StringMarshalling = StringMarshalling.Utf16), PreserveSig]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static partial bool CreateProcess(
-            string lpApplicationName,
-            [MarshalAs(UnmanagedType.LPStr)] string lpCommandLine,
-            IntPtr lpProcessAttributes,
-            IntPtr lpThreadAttributes,
-            [MarshalAs(UnmanagedType.Bool)] bool bInheritHandles,
-            CREATE_PROCESS_FLAGS dwCreationFlags,
-            IntPtr lpEnvironment,
-            string lpCurrentDirectory,
-            ref STARTUPINFO lpStartupInfo,
-            out PROCESS_INFORMATION lpProcessInformation);
+        public static partial bool CreateProcess([MarshalAs(UnmanagedType.LPWStr)] string lpApplicationName, [MarshalAs(UnmanagedType.LPWStr)] string lpCommandLine, IntPtr lpProcessAttributes, IntPtr lpThreadAttributes, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandles, CREATE_PROCESS_FLAGS dwCreationFlags, IntPtr lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)] string lpCurrentDirectory, ref STARTUPINFO lpStartupInfo, out PROCESS_INFORMATION lpProcessInformation);
 
         /// <summary>
         /// 获取调用进程的包路径。

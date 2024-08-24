@@ -2,6 +2,9 @@
 
 namespace WindowsTools.WindowsAPI.PInvoke.User32
 {
+    /// <summary>
+    /// 窗口大小调整和定位标志。
+    /// </summary>
     [Flags]
     public enum SetWindowPosFlags : uint
     {
@@ -81,6 +84,6 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <summary>
         /// 显示“接收端口跟踪选项” 窗口。
         /// </summary>
-        SWP_SHOWWINDOW = 0x0040,
+        SWP_SHOWWINDOW = 0x0040
     }
 }

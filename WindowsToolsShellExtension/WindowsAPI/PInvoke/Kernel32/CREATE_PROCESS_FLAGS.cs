@@ -4,8 +4,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Kernel32
 {
     /// <summary>
     /// 进程创建标志
-    /// CreateProcess、CreateProcessAsUser、CreateProcessWithLogonW 和 CreateProcessWithTokenW
-    /// 函数使用以下进程创建标志。 可以在任意组合中指定它们，
+    /// CreateProcess、CreateProcessAsUser、CreateProcessWithLogonW 和 CreateProcessWithTokenW 函数使用以下进程创建标志。 可以在任意组合中指定它们，
     /// </summary>
     [Flags]
     public enum CREATE_PROCESS_FLAGS
@@ -112,6 +111,6 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Kernel32
         /// 进程继承其父级的相关性。 如果父进程具有多个 处理器组中的线程，新进程将继承父组使用的任意组的组相对相关性。
         /// Windows Server 2008、Windows Vista、Windows Server 2003 和 Windows XP：不支持此值。
         /// </summary>
-        INHERIT_PARENT_AFFINITY = 0x00010000,
+        INHERIT_PARENT_AFFINITY = 0x00010000
     }
 }

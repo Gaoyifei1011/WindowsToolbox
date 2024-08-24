@@ -1,5 +1,8 @@
 ﻿namespace WindowsTools.WindowsAPI.PInvoke.Rstrtmgr
 {
+    /// <summary>
+    /// 描述重启管理器所针对的应用程序的当前状态。
+    /// </summary>
     public enum RM_APP_STATUS
     {
         /// <summary>

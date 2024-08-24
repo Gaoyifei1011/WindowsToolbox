@@ -16,13 +16,29 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Advapi32
         /// <summary>
         /// 关闭指定注册表项的句柄。
         /// </summary>
-        /// <param name="hKey">要关闭的打开键的句柄。 该句柄必须由 <see cref="RegOpenKeyEx"> 函数打开。</param>
+        /// <param name="hKey">要关闭的打开键的句柄。 该句柄必须由 RegOpenKeyEx 函数打开。</param>
         /// <returns>如果函数成功，则返回值为 ERROR_SUCCESS。如果函数失败，则返回值为 Winerror.h 中定义的非零错误代码。</returns>
         [LibraryImport(Advapi32, EntryPoint = "RegCloseKey", SetLastError = false), PreserveSig]
         public static partial int RegCloseKey(UIntPtr hKey);
 
-        [LibraryImport(Advapi32, EntryPoint = "RegCreateKeyExW", StringMarshalling = StringMarshalling.Utf16)]
-        public static partial int RegCreateKeyEx(UIntPtr hKey, string lpSubKey, int Reserved, string lpClass, int dwOptions, int samDesired, ref UIntPtr secAttrs, out UIntPtr hkResult, out int lpdwDisposition);
+        /// <summary>
+        /// 枚举指定打开的注册表项的子项。 函数在每次调用时检索有关一个子项的信息。
+        /// </summary>
+        /// <param name="hKey">打开的注册表项的句柄。</param>
+        /// <param name="dwIndex">要检索的子项的索引。 首次调用 RegEnumKeyEx 函数时，此参数应为零，然后针对后续调用递增。由于子项未排序，因此任何新子项都将具有任意索引。 这意味着函数可以按任意顺序返回子项。</param>
+        /// <param name="lpName">指向接收子项名称（包括终止 null 字符）的缓冲区的指针。 函数仅将子项的名称（而不是完整键层次结构）复制到缓冲区。如果函数失败，则不会将任何信息复制到此缓冲区。</param>
+        /// <param name="lpcchName">指向变量的指针，该变量指定 由 lpName 参数指定的缓冲区的大小（以字符为单位）。 此大小应包含终止 null 字符。 如果函数成功， 则 lpcName 指向的变量包含缓冲区中存储的字符数，不包括终止 null 字符。若要确定所需的缓冲区大小，请使用 RegQueryInfoKey 函数确定 由 hKey 参数标识的键的最大子项的大小。</param>
+        /// <param name="lpReserved">此参数是保留的，必须为 NULL。</param>
+        /// <param name="lpClass">指向接收枚举子项的用户定义类的缓冲区的指针。 此参数可以为 NULL。</param>
+        /// <param name="lpcbClass">指向变量的指针，该变量指定 由 lpClass 参数指定的缓冲区的大小（以字符为单位）。 大小应包括终止 null 字符。 如果函数成功， 则 lpcClass 包含缓冲区中存储的字符数，不包括终止 null 字符。 仅当 lpClass 为 NULL 时，此参数才能为 NULL。</param>
+        /// <param name="lpftLastWriteTime">指向 FILETIME 结构的指针，该结构接收上次写入枚举子项的时间。 此参数可以为 NULL。</param>
+        /// <returns>
+        /// 如果函数成功，则返回值为 ERROR_SUCCESS。
+        /// 如果函数失败，则返回值为 系统错误代码。 如果没有其他可用的子项，函数将返回ERROR_NO_MORE_ITEMS。
+        /// 如果 lpName 缓冲区太小而无法接收密钥的名称，则函数将返回ERROR_MORE_DATA。
+        /// </returns>
+        [LibraryImport(Advapi32, EntryPoint = "RegEnumKeyExW"), PreserveSig]
+        public static partial int RegEnumKeyEx(UIntPtr hKey, int dwIndex, ref char lpName, ref int lpcchName, [In, Out] int[] lpReserved, [In, Out] char[] lpClass, [In, Out] int[] lpcbClass, [Out] long[] lpftLastWriteTime);
 
         /// <summary>
         /// 打开指定的注册表项。 请注意，键名称不区分大小写。
@@ -34,7 +50,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Advapi32
         /// <param name="phkResult">一个变量的指针，此变量指向已打开键的句柄。</param>
         /// <returns>如果函数成功，则返回值为 ERROR_SUCCESS。如果函数失败，则返回值为 Winerror.h 中定义的非零错误代码。</returns>
         [LibraryImport(Advapi32, EntryPoint = "RegOpenKeyExW", SetLastError = false, StringMarshalling = StringMarshalling.Utf16), PreserveSig]
-        public static partial int RegOpenKeyEx(UIntPtr hKey, string lpSubKey, int ulOptions, RegistryAccessRights samDesired, ref UIntPtr phkResult);
+        public static partial int RegOpenKeyEx(UIntPtr hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int ulOptions, RegistryAccessRights samDesired, ref UIntPtr phkResult);
 
         /// <summary>
         /// 检索与打开的注册表项关联的指定值名称的类型和数据。
@@ -50,6 +66,6 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Advapi32
         /// 如果 lpData 缓冲区太小，无法接收数据，函数将返回ERROR_MORE_DATA。如果 lpValueName 注册表值不存在，该函数将返回ERROR_FILE_NOT_FOUND。
         /// </returns>
         [LibraryImport(Advapi32, EntryPoint = "RegQueryValueExW", SetLastError = false, StringMarshalling = StringMarshalling.Utf16), PreserveSig]
-        public static partial int RegQueryValueEx(UIntPtr hKey, string lpValueName, int lpReserved, out RegistryValueKind lpType, [Out] byte[] lpData, ref int lpcbData);
+        public static partial int RegQueryValueEx(UIntPtr hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName, int lpReserved, out RegistryValueKind lpType, [Out] byte[] lpData, ref int lpcbData);
     }
 }

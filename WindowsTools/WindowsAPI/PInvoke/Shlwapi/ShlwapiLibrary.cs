@@ -20,6 +20,6 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shlwapi
         /// <param name="ppvReserved">未使用;设置为 NULL。</param>
         /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [DllImport(Shlwapi, CharSet = CharSet.Unicode, EntryPoint = "SHLoadIndirectString", ExactSpelling = true), PreserveSig]
-        public static extern int SHLoadIndirectString(string pszSource, StringBuilder pszOutBuf, int cchOutBuf, IntPtr ppvReserved);
+        public static extern int SHLoadIndirectString([MarshalAs(UnmanagedType.LPWStr)] string pszSource, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszOutBuf, int cchOutBuf, IntPtr ppvReserved);
     }
 }

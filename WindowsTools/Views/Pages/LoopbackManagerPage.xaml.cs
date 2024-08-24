@@ -439,7 +439,7 @@ namespace WindowsTools.Views.Pages
 
             pACs = arrayValue;
 
-            int structSize = Marshal.SizeOf(typeof(INET_FIREWALL_APP_CONTAINER));
+            int structSize = Marshal.SizeOf<INET_FIREWALL_APP_CONTAINER>();
 
             for (int index = 0; index < size; index++)
             {
@@ -467,7 +467,7 @@ namespace WindowsTools.Views.Pages
             GCHandle handle_ppACs = GCHandle.Alloc(arrayValue, GCHandleType.Pinned);
             FirewallAPILibrary.NetworkIsolationGetAppContainerConfig(out size, out arrayValue);
 
-            int structSize = Marshal.SizeOf(typeof(SID_AND_ATTRIBUTES));
+            int structSize = Marshal.SizeOf<SID_AND_ATTRIBUTES>();
             for (int index = 0; index < size; index++)
             {
                 SID_AND_ATTRIBUTES cur = (SID_AND_ATTRIBUTES)Marshal.PtrToStructure(arrayValue, typeof(SID_AND_ATTRIBUTES));

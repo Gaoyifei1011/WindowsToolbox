@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
+using WindowsToolsShellExtension.Extensions.Registry;
 using WindowsToolsShellExtension.WindowsAPI.PInvoke.Advapi32;
 
 namespace WindowsToolsShellExtension.Helpers.Root
@@ -13,7 +16,7 @@ namespace WindowsToolsShellExtension.Helpers.Root
         /// <summary>
         /// 读取注册表指定项的内容
         /// </summary>
-        public static T ReadRegistryValue<T>(string rootKey, string key)
+        public static T ReadRegistryKey<T>(string rootKey, string key)
         {
             T value = default;
             try
@@ -91,6 +94,60 @@ namespace WindowsToolsShellExtension.Helpers.Root
             catch (Exception)
             {
                 return value;
+            }
+        }
+
+        /// <summary>
+        /// 枚举并递归当前注册表项的所有子项
+        /// </summary>
+        public static RegistryEnumKeyItem EnumSubKey(string rootKey)
+        {
+            RegistryEnumKeyItem registryEnumKeyItem = new();
+
+            try
+            {
+                UIntPtr hKey = UIntPtr.Zero;
+
+                if (Advapi32Library.RegOpenKeyEx(ReservedKeyHandles.HKEY_CURRENT_USER, rootKey, 0, RegistryAccessRights.KEY_READ, ref hKey) is 0)
+                {
+                    // 添加当前项信息
+                    registryEnumKeyItem.RootKey = rootKey;
+
+                    // 获取当前项的所有子项列表
+                    List<string> subKeyList = [];
+                    Span<char> name = stackalloc char[256];
+
+                    int result;
+                    int nameLength = name.Length;
+
+                    while ((result = Advapi32Library.RegEnumKeyEx(hKey, subKeyList.Count, ref MemoryMarshal.GetReference(name), ref nameLength, null, null, null, null)) != 259)
+                    {
+                        if (result is 0)
+                        {
+                            subKeyList.Add(new string(name[..nameLength]));
+                            nameLength = name.Length;
+                        }
+                        else if (result is 2) // ERROR_FILE_NOT_FOUND
+                        {
+                            throw new IOException("注册表值未找到");
+                        }
+                        else if (result is 5) // ERROR_ACCESS_DENIED
+                        {
+                            throw new UnauthorizedAccessException();
+                        }
+                    }
+
+                    foreach (string subKey in subKeyList)
+                    {
+                        registryEnumKeyItem.SubRegistryKeyList.Add(EnumSubKey(Path.Combine(rootKey, subKey)));
+                    }
+                }
+
+                return registryEnumKeyItem;
+            }
+            catch (Exception)
+            {
+                return registryEnumKeyItem;
             }
         }
     }

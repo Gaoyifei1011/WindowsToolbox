@@ -13,6 +13,6 @@
         AllLowercase = 5,
         FileNameLowercase = 6,
         ExtensionNameLowercase = 7,
-        ReplaceSpace = 8,
+        ReplaceSpace = 8
     }
 }

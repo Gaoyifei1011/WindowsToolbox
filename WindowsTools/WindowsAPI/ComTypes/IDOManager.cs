@@ -3,6 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace WindowsTools.WindowsAPI.ComTypes
 {
+    /// <summary>
+    /// IDOManager 接口用于创建新的下载，并枚举现有下载。
+    /// </summary>
     [ComImport, Guid("400E2D4A-1431-4C1A-A748-39CA472CFDB1"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IDOManager
     {
@@ -25,7 +28,8 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// DODownloadProperty_DisplayName
         /// DODownloadProperty_LocalPath
         /// </param>
-        /// <returns>指向 IEnumUnknown 的接口指针的地址，用于枚举现有下载。 枚举器的内容取决于 类别的值。 枚举接口中包含的下载是以前由此函数的同一调用方创建的下载。</returns>
+        /// <param name="ppEnum">指向 IEnumUnknown 的接口指针的地址，用于枚举现有下载。 枚举器的内容取决于 类别的值。 枚举接口中包含的下载是以前由此函数的同一调用方创建的下载。</param>
+        /// <returns>如果函数成功，则返回 S_OK。 否则，它将返回 HRESULT错误代码。</returns>
         [PreserveSig]
         int EnumDownloads(DODownloadProperty category, out IntPtr ppEnum);
     }

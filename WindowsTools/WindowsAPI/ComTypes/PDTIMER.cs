@@ -18,6 +18,6 @@
         /// <summary>
         /// 已恢复进度。
         /// </summary>
-        PDTIMER_RESUME = 0x00000003,
+        PDTIMER_RESUME = 0x00000003
     }
 }

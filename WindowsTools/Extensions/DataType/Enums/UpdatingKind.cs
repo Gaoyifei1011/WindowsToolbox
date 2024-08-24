@@ -3,6 +3,6 @@
     public enum UpdatingKind
     {
         Windows11 = 0,
-        Windows10 = 1,
+        Windows10 = 1
     }
 }

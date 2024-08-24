@@ -85,6 +85,6 @@
         /// <summary>
         /// 在 Windows 7 中引入。 指定仅检索别名的 PIDL。 请勿使用文件系统路径。
         /// </summary>
-        KF_FLAG_ALIAS_ONLY = 0x80000000,
+        KF_FLAG_ALIAS_ONLY = 0x80000000
     }
 }

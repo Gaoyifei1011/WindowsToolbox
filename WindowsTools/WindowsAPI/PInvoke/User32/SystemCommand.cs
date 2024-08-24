@@ -1,6 +1,9 @@
 ﻿namespace WindowsTools.WindowsAPI.PInvoke.User32
 {
-    public enum SystemCommand : int
+    /// <summary>
+    /// 请求的系统命令的类型
+    /// </summary>
+    public enum SYSTEMCOMMAND : int
     {
         /// <summary>
         /// 指示屏幕保存程序是否安全。
@@ -96,6 +99,6 @@
         /// <summary>
         /// 使用指针将光标更改为问号。 如果用户随后单击对话框中的控件，该控件将收到 WM_HELP 消息。
         /// </summary>
-        SC_CONTEXTHELP = 0xF180,
+        SC_CONTEXTHELP = 0xF180
     }
 }

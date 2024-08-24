@@ -21,6 +21,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.FirewallAPI
         /// 用于释放分配给一个或多个应用容器的内存资源
         /// </summary>
         /// <param name="pPublicAppCs">要释放的应用容器内存资源。</param>
+        /// <returns>返回 ERROR_SUCCESS。</returns>
         [DllImport(FirewallAPI, CharSet = CharSet.Unicode, EntryPoint = "NetworkIsolationFreeAppContainers", SetLastError = false), PreserveSig]
         public static extern int NetworkIsolationFreeAppContainers(IntPtr pPublicAppCs);
 
@@ -40,6 +41,6 @@ namespace WindowsTools.WindowsAPI.PInvoke.FirewallAPI
         /// <param name="appContainerSids">安全标识符 (允许发送环回流量的应用容器) SID。 用于调试目的。</param>
         /// <returns>如果成功，则返回ERROR_SUCCESS，否则返回错误值。</returns>
         [DllImport(FirewallAPI, CharSet = CharSet.Unicode, EntryPoint = "NetworkIsolationSetAppContainerConfig", SetLastError = false), PreserveSig]
-        public static extern uint NetworkIsolationSetAppContainerConfig(int dwNumPublicAppCs, [MarshalAs(UnmanagedType.LPArray)] SID_AND_ATTRIBUTES[] appContainerSids);
+        public static extern uint NetworkIsolationSetAppContainerConfig(int dwNumPublicAppCs, [In, MarshalAs(UnmanagedType.LPArray)] SID_AND_ATTRIBUTES[] appContainerSids);
     }
 }

@@ -36,6 +36,6 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
         /// <summary>
         /// Windows 7 及更高版本。 项是通过单选按钮选择的一组互斥选项之一。 ECS_RADIOCHECK并不意味着该项是所选选项，尽管它可能是。
         /// </summary>
-        ECS_RADIOCHECK = 0x10,
+        ECS_RADIOCHECK = 0x10
     }
 }

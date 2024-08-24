@@ -20,7 +20,7 @@ namespace WindowsTools.Helpers.Root
             T value = default;
             try
             {
-                RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(rootKey, false);
+                RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(rootKey, false);
 
                 if (registryKey is not null)
                 {

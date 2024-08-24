@@ -14,7 +14,7 @@ namespace WindowsToolsShellExtension.Services.Root
         /// </summary>
         public static T ReadSetting<T>(string key)
         {
-            return RegistryHelper.ReadRegistryValue<T>(settingsKey, key);
+            return RegistryHelper.ReadRegistryKey<T>(settingsKey, key);
         }
     }
 }

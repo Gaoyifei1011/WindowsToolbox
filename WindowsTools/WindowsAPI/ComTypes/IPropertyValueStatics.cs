@@ -28,7 +28,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         int CreateUInt8(byte value, out IntPtr propertyValue);
 
         /// <summary>
-        ///
+        /// 创建一个新的 IPropertyValue 对象，该对象包含指定的有符号 16 位整数值。
         /// </summary>
         /// <param name="value">要存储的值。</param>
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新 对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
@@ -37,7 +37,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         int CreateInt16(short value, out IntPtr propertyValue);
 
         /// <summary>
-        ///
+        /// 创建一个新的 IPropertyValue 对象，该对象包含指定的无符号 16 位整数值。
         /// </summary>
         /// <param name="value">要存储的值。</param>
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新 对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
@@ -285,7 +285,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="valueLength">数组长度</param>
         /// <param name="value">要存储的 Unicode 字符数组。</param>
         /// <param name="propertyValue"></param>
-        /// <returns></returns>
+        /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
         int CreateChar16Array(int valueLength, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] char[] value, out IntPtr propertyValue);
 

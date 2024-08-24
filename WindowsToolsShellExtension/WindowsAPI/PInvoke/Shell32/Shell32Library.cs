@@ -25,6 +25,6 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Shell32
         /// </param>
         /// <returns>如果成功，则返回S_OK，否则返回错误值</returns>
         [LibraryImport(Shell32, EntryPoint = "SHGetKnownFolderPath", SetLastError = false, StringMarshalling = StringMarshalling.Utf16), PreserveSig]
-        public static partial int SHGetKnownFolderPath(in Guid rfid, KNOWN_FOLDER_FLAG dwFlags, IntPtr hToken, out string pszPath);
+        public static partial int SHGetKnownFolderPath(in Guid rfid, KNOWN_FOLDER_FLAG dwFlags, IntPtr hToken, [MarshalAs(UnmanagedType.LPWStr)] out string pszPath);
     }
 }

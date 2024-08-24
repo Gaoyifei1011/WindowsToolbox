@@ -19,7 +19,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Kernel32
         /// <param name="applicationUserModelId">指向接收应用程序用户模型 ID 的缓冲区的指针。</param>
         /// <returns>如果该函数成功，则返回 ERROR_SUCCESS。 否则，该函数将返回错误代码。</returns>
         [DllImport(Kernel32, CharSet = CharSet.Unicode, EntryPoint = "GetCurrentApplicationUserModelId", SetLastError = false), PreserveSig]
-        public static extern int GetCurrentApplicationUserModelId(ref uint applicationUserModelIdLength, StringBuilder applicationUserModelId);
+        public static extern int GetCurrentApplicationUserModelId(ref uint applicationUserModelIdLength, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder applicationUserModelId);
 
         /// <summary>
         /// 获取调用进程的包系列名称。
@@ -28,7 +28,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Kernel32
         /// <param name="packageFamilyName">包系列名称。</param>
         /// <returns>如果函数成功，则返回 ERROR_SUCCESS。 否则，函数将返回错误代码。</returns>
         [DllImport(Kernel32, CharSet = CharSet.Unicode, EntryPoint = "GetCurrentPackageFamilyName", SetLastError = false), PreserveSig]
-        public static extern int GetCurrentPackageFamilyName(ref int packageFamilyNameLength, StringBuilder packageFamilyName);
+        public static extern int GetCurrentPackageFamilyName(ref int packageFamilyNameLength, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder packageFamilyName);
 
         /// <summary>
         /// 检索系统的电源状态。 状态指示系统是使用交流还是直流电源运行，电池当前是否正在充电，剩余的电池使用时间，以及节电模式是打开还是关闭。

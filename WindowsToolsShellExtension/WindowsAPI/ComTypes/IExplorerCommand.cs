@@ -17,7 +17,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
         /// <param name="ppszName">指向缓冲区的指针，当此方法成功返回时，该缓冲区接收标题字符串。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetTitle(IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.LPWStr)] out string ppszName);
+        int GetTitle([MarshalAs(UnmanagedType.Interface)] IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.LPWStr)] out string ppszName);
 
         /// <summary>
         /// 获取与指定的 Windows 资源管理器命令项关联的图标的图标资源字符串。
@@ -26,7 +26,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
         /// <param name="ppszIcon">指向缓冲区的指针，此方法成功返回时，该缓冲区接收标识图标源的资源字符串。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetIcon(IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.LPWStr)] out string ppszIcon);
+        int GetIcon([MarshalAs(UnmanagedType.Interface)] IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.LPWStr)] out string ppszIcon);
 
         /// <summary>
         /// 获取与指定的 Windows 资源管理器命令项关联的工具提示字符串。
@@ -35,7 +35,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
         /// <param name="ppszInfotip">指向缓冲区的指针，当此方法成功返回时，该缓冲区接收工具提示字符串。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetToolTip(IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.LPWStr)] out string ppszInfotip);
+        int GetToolTip([MarshalAs(UnmanagedType.Interface)] IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.LPWStr)] out string ppszInfotip);
 
         /// <summary>
         /// 获取 Windows 资源管理器命令的 GUID。
@@ -53,7 +53,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
         /// <param name="pCmdState">指向一个值的指针，当此方法成功返回时，该值接收 EXPCMDSTATE 常量指示的一个或多个 Windows 资源管理器命令状态。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetState(IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.Bool)] bool fOkToBeSlow, out EXPCMDSTATE pCmdState);
+        int GetState([MarshalAs(UnmanagedType.Interface)] IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.Bool)] bool fOkToBeSlow, out EXPCMDSTATE pCmdState);
 
         /// <summary>
         /// 调用 Windows 资源管理器命令。
@@ -62,7 +62,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
         /// <param name="pbc">指向 IBindCtx 接口的指针，该接口提供对绑定上下文的访问。 如果不需要绑定上下文，此值可以为 NULL 。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int Invoke(IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.Interface)] object pbc);
+        int Invoke([MarshalAs(UnmanagedType.Interface)] IShellItemArray psiItemArray, [MarshalAs(UnmanagedType.Interface)] object pbc);
 
         /// <summary>
         /// 获取与 Windows 资源管理器命令关联的标志。
@@ -78,6 +78,6 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
         /// <param name="ppEnum">此方法成功返回时，包含可用于遍历子命令集的 IEnumExplorerCommand 接口指针。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int EnumSubCommands(out IEnumExplorerCommand ppEnum);
+        int EnumSubCommands([MarshalAs(UnmanagedType.Interface)] out IEnumExplorerCommand ppEnum);
     }
 }

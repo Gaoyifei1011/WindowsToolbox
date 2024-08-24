@@ -6,7 +6,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
     /// 指向当前命令标志
     /// </summary>
     [Flags]
-    public enum EXPCMDFLAGS
+    public enum EXPCMDFLAGS : int
     {
         /// <summary>
         /// Windows 7 及更高版本。 未设置命令标志。
@@ -61,6 +61,6 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
         /// <summary>
         /// 在 Windows 8 中引入。
         /// </summary>
-        ECF_AUTOMENUICONS = 0x200,
+        ECF_AUTOMENUICONS = 0x200
     }
 }

@@ -1,5 +1,8 @@
 ﻿namespace WindowsTools.WindowsAPI.PInvoke.User32
 {
+    /// <summary>
+    /// 要安装的挂钩过程的类型。
+    /// </summary>
     public enum HOOKTYPE
     {
         /// <summary>

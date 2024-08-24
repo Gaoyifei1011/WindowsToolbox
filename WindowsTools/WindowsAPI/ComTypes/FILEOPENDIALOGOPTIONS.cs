@@ -14,7 +14,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         FOS_OVERWRITEPROMPT = 0x2,
 
         /// <summary>
-        /// 在“保存”对话框中，仅允许用户选择具有通过 <see cref="IFileOpenDialog.SetFileTypes"> 指定的文件扩展名之一的文件。
+        /// 在“保存”对话框中，仅允许用户选择具有通过 IFileOpenDialog.SetFileTypes 指定的文件扩展名之一的文件。
         /// </summary>
         FOS_STRICTFILETYPES = 0x4,
 
@@ -29,13 +29,13 @@ namespace WindowsTools.WindowsAPI.ComTypes
         FOS_PICKFOLDERS = 0x20,
 
         /// <summary>
-        /// 确保返回的项目是文件系统项目 <see cref="SFGAO.SFGAO_FILESYSTEM">。请注意，这不适用于 <see cref="IFileOpenDialog.GetCurrentSelection"> 返回的项目。
+        /// 确保返回的项目是文件系统项目 SFGAO.SFGAO_FILESYSTEM。请注意，这不适用于 IFileOpenDialog.GetCurrentSelection 返回的项目。
         /// </summary>
         FOS_FORCEFILESYSTEM = 0x40,
 
         /// <summary>
-        /// 使用户能够选择 Shell 命名空间中的任何项，而不仅仅是具有 <see cref="SFGAO.SFGAO_STREAM"> 或 <see cref="SFGAO.SFGAO_FILESYSTEM"> 属性的项。
-        /// 此标志不能与 <see cref="FOS_FORCEFILESYSTEM"> 结合使用。
+        /// 使用户能够选择 Shell 命名空间中的任何项，而不仅仅是具有 SFGAO.SFGAO_STREAM 或 SFGAO.SFGAO_FILESYSTEM 属性的项。
+        /// 此标志不能与 FOS_FORCEFILESYSTEM 结合使用。
         /// </summary>
         FOS_ALLNONSTORAGEITEMS = 0x80,
 
@@ -45,7 +45,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         FOS_NOVALIDATE = 0x100,
 
         /// <summary>
-        /// 允许用户在打开的对话框中选择多个项目。请注意，设置此标志时，必须使用 <see cref="IFileOpenDialog"> 接口来检索这些项。
+        /// 允许用户在打开的对话框中选择多个项目。请注意，设置此标志时，必须使用 IFileOpenDialog 接口来检索这些项。
         /// </summary>
         FOS_ALLOWMULTISELECT = 0x200,
 
@@ -65,7 +65,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         FOS_CREATEPROMPT = 0x2000,
 
         /// <summary>
-        /// 如果在应用程序打开文件时出现共享冲突，请通过 OnShareViolation 回调应用程序以获取指导。此标志被 <see cref="FOS_NOVALIDATE"> 覆盖。
+        /// 如果在应用程序打开文件时出现共享冲突，请通过 OnShareViolation 回调应用程序以获取指导。此标志被 FOS_NOVALIDATE 覆盖。
         /// </summary>
         FOS_SHAREAWARE = 0x4000,
 
@@ -85,7 +85,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         FOS_HIDEMRUPLACES = 0x20000,
 
         /// <summary>
-        /// 隐藏视图导航窗格中默认显示的项目。此标志通常与 <see cref="IFileOpenDialog.AddPlace"> 方法结合使用，以隐藏标准位置并将其替换为自定义位置。
+        /// 隐藏视图导航窗格中默认显示的项目。此标志通常与 IFileOpenDialog.AddPlace 方法结合使用，以隐藏标准位置并将其替换为自定义位置。
         /// Windows 7 及更高版本：隐藏导航窗格中显示的所有标准命名空间位置（如收藏夹、库、计算机和网络）。
         /// Windows Vista：在导航窗格中隐藏“收藏夹链接”树的内容。请注意，类别本身仍会显示，但显示为空。
         /// </summary>

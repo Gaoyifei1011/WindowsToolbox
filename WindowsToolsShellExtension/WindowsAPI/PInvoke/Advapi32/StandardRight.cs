@@ -56,6 +56,6 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Advapi32
         /// <summary>
         /// 合并 DELETE、READ_CONTROL、WRITE_DAC、WRITE_OWNER 和 SYNCHRONIZE 访问。
         /// </summary>
-        STANDARD_RIGHTS_ALL = 0x001F0000,
+        STANDARD_RIGHTS_ALL = 0x001F0000
     }
 }

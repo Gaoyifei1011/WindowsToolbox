@@ -32,6 +32,6 @@ namespace WindowsTools.WindowsAPI.PInvoke.Kernel32
         /// <summary>
         /// 通知系统正在设置的状态应保持有效，直到使用 ES_CONTINUOUS 的下一次调用和清除其他状态标志之一。
         /// </summary>
-        ES_CONTINUOUS = 0x80000000,
+        ES_CONTINUOUS = 0x80000000
     }
 }
