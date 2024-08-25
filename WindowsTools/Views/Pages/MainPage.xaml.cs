@@ -12,7 +12,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Views.Windows;
@@ -529,7 +528,7 @@ namespace WindowsTools.Views.Pages
                             continue;
                         }
 
-                        if (!IOHelper.IsDir(fileInfo.FullName))
+                        if ((new FileInfo(fileInfo.FullName).Attributes & FileAttributes.Directory) is 0)
                         {
                             extensionNameList.Add(new()
                             {
@@ -610,7 +609,7 @@ namespace WindowsTools.Views.Pages
                             continue;
                         }
 
-                        if (!IOHelper.IsDir(fileInfo.FullName))
+                        if ((new FileInfo(fileInfo.FullName).Attributes & FileAttributes.Directory) is 0)
                         {
                             fileCertificateList.Add(new CertificateResultModel()
                             {

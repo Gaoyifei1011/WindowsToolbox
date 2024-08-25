@@ -12,6 +12,8 @@ namespace WindowsTools.Helpers.Root
     /// </summary>
     public static class RegistryHelper
     {
+        public static event EventHandler NotifyKeyValueChanged;
+
         /// <summary>
         /// 读取注册表指定项的内容
         /// </summary>

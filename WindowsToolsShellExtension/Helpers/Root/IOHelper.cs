@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace WindowsTools.Helpers.Root
+namespace WindowsToolsShellExtension.Helpers.Root
 {
     public static class IOHelper
     {

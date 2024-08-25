@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 
 namespace WindowsTools.WindowsAPI.ComTypes
 {
@@ -15,7 +14,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// </summary>
         public event Action<DODownloadStatusCallback, IDODownload, DO_DOWNLOAD_STATUS> StatusChanged;
 
-        public int OnStatusChange([MarshalAs(UnmanagedType.Interface)] IDODownload download, ref DO_DOWNLOAD_STATUS status)
+        public int OnStatusChange(IDODownload download, ref DO_DOWNLOAD_STATUS status)
         {
             StatusChanged?.Invoke(this, download, status);
             return 0;

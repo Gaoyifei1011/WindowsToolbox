@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using System.Threading;
 using WindowsToolsShellExtension.Commands;
-using WindowsToolsShellExtension.Services.Controls.Settings;
 using WindowsToolsShellExtension.Services.Shell;
-using WindowsToolsShellExtension.Strings;
 
 namespace WindowsToolsShellExtension
 {
@@ -19,13 +16,6 @@ namespace WindowsToolsShellExtension
 
         static Program()
         {
-            string language = LanguageService.GetLanguage();
-
-            if (!string.IsNullOrEmpty(language))
-            {
-                ShellMenu.Culture = new CultureInfo(LanguageService.GetLanguage());
-            }
-
             ShellMenuService.InitializeShellMenu();
         }
 
@@ -59,7 +49,7 @@ namespace WindowsToolsShellExtension
         [UnmanagedCallersOnly(EntryPoint = "DllGetClassObject")]
         public static unsafe int DllGetClassObject(Guid clsid, Guid riid, IntPtr* ppv)
         {
-            if (clsid.Equals(typeof(RootExplorerCommand).GUID))
+            if (clsid.Equals(typeof(ExplorerCommand).GUID))
             {
                 ClassFactory classFactory = new();
                 IntPtr pIUnknown = (IntPtr)ComInterfaceMarshaller<ClassFactory>.ConvertToUnmanaged(classFactory);

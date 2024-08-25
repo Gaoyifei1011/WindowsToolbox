@@ -7,7 +7,7 @@
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <FileAlignment>512</FileAlignment>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>preview</LangVersion>
     <Optimize>False</Optimize>
     <OptimizationPreference>Size</OptimizationPreference>
     <OutputType>Library</OutputType>
@@ -32,11 +32,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="Strings\ShellMenu.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ShellMenu.resx</DependentUpon>
-    </Compile>
 
     <EmbeddedResource Update="ShellMenu\About.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="ShellMenu\About.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ShellMenu.Designer.cs" />

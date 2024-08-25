@@ -15,6 +15,6 @@ namespace WindowsTools.WindowsAPI.PInvoke.Combase
         /// <param name="factory">激活工厂。</param>
         /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [DllImport(Combase, CharSet = CharSet.Unicode, ExactSpelling = true, EntryPoint = "RoGetActivationFactory", SetLastError = false), PreserveSig]
-        public static extern int RoGetActivationFactory([MarshalAs(UnmanagedType.HString)] string activatableClassId, [MarshalAs(UnmanagedType.LPStruct)] Guid iid, out IntPtr factory);
+        public static extern int RoGetActivationFactory([MarshalAs(UnmanagedType.HString)] string activatableClassId, Guid iid, out IntPtr factory);
     }
 }

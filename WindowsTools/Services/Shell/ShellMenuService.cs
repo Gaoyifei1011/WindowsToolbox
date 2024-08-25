@@ -27,14 +27,6 @@ namespace WindowsTools.Services.Shell
         /// </summary>
         public static void InitializeShellMenu()
         {
-            InitializeConfigDirectory();
-        }
-
-        /// <summary>
-        /// 初始化配置存储目录
-        /// </summary>
-        private static void InitializeConfigDirectory()
-        {
             Shell32Library.SHGetKnownFolderPath(FOLDERID_LocalAppData, KNOWN_FOLDER_FLAG.KF_FLAG_FORCE_APP_DATA_REDIRECTION, IntPtr.Zero, out string localAppdataPath);
 
             if (!string.IsNullOrEmpty(localAppdataPath))
@@ -80,7 +72,7 @@ namespace WindowsTools.Services.Shell
             RegistryHelper.SaveRegistryKey(menuKey, "DefaultIconPath", shellMenuItem.DefaultIconPath);
             RegistryHelper.SaveRegistryKey(menuKey, "LightThemeIconPath", shellMenuItem.LightThemeIconPath);
             RegistryHelper.SaveRegistryKey(menuKey, "DarkThemeIconPath", shellMenuItem.DarkThemeIconPath);
-            RegistryHelper.SaveRegistryKey(menuKey, "MenuProgramPathText", shellMenuItem.MenuProgramPathText);
+            RegistryHelper.SaveRegistryKey(menuKey, "MenuProgramPath", shellMenuItem.MenuProgramPath);
             RegistryHelper.SaveRegistryKey(menuKey, "MenuParameter", shellMenuItem.MenuParameter);
             RegistryHelper.SaveRegistryKey(menuKey, "FolderBackground", shellMenuItem.FolderBackground);
             RegistryHelper.SaveRegistryKey(menuKey, "FolderDesktop", shellMenuItem.FolderDesktop);
@@ -124,13 +116,13 @@ namespace WindowsTools.Services.Shell
                 DefaultIconPath = currentMenuItem.DefaultIconPath,
                 LightThemeIconPath = currentMenuItem.LightThemeIconPath,
                 DarkThemeIconPath = currentMenuItem.DarkThemeIconPath,
-                MenuProgramPathText = currentMenuItem.MenuProgramPathText,
+                MenuProgramPath = currentMenuItem.MenuProgramPath,
                 MenuParameter = currentMenuItem.MenuParameter,
                 FolderBackground = currentMenuItem.FolderBackground,
                 FolderDesktop = currentMenuItem.FolderDesktop,
                 FolderDirectory = currentMenuItem.FolderDirectory,
                 FolderDrive = currentMenuItem.FolderDrive,
-                MenuFileMatchRule = currentMenuItem.MenuFileMatchFormatText,
+                MenuFileMatchRule = currentMenuItem.MenuFileMatchRule,
                 MenuFileMatchFormatText = currentMenuItem.MenuFileMatchFormatText,
                 MenuIndex = currentMenuItem.MenuIndex
             };
@@ -272,7 +264,7 @@ namespace WindowsTools.Services.Shell
             string defaultIconPath = RegistryHelper.ReadRegistryKey<string>(menuKey, "DefaultIconPath");
             string lightThemeIconPath = RegistryHelper.ReadRegistryKey<string>(menuKey, "LightThemeIconPath");
             string darkThemeIconPath = RegistryHelper.ReadRegistryKey<string>(menuKey, "DarkThemeIconPath");
-            string menuProgramPathText = RegistryHelper.ReadRegistryKey<string>(menuKey, "MenuProgramPathText");
+            string menuProgramPath = RegistryHelper.ReadRegistryKey<string>(menuKey, "MenuProgramPath");
             string menuParameter = RegistryHelper.ReadRegistryKey<string>(menuKey, "MenuParameter");
             bool? folderBackground = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "FolderBackground");
             bool? folderDesktop = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "FolderDesktop");
@@ -291,9 +283,9 @@ namespace WindowsTools.Services.Shell
             shellMenuItem.DefaultIconPath = defaultIconPath;
             shellMenuItem.LightThemeIconPath = lightThemeIconPath;
             shellMenuItem.DarkThemeIconPath = darkThemeIconPath;
-            shellMenuItem.MenuProgramPathText = menuProgramPathText;
+            shellMenuItem.MenuProgramPath = menuProgramPath;
             shellMenuItem.DarkThemeIconPath = darkThemeIconPath;
-            shellMenuItem.MenuProgramPathText = menuProgramPathText;
+            shellMenuItem.MenuProgramPath = menuProgramPath;
             shellMenuItem.MenuParameter = menuParameter;
             shellMenuItem.FolderBackground = folderBackground.HasValue && folderBackground.Value;
             shellMenuItem.FolderDesktop = folderDesktop.HasValue && folderDesktop.Value;

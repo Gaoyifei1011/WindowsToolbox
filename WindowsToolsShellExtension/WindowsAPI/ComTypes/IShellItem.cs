@@ -8,7 +8,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
     /// 公开检索有关 Shell 项的信息的方法。 IShellItem 和 IShellItem2 是任何新代码中项的首选表示形式。
     /// IShellItem 接口继承自 IUnknown 接口。
     /// </summary>
-    [GeneratedComInterface, Guid("43826D1E-E718-42EE-BC55-A1E261C37BFE"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [GeneratedComInterface, Guid("43826D1E-E718-42EE-BC55-A1E261C37BFE")]
     public partial interface IShellItem
     {
         /// <summary>
@@ -40,7 +40,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
         /// <param name="ppszName">一个值，当此函数成功返回时，接收指向检索的显示名称的指针的地址。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetDisplayName(SIGDN sigdnName, out IntPtr ppszName);
+        int GetDisplayName(SIGDN sigdnName, [MarshalAs(UnmanagedType.LPWStr)] out string ppszName);
 
         /// <summary>
         /// 获取 IShellItem 对象的请求属性集。

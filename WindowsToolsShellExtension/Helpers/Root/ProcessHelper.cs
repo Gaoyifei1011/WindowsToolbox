@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using WindowsToolsShellExtension.WindowsAPI.PInvoke.Kernel32;
 using WindowsToolsShellExtension.WindowsAPI.PInvoke.User32;
 

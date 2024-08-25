@@ -92,7 +92,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="pvResevered">保留。 设置为 NULL。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int SetCancelMsg([MarshalAs(UnmanagedType.LPWStr)] string pwzCancelMsg, object pvResevered);
+        int SetCancelMsg([MarshalAs(UnmanagedType.LPWStr)] string pwzCancelMsg, IntPtr pvResevered);
 
         /// <summary>
         /// 将进度对话框计时器重置为零。

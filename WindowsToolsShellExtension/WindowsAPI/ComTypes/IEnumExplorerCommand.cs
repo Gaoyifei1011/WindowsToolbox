@@ -7,9 +7,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
     /// <summary>
     /// 由 IExplorerCommandProvider 提供。 此接口包含要放入命令栏的命令枚举。
     /// </summary>
-    [GeneratedComInterface]
-    [Guid("A88826F8-186F-4987-AADE-EA0CEF8FBFE8")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [GeneratedComInterface, Guid("A88826F8-186F-4987-AADE-EA0CEF8FBFE8")]
     public partial interface IEnumExplorerCommand
     {
         /// <summary>

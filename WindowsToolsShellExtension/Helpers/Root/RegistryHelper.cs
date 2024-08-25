@@ -129,11 +129,11 @@ namespace WindowsToolsShellExtension.Helpers.Root
                         }
                         else if (result is 2) // ERROR_FILE_NOT_FOUND
                         {
-                            throw new IOException("注册表值未找到");
+                            continue;
                         }
                         else if (result is 5) // ERROR_ACCESS_DENIED
                         {
-                            throw new UnauthorizedAccessException();
+                            continue;
                         }
                     }
 

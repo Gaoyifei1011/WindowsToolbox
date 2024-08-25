@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.Marshalling;
+﻿using System.Runtime.InteropServices.Marshalling;
 using WindowsToolsShellExtension.WindowsAPI.ComTypes;
 
 namespace WindowsToolsShellExtension.Commands
@@ -8,9 +7,9 @@ namespace WindowsToolsShellExtension.Commands
     /// 命令栏的命令枚举接口实现类
     /// </summary>
     [GeneratedComClass]
-    public partial class EnumExplorerCommand(SubExplorerCommand[] explorerCommands) : IEnumExplorerCommand
+    public partial class EnumExplorerCommand(ExplorerCommand[] explorerCommands) : IEnumExplorerCommand
     {
-        private readonly SubExplorerCommand[] subExplorerCommands = explorerCommands is null ? ([]) : explorerCommands;
+        private readonly ExplorerCommand[] subExplorerCommandArray = explorerCommands is null ? ([]) : explorerCommands;
         private int index = 0;
 
         /// <summary>
@@ -18,7 +17,7 @@ namespace WindowsToolsShellExtension.Commands
         /// </summary>
         public int Clone(out IEnumExplorerCommand ppenum)
         {
-            EnumExplorerCommand enumExplorerCommand = new(subExplorerCommands)
+            EnumExplorerCommand enumExplorerCommand = new(subExplorerCommandArray)
             {
                 index = index
             };
@@ -29,11 +28,11 @@ namespace WindowsToolsShellExtension.Commands
         /// <summary>
         /// 检索指定数量的直接跟随当前元素的元素。
         /// </summary>
-        public int Next(uint celt, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.Interface, SizeParamIndex = 0)] IExplorerCommand[] pUICommand, out uint pceltFetched)
+        public int Next(uint celt, IExplorerCommand[] pUICommand, out uint pceltFetched)
         {
             pceltFetched = 0;
 
-            if (subExplorerCommands.Length is 0)
+            if (subExplorerCommandArray.Length is 0)
             {
                 return unchecked((int)0x80004001);
             }
@@ -41,7 +40,7 @@ namespace WindowsToolsShellExtension.Commands
             int start = index;
             for (int i = 0; i < celt && start + i < explorerCommands.Length; i++)
             {
-                pUICommand[i] = subExplorerCommands[index];
+                pUICommand[i] = subExplorerCommandArray[index];
                 index++;
             }
             pceltFetched = (uint)(index - start);

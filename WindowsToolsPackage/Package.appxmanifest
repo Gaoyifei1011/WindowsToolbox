@@ -13,7 +13,7 @@
   <Identity
 	  Name="Gaoyifei1011.WindowsTools"
 	  Publisher="CN=高怡飞"
-	  Version="2.8.824.0" />
+	  Version="2.8.825.0" />
 
   <Properties>
     <DisplayName>ms-resource:PackageDisplayName</DisplayName>
@@ -64,6 +64,9 @@
               <desktop4:Verb Id="CWindowsToolsCommand" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
             </desktop4:ItemType>
             <desktop5:ItemType Type="Directory">
+              <desktop5:Verb Id="CWindowsToolsCommand" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
+            </desktop5:ItemType>
+            <desktop5:ItemType Type="Directory\Background">
               <desktop5:Verb Id="CWindowsToolsCommand" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
             </desktop5:ItemType>
             <desktop10:ItemType Type="Drive">

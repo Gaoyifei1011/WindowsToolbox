@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WindowsTools.Extensions.ShellMenu
+namespace WindowsToolsShellExtension.Extensions.ShellMenu
 {
     /// <summary>
     /// 菜单项设置选项

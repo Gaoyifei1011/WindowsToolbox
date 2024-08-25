@@ -16,7 +16,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
-using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
@@ -808,7 +807,7 @@ namespace WindowsTools.Views.Pages
                             }
                             if (tempFileName.Contains("<N>"))
                             {
-                                if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
+                                if ((new FileInfo(oldAndNewNameItem.OriginalFilePath).Attributes & System.IO.FileAttributes.Directory) is not 0)
                                 {
                                     DirectoryInfo directoryInfo = new(oldAndNewNameItem.OriginalFilePath);
                                     tempFileName = tempFileName.Replace("<N>", directoryInfo.LastWriteTime.ToString("yyyy-MM-dd"));
@@ -821,7 +820,7 @@ namespace WindowsTools.Views.Pages
                             }
                             if (tempFileName.Contains("<C>"))
                             {
-                                if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
+                                if ((new FileInfo(oldAndNewNameItem.OriginalFilePath).Attributes & System.IO.FileAttributes.Directory) is not 0)
                                 {
                                     DirectoryInfo directoryInfo = new(oldAndNewNameItem.OriginalFilePath);
                                     tempFileName = tempFileName.Replace("<C>", directoryInfo.CreationTime.ToString("yyyy-MM-dd"));
@@ -874,7 +873,7 @@ namespace WindowsTools.Views.Pages
                     {
                         if (!string.IsNullOrEmpty(oldAndNewNameItem.OriginalFileName) && !string.IsNullOrEmpty(oldAndNewNameItem.OriginalFilePath))
                         {
-                            if (IOHelper.IsDir(oldAndNewNameItem.OriginalFilePath))
+                            if ((new FileInfo(oldAndNewNameItem.OriginalFilePath).Attributes & System.IO.FileAttributes.Directory) is not 0)
                             {
                                 try
                                 {

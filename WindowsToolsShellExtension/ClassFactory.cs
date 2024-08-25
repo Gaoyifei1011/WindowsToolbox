@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using WindowsToolsShellExtension.Commands;
+using WindowsToolsShellExtension.Services.Shell;
 using WindowsToolsShellExtension.WindowsAPI.ComTypes;
 
 namespace WindowsToolsShellExtension
@@ -12,23 +13,23 @@ namespace WindowsToolsShellExtension
     [GeneratedComClass]
     public partial class ClassFactory : IClassFactory
     {
-        private readonly Func<object> rootExplorerCommandFunc = new(() => { return new RootExplorerCommand(); });
+        private readonly StrategyBasedComWrappers strategyBasedComWrappers = new StrategyBasedComWrappers();
+        private readonly Func<object> rootExplorerCommandFunc = new(() => { return new ExplorerCommand(ShellMenuService.RootShellMenuItem); });
 
-        public int CreateInstance(IntPtr pUnkOuter, in Guid riid, out object ppvObject)
+        public int CreateInstance(IntPtr pUnkOuter, in Guid riid, out IntPtr ppvObject)
         {
             if (pUnkOuter != IntPtr.Zero)
             {
-                ppvObject = null;
-                const int CLASS_E_NOAGGREGATION = unchecked((int)0x80040110);
-                throw new COMException("Class does not support aggregation", CLASS_E_NOAGGREGATION);
+                ppvObject = IntPtr.Zero;
+                return unchecked((int)0x80040110); // CLASS_E_NOAGGREGATION
             }
 
             object obj = rootExplorerCommandFunc.Invoke();
-            ppvObject = obj;
+            ppvObject = strategyBasedComWrappers.GetOrCreateComInterfaceForObject(obj, CreateComInterfaceFlags.None);
             return 0;
         }
 
-        public int LockServer([MarshalAs(UnmanagedType.Bool)] bool fLock)
+        public int LockServer(bool fLock)
         {
             if (fLock)
             {

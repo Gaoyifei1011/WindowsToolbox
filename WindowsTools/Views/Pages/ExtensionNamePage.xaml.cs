@@ -15,7 +15,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
-using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Strings;
@@ -163,14 +162,14 @@ namespace WindowsTools.Views.Pages
                         {
                             try
                             {
-                                if (!IOHelper.IsDir(storageItem.Path))
+                                FileInfo fileInfo = new(storageItem.Path);
+                                if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
                                 {
-                                    FileInfo fileInfo = new(storageItem.Path);
-                                    if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
-                                    {
-                                        continue;
-                                    }
+                                    continue;
+                                }
 
+                                if ((fileInfo.Attributes & System.IO.FileAttributes.Directory) is 0)
+                                {
                                     extensionNameList.Add(new()
                                     {
                                         OriginalFileName = storageItem.Name,
@@ -409,7 +408,7 @@ namespace WindowsTools.Views.Pages
                                 continue;
                             }
 
-                            if (!IOHelper.IsDir(fileInfo.FullName))
+                            if ((fileInfo.Attributes & System.IO.FileAttributes.Directory) is 0)
                             {
                                 extensionNameList.Add(new()
                                 {
