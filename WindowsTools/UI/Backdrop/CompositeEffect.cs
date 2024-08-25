@@ -10,8 +10,6 @@ namespace WindowsTools.UI.Backdrop
     [Guid("48FC9F51-F6AC-48F1-8B58-3B28AC46F76D")]
     public class CompositeEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
     {
-        private Guid clsid = new("48FC9F51-F6AC-48F1-8B58-3B28AC46F76D");
-
         public D2D1_BUFFER_PRECISION BufferPrecision { get; set; }
 
         public bool CacheOutput { get; set; }
@@ -31,7 +29,7 @@ namespace WindowsTools.UI.Backdrop
 
         public int GetEffectId(out Guid id)
         {
-            id = clsid;
+            id = typeof(CompositeEffect).GUID;
             return 0;
         }
 

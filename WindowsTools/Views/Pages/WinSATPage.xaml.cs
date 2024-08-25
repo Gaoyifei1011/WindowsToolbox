@@ -26,7 +26,7 @@ namespace WindowsTools.Views.Pages
     {
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly CInitiateWinSAT cInitiateWinSAT = new();
-        private readonly Guid progressDialogCLSID = new("F8383852-FCD3-11d1-A6B9-006097DF5BD4");
+        private readonly Guid CLSID_ProgressDialog = new("F8383852-FCD3-11d1-A6B9-006097DF5BD4");
 
         private _RemotableHandle _RemotableHandle = new();
         private CWinSATCallbacks cWinSATCallbacks;
@@ -220,7 +220,7 @@ namespace WindowsTools.Views.Pages
 
                 cInitiateWinSAT.InitiateFormalAssessment(cWinSATCallbacks, ref _RemotableHandle);
 
-                progressDialog = (IProgressDialog)Activator.CreateInstance(Type.GetTypeFromCLSID(progressDialogCLSID));
+                progressDialog = (IProgressDialog)Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_ProgressDialog));
 
                 if (progressDialog is not null)
                 {

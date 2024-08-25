@@ -18,7 +18,7 @@ namespace WindowsTools
     /// </summary>
     public class Program
     {
-        private static Guid applicationActivationManagerCLSID = new("45BA127D-10A8-46EA-8AB7-56EA9078943C");
+        private static Guid CLSID_ApplicationActivationManager = new("45BA127D-10A8-46EA-8AB7-56EA9078943C");
 
         /// <summary>
         /// 应用程序的主入口点
@@ -28,7 +28,7 @@ namespace WindowsTools
         {
             if (!RuntimeHelper.IsMSIX)
             {
-                IApplicationActivationManager applicationActivationManager = (IApplicationActivationManager)Activator.CreateInstance(Type.GetTypeFromCLSID(applicationActivationManagerCLSID));
+                IApplicationActivationManager applicationActivationManager = (IApplicationActivationManager)Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_ApplicationActivationManager));
                 applicationActivationManager.ActivateApplication("Gaoyifei1011.WindowsTools_pystbwmrmew8c!WindowsTools", string.Empty, ACTIVATEOPTIONS.AO_NONE, out uint _);
                 return;
             }
