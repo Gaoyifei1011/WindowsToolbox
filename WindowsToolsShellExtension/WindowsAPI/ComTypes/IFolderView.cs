@@ -127,6 +127,6 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
         /// <param name="dwFlags">_SVSIF常量之一，用于指定要应用的选择类型。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int SelectAndPositionItems(uint cidl, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] IntPtr[] apidl, IntPtr apt, uint dwFlags);
+        int SelectAndPositionItems(uint cidl, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] IntPtr[] apidl, IntPtr apt, uint dwFlags);
     }
 }

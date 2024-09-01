@@ -244,9 +244,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDeleteExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            DownloadModel downloadItem = args.Parameter as DownloadModel;
-
-            if (downloadItem.DownloadID != Guid.Empty)
+            if (args.Parameter is DownloadModel downloadItem && downloadItem.DownloadID != Guid.Empty)
             {
                 foreach (DownloadModel item in DownloadCollection)
                 {

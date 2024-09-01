@@ -36,8 +36,7 @@ namespace WindowsTools.UI.Dialogs
         /// </summary>
         private async void OnCopyExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            OperationFailedModel operationFailedItem = args.Parameter as OperationFailedModel;
-            if (operationFailedItem is not null)
+            if (args.Parameter is OperationFailedModel operationFailedItem)
             {
                 StringBuilder builder = new();
                 builder.Append(Dialog.FileNameCopy);

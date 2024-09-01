@@ -222,35 +222,27 @@ namespace WindowsTools.Views.Windows
                 foreach (Popup popupRoot in popupRootList)
                 {
                     // 关闭浮出控件
-                    if (popupRoot.Child as FlyoutPresenter is not null)
+                    if (popupRoot.Child is FlyoutPresenter flyoutPresenter && !flyoutPresenter.Name.Equals("DialogFlyout"))
                     {
-                        if (!(popupRoot.Child as FlyoutPresenter).Name.Equals("DialogFlyout"))
-                        {
-                            popupRoot.IsOpen = false;
-                        }
-
-                        break;
+                        popupRoot.IsOpen = false;
                     }
 
                     // 关闭菜单浮出控件
                     if (popupRoot.Child as MenuFlyoutPresenter is not null)
                     {
                         popupRoot.IsOpen = false;
-                        break;
                     }
 
                     // 关闭日期选择器浮出控件
                     if (popupRoot.Child as DatePickerFlyoutPresenter is not null)
                     {
                         popupRoot.IsOpen = false;
-                        break;
                     }
 
                     // 关闭时间选择器浮出控件
                     if (popupRoot.Child as TimePickerFlyoutPresenter is not null)
                     {
                         popupRoot.IsOpen = false;
-                        break;
                     }
                 }
             }
@@ -262,33 +254,35 @@ namespace WindowsTools.Views.Windows
         protected override void OnSizeChanged(EventArgs args)
         {
             base.OnSizeChanged(args);
-            (Content as MainPage).IsWindowMaximizeEnabled = MaximizeBox;
-            (Content as MainPage).IsWindowMaximized = WindowState is FormWindowState.Maximized;
 
-            if (Content.XamlRoot is not null)
+            if (Content is not null)
             {
-                IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(Content.XamlRoot);
-                foreach (Popup popupRoot in PopupRoot)
-                {
-                    // 关闭内容对话框
-                    if (popupRoot.Child as ContentDialog is not null)
-                    {
-                        (popupRoot.Child as ContentDialog).Hide();
-                        break;
-                    }
+                (Content as MainPage).IsWindowMaximizeEnabled = MaximizeBox;
+                (Content as MainPage).IsWindowMaximized = WindowState is FormWindowState.Maximized;
 
-                    // 关闭浮出控件
-                    if (popupRoot.Child as FlyoutPresenter is not null)
+                if (Content.XamlRoot is not null)
+                {
+                    IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(Content.XamlRoot);
+                    foreach (Popup popupRoot in PopupRoot)
                     {
-                        popupRoot.IsOpen = false;
-                        break;
+                        // 关闭内容对话框
+                        if (popupRoot.Child as ContentDialog is not null)
+                        {
+                            (popupRoot.Child as ContentDialog).Hide();
+                        }
+
+                        // 关闭浮出控件
+                        if (popupRoot.Child as FlyoutPresenter is not null)
+                        {
+                            popupRoot.IsOpen = false;
+                        }
                     }
                 }
-            }
 
-            if (inputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
-            {
-                User32Library.SetWindowPos(inputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * ((double)DeviceDpi / 96)), 0, (int)((Width - 45) * ((double)DeviceDpi / 96)), (int)(45 * ((double)DeviceDpi / 96)), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
+                if (inputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
+                {
+                    User32Library.SetWindowPos(inputNonClientPointerSourceHandle, IntPtr.Zero, (int)(45 * ((double)DeviceDpi / 96)), 0, (int)((Width - 45) * ((double)DeviceDpi / 96)), (int)(45 * ((double)DeviceDpi / 96)), SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREDRAW | SetWindowPosFlags.SWP_NOZORDER);
+                }
             }
         }
 
@@ -331,9 +325,7 @@ namespace WindowsTools.Views.Windows
         /// </summary>
         private void OnMenuItemClick(object sender, EventArgs args)
         {
-            MenuItem menuItem = sender as MenuItem;
-
-            if (menuItem is not null)
+            if (sender is MenuItem menuItem)
             {
                 string tag = Convert.ToString(menuItem.Tag);
 

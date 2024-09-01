@@ -407,10 +407,10 @@ namespace WindowsTools.UI.Backdrop
 
                     Comctl32Library.RemoveWindowSubclass(formRoot.Handle, formSubClassProc, 0);
 
-                    if (DesktopWindowTarget.Root as SpriteVisual is not null && (DesktopWindowTarget.Root as SpriteVisual).Brush is not null)
+                    if (DesktopWindowTarget.Root is SpriteVisual spriteVisual && spriteVisual.Brush is not null)
                     {
-                        (DesktopWindowTarget.Root as SpriteVisual).Brush.Dispose();
-                        (DesktopWindowTarget.Root as SpriteVisual).Brush = null;
+                        spriteVisual.Brush.Dispose();
+                        spriteVisual.Brush = null;
                     }
                 }
             }
@@ -434,8 +434,7 @@ namespace WindowsTools.UI.Backdrop
         {
             synchronizationContext.Post(_ =>
             {
-                SpriteVisual spriteVisual = DesktopWindowTarget.Root as SpriteVisual;
-                if (spriteVisual is not null)
+                if (DesktopWindowTarget.Root is SpriteVisual spriteVisual)
                 {
                     spriteVisual.Size = new Vector2(formRoot.Width, formRoot.Height);
                 }
@@ -449,8 +448,7 @@ namespace WindowsTools.UI.Backdrop
         {
             synchronizationContext.Post(_ =>
             {
-                SpriteVisual spriteVisual = DesktopWindowTarget.Root as SpriteVisual;
-                if (spriteVisual is not null)
+                if (DesktopWindowTarget.Root is SpriteVisual spriteVisual)
                 {
                     spriteVisual.Size = new Vector2(formRoot.Width, formRoot.Height);
                 }
@@ -566,7 +564,7 @@ namespace WindowsTools.UI.Backdrop
                     // 直接设置新笔刷
                     oldBrush?.Dispose();
                     (DesktopWindowTarget.Root as SpriteVisual).Brush = newBrush;
-                    (DesktopWindowTarget.Root as SpriteVisual).Size = new Vector2(formRoot.Width, formRoot.Height);
+                    (DesktopWindowTarget.Root as SpriteVisual).Size = new(formRoot.Width, formRoot.Height);
                 }
                 else
                 {
@@ -574,7 +572,7 @@ namespace WindowsTools.UI.Backdrop
                     CompositionBrush crossFadeBrush = CreateCrossFadeEffectBrush(compositor, oldBrush, newBrush);
                     ScalarKeyFrameAnimation animation = CreateCrossFadeAnimation(compositor);
                     (DesktopWindowTarget.Root as SpriteVisual).Brush = crossFadeBrush;
-                    (DesktopWindowTarget.Root as SpriteVisual).Size = new Vector2(formRoot.Width, formRoot.Height);
+                    (DesktopWindowTarget.Root as SpriteVisual).Size = new(formRoot.Width, formRoot.Height);
 
                     CompositionScopedBatch crossFadeAnimationBatch = compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
                     crossFadeBrush.StartAnimation("CrossFade.CrossFade", animation);
@@ -585,7 +583,7 @@ namespace WindowsTools.UI.Backdrop
                         crossFadeBrush.Dispose();
                         oldBrush.Dispose();
                         (DesktopWindowTarget.Root as SpriteVisual).Brush = newBrush;
-                        (DesktopWindowTarget.Root as SpriteVisual).Size = new Vector2(formRoot.Width, formRoot.Height);
+                        (DesktopWindowTarget.Root as SpriteVisual).Size = new(formRoot.Width, formRoot.Height);
                     };
                 }
             }

@@ -167,22 +167,16 @@ namespace WindowsToolsShellExtension.Commands
                     Marshal.QueryInterface(site, typeof(WindowsAPI.ComTypes.IServiceProvider).GUID, out IntPtr serviceProviderPtr);
                     WindowsAPI.ComTypes.IServiceProvider serviceProvider = (WindowsAPI.ComTypes.IServiceProvider)strategyBasedComWrappers.GetOrCreateObjectForComInstance(serviceProviderPtr, CreateObjectFlags.None);
 
-                    if (serviceProvider is not null)
+                    serviceProvider.QueryService(SID_SFolderView, typeof(IFolderView).GUID, out IntPtr folderViewPtr);
+                    if (folderViewPtr != IntPtr.Zero)
                     {
-                        serviceProvider.QueryService(SID_SFolderView, typeof(IFolderView).GUID, out IntPtr folderViewPtr);
-                        if (folderViewPtr != IntPtr.Zero)
-                        {
-                            IFolderView folderView = (IFolderView)strategyBasedComWrappers.GetOrCreateObjectForComInstance(folderViewPtr, CreateObjectFlags.None);
+                        IFolderView folderView = (IFolderView)strategyBasedComWrappers.GetOrCreateObjectForComInstance(folderViewPtr, CreateObjectFlags.None);
 
-                            if (folderView is not null)
-                            {
-                                Guid iShellItemGuid = typeof(IShellItem).GUID;
-                                folderView.GetFolder(ref iShellItemGuid, out IntPtr iShellItemPtr);
+                        Guid iShellItemGuid = typeof(IShellItem).GUID;
+                        folderView.GetFolder(ref iShellItemGuid, out IntPtr iShellItemPtr);
 
-                                IShellItem shellItem = (IShellItem)strategyBasedComWrappers.GetOrCreateObjectForComInstance(iShellItemPtr, CreateObjectFlags.None);
-                                shellItem?.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out folderPath);
-                            }
-                        }
+                        IShellItem shellItem = (IShellItem)strategyBasedComWrappers.GetOrCreateObjectForComInstance(iShellItemPtr, CreateObjectFlags.None);
+                        shellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out folderPath);
                     }
 
                     // 检查点击背景右键菜单是来自桌面的还是普通目录
@@ -313,23 +307,17 @@ namespace WindowsToolsShellExtension.Commands
                     Marshal.QueryInterface(site, typeof(WindowsAPI.ComTypes.IServiceProvider).GUID, out IntPtr serviceProviderPtr);
                     WindowsAPI.ComTypes.IServiceProvider serviceProvider = (WindowsAPI.ComTypes.IServiceProvider)strategyBasedComWrappers.GetOrCreateObjectForComInstance(serviceProviderPtr, CreateObjectFlags.None);
 
-                    if (serviceProvider is not null)
+                    serviceProvider.QueryService(SID_SFolderView, typeof(IFolderView).GUID, out IntPtr folderViewPtr);
+                    if (folderViewPtr != IntPtr.Zero)
                     {
-                        serviceProvider.QueryService(SID_SFolderView, typeof(IFolderView).GUID, out IntPtr folderViewPtr);
-                        if (folderViewPtr != IntPtr.Zero)
-                        {
-                            IFolderView folderView = (IFolderView)strategyBasedComWrappers.GetOrCreateObjectForComInstance(folderViewPtr, CreateObjectFlags.None);
+                        IFolderView folderView = (IFolderView)strategyBasedComWrappers.GetOrCreateObjectForComInstance(folderViewPtr, CreateObjectFlags.None);
 
-                            if (folderView is not null)
-                            {
-                                Guid iShellItemGuid = typeof(IShellItem).GUID;
-                                folderView.GetFolder(ref iShellItemGuid, out IntPtr iShellItemPtr);
+                        Guid iShellItemGuid = typeof(IShellItem).GUID;
+                        folderView.GetFolder(ref iShellItemGuid, out IntPtr iShellItemPtr);
 
-                                IShellItem shellItem = (IShellItem)strategyBasedComWrappers.GetOrCreateObjectForComInstance(iShellItemPtr, CreateObjectFlags.None);
+                        IShellItem shellItem = (IShellItem)strategyBasedComWrappers.GetOrCreateObjectForComInstance(iShellItemPtr, CreateObjectFlags.None);
 
-                                shellItem?.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out folderPath);
-                            }
-                        }
+                        shellItem?.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out folderPath);
                     }
 
                     // 读取参数

@@ -189,10 +189,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnMoveClicked(object sender, RoutedEventArgs args)
         {
-            MenuFlyoutItem menuItem = sender as MenuFlyoutItem;
-            if (menuItem.Tag is not null)
+            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is not null)
             {
-                ((MenuFlyout)menuItem.Tag).Hide();
+                ((MenuFlyout)menuFlyoutItem.Tag).Hide();
                 await Task.Delay(10);
                 User32Library.SendMessage(MainWindow.Current.Handle, WindowMessage.WM_SYSCOMMAND, new UIntPtr(0xF010), IntPtr.Zero);
             }
@@ -203,10 +202,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSizeClicked(object sender, RoutedEventArgs args)
         {
-            MenuFlyoutItem menuItem = sender as MenuFlyoutItem;
-            if (menuItem.Tag is not null)
+            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is not null)
             {
-                ((MenuFlyout)menuItem.Tag).Hide();
+                ((MenuFlyout)menuFlyoutItem.Tag).Hide();
                 User32Library.SendMessage(MainWindow.Current.Handle, WindowMessage.WM_SYSCOMMAND, new UIntPtr(0xF000), IntPtr.Zero);
             }
         }
@@ -244,13 +242,11 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
-            Microsoft.UI.Xaml.Controls.NavigationView navigationView = sender as Microsoft.UI.Xaml.Controls.NavigationView;
-            if (navigationView is not null)
+            if (sender is Microsoft.UI.Xaml.Controls.NavigationView navigationView)
             {
                 foreach (object item in navigationView.MenuItems)
                 {
-                    Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem = item as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-                    if (navigationViewItem is not null)
+                    if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem && navigationViewItem.Tag is not null)
                     {
                         int TagIndex = Convert.ToInt32(navigationViewItem.Tag);
 
@@ -266,8 +262,7 @@ namespace WindowsTools.Views.Pages
                         {
                             foreach (object subItem in navigationViewItem.MenuItems)
                             {
-                                Microsoft.UI.Xaml.Controls.NavigationViewItem subNavigationViewItem = subItem as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-                                if (subNavigationViewItem is not null)
+                                if (subItem is Microsoft.UI.Xaml.Controls.NavigationViewItem subNavigationViewItem)
                                 {
                                     int subTagIndex = Convert.ToInt32(subNavigationViewItem.Tag);
 
@@ -286,8 +281,7 @@ namespace WindowsTools.Views.Pages
 
                 foreach (object item in navigationView.FooterMenuItems)
                 {
-                    Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem = item as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-                    if (navigationViewItem is not null)
+                    if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem && navigationViewItem.Tag is not null)
                     {
                         int TagIndex = Convert.ToInt32(navigationViewItem.Tag);
 
@@ -319,8 +313,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            Microsoft.UI.Xaml.Controls.NavigationViewItemBase navigationViewItem = args.InvokedItemContainer;
-            if (navigationViewItem.Tag is not null)
+            if (args.InvokedItemContainer is Microsoft.UI.Xaml.Controls.NavigationViewItemBase navigationViewItem && navigationViewItem.Tag is not null)
             {
                 NavigationModel navigationItem = NavigationItemList.Find(item => item.NavigationTag.Equals(PageList[Convert.ToInt32(navigationViewItem.Tag)].Key, StringComparison.OrdinalIgnoreCase));
 
@@ -393,9 +386,7 @@ namespace WindowsTools.Views.Pages
         {
             try
             {
-                NavigationModel navigationItem = NavigationItemList.Find(item => item.NavigationPage == navigationPageType);
-
-                if (navigationItem is not null)
+                if (NavigationItemList.Find(item => item.NavigationPage == navigationPageType) is NavigationModel navigationItem)
                 {
                     // 如果点击的是子项，而父项没有展开，则自动展开父项中所有的子项
                     if (navigationItem.ParentTag is not null)
@@ -425,9 +416,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         public void NavigationFrom()
         {
-            ShellMenuPage shellMenuPage = (MainNavigationView.Content as Frame).Content as ShellMenuPage;
-
-            if (shellMenuPage is not null && shellMenuPage.BreadCollection is not null && shellMenuPage.BreadCollection.Count > 1)
+            if ((MainNavigationView.Content as Frame).Content is ShellMenuPage shellMenuPage && shellMenuPage.BreadCollection is not null && shellMenuPage.BreadCollection.Count > 1)
             {
                 shellMenuPage.BreadCollection.RemoveAt(shellMenuPage.BreadCollection.Count - 1);
                 return;
@@ -438,21 +427,15 @@ namespace WindowsTools.Views.Pages
                 // 在向后导航前，如果向后导航选中的是子项，而父项没有展开，则自动展开父项中所有的子项
                 try
                 {
-                    NavigationModel navigationItem = NavigationItemList.Find(item => item.NavigationPage == (MainNavigationView.Content as Frame).BackStack.Last().SourcePageType);
-
-                    if (navigationItem is not null)
+                    if (NavigationItemList.Find(item => item.NavigationPage == (MainNavigationView.Content as Frame).BackStack.Last().SourcePageType) is NavigationModel navigationItem && navigationItem.ParentTag is not null)
                     {
-                        // 如果点击的是子项，而父项没有展开，则自动展开父项中所有的子项
-                        if (navigationItem.ParentTag is not null)
-                        {
-                            // 查找父项
-                            NavigationModel parentNavigationItem = NavigationItemList.Find(item => item.NavigationTag.Equals(navigationItem.ParentTag, StringComparison.OrdinalIgnoreCase));
+                        // 查找父项
+                        NavigationModel parentNavigationItem = NavigationItemList.Find(item => item.NavigationTag.Equals(navigationItem.ParentTag, StringComparison.OrdinalIgnoreCase));
 
-                            // 展开父项
-                            if (parentNavigationItem is not null)
-                            {
-                                MainNavigationView.Expand(parentNavigationItem.NavigationItem);
-                            }
+                        // 展开父项
+                        if (parentNavigationItem is not null)
+                        {
+                            MainNavigationView.Expand(parentNavigationItem.NavigationItem);
                         }
                     }
                 }
@@ -648,8 +631,7 @@ namespace WindowsTools.Views.Pages
                     {
                         try
                         {
-                            System.Drawing.Image image = System.Drawing.Image.FromFile(filesList[0]);
-                            if (image is not null)
+                            if (System.Drawing.Image.FromFile(filesList[0]) is System.Drawing.Image image)
                             {
                                 synchronizationContext.Post(_ =>
                                 {

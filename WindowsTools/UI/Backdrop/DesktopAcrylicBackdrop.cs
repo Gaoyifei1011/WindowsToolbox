@@ -282,17 +282,7 @@ namespace WindowsTools.UI.Backdrop
         {
             get
             {
-                RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Wallpaper");
-                if (key is not null)
-                {
-                    object value = key.GetValue("WallpaperSurfaceProvidedToDwm");
-                    if (value is not null && Convert.ToInt32(value) is 1)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
+                return Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Wallpaper") is RegistryKey key && key.GetValue("WallpaperSurfaceProvidedToDwm") is object value && Convert.ToInt32(value) is 1;
             }
         }
 
@@ -488,10 +478,10 @@ namespace WindowsTools.UI.Backdrop
                         hPowerNotify = IntPtr.Zero;
                     }
 
-                    if (DesktopWindowTarget.Root as SpriteVisual is not null && (DesktopWindowTarget.Root as SpriteVisual).Brush is not null)
+                    if (DesktopWindowTarget.Root is SpriteVisual spriteVisual && spriteVisual.Brush is not null)
                     {
-                        (DesktopWindowTarget.Root as SpriteVisual).Brush.Dispose();
-                        (DesktopWindowTarget.Root as SpriteVisual).Brush = null;
+                        spriteVisual.Brush.Dispose();
+                        spriteVisual.Brush = null;
                     }
                 }
             }
@@ -515,8 +505,7 @@ namespace WindowsTools.UI.Backdrop
         {
             synchronizationContext.Post(_ =>
             {
-                SpriteVisual spriteVisual = DesktopWindowTarget.Root as SpriteVisual;
-                if (spriteVisual is not null)
+                if (DesktopWindowTarget.Root is SpriteVisual spriteVisual)
                 {
                     spriteVisual.Size = new Vector2(formRoot.Width, formRoot.Height);
                 }
@@ -530,8 +519,7 @@ namespace WindowsTools.UI.Backdrop
         {
             synchronizationContext.Post(_ =>
             {
-                SpriteVisual spriteVisual = DesktopWindowTarget.Root as SpriteVisual;
-                if (spriteVisual is not null)
+                if (DesktopWindowTarget.Root is SpriteVisual spriteVisual)
                 {
                     spriteVisual.Size = new Vector2(formRoot.Width, formRoot.Height);
                 }

@@ -131,9 +131,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnOpenWorkingDirectoryRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            string parameter = args.Parameter as string;
-
-            if (!string.IsNullOrEmpty(parameter))
+            if (args.Parameter is string parameter && !string.IsNullOrEmpty(parameter))
             {
                 Task.Run(() =>
                 {

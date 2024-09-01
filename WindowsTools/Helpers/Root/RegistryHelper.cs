@@ -22,47 +22,40 @@ namespace WindowsTools.Helpers.Root
             T value = default;
             try
             {
-                RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(rootKey, false);
-
-                if (registryKey is not null)
+                if (Registry.CurrentUser.OpenSubKey(rootKey, false) is RegistryKey registryKey && registryKey.GetValue(key) is object getValue)
                 {
-                    object getValue = registryKey.GetValue(key);
-
-                    if (getValue is not null)
+                    // 读取布尔值
+                    if (typeof(T) == typeof(bool) || typeof(T) == typeof(bool?))
                     {
-                        // 读取布尔值
-                        if (typeof(T) == typeof(bool) || typeof(T) == typeof(bool?))
-                        {
-                            value = (T)(object)Convert.ToBoolean(getValue);
-                        }
-                        else if (typeof(T) == typeof(int) || typeof(T) == typeof(int?))
-                        {
-                            value = (T)(object)Convert.ToInt32(getValue);
-                        }
-                        else if (typeof(T) == typeof(uint) || typeof(T) == typeof(uint?))
-                        {
-                            value = (T)(object)Convert.ToUInt32(getValue);
-                        }
-                        else if (typeof(T) == typeof(long) || typeof(T) == typeof(long?))
-                        {
-                            value = (T)(object)Convert.ToInt64(getValue);
-                        }
-                        else if (typeof(T) == typeof(ulong) || typeof(T) == typeof(ulong?))
-                        {
-                            value = (T)(object)Convert.ToUInt64(getValue);
-                        }
-                        else if (typeof(T) == typeof(string))
-                        {
-                            value = (T)(object)Convert.ToString(getValue);
-                        }
-                        else if (typeof(T) == typeof(byte[]) || typeof(T) == typeof(string[]))
-                        {
-                            value = (T)getValue;
-                        }
-                        else
-                        {
-                            value = (T)getValue;
-                        }
+                        value = (T)(object)Convert.ToBoolean(getValue);
+                    }
+                    else if (typeof(T) == typeof(int) || typeof(T) == typeof(int?))
+                    {
+                        value = (T)(object)Convert.ToInt32(getValue);
+                    }
+                    else if (typeof(T) == typeof(uint) || typeof(T) == typeof(uint?))
+                    {
+                        value = (T)(object)Convert.ToUInt32(getValue);
+                    }
+                    else if (typeof(T) == typeof(long) || typeof(T) == typeof(long?))
+                    {
+                        value = (T)(object)Convert.ToInt64(getValue);
+                    }
+                    else if (typeof(T) == typeof(ulong) || typeof(T) == typeof(ulong?))
+                    {
+                        value = (T)(object)Convert.ToUInt64(getValue);
+                    }
+                    else if (typeof(T) == typeof(string))
+                    {
+                        value = (T)(object)Convert.ToString(getValue);
+                    }
+                    else if (typeof(T) == typeof(byte[]) || typeof(T) == typeof(string[]))
+                    {
+                        value = (T)getValue;
+                    }
+                    else
+                    {
+                        value = (T)getValue;
                     }
 
                     registryKey.Close();
@@ -84,9 +77,7 @@ namespace WindowsTools.Helpers.Root
         {
             try
             {
-                RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(rootKey, true);
-
-                if (registryKey is not null)
+                if (Registry.CurrentUser.CreateSubKey(rootKey, true) is RegistryKey registryKey)
                 {
                     // 存储 32 位整数类型或者布尔值
                     if (typeof(T) == typeof(bool) || typeof(T) == typeof(int) || typeof(T) == typeof(uint))
@@ -149,15 +140,12 @@ namespace WindowsTools.Helpers.Root
         {
             try
             {
-                RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(rootKey, true);
-
-                if (registryKey is not null)
+                if (Registry.CurrentUser.OpenSubKey(rootKey, true) is RegistryKey registryKey)
                 {
                     Registry.CurrentUser.DeleteSubKeyTree(rootKey, false);
+                    registryKey.Close();
+                    registryKey.Dispose();
                 }
-
-                registryKey.Close();
-                registryKey.Dispose();
             }
             catch (Exception e)
             {
@@ -174,9 +162,7 @@ namespace WindowsTools.Helpers.Root
 
             try
             {
-                RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(rootKey);
-
-                if (registryKey is not null)
+                if (Registry.CurrentUser.OpenSubKey(rootKey) is RegistryKey registryKey)
                 {
                     // 添加当前项信息
                     registryEnumKeyItem.RootKey = rootKey;

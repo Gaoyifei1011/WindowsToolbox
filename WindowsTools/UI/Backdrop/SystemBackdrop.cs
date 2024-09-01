@@ -44,17 +44,7 @@ namespace WindowsTools.UI.Backdrop
         /// </summary>
         protected bool IsAdvancedEffectsEnabled()
         {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize");
-            if (key is not null)
-            {
-                object value = key.GetValue("EnableTransparency");
-                if (value is not null && Convert.ToInt32(value) is 1)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize") is RegistryKey key && key.GetValue("EnableTransparency") is object value && Convert.ToInt32(value) is 1;
         }
     }
 }

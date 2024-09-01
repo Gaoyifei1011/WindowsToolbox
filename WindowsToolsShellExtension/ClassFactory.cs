@@ -13,7 +13,7 @@ namespace WindowsToolsShellExtension
     [GeneratedComClass]
     public partial class ClassFactory : IClassFactory
     {
-        private readonly StrategyBasedComWrappers strategyBasedComWrappers = new StrategyBasedComWrappers();
+        private readonly StrategyBasedComWrappers strategyBasedComWrappers = new();
         private readonly Func<object> rootExplorerCommandFunc = new(() => { return new ExplorerCommand(ShellMenuService.RootShellMenuItem); });
 
         public int CreateInstance(IntPtr pUnkOuter, in Guid riid, out IntPtr ppvObject)

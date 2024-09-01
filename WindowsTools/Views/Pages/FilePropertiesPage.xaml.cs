@@ -381,8 +381,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDateChanged(object sender, DatePickerValueChangedEventArgs args)
         {
-            DatePicker datePicker = sender as DatePicker;
-            if (datePicker is not null && datePicker.Tag is not null)
+            if (sender is DatePicker datePicker && datePicker.Tag is not null)
             {
                 if (datePicker.Tag.ToString() == nameof(CreateDate))
                 {
@@ -588,8 +587,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnTimeChanged(object sender, TimePickerValueChangedEventArgs args)
         {
-            TimePicker timePicker = sender as TimePicker;
-            if (timePicker is not null && timePicker.Tag is not null)
+            if (sender is TimePicker timePicker && timePicker.Tag is not null)
             {
                 if (timePicker.Tag.ToString() == nameof(CreateTime))
                 {
@@ -607,8 +605,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnUnchecked(object sender, RoutedEventArgs args)
         {
-            global::Windows.UI.Xaml.Controls.CheckBox checkBox = sender as global::Windows.UI.Xaml.Controls.CheckBox;
-            if (checkBox is not null)
+            if (sender is global::Windows.UI.Xaml.Controls.CheckBox checkBox)
             {
                 if (checkBox.Tag.ToString() == nameof(CreateDate))
                 {

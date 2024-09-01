@@ -329,9 +329,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnStringExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            StringModel stringItem = args.Parameter as StringModel;
-
-            if (stringItem is not null)
+            if (args.Parameter is StringModel stringItem)
             {
                 bool copyResult = CopyPasteHelper.CopyToClipboard(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
                 await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.String, copyResult, false));
@@ -343,9 +341,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnFilePathExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            FilePathModel filePathItem = args.Parameter as FilePathModel;
-
-            if (filePathItem is not null)
+            if (args.Parameter is FilePathModel filePathItem)
             {
                 bool copyResult = CopyPasteHelper.CopyToClipboard(string.Format("Key:{0}, FilePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
                 await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.String, copyResult, false));
@@ -357,9 +353,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnEmbeddedDataExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            EmbeddedDataModel embeddedDataItem = args.Parameter as EmbeddedDataModel;
-
-            if (embeddedDataItem is not null)
+            if (args.Parameter is EmbeddedDataModel embeddedDataItem)
             {
                 OpenFolderDialog dialog = new()
                 {
@@ -411,9 +405,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnStringItemClicked(object sender, ItemClickEventArgs args)
         {
-            StringModel stringItem = args.ClickedItem as StringModel;
-
-            if (stringItem is not null)
+            if (args.ClickedItem is StringModel stringItem)
             {
                 int clickedIndex = StringCollection.IndexOf(stringItem);
                 StringCollection[clickedIndex].IsSelected = !StringCollection[clickedIndex].IsSelected;
@@ -425,9 +417,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnFilePathItemClicked(object sender, ItemClickEventArgs args)
         {
-            FilePathModel filePathItem = args.ClickedItem as FilePathModel;
-
-            if (filePathItem is not null)
+            if (args.ClickedItem is FilePathModel filePathItem)
             {
                 int clickedIndex = FilePathCollection.IndexOf(filePathItem);
                 FilePathCollection[clickedIndex].IsSelected = !FilePathCollection[clickedIndex].IsSelected;
@@ -439,9 +429,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnEmbeddedDataItemClicked(object sender, ItemClickEventArgs args)
         {
-            EmbeddedDataModel embeddedDataItem = args.ClickedItem as EmbeddedDataModel;
-
-            if (embeddedDataItem is not null)
+            if (args.ClickedItem is EmbeddedDataModel embeddedDataItem)
             {
                 int clickedIndex = EmbeddedDataCollection.IndexOf(embeddedDataItem);
                 EmbeddedDataCollection[clickedIndex].IsSelected = !EmbeddedDataCollection[clickedIndex].IsSelected;
@@ -559,47 +547,40 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectionChnaged(object sender, SelectionChangedEventArgs args)
         {
-            if (args.RemovedItems.Count > 0)
+            if (args.RemovedItems.Count > 0 && sender is global::Windows.UI.Xaml.Controls.ComboBox comboBox && SelectedIndex != comboBox.SelectedIndex)
             {
-                global::Windows.UI.Xaml.Controls.ComboBox comboBox = sender as global::Windows.UI.Xaml.Controls.ComboBox;
-                if (comboBox is not null)
+                SelectedIndex = comboBox.SelectedIndex;
+
+                if (isLoadCompleted)
                 {
-                    if (SelectedIndex != comboBox.SelectedIndex)
+                    StringCollection.Clear();
+
+                    if (SelectedIndex is 0)
                     {
-                        SelectedIndex = comboBox.SelectedIndex;
-
-                        if (isLoadCompleted)
+                        foreach (StringModel stringItem in stringList)
                         {
-                            StringCollection.Clear();
+                            StringCollection.Add(stringItem);
+                        }
+                    }
+                    else
+                    {
+                        Task.Run(() =>
+                        {
+                            List<StringModel> coincidentStringList = stringList.Where(item => item.Language.Equals(LanguageCollection[SelectedIndex].Value as string, StringComparison.OrdinalIgnoreCase)).ToList();
 
-                            if (SelectedIndex is 0)
+                            synchronizationContext.Post(_ =>
                             {
-                                foreach (StringModel stringItem in stringList)
+                                foreach (StringModel stringItem in coincidentStringList)
                                 {
                                     StringCollection.Add(stringItem);
                                 }
-                            }
-                            else
-                            {
-                                Task.Run(() =>
-                                {
-                                    List<StringModel> coincidentStringList = stringList.Where(item => item.Language.Equals(LanguageCollection[SelectedIndex].Value as string, StringComparison.OrdinalIgnoreCase)).ToList();
+                            }, null);
+                        });
+                    }
 
-                                    synchronizationContext.Post(_ =>
-                                    {
-                                        foreach (StringModel stringItem in coincidentStringList)
-                                        {
-                                            StringCollection.Add(stringItem);
-                                        }
-                                    }, null);
-                                });
-                            }
-
-                            foreach (StringModel stringItem in stringList)
-                            {
-                                stringItem.IsSelected = false;
-                            }
-                        }
+                    foreach (StringModel stringItem in stringList)
+                    {
+                        stringItem.IsSelected = false;
                     }
                 }
             }
@@ -629,10 +610,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectedResourceCandidateKindClicked(object sender, RoutedEventArgs args)
         {
-            ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
-            if (item.Tag is not null)
+            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
             {
-                SelectedResourceCandidateKind = ResourceCandidateKindList[Convert.ToInt32(item.Tag)];
+                SelectedResourceCandidateKind = ResourceCandidateKindList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
             }
         }
 
@@ -962,243 +942,242 @@ namespace WindowsTools.Views.Pages
                     {
                         foreach (int resourceMapIndex in priDescriptorSection.ResourceMapSectionsList)
                         {
-                            ResourceMapSection resourceMapSection = sectionArray[resourceMapIndex] as ResourceMapSection;
-
-                            if (resourceMapSection is not null && resourceMapSection.HierarchicalSchemaReference is not null)
+                            if (sectionArray[resourceMapIndex] is ResourceMapSection resourceMapSection)
                             {
-                                continue;
-                            }
-
-                            DecisionInfoSection decisionInfoSection = sectionArray[resourceMapSection.DecisionInfoSectionIndex] as DecisionInfoSection;
-
-                            foreach (CandidateSet candidateSet in resourceMapSection.CandidateSetsDict.Values)
-                            {
-                                HierarchicalSchemaSection hierarchicalSchemaSection = sectionArray[candidateSet.ResourceMapSectionAndIndex.Item1] as HierarchicalSchemaSection;
-
-                                if (hierarchicalSchemaSection is not null)
+                                if (resourceMapSection.HierarchicalSchemaReference is not null)
                                 {
-                                    ResourceMapScopeAndItem resourceMapScopeAndItem = hierarchicalSchemaSection.ItemsList[candidateSet.ResourceMapSectionAndIndex.Item2];
+                                    continue;
+                                }
 
-                                    string key = string.Empty;
+                                DecisionInfoSection decisionInfoSection = sectionArray[resourceMapSection.DecisionInfoSectionIndex] as DecisionInfoSection;
 
-                                    if (resourceMapScopeAndItem.Name is not null && resourceMapScopeAndItem.Parent is not null)
+                                foreach (CandidateSet candidateSet in resourceMapSection.CandidateSetsDict.Values)
+                                {
+                                    if (sectionArray[candidateSet.ResourceMapSectionAndIndex.Item1] is HierarchicalSchemaSection hierarchicalSchemaSection)
                                     {
-                                        key = Path.Combine(resourceMapScopeAndItem.Parent.Name, resourceMapScopeAndItem.Name);
-                                    }
-                                    else if (resourceMapScopeAndItem.Name is not null)
-                                    {
-                                        key = resourceMapScopeAndItem.Name;
-                                    }
+                                        ResourceMapScopeAndItem resourceMapScopeAndItem = hierarchicalSchemaSection.ItemsList[candidateSet.ResourceMapSectionAndIndex.Item2];
 
-                                    if (key == string.Empty)
-                                    {
-                                        continue;
-                                    }
+                                        string key = string.Empty;
 
-                                    foreach (Candidate candidate in candidateSet.CandidatesList)
-                                    {
-                                        string value = string.Empty;
-
-                                        if (candidate.SourceFileIndex is null)
+                                        if (resourceMapScopeAndItem.Name is not null && resourceMapScopeAndItem.Parent is not null)
                                         {
-                                            ByteSpan byteSpan = null;
+                                            key = Path.Combine(resourceMapScopeAndItem.Parent.Name, resourceMapScopeAndItem.Name);
+                                        }
+                                        else if (resourceMapScopeAndItem.Name is not null)
+                                        {
+                                            key = resourceMapScopeAndItem.Name;
+                                        }
 
-                                            if (candidate.DataItemSectionAndIndex is not null)
+                                        if (key == string.Empty)
+                                        {
+                                            continue;
+                                        }
+
+                                        foreach (Candidate candidate in candidateSet.CandidatesList)
+                                        {
+                                            string value = string.Empty;
+
+                                            if (candidate.SourceFileIndex is null)
                                             {
-                                                DataItemSection dataItemSection = sectionArray[candidate.DataItemSectionAndIndex.Item1] as DataItemSection;
-                                                byteSpan = dataItemSection is not null ? dataItemSection.DataItemsList[candidate.DataItemSectionAndIndex.Item2] : candidate.Data;
-                                            }
+                                                ByteSpan byteSpan = null;
 
-                                            if (byteSpan is not null)
-                                            {
-                                                priFileStream.Seek(byteSpan.Offset, SeekOrigin.Begin);
-                                                using BinaryReader binaryReader = new(priFileStream, Encoding.Default, true);
-                                                byte[] data = binaryReader.ReadBytes((int)byteSpan.Length);
-
-                                                switch (candidate.Type)
+                                                if (candidate.DataItemSectionAndIndex is not null)
                                                 {
-                                                    // ASCII 格式路径内容
-                                                    case ResourceValueType.AsciiPath:
-                                                        {
-                                                            string absolutePath = Path.Combine(Path.GetDirectoryName(filePath), Encoding.ASCII.GetString(data).TrimEnd('\0'));
+                                                    DataItemSection dataItemSection = sectionArray[candidate.DataItemSectionAndIndex.Item1] as DataItemSection;
+                                                    byteSpan = dataItemSection is not null ? dataItemSection.DataItemsList[candidate.DataItemSectionAndIndex.Item2] : candidate.Data;
+                                                }
 
-                                                            // 自动保存文件路径
-                                                            if (IsExtractSaveFilePath)
+                                                if (byteSpan is not null)
+                                                {
+                                                    priFileStream.Seek(byteSpan.Offset, SeekOrigin.Begin);
+                                                    using BinaryReader binaryReader = new(priFileStream, Encoding.Default, true);
+                                                    byte[] data = binaryReader.ReadBytes((int)byteSpan.Length);
+
+                                                    switch (candidate.Type)
+                                                    {
+                                                        // ASCII 格式路径内容
+                                                        case ResourceValueType.AsciiPath:
                                                             {
-                                                                try
+                                                                string absolutePath = Path.Combine(Path.GetDirectoryName(filePath), Encoding.ASCII.GetString(data).TrimEnd('\0'));
+
+                                                                // 自动保存文件路径
+                                                                if (IsExtractSaveFilePath)
                                                                 {
-                                                                    File.AppendAllText(Path.Combine(SelectedSaveFolder, filePathFileName), string.Format("Key: {0} - AbsolutePath:{1}{2}", key, absolutePath, Environment.NewLine));
+                                                                    try
+                                                                    {
+                                                                        File.AppendAllText(Path.Combine(SelectedSaveFolder, filePathFileName), string.Format("Key: {0} - AbsolutePath:{1}{2}", key, absolutePath, Environment.NewLine));
+                                                                    }
+                                                                    catch (Exception e)
+                                                                    {
+                                                                        LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate filePath(key:{0},AbsolutePath:{1}) failed", key, absolutePath), e);
+                                                                    }
                                                                 }
-                                                                catch (Exception e)
+
+                                                                filePathList.Add(new FilePathModel()
                                                                 {
-                                                                    LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate filePath(key:{0},AbsolutePath:{1}) failed", key, absolutePath), e);
-                                                                }
+                                                                    Key = key,
+                                                                    IsSelected = false,
+                                                                    AbsolutePath = absolutePath,
+                                                                });
+                                                                break;
                                                             }
-
-                                                            filePathList.Add(new FilePathModel()
+                                                        // ASCII 格式字符串内容
+                                                        case ResourceValueType.AsciiString:
                                                             {
-                                                                Key = key,
-                                                                IsSelected = false,
-                                                                AbsolutePath = absolutePath,
-                                                            });
-                                                            break;
-                                                        }
-                                                    // ASCII 格式字符串内容
-                                                    case ResourceValueType.AsciiString:
-                                                        {
-                                                            string content = Encoding.ASCII.GetString(data).TrimEnd('\0');
+                                                                string content = Encoding.ASCII.GetString(data).TrimEnd('\0');
 
-                                                            // 自动保存字符串
-                                                            if (IsExtractSaveString)
-                                                            {
-                                                                try
+                                                                // 自动保存字符串
+                                                                if (IsExtractSaveString)
                                                                 {
-                                                                    File.AppendAllText(Path.Combine(SelectedSaveFolder, stringFileName), string.Format("Key: {0} - Content:{1}{2}", key, content, Environment.NewLine));
+                                                                    try
+                                                                    {
+                                                                        File.AppendAllText(Path.Combine(SelectedSaveFolder, stringFileName), string.Format("Key: {0} - Content:{1}{2}", key, content, Environment.NewLine));
+                                                                    }
+                                                                    catch (Exception e)
+                                                                    {
+                                                                        LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate string(key:{0},Content:{1}) failed", key, content), e);
+                                                                    }
                                                                 }
-                                                                catch (Exception e)
+
+                                                                stringList.Add(new StringModel()
                                                                 {
-                                                                    LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate string(key:{0},Content:{1}) failed", key, content), e);
-                                                                }
+                                                                    Key = key,
+                                                                    Content = content,
+                                                                    Language = decisionInfoSection.QualifierSetsList[candidate.QualifierSet].QualifiersList.Count > 0 ? decisionInfoSection.QualifierSetsList[candidate.QualifierSet].QualifiersList[0].Value : string.Empty,
+                                                                    IsSelected = false
+                                                                });
+                                                                break;
                                                             }
-
-                                                            stringList.Add(new StringModel()
+                                                        // UTF8 格式路径内容
+                                                        case ResourceValueType.Utf8Path:
                                                             {
-                                                                Key = key,
-                                                                Content = content,
-                                                                Language = decisionInfoSection.QualifierSetsList[candidate.QualifierSet].QualifiersList.Count > 0 ? decisionInfoSection.QualifierSetsList[candidate.QualifierSet].QualifiersList[0].Value : string.Empty,
-                                                                IsSelected = false
-                                                            });
-                                                            break;
-                                                        }
-                                                    // UTF8 格式路径内容
-                                                    case ResourceValueType.Utf8Path:
-                                                        {
-                                                            string absolutePath = Path.Combine(Path.GetDirectoryName(filePath), Encoding.UTF8.GetString(data).TrimEnd('\0'));
+                                                                string absolutePath = Path.Combine(Path.GetDirectoryName(filePath), Encoding.UTF8.GetString(data).TrimEnd('\0'));
 
-                                                            // 自动保存文件路径
-                                                            if (IsExtractSaveFilePath)
-                                                            {
-                                                                try
+                                                                // 自动保存文件路径
+                                                                if (IsExtractSaveFilePath)
                                                                 {
-                                                                    File.AppendAllText(Path.Combine(SelectedSaveFolder, filePathFileName), string.Format("Key: {0} - AbsolutePath:{1}{2}", key, absolutePath, Environment.NewLine));
+                                                                    try
+                                                                    {
+                                                                        File.AppendAllText(Path.Combine(SelectedSaveFolder, filePathFileName), string.Format("Key: {0} - AbsolutePath:{1}{2}", key, absolutePath, Environment.NewLine));
+                                                                    }
+                                                                    catch (Exception e)
+                                                                    {
+                                                                        LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate filePath(key:{0},AbsolutePath:{1}) failed", key, absolutePath), e);
+                                                                    }
                                                                 }
-                                                                catch (Exception e)
+
+                                                                filePathList.Add(new FilePathModel()
                                                                 {
-                                                                    LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate filePath(key:{0},AbsolutePath:{1}) failed", key, absolutePath), e);
-                                                                }
+                                                                    Key = key,
+                                                                    IsSelected = false,
+                                                                    AbsolutePath = absolutePath,
+                                                                });
+                                                                break;
                                                             }
-
-                                                            filePathList.Add(new FilePathModel()
+                                                        // UTF8 格式字符串内容
+                                                        case ResourceValueType.Utf8String:
                                                             {
-                                                                Key = key,
-                                                                IsSelected = false,
-                                                                AbsolutePath = absolutePath,
-                                                            });
-                                                            break;
-                                                        }
-                                                    // UTF8 格式字符串内容
-                                                    case ResourceValueType.Utf8String:
-                                                        {
-                                                            string content = Encoding.UTF8.GetString(data).TrimEnd('\0');
+                                                                string content = Encoding.UTF8.GetString(data).TrimEnd('\0');
 
-                                                            // 自动保存字符串
-                                                            if (IsExtractSaveString)
-                                                            {
-                                                                try
+                                                                // 自动保存字符串
+                                                                if (IsExtractSaveString)
                                                                 {
-                                                                    File.AppendAllText(Path.Combine(SelectedSaveFolder, stringFileName), string.Format("Key: {0} - Content:{1}{2}", key, content, Environment.NewLine));
+                                                                    try
+                                                                    {
+                                                                        File.AppendAllText(Path.Combine(SelectedSaveFolder, stringFileName), string.Format("Key: {0} - Content:{1}{2}", key, content, Environment.NewLine));
+                                                                    }
+                                                                    catch (Exception e)
+                                                                    {
+                                                                        LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate string(key:{0},Content:{1}) failed", key, content), e);
+                                                                    }
                                                                 }
-                                                                catch (Exception e)
+
+                                                                stringList.Add(new StringModel()
                                                                 {
-                                                                    LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate string(key:{0},Content:{1}) failed", key, content), e);
-                                                                }
+                                                                    Key = key,
+                                                                    Content = content,
+                                                                    Language = decisionInfoSection.QualifierSetsList[candidate.QualifierSet].QualifiersList.Count > 0 ? decisionInfoSection.QualifierSetsList[candidate.QualifierSet].QualifiersList[0].Value : string.Empty,
+                                                                    IsSelected = false
+                                                                });
+                                                                break;
                                                             }
-
-                                                            stringList.Add(new StringModel()
+                                                        // Unicode 格式路径内容
+                                                        case ResourceValueType.UnicodePath:
                                                             {
-                                                                Key = key,
-                                                                Content = content,
-                                                                Language = decisionInfoSection.QualifierSetsList[candidate.QualifierSet].QualifiersList.Count > 0 ? decisionInfoSection.QualifierSetsList[candidate.QualifierSet].QualifiersList[0].Value : string.Empty,
-                                                                IsSelected = false
-                                                            });
-                                                            break;
-                                                        }
-                                                    // Unicode 格式路径内容
-                                                    case ResourceValueType.UnicodePath:
-                                                        {
-                                                            string absolutePath = Path.Combine(Path.GetDirectoryName(filePath), Encoding.Unicode.GetString(data).TrimEnd('\0'));
+                                                                string absolutePath = Path.Combine(Path.GetDirectoryName(filePath), Encoding.Unicode.GetString(data).TrimEnd('\0'));
 
-                                                            // 自动保存文件路径
-                                                            if (IsExtractSaveFilePath)
-                                                            {
-                                                                try
+                                                                // 自动保存文件路径
+                                                                if (IsExtractSaveFilePath)
                                                                 {
-                                                                    File.AppendAllText(Path.Combine(SelectedSaveFolder, filePathFileName), string.Format("Key: {0} - AbsolutePath:{1}{2}", key, absolutePath, Environment.NewLine));
+                                                                    try
+                                                                    {
+                                                                        File.AppendAllText(Path.Combine(SelectedSaveFolder, filePathFileName), string.Format("Key: {0} - AbsolutePath:{1}{2}", key, absolutePath, Environment.NewLine));
+                                                                    }
+                                                                    catch (Exception e)
+                                                                    {
+                                                                        LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate filePath(key:{0},AbsolutePath:{1}) failed", key, absolutePath), e);
+                                                                    }
                                                                 }
-                                                                catch (Exception e)
+
+                                                                filePathList.Add(new FilePathModel()
                                                                 {
-                                                                    LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate filePath(key:{0},AbsolutePath:{1}) failed", key, absolutePath), e);
-                                                                }
+                                                                    Key = key,
+                                                                    IsSelected = false,
+                                                                    AbsolutePath = absolutePath,
+                                                                });
+                                                                break;
                                                             }
-
-                                                            filePathList.Add(new FilePathModel()
+                                                        // Unicode 格式字符串内容
+                                                        case ResourceValueType.UnicodeString:
                                                             {
-                                                                Key = key,
-                                                                IsSelected = false,
-                                                                AbsolutePath = absolutePath,
-                                                            });
-                                                            break;
-                                                        }
-                                                    // Unicode 格式字符串内容
-                                                    case ResourceValueType.UnicodeString:
-                                                        {
-                                                            string content = Encoding.Unicode.GetString(data).TrimEnd('\0');
+                                                                string content = Encoding.Unicode.GetString(data).TrimEnd('\0');
 
-                                                            // 自动保存字符串
-                                                            if (IsExtractSaveString)
-                                                            {
-                                                                try
+                                                                // 自动保存字符串
+                                                                if (IsExtractSaveString)
                                                                 {
-                                                                    File.AppendAllText(Path.Combine(SelectedSaveFolder, stringFileName), string.Format("Key: {0} - Content:{1}{2}", key, content, Environment.NewLine));
+                                                                    try
+                                                                    {
+                                                                        File.AppendAllText(Path.Combine(SelectedSaveFolder, stringFileName), string.Format("Key: {0} - Content:{1}{2}", key, content, Environment.NewLine));
+                                                                    }
+                                                                    catch (Exception e)
+                                                                    {
+                                                                        LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate string(key:{0},Content:{1}) failed", key, content), e);
+                                                                    }
                                                                 }
-                                                                catch (Exception e)
+
+                                                                stringList.Add(new StringModel()
                                                                 {
-                                                                    LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate string(key:{0},Content:{1}) failed", key, content), e);
-                                                                }
+                                                                    Key = key,
+                                                                    Content = content,
+                                                                    Language = decisionInfoSection.QualifierSetsList[candidate.QualifierSet].QualifiersList.Count > 0 ? decisionInfoSection.QualifierSetsList[candidate.QualifierSet].QualifiersList[0].Value : string.Empty,
+                                                                    IsSelected = false
+                                                                });
+                                                                break;
                                                             }
+                                                        case ResourceValueType.EmbeddedData:
+                                                            {
+                                                                // 自动保存资源文件嵌入数据
+                                                                if (IsExtractSaveEmbeddedData)
+                                                                {
+                                                                    try
+                                                                    {
+                                                                        File.WriteAllBytes(Path.Combine(SelectedSaveFolder, Path.GetFileName(key)), data);
+                                                                    }
+                                                                    catch (Exception e)
+                                                                    {
+                                                                        LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate embedded data(key:{0}) failed", key), e);
+                                                                    }
+                                                                }
 
-                                                            stringList.Add(new StringModel()
-                                                            {
-                                                                Key = key,
-                                                                Content = content,
-                                                                Language = decisionInfoSection.QualifierSetsList[candidate.QualifierSet].QualifiersList.Count > 0 ? decisionInfoSection.QualifierSetsList[candidate.QualifierSet].QualifiersList[0].Value : string.Empty,
-                                                                IsSelected = false
-                                                            });
-                                                            break;
-                                                        }
-                                                    case ResourceValueType.EmbeddedData:
-                                                        {
-                                                            // 自动保存资源文件嵌入数据
-                                                            if (IsExtractSaveEmbeddedData)
-                                                            {
-                                                                try
+                                                                embeddedDataList.Add(new EmbeddedDataModel()
                                                                 {
-                                                                    File.WriteAllBytes(Path.Combine(SelectedSaveFolder, Path.GetFileName(key)), data);
-                                                                }
-                                                                catch (Exception e)
-                                                                {
-                                                                    LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate embedded data(key:{0}) failed", key), e);
-                                                                }
+                                                                    Key = key,
+                                                                    EmbeddedData = data,
+                                                                    IsSelected = false,
+                                                                });
+                                                                break;
                                                             }
-
-                                                            embeddedDataList.Add(new EmbeddedDataModel()
-                                                            {
-                                                                Key = key,
-                                                                EmbeddedData = data,
-                                                                IsSelected = false,
-                                                            });
-                                                            break;
-                                                        }
+                                                    }
                                                 }
                                             }
                                         }

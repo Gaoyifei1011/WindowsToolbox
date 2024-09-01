@@ -538,9 +538,7 @@ namespace WindowsTools.Views.Pages
         {
             base.OnNavigatedTo(args);
 
-            string parameter = args.Parameter as string;
-
-            if (!string.IsNullOrEmpty(parameter))
+            if (args.Parameter is string parameter && !string.IsNullOrEmpty(parameter))
             {
                 while (BreadCollection.Count > 1)
                 {
@@ -1086,9 +1084,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnShouldUseIconToggled(object sender, RoutedEventArgs args)
         {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-
-            if (toggleSwitch is not null)
+            if (sender is ToggleSwitch toggleSwitch)
             {
                 ShouldUseIcon = toggleSwitch.IsOn;
             }
@@ -1099,9 +1095,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnShouldUseProgramIconToggled(object sender, RoutedEventArgs args)
         {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-
-            if (toggleSwitch is not null)
+            if (sender is ToggleSwitch toggleSwitch)
             {
                 ShouldUseProgramIcon = toggleSwitch.IsOn;
             }
@@ -1112,9 +1106,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnShouldUseThemeIconToggled(object sender, RoutedEventArgs args)
         {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-
-            if (toggleSwitch is not null)
+            if (sender is ToggleSwitch toggleSwitch)
             {
                 ShouldUseThemeIcon = toggleSwitch.IsOn;
             }
@@ -1250,10 +1242,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnFileMatchRuleClicked(object sender, RoutedEventArgs args)
         {
-            ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
-            if (item.Tag is not null)
+            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
             {
-                SelectedFileMatchRule = FileMatchRuleList[Convert.ToInt32(item.Tag)];
+                SelectedFileMatchRule = FileMatchRuleList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
                 MenuFileMatchFormatText = string.Empty;
 
                 if (SelectedFileMatchRule.Equals(FileMatchRuleList[0]) || SelectedFileMatchRule.Equals(4))
@@ -1495,8 +1486,7 @@ namespace WindowsTools.Views.Pages
             // 递归遍历子项
             foreach (ShellMenuItemModel subMenuItem in shellMenuItemCollection)
             {
-                ShellMenuItemModel searchedParentItem = EnumRemoveItem(selectedItem, subMenuItem, subMenuItem.SubMenuItemCollection);
-                if (searchedParentItem is not null)
+                if (EnumRemoveItem(selectedItem, subMenuItem, subMenuItem.SubMenuItemCollection) is ShellMenuItemModel searchedParentItem)
                 {
                     removedParentItem = searchedParentItem;
                 }

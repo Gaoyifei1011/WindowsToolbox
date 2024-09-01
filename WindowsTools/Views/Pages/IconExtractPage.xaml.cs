@@ -337,10 +337,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnIconFormatClicked(object sender, RoutedEventArgs args)
         {
-            ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
-            if (item.Tag is not null)
+            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
             {
-                SelectedIconFormat = IconFormatList[Convert.ToInt32(item.Tag)];
+                SelectedIconFormat = IconFormatList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
             }
         }
 
@@ -349,10 +348,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnIconSizeClicked(object sender, RoutedEventArgs args)
         {
-            ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
-            if (item.Tag is not null)
+            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
             {
-                SelectedIconSize = IconSizeList[Convert.ToInt32(item.Tag)];
+                SelectedIconSize = IconSizeList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
 
                 if (IconsGridView.SelectedItem is not null)
                 {
@@ -433,9 +431,7 @@ namespace WindowsTools.Views.Pages
 
                         for (int index = 0; index < selectedItemsList.Count; index++)
                         {
-                            object selectedItem = selectedItemsList[index];
-
-                            if (selectedItem is not null)
+                            if (selectedItemsList[index] is object selectedItem)
                             {
                                 IntPtr[] phicon = new IntPtr[1];
                                 int[] piconid = new int[1];
@@ -447,9 +443,7 @@ namespace WindowsTools.Views.Pages
                                 {
                                     try
                                     {
-                                        Icon icon = Icon.FromHandle(phicon[0]);
-
-                                        if (icon is not null)
+                                        if (Icon.FromHandle(phicon[0]) is Icon icon)
                                         {
                                             if (SelectedIconFormat.Value == IconFormatList[0].Value)
                                             {
@@ -516,9 +510,7 @@ namespace WindowsTools.Views.Pages
                         {
                             for (int index = 0; index < IconCollection.Count; index++)
                             {
-                                IconModel iconItem = IconCollection[index];
-
-                                if (iconItem is not null)
+                                if (IconCollection[index] is IconModel iconItem)
                                 {
                                     IntPtr[] phicon = new IntPtr[1];
                                     int[] piconid = new int[1];
@@ -530,9 +522,7 @@ namespace WindowsTools.Views.Pages
                                     {
                                         try
                                         {
-                                            Icon icon = Icon.FromHandle(phicon[0]);
-
-                                            if (icon is not null)
+                                            if (Icon.FromHandle(phicon[0]) is Icon icon)
                                             {
                                                 if (SelectedIconFormat.Value == IconFormatList[0].Value)
                                                 {

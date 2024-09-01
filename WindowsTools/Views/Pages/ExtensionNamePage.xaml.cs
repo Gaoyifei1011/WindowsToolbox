@@ -274,9 +274,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnTextChanged(object sender, TextChangedEventArgs args)
         {
-            global::Windows.UI.Xaml.Controls.TextBox textBox = sender as global::Windows.UI.Xaml.Controls.TextBox;
-
-            if (textBox is not null)
+            if (sender is global::Windows.UI.Xaml.Controls.TextBox textBox)
             {
                 string tag = Convert.ToString(textBox.Tag);
 
@@ -300,8 +298,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnChecked(object sender, RoutedEventArgs args)
         {
-            global::Windows.UI.Xaml.Controls.CheckBox checkBox = sender as global::Windows.UI.Xaml.Controls.CheckBox;
-            if (checkBox is not null)
+            if (sender is global::Windows.UI.Xaml.Controls.CheckBox checkBox)
             {
                 SelectedType = (ExtensionNameSelectedKind)Convert.ToInt32(checkBox.Tag);
             }
@@ -492,8 +489,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnUnchecked(object sender, RoutedEventArgs args)
         {
-            global::Windows.UI.Xaml.Controls.CheckBox checkBox = sender as global::Windows.UI.Xaml.Controls.CheckBox;
-            if (checkBox is not null)
+            if (sender is global::Windows.UI.Xaml.Controls.CheckBox checkBox)
             {
                 if (SelectedType == (ExtensionNameSelectedKind)Convert.ToInt32(checkBox.Tag))
                 {

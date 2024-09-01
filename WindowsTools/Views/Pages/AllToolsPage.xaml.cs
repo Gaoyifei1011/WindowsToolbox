@@ -170,22 +170,15 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnItemClicked(object sender, ItemClickEventArgs args)
         {
-            ControlItemModel controlItem = args.ClickedItem as ControlItemModel;
-
-            if (controlItem is not null)
+            if (args.ClickedItem is ControlItemModel controlItem && (MainWindow.Current.Content as MainPage).NavigationItemList.Find(item => item.NavigationTag.Equals(controlItem.Tag, StringComparison.OrdinalIgnoreCase)) is NavigationModel navigationItem)
             {
-                NavigationModel navigationItem = (MainWindow.Current.Content as MainPage).NavigationItemList.Find(item => item.NavigationTag.Equals(controlItem.Tag, StringComparison.OrdinalIgnoreCase));
-
-                if (navigationItem is not null)
+                if (navigationItem.NavigationPage == typeof(ShellMenuPage))
                 {
-                    if (navigationItem.NavigationPage == typeof(ShellMenuPage))
-                    {
-                        (MainWindow.Current.Content as MainPage).NavigateTo(navigationItem.NavigationPage, "ShellMenu");
-                    }
-                    else
-                    {
-                        (MainWindow.Current.Content as MainPage).NavigateTo(navigationItem.NavigationPage);
-                    }
+                    (MainWindow.Current.Content as MainPage).NavigateTo(navigationItem.NavigationPage, "ShellMenu");
+                }
+                else
+                {
+                    (MainWindow.Current.Content as MainPage).NavigateTo(navigationItem.NavigationPage);
                 }
             }
         }

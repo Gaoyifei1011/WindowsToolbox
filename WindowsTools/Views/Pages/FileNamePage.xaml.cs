@@ -409,9 +409,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnTextChanged(object sender, TextChangedEventArgs args)
         {
-            global::Windows.UI.Xaml.Controls.TextBox textBox = sender as global::Windows.UI.Xaml.Controls.TextBox;
-
-            if (textBox is not null)
+            if (sender is global::Windows.UI.Xaml.Controls.TextBox textBox)
             {
                 string tag = Convert.ToString(textBox.Tag);
 
@@ -494,10 +492,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnNumberFormatClicked(object sender, RoutedEventArgs args)
         {
-            ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
-            if (item.Tag is not null)
+            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
             {
-                SelectedNumberFormat = NumberFormatList[Convert.ToInt32(item.Tag)];
+                SelectedNumberFormat = NumberFormatList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
             }
         }
 

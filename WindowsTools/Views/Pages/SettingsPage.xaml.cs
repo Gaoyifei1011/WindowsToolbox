@@ -225,9 +225,7 @@ namespace WindowsTools.Views.Pages
                 LanguageFlyout.Hide();
             }
 
-            LanguageModel languageItem = args.Parameter as LanguageModel;
-
-            if (languageItem is not null)
+            if (args.Parameter is LanguageModel languageItem)
             {
                 foreach (LanguageModel item in LanguageCollection)
                 {
@@ -269,10 +267,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnBackdropSelectClicked(object sender, RoutedEventArgs args)
         {
-            ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
-            if (item.Tag is not null)
+            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
             {
-                Backdrop = BackdropList[Convert.ToInt32(item.Tag)];
+                Backdrop = BackdropList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
                 BackdropService.SetBackdrop(Backdrop);
             }
         }
@@ -315,10 +312,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnThemeSelectClicked(object sender, RoutedEventArgs args)
         {
-            ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
-            if (item.Tag is not null)
+            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
             {
-                Theme = ThemeList[Convert.ToInt32(item.Tag)];
+                Theme = ThemeList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
                 ThemeService.SetTheme(Theme);
             }
         }
@@ -337,8 +333,7 @@ namespace WindowsTools.Views.Pages
 
         private void OnDoEngineModeSelectClicked(object sender, RoutedEventArgs args)
         {
-            ToggleMenuFlyoutItem toggleMenuFlyoutItem = sender as ToggleMenuFlyoutItem;
-            if (toggleMenuFlyoutItem.Tag is not null)
+            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
             {
                 DoEngineMode = DoEngineModeList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
                 DownloadOptionsService.SetDoEngineMode(DoEngineMode);
@@ -367,8 +362,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAlwaysShowBackdropToggled(object sender, RoutedEventArgs args)
         {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-            if (toggleSwitch is not null)
+            if (sender is ToggleSwitch toggleSwitch)
             {
                 AlwaysShowBackdropService.SetAlwaysShowBackdrop(toggleSwitch.IsOn);
                 AlwaysShowBackdropValue = toggleSwitch.IsOn;
@@ -406,8 +400,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnChangeFolderClicked(object sender, RoutedEventArgs args)
         {
-            MenuFlyoutItem menuFlyoutItem = sender as MenuFlyoutItem;
-            if (menuFlyoutItem.Tag is not null)
+            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is not null)
             {
                 switch ((string)menuFlyoutItem.Tag)
                 {
@@ -449,8 +442,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnFileShellMenuToggled(object sender, RoutedEventArgs args)
         {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-            if (toggleSwitch is not null)
+            if (sender is ToggleSwitch toggleSwitch)
             {
                 FileShellMenuService.SetFileShellMenu(toggleSwitch.IsOn);
                 FileShellMenuValue = toggleSwitch.IsOn;
@@ -462,10 +454,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExitModeSelectClicked(object sender, RoutedEventArgs args)
         {
-            ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
-            if (item.Tag is not null)
+            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
             {
-                ExitMode = ExitModeList[Convert.ToInt32(item.Tag)];
+                ExitMode = ExitModeList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
                 ExitModeService.SetExitMode(ExitMode);
             }
         }
@@ -475,8 +466,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnTopMostToggled(object sender, RoutedEventArgs args)
         {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-            if (toggleSwitch is not null)
+            if (sender is ToggleSwitch toggleSwitch)
             {
                 TopMostService.SetTopMostValue(toggleSwitch.IsOn);
                 TopMostValue = toggleSwitch.IsOn;
@@ -505,8 +495,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs args)
         {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-            if (toggleSwitch is not null)
+            if (sender is ToggleSwitch)
             {
                 AlwaysShowBackdropService.SetAlwaysShowBackdrop(false);
                 AlwaysShowBackdropValue = false;

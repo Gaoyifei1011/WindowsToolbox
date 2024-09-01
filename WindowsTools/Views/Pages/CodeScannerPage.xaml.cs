@@ -268,14 +268,9 @@ namespace WindowsTools.Views.Pages
                     {
                         IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
 
-                        if (filesList.Count is 1)
+                        if (filesList.Count is 1 && System.Drawing.Image.FromFile(filesList[0].Path) is System.Drawing.Image image)
                         {
-                            System.Drawing.Image image = System.Drawing.Image.FromFile(filesList[0].Path);
-
-                            if (image is not null)
-                            {
-                                ParseCodeImage(image);
-                            }
+                            ParseCodeImage(image);
                         }
                     }
                 }
@@ -296,9 +291,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            RadioButtons radioButtons = sender as RadioButtons;
-
-            if (radioButtons is not null && radioButtons.SelectedIndex is not -1)
+            if (sender is RadioButtons radioButtons && radioButtons.SelectedIndex is not -1)
             {
                 SelectedIndex = radioButtons.SelectedIndex;
                 if (SelectedIndex is 0)
@@ -398,40 +391,34 @@ namespace WindowsTools.Views.Pages
             await Task.Run(() =>
             {
                 // 条形码
-                if (SelectedGenerateType.Equals(GenerateTypeList[0]))
+                if (SelectedGenerateType.Equals(GenerateTypeList[0]) && GenerateBarCode(GenerateText, 300, 150) is Bitmap barCodeBitmap)
                 {
-                    Bitmap barCodeBitmap = GenerateBarCode(GenerateText, 300, 150);
-                    if (barCodeBitmap is not null)
-                    {
-                        MemoryStream memoryStream = new();
-                        barCodeBitmap.Save(memoryStream, ImageFormat.Png);
-                        memoryStream.Position = 0;
-                        autoResetEvent.Set();
+                    MemoryStream memoryStream = new();
+                    barCodeBitmap.Save(memoryStream, ImageFormat.Png);
+                    memoryStream.Position = 0;
+                    autoResetEvent.Set();
 
-                        synchronizationContext.Post(async (_) =>
+                    synchronizationContext.Post(async (_) =>
+                    {
+                        try
                         {
-                            try
-                            {
-                                BitmapImage bitmapImage = new();
-                                bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
-                                GeneratedImage = bitmapImage;
-                                barCodeBitmap.Dispose();
-                                memoryStream.Dispose();
-                            }
-                            catch (Exception e)
-                            {
-                                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.GenerateBarCodeFailed));
-                                LogService.WriteLog(EventLevel.Error, "Display generated bar code photo failed", e);
-                            }
-                        }, null);
-                    }
+                            BitmapImage bitmapImage = new();
+                            bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
+                            GeneratedImage = bitmapImage;
+                            barCodeBitmap.Dispose();
+                            memoryStream.Dispose();
+                        }
+                        catch (Exception e)
+                        {
+                            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.GenerateBarCodeFailed));
+                            LogService.WriteLog(EventLevel.Error, "Display generated bar code photo failed", e);
+                        }
+                    }, null);
                 }
                 // 二维码
                 else if (SelectedGenerateType.Equals(GenerateTypeList[1]))
                 {
-                    Bitmap qrCodeBitmap = GenerateQRCode(GenerateText, 200, 200);
-
-                    if (qrCodeBitmap is not null)
+                    if (GenerateQRCode(GenerateText, 200, 200) is Bitmap qrCodeBitmap)
                     {
                         MemoryStream memoryStream = new();
                         qrCodeBitmap.Save(memoryStream, ImageFormat.Png);
@@ -474,8 +461,7 @@ namespace WindowsTools.Views.Pages
                     };
                     Type printPreviewDialogType = typeof(PrintPreviewDialog);
 
-                    FieldInfo printToolStripButtonFieldInfo = printPreviewDialogType.GetField("printToolStripButton", bindingFlags);
-                    if (printToolStripButtonFieldInfo is not null)
+                    if (printPreviewDialogType.GetField("printToolStripButton", bindingFlags) is FieldInfo printToolStripButtonFieldInfo)
                     {
                         // 获取打印按钮，并清除打印按钮默认的点击事件
                         ToolStripButton printToolStripButton = (ToolStripButton)printToolStripButtonFieldInfo.GetValue(printPreviewDialog);
@@ -531,39 +517,33 @@ namespace WindowsTools.Views.Pages
             await Task.Run(() =>
             {
                 // 条形码
-                if (SelectedGenerateType.Equals(GenerateTypeList[0]))
+                if (SelectedGenerateType.Equals(GenerateTypeList[0]) && GenerateBarCode(GenerateText, 300, 150) is Bitmap barCodeBitmap)
                 {
-                    Bitmap barCodeBitmap = GenerateBarCode(GenerateText, 300, 150);
-                    if (barCodeBitmap is not null)
-                    {
-                        MemoryStream memoryStream = new();
-                        barCodeBitmap.Save(memoryStream, ImageFormat.Png);
-                        memoryStream.Position = 0;
+                    MemoryStream memoryStream = new();
+                    barCodeBitmap.Save(memoryStream, ImageFormat.Png);
+                    memoryStream.Position = 0;
 
-                        synchronizationContext.Post(async (_) =>
+                    synchronizationContext.Post(async (_) =>
+                    {
+                        try
                         {
-                            try
-                            {
-                                BitmapImage bitmapImage = new();
-                                bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
-                                GeneratedImage = bitmapImage;
-                                barCodeBitmap.Dispose();
-                                memoryStream.Dispose();
-                            }
-                            catch (Exception e)
-                            {
-                                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.GenerateBarCodeFailed));
-                                LogService.WriteLog(EventLevel.Error, "Display generated bar code photo failed", e);
-                            }
-                        }, null);
-                    }
+                            BitmapImage bitmapImage = new();
+                            bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
+                            GeneratedImage = bitmapImage;
+                            barCodeBitmap.Dispose();
+                            memoryStream.Dispose();
+                        }
+                        catch (Exception e)
+                        {
+                            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.GenerateBarCodeFailed));
+                            LogService.WriteLog(EventLevel.Error, "Display generated bar code photo failed", e);
+                        }
+                    }, null);
                 }
                 // 二维码
                 else if (SelectedGenerateType.Equals(GenerateTypeList[1]))
                 {
-                    Bitmap qrCodeBitmap = GenerateQRCode(GenerateText, 200, 200);
-
-                    if (qrCodeBitmap is not null)
+                    if (GenerateQRCode(GenerateText, 200, 200) is Bitmap qrCodeBitmap)
                     {
                         MemoryStream memoryStream = new();
                         qrCodeBitmap.Save(memoryStream, ImageFormat.Png);
@@ -595,10 +575,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnGenerateTypeClicked(object sender, RoutedEventArgs args)
         {
-            ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
-            if (item.Tag is not null)
+            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
             {
-                SelectedGenerateType = GenerateTypeList[Convert.ToInt32(item.Tag)];
+                SelectedGenerateType = GenerateTypeList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
                 if (SelectedGenerateType.Equals(GenerateTypeList[0]))
                 {
                     IsSquare = false;
@@ -616,8 +595,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnIsSquareToggled(object sender, RoutedEventArgs args)
         {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-            if (toggleSwitch is not null)
+            if (sender is ToggleSwitch toggleSwitch)
             {
                 IsSquare = toggleSwitch.IsOn;
             }
@@ -655,8 +633,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnReserveBarCodeTextToggled(object sender, RoutedEventArgs args)
         {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-            if (toggleSwitch is not null)
+            if (sender is ToggleSwitch toggleSwitch)
             {
                 IsReserveBarCodeText = toggleSwitch.IsOn;
             }
@@ -678,8 +655,7 @@ namespace WindowsTools.Views.Pages
                 {
                     try
                     {
-                        System.Drawing.Image image = System.Drawing.Image.FromFile(dialog.FileName);
-                        if (image is not null)
+                        if (System.Drawing.Image.FromFile(dialog.FileName) is System.Drawing.Image image)
                         {
                             ParseCodeImage(image);
                         }
@@ -711,9 +687,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnReadClipboardPhotoClicked(object sender, RoutedEventArgs args)
         {
-            System.Drawing.Image clipboardImage = CopyPasteHelper.ReadClipboardImage();
-
-            if (clipboardImage is not null)
+            if (CopyPasteHelper.ReadClipboardImage() is System.Drawing.Image clipboardImage)
             {
                 ParseCodeImage(clipboardImage);
             }

@@ -129,9 +129,7 @@ namespace WindowsTools.Views.Pages
             {
                 IReadOnlyList<AppListEntry> appEntries = await Package.Current.GetAppListEntriesAsync();
 
-                AppListEntry defaultEntry = appEntries[0];
-
-                if (defaultEntry is not null)
+                if (appEntries[0] is AppListEntry defaultEntry)
                 {
                     StartScreenManager startScreenManager = StartScreenManager.GetDefault();
 
@@ -284,19 +282,14 @@ namespace WindowsTools.Views.Pages
                             {
                                 GroupCollection tagGroups = tagCollection[0].Groups;
 
-                                if (tagGroups.Count > 0)
+                                if (tagGroups.Count > 0 && new Version(tagGroups[1].Value) is Version tagVersion)
                                 {
-                                    Version tagVersion = new(tagGroups[1].Value);
+                                    bool isNewest = InfoHelper.AppVersion >= tagVersion;
 
-                                    if (tagVersion is not null)
+                                    synchronizationContext.Post(async (_) =>
                                     {
-                                        bool isNewest = InfoHelper.AppVersion >= tagVersion;
-
-                                        synchronizationContext.Post(async (_) =>
-                                        {
-                                            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.CheckUpdate, isNewest));
-                                        }, null);
-                                    }
+                                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.CheckUpdate, isNewest));
+                                    }, null);
                                 }
                             }
                         }

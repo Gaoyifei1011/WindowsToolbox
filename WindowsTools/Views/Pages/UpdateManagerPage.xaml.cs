@@ -258,9 +258,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAvailableHideExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UpdateModel updateItem = args.Parameter as UpdateModel;
-
-            if (updateItem is not null)
+            if (args.Parameter is UpdateModel updateItem)
             {
                 Task.Run(() =>
                 {
@@ -316,9 +314,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnInstalledUnInstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UpdateModel updateItem = args.Parameter as UpdateModel;
-
-            if (updateItem is not null)
+            if (args.Parameter is UpdateModel updateItem)
             {
                 IUpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller();
                 updateInstaller.Updates.Add(updateItem.Update);
@@ -355,9 +351,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnHiddenShowExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UpdateModel updateItem = args.Parameter as UpdateModel;
-
-            if (updateItem is not null)
+            if (args.Parameter is UpdateModel updateItem)
             {
                 Task.Run(() =>
                 {
@@ -406,17 +400,15 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnCopyInformationExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            UpdateModel updateModel = args.Parameter as UpdateModel;
-
-            if (updateModel is not null)
+            if (args.Parameter is UpdateModel updateItem)
             {
                 Task.Run(() =>
                 {
                     StringBuilder copyInformationBuilder = new();
                     copyInformationBuilder.AppendLine(UpdateManager.Title);
-                    copyInformationBuilder.AppendLine(updateModel.UpdateName);
+                    copyInformationBuilder.AppendLine(updateItem.UpdateName);
                     copyInformationBuilder.AppendLine(UpdateManager.Description);
-                    copyInformationBuilder.AppendLine(updateModel.Description);
+                    copyInformationBuilder.AppendLine(updateItem.Description);
 
                     synchronizationContext.Post(async (_) =>
                     {
@@ -432,9 +424,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnOpenSupportUrlExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            string supportUrl = args.Parameter as string;
-
-            if (!string.IsNullOrEmpty(supportUrl))
+            if (args.Parameter is string supportUrl && !string.IsNullOrEmpty(supportUrl))
             {
                 Task.Run(() =>
                 {
@@ -680,8 +670,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExcludeDriversToggled(object sender, RoutedEventArgs args)
         {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-            if (toggleSwitch is not null)
+            if (sender is ToggleSwitch toggleSwitch)
             {
                 bool value = toggleSwitch.IsOn;
                 Task.Run(() =>
@@ -712,8 +701,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnIncludePotentiallySupersededUpdateToggled(object sender, RoutedEventArgs args)
         {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-            if (toggleSwitch is not null)
+            if (sender is ToggleSwitch toggleSwitch)
             {
                 IsIncludePotentiallySupersededUpdate = toggleSwitch.IsOn;
             }
@@ -724,8 +712,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnUpdateSourceSelectClicked(object sender, RoutedEventArgs args)
         {
-            MenuFlyoutItem menuFlyoutItem = sender as MenuFlyoutItem;
-            if (menuFlyoutItem is not null)
+            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is not null)
             {
                 SelectedUpdateSource = UpdateSourceList[Convert.ToInt32(menuFlyoutItem.Tag)];
             }
@@ -736,8 +723,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnPreviewChannelSelectClicked(object sender, RoutedEventArgs args)
         {
-            MenuFlyoutItem menuFlyoutItem = sender as MenuFlyoutItem;
-            if (menuFlyoutItem is not null)
+            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is not null)
             {
                 SelectedPreviewChannel = PreviewChannelList[Convert.ToInt32(menuFlyoutItem.Tag)];
             }
@@ -752,8 +738,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSearchCompleted(object sender, EventArgs args)
         {
-            SearchCompletedCallback searchCompletedCallback = sender as SearchCompletedCallback;
-            if (searchCompletedCallback is not null && searchCompletedCallback.SearchJob is not null)
+            if (sender is SearchCompletedCallback searchCompletedCallback && searchCompletedCallback.SearchJob is not null)
             {
                 ISearchResult searchResult = null;
                 try

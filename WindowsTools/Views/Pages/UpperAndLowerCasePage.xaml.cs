@@ -224,8 +224,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnChecked(object sender, RoutedEventArgs args)
         {
-            global::Windows.UI.Xaml.Controls.CheckBox checkBox = sender as global::Windows.UI.Xaml.Controls.CheckBox;
-            if (checkBox is not null)
+            if (sender is global::Windows.UI.Xaml.Controls.CheckBox checkBox)
             {
                 SelectedType = (UpperAndLowerSelectedKind)Convert.ToInt32(checkBox.Tag);
             }
@@ -436,8 +435,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnUnchecked(object sender, RoutedEventArgs args)
         {
-            global::Windows.UI.Xaml.Controls.CheckBox checkBox = sender as global::Windows.UI.Xaml.Controls.CheckBox;
-            if (checkBox is not null)
+            if (sender is global::Windows.UI.Xaml.Controls.CheckBox checkBox)
             {
                 if (SelectedType == (UpperAndLowerSelectedKind)Convert.ToInt32(checkBox.Tag))
                 {

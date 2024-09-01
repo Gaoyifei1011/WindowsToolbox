@@ -236,10 +236,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnUpdateStyleClicked(object sender, RoutedEventArgs args)
         {
-            ToggleMenuFlyoutItem item = sender as ToggleMenuFlyoutItem;
-            if (item.Tag is not null)
+            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
             {
-                SelectedUpdateStyle = UpdateStyleList[Convert.ToInt32(item.Tag)];
+                SelectedUpdateStyle = UpdateStyleList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
             }
         }
 
@@ -248,8 +247,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnBlockAllKeysToggled(object sender, RoutedEventArgs args)
         {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-            if (toggleSwitch is not null)
+            if (sender is ToggleSwitch toggleSwitch)
             {
                 BlockAllKeys = toggleSwitch.IsOn;
             }
@@ -260,8 +258,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnTimeChanged(object sender, TimePickerValueChangedEventArgs args)
         {
-            TimePicker timePicker = sender as TimePicker;
-            if (timePicker is not null)
+            if (sender is TimePicker)
             {
                 DurationTime = args.NewTime;
             }
@@ -272,8 +269,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnLockScreenAutomaticlyToggled(object sender, RoutedEventArgs args)
         {
-            ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-            if (toggleSwitch is not null)
+            if (sender is ToggleSwitch toggleSwitch)
             {
                 LockScreenAutomaticly = toggleSwitch.IsOn;
             }
