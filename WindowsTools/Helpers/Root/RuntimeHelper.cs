@@ -24,7 +24,7 @@ namespace WindowsTools.Helpers.Root
         private static void IsInMsixContainer()
         {
             int length = 0;
-            IsMSIX = Kernel32Library.GetCurrentPackageFamilyName(ref length, null) != Kernel32Library.APPMODEL_ERROR_NO_PACKAGE;
+            IsMSIX = Kernel32Library.GetCurrentPackageFamilyName(ref length, null) is not (int)Kernel32Library.APPMODEL_ERROR_NO_PACKAGE;
         }
 
         /// <summary>

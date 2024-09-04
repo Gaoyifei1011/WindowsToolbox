@@ -968,7 +968,7 @@ namespace WindowsTools.Views.Pages
                                             key = resourceMapScopeAndItem.Name;
                                         }
 
-                                        if (key == string.Empty)
+                                        if (string.IsNullOrEmpty(key))
                                         {
                                             continue;
                                         }

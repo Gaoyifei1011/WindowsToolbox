@@ -105,19 +105,19 @@ namespace WindowsTools.Extensions.PriExtract
 
             for (int i = 0; i < numScopes + numItems; i++)
             {
-                bool nameInAscii = (scopeAndItemInfoList[i].Item3 & 0x20000000) != 0;
+                bool nameInAscii = (scopeAndItemInfoList[i].Item3 & 0x20000000) is not 0;
                 long pos = (nameInAscii ? asciiDataOffset : unicodeDataOffset) + (scopeAndItemInfoList[i].Item4 * (nameInAscii ? 1 : 2));
                 binaryReader.BaseStream.Seek(pos, SeekOrigin.Begin);
 
                 string name = string.Empty;
 
-                if (scopeAndItemInfoList[i].Item2 != 0)
+                if (scopeAndItemInfoList[i].Item2 is not 0)
                 {
                     name = binaryReader.ReadNullTerminatedString(nameInAscii ? Encoding.ASCII : Encoding.Unicode);
                 }
 
                 ushort index = scopeAndItemInfoList[i].Item5;
-                bool isScope = (scopeAndItemInfoList[i].Item3 & 0x10000000) != 0;
+                bool isScope = (scopeAndItemInfoList[i].Item3 & 0x10000000) is not 0;
 
                 if (isScope)
                 {
@@ -152,11 +152,11 @@ namespace WindowsTools.Extensions.PriExtract
             for (int i = 0; i < numScopes + numItems; i++)
             {
                 ushort index = scopeAndItemInfoList[i].Item5;
-                bool isScope = (scopeAndItemInfoList[i].Item3 & 0x10000000) != 0;
+                bool isScope = (scopeAndItemInfoList[i].Item3 & 0x10000000) is not 0;
                 ushort parent = scopeAndItemInfoList[i].Item1;
                 parent = scopeAndItemInfoList[parent].Item5;
 
-                if (parent != 0xFFFF)
+                if (parent is not 0xFFFF)
                 {
                     if (isScope)
                     {
@@ -180,7 +180,7 @@ namespace WindowsTools.Extensions.PriExtract
                 {
                     Tuple<ushort, ushort, uint, uint, ushort> saiInfo = scopeAndItemInfoList[scopeExInfo[i].Item3 + j];
 
-                    bool isScope = (saiInfo.Item3 & 0x10000000) != 0;
+                    bool isScope = (saiInfo.Item3 & 0x10000000) is not 0;
 
                     childrenArray[j] = isScope ? scopesArray[saiInfo.Item5] : itemsArray[saiInfo.Item5];
                 }

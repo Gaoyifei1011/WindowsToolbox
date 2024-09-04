@@ -205,6 +205,24 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 No 的本地化字符串。
+        /// </summary>
+        public static string IsAlwaysRunAsAdministratorOffContent {
+            get {
+                return ResourceManager.GetString("IsAlwaysRunAsAdministratorOffContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Yes 的本地化字符串。
+        /// </summary>
+        public static string IsAlwaysRunAsAdministratorOnContent {
+            get {
+                return ResourceManager.GetString("IsAlwaysRunAsAdministratorOnContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Light theme icon 的本地化字符串。
         /// </summary>
         public static string LightThemeIcon {
@@ -457,11 +475,20 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
-        ///   查找类似 3. It is recommended to avoid too many secondary menus, because this may lead to a long menu loading time, which will cause a deadlock. 的本地化字符串。
+        ///   查找类似 3.Due to system limitations, the maximum number of secondary menus is 16 items 的本地化字符串。
         /// </summary>
         public static string PrecautionsContent3 {
             get {
                 return ResourceManager.GetString("PrecautionsContent3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 4. It is recommended to avoid too many secondary menus, because this may lead to a long menu loading time, which will cause a deadlock. 的本地化字符串。
+        /// </summary>
+        public static string PrecautionsContent4 {
+            get {
+                return ResourceManager.GetString("PrecautionsContent4", resourceCulture);
             }
         }
         
@@ -489,6 +516,15 @@ namespace WindowsTools.Strings {
         public static string RemoveMenuItem {
             get {
                 return ResourceManager.GetString("RemoveMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Whether to always run as administrator 的本地化字符串。
+        /// </summary>
+        public static string RunAsAdministrator {
+            get {
+                return ResourceManager.GetString("RunAsAdministrator", resourceCulture);
             }
         }
         

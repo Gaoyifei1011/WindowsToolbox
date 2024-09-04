@@ -185,6 +185,11 @@ namespace WindowsTools.Models
         public string MenuParameter { get; set; }
 
         /// <summary>
+        /// 是否总是需要提权运行
+        /// </summary>
+        public bool IsAlwaysRunAsAdministrator { get; set; }
+
+        /// <summary>
         /// 是否启用文件夹背景菜单项
         /// </summary>
         public bool FolderBackground { get; set; }

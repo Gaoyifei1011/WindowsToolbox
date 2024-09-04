@@ -86,7 +86,7 @@ namespace WindowsTools.Extensions.PriExtract
             byte[] environmentReferencesDataArray = binaryReader.ReadBytes(environmentReferencesLength);
             byte[] schemaReferenceDataArray = binaryReader.ReadBytes(hierarchicalSchemaReferenceLength);
 
-            if (schemaReferenceDataArray.Length != 0)
+            if (schemaReferenceDataArray.Length is not 0)
                 using (BinaryReader r = new(new MemoryStream(schemaReferenceDataArray, false)))
                 {
                     ushort majorVersion = r.ReadUInt16();
@@ -222,7 +222,7 @@ namespace WindowsTools.Extensions.PriExtract
             {
                 byte type = binaryReader.ReadByte();
 
-                if (type == 0x01)
+                if (type is 0x01)
                 {
                     ResourceValueType resourceValueType = resourceValueTypeTableList[binaryReader.ReadByte()];
                     ushort sourceFileIndex = binaryReader.ReadUInt16();
@@ -239,7 +239,7 @@ namespace WindowsTools.Extensions.PriExtract
                         DataOffset = 0
                     });
                 }
-                else if (type == 0x00)
+                else if (type is 0x00)
                 {
                     ResourceValueType resourceValueType = resourceValueTypeTableList[binaryReader.ReadByte()];
                     ushort length = binaryReader.ReadUInt16();
@@ -300,7 +300,7 @@ namespace WindowsTools.Extensions.PriExtract
 
                         if (candidateInfo.Type is 0x01)
                         {
-                            int? sourceFile = candidateInfo.SourceFileIndex == 0 ? null : candidateInfo.SourceFileIndex - 1;
+                            int? sourceFile = candidateInfo.SourceFileIndex is 0 ? null : candidateInfo.SourceFileIndex - 1;
 
                             candidatesList.Add(new Candidate()
                             {

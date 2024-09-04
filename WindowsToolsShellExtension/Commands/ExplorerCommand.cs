@@ -9,6 +9,8 @@ using WindowsToolsShellExtension.Helpers.Root;
 using WindowsToolsShellExtension.Services.Controls.Settings;
 using WindowsToolsShellExtension.Services.Shell;
 using WindowsToolsShellExtension.WindowsAPI.ComTypes;
+using WindowsToolsShellExtension.WindowsAPI.PInvoke.Shell32;
+using WindowsToolsShellExtension.WindowsAPI.PInvoke.Shlwapi;
 
 namespace WindowsToolsShellExtension.Commands
 {
@@ -23,10 +25,10 @@ namespace WindowsToolsShellExtension.Commands
         private readonly StrategyBasedComWrappers strategyBasedComWrappers = new();
         private IntPtr site = IntPtr.Zero;
 
-        [GeneratedRegex(@"{files:split'([\s\S]*)'")]
+        [GeneratedRegex(@"{files-split:'([\s\S]*?)'}")]
         private static partial Regex MultiFileRegex { get; }
 
-        [GeneratedRegex(@"{folders:split'([\s\S]*)'")]
+        [GeneratedRegex(@"{folders-split:'([\s\S]*?)'}")]
         private static partial Regex MultiFolderRegex { get; }
 
         /// <summary>
@@ -185,13 +187,14 @@ namespace WindowsToolsShellExtension.Commands
                         string standardDesktopPath = Path.GetFullPath(Environment.GetFolderPath(Environment.SpecialFolder.Desktop).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
                         string clickedPath = Path.GetFullPath(folderPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
 
-                        pCmdState = standardDesktopPath.Equals(clickedPath, StringComparison.OrdinalIgnoreCase) ? shellMenuItem.FolderDesktop ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN : shellMenuItem.FolderBackground ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
+                        pCmdState = standardDesktopPath.Equals(clickedPath, StringComparison.OrdinalIgnoreCase) ? EnumerateMatchFolderDesktop(shellMenuItem) : EnumerateMatchFolderDirectory(shellMenuItem);
                     }
                     else
                     {
                         pCmdState = EXPCMDSTATE.ECS_HIDDEN;
                     }
                 }
+                // 其他：文件或目录
                 else
                 {
                     if (psiItemArray.GetCount(out uint count) is 0 && count >= 1 && psiItemArray.GetItemAt(0, out IShellItem shellItem) is 0)
@@ -199,81 +202,18 @@ namespace WindowsToolsShellExtension.Commands
                         shellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out string filePath);
                         FileInfo fileInfo = new(filePath);
 
-                        // 选中的是目录
+                        // 选中的第一个是目录
                         if ((fileInfo.Attributes & FileAttributes.Directory) is not 0)
                         {
                             string rootPath = Path.GetPathRoot(filePath);
 
                             // 相同，为驱动器目录
-                            pCmdState = filePath.Equals(rootPath, StringComparison.OrdinalIgnoreCase) ? shellMenuItem.FolderDrive ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN : shellMenuItem.FolderDirectory ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
+                            pCmdState = filePath.Equals(rootPath, StringComparison.OrdinalIgnoreCase) ? EnumerateMatchFolderDrive(shellMenuItem) : EnumerateMatchFolderDirectory(shellMenuItem);
                         }
                         // 选中的第一个是文件
                         else
                         {
-                            // 匹配文件格式
-                            if (shellMenuItem.MenuFileMatchRule.Equals(ShellMenuService.FileMatchRuleList[0]))
-                            {
-                                pCmdState = EXPCMDSTATE.ECS_HIDDEN;
-                            }
-                            else if (shellMenuItem.MenuFileMatchRule.Equals(ShellMenuService.FileMatchRuleList[1]))
-                            {
-                                string[] fileMatchFormatArray = shellMenuItem.MenuFileMatchFormatText.Split('|');
-
-                                bool isMatched = false;
-                                foreach (string fileMatchFormat in fileMatchFormatArray)
-                                {
-                                    if (filePath.Equals(fileMatchFormat.Trim(), StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        isMatched = true;
-                                        break;
-                                    }
-                                }
-
-                                pCmdState = isMatched ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
-                            }
-                            else if (shellMenuItem.MenuFileMatchRule.Equals(ShellMenuService.FileMatchRuleList[2]))
-                            {
-                                string[] fileMatchFormatArray = shellMenuItem.MenuFileMatchFormatText.Split('|');
-                                bool isMatched = false;
-
-                                foreach (string fileMatchFormat in fileMatchFormatArray)
-                                {
-                                    Regex fileMatchRegex = new(fileMatchFormat.Trim());
-
-                                    if (fileMatchRegex.IsMatch(filePath))
-                                    {
-                                        isMatched = true;
-                                        break;
-                                    }
-                                }
-
-                                pCmdState = isMatched ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
-                            }
-                            else if (shellMenuItem.MenuFileMatchRule.Equals(ShellMenuService.FileMatchRuleList[3]))
-                            {
-                                string[] fileMatchFormatArray = shellMenuItem.MenuFileMatchFormatText.Split('|');
-                                bool isMatched = false;
-                                string extensionName = Path.GetExtension(filePath);
-
-                                foreach (string fileMatchFormat in fileMatchFormatArray)
-                                {
-                                    if (extensionName.Equals(fileMatchFormat.Trim(), StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        isMatched = true;
-                                        break;
-                                    }
-                                }
-
-                                pCmdState = isMatched ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
-                            }
-                            else if (shellMenuItem.MenuFileMatchRule.Equals(ShellMenuService.FileMatchRuleList[4]))
-                            {
-                                pCmdState = EXPCMDSTATE.ECS_ENABLED;
-                            }
-                            else
-                            {
-                                pCmdState = EXPCMDSTATE.ECS_HIDDEN;
-                            }
+                            pCmdState = EnumerateMatchFile(shellMenuItem, filePath);
                         }
                     }
                     else
@@ -298,12 +238,20 @@ namespace WindowsToolsShellExtension.Commands
             // 没有子菜单，该菜单可以直接调用命令
             if (shellMenuItem is not null && shellMenuItem.SubShellMenuItem.Count is 0)
             {
-                // Directory\Background
-                if (psiItemArray is null && site != IntPtr.Zero)
-                {
-                    string folderPath = string.Empty;
+                int fileMatchedCount = 0;
+                int folderMatchedCount = 0;
+                string selectedFilePath = string.Empty;
+                string selectedFolderPath = string.Empty;
+                List<string> fileList = [];
+                List<string> folderList = [];
+                List<string> multiFileMatchedStringList = [];
+                List<string> multiFolderMatchedStringList = [];
+                List<string> replaceFileStringList = [];
+                List<string> replaceFolderStringList = [];
 
-                    // 查询点击背景时对应的文件夹路径
+                // psiItemArray 为空，可能为背景。查询点击背景时对应的文件夹路径
+                if (psiItemArray is null)
+                {
                     Marshal.QueryInterface(site, typeof(WindowsAPI.ComTypes.IServiceProvider).GUID, out IntPtr serviceProviderPtr);
                     WindowsAPI.ComTypes.IServiceProvider serviceProvider = (WindowsAPI.ComTypes.IServiceProvider)strategyBasedComWrappers.GetOrCreateObjectForComInstance(serviceProviderPtr, CreateObjectFlags.None);
 
@@ -316,121 +264,114 @@ namespace WindowsToolsShellExtension.Commands
                         folderView.GetFolder(ref iShellItemGuid, out IntPtr iShellItemPtr);
 
                         IShellItem shellItem = (IShellItem)strategyBasedComWrappers.GetOrCreateObjectForComInstance(iShellItemPtr, CreateObjectFlags.None);
-
-                        shellItem?.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out folderPath);
-                    }
-
-                    // 读取参数
-                    string parameter = string.IsNullOrEmpty(shellMenuItem.MenuParameter) ? string.Empty : shellMenuItem.MenuParameter;
-
-                    if (!string.IsNullOrEmpty(folderPath))
-                    {
-                        parameter = parameter.Replace("{folder}", folderPath);
-                        ProcessHelper.StartProcess(shellMenuItem.MenuProgramPath, parameter, out _);
+                        shellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out string filePath);
+                        selectedFolderPath = filePath;
+                        folderList.Add(filePath);
                     }
                 }
-                else
+                // psiItemArray不为空，正常获取所有选中的文件或目录
+                else if (psiItemArray.GetCount(out uint count) is 0)
                 {
-                    if (psiItemArray.GetCount(out uint count) is 0)
+                    for (uint index = 0; index < count; index++)
                     {
-                        // 选中单个文件
-                        if (count is 1)
+                        if (psiItemArray.GetItemAt(index, out IShellItem shellItem) is 0)
                         {
-                            if (psiItemArray.GetItemAt(0, out IShellItem shellItem) is 0)
+                            shellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out string filePath);
+                            FileInfo fileInfo = new(filePath);
+
+                            // 当前项是目录
+                            if ((fileInfo.Attributes & FileAttributes.Directory) is not 0)
                             {
-                                shellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out string filePath);
-                                FileInfo fileInfo = new(filePath);
-
-                                // 读取参数
-                                string parameter = string.IsNullOrEmpty(shellMenuItem.MenuParameter) ? string.Empty : shellMenuItem.MenuParameter;
-
-                                // 选中的是目录
-                                parameter = (fileInfo.Attributes & FileAttributes.Directory) is not 0 ? parameter.Replace("{folder}", filePath) : parameter.Replace("{file}", filePath);
-
-                                ProcessHelper.StartProcess(shellMenuItem.MenuProgramPath, parameter, out _);
+                                folderList.Add(filePath);
+                                if (index is 0)
+                                {
+                                    selectedFolderPath = filePath;
+                                }
+                            }
+                            // 当前项是文件
+                            else
+                            {
+                                fileList.Add(filePath);
+                                if (index is 0)
+                                {
+                                    selectedFilePath = filePath;
+                                }
                             }
                         }
-                        else
-                        {
-                            List<string> fileList = [];
-                            List<string> folderList = [];
+                    }
+                }
+                // 读取参数
+                string parameter = string.IsNullOrEmpty(shellMenuItem.MenuParameter) ? string.Empty : shellMenuItem.MenuParameter;
 
-                            for (uint index = 0; index < count; index++)
-                            {
-                                if (psiItemArray.GetItemAt(index, out IShellItem shellItem) is 0)
-                                {
-                                    shellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out string filePath);
-                                    FileInfo fileInfo = new(filePath);
+                // 替换模板参数
+                parameter = parameter.Replace("{file}", selectedFilePath);
+                parameter = parameter.Replace("{folder}", selectedFolderPath);
 
-                                    // 当前项是目录
-                                    if ((fileInfo.Attributes & FileAttributes.Directory) is not 0)
-                                    {
-                                        folderList.Add(filePath);
-                                    }
-                                    // 当前项是文件
-                                    else
-                                    {
-                                        fileList.Add(filePath);
-                                    }
-                                }
-                            }
+                MatchCollection multiFileMatchCollection = MultiFileRegex.Matches(parameter);
+                MatchCollection multiFolderMatchCollection = MultiFolderRegex.Matches(parameter);
 
-                            // 读取参数
-                            string parameter = string.IsNullOrEmpty(shellMenuItem.MenuParameter) ? string.Empty : shellMenuItem.MenuParameter;
+                // 匹配文件
+                foreach (Match multiFileMatchItem in multiFileMatchCollection)
+                {
+                    GroupCollection multiFileGroupCollection = multiFileMatchItem.Groups;
 
-                            // 匹配多文件规则和匹配多目录规则
-                            MatchCollection multiFileMatchCollection = MultiFileRegex.Matches(parameter);
-                            MatchCollection multiFolderMatchCollection = MultiFolderRegex.Matches(parameter);
+                    if (multiFileGroupCollection.Count is 2)
+                    {
+                        multiFileMatchedStringList.Add(multiFileGroupCollection[0].Value);
+                        replaceFileStringList.Add(multiFileGroupCollection[1].Value);
+                        fileMatchedCount++;
+                    }
+                }
 
-                            int fileMatchedCount = 0;
-                            int folderMatchedCount = 0;
-                            List<string> multiFileMatchedStringList = [];
-                            List<string> multiFolderMatchedStringList = [];
-                            List<string> replaceFileStringList = [];
-                            List<string> replaceFolderStringList = [];
+                // 匹配目录
+                foreach (Match multiFolderMatchItem in multiFolderMatchCollection)
+                {
+                    GroupCollection multiFolderGroupCollection = multiFolderMatchItem.Groups;
 
-                            // 匹配文件
-                            foreach (Match multiFileMatchItem in multiFileMatchCollection)
-                            {
-                                GroupCollection multiFileGroupCollection = multiFileMatchItem.Groups;
+                    if (multiFolderGroupCollection.Count is 2)
+                    {
+                        multiFolderMatchedStringList.Add(multiFolderGroupCollection[0].Value);
+                        replaceFolderStringList.Add(multiFolderGroupCollection[1].Value);
+                        folderMatchedCount++;
+                    }
+                }
 
-                                if (multiFileGroupCollection.Count is 3)
-                                {
-                                    multiFileMatchedStringList.Add(multiFileGroupCollection[1].Value);
-                                    replaceFileStringList.Add(multiFileGroupCollection[2].Value);
-                                    fileMatchedCount++;
-                                }
-                            }
+                // 替换匹配到的所有文件
+                for (int index = 0; index < fileMatchedCount; index++)
+                {
+                    string fileString = string.Join(replaceFileStringList[index], fileList);
+                    parameter = parameter.Replace(multiFileMatchedStringList[index], fileString);
+                }
 
-                            // 匹配目录
-                            foreach (Match multiFolderMatchItem in multiFolderMatchCollection)
-                            {
-                                GroupCollection multiFolderGroupCollection = multiFolderMatchItem.Groups;
+                // 替换匹配到的所有目录
+                for (int index = 0; index < folderMatchedCount; index++)
+                {
+                    string folderString = string.Join(replaceFolderStringList[index], folderList);
+                    parameter = parameter.Replace(multiFolderMatchedStringList[index], folderString);
+                }
 
-                                if (multiFolderGroupCollection.Count is 3)
-                                {
-                                    multiFolderMatchedStringList.Add(multiFolderGroupCollection[1].Value);
-                                    replaceFolderStringList.Add(multiFolderGroupCollection[2].Value);
-                                    folderMatchedCount++;
-                                }
-                            }
+                ShlwapiLibrary.IUnknown_GetWindow(site, out IntPtr hwnd);
+                if (!string.IsNullOrEmpty(selectedFilePath))
+                {
+                    if (shellMenuItem.IsAlwaysRunAsAdministrator)
+                    {
+                        Shell32Library.ShellExecute(hwnd, "runas", shellMenuItem.MenuProgramPath, parameter, Path.GetDirectoryName(selectedFilePath), 1);
+                    }
+                    else
+                    {
+                        Shell32Library.ShellExecute(hwnd, "open", shellMenuItem.MenuProgramPath, parameter, Path.GetDirectoryName(selectedFilePath), 1);
+                    }
+                }
 
-                            // 替换匹配到的所有文件
-                            for (int index = 0; index < fileMatchedCount; index++)
-                            {
-                                string fileString = string.Join(replaceFileStringList[index], fileList);
-                                parameter = parameter.Replace(multiFileMatchedStringList[index], fileString);
-                            }
-
-                            // 替换匹配到的所有目录
-                            for (int index = 0; index < folderMatchedCount; index++)
-                            {
-                                string folderString = string.Join(replaceFolderStringList[index], folderList);
-                                parameter = parameter.Replace(multiFolderMatchedStringList[index], folderString);
-                            }
-
-                            ProcessHelper.StartProcess(shellMenuItem.MenuProgramPath, parameter, out _);
-                        }
+                if (!string.IsNullOrEmpty(selectedFolderPath))
+                {
+                    if (shellMenuItem.IsAlwaysRunAsAdministrator)
+                    {
+                        Shell32Library.ShellExecute(hwnd, "runas", shellMenuItem.MenuProgramPath, parameter, selectedFolderPath, 1);
+                    }
+                    else
+                    {
+                        Shell32Library.ShellExecute(hwnd, "open", shellMenuItem.MenuProgramPath, parameter, selectedFolderPath, 1);
                     }
                 }
             }
@@ -445,7 +386,6 @@ namespace WindowsToolsShellExtension.Commands
             if (shellMenuItem is not null)
             {
                 pFlags = shellMenuItem.SubShellMenuItem.Count is 0 ? EXPCMDFLAGS.ECF_DEFAULT : EXPCMDFLAGS.ECF_HASSUBCOMMANDS;
-
                 return 0;
             }
             else
@@ -506,6 +446,171 @@ namespace WindowsToolsShellExtension.Commands
             {
                 ppvSite = IntPtr.Zero;
                 return unchecked((int)0x80004005);
+            }
+        }
+
+        /// <summary>
+        /// 枚举子菜单项选项，检查是否有符合桌面目录的选项
+        /// </summary>
+        private EXPCMDSTATE EnumerateMatchFolderDesktop(ShellMenuItem shellMenuItem)
+        {
+            if (shellMenuItem.SubShellMenuItem.Count is 0)
+            {
+                return shellMenuItem.FolderDesktop ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
+            }
+            else
+            {
+                bool isMatched = false;
+                foreach (ShellMenuItem subShellMenuItem in shellMenuItem.SubShellMenuItem)
+                {
+                    if (EnumerateMatchFolderDesktop(subShellMenuItem) is EXPCMDSTATE.ECS_ENABLED)
+                    {
+                        isMatched = true;
+                        break;
+                    }
+                }
+
+                return isMatched ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
+            }
+        }
+
+        /// <summary>
+        /// 枚举子菜单项选项，检查是否有符合普通目录的选项
+        /// </summary>
+        private EXPCMDSTATE EnumerateMatchFolderDirectory(ShellMenuItem shellMenuItem)
+        {
+            if (shellMenuItem.SubShellMenuItem.Count is 0)
+            {
+                return shellMenuItem.FolderDirectory ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
+            }
+            else
+            {
+                bool isMatched = false;
+                foreach (ShellMenuItem subShellMenuItem in shellMenuItem.SubShellMenuItem)
+                {
+                    if (EnumerateMatchFolderDirectory(subShellMenuItem) is EXPCMDSTATE.ECS_ENABLED)
+                    {
+                        isMatched = true;
+                        break;
+                    }
+                }
+
+                return isMatched ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
+            }
+        }
+
+        /// <summary>
+        /// 枚举子菜单项选项，检查是否有符合驱动器的选项
+        /// </summary>
+        private EXPCMDSTATE EnumerateMatchFolderDrive(ShellMenuItem shellMenuItem)
+        {
+            if (shellMenuItem.SubShellMenuItem.Count is 0)
+            {
+                return shellMenuItem.FolderDrive ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
+            }
+            else
+            {
+                bool isMatched = false;
+                foreach (ShellMenuItem subShellMenuItem in shellMenuItem.SubShellMenuItem)
+                {
+                    if (EnumerateMatchFolderDrive(subShellMenuItem) is EXPCMDSTATE.ECS_ENABLED)
+                    {
+                        isMatched = true;
+                        break;
+                    }
+                }
+
+                return isMatched ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
+            }
+        }
+
+        /// <summary>
+        /// 枚举子菜单项选项，检查是否有符合文件的选项
+        /// </summary>
+        private EXPCMDSTATE EnumerateMatchFile(ShellMenuItem shellMenuItem, string filePath)
+        {
+            if (shellMenuItem.SubShellMenuItem.Count is 0)
+            {
+                // 匹配文件格式
+                if (shellMenuItem.MenuFileMatchRule.Equals(ShellMenuService.FileMatchRuleList[0]))
+                {
+                    return EXPCMDSTATE.ECS_HIDDEN;
+                }
+                else if (shellMenuItem.MenuFileMatchRule.Equals(ShellMenuService.FileMatchRuleList[1]))
+                {
+                    string[] fileMatchFormatArray = shellMenuItem.MenuFileMatchFormatText.Split('|');
+
+                    bool isMatched = false;
+                    string fileName = Path.GetFileName(filePath);
+                    foreach (string fileMatchFormat in fileMatchFormatArray)
+                    {
+                        if (fileName.Equals(fileMatchFormat.Trim(), StringComparison.OrdinalIgnoreCase))
+                        {
+                            isMatched = true;
+                            break;
+                        }
+                    }
+
+                    return isMatched ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
+                }
+                else if (shellMenuItem.MenuFileMatchRule.Equals(ShellMenuService.FileMatchRuleList[2]))
+                {
+                    string[] fileMatchFormatArray = shellMenuItem.MenuFileMatchFormatText.Split('|');
+                    bool isMatched = false;
+
+                    foreach (string fileMatchFormat in fileMatchFormatArray)
+                    {
+                        Regex fileMatchRegex = new(fileMatchFormat.Trim());
+                        string fileName = Path.GetFileName(filePath);
+
+                        if (fileMatchRegex.IsMatch(fileName))
+                        {
+                            isMatched = true;
+                            break;
+                        }
+                    }
+
+                    return isMatched ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
+                }
+                else if (shellMenuItem.MenuFileMatchRule.Equals(ShellMenuService.FileMatchRuleList[3]))
+                {
+                    string[] fileMatchFormatArray = shellMenuItem.MenuFileMatchFormatText.Split('|');
+                    bool isMatched = false;
+                    string extensionName = Path.GetExtension(filePath);
+
+                    foreach (string fileMatchFormat in fileMatchFormatArray)
+                    {
+                        if (extensionName.Equals(fileMatchFormat.Trim(), StringComparison.OrdinalIgnoreCase))
+                        {
+                            isMatched = true;
+                            break;
+                        }
+                    }
+
+                    return isMatched ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
+                }
+                else if (shellMenuItem.MenuFileMatchRule.Equals(ShellMenuService.FileMatchRuleList[4]))
+                {
+                    return EXPCMDSTATE.ECS_ENABLED;
+                }
+                else
+                {
+                    return EXPCMDSTATE.ECS_HIDDEN;
+                }
+            }
+            else
+            {
+                bool isMatched = false;
+                foreach (ShellMenuItem subShellMenuItem in shellMenuItem.SubShellMenuItem)
+                {
+                    if (EnumerateMatchFile(subShellMenuItem, filePath) is EXPCMDSTATE.ECS_ENABLED)
+                    {
+                        isMatched = true;
+                        break;
+                    }
+                }
+
+                return isMatched ? EXPCMDSTATE.ECS_ENABLED : EXPCMDSTATE.ECS_HIDDEN;
             }
         }
     }

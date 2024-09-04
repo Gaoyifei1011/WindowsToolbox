@@ -240,8 +240,8 @@
   <data name="PrecautionsContent2" xml:space="preserve">
     <value>2.After the menu content is updated, there may be a delay. Please open it after a period of time</value>
   </data>
-  <data name="PrecautionsContent3" xml:space="preserve">
-    <value>3. It is recommended to avoid too many secondary menus, because this may lead to a long menu loading time, which will cause a deadlock.</value>
+  <data name="PrecautionsContent4" xml:space="preserve">
+    <value>4. It is recommended to avoid too many secondary menus, because this may lead to a long menu loading time, which will cause a deadlock.</value>
   </data>
   <data name="ProgramFilterCondition" xml:space="preserve">
     <value>Executable file (*.exe)|*.exe</value>
@@ -320,5 +320,17 @@
   </data>
   <data name="LoadingNow" xml:space="preserve">
     <value>Please wait while loading menu items</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>Whether to always run as administrator</value>
+  </data>
+  <data name="IsAlwaysRunAsAdministratorOffContent" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="IsAlwaysRunAsAdministratorOnContent" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="PrecautionsContent3" xml:space="preserve">
+    <value>3.Due to system limitations, the maximum number of secondary menus is 16 items</value>
   </data>
 </root>

@@ -20,6 +20,6 @@ namespace WindowsTools.WindowsAPI.PInvoke.Advapi32
         /// <param name="asynchronous">如果此参数为 TRUE，则函数将立即返回并通过向指定事件发出信号来报告更改。 如果此参数为 FALSE，则函数在发生更改之前不会返回 。</param>
         /// <returns>如果函数成功，则返回值为 ERROR_SUCCESS。如果函数失败，则返回值为 Winerror.h 中定义的非零错误代码。</returns>
         [DllImport(Advapi32, CharSet = CharSet.Unicode, ExactSpelling = true, EntryPoint = "RegNotifyChangeKeyValue", SetLastError = false), PreserveSig]
-        public static extern int RegNotifyChangeKeyValue(UIntPtr hKey, [MarshalAs(UnmanagedType.Bool)] bool watchSubtree, REG_NOTIFY_FILTER notifyFilter, IntPtr hEvent, [MarshalAs(UnmanagedType.Bool)] bool asynchronous);
+        public static extern int RegNotifyChangeKeyValue(IntPtr hKey, [MarshalAs(UnmanagedType.Bool)] bool watchSubtree, REG_NOTIFY_FILTER notifyFilter, IntPtr hEvent, [MarshalAs(UnmanagedType.Bool)] bool asynchronous);
     }
 }

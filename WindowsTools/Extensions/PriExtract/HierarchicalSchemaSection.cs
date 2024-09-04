@@ -120,8 +120,8 @@ namespace WindowsTools.Extensions.PriExtract
                 byte flags = binaryReader.ReadByte();
                 uint nameOffset = binaryReader.ReadUInt16() | (uint)((flags & 0xF) << 16);
                 ushort index = binaryReader.ReadUInt16();
-                bool isScope = (flags & 0x10) != 0;
-                bool nameInAscii = (flags & 0x20) != 0;
+                bool isScope = (flags & 0x10) is not 0;
+                bool nameInAscii = (flags & 0x20) is not 0;
                 scopeAndItemInfosList.Add(new ScopeAndItemInfo()
                 {
                     Parent = parent,
@@ -170,7 +170,7 @@ namespace WindowsTools.Extensions.PriExtract
 
                 binaryReader.BaseStream.Seek(pos, SeekOrigin.Begin);
 
-                string name = scopeAndItemInfosList[i].FullPathLength != 0
+                string name = scopeAndItemInfosList[i].FullPathLength is not 0
                     ? binaryReader.ReadNullTerminatedString(scopeAndItemInfosList[i].NameInAscii ? Encoding.ASCII : Encoding.Unicode)
                     : string.Empty;
 
@@ -212,7 +212,7 @@ namespace WindowsTools.Extensions.PriExtract
 
                 ushort parent = scopeAndItemInfosList[scopeAndItemInfosList[i].Parent].Index;
 
-                if (parent != 0xFFFF)
+                if (parent is not 0xFFFF)
                 {
                     if (scopeAndItemInfosList[i].IsScope)
                     {

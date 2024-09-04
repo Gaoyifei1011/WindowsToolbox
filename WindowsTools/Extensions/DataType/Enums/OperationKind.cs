@@ -23,6 +23,7 @@
         MenuLightThemeIconPathEmpty = 18,
         MenuDarkThemeIconPathEmpty = 19,
         MenuProgramPathEmpty = 20,
-        MenuMatchRuleEmpty = 21
+        MenuMatchRuleEmpty = 21,
+        ShellMenuNeedToRefreshData = 22
     }
 }

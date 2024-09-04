@@ -29,7 +29,7 @@ namespace WindowsTools.Helpers.Controls
                 {
                     foreach (UIElement item in ((MainWindow.Current.Content as MainPage).Content as Grid).Children)
                     {
-                        if ((item as FrameworkElement).Name == teachingTip.Name)
+                        if ((item as FrameworkElement).Name.Equals(teachingTip.Name))
                         {
                             ((MainWindow.Current.Content as MainPage).Content as Grid).Children.Remove(item);
                             break;

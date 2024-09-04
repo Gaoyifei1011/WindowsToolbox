@@ -246,4 +246,7 @@
   <data name="MenuDarkThemeIconPathEmpty" xml:space="preserve">
     <value>The menu dark theme icon is empty, please select icon file</value>
   </data>
+  <data name="ShellMenuNeedToRefreshData" xml:space="preserve">
+    <value>The menu storage content has changed and needs to be refreshed</value>
+  </data>
 </root>

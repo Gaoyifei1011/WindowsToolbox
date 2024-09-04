@@ -41,7 +41,7 @@ namespace WindowsTools.Helpers.Root
         {
             int length = 0;
 
-            if (Kernel32Library.GetCurrentPackageFamilyName(ref length, null) != Kernel32Library.APPMODEL_ERROR_NO_PACKAGE)
+            if (Kernel32Library.GetCurrentPackageFamilyName(ref length, null) is not (int)Kernel32Library.APPMODEL_ERROR_NO_PACKAGE)
             {
                 StringBuilder packageFamilyNameBuilder = new(length + 1);
                 Kernel32Library.GetCurrentPackageFamilyName(ref length, packageFamilyNameBuilder);

@@ -6,18 +6,13 @@
     public enum MenuType
     {
         /// <summary>
-        /// 根菜单
-        /// </summary>
-        RootMenu = 0,
-
-        /// <summary>
         /// 一级菜单
         /// </summary>
-        FirstLevelMenu = 1,
+        FirstLevelMenu = 0,
 
         /// <summary>
         /// 二级菜单
         /// </summary>
-        SecondLevelMenu = 2
+        SecondLevelMenu = 1
     }
 }

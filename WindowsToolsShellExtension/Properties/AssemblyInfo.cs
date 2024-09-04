@@ -7,11 +7,11 @@ using System.Runtime.Versioning;
 [assembly: AssemblyCompany("高怡飞")]
 [assembly: AssemblyCopyright("Copyright ©2024 高怡飞, All Rights Reserved.")]
 [assembly: AssemblyDescription("Windows 工具箱 右键菜单扩展")]
-[assembly: AssemblyFileVersion("2.8.825.0")]
-[assembly: AssemblyInformationalVersion("2.8.825.0")]
+[assembly: AssemblyFileVersion("2.9.904.0")]
+[assembly: AssemblyInformationalVersion("2.9.904.0")]
 [assembly: AssemblyProduct("Windows 工具箱 右键菜单扩展")]
 [assembly: AssemblyTitle("Windows 工具箱 右键菜单扩展")]
-[assembly: AssemblyVersion("2.8.825.0")]
+[assembly: AssemblyVersion("2.9.904.0")]
 
 // 应用程序默认区域性的资源控制器设置
 [assembly: NeutralResourcesLanguage("en-us")]

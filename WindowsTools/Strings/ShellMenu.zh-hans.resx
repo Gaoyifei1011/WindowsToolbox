@@ -240,8 +240,8 @@
   <data name="PrecautionsContent2" xml:space="preserve">
     <value>2.菜单内容更新后，可能会存在延迟，请过一段时间再打开</value>
   </data>
-  <data name="PrecautionsContent3" xml:space="preserve">
-    <value>3.建议避免过多的二级菜单，因为这可能会导致菜单加载时间过长，从而引发卡顿现象。</value>
+  <data name="PrecautionsContent4" xml:space="preserve">
+    <value>4.建议避免过多的二级菜单，因为这可能会导致菜单加载时间过长，从而引发卡顿现象。</value>
   </data>
   <data name="ProgramFilterCondition" xml:space="preserve">
     <value>可执行文件(*.exe)|*.exe</value>
@@ -320,5 +320,17 @@
   </data>
   <data name="LoadingNow" xml:space="preserve">
     <value>正在加载菜单项中，请稍候</value>
+  </data>
+  <data name="RunAsAdministrator" xml:space="preserve">
+    <value>是否总是提权运行</value>
+  </data>
+  <data name="IsAlwaysRunAsAdministratorOffContent" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="IsAlwaysRunAsAdministratorOnContent" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="PrecautionsContent3" xml:space="preserve">
+    <value>3.由于系统限制，二级菜单最多项为 16 项</value>
   </data>
 </root>

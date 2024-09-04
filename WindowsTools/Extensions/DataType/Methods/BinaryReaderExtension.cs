@@ -43,7 +43,7 @@ namespace WindowsTools.Extensions.DataType.Methods
             using BinaryReader binaryReader = new(reader.BaseStream, encoding, true);
             StringBuilder result = new();
             char c;
-            while ((c = binaryReader.ReadChar()) != '\0')
+            while ((c = binaryReader.ReadChar()) is not '\0')
             {
                 result.Append(c);
             }

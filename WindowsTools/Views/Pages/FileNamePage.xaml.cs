@@ -464,7 +464,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnForwardNavigateClicked(object sender, RoutedEventArgs args)
         {
-            CurrentIndex = CurrentIndex == 0 ? 3 : CurrentIndex - 1;
+            CurrentIndex = CurrentIndex is 0 ? 3 : CurrentIndex - 1;
 
             for (int index = 0; index < NameChangeList.Count; index++)
             {
@@ -478,7 +478,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnNextNavigateClicked(object sender, RoutedEventArgs args)
         {
-            CurrentIndex = CurrentIndex == 3 ? 0 : CurrentIndex + 1;
+            CurrentIndex = CurrentIndex is 3 ? 0 : CurrentIndex + 1;
 
             for (int index = 0; index < NameChangeList.Count; index++)
             {
@@ -727,7 +727,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private bool CheckOperationState()
         {
-            return RenameRule != string.Empty || StartNumber != string.Empty || IsChecked != false || LookUpString != string.Empty || ReplaceString != string.Empty;
+            return !string.IsNullOrEmpty(RenameRule) || !string.IsNullOrEmpty(StartNumber) || IsChecked || !string.IsNullOrEmpty(LookUpString) || !string.IsNullOrEmpty(ReplaceString);
         }
 
         /// <summary>

@@ -12,8 +12,9 @@
     xmlns:service="using:WindowsTools.Services.Controls.Settings"
     xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
-    ActualThemeChanged="{x:Bind OnActualThemeChanged}"
+    Loaded="{x:Bind OnLoaded}"
     NavigationCacheMode="Enabled"
+    Unloaded="{x:Bind OnUnLoaded}"
     mc:Ignorable="d">
 
     <Grid Padding="0">
@@ -311,10 +312,18 @@
                                 TextWrapping="Wrap" />
 
                             <TextBlock
-                                Margin="44,0,16,10"
+                                Margin="44,0,16,5"
                                 FontSize="14"
                                 FontWeight="Normal"
                                 Text="{x:Bind string:ShellMenu.PrecautionsContent3}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Margin="44,0,16,10"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                Text="{x:Bind string:ShellMenu.PrecautionsContent4}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                         </StackPanel>
@@ -739,6 +748,43 @@
                         PlaceholderText="{x:Bind string:ShellMenu.MenuParameterPHText}"
                         Text="{x:Bind MenuParameterText, Mode=OneWay}"
                         TextChanged="{x:Bind OnMenuParameterTextChanged}" />
+                </Grid>
+
+                <!--  提权运行  -->
+                <Grid
+                    Height="61"
+                    Margin="0,0,0,3"
+                    Padding="16,12"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource ControlCornerRadius}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <FontIcon
+                        Grid.Column="0"
+                        Margin="0,0,12,0"
+                        FontSize="16"
+                        Glyph="&#xE7EF;" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind string:ShellMenu.RunAsAdministrator}" />
+
+                    <ToggleSwitch
+                        Grid.Column="2"
+                        FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
+                        IsOn="{x:Bind IsAlwaysRunAsAdministrator, Mode=OneWay}"
+                        OffContent="{x:Bind string:ShellMenu.IsAlwaysRunAsAdministratorOffContent}"
+                        OnContent="{x:Bind string:ShellMenu.IsAlwaysRunAsAdministratorOnContent}"
+                        Toggled="{x:Bind OnIsAlwaysRunAsAdministratorToggled}" />
                 </Grid>
 
                 <!--  文件夹匹配类型  -->

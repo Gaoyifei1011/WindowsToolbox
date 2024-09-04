@@ -110,7 +110,7 @@ namespace WindowsTools.Extensions.PriExtract
 
             for (int i = 0; i < numFolders; i++)
             {
-                if (folderInfosList[i].ParentFolder != 0xFFFF)
+                if (folderInfosList[i].ParentFolder is not 0xFFFF)
                 {
                     referencedFolders[i].Parent = referencedFolders[folderInfosList[i].ParentFolder];
                 }
@@ -126,7 +126,7 @@ namespace WindowsTools.Extensions.PriExtract
 
                 ReferencedFileOrFolder parentFolder;
 
-                if (fileInfos[i].ParentFolder != 0xFFFF)
+                if (fileInfos[i].ParentFolder is not 0xFFFF)
                     parentFolder = referencedFolders[fileInfos[i].ParentFolder];
                 else
                     parentFolder = null;

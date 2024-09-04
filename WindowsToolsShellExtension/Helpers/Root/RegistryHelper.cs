@@ -38,7 +38,8 @@ namespace WindowsToolsShellExtension.Helpers.Root
                             // 字符串类型
                             if (kind is RegistryValueKind.REG_SZ)
                             {
-                                value = (T)(object)Encoding.Unicode.GetString(data, 0, length);
+                                string regValue = Encoding.Unicode.GetString(data, 0, length);
+                                value = (T)(object)regValue[..^1];
                             }
                             // 字符串类型
                             else if (kind is RegistryValueKind.REG_EXPAND_SZ)
@@ -50,16 +51,19 @@ namespace WindowsToolsShellExtension.Helpers.Root
                             {
                                 value = (T)(object)data;
                             }
-                            // 32 位数字或布尔值
-                            else if (kind is RegistryValueKind.REG_DWORD || kind is RegistryValueKind.REG_DWORD_LITTLE_ENDIAN || kind is RegistryValueKind.REG_DWORD_BIG_ENDIAN)
+                            // 32 位数字
+                            else if (kind is RegistryValueKind.REG_DWORD)
                             {
-                                if (!BitConverter.IsLittleEndian)
-                                {
-                                    Array.Reverse(data);
-                                }
+                                int regValue = data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
 
-                                // 布尔值以字符串整数类型值存储
-                                value = typeof(T) == typeof(bool) || typeof(T) == typeof(bool?) ? (T)(object)BitConverter.ToBoolean(data, 0) : (T)(object)BitConverter.ToUInt32(data, 0);
+                                value = typeof(T) == typeof(bool) || typeof(T) == typeof(bool?) ? (T)(object)Convert.ToBoolean(regValue) : (T)(object)regValue;
+                            }
+                            // 采用 big-endian 格式的 32 位数字
+                            else if (kind is RegistryValueKind.REG_DWORD_BIG_ENDIAN)
+                            {
+                                int regValue = data[3] | (data[2] << 8) | (data[1] << 16) | (data[0] << 24);
+
+                                value = typeof(T) == typeof(bool) || typeof(T) == typeof(bool?) ? (T)(object)Convert.ToBoolean(regValue) : (T)(object)value;
                             }
                             // 字符串序列
                             else if (kind is RegistryValueKind.REG_MULTI_SZ)
@@ -77,13 +81,12 @@ namespace WindowsToolsShellExtension.Helpers.Root
                                 value = (T)(object)stringList.ToArray();
                             }
                             // 64 位数字
-                            else if (kind is RegistryValueKind.REG_QWORD || kind is RegistryValueKind.REG_QWORD_LITTLE_ENDIAN)
+                            else if (kind is RegistryValueKind.REG_QWORD)
                             {
-                                if (!BitConverter.IsLittleEndian)
-                                {
-                                    Array.Reverse(data);
-                                }
-                                value = (T)(object)BitConverter.ToUInt64(data, 0);
+                                uint numLow = (uint)(data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24));
+                                uint numHigh = (uint)(data[4] | (data[5] << 8) | (data[6] << 16) | (data[7] << 24));
+                                long keyValue = (long)(((ulong)numHigh << 32) | numLow);
+                                value = (T)(object)keyValue;
                             }
                         }
                     }
@@ -120,7 +123,7 @@ namespace WindowsToolsShellExtension.Helpers.Root
                     int result;
                     int nameLength = name.Length;
 
-                    while ((result = Advapi32Library.RegEnumKeyEx(hKey, subKeyList.Count, ref MemoryMarshal.GetReference(name), ref nameLength, null, null, null, null)) != 259)
+                    while ((result = Advapi32Library.RegEnumKeyEx(hKey, subKeyList.Count, ref MemoryMarshal.GetReference(name), ref nameLength, null, null, null, null)) is not 259)
                     {
                         if (result is 0)
                         {

@@ -58,9 +58,7 @@ namespace WindowsToolsShellExtension.Services.Shell
             // 获取根菜单项下的所有子项（包括递归后的项）
             RegistryEnumKeyItem shellMenuRegistryKeyItem = RegistryHelper.EnumSubKey(shellMenuKey);
 
-            return shellMenuRegistryKeyItem.SubRegistryKeyList.Count is 1
-                ? EnumShellMenuItem(shellMenuRegistryKeyItem.SubRegistryKeyList[0])
-                : null;
+            return shellMenuRegistryKeyItem.SubRegistryKeyList.Count is 1 ? EnumShellMenuItem(shellMenuRegistryKeyItem.SubRegistryKeyList[0]) : null;
         }
 
         /// <summary>
@@ -83,6 +81,7 @@ namespace WindowsToolsShellExtension.Services.Shell
                 DarkThemeIconPath = currentMenuItem.DarkThemeIconPath,
                 MenuProgramPath = currentMenuItem.MenuProgramPath,
                 MenuParameter = currentMenuItem.MenuParameter,
+                IsAlwaysRunAsAdministrator = currentMenuItem.IsAlwaysRunAsAdministrator,
                 FolderBackground = currentMenuItem.FolderBackground,
                 FolderDesktop = currentMenuItem.FolderDesktop,
                 FolderDirectory = currentMenuItem.FolderDirectory,
@@ -124,6 +123,7 @@ namespace WindowsToolsShellExtension.Services.Shell
             string darkThemeIconPath = RegistryHelper.ReadRegistryKey<string>(menuKey, "DarkThemeIconPath");
             string menuProgramPathText = RegistryHelper.ReadRegistryKey<string>(menuKey, "MenuProgramPath");
             string menuParameter = RegistryHelper.ReadRegistryKey<string>(menuKey, "MenuParameter");
+            bool? isAlwaysRunAsAdministrator = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "IsAlwaysRunAsAdministrator");
             bool? folderBackground = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "FolderBackground");
             bool? folderDesktop = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "FolderDesktop");
             bool? folderDirectory = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "FolderDirectory");
@@ -145,6 +145,7 @@ namespace WindowsToolsShellExtension.Services.Shell
             shellMenuItem.DarkThemeIconPath = darkThemeIconPath;
             shellMenuItem.MenuProgramPath = menuProgramPathText;
             shellMenuItem.MenuParameter = menuParameter;
+            shellMenuItem.IsAlwaysRunAsAdministrator = isAlwaysRunAsAdministrator.HasValue && isAlwaysRunAsAdministrator.Value;
             shellMenuItem.FolderBackground = folderBackground.HasValue && folderBackground.Value;
             shellMenuItem.FolderDesktop = folderDesktop.HasValue && folderDesktop.Value;
             shellMenuItem.FolderDirectory = folderDirectory.HasValue && folderDirectory.Value;

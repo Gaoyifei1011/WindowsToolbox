@@ -110,6 +110,12 @@ namespace WindowsTools.UI.TeachingTips
                 OperationResultFailed.Visibility = Visibility.Visible;
                 OperationResultFailed.Text = Notification.NoOperation;
             }
+            else if (operationKind is OperationKind.ShellMenuNeedToRefreshData)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultFailed.Text = Notification.ShellMenuNeedToRefreshData;
+            }
         }
 
         public OperationResultTip(OperationKind operationKind, bool operationResult)

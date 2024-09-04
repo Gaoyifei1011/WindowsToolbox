@@ -358,6 +358,15 @@ namespace WindowsTools.Strings {
         }
         
         /// <summary>
+        ///   查找类似 The menu storage content has changed and needs to be refreshed 的本地化字符串。
+        /// </summary>
+        public static string ShellMenuNeedToRefreshData {
+            get {
+                return ResourceManager.GetString("ShellMenuNeedToRefreshData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 App pinning to Start screen failed, please pin it manually 的本地化字符串。
         /// </summary>
         public static string StartScreenFailed {

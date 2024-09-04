@@ -2,8 +2,10 @@
 using System;
 using System.Diagnostics.Tracing;
 using System.IO;
+using System.Threading;
 using WindowsTools.Extensions.Registry;
 using WindowsTools.Services.Root;
+using WindowsTools.WindowsAPI.PInvoke.Advapi32;
 
 namespace WindowsTools.Helpers.Root
 {
@@ -186,6 +188,35 @@ namespace WindowsTools.Helpers.Root
             }
 
             return registryEnumKeyItem;
+        }
+
+        /// <summary>
+        /// 添加注册表监控
+        /// </summary>
+        public static void MonitorRegistryValueChange(string rootKey)
+        {
+            ManualResetEvent manualResetEvent = null;
+            RegisteredWaitHandle registeredWaitHandle = null;
+
+            try
+            {
+                if (Registry.CurrentUser.OpenSubKey(rootKey, false) is RegistryKey registryKey)
+                {
+                    manualResetEvent = new(false);
+                    int ret = Advapi32Library.RegNotifyChangeKeyValue(registryKey.Handle.DangerousGetHandle(), true, REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_LAST_SET | REG_NOTIFY_FILTER.REG_NOTIFY_THREAD_AGNOSTIC, manualResetEvent.SafeWaitHandle.DangerousGetHandle(), true);
+                    registeredWaitHandle = ThreadPool.RegisterWaitForSingleObject(manualResetEvent, (state, timeout) =>
+                    {
+                        registeredWaitHandle?.Unregister(manualResetEvent);
+                        manualResetEvent.Close();
+                        registryKey.Close();
+                        NotifyKeyValueChanged?.Invoke(null, EventArgs.Empty);
+                    }, null, Timeout.Infinite, true);
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, string.Format("Monitor Registry rootKey change {0} failed", rootKey), e);
+            }
         }
     }
 }

@@ -161,7 +161,7 @@ namespace WindowsTools.UI.Backdrop
             // saturation is also equal to zero - you can think of saturation as basically
             // a measure of hue intensity, such that no hue at all corresponds to a
             // nonexistent intensity.
-            if (chroma == 0)
+            if (chroma is 0)
             {
                 hue = 0.0;
                 saturation = 0.0;
@@ -263,7 +263,7 @@ namespace WindowsTools.UI.Backdrop
             // If the chroma is zero, then we have a greyscale color.  In that case, the maximum and the minimum RGB channels
             // have the same value (and, indeed, all of the RGB channels are the same), so we can just immediately return
             // the minimum value as the value of all the channels.
-            if (chroma == 0)
+            if (chroma is 0)
             {
                 return (min, min, min);
             }
