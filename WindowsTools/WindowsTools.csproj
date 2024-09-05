@@ -23,6 +23,7 @@
     <TargetPlatformVersion>10.0.22621.0</TargetPlatformVersion>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
+    <WebView2EnableCsWinRTProjection>false</WebView2EnableCsWinRTProjection>
     <WebView2UseWinRT>False</WebView2UseWinRT>
     <WindowsAppSDKVerifyWinrtRuntimeVersion>false</WindowsAppSDKVerifyWinrtRuntimeVersion>
     <WindowsKitsPath></WindowsKitsPath>
@@ -313,7 +314,7 @@
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" />
     
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240802000" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240829007" GeneratePathProperty="true" />
     <PackageReference Include="Mile.Xaml" Version="2.3.1064" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
