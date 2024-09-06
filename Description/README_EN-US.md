@@ -67,7 +67,7 @@ A toolbox that integrates multiple gadgets.
 | Extract file icons                                        | Finished                                                             |
 | Extract the package resource index(.pri) file conten      | Finished                                                             |
 | Color picker                                              | Unfinished                                                           |
-| Customize the right-click menu                            | Processing                                                           |
+| Customize the right-click menu                            | Finished                                                             |
 | System information                                        | Unfinished                                                           |
 | Driver manager                                            | Unfinished                                                           |
 | Update manager                                            | Unfinished                                                           |
