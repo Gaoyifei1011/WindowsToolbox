@@ -9,24 +9,13 @@ namespace WindowsTools.UI.Backdrop
     [Guid("12F575E8-4DB1-485F-9A84-03A07DD3829F")]
     public class CrossFadeEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
     {
-        public D2D1_BUFFER_PRECISION BufferPrecision { get; set; }
-
-        public bool CacheOutput { get; set; }
-
         public float CrossFade { get; set; } = 0.5f;
 
         public IGraphicsEffectSource Source1 { get; set; }
 
         public IGraphicsEffectSource Source2 { get; set; }
 
-        private string _name = string.Empty;
-
-        public string Name
-        {
-            get { return _name; }
-
-            set { _name = value; }
-        }
+        public string Name { get; set; } = string.Empty;
 
         public int GetEffectId(out Guid id)
         {

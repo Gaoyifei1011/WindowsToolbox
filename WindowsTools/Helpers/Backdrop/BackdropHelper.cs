@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using Windows.Foundation;
 using Windows.UI.Composition.Desktop;
 using Windows.UI.Xaml;
 using WindowsTools.WindowsAPI.ComTypes;
@@ -14,7 +15,7 @@ namespace WindowsTools.Helpers.Backdrop
     /// </summary>
     public static class BackdropHelper
     {
-        public static Lazy<IPropertyValueStatics> PropertyValueStatics { get; } = new(() => GetActivationFactory<IPropertyValueStatics>("Windows.Foundation.PropertyValue", typeof(IPropertyValueStatics).GUID));
+        public static Lazy<IPropertyValueStatics> PropertyValueStatics { get; } = new(() => GetActivationFactory<IPropertyValueStatics>(typeof(PropertyValue).FullName, typeof(IPropertyValueStatics).GUID));
 
         /// <summary>
         /// 获取指定运行时类的激活工厂。

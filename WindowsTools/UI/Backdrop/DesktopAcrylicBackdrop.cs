@@ -478,6 +478,8 @@ namespace WindowsTools.UI.Backdrop
                         hPowerNotify = IntPtr.Zero;
                     }
 
+                    Comctl32Library.RemoveWindowSubclass(formRoot.Handle, formSubClassProc, 0);
+
                     if (DesktopWindowTarget.Root is SpriteVisual spriteVisual && spriteVisual.Brush is not null)
                     {
                         spriteVisual.Brush.Dispose();

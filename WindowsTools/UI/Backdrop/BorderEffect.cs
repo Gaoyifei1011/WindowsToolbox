@@ -9,24 +9,13 @@ namespace WindowsTools.UI.Backdrop
     [Guid("2A2D49C0-4ACF-43C7-8C6A-7C4A27874D27")]
     public sealed class BorderEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
     {
-        public D2D1_BUFFER_PRECISION BufferPrecision { get; set; }
-
-        public bool CacheOutput { get; set; }
-
         public CanvasEdgeBehavior ExtendX { get; set; } = CanvasEdgeBehavior.Clamp;
 
         public CanvasEdgeBehavior ExtendY { get; set; } = CanvasEdgeBehavior.Clamp;
 
         public IGraphicsEffectSource Source { get; set; }
 
-        private string _name = string.Empty;
-
-        public string Name
-        {
-            get { return _name; }
-
-            set { _name = value; }
-        }
+        public string Name { get; set; } = string.Empty;
 
         public int GetEffectId(out Guid id)
         {

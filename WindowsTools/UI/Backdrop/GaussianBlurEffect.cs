@@ -9,10 +9,6 @@ namespace WindowsTools.UI.Backdrop
     [Guid("1FEB6D69-2FE6-4AC9-8C58-1D7F93E7A6A5")]
     public sealed class GaussianBlurEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
     {
-        public D2D1_BUFFER_PRECISION BufferPrecision { get; set; }
-
-        public bool CacheOutput { get; set; }
-
         public IGraphicsEffectSource Source { get; set; }
 
         public float BlurAmount { get; set; } = 3.0f;
@@ -21,14 +17,7 @@ namespace WindowsTools.UI.Backdrop
 
         public EffectBorderMode BorderMode { get; set; } = EffectBorderMode.Soft;
 
-        private string _name = string.Empty;
-
-        public string Name
-        {
-            get { return _name; }
-
-            set { _name = value; }
-        }
+        public string Name { get; set; } = string.Empty;
 
         public int GetEffectId(out Guid id)
         {

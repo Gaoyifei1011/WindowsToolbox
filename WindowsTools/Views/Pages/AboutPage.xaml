@@ -257,7 +257,7 @@
                             Padding="5"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            ItemsSource="{x:Bind ReferenceDict}"
+                            ItemsSource="{x:Bind ReferenceList}"
                             SelectionMode="None">
 
                             <GridView.ItemContainerStyle>
@@ -437,7 +437,7 @@
                             Padding="5"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            ItemsSource="{x:Bind ThanksDict}"
+                            ItemsSource="{x:Bind ThanksList}"
                             SelectionMode="None">
 
                             <GridView.ItemContainerStyle>

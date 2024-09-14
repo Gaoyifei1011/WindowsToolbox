@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -112,9 +111,7 @@ namespace WindowsTools.UI.Dialogs
 
             Task.Run(() =>
             {
-                IReadOnlyList<Package> dependencyList = Package.Current.Dependencies;
-
-                foreach (Package dependency in dependencyList)
+                foreach (Package dependency in Package.Current.Dependencies)
                 {
                     if (dependency.DisplayName.Contains("WindowsAppRuntime"))
                     {

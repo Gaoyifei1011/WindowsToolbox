@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 using System.Runtime.InteropServices;
 using Windows.Graphics.Effects;
 using Windows.UI;
@@ -11,27 +10,9 @@ namespace WindowsTools.UI.Backdrop
     [Guid("61C23C20-AE69-4D8E-94CF-50078DF638F2")]
     public class ColorSourceEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
     {
-        public D2D1_BUFFER_PRECISION BufferPrecision { get; set; }
-
-        public bool CacheOutput { get; set; }
-
         public Color Color { get; set; } = Color.FromArgb(255, 255, 255, 255);
 
-        private string _name = string.Empty;
-
-        public string Name
-        {
-            get { return _name; }
-
-            set { _name = value; }
-        }
-
-        public Vector4 ColorHdr
-        {
-            get { return new(Color.R * 255.0f, Color.G * 255.0f, Color.B * 255.0f, Color.A * 255.0f); }
-
-            set { Color = Color.FromArgb((byte)(value.W / 255.0f), (byte)(value.X / 255.0f), (byte)(value.Y / 255.0f), (byte)(value.Z / 255.0f)); }
-        }
+        public string Name { get; set; } = string.Empty;
 
         public int GetEffectId(out Guid id)
         {

@@ -10,20 +10,9 @@ namespace WindowsTools.UI.Backdrop
     [Guid("48FC9F51-F6AC-48F1-8B58-3B28AC46F76D")]
     public class CompositeEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
     {
-        public D2D1_BUFFER_PRECISION BufferPrecision { get; set; }
-
-        public bool CacheOutput { get; set; }
-
         public CanvasComposite Mode { get; set; } = CanvasComposite.SourceOver;
 
-        private string _name = string.Empty;
-
-        public string Name
-        {
-            get { return _name; }
-
-            set { _name = value; }
-        }
+        public string Name { get; set; } = string.Empty;
 
         public List<IGraphicsEffectSource> Sources { get; set; } = [];
 

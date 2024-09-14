@@ -3,11 +3,16 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AssemblyName>WindowsToolsShellExtension</AssemblyName>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebuggerSupport>false</DebuggerSupport>
+    <DebugType>none</DebugType>
     <Deterministic>true</Deterministic>
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <FileAlignment>512</FileAlignment>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <LangVersion>preview</LangVersion>
+    <HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
+    <LangVersion>latest</LangVersion>
+    <MetadataUpdaterSupport>false</MetadataUpdaterSupport>
+    <MetricsSupport>false</MetricsSupport>
     <Optimize>False</Optimize>
     <OptimizationPreference>Size</OptimizationPreference>
     <OutputType>Library</OutputType>
@@ -19,6 +24,7 @@
     <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <TargetPlatformVersion>10.0.26100.0</TargetPlatformVersion>
+    <XmlResolverIsNetworkingEnabledByDefault>false</XmlResolverIsNetworkingEnabledByDefault>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Platform)'=='x86'">
@@ -32,12 +38,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-
     <EmbeddedResource Update="ShellMenu\About.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="ShellMenu\About.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ShellMenu.Designer.cs" />
     <EmbeddedResource Update="ShellMenu\About.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
-
-
   </ItemGroup>
 
   <!-- 在 Debug 调试模式下测试 AOT 发布后的文件 -->

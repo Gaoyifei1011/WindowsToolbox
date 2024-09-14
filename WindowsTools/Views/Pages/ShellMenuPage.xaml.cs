@@ -11,7 +11,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -39,7 +38,7 @@ namespace WindowsTools.Views.Pages
     {
         public static readonly string shellMenuConfigurationKey = @"Software\WindowsTools\ShellMenuConfigurationTest";
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-        private readonly InMemoryRandomAccessStream emptyStream = new();
+        private readonly MemoryStream emptyStream = new();
         private string selectedDefaultIconPath = string.Empty;
         private string selectedLightThemeIconPath = string.Empty;
         private string selectedDarkThemeIconPath = string.Empty;
@@ -864,11 +863,11 @@ namespace WindowsTools.Views.Pages
                     ShouldUseProgramIcon = true;
                     ShouldUseThemeIcon = false;
                     DefaultIconPath = string.Empty;
-                    DefaultIconImage.SetSource(emptyStream);
+                    DefaultIconImage.SetSource(emptyStream.AsRandomAccessStream());
                     LightThemeIconPath = string.Empty;
-                    LightThemeIconImage.SetSource(emptyStream);
+                    LightThemeIconImage.SetSource(emptyStream.AsRandomAccessStream());
                     DarkThemeIconPath = string.Empty;
-                    DarkThemeIconImage.SetSource(emptyStream);
+                    DarkThemeIconImage.SetSource(emptyStream.AsRandomAccessStream());
                     MenuProgramPathText = string.Empty;
                     MenuParameterText = string.Empty;
                     FolderBackgroundMatch = false;
@@ -1067,9 +1066,9 @@ namespace WindowsTools.Views.Pages
 
                 NeedInputMatchFormat = !SelectedFileMatchRule.Equals(FileMatchRuleList[0]) && !SelectedFileMatchRule.Equals(FileMatchRuleList[4]);
 
-                DefaultIconImage.SetSource(emptyStream);
-                LightThemeIconImage.SetSource(emptyStream);
-                DarkThemeIconImage.SetSource(emptyStream);
+                DefaultIconImage.SetSource(emptyStream.AsRandomAccessStream());
+                LightThemeIconImage.SetSource(emptyStream.AsRandomAccessStream());
+                DarkThemeIconImage.SetSource(emptyStream.AsRandomAccessStream());
 
                 if (File.Exists(DefaultIconPath))
                 {
@@ -1225,7 +1224,7 @@ namespace WindowsTools.Views.Pages
             {
                 try
                 {
-                    DefaultIconImage.SetSource(emptyStream);
+                    DefaultIconImage.SetSource(emptyStream.AsRandomAccessStream());
                     selectedDefaultIconPath = dialog.FileName;
                     DefaultIconPath = Path.Combine(ShellMenuService.ShellMenuConfigDirectory.FullName, editMenuGuid.ToString(), "DefualtIcon.ico");
                     Icon defaultIcon = Icon.ExtractAssociatedIcon(dialog.FileName);
@@ -1258,7 +1257,7 @@ namespace WindowsTools.Views.Pages
             {
                 try
                 {
-                    LightThemeIconImage.SetSource(emptyStream);
+                    LightThemeIconImage.SetSource(emptyStream.AsRandomAccessStream());
                     selectedLightThemeIconPath = dialog.FileName;
                     LightThemeIconPath = Path.Combine(ShellMenuService.ShellMenuConfigDirectory.FullName, editMenuGuid.ToString(), "LightThemeIcon.ico");
                     Icon lightThemeIcon = Icon.ExtractAssociatedIcon(dialog.FileName);
@@ -1291,7 +1290,7 @@ namespace WindowsTools.Views.Pages
             {
                 try
                 {
-                    DarkThemeIconImage.SetSource(emptyStream);
+                    DarkThemeIconImage.SetSource(emptyStream.AsRandomAccessStream());
                     selectedDarkThemeIconPath = dialog.FileName;
                     DarkThemeIconPath = Path.Combine(ShellMenuService.ShellMenuConfigDirectory.FullName, editMenuGuid.ToString(), "DarkThemeIcon.ico");
                     Icon icon = Icon.ExtractAssociatedIcon(dialog.FileName);
@@ -1442,7 +1441,7 @@ namespace WindowsTools.Views.Pages
                 ShouldUseProgramIcon = menuItem.ShouldUseProgramIcon,
             };
 
-            shellMenuItem.MenuIcon.SetSource(emptyStream);
+            shellMenuItem.MenuIcon.SetSource(emptyStream.AsRandomAccessStream());
             if (shellMenuItem.ShouldUseIcon)
             {
                 // 使用应用程序图标
@@ -1685,7 +1684,7 @@ namespace WindowsTools.Views.Pages
             // 修改遍历到的当前项
             if (shellMenuItem.ShouldUseIcon && !shellMenuItem.ShouldUseProgramIcon && shellMenuItem.ShouldUseThemeIcon)
             {
-                shellMenuItem.MenuIcon.SetSource(emptyStream);
+                shellMenuItem.MenuIcon.SetSource(emptyStream.AsRandomAccessStream());
 
                 if (ActualTheme is ElementTheme.Light)
                 {

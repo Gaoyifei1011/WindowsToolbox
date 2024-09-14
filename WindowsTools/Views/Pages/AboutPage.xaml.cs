@@ -1,7 +1,7 @@
 ﻿using IWshRuntimeLibrary;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
@@ -55,25 +55,25 @@ namespace WindowsTools.Views.Pages
         }
 
         //项目引用信息
-        private List<DictionaryEntry> ReferenceDict { get; } =
-        [
-            new DictionaryEntry("Microsoft.UI.Xaml", "https://github.com/microsoft/microsoft-ui-xaml"),
-            new DictionaryEntry("Microsoft.Windows.SDK.Contracts", "https://aka.ms/WinSDKProjectURL"),
-            new DictionaryEntry("Microsoft.WindowsAppSDK", "https://github.com/microsoft/windowsappsdk"),
-            new DictionaryEntry("Mile.Xaml", "https://github.com/ProjectMile/Mile.Xaml"),
-            new DictionaryEntry("System.Numerics.Vectors", "https://dot.net"),
-            new DictionaryEntry("System.Private.Uri", "https://dot.net"),
-            new DictionaryEntry("ZXing.Net", "https://github.com/micjahn/ZXing.Net")
-        ];
+        private ListDictionary ReferenceList { get; } = new()
+        {
+            { "Microsoft.UI.Xaml", "https://github.com/microsoft/microsoft-ui-xaml"},
+            { "Microsoft.Windows.SDK.Contracts", "https://aka.ms/WinSDKProjectURL"},
+            { "Microsoft.WindowsAppSDK", "https://github.com/microsoft/windowsappsdk"},
+            { "Mile.Xaml", "https://github.com/ProjectMile/Mile.Xaml"},
+            { "System.Numerics.Vectors", "https://dot.net"},
+            { "System.Private.Uri", "https://dot.net"},
+            { "ZXing.Net", "https://github.com/micjahn/ZXing.Net"}
+        };
 
         //项目感谢者信息
-        private List<DictionaryEntry> ThanksDict { get; } =
-        [
-            new DictionaryEntry("AndromedaMelody", "https://github.com/AndromedaMelody"),
-            new DictionaryEntry("cnbluefire", "https://github.com/cnbluefire"),
-            new DictionaryEntry("MicaApps", "https://github.com/MicaApps")  ,
-            new DictionaryEntry("MouriNaruto" , "https://github.com/MouriNaruto")
-        ];
+        private ListDictionary ThanksList { get; } = new()
+        {
+            { "AndromedaMelody", "https://github.com/AndromedaMelody" },
+            { "cnbluefire", "https://github.com/cnbluefire" },
+            { "MicaApps", "https://github.com/MicaApps" },
+            { "MouriNaruto" , "https://github.com/MouriNaruto" }
+        };
 
         public event PropertyChangedEventHandler PropertyChanged;
 

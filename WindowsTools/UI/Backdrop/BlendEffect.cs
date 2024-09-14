@@ -9,24 +9,13 @@ namespace WindowsTools.UI.Backdrop
     [Guid("81C5B77B-13F8-4CDD-AD20-C890547AC65D")]
     public sealed class BlendEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
     {
-        public D2D1_BUFFER_PRECISION BufferPrecision { get; set; }
-
-        public bool CacheOutput { get; set; }
-
         public BlendEffectMode Mode { get; set; } = BlendEffectMode.Multiply;
 
         public IGraphicsEffectSource Background { get; set; }
 
         public IGraphicsEffectSource Foreground { get; set; }
 
-        private string _name = string.Empty;
-
-        public string Name
-        {
-            get { return _name; }
-
-            set { _name = value; }
-        }
+        public string Name { get; set; } = string.Empty;
 
         public int GetEffectId(out Guid id)
         {

@@ -9,22 +9,11 @@ namespace WindowsTools.UI.Backdrop
     [Guid("811D79A4-DE28-4454-8094-C64685F8BD4C")]
     public sealed class OpacityEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
     {
-        public D2D1_BUFFER_PRECISION BufferPrecision { get; set; }
-
-        public bool CacheOutput { get; set; }
-
         public float Opacity { get; set; } = 1.0f;
 
         public IGraphicsEffectSource Source { get; set; }
 
-        private string _name = string.Empty;
-
-        public string Name
-        {
-            get { return _name; }
-
-            set { _name = value; }
-        }
+        public string Name { get; set; } = string.Empty;
 
         public int GetEffectId(out Guid id)
         {
