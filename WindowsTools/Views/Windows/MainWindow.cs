@@ -86,7 +86,7 @@ namespace WindowsTools.Views.Windows
             if (inputNonClientPointerSourceHandle != IntPtr.Zero)
             {
                 inputNonClientPointerSourceSubClassProc = new SUBCLASSPROC(InputNonClientPointerSourceSubClassProc);
-                Comctl32Library.SetWindowSubclass(Handle, inputNonClientPointerSourceSubClassProc, 0, IntPtr.Zero);
+                Comctl32Library.SetWindowSubclass(inputNonClientPointerSourceHandle, inputNonClientPointerSourceSubClassProc, 0, IntPtr.Zero);
             }
 
             AlwaysShowBackdropService.PropertyChanged += OnServicePropertyChanged;
@@ -165,6 +165,7 @@ namespace WindowsTools.Views.Windows
                         systemBackdrop = null;
                     }
 
+                    Comctl32Library.RemoveWindowSubclass(inputNonClientPointerSourceHandle, inputNonClientPointerSourceSubClassProc, 0);
                     ThemeService.PropertyChanged -= OnServicePropertyChanged;
                     BackdropService.PropertyChanged -= OnServicePropertyChanged;
                     TopMostService.PropertyChanged -= OnServicePropertyChanged;
@@ -564,7 +565,7 @@ namespace WindowsTools.Views.Windows
 
                 if (systemBackdrop is not null)
                 {
-                    systemBackdrop?.Dispose();
+                    systemBackdrop.Dispose();
                     systemBackdrop = null;
                 }
             }
@@ -575,7 +576,7 @@ namespace WindowsTools.Views.Windows
                 {
                     if (systemBackdrop is not null)
                     {
-                        systemBackdrop?.Dispose();
+                        systemBackdrop.Dispose();
                         systemBackdrop = null;
                     }
 
@@ -594,7 +595,7 @@ namespace WindowsTools.Views.Windows
                 {
                     if (systemBackdrop is not null)
                     {
-                        systemBackdrop?.Dispose();
+                        systemBackdrop.Dispose();
                         systemBackdrop = null;
                     }
 
@@ -613,7 +614,7 @@ namespace WindowsTools.Views.Windows
                 {
                     if (systemBackdrop is not null)
                     {
-                        systemBackdrop?.Dispose();
+                        systemBackdrop.Dispose();
                         systemBackdrop = null;
                     }
 
@@ -633,7 +634,7 @@ namespace WindowsTools.Views.Windows
                 {
                     if (systemBackdrop is not null)
                     {
-                        systemBackdrop?.Dispose();
+                        systemBackdrop.Dispose();
                         systemBackdrop = null;
                     }
 
@@ -653,7 +654,7 @@ namespace WindowsTools.Views.Windows
                 {
                     if (systemBackdrop is not null)
                     {
-                        systemBackdrop?.Dispose();
+                        systemBackdrop.Dispose();
                         systemBackdrop = null;
                     }
 

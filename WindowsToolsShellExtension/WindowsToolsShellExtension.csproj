@@ -8,6 +8,7 @@
     <Deterministic>true</Deterministic>
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <FileAlignment>512</FileAlignment>
+    <ForceAotCompile>true</ForceAotCompile>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
     <LangVersion>latest</LangVersion>
@@ -43,9 +44,15 @@
     <EmbeddedResource Update="ShellMenu\About.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
   </ItemGroup>
 
-  <!-- 在 Debug 调试模式下测试 AOT 发布后的文件 -->
-  <Target Name="AutoPublish" AfterTargets="AfterBuild" Condition="$(Configuration) == 'Debug'">
+  <!-- 测试 AOT 发布后的文件 -->
+  <Target Name="AutoPublish" AfterTargets="AfterBuild" Condition="'$(Configuration)|$(ForceAotCompile)|$(PublishAot)' == 'Debug|true|true'">
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Publish" />
     <Copy SourceFiles="$(NativeOutputPath)$(AssemblyName).dll" DestinationFiles="$(ProjectDir)bin\$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).dll" />
+  </Target>
+
+  <!-- 捆绑前对二进制文件进行后处理 -->
+  <Target Name="DigitialSignGeneratedFile" AfterTargets="GenerateSingleFileBundle" DependsOnTargets="PrepareForBundle" Condition="'$(Configuration)|$(ForceAotCompile)|$(PublishAot)' == 'Release|true|true'">
+    <!-- 对生成的 WindowsToolsShellMenuExtension.dll 文件进行数字签名 -->
+    <Exec Command="$(SolutionDir)signtool.exe sign /f $(SolutionDir)WindowsToolsPackage\WindowsToolsPackage_SignKey.pfx /t http://timestamp.digicert.com /fd SHA256 $(NativeOutputPath)$(AssemblyName).dll" />
   </Target>
 </Project>

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0'">
-    <VisualStudioVersion>15.0</VisualStudioVersion>
-  </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x86">
       <Configuration>Debug</Configuration>
@@ -30,11 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup>
-    <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
-  </PropertyGroup>
-  <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
-  <PropertyGroup>
-    <AssetTargetFallback>$(AssetTargetFallback);net9.0-windows10.0.26100.0;net481</AssetTargetFallback>
+    <!--<AssetTargetFallback>$(AssetTargetFallback);net9.0-windows10.0.26100.0;net481</AssetTargetFallback>-->
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundleAutoResourcePackageQualifiers>DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
@@ -50,11 +43,14 @@
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <ProjectGuid>{5AC5F60D-FD5E-4630-B7F2-951A41BE392A}</ProjectGuid>
+    <PackageCertificateKeyFile>WindowsToolsPackage_SignKey.pfx</PackageCertificateKeyFile>
+    <ProjectGuid>5AC5F60D-FD5E-4630-B7F2-951A41BE392A</ProjectGuid>
     <TargetFrameworkMoniker>.NETFramework,Version=v4.8.1</TargetFrameworkMoniker>
     <TargetPlatformVersion>10.0.26100.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
-    <PackageCertificateKeyFile>WindowsToolsPackage_SignKey.pfx</PackageCertificateKeyFile>
+    <VisualStudioVersion>17.0</VisualStudioVersion>
+    <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
+    <WinUISDKReferences>false</WinUISDKReferences>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <AppxBundle>Always</AppxBundle>
@@ -74,14 +70,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(WinUISDKReferences)'=='' and '$(TargetPlatformIdentifier)'=='UAP'">
-    <WinUISDKReferences>false</WinUISDKReferences>
-  </PropertyGroup>
+  <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="WindowsToolsPackage_SignKey.pfx" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
     <ProjectReference Include="..\WindowsTools\WindowsTools.csproj" />
     <ProjectReference Include="..\WindowsToolsShellExtension\WindowsToolsShellExtension.csproj" />
   </ItemGroup>
@@ -106,12 +101,10 @@
   -->
   <Target Name="_RemoveXrXmlFromPayload" AfterTargets="_CalculateInputsForGenerateAppxPackageRecipe" Condition="'$(MSBuildProjectExtension)' == '.wapproj'">
     <ItemGroup>
+      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(FileName)%(Extension)'=='Microsoft.WindowsAppRuntime.Bootstrap.dll'" />
       <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('.xr.xml'))" />
       <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('Microsoft.UI.Xaml.pri'))" />
-      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(FileName)%(Extension)'=='Microsoft.WindowsAppRuntime.Bootstrap.dll'" />
-      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(AppxPackagePayload.TargetPath)'=='runtimes\win-x86\native\WebView2Loader.dll'" />
-      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(AppxPackagePayload.TargetPath)'=='runtimes\win-x64\native\WebView2Loader.dll'" />
-      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(AppxPackagePayload.TargetPath)'=='runtimes\win-arm64\native\WebView2Loader.dll'" />
+      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('WebView2Loader.dll'))" />
     </ItemGroup>
   </Target>
 </Project>
