@@ -310,15 +310,92 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\WindowsTools.ico" CopyToOutputDirectory="Always" />
+
+    <None Remove="Styles\WinUI\AppBarButton.xaml" />
+    <None Remove="Styles\WinUI\DateTimePicker.xaml" />
+    <None Remove="Styles\WinUI\HyperlinkButton.xaml" />
+    <None Remove="Styles\WinUI\InfoBar.xaml" />
+    <None Remove="Styles\WinUI\MenuFlyout.xaml" />
+    <None Remove="Styles\WinUI\TeachingTip.xaml" />
+    <None Remove="Styles\WinUI\TimePicker.xaml" />
+    <None Remove="UI\TeachingTips\AppInformationDialog.xaml" />
+    <None Remove="UI\TeachingTips\FileCheckDialog.xaml" />
+    <None Remove="UI\TeachingTips\LicenseDialog.xaml" />
+    <None Remove="UI\TeachingTips\OperationFailedDialog.xaml" />
+    <None Remove="UI\TeachingTips\RestartAppsDialog.xaml" />
+    <None Remove="UI\TeachingTips\DataCopyTip.xaml" />
+    <None Remove="UI\TeachingTips\OperationResultTip.xaml" />
+    <None Remove="UI\TeachingTips\QuickOperationTip.xaml" />
+    <None Remove="Views\Pages\AboutPage.xaml" />
+    <None Remove="Views\Pages\AllToolsPage.xaml" />
+    <None Remove="Views\Pages\CodeScannerPage.xaml" />
+    <None Remove="Views\Pages\ColorPickerPage.xaml" />
+    <None Remove="Views\Pages\DownloadManagerPage.xaml" />
+    <None Remove="Views\Pages\DriverManagerPage.xaml" />
+    <None Remove="Views\Pages\ExtensionNamePage.xaml" />
+    <None Remove="Views\Pages\FileCertificatePage.xaml" />
+    <None Remove="Views\Pages\FileNamePage.xaml" />
+    <None Remove="Views\Pages\FilePropertiesPage.xaml" />
+    <None Remove="Views\Pages\FileUnlockPage.xaml" />
+    <None Remove="Views\Pages\IconExtractPage.xaml" />
+    <None Remove="Views\Pages\LoafPage.xaml" />
+    <None Remove="Views\Pages\LoopbackManagerPage.xaml" />
+    <None Remove="Views\Pages\MainPage.xaml" />
+    <None Remove="Views\Pages\PriExtractPage.xaml" />
+    <None Remove="Views\Pages\SettingsPage.xaml" />
+    <None Remove="Views\Pages\ShellMenuPage.xaml" />
+    <None Remove="Views\Pages\SimulateUpdatePage.xaml" />
+    <None Remove="Views\Pages\SystemInfoPage.xaml" />
+    <None Remove="Views\Pages\UpdateManagerPage.xaml" />
+    <None Remove="Views\Pages\UpperAndLowerCasePage.xaml" />
+    <None Remove="Views\Pages\WinSATPage.xaml" />
     
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" />
-    
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240829007" GeneratePathProperty="true" />
     <PackageReference Include="Mile.Xaml" Version="2.3.1064" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
     <PackageReference Include="ZXing.Net" Version="0.16.9" />
+
+    <Page Update="Styles\WinUI\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Styles\WinUI\DateTimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Styles\WinUI\HyperlinkButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Styles\WinUI\InfoBar.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Styles\WinUI\MenuFlyout.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Styles\WinUI\TeachingTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Styles\WinUI\TimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="UI\TeachingTips\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="UI\TeachingTips\FileCheckDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="UI\TeachingTips\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="UI\TeachingTips\OperationFailedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="UI\TeachingTips\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="UI\TeachingTips\DataCopyTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="UI\TeachingTips\OperationResultTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="UI\TeachingTips\QuickOperationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\AboutPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\AllToolsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\CodeScannerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\ColorPickerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\DownloadManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\DriverManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\ExtensionNamePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\FileCertificatePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\FileNamePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\FilePropertiesPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\FileUnlockPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\IconExtractPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\LoafPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\LoopbackManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\MainPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\PriExtractPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\ShellMenuPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\SimulateUpdatePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\SystemInfoPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\UpdateManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\UpperAndLowerCasePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Views\Pages\WinSATPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
 
     <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />
     <Reference Include="Microsoft.UI.Windowing" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0.18362\Microsoft.UI.winmd" IsWinMDFile="true" Private="false" />

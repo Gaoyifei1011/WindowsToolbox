@@ -76,7 +76,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="WindowsToolsPackage_SignKey.pfx" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <ProjectReference Include="..\WindowsTools\WindowsTools.csproj" />
     <ProjectReference Include="..\WindowsToolsShellExtension\WindowsToolsShellExtension.csproj" />
   </ItemGroup>
