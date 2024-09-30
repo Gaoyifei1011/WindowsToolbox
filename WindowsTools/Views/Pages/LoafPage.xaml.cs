@@ -27,6 +27,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class LoafPage : Page, INotifyPropertyChanged
     {
+        private bool isLoadWallpaperFailed;
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
 
         private bool _loadImageCompleted = false;
@@ -183,7 +184,8 @@ namespace WindowsTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                LoafImage = new(new Uri("ms-appx:///Assets/Images/LoafWallpaper.jpg"));
+                                isLoadWallpaperFailed = true;
+                                LoafImage = ActualTheme is ElementTheme.Light ? new(new Uri("ms-appx:///Assets/Images/LoafLightWallpaper.jpg")) : new(new Uri("ms-appx:///Assets/Images/LoafDarkWallpaper.jpg"));
                                 LoadImageCompleted = true;
                                 LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
                             }
@@ -193,17 +195,19 @@ namespace WindowsTools.Views.Pages
                     {
                         synchronizationContext.Post(_ =>
                         {
-                            LoafImage = new(new Uri("ms-appx:///Assets/Images/LoafWallpaper.jpg"));
+                            isLoadWallpaperFailed = true;
+                            LoafImage = ActualTheme is ElementTheme.Light ? new(new Uri("ms-appx:///Assets/Images/LoafLightWallpaper.jpg")) : new(new Uri("ms-appx:///Assets/Images/LoafDarkWallpaper.jpg"));
                             LoadImageCompleted = true;
                         }, null);
                     }
                 }
                 catch (Exception e)
                 {
+                    isLoadWallpaperFailed = true;
                     LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
                     synchronizationContext.Post(_ =>
                     {
-                        LoafImage = new(new Uri("ms-appx:///Assets/Images/LoafWallpaper.jpg"));
+                        LoafImage = ActualTheme is ElementTheme.Light ? new(new Uri("ms-appx:///Assets/Images/LoafLightWallpaper.jpg")) : new(new Uri("ms-appx:///Assets/Images/LoafDarkWallpaper.jpg"));
                         LoadImageCompleted = true;
                     }, null);
                 }
@@ -211,6 +215,33 @@ namespace WindowsTools.Views.Pages
         }
 
         #region 第一部分：摸鱼页面——挂载的事件
+
+        /// <summary>
+        /// 在已构造 FrameworkElement 并将其添加到对象树中并准备好交互时发生的事件
+        /// </summary>
+        private void OnLoaded(object sender, RoutedEventArgs args)
+        {
+            ActualThemeChanged += OnActualThemeChanged;
+        }
+
+        /// <summary>
+        /// 当此对象不再连接到主对象树时发生的事件
+        /// </summary>
+        private void OnUnLoaded(object sender, RoutedEventArgs args)
+        {
+            ActualThemeChanged -= OnActualThemeChanged;
+        }
+
+        /// <summary>
+        /// 当前应用主题发生变化时对应的事件
+        /// </summary>
+        private void OnActualThemeChanged(FrameworkElement sender, object args)
+        {
+            if (isLoadWallpaperFailed)
+            {
+                LoafImage = ActualTheme is ElementTheme.Light ? new(new Uri("ms-appx:///Assets/Images/LoafLightWallpaper.jpg")) : new(new Uri("ms-appx:///Assets/Images/LoafDarkWallpaper.jpg"));
+            }
+        }
 
         /// <summary>
         /// 开始摸鱼

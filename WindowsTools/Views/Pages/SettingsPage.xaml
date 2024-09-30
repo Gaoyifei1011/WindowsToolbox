@@ -748,7 +748,6 @@
 
                 <!--  文件右键菜单设置  -->
                 <Grid
-                    x:Name="FileMenuSettings"
                     Height="61"
                     Padding="16,12"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"

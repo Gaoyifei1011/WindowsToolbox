@@ -1,30 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AnalysisLevel>latest</AnalysisLevel>    
     <ApplicationIcon>Assets\WindowsTools.ico</ApplicationIcon>
     <ApplicationManifest>App.manifest</ApplicationManifest>
     <AssemblyName>WindowsTools</AssemblyName>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <DebuggerSupport>false</DebuggerSupport>
+    <DebugType>none</DebugType>    
     <Deterministic>true</Deterministic>
-    <DisableXbfLineInfo>False</DisableXbfLineInfo>
-    <FileAlignment>512</FileAlignment>
+    <DesktopCompatible>true</DesktopCompatible>
+    <DisableXbfLineInfo>false</DisableXbfLineInfo>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <IncludeSymbols>false</IncludeSymbols>
     <LangVersion>latest</LangVersion>
     <MileXamlNoSunValleyXamlStyle>true</MileXamlNoSunValleyXamlStyle>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputType>WinExe</OutputType>
     <Platforms>x86;x64;ARM64</Platforms>
+    <RootNamespace>WindowsTools</RootNamespace>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-    <StartupObject>WindowsTools.Program</StartupObject>
     <TargetFramework>net481</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <TargetPlatformVersion>10.0.22621.0</TargetPlatformVersion>
-    <UseUwpTools>false</UseUwpTools>
+    <TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <WebView2EnableCsWinRTProjection>false</WebView2EnableCsWinRTProjection>
     <WebView2NeverCopyLoaderDllToOutputDirectory>true</WebView2NeverCopyLoaderDllToOutputDirectory>
-    <WebView2UseWinRT>False</WebView2UseWinRT>
     <WindowsAppSDKVerifyWinrtRuntimeVersion>false</WindowsAppSDKVerifyWinrtRuntimeVersion>
     <WindowsKitsPath></WindowsKitsPath>
   </PropertyGroup>
@@ -302,7 +305,8 @@
     <Content Include="Assets\StoreLogo.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\StoreLogo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\StoreLogo.scale-400.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Images\LoafWallpaper.jpg" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Images\LoafDarkWallpaper.jpg" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Images\LoafLightWallpaper.jpg" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Images\NoiseAsset_256x256_PNG.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" CopyToOutputDirectory="Always" />
@@ -358,13 +362,13 @@
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
     <PackageReference Include="ZXing.Net" Version="0.16.9" />
 
-    <Page Update="Styles\WinUI\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Update="Styles\WinUI\DateTimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Update="Styles\WinUI\HyperlinkButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Update="Styles\WinUI\InfoBar.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Update="Styles\WinUI\MenuFlyout.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Update="Styles\WinUI\TeachingTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Update="Styles\WinUI\TimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Styles\DateTimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Styles\HyperlinkButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Styles\InfoBar.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Styles\MenuFlyout.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Styles\TeachingTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Update="Styles\TimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Update="UI\TeachingTips\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Update="UI\TeachingTips\FileCheckDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Update="UI\TeachingTips\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -400,7 +404,6 @@
     <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />
     <Reference Include="Microsoft.UI.Windowing" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0.18362\Microsoft.UI.winmd" IsWinMDFile="true" Private="false" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.IO.Log" />
     <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
 

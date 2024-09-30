@@ -10,7 +10,9 @@
     xmlns:service="using:WindowsTools.Services.Controls.Settings"
     xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
+    Loaded="{x:Bind OnLoaded}"
     NavigationCacheMode="Enabled"
+    Unloaded="{x:Bind OnUnLoaded}"
     mc:Ignorable="d">
 
     <Grid Padding="0">
