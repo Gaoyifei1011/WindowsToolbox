@@ -2,6 +2,9 @@
 using System.Runtime.InteropServices;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
+// 抑制 CA1401 警告
+#pragma warning disable CA1401
+
 namespace WindowsTools.WindowsAPI.PInvoke.Comctl32
 {
     /// <summary>

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+// 抑制 CA1401，CA2101 警告
+#pragma warning disable CA1401,CA2101
+
 namespace WindowsTools.WindowsAPI.PInvoke.Combase
 {
     public static class CombaseLibrary

@@ -1,6 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
 
+// 抑制 CA1401 警告
+#pragma warning disable CA1401
+
 namespace WindowsTools.WindowsAPI.PInvoke.Kernel32
 {
     /// <summary>

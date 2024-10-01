@@ -1,5 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 
+// 抑制 CA1401 警告
+#pragma warning disable CA1401
+
 namespace WindowsTools.WindowsAPI.PInvoke.Rstrtmgr
 {
     public static class RstrtmgrLibrary
@@ -18,7 +21,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Rstrtmgr
         /// <param name="rgsServiceNames">以 null 结尾的服务短名称字符串的数组。 如果 nServices 为 0，此参数可以为 NULL。</param>
         /// <returns>这是收到的最新错误。 函数可以返回 Winerror.h 中定义的系统错误代码之一。</returns>
         [DllImport(Rstrtmgr, CharSet = CharSet.Unicode, EntryPoint = "RmRegisterResources", SetLastError = false), PreserveSig]
-        public static extern int RmRegisterResources(uint pSessionHandle, uint nFiles, [In, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)] string[] rgsFilenames, uint nApplications, [In] RM_UNIQUE_PROCESS[] rgApplications, uint nServices, [In, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)] string[] rgsServiceNames);
+        public static extern int RmRegisterResources(uint pSessionHandle, uint nFiles, [In, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 0)] string[] rgsFilenames, uint nApplications, [In] RM_UNIQUE_PROCESS[] rgApplications, uint nServices, [In, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 0)] string[] rgsServiceNames);
 
         /// <summary>
         /// 启动新的重启管理器会话。 每个用户会话最多可以同时在系统上打开 64 个重启管理器会话。 当此函数启动会话时，它将返回会话句柄和会话密钥，这些句柄和会话密钥可用于对重启管理器 API 的后续调用。
@@ -48,6 +51,6 @@ namespace WindowsTools.WindowsAPI.PInvoke.Rstrtmgr
         /// <param name="lpdwRebootReasons">指向位置的指针，该位置接收 RM_REBOOT_REASON 枚举的值，该枚举描述需要重启系统的原因。</param>
         /// <returns>这是收到的最新错误。 函数可以返回 Winerror.h 中定义的系统错误代码之一。</returns>
         [DllImport(Rstrtmgr, CharSet = CharSet.Unicode, EntryPoint = "RmGetList", SetLastError = false), PreserveSig]
-        public static extern int RmGetList(uint dwSessionHandle, out uint pnProcInfoNeeded, ref uint pnProcInfo, [In, Out] RM_PROCESS_INFO[] rgAffectedApps, ref uint lpdwRebootReasons);
+        public static extern int RmGetList(uint dwSessionHandle, out uint pnProcInfoNeeded, ref uint pnProcInfo, [In, Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] RM_PROCESS_INFO[] rgAffectedApps, ref uint lpdwRebootReasons);
     }
 }

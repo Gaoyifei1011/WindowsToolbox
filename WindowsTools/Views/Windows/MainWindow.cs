@@ -71,7 +71,6 @@ namespace WindowsTools.Views.Windows
                     cbSize = Marshal.SizeOf<CHANGEFILTERSTRUCT>()
                 };
                 User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_DROPFILES, ChangeFilterAction.MSGFLT_ALLOW, in changeFilterStatus);
-                User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_ALLOW, in changeFilterStatus);
                 User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYGLOBALDATA, ChangeFilterAction.MSGFLT_ALLOW, in changeFilterStatus);
                 Shell32Library.DragAcceptFiles(Handle, true);
             }

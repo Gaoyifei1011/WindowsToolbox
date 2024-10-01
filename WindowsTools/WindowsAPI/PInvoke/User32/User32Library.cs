@@ -2,6 +2,9 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
+// 抑制 CA1401 警告
+#pragma warning disable CA1401
+
 namespace WindowsTools.WindowsAPI.PInvoke.User32
 {
     /// <summary>
@@ -78,7 +81,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// 如果 phicon 参数为 NULL 并且此函数成功，则返回值是文件中的图标数。 如果函数失败，则返回值为 0。如果 phicon 参数不为 NULL 且函数成功，则返回值是提取的图标数。 否则，如果未找到该文件，则返回值0xFFFFFFFF。
         /// </returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "PrivateExtractIconsW", SetLastError = false), PreserveSig]
-        public static extern int PrivateExtractIcons([MarshalAs(UnmanagedType.LPWStr)] string lpszFile, int nIconIndex, int cxIcon, int cyIcon, IntPtr[] phicon, int[] piconid, int nIcons, int flags);
+        public static extern int PrivateExtractIcons([MarshalAs(UnmanagedType.LPWStr)] string lpszFile, int nIconIndex, int cxIcon, int cyIcon, [Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] IntPtr[] phicon, [Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] int[] piconid, int nIcons, int flags);
 
         /// <summary>
         /// 注册应用程序以接收特定电源设置事件的电源设置通知。

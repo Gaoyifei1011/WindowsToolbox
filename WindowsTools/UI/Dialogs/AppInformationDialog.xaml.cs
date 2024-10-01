@@ -142,6 +142,7 @@ namespace WindowsTools.UI.Dialogs
                     }
                 }
 
+                // Windows UI 版本信息
                 FileVersionInfo windowsUIFile = FileVersionInfo.GetVersionInfo(string.Format(@"{0}\{1}", Environment.SystemDirectory, "Windows.UI.Xaml.dll"));
 
                 FileVersionInfo mileXamlFile = FileVersionInfo.GetVersionInfo(Path.Combine(AppContext.BaseDirectory, @"Mile.Xaml.Managed.dll"));
