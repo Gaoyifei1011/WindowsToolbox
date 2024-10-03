@@ -26,8 +26,8 @@ using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.PInvoke.Kernel32;
 
-// 抑制 IDE0060 警告
-#pragma warning disable IDE0060
+// 抑制 CA1806，IDE0060 警告
+#pragma warning disable CA1806,IDE0060
 
 namespace WindowsTools.Views.Pages
 {
@@ -58,6 +58,7 @@ namespace WindowsTools.Views.Pages
         private ListDictionary ReferenceList { get; } = new()
         {
             { "Microsoft.UI.Xaml", "https://github.com/microsoft/microsoft-ui-xaml"},
+            { "Microsoft.Windows.SDK.BuildTools", "https://aka.ms/WinSDKProjectURL"},
             { "Microsoft.Windows.SDK.Contracts", "https://aka.ms/WinSDKProjectURL"},
             { "Microsoft.WindowsAppSDK", "https://github.com/microsoft/windowsappsdk"},
             { "Mile.Xaml", "https://github.com/ProjectMile/Mile.Xaml"},

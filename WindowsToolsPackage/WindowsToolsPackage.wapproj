@@ -27,7 +27,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup>
-    <!--<AssetTargetFallback>$(AssetTargetFallback);net9.0-windows10.0.26100.0;net481</AssetTargetFallback>-->
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundleAutoResourcePackageQualifiers>DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>

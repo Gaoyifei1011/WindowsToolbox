@@ -3,6 +3,9 @@ using System.ComponentModel;
 using Windows.UI.Xaml;
 using WindowsTools.Extensions.DataType.Enums;
 
+// 抑制 CA1822 警告
+#pragma warning disable CA1822
+
 namespace WindowsTools.Models
 {
     public sealed class DownloadModel : INotifyPropertyChanged

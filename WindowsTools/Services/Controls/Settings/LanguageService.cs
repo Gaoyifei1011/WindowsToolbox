@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms;
 using Windows.Globalization;
 using WindowsTools.Extensions.DataType.Constant;
 using WindowsTools.Services.Root;
+using WindowsTools.WindowsAPI.ComTypes;
+using WindowsTools.WindowsAPI.PInvoke.Shlwapi;
 
 namespace WindowsTools.Services.Controls.Settings
 {
@@ -16,8 +18,9 @@ namespace WindowsTools.Services.Controls.Settings
     /// </summary>
     public static class LanguageService
     {
-        private static readonly string resourceFileName = string.Format("{0}.resources.dll", Assembly.GetExecutingAssembly().GetName().Name);
         private static readonly string settingsKey = ConfigKey.LanguageKey;
+        private static readonly Guid CLSID_AppxFactory = new("5842A140-FF9F-4166-8F5C-62F5B7B0C781");
+        private static readonly IAppxFactory appxFactory = Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_AppxFactory)) as IAppxFactory;
         private static DictionaryEntry defaultAppLanguage;
 
         public static DictionaryEntry AppLanguage { get; private set; }
@@ -35,15 +38,32 @@ namespace WindowsTools.Services.Controls.Settings
         {
             try
             {
-                string[] resourceFolder = Directory.GetFiles(AppContext.BaseDirectory, resourceFileName, SearchOption.AllDirectories);
-
-                foreach (string file in resourceFolder)
+                if (ShlwapiLibrary.SHCreateStreamOnFileEx(Path.Combine(AppContext.BaseDirectory, "AppxManifest.xml"), STGM.STGM_SHARE_DENY_READ | STGM.STGM_SHARE_EXCLUSIVE, 0, false, null, out IStream stream) is 0)
                 {
-                    AppLanguagesList.Add(Path.GetFileName(Path.GetDirectoryName(file)));
+                    appxFactory.CreateManifestReader(stream, out IAppxManifestReader2 appxManifestReader);
+
+                    if (appxManifestReader.GetQualifiedResources(out IAppxManifestQualifiedResourcesEnumerator appxManifestQualifiedResourcesEnumerator) is 0)
+                    {
+                        while (appxManifestQualifiedResourcesEnumerator.GetHasCurrent(out bool hasCurrent) is 0 && (hasCurrent is true))
+                        {
+                            if (appxManifestQualifiedResourcesEnumerator.GetCurrent(out IAppxManifestQualifiedResource appxManifestQualifiedResource) is 0 && appxManifestQualifiedResource.GetLanguage(out string language) is 0)
+                            {
+                                AppLanguagesList.Add(language);
+                            }
+
+                            appxManifestQualifiedResourcesEnumerator.MoveNext(out _);
+                        }
+                    }
                 }
+
+                if (AppLanguagesList.Count is 0)
+                {
+                    AppLanguagesList.Add("en-us");
+                }
+
                 AppLanguagesList.Sort();
             }
-            catch
+            catch (Exception)
             {
                 AppLanguagesList.Clear();
                 AppLanguagesList.Add("en-us");

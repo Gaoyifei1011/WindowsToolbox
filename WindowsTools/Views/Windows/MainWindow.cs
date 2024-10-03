@@ -34,7 +34,7 @@ namespace WindowsTools.Views.Windows
     public class MainWindow : Form
     {
         private readonly IntPtr inputNonClientPointerSourceHandle;
-        private readonly IContainer components = new Container();
+        private readonly Container components = new();
         private readonly WindowsXamlHost windowsXamlHost = new();
         private readonly SUBCLASSPROC inputNonClientPointerSourceSubClassProc;
 

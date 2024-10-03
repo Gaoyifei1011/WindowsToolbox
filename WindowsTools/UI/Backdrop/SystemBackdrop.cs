@@ -4,6 +4,9 @@ using Windows.UI;
 using Windows.UI.Composition.Desktop;
 using Windows.UI.Xaml;
 
+// 抑制 CA1822 警告
+#pragma warning disable CA1822
+
 namespace WindowsTools.UI.Backdrop
 {
     /// <summary>

@@ -685,7 +685,7 @@ namespace WindowsTools.Views.Pages
                 //保存流，并将流指针定位至头部以Icon对象进行读取输出为文件
                 iconWriter.Flush();
                 iconWriter.Seek(0, SeekOrigin.Begin);
-                Stream iconFileStream = new FileStream(destination, FileMode.Create);
+                FileStream iconFileStream = new(destination, FileMode.Create);
                 Icon icon = new(iconStream);
                 icon.Save(iconFileStream); //储存图像
 

@@ -8,7 +8,7 @@ using WindowsTools.WindowsAPI.ComTypes;
 namespace WindowsTools.UI.Backdrop
 {
     [Guid("61C23C20-AE69-4D8E-94CF-50078DF638F2")]
-    public class ColorSourceEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
+    public sealed class ColorSourceEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
     {
         public Color Color { get; set; } = Color.FromArgb(255, 255, 255, 255);
 

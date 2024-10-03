@@ -79,6 +79,7 @@ A toolbox that integrates multiple gadgets.
 ### Project References (Sort by alphabetical order)
 
 > * [Microsoft.UI.Xaml](https://github.com/microsoft/microsoft-ui-xaml)&emsp;
+> * [Microsoft.Windows.SDK.BuildTools](https://aka.ms/WinSDKProjectURL)&emsp;
 > * [Microsoft.Windows.SDK.Contracts](https://aka.ms/WinSDKProjectURL)&emsp;
 > * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;

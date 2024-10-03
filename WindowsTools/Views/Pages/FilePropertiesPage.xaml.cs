@@ -664,32 +664,32 @@ namespace WindowsTools.Views.Pages
             if (IsReadOnlyChecked)
             {
                 stringBuilder.Append(FileProperties.ReadOnly);
-                stringBuilder.Append(" ");
+                stringBuilder.Append(' ');
             }
             if (IsArchiveChecked)
             {
                 stringBuilder.Append(FileProperties.Archive);
-                stringBuilder.Append(" ");
+                stringBuilder.Append(' ');
             }
             if (IsHideChecked)
             {
                 stringBuilder.Append(FileProperties.Hide);
-                stringBuilder.Append(" ");
+                stringBuilder.Append(' ');
             }
             if (IsSystemChecked)
             {
                 stringBuilder.Append(FileProperties.System);
-                stringBuilder.Append(" ");
+                stringBuilder.Append(' ');
             }
             if (IsCreateDateChecked)
             {
                 stringBuilder.Append(FileProperties.CreateDate);
-                stringBuilder.Append(" ");
+                stringBuilder.Append(' ');
             }
             if (IsModifyDateChecked)
             {
                 stringBuilder.Append(FileProperties.ModifyDate);
-                stringBuilder.Append(" ");
+                stringBuilder.Append(' ');
             }
 
             lock (filePropertiesLock)

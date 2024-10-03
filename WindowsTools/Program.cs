@@ -11,6 +11,9 @@ using WindowsTools.Services.Shell;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 
+// 抑制 CA1806 警告
+#pragma warning disable CA1806
+
 namespace WindowsTools
 {
     /// <summary>

@@ -12,6 +12,9 @@ using WindowsTools.WindowsAPI.PInvoke.Comctl32;
 using WindowsTools.WindowsAPI.PInvoke.Kernel32;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
+// 抑制 CA1822 警告
+#pragma warning disable CA1822
+
 namespace WindowsTools.UI.Backdrop
 {
     /// <summary>
@@ -592,7 +595,7 @@ namespace WindowsTools.UI.Backdrop
         /// <summary>
         /// 创建 Mica 背景色
         /// </summary>
-        private CompositionBrush BuildMicaEffectBrush(Compositor compositor, Color tintColor, float tintOpacity, float luminosityOpacity)
+        private CompositionEffectBrush BuildMicaEffectBrush(Compositor compositor, Color tintColor, float tintOpacity, float luminosityOpacity)
         {
             // Tint Color.
             ColorSourceEffect tintColorEffect = new()
@@ -654,7 +657,7 @@ namespace WindowsTools.UI.Backdrop
         /// <summary>
         /// 创建回退色切换时的动画颜色
         /// </summary>
-        private CompositionBrush CreateCrossFadeEffectBrush(Compositor compositor, CompositionBrush from, CompositionBrush to)
+        private CompositionEffectBrush CreateCrossFadeEffectBrush(Compositor compositor, CompositionBrush from, CompositionBrush to)
         {
             CrossFadeEffect crossFadeEffect = new()
             {

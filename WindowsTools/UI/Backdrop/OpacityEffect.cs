@@ -21,11 +21,6 @@ namespace WindowsTools.UI.Backdrop
             return 0;
         }
 
-        public static bool IsSupported
-        {
-            get { return true; }
-        }
-
         public int GetNamedPropertyMapping(string name, out uint index, out GRAPHICS_EFFECT_PROPERTY_MAPPING mapping)
         {
             switch (name)

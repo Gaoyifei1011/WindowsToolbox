@@ -21,7 +21,7 @@ namespace WindowsTools.Views.Windows
     {
         private readonly bool _blockAllKeys = false;
         private readonly bool _lockScreenAutomaticly = false;
-        private readonly IContainer components = new Container();
+        private readonly Container components = new();
         private readonly WindowsXamlHost windowsXamlHost = new();
 
         private IntPtr hHook = IntPtr.Zero;

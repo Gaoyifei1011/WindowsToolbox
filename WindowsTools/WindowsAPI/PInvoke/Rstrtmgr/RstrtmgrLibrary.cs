@@ -20,7 +20,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Rstrtmgr
         /// <param name="nServices">要注册的服务数。</param>
         /// <param name="rgsServiceNames">以 null 结尾的服务短名称字符串的数组。 如果 nServices 为 0，此参数可以为 NULL。</param>
         /// <returns>这是收到的最新错误。 函数可以返回 Winerror.h 中定义的系统错误代码之一。</returns>
-        [DllImport(Rstrtmgr, CharSet = CharSet.Unicode, EntryPoint = "RmRegisterResources", SetLastError = false), PreserveSig]
+        [DllImport(Rstrtmgr, CharSet = CharSet.Unicode, EntryPoint = "RmRegisterResources", SetLastError = false, PreserveSig = true)]
         public static extern int RmRegisterResources(uint pSessionHandle, uint nFiles, [In, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 0)] string[] rgsFilenames, uint nApplications, [In] RM_UNIQUE_PROCESS[] rgApplications, uint nServices, [In, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 0)] string[] rgsServiceNames);
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Rstrtmgr
         /// <param name="dwSessionFlags">保留。 此参数应为 0。</param>
         /// <param name="strSessionKey">一个 以 null 结尾的字符串，其中包含新会话的会话密钥。 在调用 RmStartSession 函数之前，必须分配字符串。</param>
         /// <returns>这是收到的最新错误。 函数可以返回 Winerror.h 中定义的系统错误代码之一。</returns>
-        [DllImport(Rstrtmgr, CharSet = CharSet.Unicode, EntryPoint = "RmStartSession", SetLastError = false), PreserveSig]
+        [DllImport(Rstrtmgr, CharSet = CharSet.Unicode, EntryPoint = "RmStartSession", SetLastError = false, PreserveSig = true)]
         public static extern int RmStartSession(out uint pSessionHandle, int dwSessionFlags, [MarshalAs(UnmanagedType.LPWStr)] string strSessionKey);
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Rstrtmgr
         /// </summary>
         /// <param name="pSessionHandle">现有 Restart Manager 会话的句柄。</param>
         /// <returns>这是收到的最新错误。 函数可以返回 Winerror.h 中定义的系统错误代码之一。</returns>
-        [DllImport(Rstrtmgr, CharSet = CharSet.Unicode, EntryPoint = "RmEndSession", SetLastError = false), PreserveSig]
+        [DllImport(Rstrtmgr, CharSet = CharSet.Unicode, EntryPoint = "RmEndSession", SetLastError = false, PreserveSig = true)]
         public static extern int RmEndSession(uint pSessionHandle);
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Rstrtmgr
         /// <param name="rgAffectedApps">一组RM_PROCESS_INFO结构，这些结构使用已注册到会话的资源列出应用程序和服务。</param>
         /// <param name="lpdwRebootReasons">指向位置的指针，该位置接收 RM_REBOOT_REASON 枚举的值，该枚举描述需要重启系统的原因。</param>
         /// <returns>这是收到的最新错误。 函数可以返回 Winerror.h 中定义的系统错误代码之一。</returns>
-        [DllImport(Rstrtmgr, CharSet = CharSet.Unicode, EntryPoint = "RmGetList", SetLastError = false), PreserveSig]
+        [DllImport(Rstrtmgr, CharSet = CharSet.Unicode, EntryPoint = "RmGetList", SetLastError = false, PreserveSig = true)]
         public static extern int RmGetList(uint dwSessionHandle, out uint pnProcInfoNeeded, ref uint pnProcInfo, [In, Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] RM_PROCESS_INFO[] rgAffectedApps, ref uint lpdwRebootReasons);
     }
 }

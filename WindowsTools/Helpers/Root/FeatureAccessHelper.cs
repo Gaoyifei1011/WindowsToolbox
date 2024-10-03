@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using WindowsTools.WindowsAPI.PInvoke.Kernel32;
 
+// 抑制 CA1806 警告
+#pragma warning disable CA1806
+
 namespace WindowsTools.Helpers.Root
 {
     /// <summary>

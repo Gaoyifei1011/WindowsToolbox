@@ -665,7 +665,7 @@ namespace WindowsTools.UI.Backdrop
         /// <summary>
         /// 创建 DesktopAcrylic 背景色
         /// </summary>
-        private CompositionBrush BuildDesktopAcrylicEffectBrush(Compositor compositor, Color tintColor, float tintOpacity, float luminosityOpacity)
+        private CompositionEffectBrush BuildDesktopAcrylicEffectBrush(Compositor compositor, Color tintColor, float tintOpacity, float luminosityOpacity)
         {
             Color convertedLuminosityColor = ColorConversion.GetEffectiveLuminosityColor(tintColor, tintOpacity, luminosityOpacity);
             Color convertedTintColor = ColorConversion.GetEffectiveTintColor(tintColor, tintOpacity, luminosityOpacity);
@@ -780,7 +780,7 @@ namespace WindowsTools.UI.Backdrop
         /// <summary>
         /// 创建回退色切换时的动画颜色
         /// </summary>
-        private CompositionBrush CreateCrossFadeEffectBrush(Compositor compositor, CompositionBrush from, CompositionBrush to)
+        private CompositionEffectBrush CreateCrossFadeEffectBrush(Compositor compositor, CompositionBrush from, CompositionBrush to)
         {
             CrossFadeEffect crossFadeEffect = new()
             {

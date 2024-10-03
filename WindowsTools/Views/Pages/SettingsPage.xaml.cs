@@ -21,8 +21,8 @@ using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
-// 抑制 IDE0060 警告
-#pragma warning disable IDE0060
+// 抑制 CA1806，IDE0060 警告
+#pragma warning disable CA1806,IDE0060
 
 namespace WindowsTools.Views.Pages
 {

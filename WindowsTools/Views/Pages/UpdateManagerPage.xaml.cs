@@ -23,8 +23,8 @@ using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.ComTypes;
 using WUApiLib;
 
-// 抑制 IDE0060 警告
-#pragma warning disable IDE0060
+// 抑制 CA1822，IDE0060 警告
+#pragma warning disable CA1822,IDE0060
 
 namespace WindowsTools.Views.Pages
 {

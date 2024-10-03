@@ -10,6 +10,9 @@ using WindowsTools.Services.Root;
 using WindowsTools.Strings;
 using WindowsTools.Views.Windows;
 
+// 抑制 CA1822 警告
+#pragma warning disable CA1822
+
 namespace WindowsTools.Views.Pages
 {
     /// <summary>

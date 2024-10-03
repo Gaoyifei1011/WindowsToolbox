@@ -8,7 +8,7 @@ using WindowsTools.WindowsAPI.ComTypes;
 namespace WindowsTools.UI.Backdrop
 {
     [Guid("48FC9F51-F6AC-48F1-8B58-3B28AC46F76D")]
-    public class CompositeEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
+    public sealed class CompositeEffect : IGraphicsEffect, IGraphicsEffectSource, IGraphicsEffectD2D1Interop
     {
         public CanvasComposite Mode { get; set; } = CanvasComposite.SourceOver;
 

@@ -9,6 +9,9 @@ using WindowsTools.Services.Root;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Ole32;
 
+// 抑制 CA1806 警告
+#pragma warning disable CA1806
+
 namespace WindowsTools.Services.Controls.Download
 {
     /// <summary>

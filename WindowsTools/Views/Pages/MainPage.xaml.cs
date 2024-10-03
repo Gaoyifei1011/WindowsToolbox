@@ -17,8 +17,8 @@ using WindowsTools.Services.Root;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
-// 抑制 IDE0060 警告
-#pragma warning disable IDE0060
+// 抑制 CA1822，IDE0060 警告
+#pragma warning disable CA1822,IDE0060
 
 namespace WindowsTools.Views.Pages
 {

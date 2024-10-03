@@ -7,6 +7,9 @@ using Windows.UI.Xaml;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.WindowsAPI.PInvoke.Uxtheme;
 
+// 抑制 CA1806，IDE0060 警告
+#pragma warning disable CA1806,IDE0060
+
 namespace WindowsTools.Services.Root
 {
     /// <summary>

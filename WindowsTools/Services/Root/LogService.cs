@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
+// 抑制 CA1806 警告
+#pragma warning disable CA1806
+
 namespace WindowsTools.Services.Root
 {
     /// <summary>

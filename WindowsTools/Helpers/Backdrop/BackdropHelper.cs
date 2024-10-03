@@ -8,6 +8,9 @@ using Windows.UI.Xaml;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Combase;
 
+// 抑制 CA1806 警告
+#pragma warning disable CA1806
+
 namespace WindowsTools.Helpers.Backdrop
 {
     /// <summary>

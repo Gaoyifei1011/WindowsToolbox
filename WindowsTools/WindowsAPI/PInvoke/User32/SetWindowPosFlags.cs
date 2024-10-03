@@ -28,7 +28,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// 使用 SetWindowLong 函数应用设置的新框架样式。 将 WM_NCCALCSIZE 消息发送到窗口，即使窗口的大小未更改也是如此。
         /// 如果未指定此标志，则仅当窗口的大小发生更改时， 才会发送WM_NCCALCSIZE 。
         /// </summary>
-        SWP_FRAMECHANGED = 0x0020,
+        SWP_FRAMECHANGED = SWP_DRAWFRAME,
 
         /// <summary>
         /// 隐藏窗口。
@@ -64,7 +64,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <summary>
         /// 与 SWP_NOOWNERZORDER 标志相同。
         /// </summary>
-        SWP_NOREPOSITION = 0x0200,
+        SWP_NOREPOSITION = SWP_NOOWNERZORDER,
 
         /// <summary>
         /// 与 SWP_NOOWNERZORDER 标志相同。
