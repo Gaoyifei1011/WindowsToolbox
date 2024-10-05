@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using WindowsToolsShellExtension.Commands;
 using WindowsToolsShellExtension.Services.Shell;
@@ -13,19 +12,17 @@ namespace WindowsToolsShellExtension
     [GeneratedComClass]
     public partial class ClassFactory : IClassFactory
     {
-        private readonly StrategyBasedComWrappers strategyBasedComWrappers = new();
-        private readonly Func<object> rootExplorerCommandFunc = new(() => { return new ExplorerCommand(ShellMenuService.RootShellMenuItem); });
+        private readonly IExplorerCommand rootExplorerCommand = new ExplorerCommand(ShellMenuService.RootShellMenuItem);
 
-        public int CreateInstance(IntPtr pUnkOuter, in Guid riid, out IntPtr ppvObject)
+        public unsafe int CreateInstance(IntPtr pUnkOuter, in Guid riid, out IntPtr ppvObject)
         {
             if (pUnkOuter != IntPtr.Zero)
             {
                 ppvObject = IntPtr.Zero;
-                return unchecked((int)0x80040110); // CLASS_E_NOAGGREGATION
+                return unchecked((int)0x80040110);
             }
 
-            object obj = rootExplorerCommandFunc.Invoke();
-            ppvObject = strategyBasedComWrappers.GetOrCreateComInterfaceForObject(obj, CreateComInterfaceFlags.None);
+            ppvObject = (IntPtr)ComInterfaceMarshaller<IExplorerCommand>.ConvertToUnmanaged(rootExplorerCommand);
             return 0;
         }
 

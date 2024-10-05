@@ -22,7 +22,6 @@ namespace WindowsToolsShellExtension.Commands
     {
         private readonly Guid SID_SFolderView = new("CDE725B0-CCC9-4519-917E-325D72FAB4CE");
         private readonly Guid IID_IUnknown = new("00000000-0000-0000-C000-000000000046");
-        private readonly StrategyBasedComWrappers strategyBasedComWrappers = new();
         private IntPtr site = IntPtr.Zero;
 
         [GeneratedRegex(@"{files-split:'([\s\S]*?)'}")]
@@ -156,7 +155,7 @@ namespace WindowsToolsShellExtension.Commands
         /// <summary>
         /// 根菜单命令状态（根据应用设置来决定是否显示菜单）
         /// </summary>
-        public int GetState(IShellItemArray psiItemArray, bool fOkToBeSlow, out EXPCMDSTATE pCmdState)
+        public unsafe int GetState(IShellItemArray psiItemArray, bool fOkToBeSlow, out EXPCMDSTATE pCmdState)
         {
             if (FileShellMenuService.GetFileShellMenuValue() && shellMenuItem is not null)
             {
@@ -167,17 +166,17 @@ namespace WindowsToolsShellExtension.Commands
 
                     // 查询点击背景时对应的文件夹路径
                     Marshal.QueryInterface(site, typeof(WindowsAPI.ComTypes.IServiceProvider).GUID, out IntPtr serviceProviderPtr);
-                    WindowsAPI.ComTypes.IServiceProvider serviceProvider = (WindowsAPI.ComTypes.IServiceProvider)strategyBasedComWrappers.GetOrCreateObjectForComInstance(serviceProviderPtr, CreateObjectFlags.None);
+                    WindowsAPI.ComTypes.IServiceProvider serviceProvider = ComInterfaceMarshaller<WindowsAPI.ComTypes.IServiceProvider>.ConvertToManaged((void*)serviceProviderPtr);
 
                     serviceProvider.QueryService(SID_SFolderView, typeof(IFolderView).GUID, out IntPtr folderViewPtr);
                     if (folderViewPtr != IntPtr.Zero)
                     {
-                        IFolderView folderView = (IFolderView)strategyBasedComWrappers.GetOrCreateObjectForComInstance(folderViewPtr, CreateObjectFlags.None);
+                        IFolderView folderView = ComInterfaceMarshaller<IFolderView>.ConvertToManaged((void*)folderViewPtr);
 
                         Guid iShellItemGuid = typeof(IShellItem).GUID;
                         folderView.GetFolder(ref iShellItemGuid, out IntPtr iShellItemPtr);
 
-                        IShellItem shellItem = (IShellItem)strategyBasedComWrappers.GetOrCreateObjectForComInstance(iShellItemPtr, CreateObjectFlags.None);
+                        IShellItem shellItem = ComInterfaceMarshaller<IShellItem>.ConvertToManaged((void*)iShellItemPtr);
                         shellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out folderPath);
                     }
 
@@ -233,7 +232,7 @@ namespace WindowsToolsShellExtension.Commands
         /// <summary>
         /// 根菜单命令响应处理
         /// </summary>
-        public int Invoke(IShellItemArray psiItemArray, IntPtr pbc)
+        public unsafe int Invoke(IShellItemArray psiItemArray, IntPtr pbc)
         {
             // 没有子菜单，该菜单可以直接调用命令
             if (shellMenuItem is not null && shellMenuItem.SubShellMenuItem.Count is 0)
@@ -253,17 +252,17 @@ namespace WindowsToolsShellExtension.Commands
                 if (psiItemArray is null)
                 {
                     Marshal.QueryInterface(site, typeof(WindowsAPI.ComTypes.IServiceProvider).GUID, out IntPtr serviceProviderPtr);
-                    WindowsAPI.ComTypes.IServiceProvider serviceProvider = (WindowsAPI.ComTypes.IServiceProvider)strategyBasedComWrappers.GetOrCreateObjectForComInstance(serviceProviderPtr, CreateObjectFlags.None);
+                    WindowsAPI.ComTypes.IServiceProvider serviceProvider = ComInterfaceMarshaller<WindowsAPI.ComTypes.IServiceProvider>.ConvertToManaged((void*)serviceProviderPtr);
 
                     serviceProvider.QueryService(SID_SFolderView, typeof(IFolderView).GUID, out IntPtr folderViewPtr);
                     if (folderViewPtr != IntPtr.Zero)
                     {
-                        IFolderView folderView = (IFolderView)strategyBasedComWrappers.GetOrCreateObjectForComInstance(folderViewPtr, CreateObjectFlags.None);
+                        IFolderView folderView = ComInterfaceMarshaller<IFolderView>.ConvertToManaged((void*)folderViewPtr);
 
                         Guid iShellItemGuid = typeof(IShellItem).GUID;
                         folderView.GetFolder(ref iShellItemGuid, out IntPtr iShellItemPtr);
 
-                        IShellItem shellItem = (IShellItem)strategyBasedComWrappers.GetOrCreateObjectForComInstance(iShellItemPtr, CreateObjectFlags.None);
+                        IShellItem shellItem = ComInterfaceMarshaller<IShellItem>.ConvertToManaged((void*)iShellItemPtr);
                         shellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out string filePath);
                         selectedFolderPath = filePath;
                         folderList.Add(filePath);

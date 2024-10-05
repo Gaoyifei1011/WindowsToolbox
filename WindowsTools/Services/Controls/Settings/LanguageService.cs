@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms;
 using Windows.Globalization;
+using Windows.Storage.Streams;
 using WindowsTools.Extensions.DataType.Constant;
 using WindowsTools.Services.Root;
 using WindowsTools.WindowsAPI.ComTypes;
@@ -46,7 +48,7 @@ namespace WindowsTools.Services.Controls.Settings
                     {
                         while (appxManifestQualifiedResourcesEnumerator.GetHasCurrent(out bool hasCurrent) is 0 && (hasCurrent is true))
                         {
-                            if (appxManifestQualifiedResourcesEnumerator.GetCurrent(out IAppxManifestQualifiedResource appxManifestQualifiedResource) is 0 && appxManifestQualifiedResource.GetLanguage(out string language) is 0)
+                            if (appxManifestQualifiedResourcesEnumerator.GetCurrent(out IAppxManifestQualifiedResource appxManifestQualifiedResource) is 0 && appxManifestQualifiedResource.GetLanguage(out string language) is 0 && !string.IsNullOrEmpty(language))
                             {
                                 AppLanguagesList.Add(language);
                             }
@@ -54,6 +56,8 @@ namespace WindowsTools.Services.Controls.Settings
                             appxManifestQualifiedResourcesEnumerator.MoveNext(out _);
                         }
                     }
+
+                    Marshal.Release(Marshal.GetIUnknownForObject(stream));
                 }
 
                 if (AppLanguagesList.Count is 0)

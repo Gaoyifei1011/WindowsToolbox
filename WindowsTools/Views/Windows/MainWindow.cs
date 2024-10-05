@@ -385,14 +385,28 @@ namespace WindowsTools.Views.Windows
                     {
                         SYSTEMCOMMAND sysCommand = (SYSTEMCOMMAND)(m.WParam.ToInt32() & 0xFFF0);
 
-                        if (sysCommand is SYSTEMCOMMAND.SC_MOUSEMENU || sysCommand is SYSTEMCOMMAND.SC_KEYMENU)
+                        if (sysCommand is SYSTEMCOMMAND.SC_MOUSEMENU)
                         {
                             FlyoutShowOptions options = new()
                             {
-                                Position = new global::Windows.Foundation.Point(0, 45),
+                                Position = new global::Windows.Foundation.Point(0, 15),
                                 ShowMode = FlyoutShowMode.Standard
                             };
                             (Content as MainPage).TitlebarMenuFlyout.ShowAt(null, options);
+                            return;
+                        }
+                        else if (sysCommand is SYSTEMCOMMAND.SC_KEYMENU)
+                        {
+                            if (m.LParam.ToInt32() is (int)Keys.Space)
+                            {
+                                FlyoutShowOptions options = new()
+                                {
+                                    Position = new global::Windows.Foundation.Point(0, 45),
+                                    ShowMode = FlyoutShowMode.Standard
+                                };
+                                (Content as MainPage).TitlebarMenuFlyout.ShowAt(null, options);
+                            }
+
                             return;
                         }
                         break;
