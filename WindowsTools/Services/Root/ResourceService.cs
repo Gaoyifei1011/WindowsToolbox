@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 using WindowsTools.Strings;
@@ -12,13 +11,13 @@ namespace WindowsTools.Services.Root
     /// </summary>
     public static class ResourceService
     {
-        public static List<DictionaryEntry> ThemeList { get; } = [];
+        public static List<KeyValuePair<string, string>> ThemeList { get; } = [];
 
-        public static List<DictionaryEntry> BackdropList { get; } = [];
+        public static List<KeyValuePair<string, string>> BackdropList { get; } = [];
 
-        public static List<DictionaryEntry> DoEngineModeList { get; } = [];
+        public static List<KeyValuePair<string, string>> DoEngineModeList { get; } = [];
 
-        public static List<DictionaryEntry> ExitModeList { get; } = [];
+        public static List<KeyValuePair<string, string>> ExitModeList { get; } = [];
 
         /// <summary>
         /// 初始化应用本地化信息
@@ -36,9 +35,9 @@ namespace WindowsTools.Services.Root
         /// </summary>
         private static void InitializeThemeList()
         {
-            ThemeList.Add(new DictionaryEntry(Settings.ThemeDefault, Convert.ToString(ElementTheme.Default)));
-            ThemeList.Add(new DictionaryEntry(Settings.ThemeLight, Convert.ToString(ElementTheme.Light)));
-            ThemeList.Add(new DictionaryEntry(Settings.ThemeDark, Convert.ToString(ElementTheme.Dark)));
+            ThemeList.Add(new KeyValuePair<string, string>(Convert.ToString(ElementTheme.Default), Settings.ThemeDefault));
+            ThemeList.Add(new KeyValuePair<string, string>(Convert.ToString(ElementTheme.Light), Settings.ThemeLight));
+            ThemeList.Add(new KeyValuePair<string, string>(Convert.ToString(ElementTheme.Dark), Settings.ThemeDark));
         }
 
         /// <summary>
@@ -46,12 +45,12 @@ namespace WindowsTools.Services.Root
         /// </summary>
         private static void InitializeBackdropList()
         {
-            BackdropList.Add(new DictionaryEntry(Settings.BackdropDefault, nameof(ElementTheme.Default)));
-            BackdropList.Add(new DictionaryEntry(Settings.BackdropMica, nameof(MicaKind) + nameof(MicaKind.Base)));
-            BackdropList.Add(new DictionaryEntry(Settings.BackdropMicaAlt, nameof(MicaKind) + nameof(MicaKind.BaseAlt)));
-            BackdropList.Add(new DictionaryEntry(Settings.BackdropAcrylic, nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Default)));
-            BackdropList.Add(new DictionaryEntry(Settings.BackdropAcrylicBase, nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Base)));
-            BackdropList.Add(new DictionaryEntry(Settings.BackdropAcrylicThin, nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Thin)));
+            BackdropList.Add(new KeyValuePair<string, string>(nameof(ElementTheme.Default), Settings.BackdropDefault));
+            BackdropList.Add(new KeyValuePair<string, string>(nameof(MicaKind) + nameof(MicaKind.Base), Settings.BackdropMica));
+            BackdropList.Add(new KeyValuePair<string, string>(nameof(MicaKind) + nameof(MicaKind.BaseAlt), Settings.BackdropMicaAlt));
+            BackdropList.Add(new KeyValuePair<string, string>(nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Default), Settings.BackdropAcrylic));
+            BackdropList.Add(new KeyValuePair<string, string>(nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Base), Settings.BackdropAcrylicBase));
+            BackdropList.Add(new KeyValuePair<string, string>(nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Thin), Settings.BackdropAcrylicThin));
         }
 
         /// <summary>
@@ -59,8 +58,8 @@ namespace WindowsTools.Services.Root
         /// </summary>
         private static void InitializeDoEngineModeList()
         {
-            DoEngineModeList.Add(new DictionaryEntry(Settings.DoEngineDo, "DeliveryOptimization"));
-            DoEngineModeList.Add(new DictionaryEntry(Settings.DoEngineBits, "BITS"));
+            DoEngineModeList.Add(new KeyValuePair<string, string>("DeliveryOptimization", Settings.DoEngineDo));
+            DoEngineModeList.Add(new KeyValuePair<string, string>("BITS", Settings.DoEngineBits));
         }
 
         /// <summary>
@@ -68,8 +67,8 @@ namespace WindowsTools.Services.Root
         /// </summary>
         private static void InitializeExitModeList()
         {
-            ExitModeList.Add(new DictionaryEntry(Settings.ExitApp, "ExitApp"));
-            ExitModeList.Add(new DictionaryEntry(Settings.CloseWindow, "CloseWindow"));
+            ExitModeList.Add(new KeyValuePair<string, string>("ExitApp", Settings.ExitApp));
+            ExitModeList.Add(new KeyValuePair<string, string>("CloseWindow", Settings.CloseWindow));
         }
     }
 }

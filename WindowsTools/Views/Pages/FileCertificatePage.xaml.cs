@@ -386,12 +386,14 @@ namespace WindowsTools.Views.Pages
                         OperationFailedCollection.Add(operationFailedItem);
                     }
 
+                    int count = FileCertificateCollection.Count;
+
                     lock (fileCertificateLock)
                     {
                         FileCertificateCollection.Clear();
                     }
 
-                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, FileCertificateCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
                 }, null);
             });
         }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace WindowsTools.Models
@@ -8,7 +8,7 @@ namespace WindowsTools.Models
     /// </summary>
     public sealed partial class LanguageModel : INotifyPropertyChanged
     {
-        public DictionaryEntry LangaugeInfo { get; set; }
+        public KeyValuePair<string, string> LangaugeInfo { get; set; }
 
         private bool _isChecked;
 

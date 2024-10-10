@@ -427,8 +427,8 @@ namespace WindowsTools.Views.Windows
                                     filesList.Add(stringBuilder.ToString());
                                 }
                             }
-                            System.Drawing.Point point = new(0, 0);
-                            Shell32Library.DragQueryPoint(wParam, ref point);
+
+                            Shell32Library.DragQueryPoint(wParam, out System.Drawing.Point point);
                             Shell32Library.DragFinish(wParam);
                             BeginInvoke(() =>
                             {
@@ -561,7 +561,7 @@ namespace WindowsTools.Views.Windows
         /// </summary>
         public void SetWindowTheme()
         {
-            if (Enum.TryParse(ThemeService.AppTheme.Value.ToString(), out ElementTheme theme))
+            if (Enum.TryParse(ThemeService.AppTheme.Key, out ElementTheme theme))
             {
                 (Content as MainPage).WindowTheme = theme;
             }
@@ -572,7 +572,7 @@ namespace WindowsTools.Views.Windows
         /// </summary>
         public void SetWindowBackdrop()
         {
-            if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[0].Value))
+            if (BackdropService.AppBackdrop.Equals(BackdropService.BackdropList[0]))
             {
                 VisualStateManager.GoToState(Content as MainPage, "BackgroundDefault", false);
 
@@ -582,7 +582,7 @@ namespace WindowsTools.Views.Windows
                     systemBackdrop = null;
                 }
             }
-            else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[1].Value))
+            else if (BackdropService.AppBackdrop.Equals(BackdropService.BackdropList[1]))
             {
                 VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)
@@ -601,7 +601,7 @@ namespace WindowsTools.Views.Windows
                     systemBackdrop.InitializeBackdrop();
                 }
             }
-            else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[2].Value))
+            else if (BackdropService.AppBackdrop.Equals(BackdropService.BackdropList[2]))
             {
                 VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)
@@ -620,7 +620,7 @@ namespace WindowsTools.Views.Windows
                     systemBackdrop.InitializeBackdrop();
                 }
             }
-            else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[3].Value))
+            else if (BackdropService.AppBackdrop.Equals(BackdropService.BackdropList[3]))
             {
                 VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)
@@ -640,7 +640,7 @@ namespace WindowsTools.Views.Windows
                     systemBackdrop.InitializeBackdrop();
                 }
             }
-            else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[4].Value))
+            else if (BackdropService.AppBackdrop.Equals(BackdropService.BackdropList[4]))
             {
                 VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)
@@ -660,7 +660,7 @@ namespace WindowsTools.Views.Windows
                     systemBackdrop.InitializeBackdrop();
                 }
             }
-            else if (BackdropService.AppBackdrop.Value.Equals(BackdropService.BackdropList[5].Value))
+            else if (BackdropService.AppBackdrop.Equals(BackdropService.BackdropList[5]))
             {
                 VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 if (desktopWindowTarget is not null)

@@ -1,6 +1,5 @@
 using Microsoft.Win32;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -168,9 +167,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private DictionaryEntry _selectedUpdateSource;
+        private KeyValuePair<string, string> _selectedUpdateSource;
 
-        public DictionaryEntry SelectedUpdateSource
+        public KeyValuePair<string, string> SelectedUpdateSource
         {
             get { return _selectedUpdateSource; }
 
@@ -184,9 +183,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private DictionaryEntry _selectedPreviewChannel;
+        private KeyValuePair<string, string> _selectedPreviewChannel;
 
-        public DictionaryEntry SelectedPreviewChannel
+        public KeyValuePair<string, string> SelectedPreviewChannel
         {
             get { return _selectedPreviewChannel; }
 
@@ -200,21 +199,21 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private List<DictionaryEntry> UpdateSourceList { get; } =
+        private List<KeyValuePair<string, string>> UpdateSourceList { get; } =
         [
-            new DictionaryEntry(UpdateManager.MicrosoftUpdate, "Microsoft Update"),
-            new DictionaryEntry(UpdateManager.DCatFlightingProd, "DCat Flighting Prod"),
-            new DictionaryEntry(UpdateManager.WindowsStore, "Windows Store(DCat Prod)"),
-            new DictionaryEntry(UpdateManager.WindowsUpdate, "Windows Update"),
+            new KeyValuePair<string,string>("Microsoft Update", UpdateManager.MicrosoftUpdate),
+            new KeyValuePair<string,string>("DCat Flighting Prod", UpdateManager.DCatFlightingProd),
+            new KeyValuePair<string,string>("Windows Store(DCat Prod)", UpdateManager.WindowsStore),
+            new KeyValuePair<string,string>("Windows Update", UpdateManager.WindowsUpdate),
         ];
 
-        private List<DictionaryEntry> PreviewChannelList { get; } =
+        private List<KeyValuePair<string, string>> PreviewChannelList { get; } =
         [
-            new DictionaryEntry(UpdateManager.DonotEnter, "DoNotEnter"),
-            new DictionaryEntry(UpdateManager.ReleasePreview, "ReleasePreview"),
-            new DictionaryEntry(UpdateManager.Beta, "Beta"),
-            new DictionaryEntry(UpdateManager.Dev, "Dev"),
-            new DictionaryEntry(UpdateManager.Canary, "Canary"),
+            new KeyValuePair<string,string>(UpdateManager.DonotEnter, "DoNotEnter"),
+            new KeyValuePair<string,string>(UpdateManager.ReleasePreview, "ReleasePreview"),
+            new KeyValuePair<string,string>(UpdateManager.Beta, "Beta"),
+            new KeyValuePair<string,string>(UpdateManager.Dev, "Dev"),
+            new KeyValuePair<string,string>(UpdateManager.Canary, "Canary"),
         ];
 
         private ObservableCollection<UpdateModel> AvailableUpdateCollection { get; } = [];
@@ -864,7 +863,7 @@ namespace WindowsTools.Views.Pages
                 // 设置更新源
                 foreach (IUpdateService updateService in updateServiceManager.Services)
                 {
-                    if (updateService.Name.Equals(SelectedUpdateSource.Value))
+                    if (updateService.Name.Equals(SelectedUpdateSource.Key))
                     {
                         updateSearcher.ServiceID = updateService.ServiceID;
                     }

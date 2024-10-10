@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -121,9 +120,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private DictionaryEntry _selectedIconFormat;
+        private KeyValuePair<string, string> _selectedIconFormat;
 
-        public DictionaryEntry SelectedIconFormat
+        public KeyValuePair<string, string> SelectedIconFormat
         {
             get { return _selectedIconFormat; }
 
@@ -137,9 +136,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private DictionaryEntry _selectedIconSize;
+        private KeyValuePair<int, string> _selectedIconSize;
 
-        public DictionaryEntry SelectedIconSize
+        public KeyValuePair<int, string> SelectedIconSize
         {
             get { return _selectedIconSize; }
 
@@ -169,22 +168,22 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private List<DictionaryEntry> IconFormatList { get; } =
+        private List<KeyValuePair<string, string>> IconFormatList { get; } =
         [
-            new DictionaryEntry() { Key = ".ico", Value = ".ico" },
-            new DictionaryEntry() { Key = ".png", Value = ".png" }
+            new KeyValuePair<string,string>(".ico", ".ico" ),
+            new KeyValuePair<string,string>(".png", ".png" )
         ];
 
-        private List<DictionaryEntry> IconSizeList { get; set; } =
+        private List<KeyValuePair<int, string>> IconSizeList { get; set; } =
         [
-            new DictionaryEntry() { Key = "16 * 16", Value = 16 },
-            new DictionaryEntry() { Key = "24 * 24", Value = 24 },
-            new DictionaryEntry() { Key = "32 * 32", Value = 32 },
-            new DictionaryEntry() { Key = "48 * 48", Value = 48 },
-            new DictionaryEntry() { Key = "64 * 64", Value = 64 },
-            new DictionaryEntry() { Key = "96 * 96", Value = 96 },
-            new DictionaryEntry() { Key = "128 * 128", Value = 128 },
-            new DictionaryEntry() { Key = "256 * 256", Value = 256 }
+            new KeyValuePair<int,string>(16, "16 * 16" ),
+            new KeyValuePair<int,string>(24, "24 * 24" ),
+            new KeyValuePair<int,string>(32, "32 * 32" ),
+            new KeyValuePair<int,string>(48, "48 * 48" ),
+            new KeyValuePair<int,string>(64, "64 * 64" ),
+            new KeyValuePair<int,string>(96, "96 * 96" ),
+            new KeyValuePair<int,string>(128, "128 * 128" ),
+            new KeyValuePair<int,string>(256, "256 * 256" )
         ];
 
         private ObservableCollection<IconModel> IconCollection { get; } = [];
@@ -298,7 +297,7 @@ namespace WindowsTools.Views.Pages
                 IntPtr[] phicon = new IntPtr[1];
                 int[] piconid = new int[1];
                 int iconIndex = Convert.ToInt32((selectedItemsList.Last() as IconModel).DisplayIndex);
-                int nIcons = User32Library.PrivateExtractIcons(filePath, iconIndex, Convert.ToInt32(SelectedIconSize.Value), Convert.ToInt32(SelectedIconSize.Value), phicon, piconid, 1, 0);
+                int nIcons = User32Library.PrivateExtractIcons(filePath, iconIndex, Convert.ToInt32(SelectedIconSize.Key), Convert.ToInt32(SelectedIconSize.Key), phicon, piconid, 1, 0);
 
                 if (nIcons is 0)
                 {
@@ -358,7 +357,7 @@ namespace WindowsTools.Views.Pages
                     int[] piconid = new int[1];
                     int iconIndex = Convert.ToInt32((IconsGridView.SelectedItem as IconModel).DisplayIndex);
 
-                    int nIcons = User32Library.PrivateExtractIcons(filePath, iconIndex, Convert.ToInt32(SelectedIconSize.Value), Convert.ToInt32(SelectedIconSize.Value), phicon, piconid, 1, 0);
+                    int nIcons = User32Library.PrivateExtractIcons(filePath, iconIndex, Convert.ToInt32(SelectedIconSize.Key), Convert.ToInt32(SelectedIconSize.Key), phicon, piconid, 1, 0);
 
                     if (nIcons is 0)
                     {
@@ -437,7 +436,7 @@ namespace WindowsTools.Views.Pages
                                 int[] piconid = new int[1];
                                 int iconIndex = Convert.ToInt32((selectedItem as IconModel).DisplayIndex);
 
-                                int nIcons = User32Library.PrivateExtractIcons(filePath, iconIndex, Convert.ToInt32(SelectedIconSize.Value), Convert.ToInt32(SelectedIconSize.Value), phicon, piconid, 1, 0);
+                                int nIcons = User32Library.PrivateExtractIcons(filePath, iconIndex, Convert.ToInt32(SelectedIconSize.Key), Convert.ToInt32(SelectedIconSize.Key), phicon, piconid, 1, 0);
 
                                 if (nIcons is not 0)
                                 {
@@ -445,9 +444,9 @@ namespace WindowsTools.Views.Pages
                                     {
                                         if (Icon.FromHandle(phicon[0]) is Icon icon)
                                         {
-                                            if (SelectedIconFormat.Value == IconFormatList[0].Value)
+                                            if (SelectedIconFormat.Equals(IconFormatList[0]))
                                             {
-                                                bool result = SaveIcon(icon, Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value))));
+                                                bool result = SaveIcon(icon, Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))));
                                                 if (!result)
                                                 {
                                                     saveFailedCount++;
@@ -455,14 +454,14 @@ namespace WindowsTools.Views.Pages
                                             }
                                             else
                                             {
-                                                icon.ToBitmap().Save(Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.png", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value))), ImageFormat.Png);
+                                                icon.ToBitmap().Save(Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.png", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))), ImageFormat.Png);
                                             }
                                         }
                                     }
                                     catch (Exception e)
                                     {
                                         saveFailedCount++;
-                                        LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value)))), e);
+                                        LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key)))), e);
                                     }
                                 }
                             }
@@ -516,7 +515,7 @@ namespace WindowsTools.Views.Pages
                                     int[] piconid = new int[1];
                                     int iconIndex = Convert.ToInt32(iconItem.DisplayIndex);
 
-                                    int nIcons = User32Library.PrivateExtractIcons(filePath, iconIndex, Convert.ToInt32(SelectedIconSize.Value), Convert.ToInt32(SelectedIconSize.Value), phicon, piconid, 1, 0);
+                                    int nIcons = User32Library.PrivateExtractIcons(filePath, iconIndex, Convert.ToInt32(SelectedIconSize.Key), Convert.ToInt32(SelectedIconSize.Key), phicon, piconid, 1, 0);
 
                                     if (nIcons is not 0)
                                     {
@@ -524,9 +523,9 @@ namespace WindowsTools.Views.Pages
                                         {
                                             if (Icon.FromHandle(phicon[0]) is Icon icon)
                                             {
-                                                if (SelectedIconFormat.Value == IconFormatList[0].Value)
+                                                if (SelectedIconFormat.Equals(IconFormatList[0]))
                                                 {
-                                                    bool result = SaveIcon(icon, Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value))));
+                                                    bool result = SaveIcon(icon, Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))));
                                                     if (!result)
                                                     {
                                                         saveFailedCount++;
@@ -534,14 +533,14 @@ namespace WindowsTools.Views.Pages
                                                 }
                                                 else
                                                 {
-                                                    icon.ToBitmap().Save(Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.png", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value))), ImageFormat.Png);
+                                                    icon.ToBitmap().Save(Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.png", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))), ImageFormat.Png);
                                                 }
                                             }
                                         }
                                         catch (Exception e)
                                         {
                                             saveFailedCount++;
-                                            LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Value)))), e);
+                                            LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key)))), e);
                                         }
                                     }
                                 }

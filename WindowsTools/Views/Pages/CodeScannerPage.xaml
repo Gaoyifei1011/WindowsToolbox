@@ -177,7 +177,7 @@
                                     VerticalAlignment="Center"
                                     Text="{x:Bind string:CodeScanner.GenerateCodeType}" />
 
-                                <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedGenerateType.Key, Mode=OneWay}">
+                                <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedGenerateType.Value, Mode=OneWay}">
 
                                     <muxc:DropDownButton.Flyout>
                                         <MenuFlyout Placement="Bottom">
@@ -185,17 +185,17 @@
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnGenerateTypeClicked}"
-                                                IsChecked="{x:Bind SelectedGenerateType.Value.Equals(GenerateTypeList[0].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind SelectedGenerateType.Key.Equals(GenerateTypeList[0].Key), Mode=OneWay}"
                                                 Tag="0"
-                                                Text="{x:Bind sys:Convert.ToString(GenerateTypeList[0].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(GenerateTypeList[0].Value)}" />
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnGenerateTypeClicked}"
-                                                IsChecked="{x:Bind SelectedGenerateType.Value.Equals(GenerateTypeList[1].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind SelectedGenerateType.Key.Equals(GenerateTypeList[1].Key), Mode=OneWay}"
                                                 Tag="1"
-                                                Text="{x:Bind sys:Convert.ToString(GenerateTypeList[1].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(GenerateTypeList[1].Value)}" />
                                         </MenuFlyout>
                                     </muxc:DropDownButton.Flyout>
                                 </muxc:DropDownButton>
@@ -222,7 +222,7 @@
                                     Grid.Column="1"
                                     MinHeight="0"
                                     FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
-                                    IsEnabled="{x:Bind SelectedGenerateType.Value.Equals(GenerateTypeList[1].Value), Mode=OneWay}"
+                                    IsEnabled="{x:Bind SelectedGenerateType.Key.Equals(GenerateTypeList[1].Key), Mode=OneWay}"
                                     IsOn="{x:Bind IsSquare, Mode=OneWay}"
                                     OffContent="{x:Bind string:CodeScanner.IsPhotoSquareOffContent}"
                                     OnContent="{x:Bind string:CodeScanner.IsPhotoSquareOnContent}"
@@ -305,7 +305,7 @@
                                     Grid.Column="1"
                                     MinHeight="0"
                                     FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
-                                    IsEnabled="{x:Bind SelectedGenerateType.Value.Equals(GenerateTypeList[0].Value), Mode=OneWay}"
+                                    IsEnabled="{x:Bind SelectedGenerateType.Key.Equals(GenerateTypeList[0].Key), Mode=OneWay}"
                                     IsOn="{x:Bind IsReserveBarCodeText, Mode=OneWay}"
                                     OffContent="{x:Bind string:CodeScanner.ReserveBarCodeTextOffContent}"
                                     OnContent="{x:Bind string:CodeScanner.ReserveBarCodeTextOnContent}"

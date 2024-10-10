@@ -28,15 +28,6 @@ namespace WindowsToolsShellExtension
 
         public int LockServer(bool fLock)
         {
-            if (fLock)
-            {
-                Program.DllAddRef();
-            }
-            else
-            {
-                Program.DllRelease();
-            }
-
             return 0;
         }
     }

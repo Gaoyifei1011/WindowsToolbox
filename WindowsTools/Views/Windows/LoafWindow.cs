@@ -132,7 +132,7 @@ namespace WindowsTools.Views.Windows
             // 处理键盘钩子消息
             if (nCode >= 0)
             {
-                KBDLLHOOKSTRUCT kbdllHookStruct = (KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));
+                KBDLLHOOKSTRUCT kbdllHookStruct = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
 
                 // Esc 键，退出摸鱼
                 if (kbdllHookStruct.vkCode is Keys.Escape)

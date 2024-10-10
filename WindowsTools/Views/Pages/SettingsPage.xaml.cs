@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -31,9 +30,9 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class SettingsPage : Page, INotifyPropertyChanged
     {
-        private DictionaryEntry _theme = ThemeService.AppTheme;
+        private KeyValuePair<string, string> _theme = ThemeService.AppTheme;
 
-        public DictionaryEntry Theme
+        public KeyValuePair<string, string> Theme
         {
             get { return _theme; }
 
@@ -47,9 +46,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private DictionaryEntry _backdrop = BackdropService.AppBackdrop;
+        private KeyValuePair<string, string> _backdrop = BackdropService.AppBackdrop;
 
-        public DictionaryEntry Backdrop
+        public KeyValuePair<string, string> Backdrop
         {
             get { return _backdrop; }
 
@@ -79,9 +78,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private DictionaryEntry _appLanguage = LanguageService.AppLanguage;
+        private KeyValuePair<string, string> _appLanguage = LanguageService.AppLanguage;
 
-        public DictionaryEntry AppLanguage
+        public KeyValuePair<string, string> AppLanguage
         {
             get { return _appLanguage; }
 
@@ -127,9 +126,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private DictionaryEntry _doEngineMode = DownloadOptionsService.DoEngineMode;
+        private KeyValuePair<string, string> _doEngineMode = DownloadOptionsService.DoEngineMode;
 
-        public DictionaryEntry DoEngineMode
+        public KeyValuePair<string, string> DoEngineMode
         {
             get { return _doEngineMode; }
 
@@ -159,9 +158,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private DictionaryEntry _exitMode = ExitModeService.ExitMode;
+        private KeyValuePair<string, string> _exitMode = ExitModeService.ExitMode;
 
-        public DictionaryEntry ExitMode
+        public KeyValuePair<string, string> ExitMode
         {
             get { return _exitMode; }
 
@@ -175,13 +174,13 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private List<DictionaryEntry> ThemeList { get; } = ThemeService.ThemeList;
+        private List<KeyValuePair<string, string>> ThemeList { get; } = ThemeService.ThemeList;
 
-        private List<DictionaryEntry> BackdropList { get; } = BackdropService.BackdropList;
+        private List<KeyValuePair<string, string>> BackdropList { get; } = BackdropService.BackdropList;
 
-        private List<DictionaryEntry> DoEngineModeList { get; } = DownloadOptionsService.DoEngineModeList;
+        private List<KeyValuePair<string, string>> DoEngineModeList { get; } = DownloadOptionsService.DoEngineModeList;
 
-        private List<DictionaryEntry> ExitModeList { get; } = ExitModeService.ExitModeList;
+        private List<KeyValuePair<string, string>> ExitModeList { get; } = ExitModeService.ExitModeList;
 
         private ObservableCollection<LanguageModel> LanguageCollection { get; } = [];
 
@@ -191,9 +190,9 @@ namespace WindowsTools.Views.Pages
         {
             InitializeComponent();
 
-            foreach (DictionaryEntry languageItem in LanguageService.LanguageList)
+            foreach (KeyValuePair<string, string> languageItem in LanguageService.LanguageList)
             {
-                if (LanguageService.AppLanguage.Value.Equals(languageItem.Value))
+                if (LanguageService.AppLanguage.Key.Equals(languageItem.Key))
                 {
                     AppLanguage = languageItem;
                     LanguageCollection.Add(new LanguageModel()
@@ -230,7 +229,7 @@ namespace WindowsTools.Views.Pages
                 foreach (LanguageModel item in LanguageCollection)
                 {
                     item.IsChecked = false;
-                    if (languageItem.LangaugeInfo.Value.Equals(item.LangaugeInfo.Value))
+                    if (languageItem.LangaugeInfo.Key.Equals(item.LangaugeInfo.Key))
                     {
                         AppLanguage = item.LangaugeInfo;
                         item.IsChecked = true;
@@ -504,21 +503,21 @@ namespace WindowsTools.Views.Pages
 
         #endregion 第二部分：设置页面——挂载的事件
 
-        private string LocalizeDisplayNumber(DictionaryEntry selectedBackdrop)
+        private string LocalizeDisplayNumber(KeyValuePair<string, string> selectedBackdrop)
         {
-            int index = BackdropList.FindIndex(item => item.Value.Equals(selectedBackdrop.Value));
+            int index = BackdropList.FindIndex(item => item.Key.Equals(selectedBackdrop.Key));
 
             if (index is 0)
             {
-                return selectedBackdrop.Key.ToString();
+                return selectedBackdrop.Key;
             }
             else if (index is 1 || index is 2)
             {
-                return Settings.Mica + " " + selectedBackdrop.Key.ToString();
+                return Settings.Mica + " " + selectedBackdrop.Key;
             }
             else if (index is 3 || index is 4 || index is 5)
             {
-                return Settings.DesktopAcrylic + " " + selectedBackdrop.Key.ToString();
+                return Settings.DesktopAcrylic + " " + selectedBackdrop.Key;
             }
             else
             {

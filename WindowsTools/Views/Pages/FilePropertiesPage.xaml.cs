@@ -757,12 +757,14 @@ namespace WindowsTools.Views.Pages
                         OperationFailedCollection.Add(operationFailedItem);
                     }
 
+                    int count = FilePropertiesCollection.Count;
+
                     lock (filePropertiesLock)
                     {
                         FilePropertiesCollection.Clear();
                     }
 
-                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, FilePropertiesCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
                 }, null);
             });
         }

@@ -38,7 +38,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Advapi32
         /// 如果 lpName 缓冲区太小而无法接收密钥的名称，则函数将返回ERROR_MORE_DATA。
         /// </returns>
         [LibraryImport(Advapi32, EntryPoint = "RegEnumKeyExW"), PreserveSig]
-        public static partial int RegEnumKeyEx(UIntPtr hKey, int dwIndex, ref char lpName, ref int lpcchName, [In, Out] int[] lpReserved, [In, Out] char[] lpClass, [In, Out] int[] lpcbClass, [Out] long[] lpftLastWriteTime);
+        public static partial int RegEnumKeyEx(UIntPtr hKey, int dwIndex, [Out, MarshalAs(UnmanagedType.LPArray)] char[] lpName, ref int lpcchName, [In, Out, MarshalAs(UnmanagedType.LPArray)] int[] lpReserved, [In, Out, MarshalAs(UnmanagedType.LPArray)] char[] lpClass, [In, Out, MarshalAs(UnmanagedType.LPArray)] int[] lpcbClass, [Out, MarshalAs(UnmanagedType.LPArray)] long[] lpftLastWriteTime);
 
         /// <summary>
         /// 打开指定的注册表项。 请注意，键名称不区分大小写。
@@ -50,7 +50,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Advapi32
         /// <param name="phkResult">一个变量的指针，此变量指向已打开键的句柄。</param>
         /// <returns>如果函数成功，则返回值为 ERROR_SUCCESS。如果函数失败，则返回值为 Winerror.h 中定义的非零错误代码。</returns>
         [LibraryImport(Advapi32, EntryPoint = "RegOpenKeyExW", SetLastError = false, StringMarshalling = StringMarshalling.Utf16), PreserveSig]
-        public static partial int RegOpenKeyEx(UIntPtr hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int ulOptions, RegistryAccessRights samDesired, ref UIntPtr phkResult);
+        public static partial int RegOpenKeyEx(UIntPtr hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpSubKey, int ulOptions, RegistryAccessRights samDesired, out UIntPtr phkResult);
 
         /// <summary>
         /// 检索与打开的注册表项关联的指定值名称的类型和数据。
@@ -66,6 +66,6 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Advapi32
         /// 如果 lpData 缓冲区太小，无法接收数据，函数将返回ERROR_MORE_DATA。如果 lpValueName 注册表值不存在，该函数将返回ERROR_FILE_NOT_FOUND。
         /// </returns>
         [LibraryImport(Advapi32, EntryPoint = "RegQueryValueExW", SetLastError = false, StringMarshalling = StringMarshalling.Utf16), PreserveSig]
-        public static partial int RegQueryValueEx(UIntPtr hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName, int lpReserved, out RegistryValueKind lpType, [Out] byte[] lpData, ref int lpcbData);
+        public static partial int RegQueryValueEx(UIntPtr hKey, [MarshalAs(UnmanagedType.LPWStr)] string lpValueName, int lpReserved, out RegistryValueKind lpType, [Out, MarshalAs(UnmanagedType.LPArray)] byte[] lpData, ref int lpcbData);
     }
 }

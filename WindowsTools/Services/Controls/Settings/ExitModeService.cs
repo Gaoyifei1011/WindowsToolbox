@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using WindowsTools.Extensions.DataType.Constant;
 using WindowsTools.Services.Root;
 
@@ -12,11 +11,11 @@ namespace WindowsTools.Services.Controls.Settings
     {
         private static readonly string settingsKey = ConfigKey.ExitModeKey;
 
-        private static DictionaryEntry defaultExitMode;
+        private static KeyValuePair<string, string> defaultExitMode;
 
-        public static DictionaryEntry ExitMode { get; set; }
+        public static KeyValuePair<string, string> ExitMode { get; set; }
 
-        public static List<DictionaryEntry> ExitModeList { get; private set; }
+        public static List<KeyValuePair<string, string>> ExitModeList { get; private set; }
 
         /// <summary>
         /// 应用在初始化前获取设置存储的退出方式值
@@ -33,7 +32,7 @@ namespace WindowsTools.Services.Controls.Settings
         /// <summary>
         /// 获取设置存储的退出方式值，如果设置没有存储，使用默认值
         /// </summary>
-        private static DictionaryEntry GetExitMode()
+        private static KeyValuePair<string, string> GetExitMode()
         {
             string exitMode = LocalSettingsService.ReadSetting<string>(settingsKey);
 
@@ -43,19 +42,19 @@ namespace WindowsTools.Services.Controls.Settings
                 return defaultExitMode;
             }
 
-            DictionaryEntry selectedExitMode = ExitModeList.Find(item => item.Value.Equals(exitMode));
+            KeyValuePair<string, string> selectedExitMode = ExitModeList.Find(item => item.Key.Equals(exitMode));
 
-            return selectedExitMode.Key is null ? defaultExitMode : ExitModeList.Find(item => item.Value.Equals(exitMode));
+            return selectedExitMode.Key is null ? defaultExitMode : ExitModeList.Find(item => item.Key.Equals(exitMode));
         }
 
         /// <summary>
         /// 应用退出方式发生修改时修改设置存储的退出方式值
         /// </summary>
-        public static void SetExitMode(DictionaryEntry exitMode)
+        public static void SetExitMode(KeyValuePair<string, string> exitMode)
         {
             ExitMode = exitMode;
 
-            LocalSettingsService.SaveSetting(settingsKey, exitMode.Value);
+            LocalSettingsService.SaveSetting(settingsKey, exitMode.Key);
         }
     }
 }

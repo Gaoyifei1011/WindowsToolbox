@@ -44,8 +44,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
             FileOpenDialog = (IFileOpenDialog)Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_FileOpenDialog));
             FileOpenDialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
             FileOpenDialog.SetTitle(Description);
-            Guid iShellItemGuid = typeof(IShellItem).GUID;
-            Shell32Library.SHCreateItemFromParsingName(Environment.GetFolderPath(RootFolder), null, iShellItemGuid, out IShellItem initialFolder);
+            Shell32Library.SHCreateItemFromParsingName(Environment.GetFolderPath(RootFolder), null, typeof(IShellItem).GUID, out IShellItem initialFolder);
             FileOpenDialog.SetFolder(initialFolder);
             Marshal.ReleaseComObject(initialFolder);
         }

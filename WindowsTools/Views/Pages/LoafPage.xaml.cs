@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Tracing;
@@ -94,9 +93,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private DictionaryEntry _selectedUpdateStyle;
+        private KeyValuePair<UpdatingKind, string> _selectedUpdateStyle;
 
-        public DictionaryEntry SelectedUpdateStyle
+        public KeyValuePair<UpdatingKind, string> SelectedUpdateStyle
         {
             get { return _selectedUpdateStyle; }
 
@@ -142,10 +141,10 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private List<DictionaryEntry> UpdateStyleList { get; } =
+        private List<KeyValuePair<UpdatingKind, string>> UpdateStyleList { get; } =
         [
-            new DictionaryEntry(Loaf.Windows11Style, UpdatingKind.Windows11),
-            new DictionaryEntry(Loaf.Windows10Style, UpdatingKind.Windows10),
+            new KeyValuePair<UpdatingKind,string>(UpdatingKind.Windows11,Loaf.Windows11Style ),
+            new KeyValuePair<UpdatingKind,string>( UpdatingKind.Windows10,Loaf.Windows10Style),
         ];
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -248,7 +247,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnStartLoafClicked(object sender, RoutedEventArgs args)
         {
-            new LoafWindow((UpdatingKind)SelectedUpdateStyle.Value, DurationTime, BlockAllKeys, LockScreenAutomaticly).Show();
+            new LoafWindow(SelectedUpdateStyle.Key, DurationTime, BlockAllKeys, LockScreenAutomaticly).Show();
             LoafWindow.Current.FormClosed += OnClosed;
             IsLoafing = true;
         }

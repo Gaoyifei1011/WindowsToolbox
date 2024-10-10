@@ -94,7 +94,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// </param>
         /// <returns>返回用于取消注册电源通知的通知句柄。 如果函数失败，则返回值为 NULL。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", SetLastError = false, PreserveSig = true)]
-        public static extern IntPtr RegisterPowerSettingNotification(IntPtr hRecipient, ref Guid PowerSettingGuid, uint Flags);
+        public static extern IntPtr RegisterPowerSettingNotification(IntPtr hRecipient, in Guid PowerSettingGuid, uint Flags);
 
         /// <summary>
         /// 将指定的消息发送到窗口或窗口。SendMessage 函数调用指定窗口的窗口过程，在窗口过程处理消息之前不会返回。

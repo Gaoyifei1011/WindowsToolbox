@@ -634,12 +634,14 @@ namespace WindowsTools.Views.Pages
                         OperationFailedCollection.Add(operationFailedItem);
                     }
 
+                    int count = ExtensionNameCollection.Count;
+
                     lock (extensionNameLock)
                     {
                         ExtensionNameCollection.Clear();
                     }
 
-                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, ExtensionNameCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
                 }, null);
             });
         }

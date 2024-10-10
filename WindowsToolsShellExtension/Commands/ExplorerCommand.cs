@@ -172,9 +172,7 @@ namespace WindowsToolsShellExtension.Commands
                     if (folderViewPtr != IntPtr.Zero)
                     {
                         IFolderView folderView = ComInterfaceMarshaller<IFolderView>.ConvertToManaged((void*)folderViewPtr);
-
-                        Guid iShellItemGuid = typeof(IShellItem).GUID;
-                        folderView.GetFolder(ref iShellItemGuid, out IntPtr iShellItemPtr);
+                        folderView.GetFolder(typeof(IShellItem).GUID, out IntPtr iShellItemPtr);
 
                         IShellItem shellItem = ComInterfaceMarshaller<IShellItem>.ConvertToManaged((void*)iShellItemPtr);
                         shellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out folderPath);
@@ -258,9 +256,7 @@ namespace WindowsToolsShellExtension.Commands
                     if (folderViewPtr != IntPtr.Zero)
                     {
                         IFolderView folderView = ComInterfaceMarshaller<IFolderView>.ConvertToManaged((void*)folderViewPtr);
-
-                        Guid iShellItemGuid = typeof(IShellItem).GUID;
-                        folderView.GetFolder(ref iShellItemGuid, out IntPtr iShellItemPtr);
+                        folderView.GetFolder(typeof(IShellItem).GUID, out IntPtr iShellItemPtr);
 
                         IShellItem shellItem = ComInterfaceMarshaller<IShellItem>.ConvertToManaged((void*)iShellItemPtr);
                         shellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out string filePath);
@@ -435,7 +431,7 @@ namespace WindowsToolsShellExtension.Commands
         /// <summary>
         /// 检索使用 SetSite 传递的最新站点。
         /// </summary>
-        public int GetSite(ref Guid riid, out IntPtr ppvSite)
+        public int GetSite(in Guid riid, out IntPtr ppvSite)
         {
             if (site != IntPtr.Zero)
             {

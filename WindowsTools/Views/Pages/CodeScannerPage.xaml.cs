@@ -1,6 +1,5 @@
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Tracing;
@@ -92,9 +91,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private DictionaryEntry _selectedGenerateType;
+        private KeyValuePair<string, string> _selectedGenerateType;
 
-        public DictionaryEntry SelectedGenerateType
+        public KeyValuePair<string, string> SelectedGenerateType
         {
             get { return _selectedGenerateType; }
 
@@ -108,9 +107,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private DictionaryEntry _selectedSaveCodeType;
+        private KeyValuePair<string, string> _selectedSaveCodeType;
 
-        public DictionaryEntry SelectedSaveCodeType
+        public KeyValuePair<string, string> SelectedSaveCodeType
         {
             get { return _selectedSaveCodeType; }
 
@@ -198,10 +197,10 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private List<DictionaryEntry> GenerateTypeList { get; } =
+        private List<KeyValuePair<string, string>> GenerateTypeList { get; } =
         [
-            new DictionaryEntry(CodeScanner.BarCode, "BarCode"),
-            new DictionaryEntry(CodeScanner.QRCode, "QRCode")
+            new KeyValuePair<string,string>("BarCode", CodeScanner.BarCode),
+            new KeyValuePair<string,string>("QRCode", CodeScanner.QRCode)
         ];
 
         public event PropertyChangedEventHandler PropertyChanged;

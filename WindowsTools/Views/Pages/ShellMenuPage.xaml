@@ -895,48 +895,48 @@
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{x:Bind string:ShellMenu.MenuFileMatchRule}" />
 
-                                <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedFileMatchRule.Key, Mode=OneWay}">
+                                <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedFileMatchRule.Value, Mode=OneWay}">
                                     <muxc:DropDownButton.Flyout>
                                         <MenuFlyout Placement="Bottom">
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnFileMatchRuleClicked}"
-                                                IsChecked="{x:Bind SelectedFileMatchRule.Value.Equals(FileMatchRuleList[0].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[0].Key), Mode=OneWay}"
                                                 Tag="0"
-                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[0].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[0].Value)}" />
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnFileMatchRuleClicked}"
-                                                IsChecked="{x:Bind SelectedFileMatchRule.Value.Equals(FileMatchRuleList[1].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[1].Key), Mode=OneWay}"
                                                 Tag="1"
-                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[1].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[1].Value)}" />
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnFileMatchRuleClicked}"
-                                                IsChecked="{x:Bind SelectedFileMatchRule.Value.Equals(FileMatchRuleList[2].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[2].Key), Mode=OneWay}"
                                                 Tag="2"
-                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[2].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[2].Value)}" />
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnFileMatchRuleClicked}"
-                                                IsChecked="{x:Bind SelectedFileMatchRule.Value.Equals(FileMatchRuleList[3].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[3].Key), Mode=OneWay}"
                                                 Tag="3"
-                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[3].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[3].Value)}" />
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnFileMatchRuleClicked}"
-                                                IsChecked="{x:Bind SelectedFileMatchRule.Value.Equals(FileMatchRuleList[4].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[4].Key), Mode=OneWay}"
                                                 Tag="4"
-                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[4].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[4].Value)}" />
                                         </MenuFlyout>
                                     </muxc:DropDownButton.Flyout>
                                 </muxc:DropDownButton>

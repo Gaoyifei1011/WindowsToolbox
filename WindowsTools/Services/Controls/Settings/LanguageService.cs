@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -7,7 +6,6 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms;
 using Windows.Globalization;
-using Windows.Storage.Streams;
 using WindowsTools.Extensions.DataType.Constant;
 using WindowsTools.Services.Root;
 using WindowsTools.WindowsAPI.ComTypes;
@@ -23,15 +21,27 @@ namespace WindowsTools.Services.Controls.Settings
         private static readonly string settingsKey = ConfigKey.LanguageKey;
         private static readonly Guid CLSID_AppxFactory = new("5842A140-FF9F-4166-8F5C-62F5B7B0C781");
         private static readonly IAppxFactory appxFactory = Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_AppxFactory)) as IAppxFactory;
-        private static DictionaryEntry defaultAppLanguage;
+        private static KeyValuePair<string, string> defaultAppLanguage;
 
-        public static DictionaryEntry AppLanguage { get; private set; }
+        public static KeyValuePair<string, string> AppLanguage { get; private set; }
 
         public static RightToLeft RightToLeft { get; private set; }
 
         private static readonly List<string> AppLanguagesList = [];
 
-        public static List<DictionaryEntry> LanguageList { get; } = [];
+        public static List<KeyValuePair<string, string>> LanguageList { get; } = [];
+
+        /// <summary>
+        /// 应用在初始化前获取设置存储的语言值，如果设置值为空，设定默认的应用语言值
+        /// </summary>
+        public static void InitializeLanguage()
+        {
+            InitializeLanguageList();
+
+            defaultAppLanguage = LanguageList.Find(item => item.Key.Equals("en-US", StringComparison.OrdinalIgnoreCase));
+
+            AppLanguage = GetLanguage();
+        }
 
         /// <summary>
         /// 初始化应用语言信息列表
@@ -77,18 +87,18 @@ namespace WindowsTools.Services.Controls.Settings
             {
                 CultureInfo culture = CultureInfo.GetCultureInfo(applanguage);
 
-                LanguageList.Add(new DictionaryEntry(culture.NativeName, culture.Name));
+                LanguageList.Add(new KeyValuePair<string, string>(culture.Name, culture.NativeName));
             }
         }
 
         /// <summary>
         /// 当设置中的键值为空时，判断当前系统语言是否存在于语言列表中
         /// </summary>
-        private static bool IsExistsInLanguageList(CultureInfo currentCulture, out DictionaryEntry language)
+        private static bool IsExistsInLanguageList(CultureInfo currentCulture, out KeyValuePair<string, string> language)
         {
-            foreach (DictionaryEntry languageItem in LanguageList)
+            foreach (KeyValuePair<string, string> languageItem in LanguageList)
             {
-                if (languageItem.Value.ToString().Equals(currentCulture.Name, StringComparison.OrdinalIgnoreCase))
+                if (languageItem.Key.Equals(currentCulture.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     language = languageItem;
                     return true;
@@ -100,21 +110,9 @@ namespace WindowsTools.Services.Controls.Settings
         }
 
         /// <summary>
-        /// 应用在初始化前获取设置存储的语言值，如果设置值为空，设定默认的应用语言值
-        /// </summary>
-        public static void InitializeLanguage()
-        {
-            InitializeLanguageList();
-
-            defaultAppLanguage = LanguageList.Find(item => item.Value.ToString().Equals("en-US", StringComparison.OrdinalIgnoreCase));
-
-            AppLanguage = GetLanguage();
-        }
-
-        /// <summary>
         /// 获取设置存储的语言值，如果设置没有存储，使用默认值
         /// </summary>
-        private static DictionaryEntry GetLanguage()
+        private static KeyValuePair<string, string> GetLanguage()
         {
             string language = LocalSettingsService.ReadSetting<string>(settingsKey);
 
@@ -126,7 +124,7 @@ namespace WindowsTools.Services.Controls.Settings
             if (string.IsNullOrEmpty(language))
             {
                 // 判断当前系统语言是否存在应用默认添加的语言列表中
-                existResult = IsExistsInLanguageList(currentCultureInfo, out DictionaryEntry currentLanguage);
+                existResult = IsExistsInLanguageList(currentCultureInfo, out KeyValuePair<string, string> currentLanguage);
 
                 // 如果存在，设置存储值和应用初次设置的语言为当前系统的语言
                 if (existResult)
@@ -137,7 +135,7 @@ namespace WindowsTools.Services.Controls.Settings
                 }
                 else
                 {
-                    existResult = IsExistsInLanguageList(currentParentCultureInfo, out DictionaryEntry currentParentLanguage);
+                    existResult = IsExistsInLanguageList(currentParentCultureInfo, out KeyValuePair<string, string> currentParentLanguage);
 
                     // 如果存在，设置存储值和应用初次设置的语言为当前系统语言的父区域性的语言
                     if (existResult)
@@ -151,26 +149,26 @@ namespace WindowsTools.Services.Controls.Settings
                     else
                     {
                         SetLanguage(defaultAppLanguage);
-                        CultureInfo defaultCultureInfo = CultureInfo.GetCultureInfo(defaultAppLanguage.Value.ToString());
+                        CultureInfo defaultCultureInfo = CultureInfo.GetCultureInfo(defaultAppLanguage.Key);
                         RightToLeft = defaultCultureInfo.TextInfo.IsRightToLeft ? RightToLeft.Yes : RightToLeft.No;
                         return defaultAppLanguage;
                     }
                 }
             }
 
-            CultureInfo savedCultureInfo = CultureInfo.GetCultureInfo(language.ToString());
+            CultureInfo savedCultureInfo = CultureInfo.GetCultureInfo(language);
             RightToLeft = savedCultureInfo.TextInfo.IsRightToLeft ? RightToLeft.Yes : RightToLeft.No;
-            return LanguageList.Find(item => language.Equals(item.Value.ToString(), StringComparison.OrdinalIgnoreCase));
+            return LanguageList.Find(item => language.Equals(item.Key, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
         /// 语言发生修改时修改设置存储的语言值
         /// </summary>
-        public static void SetLanguage(DictionaryEntry language)
+        public static void SetLanguage(KeyValuePair<string, string> language)
         {
             AppLanguage = language;
-            LocalSettingsService.SaveSetting(settingsKey, language.Value);
-            ApplicationLanguages.PrimaryLanguageOverride = language.Value.ToString();
+            LocalSettingsService.SaveSetting(settingsKey, language.Key);
+            ApplicationLanguages.PrimaryLanguageOverride = language.Key;
         }
     }
 }

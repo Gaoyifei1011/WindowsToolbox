@@ -678,12 +678,14 @@ namespace WindowsTools.Views.Pages
                         OperationFailedCollection.Add(operationFailedItem);
                     }
 
+                    int count = UpperAndLowerCaseCollection.Count;
+
                     lock (upperAndLowerCaseLock)
                     {
                         UpperAndLowerCaseCollection.Clear();
                     }
 
-                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, UpperAndLowerCaseCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
                 }, null);
             });
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using WindowsTools.Extensions.DataType.Constant;
@@ -14,11 +13,11 @@ namespace WindowsTools.Services.Controls.Settings
     {
         private static readonly string settingsKey = ConfigKey.BackdropKey;
 
-        private static DictionaryEntry defaultAppBackdrop;
+        private static KeyValuePair<string, string> defaultAppBackdrop;
 
-        private static DictionaryEntry _appBackdrop;
+        private static KeyValuePair<string, string> _appBackdrop;
 
-        public static DictionaryEntry AppBackdrop
+        public static KeyValuePair<string, string> AppBackdrop
         {
             get { return _appBackdrop; }
 
@@ -32,7 +31,7 @@ namespace WindowsTools.Services.Controls.Settings
             }
         }
 
-        public static List<DictionaryEntry> BackdropList { get; private set; }
+        public static List<KeyValuePair<string, string>> BackdropList { get; private set; }
 
         public static event PropertyChangedEventHandler PropertyChanged;
 
@@ -43,7 +42,7 @@ namespace WindowsTools.Services.Controls.Settings
         {
             BackdropList = ResourceService.BackdropList;
 
-            defaultAppBackdrop = BackdropList.Find(item => item.Value.ToString().Equals("Default", StringComparison.OrdinalIgnoreCase));
+            defaultAppBackdrop = BackdropList.Find(item => item.Key.Equals("Default", StringComparison.OrdinalIgnoreCase));
 
             AppBackdrop = GetBackdrop();
         }
@@ -51,7 +50,7 @@ namespace WindowsTools.Services.Controls.Settings
         /// <summary>
         /// 获取设置存储的背景色值，如果设置没有存储，使用默认值
         /// </summary>
-        private static DictionaryEntry GetBackdrop()
+        private static KeyValuePair<string, string> GetBackdrop()
         {
             string backdrop = LocalSettingsService.ReadSetting<string>(settingsKey);
 
@@ -61,7 +60,7 @@ namespace WindowsTools.Services.Controls.Settings
                 return defaultAppBackdrop;
             }
 
-            DictionaryEntry selectedBackdrop = BackdropList.Find(item => item.Value.Equals(backdrop));
+            KeyValuePair<string, string> selectedBackdrop = BackdropList.Find(item => item.Key.Equals(backdrop));
 
             return selectedBackdrop.Key is null ? defaultAppBackdrop : selectedBackdrop;
         }
@@ -69,11 +68,11 @@ namespace WindowsTools.Services.Controls.Settings
         /// <summary>
         /// 应用背景色发生修改时修改设置存储的背景色值
         /// </summary>
-        public static void SetBackdrop(DictionaryEntry backdrop)
+        public static void SetBackdrop(KeyValuePair<string, string> backdrop)
         {
             AppBackdrop = backdrop;
 
-            LocalSettingsService.SaveSetting(settingsKey, backdrop.Value);
+            LocalSettingsService.SaveSetting(settingsKey, backdrop.Key);
         }
     }
 }

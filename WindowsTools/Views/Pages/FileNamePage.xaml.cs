@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -164,9 +163,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private DictionaryEntry _selectedNumberFormat;
+        private KeyValuePair<string, string> _selectedNumberFormat;
 
-        public DictionaryEntry SelectedNumberFormat
+        public KeyValuePair<string, string> SelectedNumberFormat
         {
             get { return _selectedNumberFormat; }
 
@@ -188,16 +187,16 @@ namespace WindowsTools.Views.Pages
             FileName.NameChangeRule4,
         ];
 
-        private readonly List<DictionaryEntry> NumberFormatList =
+        private readonly List<KeyValuePair<string, string>> NumberFormatList =
         [
-            new DictionaryEntry( FileName.Auto, "Auto"),
-            new DictionaryEntry( "0", "0"),
-            new DictionaryEntry( "00", "00"),
-            new DictionaryEntry( "000", "000"),
-            new DictionaryEntry( "0000", "0000"),
-            new DictionaryEntry( "00000", "00000"),
-            new DictionaryEntry( "000000", "000000"),
-            new DictionaryEntry( "0000000", "0000000"),
+            new KeyValuePair<string,string>( "Auto", FileName.Auto),
+            new KeyValuePair<string,string>( "0", "0"),
+            new KeyValuePair<string,string>( "00", "00"),
+            new KeyValuePair<string,string>( "000", "000"),
+            new KeyValuePair<string,string>( "0000", "0000"),
+            new KeyValuePair<string,string>( "00000", "00000"),
+            new KeyValuePair<string,string>( "000000", "000000"),
+            new KeyValuePair<string,string>( "0000000", "0000000"),
         ];
 
         private readonly List<OldAndNewNameModel> NameChangeList =
@@ -758,35 +757,35 @@ namespace WindowsTools.Views.Pages
                             if (tempFileName.Contains("<#>"))
                             {
                                 string formattedIndex = string.Empty;
-                                if (SelectedNumberFormat.Value.Equals(NumberFormatList[0].Value))
+                                if (SelectedNumberFormat.Equals(NumberFormatList[0]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(numberLength, '0');
                                 }
-                                else if (SelectedNumberFormat.Value.Equals(NumberFormatList[1].Value))
+                                else if (SelectedNumberFormat.Equals(NumberFormatList[1]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(1, '0');
                                 }
-                                else if (SelectedNumberFormat.Value.Equals(NumberFormatList[2].Value))
+                                else if (SelectedNumberFormat.Equals(NumberFormatList[2]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(2, '0');
                                 }
-                                else if (SelectedNumberFormat.Value.Equals(NumberFormatList[3].Value))
+                                else if (SelectedNumberFormat.Equals(NumberFormatList[3]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(3, '0');
                                 }
-                                else if (SelectedNumberFormat.Value.Equals(NumberFormatList[4].Value))
+                                else if (SelectedNumberFormat.Equals(NumberFormatList[4]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(4, '0');
                                 }
-                                else if (SelectedNumberFormat.Value.Equals(NumberFormatList[5].Value))
+                                else if (SelectedNumberFormat.Equals(NumberFormatList[5]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(5, '0');
                                 }
-                                else if (SelectedNumberFormat.Value.Equals(NumberFormatList[6].Value))
+                                else if (SelectedNumberFormat.Equals(NumberFormatList[6]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(6, '0');
                                 }
-                                else if (SelectedNumberFormat.Value.Equals(NumberFormatList[7].Value))
+                                else if (SelectedNumberFormat.Equals(NumberFormatList[7]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(7, '0');
                                 }
@@ -916,12 +915,14 @@ namespace WindowsTools.Views.Pages
                         OperationFailedCollection.Add(operationFailedItem);
                     }
 
+                    int count = FileNameCollection.Count;
+
                     lock (fileNameLock)
                     {
                         FileNameCollection.Clear();
                     }
 
-                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, FileNameCollection.Count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
                 }, null);
             });
         }

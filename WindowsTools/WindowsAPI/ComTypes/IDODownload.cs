@@ -64,6 +64,6 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="propVal">要设置的属性值，存储在 VARIANT 中。</param>
         /// <returns>如果函数成功，则返回 S_OK。 否则，它将返回 HRESULT错误代码。</returns>
         [PreserveSig]
-        int SetProperty(DODownloadProperty propId, ref object propVal);
+        int SetProperty(DODownloadProperty propId, in object propVal);
     }
 }

@@ -33,7 +33,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
         /// <param name="ppv">此方法返回时，包含 riid 中请求的接口指针。 这通常是 IShellFolder 或相关的接口。 这也可以是具有单个元素的 IShellItemArray 。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetFolder(ref Guid riid, out IntPtr ppv);
+        int GetFolder(in Guid riid, out IntPtr ppv);
 
         /// <summary>
         /// 按索引获取文件夹视图中特定项的标识符。
@@ -60,7 +60,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.ComTypes
         /// <param name="riid">对用于表示文件夹的所需 IID 的引用。</param>
         /// <param name="ppv">此方法返回时，包含 riid 中请求的接口指针。 这通常是 IEnumIDList、 IDataObject 或 IShellItemArray。 如果发生错误，此值为 NULL。</param>
         [PreserveSig]
-        int Items(uint uFlags, ref Guid riid, out IntPtr ppv);
+        int Items(uint uFlags, in Guid riid, out IntPtr ppv);
 
         /// <summary>
         /// 获取文件夹视图中已使用 IFolderView：：SelectItem 中的SVSI_SELECTIONMARK标记的项的索引。

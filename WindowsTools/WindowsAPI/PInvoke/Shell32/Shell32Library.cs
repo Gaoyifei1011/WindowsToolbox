@@ -49,7 +49,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// <returns>如果删除发生在窗口的工作区中，则为 TRUE;否则为 FALSE。</returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragQueryPoint", SetLastError = false, PreserveSig = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DragQueryPoint(IntPtr hDrop, ref Point lppt);
+        public static extern bool DragQueryPoint(IntPtr hDrop, out Point lppt);
 
         /// <summary>
         /// 描述已删除的文件的结构的标识符。 此句柄是从WM_DROPFILES消息的 wParam 参数检索的。

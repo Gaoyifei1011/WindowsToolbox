@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Threading;
@@ -17,7 +16,7 @@ namespace WindowsTools.Services.Controls.Download
     public static class DownloadSchedulerService
     {
         private static bool isInitialized;
-        private static DictionaryEntry doEngineMode;
+        private static KeyValuePair<string, string> doEngineMode;
 
         public static SemaphoreSlim DownloadSchedulerSemaphoreSlim { get; private set; } = new SemaphoreSlim(1, 1);
 

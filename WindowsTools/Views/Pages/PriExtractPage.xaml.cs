@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -112,18 +111,18 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private int _selectedIndex;
+        private KeyValuePair<string, string> _selectedLanguage;
 
-        public int SelectedIndex
+        public KeyValuePair<string, string> SelectedLanguage
         {
-            get { return _selectedIndex; }
+            get { return _selectedLanguage; }
 
             set
             {
-                if (!Equals(_selectedIndex, value))
+                if (!Equals(_selectedLanguage, value))
                 {
-                    _selectedIndex = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedIndex)));
+                    _selectedLanguage = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedLanguage)));
                 }
             }
         }
@@ -192,9 +191,9 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private DictionaryEntry _selectedResourceCandidateKind;
+        private KeyValuePair<string, string> _selectedResourceCandidateKind;
 
-        public DictionaryEntry SelectedResourceCandidateKind
+        public KeyValuePair<string, string> SelectedResourceCandidateKind
         {
             get { return _selectedResourceCandidateKind; }
 
@@ -208,18 +207,18 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private List<DictionaryEntry> ResourceCandidateKindList { get; } =
+        private List<KeyValuePair<string, string>> ResourceCandidateKindList { get; } =
         [
-            new DictionaryEntry(PriExtract.String, "String"),
-            new DictionaryEntry(PriExtract.FilePath, "FilePath"),
-            new DictionaryEntry(PriExtract.EmbeddedData, "EmbeddedData")
+            new KeyValuePair<string,string>("String", PriExtract.String),
+            new KeyValuePair<string,string>("FilePath", PriExtract.FilePath),
+            new KeyValuePair<string,string>("EmbeddedData", PriExtract.EmbeddedData)
         ];
 
         private readonly List<StringModel> stringList = [];
         private readonly List<FilePathModel> filePathList = [];
         private readonly List<EmbeddedDataModel> embeddedDataList = [];
 
-        private ObservableCollection<DictionaryEntry> LanguageCollection { get; } = [];
+        private ObservableCollection<LanguageModel> LanguageCollection { get; } = [];
 
         private ObservableCollection<StringModel> StringCollection { get; } = [];
 
@@ -323,6 +322,57 @@ namespace WindowsTools.Views.Pages
         #endregion 第一部分：重写父类事件
 
         #region 第二部分：XamlUICommand 命令调用时挂载的事件
+
+        private void OnLanguageExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        {
+            if (LanguageFlyout.IsOpen)
+            {
+                LanguageFlyout.Hide();
+            }
+
+            if (args.Parameter is LanguageModel languageItem && isLoadCompleted)
+            {
+                foreach (LanguageModel item in LanguageCollection)
+                {
+                    item.IsChecked = false;
+                    if (languageItem.LangaugeInfo.Key.Equals(item.LangaugeInfo.Key))
+                    {
+                        SelectedLanguage = item.LangaugeInfo;
+                        item.IsChecked = true;
+                    }
+                }
+
+                StringCollection.Clear();
+
+                if (SelectedLanguage.Equals(LanguageCollection[0]))
+                {
+                    foreach (StringModel stringItem in stringList)
+                    {
+                        StringCollection.Add(stringItem);
+                    }
+                }
+                else
+                {
+                    Task.Run(() =>
+                    {
+                        List<StringModel> coincidentStringList = stringList.Where(item => item.Language.Equals(SelectedLanguage.Key, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                        synchronizationContext.Post(_ =>
+                        {
+                            foreach (StringModel stringItem in coincidentStringList)
+                            {
+                                StringCollection.Add(stringItem);
+                            }
+                        }, null);
+                    });
+                }
+
+                foreach (StringModel stringItem in stringList)
+                {
+                    stringItem.IsSelected = false;
+                }
+            }
+        }
 
         /// <summary>
         /// 复制字符串到剪贴板
@@ -543,45 +593,16 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 输入的语言文本框内容发生变化时触发的事件
+        /// 语言选择菜单打开时自动定位到选中项
         /// </summary>
-        private void OnSelectionChnaged(object sender, SelectionChangedEventArgs args)
+        private void OnOpened(object sender, object args)
         {
-            if (args.RemovedItems.Count > 0 && sender is global::Windows.UI.Xaml.Controls.ComboBox comboBox && SelectedIndex != comboBox.SelectedIndex)
+            foreach (LanguageModel languageItem in LanguageCollection)
             {
-                SelectedIndex = comboBox.SelectedIndex;
-
-                if (isLoadCompleted)
+                if (languageItem.IsChecked)
                 {
-                    StringCollection.Clear();
-
-                    if (SelectedIndex is 0)
-                    {
-                        foreach (StringModel stringItem in stringList)
-                        {
-                            StringCollection.Add(stringItem);
-                        }
-                    }
-                    else
-                    {
-                        Task.Run(() =>
-                        {
-                            List<StringModel> coincidentStringList = stringList.Where(item => item.Language.Equals(LanguageCollection[SelectedIndex].Value as string, StringComparison.OrdinalIgnoreCase)).ToList();
-
-                            synchronizationContext.Post(_ =>
-                            {
-                                foreach (StringModel stringItem in coincidentStringList)
-                                {
-                                    StringCollection.Add(stringItem);
-                                }
-                            }, null);
-                        });
-                    }
-
-                    foreach (StringModel stringItem in stringList)
-                    {
-                        stringItem.IsSelected = false;
-                    }
+                    LanguageListView.ScrollIntoView(languageItem);
+                    break;
                 }
             }
         }
@@ -1197,15 +1218,23 @@ namespace WindowsTools.Views.Pages
                     // 显示获取到的所有内容
                     synchronizationContext.Post(_ =>
                     {
-                        LanguageCollection.Add(new DictionaryEntry(PriExtract.AllLanguage, "AllLanguage"));
+                        LanguageCollection.Add(new LanguageModel()
+                        {
+                            IsChecked = true,
+                            LangaugeInfo = new KeyValuePair<string, string>("AllLanguage", PriExtract.AllLanguage)
+                        });
 
                         foreach (string languageItem in languageList)
                         {
                             CultureInfo cultureInfo = CultureInfo.GetCultureInfo(languageItem);
-                            LanguageCollection.Add(new DictionaryEntry(string.Format("{0} {1}", cultureInfo.DisplayName, languageItem), cultureInfo.Name));
+                            LanguageCollection.Add(new LanguageModel()
+                            {
+                                IsChecked = false,
+                                LangaugeInfo = new KeyValuePair<string, string>(cultureInfo.Name, string.Format("{0}[{1}]", cultureInfo.DisplayName, languageItem))
+                            });
                         }
 
-                        SelectedIndex = 0;
+                        SelectedLanguage = LanguageCollection[0].LangaugeInfo;
 
                         foreach (StringModel stringItem in stringList)
                         {

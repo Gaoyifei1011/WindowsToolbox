@@ -377,7 +377,7 @@ namespace WindowsTools.UI.Backdrop
                 formSubClassProc = new SUBCLASSPROC(OnFormSubClassProc);
                 Comctl32Library.SetWindowSubclass(formRoot.Handle, formSubClassProc, 0, IntPtr.Zero);
 
-                IntPtr hPowerNotify = User32Library.RegisterPowerSettingNotification(formRoot.Handle, ref GUID_POWER_SAVING_STATUS, 0);
+                IntPtr hPowerNotify = User32Library.RegisterPowerSettingNotification(formRoot.Handle, GUID_POWER_SAVING_STATUS, 0);
 
                 isInitialized = true;
 
@@ -819,7 +819,7 @@ namespace WindowsTools.UI.Backdrop
             // 设备节电模式的状态发生更改时触发的消息
             if (Msg is WindowMessage.WM_POWERBROADCAST && (int)wParam is PBT_POWERSETTINGCHANGE)
             {
-                POWERBROADCAST_SETTING setting = (POWERBROADCAST_SETTING)Marshal.PtrToStructure(lParam, typeof(POWERBROADCAST_SETTING));
+                POWERBROADCAST_SETTING setting = Marshal.PtrToStructure<POWERBROADCAST_SETTING>(lParam);
 
                 if (setting.PowerSetting == GUID_POWER_SAVING_STATUS)
                 {

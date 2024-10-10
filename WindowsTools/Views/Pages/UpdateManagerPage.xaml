@@ -1532,9 +1532,9 @@
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateSourceSelectClicked}"
-                                                IsChecked="{x:Bind SelectedUpdateSource.Value.Equals(UpdateSourceList[0].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind SelectedUpdateSource.Key.Equals(UpdateSourceList[0].Key), Mode=OneWay}"
                                                 Tag="0"
-                                                Text="{x:Bind sys:Convert.ToString(UpdateSourceList[0].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(UpdateSourceList[0].Value)}" />
 
                                             <MenuFlyoutSeparator />
 
@@ -1542,25 +1542,25 @@
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateSourceSelectClicked}"
-                                                IsChecked="{x:Bind SelectedUpdateSource.Value.Equals(UpdateSourceList[1].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind SelectedUpdateSource.Key.Equals(UpdateSourceList[1].Key), Mode=OneWay}"
                                                 Tag="1"
-                                                Text="{x:Bind sys:Convert.ToString(UpdateSourceList[1].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(UpdateSourceList[1].Value)}" />
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateSourceSelectClicked}"
-                                                IsChecked="{x:Bind SelectedUpdateSource.Value.Equals(UpdateSourceList[2].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind SelectedUpdateSource.Key.Equals(UpdateSourceList[2].Key), Mode=OneWay}"
                                                 Tag="2"
-                                                Text="{x:Bind sys:Convert.ToString(UpdateSourceList[2].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(UpdateSourceList[2].Value)}" />
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateSourceSelectClicked}"
-                                                IsChecked="{x:Bind SelectedUpdateSource.Value.Equals(UpdateSourceList[3].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind SelectedUpdateSource.Key.Equals(UpdateSourceList[3].Key), Mode=OneWay}"
                                                 Tag="3"
-                                                Text="{x:Bind sys:Convert.ToString(UpdateSourceList[3].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(UpdateSourceList[3].Value)}" />
                                         </MenuFlyout>
                                     </muxc:DropDownButton.Flyout>
                                 </muxc:DropDownButton>
@@ -1658,9 +1658,9 @@
                                                     Height="32"
                                                     Padding="11,0"
                                                     Click="{x:Bind OnPreviewChannelSelectClicked}"
-                                                    IsChecked="{x:Bind SelectedPreviewChannel.Value.Equals(PreviewChannelList[0].Value), Mode=OneWay}"
+                                                    IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[0].Key), Mode=OneWay}"
                                                     Tag="0"
-                                                    Text="{x:Bind sys:Convert.ToString(PreviewChannelList[0].Key)}" />
+                                                    Text="{x:Bind sys:Convert.ToString(PreviewChannelList[0].Value)}" />
 
                                                 <MenuFlyoutSeparator />
 
@@ -1668,33 +1668,33 @@
                                                     Height="32"
                                                     Padding="11,0"
                                                     Click="{x:Bind OnPreviewChannelSelectClicked}"
-                                                    IsChecked="{x:Bind SelectedPreviewChannel.Value.Equals(PreviewChannelList[1].Value), Mode=OneWay}"
+                                                    IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[1].Key), Mode=OneWay}"
                                                     Tag="0"
-                                                    Text="{x:Bind sys:Convert.ToString(PreviewChannelList[1].Key)}" />
+                                                    Text="{x:Bind sys:Convert.ToString(PreviewChannelList[1].Value)}" />
 
                                                 <ToggleMenuFlyoutItem
                                                     Height="32"
                                                     Padding="11,0"
                                                     Click="{x:Bind OnPreviewChannelSelectClicked}"
-                                                    IsChecked="{x:Bind SelectedPreviewChannel.Value.Equals(PreviewChannelList[2].Value), Mode=OneWay}"
+                                                    IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[2].Key), Mode=OneWay}"
                                                     Tag="1"
-                                                    Text="{x:Bind sys:Convert.ToString(PreviewChannelList[2].Key)}" />
+                                                    Text="{x:Bind sys:Convert.ToString(PreviewChannelList[2].Value)}" />
 
                                                 <ToggleMenuFlyoutItem
                                                     Height="32"
                                                     Padding="11,0"
                                                     Click="{x:Bind OnPreviewChannelSelectClicked}"
-                                                    IsChecked="{x:Bind SelectedPreviewChannel.Value.Equals(PreviewChannelList[3].Value), Mode=OneWay}"
+                                                    IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[3].Key), Mode=OneWay}"
                                                     Tag="2"
-                                                    Text="{x:Bind sys:Convert.ToString(PreviewChannelList[3].Key)}" />
+                                                    Text="{x:Bind sys:Convert.ToString(PreviewChannelList[3].Value)}" />
 
                                                 <ToggleMenuFlyoutItem
                                                     Height="32"
                                                     Padding="11,0"
                                                     Click="{x:Bind OnPreviewChannelSelectClicked}"
-                                                    IsChecked="{x:Bind SelectedPreviewChannel.Value.Equals(PreviewChannelList[4].Value), Mode=OneWay}"
+                                                    IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[4].Key), Mode=OneWay}"
                                                     Tag="3"
-                                                    Text="{x:Bind sys:Convert.ToString(PreviewChannelList[4].Key)}" />
+                                                    Text="{x:Bind sys:Convert.ToString(PreviewChannelList[4].Value)}" />
                                             </MenuFlyout>
                                         </muxc:DropDownButton.Flyout>
                                     </muxc:DropDownButton>

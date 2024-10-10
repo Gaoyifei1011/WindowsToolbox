@@ -364,14 +364,14 @@ namespace WindowsTools.Views.Pages
                         }, null);
                     }
 
-                    result = RstrtmgrLibrary.RmGetList(handle, out uint pnProcInfoNeeded, ref pnProcInfo, null, ref lpdwRebootReasons);
+                    result = RstrtmgrLibrary.RmGetList(handle, out uint pnProcInfoNeeded, ref pnProcInfo, null, out lpdwRebootReasons);
 
                     if (result is 234)
                     {
                         RM_PROCESS_INFO[] processInfo = new RM_PROCESS_INFO[pnProcInfoNeeded];
                         pnProcInfo = pnProcInfoNeeded;
 
-                        result = RstrtmgrLibrary.RmGetList(handle, out pnProcInfoNeeded, ref pnProcInfo, processInfo, ref lpdwRebootReasons);
+                        result = RstrtmgrLibrary.RmGetList(handle, out pnProcInfoNeeded, ref pnProcInfo, processInfo, out lpdwRebootReasons);
 
                         if (result is 0)
                         {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 using WindowsToolsShellExtension.Extensions.Registry;
 using WindowsToolsShellExtension.WindowsAPI.PInvoke.Advapi32;
@@ -21,9 +20,7 @@ namespace WindowsToolsShellExtension.Helpers.Root
             T value = default;
             try
             {
-                UIntPtr hKey = UIntPtr.Zero;
-
-                if (Advapi32Library.RegOpenKeyEx(ReservedKeyHandles.HKEY_CURRENT_USER, rootKey, 0, RegistryAccessRights.KEY_READ, ref hKey) is 0)
+                if (Advapi32Library.RegOpenKeyEx(ReservedKeyHandles.HKEY_CURRENT_USER, rootKey, 0, RegistryAccessRights.KEY_READ, out UIntPtr hKey) is 0)
                 {
                     int length = 0;
 
@@ -109,21 +106,19 @@ namespace WindowsToolsShellExtension.Helpers.Root
 
             try
             {
-                UIntPtr hKey = UIntPtr.Zero;
-
-                if (Advapi32Library.RegOpenKeyEx(ReservedKeyHandles.HKEY_CURRENT_USER, rootKey, 0, RegistryAccessRights.KEY_READ, ref hKey) is 0)
+                if (Advapi32Library.RegOpenKeyEx(ReservedKeyHandles.HKEY_CURRENT_USER, rootKey, 0, RegistryAccessRights.KEY_READ, out UIntPtr hKey) is 0)
                 {
                     // 添加当前项信息
                     registryEnumKeyItem.RootKey = rootKey;
 
                     // 获取当前项的所有子项列表
                     List<string> subKeyList = [];
-                    Span<char> name = stackalloc char[256];
+                    char[] name = new char[256];
 
                     int result;
                     int nameLength = name.Length;
 
-                    while ((result = Advapi32Library.RegEnumKeyEx(hKey, subKeyList.Count, ref MemoryMarshal.GetReference(name), ref nameLength, null, null, null, null)) is not 259)
+                    while ((result = Advapi32Library.RegEnumKeyEx(hKey, subKeyList.Count, name, ref nameLength, null, null, null, null)) is not 259)
                     {
                         if (result is 0)
                         {

@@ -165,7 +165,7 @@
                                     VerticalAlignment="Center"
                                     Text="{x:Bind string:Loaf.UpdateStyle}" />
 
-                                <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedUpdateStyle.Key, Mode=OneWay}">
+                                <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedUpdateStyle.Value, Mode=OneWay}">
 
                                     <muxc:DropDownButton.Flyout>
                                         <MenuFlyout Placement="Bottom">
@@ -173,17 +173,17 @@
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateStyleClicked}"
-                                                IsChecked="{x:Bind SelectedUpdateStyle.Value.Equals(UpdateStyleList[0].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind sys:Object.Equals(SelectedUpdateStyle.Key, UpdateStyleList[0].Key), Mode=OneWay}"
                                                 Tag="0"
-                                                Text="{x:Bind sys:Convert.ToString(UpdateStyleList[0].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(UpdateStyleList[0].Value)}" />
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateStyleClicked}"
-                                                IsChecked="{x:Bind SelectedUpdateStyle.Value.Equals(UpdateStyleList[1].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind sys:Object.Equals(SelectedUpdateStyle.Key, UpdateStyleList[1].Key), Mode=OneWay}"
                                                 Tag="1"
-                                                Text="{x:Bind sys:Convert.ToString(UpdateStyleList[1].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(UpdateStyleList[1].Value)}" />
                                         </MenuFlyout>
                                     </muxc:DropDownButton.Flyout>
                                 </muxc:DropDownButton>

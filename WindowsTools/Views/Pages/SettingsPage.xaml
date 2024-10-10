@@ -138,7 +138,7 @@
                     <muxc:DropDownButton
                         Grid.Column="3"
                         VerticalAlignment="Center"
-                        Content="{x:Bind Theme.Key, Mode=OneWay}">
+                        Content="{x:Bind Theme.Value, Mode=OneWay}">
 
                         <muxc:DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
@@ -146,25 +146,25 @@
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnThemeSelectClicked}"
-                                    IsChecked="{x:Bind Theme.Value.Equals(ThemeList[0].Value), Mode=OneWay}"
+                                    IsChecked="{x:Bind Theme.Key.Equals(ThemeList[0].Key), Mode=OneWay}"
                                     Tag="0"
-                                    Text="{x:Bind sys:Convert.ToString(ThemeList[0].Key)}" />
+                                    Text="{x:Bind sys:Convert.ToString(ThemeList[0].Value)}" />
 
                                 <ToggleMenuFlyoutItem
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnThemeSelectClicked}"
-                                    IsChecked="{x:Bind Theme.Value.Equals(ThemeList[1].Value), Mode=OneWay}"
+                                    IsChecked="{x:Bind Theme.Key.Equals(ThemeList[1].Key), Mode=OneWay}"
                                     Tag="1"
-                                    Text="{x:Bind sys:Convert.ToString(ThemeList[1].Key)}" />
+                                    Text="{x:Bind sys:Convert.ToString(ThemeList[1].Value)}" />
 
                                 <ToggleMenuFlyoutItem
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnThemeSelectClicked}"
-                                    IsChecked="{x:Bind Theme.Value.Equals(ThemeList[2].Value), Mode=OneWay}"
+                                    IsChecked="{x:Bind Theme.Key.Equals(ThemeList[2].Key), Mode=OneWay}"
                                     Tag="2"
-                                    Text="{x:Bind sys:Convert.ToString(ThemeList[2].Key)}" />
+                                    Text="{x:Bind sys:Convert.ToString(ThemeList[2].Value)}" />
                             </MenuFlyout>
                         </muxc:DropDownButton.Flyout>
                     </muxc:DropDownButton>
@@ -233,9 +233,9 @@
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
-                                    IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[0].Value), Mode=OneWay}"
+                                    IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[0].Key), Mode=OneWay}"
                                     Tag="0"
-                                    Text="{x:Bind sys:Convert.ToString(BackdropList[0].Key)}" />
+                                    Text="{x:Bind sys:Convert.ToString(BackdropList[0].Value)}" />
 
                                 <MenuFlyoutSubItem
                                     x:Name="MicaFlyoutItem"
@@ -248,17 +248,17 @@
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnBackdropSelectClicked}"
-                                        IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[1].Value), Mode=OneWay}"
+                                        IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[1].Key), Mode=OneWay}"
                                         Tag="1"
-                                        Text="{x:Bind sys:Convert.ToString(BackdropList[1].Key)}" />
+                                        Text="{x:Bind sys:Convert.ToString(BackdropList[1].Value)}" />
 
                                     <ToggleMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnBackdropSelectClicked}"
-                                        IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[2].Value), Mode=OneWay}"
+                                        IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[2].Key), Mode=OneWay}"
                                         Tag="2"
-                                        Text="{x:Bind sys:Convert.ToString(BackdropList[2].Key)}" />
+                                        Text="{x:Bind sys:Convert.ToString(BackdropList[2].Value)}" />
                                 </MenuFlyoutSubItem>
 
                                 <MenuFlyoutSubItem
@@ -272,25 +272,25 @@
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnBackdropSelectClicked}"
-                                        IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[3].Value), Mode=OneWay}"
+                                        IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[3].Key), Mode=OneWay}"
                                         Tag="3"
-                                        Text="{x:Bind sys:Convert.ToString(BackdropList[3].Key)}" />
+                                        Text="{x:Bind sys:Convert.ToString(BackdropList[3].Value)}" />
 
                                     <ToggleMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnBackdropSelectClicked}"
-                                        IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[4].Value), Mode=OneWay}"
+                                        IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[4].Key), Mode=OneWay}"
                                         Tag="4"
-                                        Text="{x:Bind sys:Convert.ToString(BackdropList[4].Key)}" />
+                                        Text="{x:Bind sys:Convert.ToString(BackdropList[4].Value)}" />
 
                                     <ToggleMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnBackdropSelectClicked}"
-                                        IsChecked="{x:Bind Backdrop.Value.Equals(BackdropList[5].Value), Mode=OneWay}"
+                                        IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[5].Key), Mode=OneWay}"
                                         Tag="5"
-                                        Text="{x:Bind sys:Convert.ToString(BackdropList[5].Key)}" />
+                                        Text="{x:Bind sys:Convert.ToString(BackdropList[5].Value)}" />
                                 </MenuFlyoutSubItem>
                             </MenuFlyout>
                         </muxc:DropDownButton.Flyout>
@@ -348,7 +348,7 @@
                         MinWidth="0"
                         Margin="0,-2,0,0"
                         FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
-                        IsEnabled="{x:Bind converter:ValueConverterHelper.ObjectCompareReverseConvert(Backdrop.Value, BackdropList[0].Value), Mode=OneWay}"
+                        IsEnabled="{x:Bind converter:ValueConverterHelper.ObjectCompareReverseConvert(Backdrop.Key, BackdropList[0].Key), Mode=OneWay}"
                         IsEnabledChanged="{x:Bind OnIsEnabledChanged}"
                         IsOn="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}"
                         OffContent="{x:Bind string:Settings.AlwaysShowBackdropOffContent}"
@@ -412,7 +412,7 @@
                     <muxc:DropDownButton
                         Grid.Column="3"
                         VerticalAlignment="Center"
-                        Content="{x:Bind AppLanguage.Key, Mode=OneWay}">
+                        Content="{x:Bind AppLanguage.Value, Mode=OneWay}">
 
                         <muxc:DropDownButton.Flyout>
                             <Flyout
@@ -456,7 +456,7 @@
                                                 Command="{StaticResource LanguageCommand}"
                                                 CommandParameter="{x:Bind}"
                                                 IsChecked="{x:Bind IsChecked, Mode=OneWay}"
-                                                Text="{x:Bind sys:Convert.ToString(LangaugeInfo.Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(LangaugeInfo.Value)}" />
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
@@ -719,7 +719,7 @@
                                 <muxc:DropDownButton
                                     Grid.Column="2"
                                     VerticalAlignment="Center"
-                                    Content="{x:Bind DoEngineMode.Key, Mode=OneWay}">
+                                    Content="{x:Bind DoEngineMode.Value, Mode=OneWay}">
 
                                     <muxc:DropDownButton.Flyout>
                                         <MenuFlyout Placement="Bottom">
@@ -727,17 +727,17 @@
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnDoEngineModeSelectClicked}"
-                                                IsChecked="{x:Bind DoEngineMode.Value.Equals(DoEngineModeList[0].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind DoEngineMode.Key.Equals(DoEngineModeList[0].Key), Mode=OneWay}"
                                                 Tag="0"
-                                                Text="{x:Bind sys:Convert.ToString(DoEngineModeList[0].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(DoEngineModeList[0].Value)}" />
 
                                             <ToggleMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnDoEngineModeSelectClicked}"
-                                                IsChecked="{x:Bind DoEngineMode.Value.Equals(DoEngineModeList[1].Value), Mode=OneWay}"
+                                                IsChecked="{x:Bind DoEngineMode.Key.Equals(DoEngineModeList[1].Key), Mode=OneWay}"
                                                 Tag="1"
-                                                Text="{x:Bind sys:Convert.ToString(DoEngineModeList[1].Key)}" />
+                                                Text="{x:Bind sys:Convert.ToString(DoEngineModeList[1].Value)}" />
                                         </MenuFlyout>
                                     </muxc:DropDownButton.Flyout>
                                 </muxc:DropDownButton>
@@ -860,7 +860,7 @@
                     <muxc:DropDownButton
                         Grid.Column="2"
                         VerticalAlignment="Center"
-                        Content="{x:Bind ExitMode.Key, Mode=OneWay}">
+                        Content="{x:Bind ExitMode.Value, Mode=OneWay}">
 
                         <muxc:DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
@@ -868,17 +868,17 @@
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnExitModeSelectClicked}"
-                                    IsChecked="{x:Bind ExitMode.Value.Equals(ExitModeList[0].Value), Mode=OneWay}"
+                                    IsChecked="{x:Bind ExitMode.Key.Equals(ExitModeList[0].Key), Mode=OneWay}"
                                     Tag="0"
-                                    Text="{x:Bind sys:Convert.ToString(ExitModeList[0].Key)}" />
+                                    Text="{x:Bind sys:Convert.ToString(ExitModeList[0].Value)}" />
 
                                 <ToggleMenuFlyoutItem
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnExitModeSelectClicked}"
-                                    IsChecked="{x:Bind ExitMode.Value.Equals(ExitModeList[1].Value), Mode=OneWay}"
+                                    IsChecked="{x:Bind ExitMode.Key.Equals(ExitModeList[1].Key), Mode=OneWay}"
                                     Tag="1"
-                                    Text="{x:Bind sys:Convert.ToString(ExitModeList[1].Key)}" />
+                                    Text="{x:Bind sys:Convert.ToString(ExitModeList[1].Value)}" />
                             </MenuFlyout>
                         </muxc:DropDownButton.Flyout>
                     </muxc:DropDownButton>

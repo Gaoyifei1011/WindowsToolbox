@@ -72,7 +72,7 @@ namespace WindowsTools
         {
             LogService.Initialize();
             LanguageService.InitializeLanguage();
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(LanguageService.AppLanguage.Value.ToString());
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(LanguageService.AppLanguage.Key);
             ResourceService.LocalizeReosurce();
 
             AlwaysShowBackdropService.InitializeAlwaysShowBackdrop();

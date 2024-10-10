@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
-using System.Threading;
 using WindowsToolsShellExtension.Commands;
 using WindowsToolsShellExtension.Services.Shell;
 
@@ -12,31 +11,9 @@ namespace WindowsToolsShellExtension
     /// </summary>
     public class Program
     {
-        private static long g_cRefModule = 0;
-
         static Program()
         {
             ShellMenuService.InitializeShellMenu();
-        }
-
-        /// <summary>
-        /// 确定是否正在使用实现此函数的 DLL。 否则，调用方可以从内存中卸载 DLL。
-        /// </summary>
-        /// <returns>OLE 不提供此函数。 支持 OLE 组件对象模型 (COM) 的 DLL 应实现并导出 DllCanUnloadNow。</returns>
-        [UnmanagedCallersOnly(EntryPoint = "DllCanUnloadNow")]
-        public static int DllCanUnloadNow()
-        {
-            return g_cRefModule >= 1 ? 1 : 0;
-        }
-
-        public static void DllAddRef()
-        {
-            Interlocked.Increment(ref g_cRefModule);
-        }
-
-        public static void DllRelease()
-        {
-            Interlocked.Decrement(ref g_cRefModule);
         }
 
         /// <summary>
@@ -54,8 +31,9 @@ namespace WindowsToolsShellExtension
                 ClassFactory classFactory = new();
                 IntPtr pIUnknown = (IntPtr)ComInterfaceMarshaller<ClassFactory>.ConvertToUnmanaged(classFactory);
 
-                int hresult = Marshal.QueryInterface(pIUnknown, in riid, out *ppv);
-                Marshal.Release(pIUnknown);
+                int hresult = StrategyBasedComWrappers.DefaultIUnknownStrategy.QueryInterface((void*)pIUnknown, in riid, out void* ppObj);
+                *ppv = (IntPtr)ppObj;
+                StrategyBasedComWrappers.DefaultIUnknownStrategy.Release((void*)pIUnknown);
 
                 return hresult;
             }

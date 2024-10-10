@@ -468,7 +468,7 @@ namespace WindowsTools.Views.Pages
             int structSize = Marshal.SizeOf<SID_AND_ATTRIBUTES>();
             for (int index = 0; index < size; index++)
             {
-                SID_AND_ATTRIBUTES cur = (SID_AND_ATTRIBUTES)Marshal.PtrToStructure(arrayValue, typeof(SID_AND_ATTRIBUTES));
+                SID_AND_ATTRIBUTES cur = Marshal.PtrToStructure<SID_AND_ATTRIBUTES>(arrayValue);
                 inetContainerConfigList.Add(cur);
                 arrayValue = new IntPtr((long)arrayValue + structSize);
             }

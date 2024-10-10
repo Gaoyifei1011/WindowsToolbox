@@ -51,6 +51,6 @@ namespace WindowsTools.WindowsAPI.PInvoke.Rstrtmgr
         /// <param name="lpdwRebootReasons">指向位置的指针，该位置接收 RM_REBOOT_REASON 枚举的值，该枚举描述需要重启系统的原因。</param>
         /// <returns>这是收到的最新错误。 函数可以返回 Winerror.h 中定义的系统错误代码之一。</returns>
         [DllImport(Rstrtmgr, CharSet = CharSet.Unicode, EntryPoint = "RmGetList", SetLastError = false, PreserveSig = true)]
-        public static extern int RmGetList(uint dwSessionHandle, out uint pnProcInfoNeeded, ref uint pnProcInfo, [In, Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] RM_PROCESS_INFO[] rgAffectedApps, ref uint lpdwRebootReasons);
+        public static extern int RmGetList(uint dwSessionHandle, out uint pnProcInfoNeeded, ref uint pnProcInfo, [In, Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] RM_PROCESS_INFO[] rgAffectedApps, out uint lpdwRebootReasons);
     }
 }
