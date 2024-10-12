@@ -51,13 +51,9 @@ namespace WindowsTools.Helpers.Root
                     {
                         value = (T)(object)Convert.ToString(getValue);
                     }
-                    else if (typeof(T) == typeof(byte[]) || typeof(T) == typeof(string[]))
-                    {
-                        value = (T)getValue;
-                    }
                     else
                     {
-                        value = (T)getValue;
+                        value = typeof(T) == typeof(byte[]) || typeof(T) == typeof(string[]) ? (T)getValue : (T)getValue;
                     }
 
                     registryKey.Close();

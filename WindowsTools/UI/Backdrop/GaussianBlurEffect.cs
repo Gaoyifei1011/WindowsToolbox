@@ -105,7 +105,7 @@ namespace WindowsTools.UI.Backdrop
         {
             if (index is 0)
             {
-                source = Marshal.GetComInterfaceForObject(Source, typeof(IGraphicsEffectSource));
+                source = Marshal.GetComInterfaceForObject<object, IGraphicsEffectSource>(Source);
                 return 0;
             }
             else

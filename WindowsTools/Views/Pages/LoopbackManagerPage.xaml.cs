@@ -441,7 +441,7 @@ namespace WindowsTools.Views.Pages
 
             for (int index = 0; index < size; index++)
             {
-                INET_FIREWALL_APP_CONTAINER container = (INET_FIREWALL_APP_CONTAINER)Marshal.PtrToStructure(arrayValue, typeof(INET_FIREWALL_APP_CONTAINER));
+                INET_FIREWALL_APP_CONTAINER container = Marshal.PtrToStructure<INET_FIREWALL_APP_CONTAINER>(arrayValue);
 
                 inetContainerList.Add(container);
                 arrayValue = new IntPtr((long)arrayValue + structSize);

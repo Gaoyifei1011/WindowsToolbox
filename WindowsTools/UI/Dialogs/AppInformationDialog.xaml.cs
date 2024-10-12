@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -6,13 +7,16 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
+using WindowsTools.WindowsAPI.PInvoke.KernelAppCore;
+
+// 抑制 CA1806 警告
+#pragma warning disable CA1806
 
 namespace WindowsTools.UI.Dialogs
 {
@@ -111,50 +115,62 @@ namespace WindowsTools.UI.Dialogs
 
             Task.Run(() =>
             {
-                foreach (Package dependency in Package.Current.Dependencies)
+                uint bufferLength = 0;
+                KernelAppCoreLibrary.GetCurrentPackageInfo2(PACKAGE_FLAGS.PACKAGE_PROPERTY_STATIC, PackagePathType.PackagePathType_Install, ref bufferLength, null, out uint count);
+
+                if (count > 0)
                 {
-                    if (dependency.DisplayName.Contains("WindowsAppRuntime"))
+                    List<PACKAGE_INFO> packageInfoList = [];
+                    byte[] buffer = new byte[bufferLength];
+                    KernelAppCoreLibrary.GetCurrentPackageInfo2(PACKAGE_FLAGS.PACKAGE_PROPERTY_STATIC, PackagePathType.PackagePathType_Install, ref bufferLength, buffer, out count);
+
+                    for (int i = 0; i < count; i++)
                     {
-                        // Windows 应用 SDK 版本信息
-                        synchronizationContext.Post(_ =>
-                        {
-                            WindowsAppSDKVersion = string.Format("{0}.{1}.{2}.{3}",
-                                dependency.Id.Version.Major,
-                                dependency.Id.Version.Minor,
-                                dependency.Id.Version.Build,
-                                dependency.Id.Version.Revision);
-                        }, null);
+                        int packageInfoSize = Marshal.SizeOf<PACKAGE_INFO>();
+                        IntPtr packageInfoPtr = Marshal.AllocHGlobal(packageInfoSize);
+                        Marshal.Copy(buffer, i * packageInfoSize, packageInfoPtr, packageInfoSize);
+                        PACKAGE_INFO packageInfo = Marshal.PtrToStructure<PACKAGE_INFO>(packageInfoPtr);
+                        packageInfoList.Add(packageInfo);
+                        Marshal.FreeHGlobal(packageInfoPtr);
                     }
 
-                    // WinUI 2 版本信息
-                    if (dependency.DisplayName.Contains("Microsoft.UI.Xaml.2.8"))
+                    foreach (PACKAGE_INFO packageInfo in packageInfoList)
                     {
-                        FileVersionInfo winUI2File = FileVersionInfo.GetVersionInfo(Path.Combine(dependency.InstalledPath, "Microsoft.UI.Xaml.dll"));
-
-                        synchronizationContext.Post(_ =>
+                        if (packageInfo.packageFullName.Contains("WindowsAppRuntime"))
                         {
-                            WinUI2Version = string.Format("{0}.{1}.{2}.{3}",
-                                winUI2File.ProductMajorPart,
-                                winUI2File.ProductMinorPart,
-                                winUI2File.ProductBuildPart,
-                                winUI2File.ProductPrivatePart);
-                        }, null);
+                            // Windows 应用 SDK 版本信息
+                            synchronizationContext.Post(_ =>
+                            {
+                                WindowsAppSDKVersion = new Version(
+                                    packageInfo.packageId.version.Parts.Major,
+                                    packageInfo.packageId.version.Parts.Minor,
+                                    packageInfo.packageId.version.Parts.Build,
+                                    packageInfo.packageId.version.Parts.Revision)
+                                .ToString();
+                            }, null);
+                        }
+
+                        // WinUI 2 版本信息
+                        if (packageInfo.packageFullName.Contains("Microsoft.UI.Xaml.2.8"))
+                        {
+                            FileVersionInfo winUI2File = FileVersionInfo.GetVersionInfo(Path.Combine(packageInfo.path, "Microsoft.UI.Xaml.dll"));
+
+                            synchronizationContext.Post(_ =>
+                            {
+                                WinUI2Version = new Version(winUI2File.ProductMajorPart, winUI2File.ProductMinorPart, winUI2File.ProductBuildPart, winUI2File.ProductPrivatePart).ToString();
+                            }, null);
+                        }
                     }
                 }
 
                 // Windows UI 版本信息
-                FileVersionInfo windowsUIFile = FileVersionInfo.GetVersionInfo(string.Format(@"{0}\{1}", Environment.SystemDirectory, "Windows.UI.Xaml.dll"));
+                FileVersionInfo windowsUIFile = FileVersionInfo.GetVersionInfo(Path.Combine(Environment.SystemDirectory, "Windows.UI.Xaml.dll"));
 
                 FileVersionInfo mileXamlFile = FileVersionInfo.GetVersionInfo(Path.Combine(AppContext.BaseDirectory, @"Mile.Xaml.Managed.dll"));
 
                 synchronizationContext.Post(_ =>
                 {
-                    WindowsUIVersion = string.Format("{0}.{1}.{2}.{3}",
-                        windowsUIFile.ProductMajorPart,
-                        windowsUIFile.ProductMinorPart,
-                        windowsUIFile.ProductBuildPart,
-                        windowsUIFile.ProductPrivatePart
-                        );
+                    WindowsUIVersion = new Version(windowsUIFile.ProductMajorPart, windowsUIFile.ProductMinorPart, windowsUIFile.ProductBuildPart, windowsUIFile.ProductPrivatePart).ToString();
 
                     MileXamlVersion = mileXamlFile.FileVersion;
 

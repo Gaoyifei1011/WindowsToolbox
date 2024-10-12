@@ -124,13 +124,7 @@ namespace WindowsTools.Extensions.PriExtract
 
                 string name = binaryReader.ReadString(Encoding.Unicode, fileInfos[i].FileNameLength);
 
-                ReferencedFileOrFolder parentFolder;
-
-                if (fileInfos[i].ParentFolder is not 0xFFFF)
-                    parentFolder = referencedFolders[fileInfos[i].ParentFolder];
-                else
-                    parentFolder = null;
-
+                ReferencedFileOrFolder parentFolder = fileInfos[i].ParentFolder is not 0xFFFF ? referencedFolders[fileInfos[i].ParentFolder] : null;
                 referencedFilesList.Add(new ReferencedFileOrFolder()
                 {
                     Parent = parentFolder,

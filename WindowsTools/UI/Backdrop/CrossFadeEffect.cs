@@ -70,12 +70,12 @@ namespace WindowsTools.UI.Backdrop
         {
             if (index is 0)
             {
-                source = Marshal.GetComInterfaceForObject(Source1, typeof(IGraphicsEffectSource));
+                source = Marshal.GetComInterfaceForObject<object, IGraphicsEffectSource>(Source1);
                 return 0;
             }
             else if (index is 1)
             {
-                source = Marshal.GetComInterfaceForObject(Source2, typeof(IGraphicsEffectSource));
+                source = Marshal.GetComInterfaceForObject<object, IGraphicsEffectSource>(Source2);
                 return 0;
             }
             else

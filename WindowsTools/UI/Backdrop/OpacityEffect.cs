@@ -66,7 +66,7 @@ namespace WindowsTools.UI.Backdrop
 
         public int GetSource(uint index, out IntPtr source)
         {
-            source = Marshal.GetComInterfaceForObject(Source, typeof(IGraphicsEffectSource));
+            source = Marshal.GetComInterfaceForObject<object, IGraphicsEffectSource>(Source);
             return 0;
         }
 

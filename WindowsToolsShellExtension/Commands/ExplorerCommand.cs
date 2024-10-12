@@ -418,14 +418,7 @@ namespace WindowsToolsShellExtension.Commands
         /// </summary>
         public int SetSite(IntPtr pUnkSite)
         {
-            if (pUnkSite == IntPtr.Zero)
-            {
-                return unchecked((int)0x80004002);
-            }
-            else
-            {
-                return Marshal.QueryInterface(pUnkSite, IID_IUnknown, out site);
-            }
+            return pUnkSite == IntPtr.Zero ? unchecked((int)0x80004002) : Marshal.QueryInterface(pUnkSite, IID_IUnknown, out site);
         }
 
         /// <summary>

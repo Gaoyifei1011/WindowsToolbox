@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
+using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -97,7 +98,7 @@ namespace WindowsTools.Views.Pages
                 try
                 {
                     WshShell shell = new();
-                    WshShortcut appShortcut = (WshShortcut)shell.CreateShortcut(string.Format(@"{0}\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), About.AppName));
+                    WshShortcut appShortcut = (WshShortcut)shell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), string.Format(@"{0}.lnk", About.AppName)));
                     uint aumidLength = 260;
                     StringBuilder aumidBuilder = new((int)aumidLength);
                     Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
