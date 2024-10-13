@@ -509,15 +509,15 @@ namespace WindowsTools.Views.Pages
 
             if (index is 0)
             {
-                return selectedBackdrop.Key;
+                return selectedBackdrop.Value;
             }
             else if (index is 1 || index is 2)
             {
-                return Settings.Mica + " " + selectedBackdrop.Key;
+                return string.Format("{0} {1}", Settings.Mica, selectedBackdrop.Value);
             }
             else if (index is 3 || index is 4 || index is 5)
             {
-                return Settings.DesktopAcrylic + " " + selectedBackdrop.Key;
+                return string.Format("{0} {1}", Settings.DesktopAcrylic, selectedBackdrop.Value);
             }
             else
             {
