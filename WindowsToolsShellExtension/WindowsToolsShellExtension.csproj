@@ -5,8 +5,6 @@
     <AssemblyName>WindowsToolsShellExtension</AssemblyName>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <CsWinRTEnableDynamicObjectsSupport>false</CsWinRTEnableDynamicObjectsSupport>
-    <DebuggerSupport>false</DebuggerSupport>
-    <DebugType>none</DebugType>
     <Deterministic>true</Deterministic>
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <ForceAotCompile>true</ForceAotCompile>
@@ -42,6 +40,17 @@
     <RuntimeIdentifier>win-arm64</RuntimeIdentifier>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DebuggerSupport>true</DebuggerSupport>
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebuggerSupport>false</DebuggerSupport>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  
   <ItemGroup>
     <EmbeddedResource Update="ShellMenu\About.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="ShellMenu\About.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ShellMenu.Designer.cs" />

@@ -2,6 +2,7 @@
     x:Class="WindowsTools.UI.Dialogs.AppInformationDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:collection="using:System.Collections"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="using:WindowsTools.Helpers.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -22,100 +23,48 @@
         <x:Double x:Key="ContentDialogWidth">600</x:Double>
     </ContentDialog.Resources>
 
-    <StackPanel>
-        <Grid Margin="0,0,0,3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock
-                Grid.Column="0"
-                Margin="0,0,0,5"
-                Text="{x:Bind string:Dialog.WindowsAppSDKVersion}"
-                TextAlignment="Justify"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Grid.Column="1"
-                Margin="0,0,0,5"
-                Text="{x:Bind WindowsAppSDKVersion, Mode=OneWay}"
-                TextAlignment="DetectFromContent"
-                TextWrapping="Wrap" />
-        </Grid>
+    <ListView
+        CornerRadius="0"
+        ItemsSource="{x:Bind AppInformationCollection, Mode=OneWay}"
+        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+        ScrollViewer.HorizontalScrollMode="Disabled"
+        ScrollViewer.VerticalScrollBarVisibility="Auto"
+        ScrollViewer.VerticalScrollMode="Enabled"
+        SelectionMode="None">
 
-        <Grid Margin="0,0,0,3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock
-                Grid.Column="0"
-                Margin="0,0,0,5"
-                Text="{x:Bind string:Dialog.WinUI2Version}"
-                TextAlignment="Justify"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Grid.Column="1"
-                Margin="0,0,0,5"
-                Text="{x:Bind WinUI2Version, Mode=OneWay}"
-                TextAlignment="DetectFromContent"
-                TextWrapping="Wrap" />
-        </Grid>
+        <ListView.ItemContainerStyle>
+            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="MinHeight" Value="0" />
+                <Setter Property="Padding" Value="0" />
+            </Style>
+        </ListView.ItemContainerStyle>
 
-        <Grid Margin="0,0,0,3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock
-                Grid.Column="0"
-                Margin="0,0,0,5"
-                Text="{x:Bind string:Dialog.WindowsUIVersion}"
-                TextAlignment="Justify"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Grid.Column="1"
-                Margin="0,0,0,5"
-                Text="{x:Bind WindowsUIVersion, Mode=OneWay}"
-                TextAlignment="DetectFromContent"
-                TextWrapping="Wrap" />
-        </Grid>
+        <ItemsControl.ItemContainerTransitions>
+            <TransitionCollection />
+        </ItemsControl.ItemContainerTransitions>
 
-        <Grid Margin="0,0,0,3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock
-                Grid.Column="0"
-                Margin="0,0,0,5"
-                Text="{x:Bind string:Dialog.MileXamlVersion}"
-                TextAlignment="Justify"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Grid.Column="1"
-                Margin="0,0,0,5"
-                Text="{x:Bind MileXamlVersion, Mode=OneWay}"
-                TextAlignment="DetectFromContent"
-                TextWrapping="Wrap" />
-        </Grid>
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="collection:DictionaryEntry">
+                <Grid Margin="1,0,0,5" ColumnSpacing="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock
-                Grid.Column="0"
-                Margin="0,0,0,5"
-                Text="{x:Bind string:Dialog.DoNetVersion}"
-                TextAlignment="Justify"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Grid.Column="1"
-                Margin="0,0,0,5"
-                Text="{x:Bind DoNetVersion, Mode=OneWay}"
-                TextAlignment="DetectFromContent"
-                TextWrapping="Wrap" />
-        </Grid>
-    </StackPanel>
+                    <TextBlock
+                        Grid.Column="0"
+                        Text="{x:Bind Key}"
+                        TextAlignment="Justify"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Text="{x:Bind Value.ToString()}"
+                        TextAlignment="DetectFromContent"
+                        TextWrapping="Wrap" />
+                </Grid>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 </ContentDialog>
