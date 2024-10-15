@@ -63,12 +63,6 @@
       <DependentUpon>AllTools.resx</DependentUpon>
     </Compile>
     
-    <Compile Update="Strings\CodeScanner.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>CodeScanner.resx</DependentUpon>
-    </Compile>
-    
     <Compile Update="Strings\ColorPicker.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -245,7 +239,6 @@
 
     <Content Include="Assets\ControlIcon\About.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\AllTools.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\CodeScanner.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\DownloadManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\DriverManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ExtensionName.png" CopyToOutputDirectory="Always" />
@@ -340,7 +333,6 @@
     <None Remove="UI\TeachingTips\QuickOperationTip.xaml" />
     <None Remove="Views\Pages\AboutPage.xaml" />
     <None Remove="Views\Pages\AllToolsPage.xaml" />
-    <None Remove="Views\Pages\CodeScannerPage.xaml" />
     <None Remove="Views\Pages\ColorPickerPage.xaml" />
     <None Remove="Views\Pages\DownloadManagerPage.xaml" />
     <None Remove="Views\Pages\DriverManagerPage.xaml" />
@@ -368,7 +360,6 @@
     <PackageReference Include="Mile.Xaml" Version="2.3.1064" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
-    <PackageReference Include="ZXing.Net" Version="0.16.9" />
 
     <Page Update="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Update="Styles\DateTimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -387,7 +378,6 @@
     <Page Update="UI\TeachingTips\QuickOperationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Update="Views\Pages\AboutPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Update="Views\Pages\AllToolsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Update="Views\Pages\CodeScannerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Update="Views\Pages\ColorPickerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Update="Views\Pages\DownloadManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Update="Views\Pages\DriverManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -421,9 +411,6 @@
     <EmbeddedResource Update="Strings\AllTools.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\AllTools.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="AllTools.Designer.cs" />
     <EmbeddedResource Update="Strings\AllTools.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\CodeScanner.en-us.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\CodeScanner.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="CodeScanner.Designer.cs" />
-    <EmbeddedResource Update="Strings\CodeScanner.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\ColorPicker.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\ColorPicker.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ColorPicker.Designer.cs" />
     <EmbeddedResource Update="Strings\ColorPicker.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />

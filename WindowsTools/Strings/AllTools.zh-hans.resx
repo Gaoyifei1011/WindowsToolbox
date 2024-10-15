@@ -117,12 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CodeScanner" xml:space="preserve">
-    <value>条码扫描</value>
-  </data>
-  <data name="CodeScannerDescription" xml:space="preserve">
-    <value>条形码、二维码的创建和生成工具</value>
-  </data>
   <data name="DownloadManager" xml:space="preserve">
     <value>下载管理</value>
   </data>

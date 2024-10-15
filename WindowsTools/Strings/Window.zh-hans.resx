@@ -129,9 +129,6 @@
   <data name="Close" xml:space="preserve">
     <value>关闭</value>
   </data>
-  <data name="CodeScanner" xml:space="preserve">
-    <value>条码扫描</value>
-  </data>
   <data name="DownloadManager" xml:space="preserve">
     <value>下载管理</value>
   </data>

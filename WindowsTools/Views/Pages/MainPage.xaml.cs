@@ -123,7 +123,6 @@ namespace WindowsTools.Views.Pages
             new KeyValuePair<string, Type>("FileUnlock",typeof(FileUnlockPage)),
             new KeyValuePair<string, Type>("Resource",null),
             new KeyValuePair<string, Type>("DownloadManager",typeof(DownloadManagerPage)),
-            new KeyValuePair<string, Type>("CodeScanner",typeof(CodeScannerPage)),
             new KeyValuePair<string, Type>("IconExtract",typeof(IconExtractPage)),
             new KeyValuePair<string, Type>("PriExtract",typeof(PriExtractPage)),
             new KeyValuePair<string, Type>("Personalize",null),
@@ -619,31 +618,6 @@ namespace WindowsTools.Views.Pages
                 if (filesList.Count is 1 && Path.GetExtension(filesList[0]).Equals(".pri"))
                 {
                     page.ParseResourceFile(filesList[0]);
-                }
-            }
-            else if (currentPageType.Equals(typeof(CodeScannerPage)))
-            {
-                CodeScannerPage page = (MainNavigationView.Content as Frame).Content as CodeScannerPage;
-
-                if (filesList.Count is 1 && page.SelectedIndex is 1)
-                {
-                    Task.Run(() =>
-                    {
-                        try
-                        {
-                            if (System.Drawing.Image.FromFile(filesList[0]) is System.Drawing.Image image)
-                            {
-                                synchronizationContext.Post(_ =>
-                                {
-                                    page.ParseCodeImage(image);
-                                }, null);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Open file {0} failed", filesList[0]), e);
-                        }
-                    });
                 }
             }
             else if (currentPageType.Equals(typeof(FileUnlockPage)))

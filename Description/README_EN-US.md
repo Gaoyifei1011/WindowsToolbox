@@ -63,7 +63,6 @@ A toolbox that integrates multiple gadgets.
 | Batch delete the certificates of signed files             | Finished                                                             |
 | File unlock                                               | Finished                                                             |
 | Download manager (Delivery optimization)                  | Finished                                                             |
-| Bar code,QR code generate and parse                       | Finished                                                             |
 | Extract file icons                                        | Finished                                                             |
 | Extract the package resource index(.pri) file conten      | Finished                                                             |
 | Color picker                                              | Unfinished                                                           |
@@ -85,7 +84,6 @@ A toolbox that integrates multiple gadgets.
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [System.Numerics.Vectors](https://dot.net)&emsp;
 > * [System.Private.Uri](https://dot.net)&emsp;
-> * [ZXing.Net](https://github.com/micjahn/ZXing.Net)&emsp;
 
 [Code referenced or used during the learning process](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;
 

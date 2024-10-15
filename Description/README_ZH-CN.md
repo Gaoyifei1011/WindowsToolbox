@@ -63,7 +63,6 @@
 | 删除已签名文件的证书             | 已完成                                                             |
 | 文件解锁                         | 已完成                                                             |
 | 下载管理（传递优化）             | 已完成                                                             |
-| 条形码二维码生成解析             | 已完成                                                             |
 | 提取文件图标                     | 已完成                                                             |
 | 提取包资源文件索引内容           | 已完成                                                             |
 | 颜色选择器                       | 未完成                                                             |
@@ -85,7 +84,6 @@
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [System.Numerics.Vectors](https://dot.net)&emsp;
 > * [System.Private.Uri](https://dot.net)&emsp;
-> * [ZXing.Net](https://github.com/micjahn/ZXing.Net)&emsp;
 	
 [学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;
 

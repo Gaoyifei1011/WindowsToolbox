@@ -129,9 +129,6 @@
   <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="CodeScanner" xml:space="preserve">
-    <value>Code scanner</value>
-  </data>
   <data name="DownloadManager" xml:space="preserve">
     <value>Download manager</value>
   </data>
