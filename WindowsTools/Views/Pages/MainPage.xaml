@@ -59,7 +59,7 @@
 
                     <MenuFlyoutItem
                         Click="{x:Bind OnRestoreClicked}"
-                        IsEnabled="{x:Bind GetWindowMaximizeState(IsWindowMaximized, IsWindowMaximizeEnabled, sys:String.Empty), Mode=OneWay}"
+                        IsEnabled="{x:Bind GetWindowMaximizeState(IsWindowMaximized, IsWindowMaximizeEnabled, x:String.Empty), Mode=OneWay}"
                         Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                         Text="{x:Bind string:Window.Restore}">
 

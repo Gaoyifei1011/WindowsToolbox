@@ -1,3 +1,4 @@
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -266,9 +267,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnUpdateStyleClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
-                SelectedUpdateStyle = UpdateStyleList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
+                SelectedUpdateStyle = UpdateStyleList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
             }
         }
 

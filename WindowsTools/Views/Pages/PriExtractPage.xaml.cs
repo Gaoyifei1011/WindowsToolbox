@@ -1,3 +1,4 @@
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -631,9 +632,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectedResourceCandidateKindClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
-                SelectedResourceCandidateKind = ResourceCandidateKindList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
+                SelectedResourceCandidateKind = ResourceCandidateKindList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
             }
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 
 namespace WindowsTools.Helpers.Converters
 {
@@ -27,19 +26,6 @@ namespace WindowsTools.Helpers.Converters
         public static bool ObjectCompareReverseConvert(object value, object comparedValue)
         {
             return !value.Equals(comparedValue);
-        }
-
-        public static Uri UriConvert(object uri)
-        {
-            return new Uri(uri.ToString());
-        }
-
-        /// <summary>
-        /// 整数值与布尔值转换
-        /// </summary>
-        public static bool IntToBooleanConvert(int value)
-        {
-            return value is not 0;
         }
 
         /// <summary>

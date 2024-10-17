@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -491,9 +492,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnNumberFormatClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
-                SelectedNumberFormat = NumberFormatList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
+                SelectedNumberFormat = NumberFormatList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
             }
         }
 

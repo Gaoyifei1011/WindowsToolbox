@@ -57,7 +57,7 @@
                 Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind string:ExtensionName.SameExtensionName}"
-                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsSameExtensionName), Mode=OneWay}"
+                IsChecked="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsSameExtensionName), Mode=OneWay}"
                 Tag="1"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -74,7 +74,7 @@
                     Text="{x:Bind string:ExtensionName.ChangeTo}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsSameExtensionName), Mode=OneWay}"
+                    IsEnabled="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsSameExtensionName), Mode=OneWay}"
                     Tag="ChangeToText"
                     Text="{x:Bind ChangeToText, Mode=OneWay}"
                     TextChanged="{x:Bind OnTextChanged}" />
@@ -85,7 +85,7 @@
                 Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind string:ExtensionName.FindAndReplaceExtensionName}"
-                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                IsChecked="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
                 Tag="2"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -102,7 +102,7 @@
                     Text="{x:Bind string:ExtensionName.Search}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                    IsEnabled="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
                     Tag="SearchText"
                     Text="{x:Bind SearchText, Mode=OneWay}"
                     TextChanged="{x:Bind OnTextChanged}" />
@@ -118,7 +118,7 @@
                 <TextBlock Grid.Column="0" Text="{x:Bind string:ExtensionName.Replace}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind sys:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                    IsEnabled="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
                     Tag="ReplaceText"
                     Text="{x:Bind ReplaceText, Mode=OneWay}"
                     TextChanged="{x:Bind OnTextChanged}" />
@@ -305,7 +305,7 @@
             <TextBlock
                 Grid.Column="3"
                 VerticalAlignment="Center"
-                Text="{x:Bind sys:String.Format(string:ExtensionName.Total, ExtensionNameCollection.Count), Mode=OneWay}"
+                Text="{x:Bind x:String.Format(string:ExtensionName.Total, ExtensionNameCollection.Count), Mode=OneWay}"
                 TextAlignment="Center" />
 
             <HyperlinkButton

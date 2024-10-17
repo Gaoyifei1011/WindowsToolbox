@@ -116,7 +116,7 @@
                                 Margin="0,0,3,0"
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnAvailableSelectAllClicked}"
-                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(AvailableUpdateCollection.Count), Mode=OneWay}"
+                                IsEnabled="{x:Bind sys:Convert.ToBoolean(AvailableUpdateCollection.Count), Mode=OneWay}"
                                 Label="{x:Bind string:UpdateManager.SelectAll}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
@@ -130,7 +130,7 @@
                                 Margin="0,0,3,0"
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnAvailableSelectNoneClicked}"
-                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(AvailableUpdateCollection.Count), Mode=OneWay}"
+                                IsEnabled="{x:Bind sys:Convert.ToBoolean(AvailableUpdateCollection.Count), Mode=OneWay}"
                                 Label="{x:Bind string:UpdateManager.SelectNone}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
@@ -144,7 +144,7 @@
                                 Margin="0,0,3,0"
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnAvailableHideClicked}"
-                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(AvailableUpdateCollection.Count), Mode=OneWay}"
+                                IsEnabled="{x:Bind sys:Convert.ToBoolean(AvailableUpdateCollection.Count), Mode=OneWay}"
                                 Label="{x:Bind string:UpdateManager.Hide}"
                                 Style="{StaticResource AppBarButtonStyle}"
                                 ToolTipService.ToolTip="{x:Bind string:UpdateManager.HideUpdateToolTip}">
@@ -158,7 +158,7 @@
                                 Grid.Column="5"
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnAvailableInstallClicked}"
-                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(AvailableUpdateCollection.Count), Mode=OneWay}"
+                                IsEnabled="{x:Bind sys:Convert.ToBoolean(AvailableUpdateCollection.Count), Mode=OneWay}"
                                 Label="{x:Bind string:UpdateManager.Install}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
@@ -470,7 +470,7 @@
                                 Margin="0,0,3,0"
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnInstalledSelectAllClicked}"
-                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(InstalledUpdateCollection.Count), Mode=OneWay}"
+                                IsEnabled="{x:Bind sys:Convert.ToBoolean(InstalledUpdateCollection.Count), Mode=OneWay}"
                                 Label="{x:Bind string:UpdateManager.SelectAll}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
@@ -484,7 +484,7 @@
                                 Margin="0,0,3,0"
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnInstalledSelectNoneClicked}"
-                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(InstalledUpdateCollection.Count), Mode=OneWay}"
+                                IsEnabled="{x:Bind sys:Convert.ToBoolean(InstalledUpdateCollection.Count), Mode=OneWay}"
                                 Label="{x:Bind string:UpdateManager.SelectNone}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
@@ -497,7 +497,7 @@
                                 Grid.Column="4"
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnInstalledUnInstallClicked}"
-                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(InstalledUpdateCollection.Count), Mode=OneWay}"
+                                IsEnabled="{x:Bind sys:Convert.ToBoolean(InstalledUpdateCollection.Count), Mode=OneWay}"
                                 Label="{x:Bind string:UpdateManager.UnInstall}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
@@ -798,7 +798,7 @@
                                 Margin="0,0,3,0"
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnHiddenSelectAllClicked}"
-                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(HiddenUpdateCollection.Count), Mode=OneWay}"
+                                IsEnabled="{x:Bind sys:Convert.ToBoolean(HiddenUpdateCollection.Count), Mode=OneWay}"
                                 Label="{x:Bind string:UpdateManager.SelectAll}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
@@ -812,7 +812,7 @@
                                 Margin="0,0,3,0"
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnHiddenSelectNoneClicked}"
-                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(HiddenUpdateCollection.Count), Mode=OneWay}"
+                                IsEnabled="{x:Bind sys:Convert.ToBoolean(HiddenUpdateCollection.Count), Mode=OneWay}"
                                 Label="{x:Bind string:UpdateManager.SelectNone}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
@@ -825,7 +825,7 @@
                                 Grid.Column="4"
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnHiddenShowClicked}"
-                                IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(HiddenUpdateCollection.Count), Mode=OneWay}"
+                                IsEnabled="{x:Bind sys:Convert.ToBoolean(HiddenUpdateCollection.Count), Mode=OneWay}"
                                 Label="{x:Bind string:UpdateManager.Show}"
                                 Style="{StaticResource AppBarButtonStyle}"
                                 ToolTipService.ToolTip="{x:Bind string:UpdateManager.ShowUpdateToolTip}">
@@ -1528,36 +1528,40 @@
                                 <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedUpdateSource.Key, Mode=OneWay}">
                                     <muxc:DropDownButton.Flyout>
                                         <MenuFlyout Placement="Bottom">
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateSourceSelectClicked}"
+                                                GroupName="UpdateSourceRadioGroup"
                                                 IsChecked="{x:Bind SelectedUpdateSource.Key.Equals(UpdateSourceList[0].Key), Mode=OneWay}"
                                                 Tag="0"
                                                 Text="{x:Bind sys:Convert.ToString(UpdateSourceList[0].Value)}" />
 
                                             <MenuFlyoutSeparator />
 
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateSourceSelectClicked}"
+                                                GroupName="UpdateSourceRadioGroup"
                                                 IsChecked="{x:Bind SelectedUpdateSource.Key.Equals(UpdateSourceList[1].Key), Mode=OneWay}"
                                                 Tag="1"
                                                 Text="{x:Bind sys:Convert.ToString(UpdateSourceList[1].Value)}" />
 
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateSourceSelectClicked}"
+                                                GroupName="UpdateSourceRadioGroup"
                                                 IsChecked="{x:Bind SelectedUpdateSource.Key.Equals(UpdateSourceList[2].Key), Mode=OneWay}"
                                                 Tag="2"
                                                 Text="{x:Bind sys:Convert.ToString(UpdateSourceList[2].Value)}" />
 
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateSourceSelectClicked}"
+                                                GroupName="UpdateSourceRadioGroup"
                                                 IsChecked="{x:Bind SelectedUpdateSource.Key.Equals(UpdateSourceList[3].Key), Mode=OneWay}"
                                                 Tag="3"
                                                 Text="{x:Bind sys:Convert.ToString(UpdateSourceList[3].Value)}" />
@@ -1654,46 +1658,51 @@
                                     <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedPreviewChannel.Key, Mode=OneWay}">
                                         <muxc:DropDownButton.Flyout>
                                             <MenuFlyout Placement="Bottom">
-                                                <ToggleMenuFlyoutItem
+                                                <muxc:RadioMenuFlyoutItem
                                                     Height="32"
                                                     Padding="11,0"
                                                     Click="{x:Bind OnPreviewChannelSelectClicked}"
+                                                    GroupName="PreviewChannelRadioGroup"
                                                     IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[0].Key), Mode=OneWay}"
                                                     Tag="0"
                                                     Text="{x:Bind sys:Convert.ToString(PreviewChannelList[0].Value)}" />
 
                                                 <MenuFlyoutSeparator />
 
-                                                <ToggleMenuFlyoutItem
+                                                <muxc:RadioMenuFlyoutItem
                                                     Height="32"
                                                     Padding="11,0"
                                                     Click="{x:Bind OnPreviewChannelSelectClicked}"
+                                                    GroupName="PreviewChannelRadioGroup"
                                                     IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[1].Key), Mode=OneWay}"
-                                                    Tag="0"
+                                                    Tag="1"
                                                     Text="{x:Bind sys:Convert.ToString(PreviewChannelList[1].Value)}" />
 
-                                                <ToggleMenuFlyoutItem
+                                                <muxc:RadioMenuFlyoutItem
                                                     Height="32"
                                                     Padding="11,0"
                                                     Click="{x:Bind OnPreviewChannelSelectClicked}"
+                                                    GroupName="PreviewChannelRadioGroup"
                                                     IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[2].Key), Mode=OneWay}"
-                                                    Tag="1"
+                                                    Tag="2"
                                                     Text="{x:Bind sys:Convert.ToString(PreviewChannelList[2].Value)}" />
 
-                                                <ToggleMenuFlyoutItem
+                                                <muxc:RadioMenuFlyoutItem
                                                     Height="32"
                                                     Padding="11,0"
                                                     Click="{x:Bind OnPreviewChannelSelectClicked}"
+                                                    GroupName="PreviewChannelRadioGroup"
                                                     IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[3].Key), Mode=OneWay}"
-                                                    Tag="2"
+                                                    Tag="3"
                                                     Text="{x:Bind sys:Convert.ToString(PreviewChannelList[3].Value)}" />
 
-                                                <ToggleMenuFlyoutItem
+                                                <muxc:RadioMenuFlyoutItem
                                                     Height="32"
                                                     Padding="11,0"
                                                     Click="{x:Bind OnPreviewChannelSelectClicked}"
+                                                    GroupName="PreviewChannelRadioGroup"
                                                     IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[4].Key), Mode=OneWay}"
-                                                    Tag="3"
+                                                    Tag="4"
                                                     Text="{x:Bind sys:Convert.ToString(PreviewChannelList[4].Value)}" />
                                             </MenuFlyout>
                                         </muxc:DropDownButton.Flyout>

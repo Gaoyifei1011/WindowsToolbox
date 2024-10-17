@@ -15,7 +15,7 @@
     <Grid>
         <Grid
             x:Name="Windows11Style"
-            x:Load="{x:Bind sys:Object.Equals(UpdatingKind, enum:UpdatingKind.Windows11)}"
+            x:Load="{x:Bind x:Object.Equals(UpdatingKind, enum:UpdatingKind.Windows11)}"
             Background="Black">
             <StackPanel VerticalAlignment="Center">
                 <muxc:ProgressRing
@@ -49,7 +49,7 @@
 
         <Grid
             x:Name="Windows10Style"
-            x:Load="{x:Bind sys:Object.Equals(UpdatingKind, enum:UpdatingKind.Windows10)}"
+            x:Load="{x:Bind x:Object.Equals(UpdatingKind, enum:UpdatingKind.Windows10)}"
             Background="{ThemeResource SystemAccentColor}">
             <StackPanel VerticalAlignment="Center">
                 <ProgressRing

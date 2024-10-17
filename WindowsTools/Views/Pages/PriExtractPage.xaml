@@ -732,7 +732,7 @@
                         Click="{x:Bind OnSelectSaveFolderClicked}"
                         Content="{x:Bind string:PriExtract.SelectSaveFolder}"
                         IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}"
-                        ToolTipService.ToolTip="{x:Bind sys:String.Format(string:PriExtract.SelectedFolder, SelectedSaveFolder), Mode=OneWay}" />
+                        ToolTipService.ToolTip="{x:Bind x:String.Format(string:PriExtract.SelectedFolder, SelectedSaveFolder), Mode=OneWay}" />
 
                     <MenuFlyoutSeparator Margin="5,3" />
 
@@ -747,7 +747,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
                         Content="{x:Bind sys:Convert.ToString(SelectedLanguage.Value), Mode=OneWay}"
-                        IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(LanguageCollection.Count), Mode=OneWay}"
+                        IsEnabled="{x:Bind sys:Convert.ToBoolean(LanguageCollection.Count), Mode=OneWay}"
                         Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind, ResourceCandidateKindList[0]), Mode=OneWay}">
 
                         <muxc:DropDownButton.Flyout>
@@ -784,13 +784,18 @@
                                         </Style>
                                     </ListView.ItemContainerStyle>
 
+                                    <ItemsControl.ItemContainerTransitions>
+                                        <TransitionCollection />
+                                    </ItemsControl.ItemContainerTransitions>
+
                                     <ListView.ItemTemplate>
                                         <DataTemplate x:DataType="model:LanguageModel">
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Command="{StaticResource LanguageCommand}"
                                                 CommandParameter="{x:Bind}"
+                                                GroupName="LanguageRadioGroup"
                                                 IsChecked="{x:Bind IsChecked, Mode=OneWay}"
                                                 Text="{x:Bind sys:Convert.ToString(LangaugeInfo.Value)}" />
                                         </DataTemplate>
@@ -815,26 +820,29 @@
                                     </Style>
                                 </MenuFlyout.MenuFlyoutPresenterStyle>
 
-                                <ToggleMenuFlyoutItem
+                                <muxc:RadioMenuFlyoutItem
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
+                                    GroupName="ResourceCandidateKindRadioGroup"
                                     IsChecked="{x:Bind SelectedResourceCandidateKind.Key.Equals(ResourceCandidateKindList[0].Key), Mode=OneWay}"
                                     Tag="0"
                                     Text="{x:Bind sys:Convert.ToString(ResourceCandidateKindList[0].Value)}" />
 
-                                <ToggleMenuFlyoutItem
+                                <muxc:RadioMenuFlyoutItem
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
+                                    GroupName="ResourceCandidateKindRadioGroup"
                                     IsChecked="{x:Bind SelectedResourceCandidateKind.Key.Equals(ResourceCandidateKindList[1].Key), Mode=OneWay}"
                                     Tag="1"
                                     Text="{x:Bind sys:Convert.ToString(ResourceCandidateKindList[1].Value)}" />
 
-                                <ToggleMenuFlyoutItem
+                                <muxc:RadioMenuFlyoutItem
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
+                                    GroupName="ResourceCandidateKindRadioGroup"
                                     IsChecked="{x:Bind SelectedResourceCandidateKind.Key.Equals(ResourceCandidateKindList[2].Key), Mode=OneWay}"
                                     Tag="2"
                                     Text="{x:Bind sys:Convert.ToString(ResourceCandidateKindList[2].Value)}" />
@@ -847,7 +855,7 @@
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnCopySelectedStringClicked}"
                         Content="{x:Bind string:PriExtract.CopySelectedString}"
-                        IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(StringCollection.Count), Mode=OneWay}"
+                        IsEnabled="{x:Bind sys:Convert.ToBoolean(StringCollection.Count), Mode=OneWay}"
                         Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[0].Key), Mode=OneWay}" />
 
                     <Button
@@ -855,7 +863,7 @@
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnCopySelectedFilePathClicked}"
                         Content="{x:Bind string:PriExtract.CopySelectedFilePath}"
-                        IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(FilePathCollection.Count), Mode=OneWay}"
+                        IsEnabled="{x:Bind sys:Convert.ToBoolean(FilePathCollection.Count), Mode=OneWay}"
                         Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[1].Key), Mode=OneWay}" />
 
                     <Button
@@ -863,28 +871,28 @@
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnExportSelectedEmbeddedDataClicked}"
                         Content="{x:Bind string:PriExtract.ExportSelectedEmbeddedData}"
-                        IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(EmbeddedDataCollection.Count), Mode=OneWay}"
+                        IsEnabled="{x:Bind sys:Convert.ToBoolean(EmbeddedDataCollection.Count), Mode=OneWay}"
                         Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[2].Key), Mode=OneWay}" />
 
                     <Button
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnCopyAllStringClicked}"
                         Content="{x:Bind string:PriExtract.CopyAllString}"
-                        IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(StringCollection.Count), Mode=OneWay}"
+                        IsEnabled="{x:Bind sys:Convert.ToBoolean(StringCollection.Count), Mode=OneWay}"
                         Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[0].Key), Mode=OneWay}" />
 
                     <Button
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnCopyAllFilePathClicked}"
                         Content="{x:Bind string:PriExtract.CopyAllFilePath}"
-                        IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(FilePathCollection.Count), Mode=OneWay}"
+                        IsEnabled="{x:Bind sys:Convert.ToBoolean(FilePathCollection.Count), Mode=OneWay}"
                         Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[1].Key), Mode=OneWay}" />
 
                     <Button
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnExportAllEmbeddedDataClicked}"
                         Content="{x:Bind string:PriExtract.ExportAllEmbeddedData}"
-                        IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(EmbeddedDataCollection.Count), Mode=OneWay}"
+                        IsEnabled="{x:Bind sys:Convert.ToBoolean(EmbeddedDataCollection.Count), Mode=OneWay}"
                         Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[2].Key), Mode=OneWay}" />
                 </StackPanel>
 

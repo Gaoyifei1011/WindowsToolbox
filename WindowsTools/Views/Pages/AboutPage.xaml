@@ -177,7 +177,7 @@
                         <TextBlock
                             Margin="0,0,0,10"
                             FontSize="15"
-                            Text="{x:Bind sys:String.Format(string:About.AppVersion, helper:InfoHelper.AppVersion)}" />
+                            Text="{x:Bind x:String.Format(string:About.AppVersion, helper:InfoHelper.AppVersion)}" />
 
                         <StackPanel Orientation="Horizontal">
 
@@ -273,7 +273,7 @@
                                         Width="320"
                                         Padding="5,8"
                                         HorizontalContentAlignment="Center"
-                                        NavigateUri="{x:Bind converter:ValueConverterHelper.UriConvert(Value)}">
+                                        NavigateUri="{x:Bind (sys:Uri)Value}">
 
                                         <HyperlinkButton.Content>
                                             <TextBlock
@@ -453,7 +453,7 @@
                                         Width="150"
                                         Padding="5,8"
                                         HorizontalContentAlignment="Center"
-                                        NavigateUri="{x:Bind converter:ValueConverterHelper.UriConvert(Value)}">
+                                        NavigateUri="{x:Bind (sys:Uri)Value}">
 
                                         <HyperlinkButton.Content>
                                             <TextBlock

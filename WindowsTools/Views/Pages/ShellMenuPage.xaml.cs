@@ -1351,9 +1351,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnFileMatchRuleClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
-                SelectedFileMatchRule = FileMatchRuleList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
+                SelectedFileMatchRule = FileMatchRuleList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
                 MenuFileMatchFormatText = string.Empty;
 
                 if (SelectedFileMatchRule.Equals(FileMatchRuleList[0]) || SelectedFileMatchRule.Equals(FileMatchRuleList[4]))

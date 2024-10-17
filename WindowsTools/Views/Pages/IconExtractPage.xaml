@@ -163,18 +163,20 @@
 
                             <muxc:DropDownButton.Flyout>
                                 <MenuFlyout Placement="Bottom">
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnIconFormatClicked}"
+                                        GroupName="IconFormatRadioGroup"
                                         IsChecked="{x:Bind SelectedIconFormat.Key.Equals(IconFormatList[0].Key), Mode=OneWay}"
                                         Tag="0"
                                         Text="{x:Bind sys:Convert.ToString(IconFormatList[0].Value)}" />
 
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnIconFormatClicked}"
+                                        GroupName="IconFormatRadioGroup"
                                         IsChecked="{x:Bind SelectedIconFormat.Key.Equals(IconFormatList[1].Key), Mode=OneWay}"
                                         Tag="1"
                                         Text="{x:Bind sys:Convert.ToString(IconFormatList[1].Value)}" />
@@ -196,66 +198,74 @@
 
                             <muxc:DropDownButton.Flyout>
                                 <MenuFlyout Placement="Bottom">
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
+                                        GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[0].Key), Mode=OneWay}"
                                         Tag="0"
                                         Text="{x:Bind sys:Convert.ToString(IconSizeList[0].Value)}" />
 
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
+                                        GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[1].Key), Mode=OneWay}"
                                         Tag="1"
                                         Text="{x:Bind sys:Convert.ToString(IconSizeList[1].Value)}" />
 
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
+                                        GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[2].Key), Mode=OneWay}"
                                         Tag="2"
                                         Text="{x:Bind sys:Convert.ToString(IconSizeList[2].Value)}" />
 
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
+                                        GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[3].Key), Mode=OneWay}"
                                         Tag="3"
                                         Text="{x:Bind sys:Convert.ToString(IconSizeList[3].Value)}" />
 
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
+                                        GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[4].Key), Mode=OneWay}"
                                         Tag="4"
                                         Text="{x:Bind sys:Convert.ToString(IconSizeList[4].Value)}" />
 
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
+                                        GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[5].Key), Mode=OneWay}"
                                         Tag="5"
                                         Text="{x:Bind sys:Convert.ToString(IconSizeList[5].Value)}" />
 
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
+                                        GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[6].Key), Mode=OneWay}"
                                         Tag="6"
                                         Text="{x:Bind sys:Convert.ToString(IconSizeList[6].Value)}" />
 
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
+                                        GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[7].Key), Mode=OneWay}"
                                         Tag="7"
                                         Text="{x:Bind sys:Convert.ToString(IconSizeList[7].Value)}" />
@@ -317,7 +327,7 @@
                     HorizontalAlignment="Stretch"
                     Click="{x:Bind OnExportAllIconsClicked}"
                     Content="{x:Bind string:IconExtract.ExportAllIcons}"
-                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(IconCollection.Count), Mode=OneWay}" />
+                    IsEnabled="{x:Bind sys:Convert.ToBoolean(IconCollection.Count), Mode=OneWay}" />
 
                 <StackPanel
                     Grid.Row="7"

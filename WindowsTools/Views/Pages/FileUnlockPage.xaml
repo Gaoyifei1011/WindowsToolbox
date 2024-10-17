@@ -107,7 +107,7 @@
                     <TextBlock
                         Margin="0,10"
                         VerticalAlignment="Center"
-                        Text="{x:Bind sys:String.Format(string:FileUnlock.FileNotUse, FileName), Mode=OneWay}"
+                        Text="{x:Bind x:String.Format(string:FileUnlock.FileNotUse, FileName), Mode=OneWay}"
                         TextAlignment="Center" />
                 </Grid>
 

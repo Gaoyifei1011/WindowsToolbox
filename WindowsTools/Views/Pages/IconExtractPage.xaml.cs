@@ -1,3 +1,4 @@
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -336,9 +337,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnIconFormatClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
-                SelectedIconFormat = IconFormatList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
+                SelectedIconFormat = IconFormatList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
             }
         }
 
@@ -347,9 +348,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnIconSizeClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
-                SelectedIconSize = IconSizeList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
+                SelectedIconSize = IconSizeList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
 
                 if (IconsGridView.SelectedItem is not null)
                 {

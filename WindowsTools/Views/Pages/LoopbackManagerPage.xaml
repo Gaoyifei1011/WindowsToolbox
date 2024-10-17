@@ -414,7 +414,7 @@
                                             Grid.Row="5"
                                             Grid.Column="1"
                                             FontSize="14"
-                                            Text="{x:Bind sys:String.Join('', AppBinariesPath)}"
+                                            Text="{x:Bind x:String.Join('', AppBinariesPath)}"
                                             TextWrapping="Wrap" />
                                     </Grid>
                                 </muxc:Expander.Content>

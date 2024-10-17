@@ -9,7 +9,6 @@
     xmlns:model="using:WindowsTools.Models"
     xmlns:mxuc="using:Microsoft.UI.Xaml.Controls"
     xmlns:string="using:WindowsTools.Strings"
-    xmlns:sys="using:System"
     AllowDrop="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -58,7 +57,7 @@
                 Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind string:UpperAndLowerCase.AllUppercase}"
-                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.AllUppercase), Mode=OneWay}"
+                IsChecked="{x:Bind x:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.AllUppercase), Mode=OneWay}"
                 Tag="1"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -67,7 +66,7 @@
                 Grid.Column="1"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind string:UpperAndLowerCase.FileNameUppercase}"
-                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.FileNameUppercase), Mode=OneWay}"
+                IsChecked="{x:Bind x:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.FileNameUppercase), Mode=OneWay}"
                 Tag="2"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -76,7 +75,7 @@
                 Grid.Column="2"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind string:UpperAndLowerCase.ExtensionNameUppercase}"
-                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.ExtensionNameUppercase), Mode=OneWay}"
+                IsChecked="{x:Bind x:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.ExtensionNameUppercase), Mode=OneWay}"
                 Tag="3"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -85,7 +84,7 @@
                 Grid.Column="3"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind string:UpperAndLowerCase.DeleteSpace}"
-                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.DeleteSpace), Mode=OneWay}"
+                IsChecked="{x:Bind x:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.DeleteSpace), Mode=OneWay}"
                 Tag="4"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -94,7 +93,7 @@
                 Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind string:UpperAndLowerCase.AllLowercase}"
-                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.AllLowercase), Mode=OneWay}"
+                IsChecked="{x:Bind x:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.AllLowercase), Mode=OneWay}"
                 Tag="5"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -103,7 +102,7 @@
                 Grid.Column="1"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind string:UpperAndLowerCase.FileNameLowercase}"
-                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.FileNameLowercase), Mode=OneWay}"
+                IsChecked="{x:Bind x:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.FileNameLowercase), Mode=OneWay}"
                 Tag="6"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -112,7 +111,7 @@
                 Grid.Column="2"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind string:UpperAndLowerCase.ExtensionNameLowercase}"
-                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.ExtensionNameLowercase), Mode=OneWay}"
+                IsChecked="{x:Bind x:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.ExtensionNameLowercase), Mode=OneWay}"
                 Tag="7"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -121,7 +120,7 @@
                 Grid.Column="3"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind string:UpperAndLowerCase.ReplaceSpace}"
-                IsChecked="{x:Bind sys:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.ReplaceSpace), Mode=OneWay}"
+                IsChecked="{x:Bind x:Object.Equals(SelectedType, enum:UpperAndLowerSelectedKind.ReplaceSpace), Mode=OneWay}"
                 Tag="8"
                 Unchecked="{x:Bind OnUnchecked}" />
         </Grid>
@@ -306,7 +305,7 @@
             <TextBlock
                 Grid.Column="3"
                 VerticalAlignment="Center"
-                Text="{x:Bind sys:String.Format(string:UpperAndLowerCase.Total, UpperAndLowerCaseCollection.Count), Mode=OneWay}"
+                Text="{x:Bind x:String.Format(string:UpperAndLowerCase.Total, UpperAndLowerCaseCollection.Count), Mode=OneWay}"
                 TextAlignment="Center" />
 
             <HyperlinkButton

@@ -142,26 +142,29 @@
 
                         <muxc:DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
-                                <ToggleMenuFlyoutItem
+                                <muxc:RadioMenuFlyoutItem
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnThemeSelectClicked}"
+                                    GroupName="ThemeRadioGroup"
                                     IsChecked="{x:Bind Theme.Key.Equals(ThemeList[0].Key), Mode=OneWay}"
                                     Tag="0"
                                     Text="{x:Bind sys:Convert.ToString(ThemeList[0].Value)}" />
 
-                                <ToggleMenuFlyoutItem
+                                <muxc:RadioMenuFlyoutItem
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnThemeSelectClicked}"
+                                    GroupName="ThemeRadioGroup"
                                     IsChecked="{x:Bind Theme.Key.Equals(ThemeList[1].Key), Mode=OneWay}"
                                     Tag="1"
                                     Text="{x:Bind sys:Convert.ToString(ThemeList[1].Value)}" />
 
-                                <ToggleMenuFlyoutItem
+                                <muxc:RadioMenuFlyoutItem
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnThemeSelectClicked}"
+                                    GroupName="ThemeRadioGroup"
                                     IsChecked="{x:Bind Theme.Key.Equals(ThemeList[2].Key), Mode=OneWay}"
                                     Tag="2"
                                     Text="{x:Bind sys:Convert.ToString(ThemeList[2].Value)}" />
@@ -229,10 +232,11 @@
 
                         <muxc:DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
-                                <ToggleMenuFlyoutItem
+                                <muxc:RadioMenuFlyoutItem
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
+                                    GroupName="BackdropRadioGroup"
                                     IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[0].Key), Mode=OneWay}"
                                     Tag="0"
                                     Text="{x:Bind sys:Convert.ToString(BackdropList[0].Value)}" />
@@ -240,22 +244,24 @@
                                 <MenuFlyoutSubItem
                                     x:Name="MicaFlyoutItem"
                                     Height="32"
-                                    Padding="11,0,11,0"
+                                    Padding="11,0"
                                     x:Load="{x:Bind backdrop:MicaBackdrop.IsSupported}"
                                     Text="{x:Bind string:Settings.Mica}">
 
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnBackdropSelectClicked}"
+                                        GroupName="BackdropRadioGroup"
                                         IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[1].Key), Mode=OneWay}"
                                         Tag="1"
                                         Text="{x:Bind sys:Convert.ToString(BackdropList[1].Value)}" />
 
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnBackdropSelectClicked}"
+                                        GroupName="BackdropRadioGroup"
                                         IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[2].Key), Mode=OneWay}"
                                         Tag="2"
                                         Text="{x:Bind sys:Convert.ToString(BackdropList[2].Value)}" />
@@ -268,26 +274,29 @@
                                     x:Load="{x:Bind backdrop:DesktopAcrylicBackdrop.IsSupported}"
                                     Text="{x:Bind string:Settings.DesktopAcrylic}">
 
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnBackdropSelectClicked}"
+                                        GroupName="BackdropRadioGroup"
                                         IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[3].Key), Mode=OneWay}"
                                         Tag="3"
                                         Text="{x:Bind sys:Convert.ToString(BackdropList[3].Value)}" />
 
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnBackdropSelectClicked}"
+                                        GroupName="BackdropRadioGroup"
                                         IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[4].Key), Mode=OneWay}"
                                         Tag="4"
                                         Text="{x:Bind sys:Convert.ToString(BackdropList[4].Value)}" />
 
-                                    <ToggleMenuFlyoutItem
+                                    <muxc:RadioMenuFlyoutItem
                                         Height="32"
                                         Padding="11,0"
                                         Click="{x:Bind OnBackdropSelectClicked}"
+                                        GroupName="BackdropRadioGroup"
                                         IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[5].Key), Mode=OneWay}"
                                         Tag="5"
                                         Text="{x:Bind sys:Convert.ToString(BackdropList[5].Value)}" />
@@ -448,13 +457,18 @@
                                         </Style>
                                     </ListView.ItemContainerStyle>
 
+                                    <ItemsControl.ItemContainerTransitions>
+                                        <TransitionCollection />
+                                    </ItemsControl.ItemContainerTransitions>
+
                                     <ListView.ItemTemplate>
                                         <DataTemplate x:DataType="model:LanguageModel">
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Command="{StaticResource LanguageCommand}"
                                                 CommandParameter="{x:Bind}"
+                                                GroupName="LanguageRadioGroup"
                                                 IsChecked="{x:Bind IsChecked, Mode=OneWay}"
                                                 Text="{x:Bind sys:Convert.ToString(LangaugeInfo.Value)}" />
                                         </DataTemplate>
@@ -723,18 +737,20 @@
 
                                     <muxc:DropDownButton.Flyout>
                                         <MenuFlyout Placement="Bottom">
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnDoEngineModeSelectClicked}"
+                                                GroupName="DoEngineModeRadioGroup"
                                                 IsChecked="{x:Bind DoEngineMode.Key.Equals(DoEngineModeList[0].Key), Mode=OneWay}"
                                                 Tag="0"
                                                 Text="{x:Bind sys:Convert.ToString(DoEngineModeList[0].Value)}" />
 
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnDoEngineModeSelectClicked}"
+                                                GroupName="DoEngineModeRadioGroup"
                                                 IsChecked="{x:Bind DoEngineMode.Key.Equals(DoEngineModeList[1].Key), Mode=OneWay}"
                                                 Tag="1"
                                                 Text="{x:Bind sys:Convert.ToString(DoEngineModeList[1].Value)}" />
@@ -864,18 +880,20 @@
 
                         <muxc:DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
-                                <ToggleMenuFlyoutItem
+                                <muxc:RadioMenuFlyoutItem
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnExitModeSelectClicked}"
+                                    GroupName="ExitModeRadioGroup"
                                     IsChecked="{x:Bind ExitMode.Key.Equals(ExitModeList[0].Key), Mode=OneWay}"
                                     Tag="0"
                                     Text="{x:Bind sys:Convert.ToString(ExitModeList[0].Value)}" />
 
-                                <ToggleMenuFlyoutItem
+                                <muxc:RadioMenuFlyoutItem
                                     Height="32"
                                     Padding="11,0"
                                     Click="{x:Bind OnExitModeSelectClicked}"
+                                    GroupName="ExitModeRadioGroup"
                                     IsChecked="{x:Bind ExitMode.Key.Equals(ExitModeList[1].Key), Mode=OneWay}"
                                     Tag="1"
                                     Text="{x:Bind sys:Convert.ToString(ExitModeList[1].Value)}" />

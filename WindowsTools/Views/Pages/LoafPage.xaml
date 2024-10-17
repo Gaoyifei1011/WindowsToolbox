@@ -169,19 +169,21 @@
 
                                     <muxc:DropDownButton.Flyout>
                                         <MenuFlyout Placement="Bottom">
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateStyleClicked}"
-                                                IsChecked="{x:Bind sys:Object.Equals(SelectedUpdateStyle.Key, UpdateStyleList[0].Key), Mode=OneWay}"
+                                                GroupName="UpdateStyleRadioGroup"
+                                                IsChecked="{x:Bind x:Object.Equals(SelectedUpdateStyle.Key, UpdateStyleList[0].Key), Mode=OneWay}"
                                                 Tag="0"
                                                 Text="{x:Bind sys:Convert.ToString(UpdateStyleList[0].Value)}" />
 
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateStyleClicked}"
-                                                IsChecked="{x:Bind sys:Object.Equals(SelectedUpdateStyle.Key, UpdateStyleList[1].Key), Mode=OneWay}"
+                                                GroupName="UpdateStyleRadioGroup"
+                                                IsChecked="{x:Bind x:Object.Equals(SelectedUpdateStyle.Key, UpdateStyleList[1].Key), Mode=OneWay}"
                                                 Tag="1"
                                                 Text="{x:Bind sys:Convert.ToString(UpdateStyleList[1].Value)}" />
                                         </MenuFlyout>
@@ -242,7 +244,7 @@
                                     Style="{StaticResource TimePickerStyle}"
                                     Time="{x:Bind DurationTime, Mode=OneWay}"
                                     TimeChanged="{x:Bind OnTimeChanged}"
-                                    ToolTipService.ToolTip="{x:Bind sys:String.Format(string:Loaf.LoafTimeToolTip, DurationTime.Hours, DurationTime.Minutes), Mode=OneWay}" />
+                                    ToolTipService.ToolTip="{x:Bind x:String.Format(string:Loaf.LoafTimeToolTip, DurationTime.Hours, DurationTime.Minutes), Mode=OneWay}" />
                             </Grid>
 
                             <MenuFlyoutSeparator />

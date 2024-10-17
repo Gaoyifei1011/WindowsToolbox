@@ -231,7 +231,7 @@
                                     HorizontalAlignment="Stretch"
                                     Click="{x:Bind OnClearMenuClicked}"
                                     Content="{x:Bind string:ShellMenu.ClearMenu}"
-                                    IsEnabled="{x:Bind converter:ValueConverterHelper.IntToBooleanConvert(ShellMenuItemCollection.Count), Mode=OneWay}"
+                                    IsEnabled="{x:Bind sys:Convert.ToBoolean(ShellMenuItemCollection.Count), Mode=OneWay}"
                                     ToolTipService.ToolTip="{x:Bind string:ShellMenu.ClearMenuToolTip}" />
 
                                 <Button
@@ -898,42 +898,47 @@
                                 <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedFileMatchRule.Value, Mode=OneWay}">
                                     <muxc:DropDownButton.Flyout>
                                         <MenuFlyout Placement="Bottom">
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnFileMatchRuleClicked}"
+                                                GroupName="FileMatchRuleRadioGroup"
                                                 IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[0].Key), Mode=OneWay}"
                                                 Tag="0"
                                                 Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[0].Value)}" />
 
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnFileMatchRuleClicked}"
+                                                GroupName="FileMatchRuleRadioGroup"
                                                 IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[1].Key), Mode=OneWay}"
                                                 Tag="1"
                                                 Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[1].Value)}" />
 
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnFileMatchRuleClicked}"
+                                                GroupName="FileMatchRuleRadioGroup"
                                                 IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[2].Key), Mode=OneWay}"
                                                 Tag="2"
                                                 Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[2].Value)}" />
 
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnFileMatchRuleClicked}"
+                                                GroupName="FileMatchRuleRadioGroup"
                                                 IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[3].Key), Mode=OneWay}"
                                                 Tag="3"
                                                 Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[3].Value)}" />
 
-                                            <ToggleMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnFileMatchRuleClicked}"
+                                                GroupName="FileMatchRuleRadioGroup"
                                                 IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[4].Key), Mode=OneWay}"
                                                 Tag="4"
                                                 Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[4].Value)}" />

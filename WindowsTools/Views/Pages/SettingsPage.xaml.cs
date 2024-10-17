@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -266,9 +267,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnBackdropSelectClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
-                Backdrop = BackdropList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
+                Backdrop = BackdropList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
                 BackdropService.SetBackdrop(Backdrop);
             }
         }
@@ -311,9 +312,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnThemeSelectClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
-                Theme = ThemeList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
+                Theme = ThemeList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
                 ThemeService.SetTheme(Theme);
             }
         }
@@ -332,9 +333,9 @@ namespace WindowsTools.Views.Pages
 
         private void OnDoEngineModeSelectClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
-                DoEngineMode = DoEngineModeList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
+                DoEngineMode = DoEngineModeList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
                 DownloadOptionsService.SetDoEngineMode(DoEngineMode);
             }
         }
@@ -453,9 +454,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExitModeSelectClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is ToggleMenuFlyoutItem toggleMenuFlyoutItem && toggleMenuFlyoutItem.Tag is not null)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
             {
-                ExitMode = ExitModeList[Convert.ToInt32(toggleMenuFlyoutItem.Tag)];
+                ExitMode = ExitModeList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
                 ExitModeService.SetExitMode(ExitMode);
             }
         }
