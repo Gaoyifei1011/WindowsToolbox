@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.Windows.Forms;
-using Windows.UI.Xaml;
-using WindowsTools.Services.Controls.Settings;
-using WindowsTools.WindowsAPI.PInvoke.Uxtheme;
-
-// 抑制 CA1806，IDE0060 警告
-#pragma warning disable CA1806,IDE0060
 
 namespace WindowsTools.Services.Root
 {
@@ -17,34 +10,19 @@ namespace WindowsTools.Services.Root
     /// </summary>
     public static class SystemTrayService
     {
-        public static NotifyIcon notifyIcon;
-
-        public static event EventHandler MenuItemClick;
-
-        public static event MouseEventHandler MouseDoubleClick;
+        private static NotifyIcon notifyIcon;
 
         /// <summary>
         /// 初始化系统托盘
         /// </summary>
-        public static void InitializeSystemTray(string content, string iconPath, List<MenuItem> contextMenuItemList)
+        public static void InitializeSystemTray(string content, string iconPath)
         {
-            if (notifyIcon is null)
+            notifyIcon = new NotifyIcon
             {
-                notifyIcon = new NotifyIcon
-                {
-                    Text = content,
-                    Icon = Icon.ExtractAssociatedIcon(iconPath),
-                    Visible = true,
-                    ContextMenu = new ContextMenu()
-                };
-                notifyIcon.MouseDoubleClick += OnMouseDoubleClick;
-
-                foreach (MenuItem menuItem in contextMenuItemList)
-                {
-                    menuItem.Click += OnItemClick;
-                    notifyIcon.ContextMenu.MenuItems.Add(menuItem);
-                }
-            }
+                Text = content,
+                Icon = Icon.ExtractAssociatedIcon(iconPath),
+                Visible = false,
+            };
         }
 
         /// <summary>
@@ -57,11 +35,6 @@ namespace WindowsTools.Services.Root
                 try
                 {
                     notifyIcon.Visible = false;
-                    notifyIcon.MouseDoubleClick -= OnMouseDoubleClick;
-                    foreach (MenuItem menuItem in notifyIcon.ContextMenu.MenuItems)
-                    {
-                        menuItem.Click -= OnItemClick;
-                    }
                     notifyIcon.Dispose();
                     notifyIcon = null;
                 }
@@ -77,53 +50,9 @@ namespace WindowsTools.Services.Root
         /// </summary>
         public static void ShowToolTip(string title, string content, ToolTipIcon toolTipIcon)
         {
+            notifyIcon.Visible = true;
             notifyIcon.ShowBalloonTip(30, title, content, toolTipIcon);
-        }
-
-        /// <summary>
-        /// 设置系统托盘图标右键菜单主题色
-        /// </summary>
-        public static void SetMenuTheme()
-        {
-            if (ThemeService.AppTheme.Equals(ThemeService.ThemeList[0]))
-            {
-                if (Windows.UI.Xaml.Application.Current.RequestedTheme is ApplicationTheme.Light)
-                {
-                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
-                    UxthemeLibrary.FlushMenuThemes();
-                }
-                else
-                {
-                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
-                    UxthemeLibrary.FlushMenuThemes();
-                }
-            }
-            else if (ThemeService.AppTheme.Equals(ThemeService.ThemeList[1]))
-            {
-                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
-                UxthemeLibrary.FlushMenuThemes();
-            }
-            else if (ThemeService.AppTheme.Equals(ThemeService.ThemeList[2]))
-            {
-                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
-                UxthemeLibrary.FlushMenuThemes();
-            }
-        }
-
-        /// <summary>
-        /// 处理托盘菜单鼠标点击事件
-        /// </summary>
-        private static void OnItemClick(object sender, EventArgs args)
-        {
-            MenuItemClick?.Invoke(sender, args);
-        }
-
-        /// <summary>
-        /// 处理托盘菜单鼠标双击事件
-        /// </summary>
-        private static void OnMouseDoubleClick(object sender, MouseEventArgs args)
-        {
-            MouseDoubleClick?.Invoke(sender, args);
+            notifyIcon.Visible = false;
         }
     }
 }

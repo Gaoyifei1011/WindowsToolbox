@@ -177,12 +177,6 @@
       <DependentUpon>SystemInfo.resx</DependentUpon>
     </Compile>
 
-    <Compile Update="Strings\SystemTray.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SystemTray.resx</DependentUpon>
-    </Compile>
-
     <Compile Update="Strings\UpdateManager.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -466,9 +460,6 @@
     <EmbeddedResource Update="Strings\SystemInfo.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\SystemInfo.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="SystemInfo.Designer.cs" />
     <EmbeddedResource Update="Strings\SystemInfo.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\SystemTray.en-us.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="Strings\SystemTray.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="SystemTray.Designer.cs" />
-    <EmbeddedResource Update="Strings\SystemTray.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\UpdateManager.en-us.resx" Generator="PublicResXFileCodeGenerator" />
     <EmbeddedResource Update="Strings\UpdateManager.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="UpdateManager.Designer.cs" />
     <EmbeddedResource Update="Strings\UpdateManager.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />

@@ -58,23 +58,23 @@ namespace WindowsTools.Views.Pages
         //项目引用信息
         private ListDictionary ReferenceList { get; } = new()
         {
-            { "Microsoft.UI.Xaml", "https://github.com/microsoft/microsoft-ui-xaml"},
-            { "Microsoft.Windows.SDK.BuildTools", "https://aka.ms/WinSDKProjectURL"},
-            { "Microsoft.Windows.SDK.Contracts", "https://aka.ms/WinSDKProjectURL"},
-            { "Microsoft.WindowsAppSDK", "https://github.com/microsoft/windowsappsdk"},
-            { "Mile.Xaml", "https://github.com/ProjectMile/Mile.Xaml"},
-            { "System.Numerics.Vectors", "https://dot.net"},
-            { "System.Private.Uri", "https://dot.net"},
-            { "ZXing.Net", "https://github.com/micjahn/ZXing.Net"}
+            { "Microsoft.UI.Xaml", new Uri("https://github.com/microsoft/microsoft-ui-xaml") },
+            { "Microsoft.Windows.SDK.BuildTools", new Uri("https://aka.ms/WinSDKProjectURL") },
+            { "Microsoft.Windows.SDK.Contracts", new Uri("https://aka.ms/WinSDKProjectURL") },
+            { "Microsoft.WindowsAppSDK", new Uri("https://github.com/microsoft/windowsappsdk") },
+            { "Mile.Xaml", new Uri("https://github.com/ProjectMile/Mile.Xaml") },
+            { "System.Numerics.Vectors", new Uri("https://dot.net") },
+            { "System.Private.Uri", new Uri("https://dot.net") },
+            { "ZXing.Net", new Uri("https://github.com/micjahn/ZXing.Net") }
         };
 
         //项目感谢者信息
         private ListDictionary ThanksList { get; } = new()
         {
-            { "AndromedaMelody", "https://github.com/AndromedaMelody" },
-            { "cnbluefire", "https://github.com/cnbluefire" },
-            { "MicaApps", "https://github.com/MicaApps" },
-            { "MouriNaruto" , "https://github.com/MouriNaruto" }
+            { "AndromedaMelody", new Uri("https://github.com/AndromedaMelody") },
+            { "cnbluefire", new Uri("https://github.com/cnbluefire") },
+            { "MicaApps", new Uri("https://github.com/MicaApps") },
+            { "MouriNaruto" , new Uri("https://github.com/MouriNaruto") }
         };
 
         public event PropertyChangedEventHandler PropertyChanged;

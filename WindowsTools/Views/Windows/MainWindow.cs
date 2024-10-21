@@ -19,12 +19,15 @@ using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.UI.Backdrop;
 using WindowsTools.Views.Pages;
 using WindowsTools.WindowsAPI.PInvoke.Comctl32;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 using WindowsTools.WindowsAPI.PInvoke.User32;
+using WindowsTools.WindowsAPI.PInvoke.Uxtheme;
+
+// 抑制 CA1806 警告
+#pragma warning disable CA1806
 
 namespace WindowsTools.Views.Windows
 {
@@ -93,16 +96,7 @@ namespace WindowsTools.Views.Windows
             BackdropService.PropertyChanged += OnServicePropertyChanged;
             TopMostService.PropertyChanged += OnServicePropertyChanged;
 
-            List<MenuItem> menuItemList =
-            [
-                new MenuItem() { Text = SystemTray.ShowOrHideWindow ,Tag = nameof(SystemTray.ShowOrHideWindow) },
-                new MenuItem() { Text = "-" },
-                new MenuItem() { Text = SystemTray.Exit,Tag = nameof(SystemTray.Exit) }
-            ];
-
-            SystemTrayService.InitializeSystemTray(Strings.Window.AppTitle, Process.GetCurrentProcess().MainModule.FileName, menuItemList);
-            SystemTrayService.MenuItemClick += OnMenuItemClick;
-            SystemTrayService.MouseDoubleClick += OnSystemTrayDoubleClick;
+            SystemTrayService.InitializeSystemTray(Strings.Window.AppTitle, Process.GetCurrentProcess().MainModule.FileName);
         }
 
         #region 第一部分：窗口类内置需要重载的事件
@@ -169,9 +163,6 @@ namespace WindowsTools.Views.Windows
                     BackdropService.PropertyChanged -= OnServicePropertyChanged;
                     TopMostService.PropertyChanged -= OnServicePropertyChanged;
 
-                    SystemTrayService.MenuItemClick -= OnMenuItemClick;
-                    SystemTrayService.MouseDoubleClick -= OnSystemTrayDoubleClick;
-
                     Current = null;
                     (global::Windows.UI.Xaml.Application.Current as App).Dispose();
                 }
@@ -192,7 +183,7 @@ namespace WindowsTools.Views.Windows
             SetWindowTheme();
             TopMost = TopMostService.TopMostValue;
             desktopWindowTarget = BackdropHelper.InitializeDesktopWindowTarget(this, false);
-            SystemTrayService.SetMenuTheme();
+            SetClassicMenuTheme();
             SetWindowBackdrop();
 
             if (inputNonClientPointerSourceHandle != IntPtr.Zero && Width is not 0)
@@ -307,7 +298,7 @@ namespace WindowsTools.Views.Windows
                 if (args.PropertyName.Equals(nameof(ThemeService.AppTheme)))
                 {
                     SetWindowTheme();
-                    SystemTrayService.SetMenuTheme();
+                    SetClassicMenuTheme();
                 }
                 if (args.PropertyName.Equals(nameof(BackdropService.AppBackdrop)))
                 {
@@ -318,48 +309,6 @@ namespace WindowsTools.Views.Windows
                     TopMost = TopMostService.TopMostValue;
                 }
             });
-        }
-
-        /// <summary>
-        /// 托盘图标鼠标单击事件
-        /// </summary>
-        private void OnMenuItemClick(object sender, EventArgs args)
-        {
-            if (sender is MenuItem menuItem)
-            {
-                string tag = Convert.ToString(menuItem.Tag);
-
-                if (tag == nameof(SystemTray.ShowOrHideWindow))
-                {
-                    if (Visible)
-                    {
-                        Hide();
-                    }
-                    else
-                    {
-                        Show();
-                    }
-                }
-                else if (tag == nameof(SystemTray.Exit))
-                {
-                    (global::Windows.UI.Xaml.Application.Current as App).Dispose();
-                }
-            }
-        }
-
-        /// <summary>
-        /// 托盘图标鼠标双击事件
-        /// </summary>
-        private void OnSystemTrayDoubleClick(object sender, MouseEventArgs args)
-        {
-            if (Visible)
-            {
-                Hide();
-            }
-            else
-            {
-                Show();
-            }
         }
 
         #endregion 第二部分：自定义事件
@@ -377,7 +326,7 @@ namespace WindowsTools.Views.Windows
                 case (int)WindowMessage.WM_SETTINGCHANGE:
                     {
                         SetWindowTheme();
-                        SystemTrayService.SetMenuTheme();
+                        SetClassicMenuTheme();
                         break;
                     }
                 // 选择窗口右键菜单的条目时接收到的消息
@@ -679,6 +628,36 @@ namespace WindowsTools.Views.Windows
                     };
                     systemBackdrop.InitializeBackdrop();
                 }
+            }
+        }
+
+        /// <summary>
+        /// 设置传统菜单标题栏按钮的主题色
+        /// </summary>
+        private static void SetClassicMenuTheme()
+        {
+            if (ThemeService.AppTheme.Equals(ThemeService.ThemeList[0]))
+            {
+                if (global::Windows.UI.Xaml.Application.Current.RequestedTheme is ApplicationTheme.Light)
+                {
+                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
+                    UxthemeLibrary.FlushMenuThemes();
+                }
+                else
+                {
+                    UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
+                    UxthemeLibrary.FlushMenuThemes();
+                }
+            }
+            else if (ThemeService.AppTheme.Equals(ThemeService.ThemeList[1]))
+            {
+                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
+                UxthemeLibrary.FlushMenuThemes();
+            }
+            else if (ThemeService.AppTheme.Equals(ThemeService.ThemeList[2]))
+            {
+                UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
+                UxthemeLibrary.FlushMenuThemes();
             }
         }
 
