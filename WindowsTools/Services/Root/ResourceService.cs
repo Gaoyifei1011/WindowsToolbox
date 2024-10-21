@@ -17,8 +17,6 @@ namespace WindowsTools.Services.Root
 
         public static List<KeyValuePair<string, string>> DoEngineModeList { get; } = [];
 
-        public static List<KeyValuePair<string, string>> ExitModeList { get; } = [];
-
         /// <summary>
         /// 初始化应用本地化信息
         /// </summary>
@@ -27,7 +25,6 @@ namespace WindowsTools.Services.Root
             InitializeBackdropList();
             InitializeThemeList();
             InitializeDoEngineModeList();
-            InitializeExitModeList();
         }
 
         /// <summary>
@@ -60,15 +57,6 @@ namespace WindowsTools.Services.Root
         {
             DoEngineModeList.Add(new KeyValuePair<string, string>("DeliveryOptimization", Settings.DoEngineDo));
             DoEngineModeList.Add(new KeyValuePair<string, string>("BITS", Settings.DoEngineBits));
-        }
-
-        /// <summary>
-        /// 初始化应用退出方式信息列表
-        /// </summary>
-        private static void InitializeExitModeList()
-        {
-            ExitModeList.Add(new KeyValuePair<string, string>("ExitApp", Settings.ExitApp));
-            ExitModeList.Add(new KeyValuePair<string, string>("CloseWindow", Settings.CloseWindow));
         }
     }
 }

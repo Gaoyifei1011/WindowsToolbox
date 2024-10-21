@@ -20,7 +20,5 @@
         public const string ThemeKey = "AppTheme";
 
         public const string TopMostKey = "TopMostValue";
-
-        public const string ExitModeKey = "ExitModeValue";
     }
 }

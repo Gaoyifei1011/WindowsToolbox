@@ -82,7 +82,6 @@ namespace WindowsTools
 
             DownloadOptionsService.InitializeDownload();
             FileShellMenuService.InitializeFileShellMenu();
-            ExitModeService.InitializeExitMode();
             ShellMenuService.InitializeShellMenu();
 
             DownloadSchedulerService.InitializeDownloadScheduler();

@@ -133,44 +133,36 @@ namespace WindowsTools.Views.Windows
         {
             base.OnFormClosing(args);
 
-            if (ExitModeService.ExitMode.Equals(ExitModeService.ExitModeList[0]))
-            {
-                // 如果有正在下载的任务，将窗口放到托盘区域
-                if (DownloadSchedulerService.GetDownloadSchedulerList().Count > 0)
-                {
-                    args.Cancel = true;
-                    Hide();
-                }
-                else
-                {
-                    if (RuntimeHelper.IsElevated && Handle != IntPtr.Zero)
-                    {
-                        CHANGEFILTERSTRUCT changeFilterStatus = new()
-                        {
-                            cbSize = Marshal.SizeOf<CHANGEFILTERSTRUCT>()
-                        };
-                        User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_RESET, in changeFilterStatus);
-                    }
-
-                    if (desktopWindowTarget is not null)
-                    {
-                        systemBackdrop?.Dispose();
-                        systemBackdrop = null;
-                    }
-
-                    Comctl32Library.RemoveWindowSubclass(inputNonClientPointerSourceHandle, inputNonClientPointerSourceSubClassProc, 0);
-                    ThemeService.PropertyChanged -= OnServicePropertyChanged;
-                    BackdropService.PropertyChanged -= OnServicePropertyChanged;
-                    TopMostService.PropertyChanged -= OnServicePropertyChanged;
-
-                    Current = null;
-                    (global::Windows.UI.Xaml.Application.Current as App).Dispose();
-                }
-            }
-            else
+            // 如果有正在下载的任务，将窗口放到托盘区域
+            if (DownloadSchedulerService.GetDownloadSchedulerList().Count > 0)
             {
                 args.Cancel = true;
                 Hide();
+            }
+            else
+            {
+                if (RuntimeHelper.IsElevated && Handle != IntPtr.Zero)
+                {
+                    CHANGEFILTERSTRUCT changeFilterStatus = new()
+                    {
+                        cbSize = Marshal.SizeOf<CHANGEFILTERSTRUCT>()
+                    };
+                    User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_RESET, in changeFilterStatus);
+                }
+
+                if (desktopWindowTarget is not null)
+                {
+                    systemBackdrop?.Dispose();
+                    systemBackdrop = null;
+                }
+
+                Comctl32Library.RemoveWindowSubclass(inputNonClientPointerSourceHandle, inputNonClientPointerSourceSubClassProc, 0);
+                ThemeService.PropertyChanged -= OnServicePropertyChanged;
+                BackdropService.PropertyChanged -= OnServicePropertyChanged;
+                TopMostService.PropertyChanged -= OnServicePropertyChanged;
+
+                Current = null;
+                (global::Windows.UI.Xaml.Application.Current as App).Dispose();
             }
         }
 

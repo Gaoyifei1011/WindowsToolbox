@@ -171,9 +171,6 @@
   <data name="ClearLogDescription" xml:space="preserve">
     <value>Clear all log contents of the app</value>
   </data>
-  <data name="CloseWindow" xml:space="preserve">
-    <value>Hide window to system tray</value>
-  </data>
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>
   </data>
@@ -209,15 +206,6 @@
   </data>
   <data name="DownloadOptionsDescription" xml:space="preserve">
     <value>Application download file settings</value>
-  </data>
-  <data name="ExitApp" xml:space="preserve">
-    <value>Exit app</value>
-  </data>
-  <data name="ExitMode" xml:space="preserve">
-    <value>Exit mode</value>
-  </data>
-  <data name="ExitModeDescription" xml:space="preserve">
-    <value>Application exit mode settings</value>
   </data>
   <data name="FileShellMenu" xml:space="preserve">
     <value>File right-click menu</value>

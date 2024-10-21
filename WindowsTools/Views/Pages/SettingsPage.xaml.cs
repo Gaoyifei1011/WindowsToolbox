@@ -159,29 +159,11 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private KeyValuePair<string, string> _exitMode = ExitModeService.ExitMode;
-
-        public KeyValuePair<string, string> ExitMode
-        {
-            get { return _exitMode; }
-
-            set
-            {
-                if (!Equals(_exitMode, value))
-                {
-                    _exitMode = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExitMode)));
-                }
-            }
-        }
-
         private List<KeyValuePair<string, string>> ThemeList { get; } = ThemeService.ThemeList;
 
         private List<KeyValuePair<string, string>> BackdropList { get; } = BackdropService.BackdropList;
 
         private List<KeyValuePair<string, string>> DoEngineModeList { get; } = DownloadOptionsService.DoEngineModeList;
-
-        private List<KeyValuePair<string, string>> ExitModeList { get; } = ExitModeService.ExitModeList;
 
         private ObservableCollection<LanguageModel> LanguageCollection { get; } = [];
 
@@ -446,18 +428,6 @@ namespace WindowsTools.Views.Pages
             {
                 FileShellMenuService.SetFileShellMenu(toggleSwitch.IsOn);
                 FileShellMenuValue = toggleSwitch.IsOn;
-            }
-        }
-
-        /// <summary>
-        /// 应用程序退出方式设置
-        /// </summary>
-        private void OnExitModeSelectClicked(object sender, RoutedEventArgs args)
-        {
-            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
-            {
-                ExitMode = ExitModeList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
-                ExitModeService.SetExitMode(ExitMode);
             }
         }
 

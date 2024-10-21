@@ -64,8 +64,7 @@ namespace WindowsTools.Views.Pages
             { "Microsoft.WindowsAppSDK", new Uri("https://github.com/microsoft/windowsappsdk") },
             { "Mile.Xaml", new Uri("https://github.com/ProjectMile/Mile.Xaml") },
             { "System.Numerics.Vectors", new Uri("https://dot.net") },
-            { "System.Private.Uri", new Uri("https://dot.net") },
-            { "ZXing.Net", new Uri("https://github.com/micjahn/ZXing.Net") }
+            { "System.Private.Uri", new Uri("https://dot.net") }
         };
 
         //项目感谢者信息
