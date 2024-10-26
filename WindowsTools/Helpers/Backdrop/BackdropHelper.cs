@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Windows.Foundation;
@@ -27,8 +26,8 @@ namespace WindowsTools.Helpers.Backdrop
         {
             if (!string.IsNullOrEmpty(activatableClassId))
             {
-                CombaseLibrary.RoGetActivationFactory(activatableClassId, iid, out IntPtr comp);
-                return (T)Marshal.GetObjectForIUnknown(comp);
+                CombaseLibrary.RoGetActivationFactory(activatableClassId, iid, out object comp);
+                return (T)comp;
             }
             else
             {

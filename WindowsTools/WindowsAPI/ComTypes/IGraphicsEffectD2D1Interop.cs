@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Windows.Graphics.Effects;
 
 namespace WindowsTools.WindowsAPI.ComTypes
 {
@@ -51,7 +52,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="source">当方法返回时，此参数将包含指定索引处的源。</param>
         /// <returns>此方法返回 HRESULT 成功或错误代码。</returns>
         [PreserveSig]
-        int GetSource(uint index, out IntPtr source);
+        int GetSource(uint index, out IGraphicsEffectSource source);
 
         /// <summary>
         /// 检索效果的源计数。

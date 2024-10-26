@@ -66,21 +66,21 @@ namespace WindowsTools.UI.Backdrop
             return 0;
         }
 
-        public int GetSource(uint index, out IntPtr source)
+        public int GetSource(uint index, out IGraphicsEffectSource source)
         {
             if (index is 0)
             {
-                source = Marshal.GetComInterfaceForObject<object, IGraphicsEffectSource>(Background);
+                source = Background;
                 return 0;
             }
             else if (index is 1)
             {
-                source = Marshal.GetComInterfaceForObject<object, IGraphicsEffectSource>(Foreground);
+                source = Foreground;
                 return 0;
             }
             else
             {
-                source = IntPtr.Zero;
+                source = null;
                 return 2147483637;
             }
         }

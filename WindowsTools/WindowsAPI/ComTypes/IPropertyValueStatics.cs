@@ -133,7 +133,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateInspectable([MarshalAs(UnmanagedType.IUnknown)] object value, out IntPtr propertyValue);
+        int CreateInspectable([MarshalAs(UnmanagedType.IInspectable)] object value, out IntPtr propertyValue);
 
         /// <summary>
         /// 创建包含指定 GUID 值的新 IPropertyValue 对象。
@@ -317,7 +317,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateInspectableArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0, ArraySubType = UnmanagedType.IUnknown)] object[] value, out IntPtr propertyValue);
+        int CreateInspectableArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0, ArraySubType = UnmanagedType.IInspectable)] object[] value, out IntPtr propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 Guid 值数组。

@@ -63,9 +63,9 @@ namespace WindowsTools.UI.Backdrop
             return 0;
         }
 
-        public int GetSource(uint index, out IntPtr source)
+        public int GetSource(uint index, out IGraphicsEffectSource source)
         {
-            source = IntPtr.Zero;
+            source = null;
             return 0;
         }
 
