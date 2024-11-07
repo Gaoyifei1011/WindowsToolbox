@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.Views.Windows;
 
 // 抑制 CA1822 警告
@@ -69,8 +68,8 @@ namespace WindowsTools.Views.Pages
             UpdatingKind = updatingKind;
             simulateTotalTime = duration.TotalSeconds is not 0 ? Convert.ToInt32(duration.TotalSeconds) : 1;
             string percentage = ((double)simulatePassedTime / simulateTotalTime).ToString("0%");
-            Windows11UpdateText = string.Format(SimulateUpdate.Windows11UpdateText1, percentage);
-            Windows10UpdateText = string.Format(SimulateUpdate.Windows10UpdateText1, percentage);
+            Windows11UpdateText = string.Format(ResourceService.SimulateUpdateResource.GetString("Windows11UpdateText1"), percentage);
+            Windows10UpdateText = string.Format(ResourceService.SimulateUpdateResource.GetString("Windows10UpdateText1"), percentage);
             simulateUpdateTimer.Interval = 1000;
             simulateUpdateTimer.Elapsed += OnElapsed;
             simulateUpdateTimer.Start();
@@ -101,8 +100,8 @@ namespace WindowsTools.Views.Pages
                 synchronizationContext.Post(_ =>
                 {
                     string percentage = ((double)simulatePassedTime / simulateTotalTime).ToString("0%");
-                    Windows11UpdateText = string.Format(SimulateUpdate.Windows11UpdateText1, percentage);
-                    Windows10UpdateText = string.Format(SimulateUpdate.Windows10UpdateText1, percentage);
+                    Windows11UpdateText = string.Format(ResourceService.SimulateUpdateResource.GetString("Windows11UpdateText1"), percentage);
+                    Windows10UpdateText = string.Format(ResourceService.SimulateUpdateResource.GetString("Windows10UpdateText1"), percentage);
                 }, null);
             }
             catch (Exception e)

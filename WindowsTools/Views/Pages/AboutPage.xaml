@@ -8,7 +8,7 @@
     xmlns:helper="using:WindowsTools.Helpers.Root"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:string="using:WindowsTools.Strings"
+    xmlns:root="using:WindowsTools.Services.Root"
     xmlns:sys="using:System"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -49,9 +49,9 @@
             <TextBlock
                 Grid.Column="0"
                 FontSize="22"
-                Text="{x:Bind string:About.Title}" />
+                Text="{x:Bind root:ResourceService.AboutResource.GetString('Title')}" />
 
-            <muxc:DropDownButton Grid.Column="1" Content="{x:Bind string:About.Others}">
+            <muxc:DropDownButton Grid.Column="1" Content="{x:Bind root:ResourceService.AboutResource.GetString('Others')}">
 
                 <muxc:DropDownButton.Flyout>
                     <MenuFlyout Placement="Bottom">
@@ -60,8 +60,8 @@
                             Height="32"
                             Padding="11,0"
                             Click="{x:Bind OnPinToDesktopClicked}"
-                            Text="{x:Bind string:About.PinToDesktop}"
-                            ToolTipService.ToolTip="{x:Bind string:About.PinToDesktopToolTip}">
+                            Text="{x:Bind root:ResourceService.AboutResource.GetString('PinToDesktop')}"
+                            ToolTipService.ToolTip="{x:Bind root:ResourceService.AboutResource.GetString('PinToDesktopToolTip')}">
 
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE70A;" />
@@ -72,8 +72,8 @@
                             Height="32"
                             Padding="11,0"
                             Click="{x:Bind OnPinToStartScreenClicked}"
-                            Text="{x:Bind string:About.PinToStartScreen}"
-                            ToolTipService.ToolTip="{x:Bind string:About.PinToStartScreenToolTip}">
+                            Text="{x:Bind root:ResourceService.AboutResource.GetString('PinToStartScreen')}"
+                            ToolTipService.ToolTip="{x:Bind root:ResourceService.AboutResource.GetString('PinToStartScreenToolTip')}">
 
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8FC;" />
@@ -84,8 +84,8 @@
                             Height="32"
                             Padding="11,0"
                             Click="{x:Bind OnPinToTaskbarClicked}"
-                            Text="{x:Bind string:About.PinToTaskbar}"
-                            ToolTipService.ToolTip="{x:Bind string:About.PinToTaskbarToolTip}">
+                            Text="{x:Bind root:ResourceService.AboutResource.GetString('PinToTaskbar')}"
+                            ToolTipService.ToolTip="{x:Bind root:ResourceService.AboutResource.GetString('PinToTaskbarToolTip')}">
 
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE75B;" />
@@ -98,8 +98,8 @@
                             Height="32"
                             Padding="11,0"
                             Click="{x:Bind OnShowReleaseNotesClicked}"
-                            Text="{x:Bind string:About.ShowReleaseNotes}"
-                            ToolTipService.ToolTip="{x:Bind string:About.ShowReleaseNotesToolTip}">
+                            Text="{x:Bind root:ResourceService.AboutResource.GetString('ShowReleaseNotes')}"
+                            ToolTipService.ToolTip="{x:Bind root:ResourceService.AboutResource.GetString('ShowReleaseNotesToolTip')}">
 
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE70B;" />
@@ -110,8 +110,8 @@
                             Height="32"
                             Padding="11,0"
                             Click="{x:Bind OnShowLicenseClicked}"
-                            Text="{x:Bind string:About.ShowLicense}"
-                            ToolTipService.ToolTip="{x:Bind string:About.ShowLicenseToolTip}">
+                            Text="{x:Bind root:ResourceService.AboutResource.GetString('ShowLicense')}"
+                            ToolTipService.ToolTip="{x:Bind root:ResourceService.AboutResource.GetString('ShowLicenseToolTip')}">
 
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE779;" />
@@ -124,7 +124,7 @@
                             Height="32"
                             Padding="11,0"
                             Click="{x:Bind OnHelpTranslateClicked}"
-                            Text="{x:Bind string:About.HelpTranslate}">
+                            Text="{x:Bind root:ResourceService.AboutResource.GetString('HelpTranslate')}">
 
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xF2B7;" />
@@ -172,26 +172,26 @@
                         <TextBlock
                             Margin="0,0,0,10"
                             FontSize="30"
-                            Text="{x:Bind string:About.AppName}" />
+                            Text="{x:Bind root:ResourceService.AboutResource.GetString('AppName')}" />
 
                         <TextBlock
                             Margin="0,0,0,10"
                             FontSize="15"
-                            Text="{x:Bind x:String.Format(string:About.AppVersion, helper:InfoHelper.AppVersion)}" />
+                            Text="{x:Bind x:String.Format(AppVersion, helper:InfoHelper.AppVersion)}" />
 
                         <StackPanel Orientation="Horizontal">
 
                             <TextBlock
                                 VerticalAlignment="Center"
                                 FontSize="15"
-                                Text="{x:Bind string:About.Developer}" />
+                                Text="{x:Bind root:ResourceService.AboutResource.GetString('Developer')}" />
 
                             <HyperlinkButton
                                 VerticalAlignment="Center"
-                                Content="{x:Bind string:About.DeveloperName}"
+                                Content="{x:Bind root:ResourceService.AboutResource.GetString('DeveloperName')}"
                                 NavigateUri="https://github.com/Gaoyifei1011"
                                 Style="{StaticResource HyperlinkButtonStyle}"
-                                ToolTipService.ToolTip="{x:Bind string:About.DeveloperNameToolTip}" />
+                                ToolTipService.ToolTip="{x:Bind root:ResourceService.AboutResource.GetString('DeveloperNameToolTip')}" />
                         </StackPanel>
                     </StackPanel>
 
@@ -204,19 +204,19 @@
                         <Button
                             MinWidth="130"
                             Click="{x:Bind OnProjectDescriptionClicked}"
-                            Content="{x:Bind string:About.ProjectHomePage}"
+                            Content="{x:Bind root:ResourceService.AboutResource.GetString('ProjectHomePage')}"
                             Style="{StaticResource AccentButtonStyle}" />
 
                         <Button
                             MinWidth="130"
                             Click="{x:Bind OnSendFeedbackClicked}"
-                            Content="{x:Bind string:About.SendFeedback}" />
+                            Content="{x:Bind root:ResourceService.AboutResource.GetString('SendFeedback')}" />
 
                         <Button MinWidth="130" Click="{x:Bind OnCheckUpdateClicked}">
 
                             <Button.Content>
                                 <Grid>
-                                    <TextBlock Text="{x:Bind string:About.CheckUpdate}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsChecking), Mode=OneWay}" />
+                                    <TextBlock Text="{x:Bind root:ResourceService.AboutResource.GetString('CheckUpdate')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsChecking), Mode=OneWay}" />
 
                                     <StackPanel
                                         Orientation="Horizontal"
@@ -228,7 +228,7 @@
                                             Height="16"
                                             IsActive="{x:Bind IsChecking, Mode=OneWay}" />
 
-                                        <TextBlock Text="{x:Bind string:About.Checking}" />
+                                        <TextBlock Text="{x:Bind root:ResourceService.AboutResource.GetString('Checking')}" />
                                     </StackPanel>
                                 </Grid>
                             </Button.Content>
@@ -248,7 +248,7 @@
                             Padding="15,0,0,0"
                             FontSize="16"
                             FontWeight="Medium"
-                            Text="{x:Bind string:About.Reference}" />
+                            Text="{x:Bind root:ResourceService.AboutResource.GetString('Reference')}" />
                     </muxc:Expander.Header>
 
                     <muxc:Expander.Content>
@@ -287,7 +287,7 @@
                                                 <TextBlock>
                                                     <Run Text="{x:Bind sys:Convert.ToString(Key)}" />
                                                     <LineBreak />
-                                                    <Run Text="{x:Bind string:About.ReferenceToolTip}" />
+                                                    <Run Text="{x:Bind root:ResourceService.AboutResource.GetString('ReferenceToolTip')}" />
                                                 </TextBlock>
                                             </ToolTip>
                                         </ToolTipService.ToolTip>
@@ -310,7 +310,7 @@
                             Padding="15,0,0,0"
                             FontSize="15"
                             FontWeight="Medium"
-                            Text="{x:Bind string:About.SettingsHelp}" />
+                            Text="{x:Bind root:ResourceService.AboutResource.GetString('SettingsHelp')}" />
                     </muxc:Expander.Header>
 
                     <muxc:Expander.Content>
@@ -319,21 +319,21 @@
                                 Margin="30,10,16,10"
                                 FontSize="15"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:About.Backdrop}"
+                                Text="{x:Bind root:ResourceService.AboutResource.GetString('Backdrop')}"
                                 TextAlignment="Left" />
 
                             <TextBlock
                                 Margin="30,0,16,5"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:About.BackdropDescription}"
+                                Text="{x:Bind root:ResourceService.AboutResource.GetString('BackdropDescription')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
 
                             <HyperlinkButton
                                 Margin="30,0,16,5"
                                 Click="{x:Bind OnSystemInformationClicked}"
-                                Content="{x:Bind string:About.SystemInformation}"
+                                Content="{x:Bind root:ResourceService.AboutResource.GetString('SystemInformation')}"
                                 Style="{StaticResource HyperlinkButtonStyle}" />
 
                             <MenuFlyoutSeparator />
@@ -342,13 +342,13 @@
                                 Margin="30,10,16,10"
                                 FontSize="15"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:About.Language}"
+                                Text="{x:Bind root:ResourceService.AboutResource.GetString('Language')}"
                                 TextAlignment="Left" />
                             <TextBlock
                                 Margin="30,0,16,5"
                                 FontSize="13.5"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:About.LanguageDescription}"
+                                Text="{x:Bind root:ResourceService.AboutResource.GetString('LanguageDescription')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
 
@@ -359,12 +359,12 @@
 
                                 <HyperlinkButton
                                     Click="{x:Bind OnAppInformationClicked}"
-                                    Content="{x:Bind string:About.AppInformation}"
+                                    Content="{x:Bind root:ResourceService.AboutResource.GetString('AppInformation')}"
                                     Style="{StaticResource HyperlinkButtonStyle}" />
 
                                 <HyperlinkButton
                                     Click="{x:Bind OnAppSettingsClicked}"
-                                    Content="{x:Bind string:About.AppSettings}"
+                                    Content="{x:Bind root:ResourceService.AboutResource.GetString('AppSettings')}"
                                     NavigateUri="ms-settings:appsfeatures-app"
                                     Style="{StaticResource HyperlinkButtonStyle}" />
                             </StackPanel>
@@ -375,20 +375,20 @@
                                 Margin="30,10,16,10"
                                 FontSize="15"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:About.Download}"
+                                Text="{x:Bind root:ResourceService.AboutResource.GetString('Download')}"
                                 TextAlignment="Left" />
                             <TextBlock
                                 Margin="30,0,16,5"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:About.DownloadDescription1}"
+                                Text="{x:Bind root:ResourceService.AboutResource.GetString('DownloadDescription1')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                             <TextBlock
                                 Margin="30,0,16,5"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:About.DownloadDescription2}"
+                                Text="{x:Bind root:ResourceService.AboutResource.GetString('DownloadDescription2')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
 
@@ -398,18 +398,18 @@
                                 Spacing="15">
 
                                 <HyperlinkButton
-                                    Content="{x:Bind string:About.LearnDeliveryOptimization}"
+                                    Content="{x:Bind root:ResourceService.AboutResource.GetString('LearnDeliveryOptimization')}"
                                     NavigateUri="https://learn.microsoft.com/windows/deployment/do/waas-delivery-optimization"
                                     Style="{StaticResource HyperlinkButtonStyle}" />
 
                                 <HyperlinkButton
-                                    Content="{x:Bind string:About.LearnBits}"
+                                    Content="{x:Bind root:ResourceService.AboutResource.GetString('LearnBits')}"
                                     NavigateUri="https://learn.microsoft.com/windows/win32/bits/background-intelligent-transfer-service-portal"
                                     Style="{StaticResource HyperlinkButtonStyle}" />
 
                                 <HyperlinkButton
                                     Click="{x:Bind OnTroubleShootClicked}"
-                                    Content="{x:Bind string:About.TroubleShoot}"
+                                    Content="{x:Bind root:ResourceService.AboutResource.GetString('TroubleShoot')}"
                                     Style="{StaticResource HyperlinkButtonStyle}" />
                             </StackPanel>
                         </StackPanel>
@@ -428,7 +428,7 @@
                             Padding="15,0,0,0"
                             FontSize="16"
                             FontWeight="Medium"
-                            Text="{x:Bind string:About.Thanks}" />
+                            Text="{x:Bind root:ResourceService.AboutResource.GetString('Thanks')}" />
                     </muxc:Expander.Header>
 
                     <muxc:Expander.Content>
@@ -467,7 +467,7 @@
                                                 <TextBlock>
                                                     <Run Text="{x:Bind sys:Convert.ToString(Key)}" />
                                                     <LineBreak />
-                                                    <Run Text="{x:Bind string:About.ThanksToolTip}" />
+                                                    <Run Text="{x:Bind root:ResourceService.AboutResource.GetString('ThanksToolTip')}" />
                                                 </TextBlock>
                                             </ToolTip>
                                         </ToolTipService.ToolTip>

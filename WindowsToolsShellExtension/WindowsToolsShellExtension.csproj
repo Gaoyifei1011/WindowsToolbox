@@ -50,13 +50,6 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
 
-  
-  <ItemGroup>
-    <EmbeddedResource Update="ShellMenu\About.en-us.resx" Generator="PublicResXFileCodeGenerator" />
-    <EmbeddedResource Update="ShellMenu\About.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="ShellMenu.Designer.cs" />
-    <EmbeddedResource Update="ShellMenu\About.zh-hans.resx" Generator="PublicResXFileCodeGenerator" />
-  </ItemGroup>
-
   <!-- 测试 AOT 发布后的文件 -->
   <Target Name="AutoPublish" AfterTargets="AfterBuild" Condition="'$(Configuration)|$(ForceAotCompile)|$(PublishAot)' == 'Debug|true|true'">
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Publish" />

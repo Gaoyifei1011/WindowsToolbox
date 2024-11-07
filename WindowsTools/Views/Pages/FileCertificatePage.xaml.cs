@@ -18,7 +18,6 @@ using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.ComTypes;
@@ -36,6 +35,8 @@ namespace WindowsTools.Views.Pages
     {
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly object fileCertificateLock = new();
+
+        private string Total { get; } = ResourceService.FileCertificateResource.GetString("Total");
 
         private bool _isModifyingNow = false;
 
@@ -76,7 +77,7 @@ namespace WindowsTools.Views.Pages
             args.DragUIOverride.IsCaptionVisible = true;
             args.DragUIOverride.IsContentVisible = false;
             args.DragUIOverride.IsGlyphVisible = true;
-            args.DragUIOverride.Caption = FileCertificate.DragOverContent;
+            args.DragUIOverride.Caption = ResourceService.FileCertificateResource.GetString("DragOverContent");
             args.Handled = true;
         }
 
@@ -209,7 +210,7 @@ namespace WindowsTools.Views.Pages
             OpenFileDialog dialog = new()
             {
                 Multiselect = true,
-                Title = FileProperties.SelectFile
+                Title = ResourceService.FileCertificateResource.GetString("SelectFile")
             };
             if (dialog.ShowDialog() is DialogResult.OK)
             {
@@ -260,7 +261,7 @@ namespace WindowsTools.Views.Pages
         {
             OpenFolderDialog dialog = new()
             {
-                Description = FileProperties.SelectFolder,
+                Description = ResourceService.FileCertificateResource.GetString("SelectFolder"),
                 RootFolder = Environment.SpecialFolder.Desktop
             };
             DialogResult result = dialog.ShowDialog();

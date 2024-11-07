@@ -8,8 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:mxuc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:string="using:WindowsTools.Strings"
-    xmlns:sys="using:System"
+    xmlns:root="using:WindowsTools.Services.Root"
     AllowDrop="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -32,7 +31,7 @@
             Grid.Row="0"
             Margin="30,15,30,10"
             FontSize="22"
-            Text="{x:Bind string:ExtensionName.Title}" />
+            Text="{x:Bind root:ResourceService.ExtensionNameResource.GetString('Title')}" />
 
         <Grid
             Grid.Row="1"
@@ -56,7 +55,7 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
-                Content="{x:Bind string:ExtensionName.SameExtensionName}"
+                Content="{x:Bind root:ResourceService.ExtensionNameResource.GetString('SameExtensionName')}"
                 IsChecked="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsSameExtensionName), Mode=OneWay}"
                 Tag="1"
                 Unchecked="{x:Bind OnUnchecked}" />
@@ -71,7 +70,7 @@
                 <TextBlock
                     Grid.Column="0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:ExtensionName.ChangeTo}" />
+                    Text="{x:Bind root:ResourceService.ExtensionNameResource.GetString('ChangeTo')}" />
                 <TextBox
                     Grid.Column="1"
                     IsEnabled="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsSameExtensionName), Mode=OneWay}"
@@ -84,7 +83,7 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
-                Content="{x:Bind string:ExtensionName.FindAndReplaceExtensionName}"
+                Content="{x:Bind root:ResourceService.ExtensionNameResource.GetString('FindAndReplaceExtensionName')}"
                 IsChecked="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
                 Tag="2"
                 Unchecked="{x:Bind OnUnchecked}" />
@@ -99,7 +98,7 @@
                 <TextBlock
                     Grid.Column="0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:ExtensionName.Search}" />
+                    Text="{x:Bind root:ResourceService.ExtensionNameResource.GetString('Search')}" />
                 <TextBox
                     Grid.Column="1"
                     IsEnabled="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
@@ -115,7 +114,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="{x:Bind string:ExtensionName.Replace}" />
+                <TextBlock Grid.Column="0" Text="{x:Bind root:ResourceService.ExtensionNameResource.GetString('Replace')}" />
                 <TextBox
                     Grid.Column="1"
                     IsEnabled="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
@@ -155,14 +154,14 @@
                     Grid.Column="0"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:ExtensionName.OriginalFileName}"
+                    Text="{x:Bind root:ResourceService.ExtensionNameResource.GetString('OriginalFileName')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:ExtensionName.OriginalFileName}"
+                            Content="{x:Bind root:ResourceService.ExtensionNameResource.GetString('OriginalFileName')}"
                             Visibility="{x:Bind OriginalFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -172,14 +171,14 @@
                     Grid.Column="1"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:ExtensionName.NewFileName}"
+                    Text="{x:Bind root:ResourceService.ExtensionNameResource.GetString('NewFileName')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:ExtensionName.NewFileName}"
+                            Content="{x:Bind root:ResourceService.ExtensionNameResource.GetString('NewFileName')}"
                             Visibility="{x:Bind NewFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -266,7 +265,7 @@
                 Grid.Row="1"
                 Margin="0,10,0,0"
                 VerticalAlignment="Top"
-                Text="{x:Bind string:ExtensionName.EmptyList}"
+                Text="{x:Bind root:ResourceService.ExtensionNameResource.GetString('EmptyList')}"
                 TextAlignment="Center"
                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(ExtensionNameCollection.Count), Mode=OneWay}" />
         </Grid>
@@ -290,29 +289,29 @@
             <Button
                 Grid.Column="0"
                 Click="{x:Bind OnSelectFileClicked}"
-                Content="{x:Bind string:ExtensionName.SelectFile}" />
+                Content="{x:Bind root:ResourceService.ExtensionNameResource.GetString('SelectFile')}" />
 
             <Button
                 Grid.Column="1"
                 Click="{x:Bind OnSelectFolderClicked}"
-                Content="{x:Bind string:ExtensionName.SelectFolder}" />
+                Content="{x:Bind root:ResourceService.ExtensionNameResource.GetString('SelectFolder')}" />
 
             <Button
                 Grid.Column="2"
                 Click="{x:Bind OnClearListClicked}"
-                Content="{x:Bind string:ExtensionName.ClearList}" />
+                Content="{x:Bind root:ResourceService.ExtensionNameResource.GetString('ClearList')}" />
 
             <TextBlock
                 Grid.Column="3"
                 VerticalAlignment="Center"
-                Text="{x:Bind x:String.Format(string:ExtensionName.Total, ExtensionNameCollection.Count), Mode=OneWay}"
+                Text="{x:Bind x:String.Format(Total, ExtensionNameCollection.Count), Mode=OneWay}"
                 TextAlignment="Center" />
 
             <HyperlinkButton
                 Grid.Column="4"
                 Margin="0,0,10,0"
                 Click="{x:Bind OnViewErrorInformationClicked}"
-                Content="{x:Bind string:ExtensionName.ViewErrorInformation}"
+                Content="{x:Bind root:ResourceService.ExtensionNameResource.GetString('ViewErrorInformation')}"
                 Style="{StaticResource ErrorHyperlinkButtonStyle}"
                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedCollection.Count), Mode=OneWay}" />
 
@@ -330,19 +329,19 @@
                 Grid.Column="6"
                 Margin="0,0,5,0"
                 VerticalAlignment="Center"
-                Text="{x:Bind string:ExtensionName.ModifyingNow}"
+                Text="{x:Bind root:ResourceService.ExtensionNameResource.GetString('ModifyingNow')}"
                 Visibility="{x:Bind IsModifyingNow, Mode=OneWay}" />
 
             <Button
                 Grid.Column="7"
                 Click="{x:Bind OnPreviewClicked}"
-                Content="{x:Bind string:ExtensionName.Preview}"
+                Content="{x:Bind root:ResourceService.ExtensionNameResource.GetString('Preview')}"
                 IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}" />
 
             <Button
                 Grid.Column="8"
                 Click="{x:Bind OnModifyClicked}"
-                Content="{x:Bind string:ExtensionName.Modify}"
+                Content="{x:Bind root:ResourceService.ExtensionNameResource.GetString('Modify')}"
                 IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}"
                 Style="{StaticResource AccentButtonStyle}" />
         </Grid>

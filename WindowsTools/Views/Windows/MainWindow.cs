@@ -60,7 +60,7 @@ namespace WindowsTools.Views.Windows
             MinimumSize = new System.Drawing.Size(Convert.ToInt32(1024 * ((double)DeviceDpi) / 96), Convert.ToInt32(768 * ((double)DeviceDpi / 96)));
             Size = new System.Drawing.Size(Convert.ToInt32(1024 * ((double)DeviceDpi) / 96), Convert.ToInt32(768 * ((double)DeviceDpi / 96)));
             StartPosition = FormStartPosition.CenterScreen;
-            Text = Strings.Window.AppTitle;
+            Text = ResourceService.WindowResource.GetString("AppTitle");
             windowsXamlHost.AutoSize = true;
             windowsXamlHost.Dock = DockStyle.Fill;
             windowsXamlHost.Child = Content;
@@ -96,7 +96,7 @@ namespace WindowsTools.Views.Windows
             BackdropService.PropertyChanged += OnServicePropertyChanged;
             TopMostService.PropertyChanged += OnServicePropertyChanged;
 
-            SystemTrayService.InitializeSystemTray(Strings.Window.AppTitle, Process.GetCurrentProcess().MainModule.FileName);
+            SystemTrayService.InitializeSystemTray(ResourceService.WindowResource.GetString("AppTitle"), Process.GetCurrentProcess().MainModule.FileName);
         }
 
         #region 第一部分：窗口类内置需要重载的事件

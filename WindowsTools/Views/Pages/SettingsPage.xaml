@@ -9,8 +9,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:root="using:WindowsTools.Services.Root"
     xmlns:service="using:WindowsTools.Services.Controls.Settings"
-    xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
@@ -36,19 +36,19 @@
             <TextBlock
                 Grid.Column="0"
                 FontSize="22"
-                Text="{x:Bind string:Settings.Title}" />
+                Text="{x:Bind root:ResourceService.SettingsResource.GetString('Title')}" />
 
             <Button
                 Grid.Column="1"
                 Margin="0,0,6,0"
                 Click="{x:Bind OnRestartAppsClicked}"
-                Content="{x:Bind string:Settings.RestartApp}"
-                ToolTipService.ToolTip="{x:Bind string:Settings.RestartAppToolTip}" />
+                Content="{x:Bind root:ResourceService.SettingsResource.GetString('RestartApp')}"
+                ToolTipService.ToolTip="{x:Bind root:ResourceService.SettingsResource.GetString('RestartAppToolTip')}" />
 
             <Button
                 Grid.Column="2"
                 Click="{x:Bind OnSettingsInstructionClicked}"
-                Content="{x:Bind string:Settings.SettingsInstruction}" />
+                Content="{x:Bind root:ResourceService.SettingsResource.GetString('SettingsInstruction')}" />
         </Grid>
 
         <ScrollViewer
@@ -80,7 +80,7 @@
                         VerticalAlignment="Center"
                         FontSize="16"
                         Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind string:Settings.Appearance}" />
+                        Text="{x:Bind root:ResourceService.SettingsResource.GetString('Appearance')}" />
                 </StackPanel>
 
                 <!--  应用主题设置  -->
@@ -110,20 +110,20 @@
                         VerticalAlignment="Center"
                         Orientation="Vertical">
 
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.ThemeMode}" />
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind root:ResourceService.SettingsResource.GetString('ThemeMode')}" />
 
                         <TextBlock
                             x:Name="ThemeModeDescription"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind string:Settings.ThemeModeDescription}"
+                            Text="{x:Bind root:ResourceService.SettingsResource.GetString('ThemeModeDescription')}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind string:Settings.ThemeModeDescription}"
+                                    Content="{x:Bind root:ResourceService.SettingsResource.GetString('ThemeModeDescription')}"
                                     Visibility="{x:Bind ThemeModeDescription.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
@@ -133,7 +133,7 @@
                         Grid.Column="2"
                         Margin="0,0,6,0"
                         Click="{x:Bind OnSystemThemeSettingsClicked}"
-                        Content="{x:Bind string:Settings.SystemThemeSettings}" />
+                        Content="{x:Bind root:ResourceService.SettingsResource.GetString('SystemThemeSettings')}" />
 
                     <muxc:DropDownButton
                         Grid.Column="3"
@@ -200,20 +200,20 @@
                         VerticalAlignment="Center"
                         Orientation="Vertical">
 
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.Backdrop}" />
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind root:ResourceService.SettingsResource.GetString('Backdrop')}" />
 
                         <TextBlock
                             x:Name="BackdropDescription"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind string:Settings.BackdropDescription}"
+                            Text="{x:Bind root:ResourceService.SettingsResource.GetString('BackdropDescription')}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind string:Settings.BackdropDescription}"
+                                    Content="{x:Bind root:ResourceService.SettingsResource.GetString('BackdropDescription')}"
                                     Visibility="{x:Bind BackdropDescription.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
@@ -223,7 +223,7 @@
                         Grid.Column="2"
                         Margin="0,0,6,0"
                         Click="{x:Bind OnSystemBackdropSettingsClicked}"
-                        Content="{x:Bind string:Settings.SystemBackdropSettings}" />
+                        Content="{x:Bind root:ResourceService.SettingsResource.GetString('SystemBackdropSettings')}" />
 
                     <muxc:DropDownButton
                         Grid.Column="3"
@@ -246,7 +246,7 @@
                                     Height="32"
                                     Padding="11,0"
                                     x:Load="{x:Bind backdrop:MicaBackdrop.IsSupported}"
-                                    Text="{x:Bind string:Settings.Mica}">
+                                    Text="{x:Bind root:ResourceService.SettingsResource.GetString('Mica')}">
 
                                     <muxc:RadioMenuFlyoutItem
                                         Height="32"
@@ -272,7 +272,7 @@
                                     Height="32"
                                     Padding="11,0,11,0"
                                     x:Load="{x:Bind backdrop:DesktopAcrylicBackdrop.IsSupported}"
-                                    Text="{x:Bind string:Settings.DesktopAcrylic}">
+                                    Text="{x:Bind root:ResourceService.SettingsResource.GetString('DesktopAcrylic')}">
 
                                     <muxc:RadioMenuFlyoutItem
                                         Height="32"
@@ -333,20 +333,20 @@
                         VerticalAlignment="Center"
                         Orientation="Vertical">
 
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.AlwaysShowBackdrop}" />
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind root:ResourceService.SettingsResource.GetString('AlwaysShowBackdrop')}" />
 
                         <TextBlock
                             x:Name="AlwaysShowBackdropDescription"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind string:Settings.AlwaysShowBackdropDescription}"
+                            Text="{x:Bind root:ResourceService.SettingsResource.GetString('AlwaysShowBackdropDescription')}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind string:Settings.AlwaysShowBackdropDescription}"
+                                    Content="{x:Bind root:ResourceService.SettingsResource.GetString('AlwaysShowBackdropDescription')}"
                                     Visibility="{x:Bind AlwaysShowBackdropDescription.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
@@ -360,8 +360,8 @@
                         IsEnabled="{x:Bind converter:ValueConverterHelper.ObjectCompareReverseConvert(Backdrop.Key, BackdropList[0].Key), Mode=OneWay}"
                         IsEnabledChanged="{x:Bind OnIsEnabledChanged}"
                         IsOn="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}"
-                        OffContent="{x:Bind string:Settings.AlwaysShowBackdropOffContent}"
-                        OnContent="{x:Bind string:Settings.AlwaysShowBackdropOnContent}"
+                        OffContent="{x:Bind root:ResourceService.SettingsResource.GetString('AlwaysShowBackdropOffContent')}"
+                        OnContent="{x:Bind root:ResourceService.SettingsResource.GetString('AlwaysShowBackdropOnContent')}"
                         Toggled="{x:Bind OnAlwaysShowBackdropToggled}" />
                 </Grid>
 
@@ -392,20 +392,20 @@
                         VerticalAlignment="Center"
                         Orientation="Vertical">
 
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.Language}" />
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind root:ResourceService.SettingsResource.GetString('Language')}" />
 
                         <TextBlock
                             x:Name="LanguageDescription"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind string:Settings.LanguageDescription}"
+                            Text="{x:Bind root:ResourceService.SettingsResource.GetString('LanguageDescription')}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind string:Settings.LanguageDescription}"
+                                    Content="{x:Bind root:ResourceService.SettingsResource.GetString('LanguageDescription')}"
                                     Visibility="{x:Bind LanguageDescription.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
@@ -416,7 +416,7 @@
                         Margin="0,0,6,0"
                         VerticalAlignment="Center"
                         Click="{x:Bind OnSystemLanguageSettingsClicked}"
-                        Content="{x:Bind string:Settings.SystemLanguageSettings}" />
+                        Content="{x:Bind root:ResourceService.SettingsResource.GetString('SystemLanguageSettings')}" />
 
                     <muxc:DropDownButton
                         Grid.Column="3"
@@ -506,20 +506,20 @@
                         VerticalAlignment="Center"
                         Orientation="Vertical">
 
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.TopMost}" />
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind root:ResourceService.SettingsResource.GetString('TopMost')}" />
 
                         <TextBlock
                             x:Name="TopMostDescription"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind string:Settings.TopMostDescription}"
+                            Text="{x:Bind root:ResourceService.SettingsResource.GetString('TopMostDescription')}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind string:Settings.TopMostDescription}"
+                                    Content="{x:Bind root:ResourceService.SettingsResource.GetString('TopMostDescription')}"
                                     Visibility="{x:Bind TopMostDescription.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
@@ -531,8 +531,8 @@
                         Margin="0,-2,0,0"
                         FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                         IsOn="{x:Bind TopMostValue, Mode=OneWay}"
-                        OffContent="{x:Bind string:Settings.TopMostOffContent}"
-                        OnContent="{x:Bind string:Settings.TopMostOnContent}"
+                        OffContent="{x:Bind root:ResourceService.SettingsResource.GetString('TopMostOffContent')}"
+                        OnContent="{x:Bind root:ResourceService.SettingsResource.GetString('TopMostOnContent')}"
                         Toggled="{x:Bind OnTopMostToggled}" />
                 </Grid>
 
@@ -553,7 +553,7 @@
                         VerticalAlignment="Center"
                         FontSize="16"
                         Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind string:Settings.General}" />
+                        Text="{x:Bind root:ResourceService.SettingsResource.GetString('General')}" />
                 </StackPanel>
 
                 <!--  下载管理设置  -->
@@ -583,20 +583,20 @@
                                 VerticalAlignment="Center"
                                 Orientation="Vertical">
 
-                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.DownloadOptions}" />
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind root:ResourceService.SettingsResource.GetString('DownloadOptions')}" />
 
                                 <TextBlock
                                     x:Name="DownloadOptionsDescription"
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{x:Bind string:Settings.DownloadOptionsDescription}"
+                                    Text="{x:Bind root:ResourceService.SettingsResource.GetString('DownloadOptionsDescription')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:Settings.DownloadOptionsDescription}"
+                                            Content="{x:Bind root:ResourceService.SettingsResource.GetString('DownloadOptionsDescription')}"
                                             Visibility="{x:Bind DownloadOptionsDescription.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -625,7 +625,7 @@
                                     <TextBlock
                                         VerticalAlignment="Center"
                                         Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind string:Settings.DownloadFolder}" />
+                                        Text="{x:Bind root:ResourceService.SettingsResource.GetString('DownloadFolder')}" />
 
                                     <HyperlinkButton Click="{x:Bind OnOpenFolderClicked}" Style="{StaticResource HyperlinkButtonStyle}">
 
@@ -639,10 +639,10 @@
                                         <ToolTipService.ToolTip>
                                             <ToolTip MaxWidth="9999">
                                                 <StackPanel HorizontalAlignment="Stretch">
-                                                    <TextBlock Text="{x:Bind string:Settings.DownloadFolderDescription}" />
+                                                    <TextBlock Text="{x:Bind root:ResourceService.SettingsResource.GetString('DownloadFolderDescription')}" />
                                                     <TextBlock Text="{x:Bind DownloadFolder, Mode=OneWay}" />
                                                     <MenuFlyoutSeparator Margin="4,3" />
-                                                    <TextBlock Text="{x:Bind string:Settings.OpenFolderToolTip}" />
+                                                    <TextBlock Text="{x:Bind root:ResourceService.SettingsResource.GetString('OpenFolderToolTip')}" />
                                                 </StackPanel>
                                             </ToolTip>
                                         </ToolTipService.ToolTip>
@@ -652,7 +652,7 @@
                                 <muxc:DropDownButton
                                     Grid.Column="2"
                                     Margin="6,0,0,0"
-                                    Content="{x:Bind string:Settings.ChangeFolder}">
+                                    Content="{x:Bind root:ResourceService.SettingsResource.GetString('ChangeFolder')}">
 
                                     <muxc:DropDownButton.Flyout>
                                         <MenuFlyout Placement="Bottom">
@@ -661,14 +661,14 @@
                                                 Padding="11,0"
                                                 Click="{x:Bind OnChangeFolderClicked}"
                                                 Tag="Download"
-                                                Text="{x:Bind string:Settings.Download}" />
+                                                Text="{x:Bind root:ResourceService.SettingsResource.GetString('Download')}" />
 
                                             <MenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnChangeFolderClicked}"
                                                 Tag="Desktop"
-                                                Text="{x:Bind string:Settings.Desktop}" />
+                                                Text="{x:Bind root:ResourceService.SettingsResource.GetString('Desktop')}" />
 
                                             <MenuFlyoutSeparator />
 
@@ -677,7 +677,7 @@
                                                 Padding="11,0"
                                                 Click="{x:Bind OnChangeFolderClicked}"
                                                 Tag="Custom"
-                                                Text="{x:Bind string:Settings.Custom}" />
+                                                Text="{x:Bind root:ResourceService.SettingsResource.GetString('Custom')}" />
                                         </MenuFlyout>
                                     </muxc:DropDownButton.Flyout>
                                 </muxc:DropDownButton>
@@ -704,20 +704,20 @@
                                     <TextBlock
                                         VerticalAlignment="Center"
                                         Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind string:Settings.DoEngineMode}" />
+                                        Text="{x:Bind root:ResourceService.SettingsResource.GetString('DoEngineMode')}" />
 
                                     <TextBlock
                                         x:Name="DoEngineModeDescription"
                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind string:Settings.DoEngineModeDescription}"
+                                        Text="{x:Bind root:ResourceService.SettingsResource.GetString('DoEngineModeDescription')}"
                                         TextTrimming="CharacterEllipsis"
                                         TextWrapping="NoWrap">
 
                                         <ToolTipService.ToolTip>
                                             <ToolTip
                                                 MaxWidth="9999"
-                                                Content="{x:Bind string:Settings.DoEngineModeDescription}"
+                                                Content="{x:Bind root:ResourceService.SettingsResource.GetString('DoEngineModeDescription')}"
                                                 Visibility="{x:Bind DoEngineModeDescription.IsTextTrimmed, Mode=OneWay}" />
                                         </ToolTipService.ToolTip>
                                     </TextBlock>
@@ -728,7 +728,7 @@
                                     Margin="0,0,6,0"
                                     VerticalAlignment="Center"
                                     Click="{x:Bind OnLearnDoEngineClicked}"
-                                    Content="{x:Bind string:Settings.LearnDoEngine}" />
+                                    Content="{x:Bind root:ResourceService.SettingsResource.GetString('LearnDoEngine')}" />
 
                                 <muxc:DropDownButton
                                     Grid.Column="2"
@@ -790,20 +790,20 @@
                         VerticalAlignment="Center"
                         Orientation="Vertical">
 
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.FileShellMenu}" />
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind root:ResourceService.SettingsResource.GetString('FileShellMenu')}" />
 
                         <TextBlock
                             x:Name="FileShellMenuDescription"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind string:Settings.FileShellMenuDescription}"
+                            Text="{x:Bind root:ResourceService.SettingsResource.GetString('FileShellMenuDescription')}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap">
 
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind string:Settings.FileShellMenuDescription}"
+                                    Content="{x:Bind root:ResourceService.SettingsResource.GetString('FileShellMenuDescription')}"
                                     Visibility="{x:Bind FileShellMenuDescription.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </TextBlock>
@@ -814,7 +814,7 @@
                         Margin="0,0,6,0"
                         VerticalAlignment="Center"
                         Click="{x:Bind OnRestartExplorerClicked}"
-                        Content="{x:Bind string:Settings.RestartExplorer}" />
+                        Content="{x:Bind root:ResourceService.SettingsResource.GetString('RestartExplorer')}" />
 
                     <ToggleSwitch
                         Grid.Column="3"
@@ -822,8 +822,8 @@
                         Margin="0,-2,0,0"
                         FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                         IsOn="{x:Bind FileShellMenuValue, Mode=OneWay}"
-                        OffContent="{x:Bind string:Settings.FileShellMenuOffContent}"
-                        OnContent="{x:Bind string:Settings.FileShellMenuOnContent}"
+                        OffContent="{x:Bind root:ResourceService.SettingsResource.GetString('FileShellMenuOffContent')}"
+                        OnContent="{x:Bind root:ResourceService.SettingsResource.GetString('FileShellMenuOnContent')}"
                         Toggled="{x:Bind OnFileShellMenuToggled}" />
                 </Grid>
 
@@ -844,7 +844,7 @@
                         VerticalAlignment="Center"
                         FontSize="16"
                         Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind string:Settings.Advanced}" />
+                        Text="{x:Bind root:ResourceService.SettingsResource.GetString('Advanced')}" />
                 </StackPanel>
 
                 <!--  日志记录设置  -->
@@ -874,20 +874,20 @@
                                 VerticalAlignment="Center"
                                 Orientation="Vertical">
 
-                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind string:Settings.LogRecord}" />
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind root:ResourceService.SettingsResource.GetString('LogRecord')}" />
 
                                 <TextBlock
                                     x:Name="LogRecordDescription"
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{x:Bind string:Settings.LogRecordDescription}"
+                                    Text="{x:Bind root:ResourceService.SettingsResource.GetString('LogRecordDescription')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:Settings.LogRecordDescription}"
+                                            Content="{x:Bind root:ResourceService.SettingsResource.GetString('LogRecordDescription')}"
                                             Visibility="{x:Bind LogRecordDescription.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -916,20 +916,20 @@
                                     <TextBlock
                                         VerticalAlignment="Center"
                                         Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind string:Settings.LogFolder}" />
+                                        Text="{x:Bind root:ResourceService.SettingsResource.GetString('LogFolder')}" />
 
                                     <TextBlock
                                         x:Name="LogFolderDescription"
                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind string:Settings.LogFolderDescription}"
+                                        Text="{x:Bind root:ResourceService.SettingsResource.GetString('LogFolderDescription')}"
                                         TextTrimming="CharacterEllipsis"
                                         TextWrapping="NoWrap">
 
                                         <ToolTipService.ToolTip>
                                             <ToolTip
                                                 MaxWidth="9999"
-                                                Content="{x:Bind string:Settings.LogFolderDescription}"
+                                                Content="{x:Bind root:ResourceService.SettingsResource.GetString('LogFolderDescription')}"
                                                 Visibility="{x:Bind LogFolderDescription.IsTextTrimmed, Mode=OneWay}" />
                                         </ToolTipService.ToolTip>
                                     </TextBlock>
@@ -939,7 +939,7 @@
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
                                     Click="{x:Bind OnOpenLogFolderClicked}"
-                                    Content="{x:Bind string:Settings.OpenLogFolder}" />
+                                    Content="{x:Bind root:ResourceService.SettingsResource.GetString('OpenLogFolder')}" />
                             </Grid>
 
                             <MenuFlyoutSeparator />
@@ -963,20 +963,20 @@
                                     <TextBlock
                                         VerticalAlignment="Center"
                                         Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind string:Settings.ClearLog}" />
+                                        Text="{x:Bind root:ResourceService.SettingsResource.GetString('ClearLog')}" />
 
                                     <TextBlock
                                         x:Name="ClearLogDescription"
                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind string:Settings.ClearLogDescription}"
+                                        Text="{x:Bind root:ResourceService.SettingsResource.GetString('ClearLogDescription')}"
                                         TextTrimming="CharacterEllipsis"
                                         TextWrapping="NoWrap">
 
                                         <ToolTipService.ToolTip>
                                             <ToolTip
                                                 MaxWidth="9999"
-                                                Content="{x:Bind string:Settings.ClearLogDescription}"
+                                                Content="{x:Bind root:ResourceService.SettingsResource.GetString('ClearLogDescription')}"
                                                 Visibility="{x:Bind ClearLogDescription.IsTextTrimmed, Mode=OneWay}" />
                                         </ToolTipService.ToolTip>
                                     </TextBlock>
@@ -986,7 +986,7 @@
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
                                     Click="{x:Bind OnClearClicked}"
-                                    Content="{x:Bind string:Settings.Clear}" />
+                                    Content="{x:Bind root:ResourceService.SettingsResource.GetString('Clear')}" />
                             </Grid>
                         </StackPanel>
                     </muxc:Expander.Content>

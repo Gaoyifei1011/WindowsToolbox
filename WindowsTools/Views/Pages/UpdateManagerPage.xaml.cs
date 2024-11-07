@@ -17,7 +17,6 @@ using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.ComTypes;
 using WUApiLib;
@@ -201,19 +200,19 @@ namespace WindowsTools.Views.Pages
 
         private List<KeyValuePair<string, string>> UpdateSourceList { get; } =
         [
-            new KeyValuePair<string,string>("Microsoft Update", UpdateManager.MicrosoftUpdate),
-            new KeyValuePair<string,string>("DCat Flighting Prod", UpdateManager.DCatFlightingProd),
-            new KeyValuePair<string,string>("Windows Store(DCat Prod)", UpdateManager.WindowsStore),
-            new KeyValuePair<string,string>("Windows Update", UpdateManager.WindowsUpdate),
+            new KeyValuePair<string,string>("Microsoft Update", ResourceService.UpdateManagerResource.GetString("MicrosoftUpdate")),
+            new KeyValuePair<string,string>("DCat Flighting Prod", ResourceService.UpdateManagerResource.GetString("DCatFlightingProd")),
+            new KeyValuePair<string,string>("Windows Store(DCat Prod)", ResourceService.UpdateManagerResource.GetString("WindowsStore")),
+            new KeyValuePair<string,string>("Windows Update", ResourceService.UpdateManagerResource.GetString("WindowsUpdate")),
         ];
 
         private List<KeyValuePair<string, string>> PreviewChannelList { get; } =
         [
-            new KeyValuePair<string,string>(UpdateManager.DonotEnter, "DoNotEnter"),
-            new KeyValuePair<string,string>(UpdateManager.ReleasePreview, "ReleasePreview"),
-            new KeyValuePair<string,string>(UpdateManager.Beta, "Beta"),
-            new KeyValuePair<string,string>(UpdateManager.Dev, "Dev"),
-            new KeyValuePair<string,string>(UpdateManager.Canary, "Canary"),
+            new KeyValuePair<string,string>(ResourceService.UpdateManagerResource.GetString("DonotEnter"), "DoNotEnter"),
+            new KeyValuePair<string,string>(ResourceService.UpdateManagerResource.GetString("ReleasePreview"), "ReleasePreview"),
+            new KeyValuePair<string,string>(ResourceService.UpdateManagerResource.GetString("Beta"), "Beta"),
+            new KeyValuePair<string,string>(ResourceService.UpdateManagerResource.GetString("Dev"), "Dev"),
+            new KeyValuePair<string,string>(ResourceService.UpdateManagerResource.GetString("Canary"), "Canary"),
         ];
 
         private ObservableCollection<UpdateModel> AvailableUpdateCollection { get; } = [];
@@ -404,9 +403,9 @@ namespace WindowsTools.Views.Pages
                 Task.Run(() =>
                 {
                     StringBuilder copyInformationBuilder = new();
-                    copyInformationBuilder.AppendLine(UpdateManager.Title);
+                    copyInformationBuilder.AppendLine(ResourceService.UpdateManagerResource.GetString("Title"));
                     copyInformationBuilder.AppendLine(updateItem.UpdateName);
-                    copyInformationBuilder.AppendLine(UpdateManager.Description);
+                    copyInformationBuilder.AppendLine(ResourceService.UpdateManagerResource.GetString("Description"));
                     copyInformationBuilder.AppendLine(updateItem.Description);
 
                     synchronizationContext.Post(async (_) =>
@@ -942,27 +941,27 @@ namespace WindowsTools.Views.Pages
             {
                 case OperationResultCode.orcNotStarted:
                     {
-                        return string.Format("{0} 0x{1:X8}", UpdateManager.NotStarted, hResult);
+                        return string.Format("{0} 0x{1:X8}", ResourceService.UpdateManagerResource.GetString("NotStarted"), hResult);
                     }
                 case OperationResultCode.orcInProgress:
                     {
-                        return string.Format("{0} 0x{1:X8}", UpdateManager.InProgress, hResult);
+                        return string.Format("{0} 0x{1:X8}", ResourceService.UpdateManagerResource.GetString("InProgress"), hResult);
                     }
                 case OperationResultCode.orcSucceeded:
                     {
-                        return string.Format("{0} 0x{1:X8}", UpdateManager.Succeeded, hResult);
+                        return string.Format("{0} 0x{1:X8}", ResourceService.UpdateManagerResource.GetString("Succeeded"), hResult);
                     }
                 case OperationResultCode.orcSucceededWithErrors:
                     {
-                        return string.Format("{0} 0x{1:X8}", UpdateManager.SucceedWithErrors, hResult);
+                        return string.Format("{0} 0x{1:X8}", ResourceService.UpdateManagerResource.GetString("SucceedWithErrors"), hResult);
                     }
                 case OperationResultCode.orcFailed:
                     {
-                        return string.Format("{0} 0x{1:X8}", UpdateManager.Failed, hResult);
+                        return string.Format("{0} 0x{1:X8}", ResourceService.UpdateManagerResource.GetString("Failed"), hResult);
                     }
                 case OperationResultCode.orcAborted:
                     {
-                        return string.Format("{0} 0x{1:X8}", UpdateManager.Aborted, hResult);
+                        return string.Format("{0} 0x{1:X8}", ResourceService.UpdateManagerResource.GetString("Aborted"), hResult);
                     }
                 default:
                     {

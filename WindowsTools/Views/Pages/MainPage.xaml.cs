@@ -360,7 +360,7 @@ namespace WindowsTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format(Strings.Window.NavigationFailed, args.SourcePageType.FullName), e);
+                LogService.WriteLog(EventLevel.Error, string.Format(ResourceService.WindowResource.GetString("NavigationFailed"), args.SourcePageType.FullName), e);
             }
         }
 
@@ -370,7 +370,7 @@ namespace WindowsTools.Views.Pages
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs args)
         {
             args.Handled = true;
-            LogService.WriteLog(EventLevel.Warning, string.Format(Strings.Window.NavigationFailed, args.SourcePageType.FullName), args.Exception);
+            LogService.WriteLog(EventLevel.Warning, string.Format(ResourceService.WindowResource.GetString("NavigationFailed"), args.SourcePageType.FullName), args.Exception);
             (global::Windows.UI.Xaml.Application.Current as App).Dispose();
         }
 
@@ -406,7 +406,7 @@ namespace WindowsTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format(Strings.Window.NavigationFailed, navigationPageType.FullName), e);
+                LogService.WriteLog(EventLevel.Error, string.Format(ResourceService.WindowResource.GetString("NavigationFailed"), navigationPageType.FullName), e);
             }
         }
 

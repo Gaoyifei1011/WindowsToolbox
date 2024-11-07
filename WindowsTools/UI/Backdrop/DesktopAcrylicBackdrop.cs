@@ -765,7 +765,7 @@ namespace WindowsTools.UI.Backdrop
 
             CompositionSurfaceBrush noiseBrush = compositor.CreateSurfaceBrush();
             noiseBrush.Stretch = CompositionStretch.None;
-            noiseBrush.Surface = LoadedImageSurface.StartLoadFromUri(new Uri("ms-appx:///Assets/Images/NoiseAsset_256x256_PNG.png"));
+            noiseBrush.Surface = LoadedImageSurface.StartLoadFromUri(new Uri("ms-appx://Microsoft.UI.Xaml.2.8/Microsoft.UI.Xaml/Assets/NoiseAsset_256x256_PNG.png"));
 
             CompositionEffectBrush desktopAcrylicBrush = compositor.CreateEffectFactory(compositeEffect).CreateBrush();
 

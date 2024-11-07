@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Models;
-using WindowsTools.Strings;
+using WindowsTools.Services.Root;
 using WindowsTools.Views.Windows;
 
 // 抑制 IDE0060 警告
@@ -19,8 +19,8 @@ namespace WindowsTools.Views.Pages
         [
             new ControlItemModel()
             {
-                Title = AllTools.Loaf,
-                Description = AllTools.LoafDescription,
+                Title = ResourceService.AllToolsResource.GetString("Loaf"),
+                Description = ResourceService.AllToolsResource.GetString("LoafDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/Loaf.png",
                 Tag = "Loaf"
             }
@@ -31,43 +31,43 @@ namespace WindowsTools.Views.Pages
         [
             new ControlItemModel()
             {
-                Title = AllTools.FileName,
-                Description = AllTools.FileNameDescription,
+                Title = ResourceService.AllToolsResource.GetString("FileName"),
+                Description = ResourceService.AllToolsResource.GetString("FileNameDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/FileName.png",
                 Tag = "FileName"
             },
             new ControlItemModel()
             {
-                Title = AllTools.ExtensionName,
-                Description = AllTools.ExtensionNameDescription,
+                Title = ResourceService.AllToolsResource.GetString("ExtensionName"),
+                Description = ResourceService.AllToolsResource.GetString("ExtensionNameDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/ExtensionName.png",
                 Tag = "ExtensionName"
             },
             new ControlItemModel()
             {
-                Title = AllTools.UpperAndLowerCase,
-                Description = AllTools.UpperAndLowerCaseDescription,
+                Title = ResourceService.AllToolsResource.GetString("UpperAndLowerCase"),
+                Description = ResourceService.AllToolsResource.GetString("UpperAndLowerCaseDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/UpperAndLowerCase.png",
                 Tag = "UpperAndLowerCase"
             },
             new ControlItemModel()
             {
-                Title = AllTools.FileProperties,
-                Description = AllTools.FilePropertiesDescription,
+                Title = ResourceService.AllToolsResource.GetString("FileProperties"),
+                Description = ResourceService.AllToolsResource.GetString("FilePropertiesDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/FileProperties.png",
                 Tag = "FileProperties"
             },
             new ControlItemModel()
             {
-                Title = AllTools.FileCertificate,
-                Description = AllTools.FileCertificateDescription,
+                Title = ResourceService.AllToolsResource.GetString("FileCertificate"),
+                Description = ResourceService.AllToolsResource.GetString("FileCertificateDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/FileCertificate.png",
                 Tag = "FileCertificate"
             },
             new ControlItemModel()
             {
-                Title = AllTools.FileUnlock,
-                Description = AllTools.FileUnlockDescription,
+                Title = ResourceService.AllToolsResource.GetString("FileUnlock"),
+                Description = ResourceService.AllToolsResource.GetString("FileUnlockDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/FileUnlock.png",
                 Tag = "FileUnlock"
             }
@@ -78,22 +78,22 @@ namespace WindowsTools.Views.Pages
         [
             new ControlItemModel()
             {
-                Title = AllTools.DownloadManager,
-                Description = AllTools.DownloadManagerDescription,
+                Title = ResourceService.AllToolsResource.GetString("DownloadManager"),
+                Description = ResourceService.AllToolsResource.GetString("DownloadManagerDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/DownloadManager.png",
                 Tag = "DownloadManager"
             },
             new ControlItemModel()
             {
-                Title = AllTools.IconExtract,
-                Description = AllTools.IconExtractDescription,
+                Title = ResourceService.AllToolsResource.GetString("IconExtract"),
+                Description = ResourceService.AllToolsResource.GetString("IconExtractDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/IconExtract.png",
                 Tag = "IconExtract"
             },
             new ControlItemModel()
             {
-                Title = AllTools.PriExtract,
-                Description = AllTools.PriExtractDescription,
+                Title = ResourceService.AllToolsResource.GetString("PriExtract"),
+                Description = ResourceService.AllToolsResource.GetString("PriExtractDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/PriExtract.png",
                 Tag = "PriExtract"
             }
@@ -104,8 +104,8 @@ namespace WindowsTools.Views.Pages
         [
             new ControlItemModel()
             {
-                Title = AllTools.ShellMenu,
-                Description = AllTools.ShellMenuDescription,
+                Title = ResourceService.AllToolsResource.GetString("ShellMenu"),
+                Description = ResourceService.AllToolsResource.GetString("ShellMenuDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/ShellMenu.png",
                 Tag = "ShellMenu"
             }
@@ -116,36 +116,36 @@ namespace WindowsTools.Views.Pages
         [
             //new ControlItemModel()
             //{
-            //    Title = AllTools.SystemInfo,
-            //    Description = AllTools.SystemInfoDescription,
+            //    Title = ResourceService.AllToolsResource.GetString("SystemInfo"),
+            //    Description = ResourceService.AllToolsResource.GetString("SystemInfoDescription"),
             //    ImagePath = "ms-appx:///Assets/ControlIcon/SystemInfo.png",
             //    Tag = "SystemInfo"
             //},
             new ControlItemModel()
             {
-                Title = AllTools.LoopbackManager,
-                Description = AllTools.LoopbackManagerDescription,
+                Title = ResourceService.AllToolsResource.GetString("LoopbackManager"),
+                Description = ResourceService.AllToolsResource.GetString("LoopbackManagerDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/LoopbackManager.png",
                 Tag = "LoopbackManager"
             },
             //new ControlItemModel()
             //{
-            //    Title = AllTools.DriverManager,
-            //    Description = AllTools.DriverManagerDescription,
+            //    Title = ResourceService.AllToolsResource.GetString("DriverManager"),
+            //    Description = ResourceService.AllToolsResource.GetString("DriverManagerDescription"),
             //    ImagePath = "ms-appx:///Assets/ControlIcon/DriverManager.png",
             //    Tag = "DriverManager"
             //},
             //new ControlItemModel()
             //{
-            //    Title = AllTools.UpdateManager,
-            //    Description = AllTools.UpdateManagerDescription,
+            //    Title = ResourceService.AllToolsResource.GetString("UpdateManager"),
+            //    Description = ResourceService.AllToolsResource.GetString("UpdateManagerDescription"),
             //    ImagePath = "ms-appx:///Assets/ControlIcon/UpdateManager.png",
             //    Tag = "UpdateManager"
             //},
             new ControlItemModel()
             {
-                Title = AllTools.WinSAT,
-                Description = AllTools.WinSATDescription,
+                Title = ResourceService.AllToolsResource.GetString("WinSAT"),
+                Description = ResourceService.AllToolsResource.GetString("WinSATDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/WinSAT.png",
                 Tag = "WinSAT"
             }

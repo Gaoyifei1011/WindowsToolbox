@@ -21,7 +21,6 @@ using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.User32;
@@ -199,8 +198,8 @@ namespace WindowsTools.Views.Pages
             IsSelected = false;
             IsImageEmpty = true;
 
-            GetResults = IconExtract.NoSelectedFile;
-            NoResources = IconExtract.PleaseSelectFile;
+            GetResults = ResourceService.IconExtractResource.GetString("NoSelectedFile");
+            NoResources = ResourceService.IconExtractResource.GetString("PleaseSelectFile");
         }
 
         #region 第一部分：重写父类事件
@@ -212,7 +211,7 @@ namespace WindowsTools.Views.Pages
         {
             base.OnDragOver(args);
 
-            IReadOnlyList<IStorageItem> dragItemsList = args.DataView.GetStorageItemsAsync().AsTask().Result;
+            IReadOnlyList<IStorageItem> dragItemsList = args.DataView.GetStorageItemsAsync().GetResults();
 
             if (dragItemsList.Count is 1)
             {
@@ -224,7 +223,7 @@ namespace WindowsTools.Views.Pages
                     args.DragUIOverride.IsCaptionVisible = true;
                     args.DragUIOverride.IsContentVisible = false;
                     args.DragUIOverride.IsGlyphVisible = true;
-                    args.DragUIOverride.Caption = IconExtract.DragOverContent;
+                    args.DragUIOverride.Caption = ResourceService.IconExtractResource.GetString("DragOverContent");
                 }
                 else
                 {
@@ -232,7 +231,7 @@ namespace WindowsTools.Views.Pages
                     args.DragUIOverride.IsCaptionVisible = true;
                     args.DragUIOverride.IsContentVisible = false;
                     args.DragUIOverride.IsGlyphVisible = true;
-                    args.DragUIOverride.Caption = IconExtract.NoOtherExtensionNameFile;
+                    args.DragUIOverride.Caption = ResourceService.IconExtractResource.GetString("NoOtherExtensionNameFile");
                 }
             }
             else
@@ -241,7 +240,7 @@ namespace WindowsTools.Views.Pages
                 args.DragUIOverride.IsCaptionVisible = true;
                 args.DragUIOverride.IsContentVisible = false;
                 args.DragUIOverride.IsGlyphVisible = true;
-                args.DragUIOverride.Caption = IconExtract.NoMultiFile;
+                args.DragUIOverride.Caption = ResourceService.IconExtractResource.GetString("NoMultiFile");
             }
 
             args.Handled = true;
@@ -397,8 +396,8 @@ namespace WindowsTools.Views.Pages
             OpenFileDialog dialog = new()
             {
                 Multiselect = false,
-                Filter = IconExtract.FilterCondition,
-                Title = IconExtract.SelectFile
+                Filter = ResourceService.IconExtractResource.GetString("FilterCondition"),
+                Title = ResourceService.IconExtractResource.GetString("SelectFile")
             };
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
@@ -418,7 +417,7 @@ namespace WindowsTools.Views.Pages
 
                 OpenFolderDialog dialog = new()
                 {
-                    Description = IconExtract.SelectFolder,
+                    Description = ResourceService.IconExtractResource.GetString("SelectFolder"),
                     RootFolder = Environment.SpecialFolder.Desktop
                 };
                 DialogResult result = dialog.ShowDialog();
@@ -495,7 +494,7 @@ namespace WindowsTools.Views.Pages
             {
                 OpenFolderDialog dialog = new()
                 {
-                    Description = IconExtract.SelectFolder,
+                    Description = ResourceService.IconExtractResource.GetString("SelectFolder"),
                     RootFolder = Environment.SpecialFolder.Desktop
                 };
                 DialogResult result = dialog.ShowDialog();
@@ -614,8 +613,8 @@ namespace WindowsTools.Views.Pages
                     {
                         try
                         {
-                            GetResults = string.Format(IconExtract.GetResults, Path.GetFileName(filePath), iconsNum);
-                            NoResources = string.Format(IconExtract.NoResources, Path.GetFileName(filePath));
+                            GetResults = string.Format(ResourceService.IconExtractResource.GetString("GetResults"), Path.GetFileName(filePath), iconsNum);
+                            NoResources = string.Format(ResourceService.IconExtractResource.GetString("NoResources"), Path.GetFileName(filePath));
                             ImageSource = null;
                             IsImageEmpty = true;
 
@@ -646,8 +645,8 @@ namespace WindowsTools.Views.Pages
                 {
                     synchronizationContext.Post(_ =>
                     {
-                        GetResults = string.Format(IconExtract.GetResults, Path.GetFileName(filePath), 0);
-                        NoResources = string.Format(IconExtract.NoResources, Path.GetFileName(filePath));
+                        GetResults = string.Format(ResourceService.IconExtractResource.GetString("GetResults"), Path.GetFileName(filePath), 0);
+                        NoResources = string.Format(ResourceService.IconExtractResource.GetString("NoResources"), Path.GetFileName(filePath));
                         ImageSource = null;
                         IsImageEmpty = true;
                     }, null);

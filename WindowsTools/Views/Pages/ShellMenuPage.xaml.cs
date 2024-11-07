@@ -23,7 +23,6 @@ using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.Services.Shell;
-using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
 
@@ -484,16 +483,16 @@ namespace WindowsTools.Views.Pages
 
         private List<KeyValuePair<string, string>> FileMatchRuleList { get; } =
         [
-            new KeyValuePair<string,string>("None", ShellMenu.None),
-            new KeyValuePair<string,string>("Name", ShellMenu.Name),
-            new KeyValuePair<string,string>("NameRegex",ShellMenu.NameRegex),
-            new KeyValuePair<string,string>("Extension",ShellMenu.Extension),
-            new KeyValuePair<string,string>("All",ShellMenu.All)
+            new KeyValuePair<string,string>("None", ResourceService.ShellMenuResource.GetString("None")),
+            new KeyValuePair<string,string>("Name", ResourceService.ShellMenuResource.GetString("Name")),
+            new KeyValuePair<string,string>("NameRegex",ResourceService.ShellMenuResource.GetString("NameRegex")),
+            new KeyValuePair<string,string>("Extension",ResourceService.ShellMenuResource.GetString("Extension")),
+            new KeyValuePair<string,string>("All",ResourceService.ShellMenuResource.GetString("All"))
         ];
 
         public ObservableCollection<DictionaryEntry> BreadCollection { get; } =
         [
-            new DictionaryEntry(ShellMenu.Title, "Title")
+            new DictionaryEntry(ResourceService.ShellMenuResource.GetString("Title"), "Title")
         ];
 
         private ObservableCollection<ShellMenuItemModel> ShellMenuItemCollection { get; } = [];
@@ -881,7 +880,7 @@ namespace WindowsTools.Views.Pages
                     MenuFileMatchFormatPHText = string.Empty;
                     MenuFileMatchFormatText = string.Empty;
 
-                    BreadCollection.Add(new DictionaryEntry(ShellMenu.EditMenu, "EditMenu"));
+                    BreadCollection.Add(new DictionaryEntry(ResourceService.ShellMenuResource.GetString("EditMenu"), "EditMenu"));
                 }, null);
             });
         }
@@ -1122,7 +1121,7 @@ namespace WindowsTools.Views.Pages
                     }
                 }
 
-                BreadCollection.Add(new DictionaryEntry(ShellMenu.EditMenu, "EditMenu"));
+                BreadCollection.Add(new DictionaryEntry(ResourceService.ShellMenuResource.GetString("EditMenu"), "EditMenu"));
             }
         }
 
@@ -1218,8 +1217,8 @@ namespace WindowsTools.Views.Pages
             OpenFileDialog dialog = new()
             {
                 Multiselect = false,
-                Filter = ShellMenu.IconFilterCondition,
-                Title = ShellMenu.SelectIcon
+                Filter = ResourceService.ShellMenuResource.GetString("IconFilterCondition"),
+                Title = ResourceService.ShellMenuResource.GetString("SelectIcon")
             };
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
@@ -1251,8 +1250,8 @@ namespace WindowsTools.Views.Pages
             OpenFileDialog dialog = new()
             {
                 Multiselect = false,
-                Filter = ShellMenu.IconFilterCondition,
-                Title = ShellMenu.SelectIcon
+                Filter = ResourceService.ShellMenuResource.GetString("IconFilterCondition"),
+                Title = ResourceService.ShellMenuResource.GetString("SelectIcon")
             };
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
@@ -1284,8 +1283,8 @@ namespace WindowsTools.Views.Pages
             OpenFileDialog dialog = new()
             {
                 Multiselect = false,
-                Filter = ShellMenu.IconFilterCondition,
-                Title = ShellMenu.SelectIcon
+                Filter = ResourceService.ShellMenuResource.GetString("IconFilterCondition"),
+                Title = ResourceService.ShellMenuResource.GetString("SelectIcon")
             };
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
@@ -1317,8 +1316,8 @@ namespace WindowsTools.Views.Pages
             OpenFileDialog dialog = new()
             {
                 Multiselect = false,
-                Filter = ShellMenu.ProgramFilterCondition,
-                Title = ShellMenu.SelectProgram
+                Filter = ResourceService.ShellMenuResource.GetString("ProgramFilterCondition"),
+                Title = ResourceService.ShellMenuResource.GetString("SelectProgram")
             };
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
@@ -1364,17 +1363,17 @@ namespace WindowsTools.Views.Pages
                 else if (SelectedFileMatchRule.Equals(FileMatchRuleList[1]))
                 {
                     NeedInputMatchFormat = true;
-                    MenuFileMatchFormatPHText = ShellMenu.MenuFileNameFormat;
+                    MenuFileMatchFormatPHText = ResourceService.ShellMenuResource.GetString("MenuFileNameFormat");
                 }
                 else if (SelectedFileMatchRule.Equals(FileMatchRuleList[2]))
                 {
                     NeedInputMatchFormat = true;
-                    MenuFileMatchFormatPHText = ShellMenu.MenuFileNameRegexFormat;
+                    MenuFileMatchFormatPHText = string.Format(ResourceService.ShellMenuResource.GetString("MenuFileNameRegexFormat"), @"[\s\S]+.jpg | [\w\W]*.jpg");
                 }
                 else if (SelectedFileMatchRule.Equals(FileMatchRuleList[3]))
                 {
                     NeedInputMatchFormat = true;
-                    MenuFileMatchFormatPHText = ShellMenu.MenuFileExtensionFormat;
+                    MenuFileMatchFormatPHText = ResourceService.ShellMenuResource.GetString("MenuFileExtensionFormat");
                 }
             }
         }

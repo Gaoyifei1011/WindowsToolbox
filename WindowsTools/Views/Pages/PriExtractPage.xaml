@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:string="using:WindowsTools.Strings"
+    xmlns:root="using:WindowsTools.Services.Root"
     xmlns:sys="using:System"
     AllowDrop="True"
     NavigationCacheMode="Enabled"
@@ -35,7 +35,7 @@
             Grid.Row="0"
             Margin="30,15,30,6"
             FontSize="22"
-            Text="{x:Bind string:PriExtract.Title}" />
+            Text="{x:Bind root:ResourceService.PriExtractResource.GetString('Title')}" />
 
         <TextBlock
             x:Name="GetResultsText"
@@ -98,12 +98,12 @@
                         VerticalAlignment="Center"
                         IsTapEnabled="True"
                         Tapped="{x:Bind OnStringSelectTapped}"
-                        Text="{x:Bind string:PriExtract.Select}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('Select')}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip MaxWidth="9999" Content="{x:Bind string:PriExtract.SelectDescription}" />
+                            <ToolTip MaxWidth="9999" Content="{x:Bind root:ResourceService.PriExtractResource.GetString('SelectDescription')}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -112,14 +112,14 @@
                         Grid.Column="1"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:PriExtract.Key}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('Key')}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
                             <ToolTip
                                 MaxWidth="9999"
-                                Content="{x:Bind string:PriExtract.Key}"
+                                Content="{x:Bind root:ResourceService.PriExtractResource.GetString('Key')}"
                                 Visibility="{x:Bind StringKeyHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
@@ -129,14 +129,14 @@
                         Grid.Column="2"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:PriExtract.Language}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('Language')}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
                             <ToolTip
                                 MaxWidth="9999"
-                                Content="{x:Bind string:PriExtract.Language}"
+                                Content="{x:Bind root:ResourceService.PriExtractResource.GetString('Language')}"
                                 Visibility="{x:Bind StringLanguageHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
@@ -146,14 +146,14 @@
                         Grid.Column="3"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:PriExtract.Content}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('Content')}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
                             <ToolTip
                                 MaxWidth="9999"
-                                Content="{x:Bind string:PriExtract.Content}"
+                                Content="{x:Bind root:ResourceService.PriExtractResource.GetString('Content')}"
                                 Visibility="{x:Bind StringContentHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
@@ -163,14 +163,14 @@
                         Grid.Column="4"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:PriExtract.Operation}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('Operation')}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
                             <ToolTip
                                 MaxWidth="9999"
-                                Content="{x:Bind string:PriExtract.Operation}"
+                                Content="{x:Bind root:ResourceService.PriExtractResource.GetString('Operation')}"
                                 Visibility="{x:Bind StringOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
@@ -228,8 +228,8 @@
                                     <ToolTipService.ToolTip>
                                         <ToolTip MaxWidth="9999">
                                             <Grid>
-                                                <TextBlock Text="{x:Bind string:PriExtract.SelectedToolTip}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
-                                                <TextBlock Text="{x:Bind string:PriExtract.UnSelectedToolTip}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind root:ResourceService.PriExtractResource.GetString('SelectedToolTip')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind root:ResourceService.PriExtractResource.GetString('UnSelectedToolTip')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
                                             </Grid>
                                         </ToolTip>
                                     </ToolTipService.ToolTip>
@@ -298,7 +298,7 @@
                                     VerticalAlignment="Center"
                                     Command="{StaticResource StringCommand}"
                                     CommandParameter="{Binding}"
-                                    Content="{x:Bind string:PriExtract.Copy}"
+                                    Content="{x:Bind root:ResourceService.PriExtractResource.GetString('Copy')}"
                                     Style="{StaticResource HyperlinkButtonStyle}" />
                             </Grid>
                         </DataTemplate>
@@ -312,7 +312,7 @@
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[0].Value), Mode=OneWay}">
 
                     <TextBlock
-                        Text="{x:Bind string:PriExtract.EmptyList}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('EmptyList')}"
                         TextAlignment="Center"
                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(StringCollection.Count), Mode=OneWay}" />
                 </Grid>
@@ -340,12 +340,12 @@
                         VerticalAlignment="Center"
                         IsTapEnabled="True"
                         Tapped="{x:Bind OnFilePathSelectTapped}"
-                        Text="{x:Bind string:PriExtract.Select}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('Select')}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip MaxWidth="9999" Content="{x:Bind string:PriExtract.SelectDescription}" />
+                            <ToolTip MaxWidth="9999" Content="{x:Bind root:ResourceService.PriExtractResource.GetString('SelectDescription')}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -354,14 +354,14 @@
                         Grid.Column="1"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:PriExtract.Key}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('Key')}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
                             <ToolTip
                                 MaxWidth="9999"
-                                Content="{x:Bind string:PriExtract.Key}"
+                                Content="{x:Bind root:ResourceService.PriExtractResource.GetString('Key')}"
                                 Visibility="{x:Bind FilePathKeyHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
@@ -371,14 +371,14 @@
                         Grid.Column="2"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:PriExtract.AbsolutePath}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('AbsolutePath')}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
                             <ToolTip
                                 MaxWidth="9999"
-                                Content="{x:Bind string:PriExtract.AbsolutePath}"
+                                Content="{x:Bind root:ResourceService.PriExtractResource.GetString('AbsolutePath')}"
                                 Visibility="{x:Bind FilePathAbsolutePathHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
@@ -388,14 +388,14 @@
                         Grid.Column="3"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:PriExtract.Operation}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('Operation')}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
                             <ToolTip
                                 MaxWidth="9999"
-                                Content="{x:Bind string:PriExtract.Operation}"
+                                Content="{x:Bind root:ResourceService.PriExtractResource.GetString('Operation')}"
                                 Visibility="{x:Bind FilePathOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
@@ -452,8 +452,8 @@
                                     <ToolTipService.ToolTip>
                                         <ToolTip MaxWidth="9999">
                                             <Grid>
-                                                <TextBlock Text="{x:Bind string:PriExtract.SelectedToolTip}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
-                                                <TextBlock Text="{x:Bind string:PriExtract.UnSelectedToolTip}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind root:ResourceService.PriExtractResource.GetString('SelectedToolTip')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind root:ResourceService.PriExtractResource.GetString('UnSelectedToolTip')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
                                             </Grid>
                                         </ToolTip>
                                     </ToolTipService.ToolTip>
@@ -503,7 +503,7 @@
                                     VerticalAlignment="Center"
                                     Command="{StaticResource FilePathCommand}"
                                     CommandParameter="{Binding}"
-                                    Content="{x:Bind string:PriExtract.Copy}"
+                                    Content="{x:Bind root:ResourceService.PriExtractResource.GetString('Copy')}"
                                     Style="{StaticResource HyperlinkButtonStyle}" />
                             </Grid>
                         </DataTemplate>
@@ -517,7 +517,7 @@
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[1].Value), Mode=OneWay}">
 
                     <TextBlock
-                        Text="{x:Bind string:PriExtract.EmptyList}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('EmptyList')}"
                         TextAlignment="Center"
                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FilePathCollection.Count), Mode=OneWay}" />
                 </Grid>
@@ -544,12 +544,12 @@
                         VerticalAlignment="Center"
                         IsTapEnabled="True"
                         Tapped="{x:Bind OnEmbeddedDataSelectTapped}"
-                        Text="{x:Bind string:PriExtract.Select}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('Select')}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
-                            <ToolTip MaxWidth="9999" Content="{x:Bind string:PriExtract.SelectDescription}" />
+                            <ToolTip MaxWidth="9999" Content="{x:Bind root:ResourceService.PriExtractResource.GetString('SelectDescription')}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
 
@@ -558,14 +558,14 @@
                         Grid.Column="1"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:PriExtract.Key}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('Key')}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
                             <ToolTip
                                 MaxWidth="9999"
-                                Content="{x:Bind string:PriExtract.Key}"
+                                Content="{x:Bind root:ResourceService.PriExtractResource.GetString('Key')}"
                                 Visibility="{x:Bind EmbeddedDataKeyHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
@@ -575,14 +575,14 @@
                         Grid.Column="2"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:PriExtract.Operation}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('Operation')}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap">
 
                         <ToolTipService.ToolTip>
                             <ToolTip
                                 MaxWidth="9999"
-                                Content="{x:Bind string:PriExtract.Operation}"
+                                Content="{x:Bind root:ResourceService.PriExtractResource.GetString('Operation')}"
                                 Visibility="{x:Bind EmbeddedDataOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
                         </ToolTipService.ToolTip>
                     </TextBlock>
@@ -638,8 +638,8 @@
                                     <ToolTipService.ToolTip>
                                         <ToolTip MaxWidth="9999">
                                             <Grid>
-                                                <TextBlock Text="{x:Bind string:PriExtract.SelectedToolTip}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
-                                                <TextBlock Text="{x:Bind string:PriExtract.UnSelectedToolTip}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind root:ResourceService.PriExtractResource.GetString('SelectedToolTip')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind root:ResourceService.PriExtractResource.GetString('UnSelectedToolTip')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
                                             </Grid>
                                         </ToolTip>
                                     </ToolTipService.ToolTip>
@@ -670,7 +670,7 @@
                                     VerticalAlignment="Center"
                                     Command="{StaticResource EmbeddedDataCommand}"
                                     CommandParameter="{Binding}"
-                                    Content="{x:Bind string:PriExtract.Extract}"
+                                    Content="{x:Bind root:ResourceService.PriExtractResource.GetString('Extract')}"
                                     Style="{StaticResource HyperlinkButtonStyle}" />
                             </Grid>
                         </DataTemplate>
@@ -684,7 +684,7 @@
                     Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Value, ResourceCandidateKindList[2].Value), Mode=OneWay}">
 
                     <TextBlock
-                        Text="{x:Bind string:PriExtract.EmptyList}"
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('EmptyList')}"
                         TextAlignment="Center"
                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(EmbeddedDataCollection.Count), Mode=OneWay}" />
                 </Grid>
@@ -703,25 +703,25 @@
                     <TextBlock
                         Margin="0,0,0,3"
                         FontSize="16"
-                        Text="{x:Bind string:PriExtract.ExtractOptions}" />
+                        Text="{x:Bind root:ResourceService.PriExtractResource.GetString('ExtractOptions')}" />
 
                     <CheckBox
                         Click="{x:Bind OnExtractSaveSamelyClicked}"
-                        Content="{x:Bind string:PriExtract.ExtractSaveSamely}"
+                        Content="{x:Bind root:ResourceService.PriExtractResource.GetString('ExtractSaveSamely')}"
                         IsChecked="{x:Bind IsExtractSaveSamely, Mode=TwoWay}" />
 
                     <CheckBox
-                        Content="{x:Bind string:PriExtract.ExtractSaveString}"
+                        Content="{x:Bind root:ResourceService.PriExtractResource.GetString('ExtractSaveString')}"
                         IsChecked="{x:Bind IsExtractSaveString, Mode=TwoWay}"
                         IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}" />
 
                     <CheckBox
-                        Content="{x:Bind string:PriExtract.ExtractSaveFilePath}"
+                        Content="{x:Bind root:ResourceService.PriExtractResource.GetString('ExtractSaveFilePath')}"
                         IsChecked="{x:Bind IsExtractSaveFilePath, Mode=TwoWay}"
                         IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}" />
 
                     <CheckBox
-                        Content="{x:Bind string:PriExtract.ExtractSaveEmbeddedData}"
+                        Content="{x:Bind root:ResourceService.PriExtractResource.GetString('ExtractSaveEmbeddedData')}"
                         IsChecked="{x:Bind IsExtractSaveEmbeddedData, Mode=TwoWay}"
                         IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}" />
 
@@ -730,9 +730,9 @@
                     <Button
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnSelectSaveFolderClicked}"
-                        Content="{x:Bind string:PriExtract.SelectSaveFolder}"
+                        Content="{x:Bind root:ResourceService.PriExtractResource.GetString('SelectSaveFolder')}"
                         IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}"
-                        ToolTipService.ToolTip="{x:Bind x:String.Format(string:PriExtract.SelectedFolder, SelectedSaveFolder), Mode=OneWay}" />
+                        ToolTipService.ToolTip="{x:Bind x:String.Format(SelectedFolder, SelectedSaveFolder), Mode=OneWay}" />
 
                     <MenuFlyoutSeparator Margin="5,3" />
 
@@ -740,7 +740,7 @@
                         Margin="0,0,0,3"
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnSelectFileClicked}"
-                        Content="{x:Bind string:PriExtract.SelectFile}" />
+                        Content="{x:Bind root:ResourceService.PriExtractResource.GetString('SelectFile')}" />
 
                     <muxc:DropDownButton
                         x:Name="LanguageButton"
@@ -854,7 +854,7 @@
                         Margin="0,0,0,3"
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnCopySelectedStringClicked}"
-                        Content="{x:Bind string:PriExtract.CopySelectedString}"
+                        Content="{x:Bind root:ResourceService.PriExtractResource.GetString('CopySelectedString')}"
                         IsEnabled="{x:Bind sys:Convert.ToBoolean(StringCollection.Count), Mode=OneWay}"
                         Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[0].Key), Mode=OneWay}" />
 
@@ -862,7 +862,7 @@
                         Margin="0,0,0,3"
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnCopySelectedFilePathClicked}"
-                        Content="{x:Bind string:PriExtract.CopySelectedFilePath}"
+                        Content="{x:Bind root:ResourceService.PriExtractResource.GetString('CopySelectedFilePath')}"
                         IsEnabled="{x:Bind sys:Convert.ToBoolean(FilePathCollection.Count), Mode=OneWay}"
                         Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[1].Key), Mode=OneWay}" />
 
@@ -870,28 +870,28 @@
                         Margin="0,0,0,3"
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnExportSelectedEmbeddedDataClicked}"
-                        Content="{x:Bind string:PriExtract.ExportSelectedEmbeddedData}"
+                        Content="{x:Bind root:ResourceService.PriExtractResource.GetString('ExportSelectedEmbeddedData')}"
                         IsEnabled="{x:Bind sys:Convert.ToBoolean(EmbeddedDataCollection.Count), Mode=OneWay}"
                         Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[2].Key), Mode=OneWay}" />
 
                     <Button
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnCopyAllStringClicked}"
-                        Content="{x:Bind string:PriExtract.CopyAllString}"
+                        Content="{x:Bind root:ResourceService.PriExtractResource.GetString('CopyAllString')}"
                         IsEnabled="{x:Bind sys:Convert.ToBoolean(StringCollection.Count), Mode=OneWay}"
                         Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[0].Key), Mode=OneWay}" />
 
                     <Button
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnCopyAllFilePathClicked}"
-                        Content="{x:Bind string:PriExtract.CopyAllFilePath}"
+                        Content="{x:Bind root:ResourceService.PriExtractResource.GetString('CopyAllFilePath')}"
                         IsEnabled="{x:Bind sys:Convert.ToBoolean(FilePathCollection.Count), Mode=OneWay}"
                         Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[1].Key), Mode=OneWay}" />
 
                     <Button
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnExportAllEmbeddedDataClicked}"
-                        Content="{x:Bind string:PriExtract.ExportAllEmbeddedData}"
+                        Content="{x:Bind root:ResourceService.PriExtractResource.GetString('ExportAllEmbeddedData')}"
                         IsEnabled="{x:Bind sys:Convert.ToBoolean(EmbeddedDataCollection.Count), Mode=OneWay}"
                         Visibility="{x:Bind converter:ValueConverterHelper.ObjectToVisibilityConvert(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[2].Key), Mode=OneWay}" />
                 </StackPanel>
@@ -909,7 +909,7 @@
                         Height="20"
                         IsActive="{x:Bind IsProcessing, Mode=OneWay}" />
 
-                    <TextBlock Text="{x:Bind string:PriExtract.ProcessingNow}" />
+                    <TextBlock Text="{x:Bind root:ResourceService.PriExtractResource.GetString('ProcessingNow')}" />
                 </StackPanel>
             </Grid>
         </Grid>

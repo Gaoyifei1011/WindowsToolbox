@@ -18,7 +18,6 @@ using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.ComTypes;
@@ -35,6 +34,8 @@ namespace WindowsTools.Views.Pages
     {
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly object fileNameLock = new();
+
+        private string Total { get; } = ResourceService.FileNameResource.GetString("Total");
 
         private bool _isChecked = false;
 
@@ -182,15 +183,15 @@ namespace WindowsTools.Views.Pages
 
         private List<string> NameChangeRuleList { get; } =
         [
-            FileName.NameChangeRule1,
-            FileName.NameChangeRule2,
-            FileName.NameChangeRule3,
-            FileName.NameChangeRule4,
+            ResourceService.FileNameResource.GetString("NameChangeRule1"),
+            ResourceService.FileNameResource.GetString("NameChangeRule2"),
+            ResourceService.FileNameResource.GetString("NameChangeRule3"),
+            ResourceService.FileNameResource.GetString("NameChangeRule4"),
         ];
 
         private readonly List<KeyValuePair<string, string>> NumberFormatList =
         [
-            new KeyValuePair<string,string>( "Auto", FileName.Auto),
+            new KeyValuePair<string,string>( "Auto", ResourceService.FileNameResource.GetString("Auto")),
             new KeyValuePair<string,string>( "0", "0"),
             new KeyValuePair<string,string>( "00", "00"),
             new KeyValuePair<string,string>( "000", "000"),
@@ -212,34 +213,34 @@ namespace WindowsTools.Views.Pages
         {
             { 0, new List<OldAndNewNameModel>()
                 {
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList1ChangedName1 },
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList1ChangedName2 },
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList1ChangedName3 },
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList1ChangedName4 },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName1"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList1ChangedName1") },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName2"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList1ChangedName2") },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName3"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList1ChangedName3") },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName4"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList1ChangedName4") },
                 }
             },
             { 1, new List<OldAndNewNameModel>()
                 {
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList2ChangedName1 },
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList2ChangedName2 },
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList2ChangedName3 },
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList2ChangedName4 },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName1"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList2ChangedName1") },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName2"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList2ChangedName2") },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName3"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList2ChangedName3") },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName4"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList2ChangedName4") },
                 }
             },
             { 2, new List<OldAndNewNameModel>()
                 {
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList3ChangedName1 },
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList3ChangedName2 },
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList3ChangedName3 },
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList3ChangedName4 },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName1"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList3ChangedName1") },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName2"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList3ChangedName2") },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName3"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList3ChangedName3") },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName4"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList3ChangedName4") },
                 }
             },
             { 3, new List<OldAndNewNameModel>()
                 {
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName1, NewFileName = FileName.NameChangeList4ChangedName1 },
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName2, NewFileName = FileName.NameChangeList4ChangedName2 },
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName3, NewFileName = FileName.NameChangeList4ChangedName3 },
-                    new(){ OriginalFileName = FileName.NameChangeOriginalName4, NewFileName = FileName.NameChangeList4ChangedName4 },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName1"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList4ChangedName1") },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName2"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList4ChangedName2") },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName3"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList4ChangedName3") },
+                    new(){ OriginalFileName = ResourceService.FileNameResource.GetString("NameChangeOriginalName4"), NewFileName = ResourceService.FileNameResource.GetString("NameChangeList4ChangedName4") },
                 }
             },
         };
@@ -276,7 +277,7 @@ namespace WindowsTools.Views.Pages
             args.DragUIOverride.IsCaptionVisible = true;
             args.DragUIOverride.IsContentVisible = false;
             args.DragUIOverride.IsGlyphVisible = true;
-            args.DragUIOverride.Caption = FileName.DragOverContent;
+            args.DragUIOverride.Caption = ResourceService.FileNameResource.GetString("DragOverContent");
             args.Handled = true;
         }
 
@@ -569,7 +570,7 @@ namespace WindowsTools.Views.Pages
             OpenFileDialog dialog = new()
             {
                 Multiselect = true,
-                Title = FileName.SelectFile
+                Title = ResourceService.FileNameResource.GetString("SelectFile")
             };
             if (dialog.ShowDialog() is DialogResult.OK)
             {
@@ -614,7 +615,7 @@ namespace WindowsTools.Views.Pages
         {
             OpenFolderDialog dialog = new()
             {
-                Description = FileName.SelectFolder,
+                Description = ResourceService.FileNameResource.GetString("SelectFolder"),
             };
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
@@ -719,7 +720,7 @@ namespace WindowsTools.Views.Pages
 
         private string GetChangeRule(int index)
         {
-            return string.Format(FileName.ChangeRule, NameChangeRuleList[index]);
+            return string.Format(ResourceService.FileNameResource.GetString("ChangeRule"), NameChangeRuleList[index]);
         }
 
         /// <summary>

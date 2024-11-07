@@ -7,8 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:string="using:WindowsTools.Strings"
-    xmlns:sys="using:System"
+    xmlns:root="using:WindowsTools.Services.Root"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -35,13 +34,13 @@
             <TextBlock
                 Grid.Column="0"
                 FontSize="22"
-                Text="{x:Bind string:LoopbackManager.Title}" />
+                Text="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('Title')}" />
 
             <Button
                 Grid.Column="1"
                 VerticalAlignment="Center"
                 Click="{x:Bind OnLearnLoopbackClicked}"
-                Content="{x:Bind string:LoopbackManager.LearnLoopback}" />
+                Content="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('LearnLoopback')}" />
         </Grid>
 
         <Grid
@@ -68,7 +67,7 @@
                 Grid.Column="0"
                 Margin="0,0,2,0"
                 VerticalAlignment="Center"
-                PlaceholderText="{x:Bind string:LoopbackManager.SearchAppNamePHText}"
+                PlaceholderText="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('SearchAppNamePHText')}"
                 QuerySubmitted="{x:Bind OnSearchAppNameQuerySubmitted}"
                 Text="{x:Bind SearchAppNameText, Mode=OneWay}"
                 TextChanged="{x:Bind OnSerachAppNameTextChanged}" />
@@ -78,7 +77,7 @@
                 VerticalAlignment="Center"
                 Click="{x:Bind OnSelectAllClicked}"
                 IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                Label="{x:Bind string:LoopbackManager.SelectAll}"
+                Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('SelectAll')}"
                 Style="{StaticResource AppBarButtonStyle}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE8B3;" />
@@ -90,7 +89,7 @@
                 VerticalAlignment="Center"
                 Click="{x:Bind OnSelectNoneClicked}"
                 IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                Label="{x:Bind string:LoopbackManager.SelectNone}"
+                Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('SelectNone')}"
                 Style="{StaticResource AppBarButtonStyle}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE8E6;" />
@@ -102,7 +101,7 @@
                 VerticalAlignment="Center"
                 Click="{x:Bind OnResetClicked}"
                 IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                Label="{x:Bind string:LoopbackManager.Reset}"
+                Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('Reset')}"
                 Style="{StaticResource AppBarButtonStyle}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE777;" />
@@ -114,7 +113,7 @@
                 VerticalAlignment="Center"
                 Click="{x:Bind OnRefreshClicked}"
                 IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                Label="{x:Bind string:LoopbackManager.Refresh}"
+                Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('Refresh')}"
                 Style="{StaticResource AppBarButtonStyle}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE72C;" />
@@ -126,7 +125,7 @@
                 VerticalAlignment="Center"
                 Click="{x:Bind OnSaveClicked}"
                 IsEnabled="{x:Bind IsSaved, Mode=OneWay}"
-                Label="{x:Bind string:LoopbackManager.Save}"
+                Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('Save')}"
                 Style="{StaticResource AppBarButtonStyle}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE74E;" />
@@ -156,7 +155,7 @@
                 <TextBlock
                     Margin="0,10"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:LoopbackManager.LoadingLoopback}"
+                    Text="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('LoadingLoopback')}"
                     TextAlignment="Center" />
             </StackPanel>
         </Grid>
@@ -181,7 +180,7 @@
                 <TextBlock
                     Margin="0,10"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:LoopbackManager.EmptyDescription}"
+                    Text="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('EmptyDescription')}"
                     TextAlignment="Center" />
             </Grid>
 
@@ -205,7 +204,7 @@
                     <TextBlock
                         Margin="0,10"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:LoopbackManager.SearchEmptyDescription}"
+                        Text="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('SearchEmptyDescription')}"
                         TextAlignment="Center" />
                 </Grid>
 
@@ -257,8 +256,8 @@
                                             <ToolTipService.ToolTip>
                                                 <ToolTip MaxWidth="9999">
                                                     <Grid>
-                                                        <TextBlock Text="{x:Bind string:LoopbackManager.SelectedToolTip}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
-                                                        <TextBlock Text="{x:Bind string:LoopbackManager.UnSelectedToolTip}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
+                                                        <TextBlock Text="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('SelectedToolTip')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                        <TextBlock Text="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('UnSelectedToolTip')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
                                                     </Grid>
                                                 </ToolTip>
                                             </ToolTipService.ToolTip>
@@ -311,7 +310,7 @@
                                             Command="{StaticResource OpenWorkingDirectoryCommand}"
                                             CommandParameter="{x:Bind WorkingDirectory}"
                                             CornerRadius="{StaticResource ControlCornerRadius}"
-                                            ToolTipService.ToolTip="{x:Bind string:LoopbackManager.OpenWorkingDirectoryToolTip}">
+                                            ToolTipService.ToolTip="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('OpenWorkingDirectoryToolTip')}">
 
                                             <Button.Content>
                                                 <FontIcon FontSize="14" Glyph="&#xE8B7;" />
@@ -343,7 +342,7 @@
                                             Grid.Row="0"
                                             Grid.Column="0"
                                             FontSize="14"
-                                            Text="{x:Bind string:LoopbackManager.Description}" />
+                                            Text="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('Description')}" />
 
                                         <TextBlock
                                             Grid.Row="0"
@@ -356,7 +355,7 @@
                                             Grid.Row="1"
                                             Grid.Column="0"
                                             FontSize="14"
-                                            Text="{x:Bind string:LoopbackManager.AppContainerName}" />
+                                            Text="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('AppContainerName')}" />
 
                                         <TextBlock
                                             Grid.Row="1"
@@ -369,7 +368,7 @@
                                             Grid.Row="2"
                                             Grid.Column="0"
                                             FontSize="14"
-                                            Text="{x:Bind string:LoopbackManager.AppContainerUser}" />
+                                            Text="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('AppContainerUser')}" />
 
                                         <TextBlock
                                             Grid.Row="2"
@@ -382,7 +381,7 @@
                                             Grid.Row="3"
                                             Grid.Column="0"
                                             FontSize="14"
-                                            Text="{x:Bind string:LoopbackManager.AppContainerSID}" />
+                                            Text="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('AppContainerSID')}" />
 
                                         <TextBlock
                                             Grid.Row="3"
@@ -395,7 +394,7 @@
                                             Grid.Row="4"
                                             Grid.Column="0"
                                             FontSize="14"
-                                            Text="{x:Bind string:LoopbackManager.WorkingDirectory}" />
+                                            Text="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('WorkingDirectory')}" />
 
                                         <TextBlock
                                             Grid.Row="4"
@@ -408,7 +407,7 @@
                                             Grid.Row="5"
                                             Grid.Column="0"
                                             FontSize="14"
-                                            Text="{x:Bind string:LoopbackManager.AppBinariesPath}" />
+                                            Text="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('AppBinariesPath')}" />
 
                                         <TextBlock
                                             Grid.Row="5"

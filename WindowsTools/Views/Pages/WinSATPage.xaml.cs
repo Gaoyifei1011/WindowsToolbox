@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WINSATLib;
@@ -224,8 +223,8 @@ namespace WindowsTools.Views.Pages
 
                 if (progressDialog is not null)
                 {
-                    progressDialog.SetTitle(WinSAT.WEI);
-                    progressDialog.SetLine(2, WinSAT.WEITipContent, false, IntPtr.Zero);
+                    progressDialog.SetTitle(ResourceService.WinSATResource.GetString("WEI"));
+                    progressDialog.SetLine(2, ResourceService.WinSATResource.GetString("WEITipContent"), false, IntPtr.Zero);
                     progressDialog.StartProgressDialog(MainWindow.Current.Handle, null, PROGDLG.PROGDLG_MODAL | PROGDLG.PROGDLG_NOMINIMIZE, IntPtr.Zero);
                 }
             }
@@ -373,7 +372,7 @@ namespace WindowsTools.Views.Pages
                         GraphicsSubScore = graphicsSubScore is 0.0 ? "N/A" : graphicsSubScore.ToString("F1");
                         GamingGraphicsSubScore = gamingGraphicsSubScore is 0.0 ? "N/A" : gamingGraphicsSubScore.ToString("F1");
                         PrimaryDiskSubScore = primaryDiskSubScore is 0.0 ? "N/A" : primaryDiskSubScore.ToString("F1");
-                        ResultMessage = basicScore is 0.0 ? WinSAT.ErrorMessage : string.Format(WinSAT.SuccessMessage, assessmentDate);
+                        ResultMessage = basicScore is 0.0 ? ResourceService.WinSATResource.GetString("ErrorMessage") : string.Format(ResourceService.WinSATResource.GetString("SuccessMessage"), assessmentDate);
                         ResultServerity = basicScore is 0.0 ? InfoBarSeverity.Warning : InfoBarSeverity.Success;
                     }, null);
                 }
@@ -389,7 +388,7 @@ namespace WindowsTools.Views.Pages
                         GraphicsSubScore = "N/A";
                         GamingGraphicsSubScore = "N/A";
                         PrimaryDiskSubScore = "N/A";
-                        ResultMessage = WinSAT.ErrorMessage;
+                        ResultMessage = ResourceService.WinSATResource.GetString("ErrorMessage");
                         ResultServerity = InfoBarSeverity.Warning;
                     }, null);
                 }

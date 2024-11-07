@@ -6,7 +6,7 @@ using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
-using WindowsTools.Strings;
+using WindowsTools.Services.Root;
 using WindowsTools.UI.TeachingTips;
 
 // 抑制 CA1822，IDE0060 警告
@@ -39,13 +39,13 @@ namespace WindowsTools.UI.Dialogs
             if (args.Parameter is OperationFailedModel operationFailedItem)
             {
                 StringBuilder builder = new();
-                builder.Append(Dialog.FileNameCopy);
+                builder.Append(ResourceService.DialogResource.GetString("FileNameCopy"));
                 builder.AppendLine(operationFailedItem.FileName);
-                builder.Append(Dialog.FilePathCopy);
+                builder.Append(ResourceService.DialogResource.GetString("FilePathCopy"));
                 builder.AppendLine(operationFailedItem.FilePath);
-                builder.Append(Dialog.ExceptionMessage);
+                builder.Append(ResourceService.DialogResource.GetString("ExceptionMessage"));
                 builder.AppendLine(operationFailedItem.Exception.Message);
-                builder.Append(Dialog.ExceptionCode);
+                builder.Append(ResourceService.DialogResource.GetString("ExceptionCode"));
                 builder.AppendLine(operationFailedItem.Exception.HResult.ToString());
                 bool copyResult = CopyPasteHelper.CopyToClipboard(builder.ToString());
                 await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, false));
@@ -62,13 +62,13 @@ namespace WindowsTools.UI.Dialogs
             StringBuilder builder = new();
             foreach (OperationFailedModel operationFailedItem in OperationFailedCollection)
             {
-                builder.Append(Dialog.FileNameCopy);
+                builder.Append(ResourceService.DialogResource.GetString("FileNameCopy"));
                 builder.AppendLine(operationFailedItem.FileName);
-                builder.Append(Dialog.FilePathCopy);
+                builder.Append(ResourceService.DialogResource.GetString("FilePathCopy"));
                 builder.AppendLine(operationFailedItem.FilePath);
-                builder.Append(Dialog.ExceptionMessage);
+                builder.Append(ResourceService.DialogResource.GetString("ExceptionMessage"));
                 builder.AppendLine(operationFailedItem.Exception.Message);
-                builder.Append(Dialog.ExceptionCode);
+                builder.Append(ResourceService.DialogResource.GetString("ExceptionCode"));
                 builder.AppendLine(operationFailedItem.Exception.HResult.ToString());
                 builder.AppendLine();
             }

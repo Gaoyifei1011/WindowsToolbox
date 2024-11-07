@@ -22,7 +22,6 @@ using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.PInvoke.Kernel32;
@@ -38,6 +37,8 @@ namespace WindowsTools.Views.Pages
     public sealed partial class AboutPage : Page, INotifyPropertyChanged
     {
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+
+        private string AppVersion = ResourceService.AboutResource.GetString("AppVersion");
 
         private bool _isChecking;
 
@@ -97,7 +98,7 @@ namespace WindowsTools.Views.Pages
                 try
                 {
                     WshShell shell = new();
-                    WshShortcut appShortcut = (WshShortcut)shell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), string.Format(@"{0}.lnk", About.AppName)));
+                    WshShortcut appShortcut = (WshShortcut)shell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), string.Format(@"{0}.lnk", ResourceService.AboutResource.GetString("AppName"))));
                     uint aumidLength = 260;
                     StringBuilder aumidBuilder = new((int)aumidLength);
                     Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);

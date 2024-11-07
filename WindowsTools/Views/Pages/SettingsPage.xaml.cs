@@ -14,7 +14,6 @@ using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
@@ -403,7 +402,7 @@ namespace WindowsTools.Views.Pages
                         {
                             OpenFolderDialog dialog = new()
                             {
-                                Description = Settings.SelectFolder,
+                                Description = ResourceService.SettingsResource.GetString("SelectFolder"),
                                 RootFolder = Environment.SpecialFolder.Desktop
                             };
                             DialogResult result = dialog.ShowDialog();
@@ -484,11 +483,11 @@ namespace WindowsTools.Views.Pages
             }
             else if (index is 1 || index is 2)
             {
-                return string.Format("{0} {1}", Settings.Mica, selectedBackdrop.Value);
+                return string.Format("{0} {1}", ResourceService.SettingsResource.GetString("Mica"), selectedBackdrop.Value);
             }
             else if (index is 3 || index is 4 || index is 5)
             {
-                return string.Format("{0} {1}", Settings.DesktopAcrylic, selectedBackdrop.Value);
+                return string.Format("{0} {1}", ResourceService.SettingsResource.GetString("DesktopAcrylic"), selectedBackdrop.Value);
             }
             else
             {

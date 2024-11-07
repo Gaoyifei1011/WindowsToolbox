@@ -24,7 +24,6 @@ using WindowsTools.Models;
 using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
@@ -329,7 +328,7 @@ namespace WindowsTools.Views.Pages
                     {
                         DataRequestDeferral deferral = args.Request.GetDeferral();
 
-                        args.Request.Data.Properties.Title = string.Format(DownloadManager.ShareFileTitle);
+                        args.Request.Data.Properties.Title = string.Format(ResourceService.DownloadManagerResource.GetString("ShareFileTitle"));
                         args.Request.Data.SetStorageItems(new List<StorageFile>() { await StorageFile.GetFileFromPathAsync(filePath) });
                         deferral.Complete();
                     };
@@ -733,7 +732,7 @@ namespace WindowsTools.Views.Pages
         {
             OpenFolderDialog dialog = new()
             {
-                Description = FileProperties.SelectFolder,
+                Description = ResourceService.DownloadManagerResource.GetString("SelectFolder"),
                 RootFolder = Environment.SpecialFolder.Desktop
             };
             DialogResult result = dialog.ShowDialog();

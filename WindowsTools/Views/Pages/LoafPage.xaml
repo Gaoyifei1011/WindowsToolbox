@@ -7,8 +7,8 @@
     xmlns:helper="using:WindowsTools.Helpers.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:root="using:WindowsTools.Services.Root"
     xmlns:service="using:WindowsTools.Services.Controls.Settings"
-    xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
     Loaded="{x:Bind OnLoaded}"
     NavigationCacheMode="Enabled"
@@ -25,7 +25,7 @@
             Grid.Row="0"
             Margin="30,15,30,6"
             FontSize="22"
-            Text="{x:Bind string:Loaf.Title}" />
+            Text="{x:Bind root:ResourceService.LoafResource.GetString('Title')}" />
 
         <ScrollViewer
             Grid.Row="1"
@@ -78,7 +78,7 @@
                                 IsActive="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(LoadImageCompleted), Mode=OneWay}"
                                 IsIndeterminate="True" />
 
-                            <TextBlock FontSize="23" Text="{x:Bind string:Loaf.LoadingBingWallpaper}" />
+                            <TextBlock FontSize="23" Text="{x:Bind root:ResourceService.LoafResource.GetString('LoadingBingWallpaper')}" />
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -108,12 +108,12 @@
                     <TextBlock
                         Grid.Column="1"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:Loaf.Operation}" />
+                        Text="{x:Bind root:ResourceService.LoafResource.GetString('Operation')}" />
 
                     <Button
                         Grid.Column="2"
                         Click="{x:Bind OnStartLoafClicked}"
-                        Content="{x:Bind string:Loaf.StartLoaf}"
+                        Content="{x:Bind root:ResourceService.LoafResource.GetString('StartLoaf')}"
                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsLoafing), Mode=OneWay}"
                         Style="{StaticResource AccentButtonStyle}" />
                 </Grid>
@@ -143,7 +143,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind string:Loaf.ConfigOptions}" />
+                                Text="{x:Bind root:ResourceService.LoafResource.GetString('ConfigOptions')}" />
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -163,7 +163,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:Loaf.UpdateStyle}" />
+                                    Text="{x:Bind root:ResourceService.LoafResource.GetString('UpdateStyle')}" />
 
                                 <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedUpdateStyle.Value, Mode=OneWay}">
 
@@ -207,7 +207,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:Loaf.BlockAllKeys}" />
+                                    Text="{x:Bind root:ResourceService.LoafResource.GetString('BlockAllKeys')}" />
 
                                 <ToggleSwitch
                                     Grid.Column="1"
@@ -215,8 +215,8 @@
                                     Margin="0,-2,0,0"
                                     FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                     IsOn="{x:Bind BlockAllKeys, Mode=OneWay}"
-                                    OffContent="{x:Bind string:Loaf.BlockAllKeysOffContent}"
-                                    OnContent="{x:Bind string:Loaf.BlockAllKeysOnContent}"
+                                    OffContent="{x:Bind root:ResourceService.LoafResource.GetString('BlockAllKeysOffContent')}"
+                                    OnContent="{x:Bind root:ResourceService.LoafResource.GetString('BlockAllKeysOnContent')}"
                                     Toggled="{x:Bind OnBlockAllKeysToggled}" />
                             </Grid>
 
@@ -236,7 +236,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:Loaf.DurationTime}" />
+                                    Text="{x:Bind root:ResourceService.LoafResource.GetString('DurationTime')}" />
 
                                 <TimePicker
                                     Grid.Column="1"
@@ -244,7 +244,7 @@
                                     Style="{StaticResource TimePickerStyle}"
                                     Time="{x:Bind DurationTime, Mode=OneWay}"
                                     TimeChanged="{x:Bind OnTimeChanged}"
-                                    ToolTipService.ToolTip="{x:Bind x:String.Format(string:Loaf.LoafTimeToolTip, DurationTime.Hours, DurationTime.Minutes), Mode=OneWay}" />
+                                    ToolTipService.ToolTip="{x:Bind x:String.Format(LoafTimeToolTip, DurationTime.Hours, DurationTime.Minutes), Mode=OneWay}" />
                             </Grid>
 
                             <MenuFlyoutSeparator />
@@ -263,7 +263,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:Loaf.LockScreenAutomaticly}" />
+                                    Text="{x:Bind root:ResourceService.LoafResource.GetString('LockScreenAutomaticly')}" />
 
                                 <ToggleSwitch
                                     Grid.Column="1"
@@ -271,8 +271,8 @@
                                     Margin="0,-2,0,0"
                                     FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                     IsOn="{x:Bind LockScreenAutomaticly, Mode=OneWay}"
-                                    OffContent="{x:Bind string:Loaf.LockScreenAutomaticlyOffContent}"
-                                    OnContent="{x:Bind string:Loaf.LockScreenAutomaticlyOnContent}"
+                                    OffContent="{x:Bind root:ResourceService.LoafResource.GetString('LockScreenAutomaticlyOffContent')}"
+                                    OnContent="{x:Bind root:ResourceService.LoafResource.GetString('LockScreenAutomaticlyOnContent')}"
                                     Toggled="{x:Bind OnLockScreenAutomaticlyToggled}" />
                             </Grid>
                         </StackPanel>
@@ -304,7 +304,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind string:Loaf.Tips}" />
+                                Text="{x:Bind root:ResourceService.LoafResource.GetString('Tips')}" />
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -314,14 +314,14 @@
                                 Margin="44,10,16,5"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:Loaf.TipContent1}"
+                                Text="{x:Bind root:ResourceService.LoafResource.GetString('TipContent1')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                             <TextBlock
                                 Margin="44,0,16,10"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:Loaf.TipContent2}"
+                                Text="{x:Bind root:ResourceService.LoafResource.GetString('TipContent2')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                         </StackPanel>

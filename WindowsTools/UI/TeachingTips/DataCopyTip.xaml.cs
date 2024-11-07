@@ -1,7 +1,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Strings;
+using WindowsTools.Services.Root;
 
 namespace WindowsTools.UI.TeachingTips
 {
@@ -30,27 +30,27 @@ namespace WindowsTools.UI.TeachingTips
                 {
                     case DataCopyKind.AppInformation:
                         {
-                            Content = Notification.AppInformationCopy;
+                            Content = ResourceService.NotificationResource.GetString("AppInformationCopy");
                             break;
                         }
                     case DataCopyKind.FilePath:
                         {
-                            Content = isMultiSelected ? string.Format(Notification.FilePathSelectedCopy, count) : (object)Notification.FilePathCopy;
+                            Content = isMultiSelected ? string.Format(ResourceService.NotificationResource.GetString("FilePathSelectedCopy"), count) : (object)ResourceService.NotificationResource.GetString("FilePathCopy");
                             break;
                         }
                     case DataCopyKind.OperationFailed:
                         {
-                            Content = isMultiSelected ? string.Format(Notification.OperationFailedSelectedCopy, count) : (object)Notification.OperationFailedCopy;
+                            Content = isMultiSelected ? string.Format(ResourceService.NotificationResource.GetString("OperationFailedSelectedCopy"), count) : (object)ResourceService.NotificationResource.GetString("OperationFailedCopy");
                             break;
                         }
                     case DataCopyKind.String:
                         {
-                            Content = isMultiSelected ? string.Format(Notification.StringSelectedCopy, count) : (object)Notification.StringCopy;
+                            Content = isMultiSelected ? string.Format(ResourceService.NotificationResource.GetString("StringSelectedCopy"), count) : (object)ResourceService.NotificationResource.GetString("StringCopy");
                             break;
                         }
                     case DataCopyKind.UpdateInformation:
                         {
-                            Content = Notification.UpdateInformationCopy;
+                            Content = ResourceService.NotificationResource.GetString("UpdateInformationCopy");
                             break;
                         }
                 }
@@ -59,7 +59,7 @@ namespace WindowsTools.UI.TeachingTips
             {
                 CopySuccess.Visibility = Visibility.Collapsed;
                 CopyFailed.Visibility = Visibility.Visible;
-                CopyFailed.Text = Notification.CopyToClipboardFailed;
+                CopyFailed.Text = ResourceService.NotificationResource.GetString("CopyToClipboardFailed");
             }
         }
     }

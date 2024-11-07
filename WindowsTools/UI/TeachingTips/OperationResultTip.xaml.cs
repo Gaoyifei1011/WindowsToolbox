@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Strings;
+using WindowsTools.Services.Root;
 
 namespace WindowsTools.UI.TeachingTips
 {
@@ -18,103 +18,103 @@ namespace WindowsTools.UI.TeachingTips
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.GenerateTextEmpty;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("GenerateTextEmpty");
             }
             else if (operationKind is OperationKind.GenerateBarCodeFailed)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.GenerateBarCodeFailed;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("GenerateBarCodeFailed");
             }
             else if (operationKind is OperationKind.GenerateQRCodeFailed)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.GenerateQRCodeFailed;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("GenerateQRCodeFailed");
             }
             else if (operationKind is OperationKind.ParsePhotoFailed)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.ParsePhotoFailed;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("ParsePhotoFailed");
             }
             else if (operationKind is OperationKind.ReadClipboardImageFailed)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.ReadClipboardImageFailed;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("ReadClipboardImageFailed");
             }
             else if (operationKind is OperationKind.DeleteFileFailed)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.FileDeleteFailed;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("FileDeleteFailed");
             }
             else if (operationKind is OperationKind.LanguageChange)
             {
                 OperationResultSuccess.Visibility = Visibility.Visible;
                 OperationResultFailed.Visibility = Visibility.Collapsed;
-                OperationResultSuccess.Text = Notification.LanguageChange;
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("LanguageChange");
             }
             else if (operationKind is OperationKind.ListEmpty)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.ListEmpty;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("ListEmpty");
             }
             else if (operationKind is OperationKind.TextEmpty)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.TextEmpty;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("TextEmpty");
             }
             else if (operationKind is OperationKind.MenuTitleEmpty)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.MenuTitleEmpty;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("MenuTitleEmpty");
             }
             else if (operationKind is OperationKind.MenuDefaultIconPathEmpty)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.MenuDefaultIconPathEmpty;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("MenuDefaultIconPathEmpty");
             }
             else if (operationKind is OperationKind.MenuLightThemeIconPathEmpty)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.MenuLightThemeIconPathEmpty;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("MenuLightThemeIconPathEmpty");
             }
             else if (operationKind is OperationKind.MenuDarkThemeIconPathEmpty)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.MenuDarkThemeIconPathEmpty;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("MenuDarkThemeIconPathEmpty");
             }
             else if (operationKind is OperationKind.MenuProgramPathEmpty)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.MenuProgramPathEmpty;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("MenuProgramPathEmpty");
             }
             else if (operationKind is OperationKind.MenuMatchRuleEmpty)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.MenuMatchRuleEmpty;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("MenuMatchRuleEmpty");
             }
             else if (operationKind is OperationKind.NoOperation)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.NoOperation;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("NoOperation");
             }
             else if (operationKind is OperationKind.ShellMenuNeedToRefreshData)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;
                 OperationResultFailed.Visibility = Visibility.Visible;
-                OperationResultFailed.Text = Notification.ShellMenuNeedToRefreshData;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("ShellMenuNeedToRefreshData");
             }
         }
 
@@ -126,13 +126,13 @@ namespace WindowsTools.UI.TeachingTips
             {
                 if (operationResult)
                 {
-                    OperationResultSuccess.Text = Notification.NewestVersion;
+                    OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("NewestVersion");
                     OperationResultSuccess.Visibility = Visibility.Visible;
                     OperationResultFailed.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    OperationResultFailed.Text = Notification.NotNewestVersion;
+                    OperationResultFailed.Text = ResourceService.NotificationResource.GetString("NotNewestVersion");
                     OperationResultSuccess.Visibility = Visibility.Collapsed;
                     OperationResultFailed.Visibility = Visibility.Visible;
                 }
@@ -141,13 +141,13 @@ namespace WindowsTools.UI.TeachingTips
             {
                 if (operationResult)
                 {
-                    OperationResultSuccess.Text = Notification.LogCleanSuccessfully;
+                    OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("LogCleanSuccessfully");
                     OperationResultSuccess.Visibility = Visibility.Visible;
                     OperationResultFailed.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    OperationResultFailed.Text = Notification.LogCleanFailed;
+                    OperationResultFailed.Text = ResourceService.NotificationResource.GetString("LogCleanFailed");
                     OperationResultSuccess.Visibility = Visibility.Collapsed;
                     OperationResultFailed.Visibility = Visibility.Visible;
                 }
@@ -156,13 +156,13 @@ namespace WindowsTools.UI.TeachingTips
             {
                 if (operationResult)
                 {
-                    OperationResultSuccess.Text = Notification.LoopbackSetResultSuccessfully;
+                    OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("LoopbackSetResultSuccessfully");
                     OperationResultSuccess.Visibility = Visibility.Visible;
                     OperationResultFailed.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    OperationResultFailed.Text = Notification.LoopbackSetResultFailed;
+                    OperationResultFailed.Text = ResourceService.NotificationResource.GetString("LoopbackSetResultFailed");
                     OperationResultSuccess.Visibility = Visibility.Collapsed;
                     OperationResultFailed.Visibility = Visibility.Visible;
                 }
@@ -171,13 +171,13 @@ namespace WindowsTools.UI.TeachingTips
             {
                 if (operationResult)
                 {
-                    OperationResultSuccess.Text = Notification.TerminateProcessSuccessfully;
+                    OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("TerminateProcessSuccessfully");
                     OperationResultSuccess.Visibility = Visibility.Visible;
                     OperationResultFailed.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    OperationResultFailed.Text = Notification.TerminateProcessFailed;
+                    OperationResultFailed.Text = ResourceService.NotificationResource.GetString("TerminateProcessFailed");
                     OperationResultSuccess.Visibility = Visibility.Collapsed;
                     OperationResultFailed.Visibility = Visibility.Visible;
                 }
@@ -192,13 +192,13 @@ namespace WindowsTools.UI.TeachingTips
             {
                 OperationResultSuccess.Visibility = Visibility.Visible;
                 OperationResultFailed.Visibility = Visibility.Collapsed;
-                OperationResultSuccess.Text = failedItems is 0 ? string.Format(Notification.FileResultSuccessfully, successItems) : string.Format(Notification.FileResultFailed, successItems, failedItems);
+                OperationResultSuccess.Text = failedItems is 0 ? string.Format(ResourceService.NotificationResource.GetString("FileResultSuccessfully"), successItems) : string.Format(ResourceService.NotificationResource.GetString("FileResultFailed"), successItems, failedItems);
             }
             else if (operationKind is OperationKind.IconExtract)
             {
                 OperationResultSuccess.Visibility = Visibility.Visible;
                 OperationResultFailed.Visibility = Visibility.Collapsed;
-                OperationResultSuccess.Text = failedItems is 0 ? string.Format(Notification.IconExtractSuccessfully, successItems) : string.Format(Notification.IconExtractFailed, successItems, failedItems);
+                OperationResultSuccess.Text = failedItems is 0 ? string.Format(ResourceService.NotificationResource.GetString("IconExtractSuccessfully"), successItems) : string.Format(ResourceService.NotificationResource.GetString("IconExtractFailed"), successItems, failedItems);
             }
         }
     }

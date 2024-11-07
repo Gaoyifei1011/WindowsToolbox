@@ -20,7 +20,12 @@ namespace WindowsTools.Helpers.Root
         {
             try
             {
-                Clipboard.SetDataObject(content);
+                Windows.ApplicationModel.DataTransfer.DataPackage dataPackage = new()
+                {
+                    RequestedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy,
+                };
+                dataPackage.SetText(content);
+                Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dataPackage);
                 return true;
             }
             catch (Exception e)

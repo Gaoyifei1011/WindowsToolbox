@@ -23,7 +23,6 @@ using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.PInvoke.Rstrtmgr;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
@@ -39,6 +38,8 @@ namespace WindowsTools.Views.Pages
     public sealed partial class FileUnlockPage : Page, INotifyPropertyChanged
     {
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+
+        private string FileNotUse { get; } = ResourceService.FileUnlockResource.GetString("FileNotUse");
 
         private InfoBarSeverity _resultSeverity = InfoBarSeverity.Informational;
 
@@ -56,7 +57,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private string _stateInfoText = FileUnlock.Welcome;
+        private string _stateInfoText = ResourceService.FileUnlockResource.GetString("Welcome");
 
         public string StateInfoText
         {
@@ -136,7 +137,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         protected override void OnDragOver(global::Windows.UI.Xaml.DragEventArgs args)
         {
-            IReadOnlyList<IStorageItem> dragItemsList = args.DataView.GetStorageItemsAsync().AsTask().Result;
+            IReadOnlyList<IStorageItem> dragItemsList = args.DataView.GetStorageItemsAsync().GetResults();
 
             if (dragItemsList.Count is 1)
             {
@@ -144,7 +145,7 @@ namespace WindowsTools.Views.Pages
                 args.DragUIOverride.IsCaptionVisible = true;
                 args.DragUIOverride.IsContentVisible = false;
                 args.DragUIOverride.IsGlyphVisible = true;
-                args.DragUIOverride.Caption = FileUnlock.DragOverContent;
+                args.DragUIOverride.Caption = ResourceService.FileUnlockResource.GetString("DragOverContent");
             }
             else
             {
@@ -152,7 +153,7 @@ namespace WindowsTools.Views.Pages
                 args.DragUIOverride.IsCaptionVisible = true;
                 args.DragUIOverride.IsContentVisible = false;
                 args.DragUIOverride.IsGlyphVisible = true;
-                args.DragUIOverride.Caption = FileUnlock.NoMultiFile;
+                args.DragUIOverride.Caption = ResourceService.FileUnlockResource.GetString("NoMultiFile");
             }
 
             args.Handled = true;
@@ -302,7 +303,7 @@ namespace WindowsTools.Views.Pages
             OpenFileDialog dialog = new()
             {
                 Multiselect = false,
-                Title = FileUnlock.SelectFile
+                Title = ResourceService.FileUnlockResource.GetString("SelectFile")
             };
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
@@ -322,7 +323,7 @@ namespace WindowsTools.Views.Pages
             ResultSeverity = InfoBarSeverity.Informational;
             IsRingActive = true;
             ResultControlVisable = false;
-            StateInfoText = string.Format(FileUnlock.ParsingFile, FileName);
+            StateInfoText = string.Format(ResourceService.FileUnlockResource.GetString("ParsingFile"), FileName);
             ProcessInfoCollection.Clear();
 
             Task.Run(async () =>
@@ -340,7 +341,7 @@ namespace WindowsTools.Views.Pages
                     {
                         ResultSeverity = InfoBarSeverity.Error;
                         IsRingActive = false;
-                        StateInfoText = string.Format(FileUnlock.ParseFileFailed, FileName);
+                        StateInfoText = string.Format(ResourceService.FileUnlockResource.GetString("ParseFileFailed"), FileName);
                     }, null);
                 }
 
@@ -360,7 +361,7 @@ namespace WindowsTools.Views.Pages
                         {
                             ResultSeverity = InfoBarSeverity.Error;
                             IsRingActive = false;
-                            StateInfoText = string.Format(FileUnlock.ParseFileFailed, FileName);
+                            StateInfoText = string.Format(ResourceService.FileUnlockResource.GetString("ParseFileFailed"), FileName);
                         }, null);
                     }
 
@@ -398,7 +399,7 @@ namespace WindowsTools.Views.Pages
                                 ResultControlVisable = true;
                                 ResultSeverity = InfoBarSeverity.Success;
                                 IsRingActive = false;
-                                StateInfoText = string.Format(FileUnlock.ParseFileSuccessfully, FileName);
+                                StateInfoText = string.Format(ResourceService.FileUnlockResource.GetString("ParseFileSuccessfully"), FileName);
                             }, null);
                         }
                         else
@@ -416,7 +417,7 @@ namespace WindowsTools.Views.Pages
                                 ResultControlVisable = true;
                                 ResultSeverity = InfoBarSeverity.Success;
                                 IsRingActive = false;
-                                StateInfoText = string.Format(FileUnlock.ParseFileSuccessfully, FileName);
+                                StateInfoText = string.Format(ResourceService.FileUnlockResource.GetString("ParseFileSuccessfully"), FileName);
 
                                 for (int index = 0; index < processList.Count; index++)
                                 {
@@ -456,7 +457,7 @@ namespace WindowsTools.Views.Pages
                             ResultControlVisable = true;
                             ResultSeverity = InfoBarSeverity.Success;
                             IsRingActive = false;
-                            StateInfoText = string.Format(FileUnlock.ParseFileSuccessfully, FileName);
+                            StateInfoText = string.Format(ResourceService.FileUnlockResource.GetString("ParseFileSuccessfully"), FileName);
                         }, null);
                     }
                 }
@@ -468,7 +469,7 @@ namespace WindowsTools.Views.Pages
                         ResultControlVisable = false;
                         ResultSeverity = InfoBarSeverity.Error;
                         IsRingActive = false;
-                        StateInfoText = string.Format(FileUnlock.ParseFileFailed, FileName);
+                        StateInfoText = string.Format(ResourceService.FileUnlockResource.GetString("ParseFileFailed"), FileName);
                     }, null);
                 }
                 finally

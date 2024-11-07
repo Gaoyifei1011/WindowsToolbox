@@ -6,9 +6,8 @@
     xmlns:enum="using:WindowsTools.Extensions.DataType.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:root="using:WindowsTools.Services.Root"
     xmlns:service="using:WindowsTools.Services.Controls.Settings"
-    xmlns:string="using:WindowsTools.Strings"
-    xmlns:sys="using:System"
     FlowDirection="{x:Bind GetControlDirection(service:LanguageService.RightToLeft)}"
     mc:Ignorable="d">
 
@@ -35,7 +34,7 @@
                     HorizontalAlignment="Center"
                     FontSize="23"
                     Foreground="White"
-                    Text="{x:Bind string:SimulateUpdate.Windows11UpdateText2}" />
+                    Text="{x:Bind root:ResourceService.SimulateUpdateResource.GetString('Windows11UpdateText2')}" />
             </StackPanel>
 
             <TextBlock
@@ -44,7 +43,7 @@
                 VerticalAlignment="Bottom"
                 FontSize="23"
                 Foreground="White"
-                Text="{x:Bind string:SimulateUpdate.ComputerRestart}" />
+                Text="{x:Bind root:ResourceService.SimulateUpdateResource.GetString('ComputerRestart')}" />
         </Grid>
 
         <Grid
@@ -69,7 +68,7 @@
                     HorizontalAlignment="Center"
                     FontSize="23"
                     Foreground="White"
-                    Text="{x:Bind string:SimulateUpdate.Windows10UpdateText2}" />
+                    Text="{x:Bind root:ResourceService.SimulateUpdateResource.GetString('Windows10UpdateText2')}" />
             </StackPanel>
 
             <TextBlock
@@ -78,7 +77,7 @@
                 VerticalAlignment="Bottom"
                 FontSize="23"
                 Foreground="White"
-                Text="{x:Bind string:SimulateUpdate.ComputerRestart}" />
+                Text="{x:Bind root:ResourceService.SimulateUpdateResource.GetString('ComputerRestart')}" />
         </Grid>
     </Grid>
 </Page>

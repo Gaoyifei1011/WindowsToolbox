@@ -9,8 +9,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:root="using:WindowsTools.Services.Root"
     xmlns:service="using:WindowsTools.Services.Controls.Settings"
-    xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
     Loaded="{x:Bind OnLoaded}"
     NavigationCacheMode="Enabled"
@@ -57,14 +57,14 @@
                 Grid.Column="1"
                 VerticalAlignment="Center"
                 Click="{x:Bind OnMenuSettingsClicked}"
-                Content="{x:Bind string:ShellMenu.MenuSettings}"
+                Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('MenuSettings')}"
                 Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentControl(BreadCollection.Count, 1), Mode=OneWay}" />
 
             <Button
                 Grid.Column="1"
                 VerticalAlignment="Center"
                 Click="{x:Bind OnSaveClicked}"
-                Content="{x:Bind string:ShellMenu.Save}"
+                Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('Save')}"
                 Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentControl(BreadCollection.Count, 2), Mode=OneWay}" />
         </Grid>
 
@@ -112,7 +112,7 @@
                         <TextBlock
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            Text="{x:Bind string:ShellMenu.MenuList}" />
+                            Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('MenuList')}" />
                     </Grid>
 
                     <Grid Grid.Row="1" Height="450">
@@ -126,7 +126,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 FontSize="16"
-                                Text="{x:Bind string:ShellMenu.EmptyShellMenu}"
+                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('EmptyShellMenu')}"
                                 TextWrapping="Wrap"
                                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(ShellMenuItemCollection.Count), Mode=OneWay}" />
 
@@ -171,7 +171,7 @@
                                                     <ToolTipService.ToolTip>
                                                         <ToolTip MaxWidth="9999">
                                                             <TextBlock>
-                                                                <Run Text="{x:Bind string:ShellMenu.MenuTitleToolTip}" />
+                                                                <Run Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('MenuTitleToolTip')}" />
                                                                 <Run Text="{x:Bind MenuTitleText, Mode=OneWay}" />
                                                             </TextBlock>
                                                         </ToolTip>
@@ -202,7 +202,7 @@
                             <TextBlock
                                 Grid.Row="1"
                                 FontSize="16"
-                                Text="{x:Bind string:ShellMenu.LoadingNow}"
+                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('LoadingNow')}"
                                 TextWrapping="Wrap" />
                         </Grid>
 
@@ -218,46 +218,46 @@
                                 <Button
                                     HorizontalAlignment="Stretch"
                                     Click="{x:Bind OnAddMenuItemClicked}"
-                                    Content="{x:Bind string:ShellMenu.AddMenuItem}"
+                                    Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('AddMenuItem')}"
                                     IsEnabled="{x:Bind IsAddMenuEnabled, Mode=OneWay}" />
 
                                 <Button
                                     HorizontalAlignment="Stretch"
                                     Click="{x:Bind OnRemoveMenuItemClicked}"
-                                    Content="{x:Bind string:ShellMenu.RemoveMenuItem}"
+                                    Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('RemoveMenuItem')}"
                                     IsEnabled="{x:Bind IsRemoveMenuEnabled, Mode=OneWay}" />
 
                                 <Button
                                     HorizontalAlignment="Stretch"
                                     Click="{x:Bind OnClearMenuClicked}"
-                                    Content="{x:Bind string:ShellMenu.ClearMenu}"
+                                    Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('ClearMenu')}"
                                     IsEnabled="{x:Bind sys:Convert.ToBoolean(ShellMenuItemCollection.Count), Mode=OneWay}"
-                                    ToolTipService.ToolTip="{x:Bind string:ShellMenu.ClearMenuToolTip}" />
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.ShellMenuResource.GetString('ClearMenuToolTip')}" />
 
                                 <Button
                                     HorizontalAlignment="Stretch"
                                     Click="{x:Bind OnRefreshClicked}"
-                                    Content="{x:Bind string:ShellMenu.Refresh}" />
+                                    Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('Refresh')}" />
 
                                 <Button
                                     HorizontalAlignment="Stretch"
                                     Click="{x:Bind OnEditMenuClicked}"
-                                    Content="{x:Bind string:ShellMenu.EditMenu}"
+                                    Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('EditMenu')}"
                                     IsEnabled="{x:Bind IsEditMenuEnabled, Mode=OneWay}"
-                                    ToolTipService.ToolTip="{x:Bind string:ShellMenu.EditMenuTip}" />
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.ShellMenuResource.GetString('EditMenuTip')}" />
 
                                 <MenuFlyoutSeparator />
 
                                 <Button
                                     HorizontalAlignment="Stretch"
                                     Click="{x:Bind OnMoveUpClicked}"
-                                    Content="{x:Bind string:ShellMenu.MoveUp}"
+                                    Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('MoveUp')}"
                                     IsEnabled="{x:Bind IsMoveUpEnabled, Mode=OneWay}" />
 
                                 <Button
                                     HorizontalAlignment="Stretch"
                                     Click="{x:Bind OnMoveDownClicked}"
-                                    Content="{x:Bind string:ShellMenu.MoveDown}"
+                                    Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('MoveDown')}"
                                     IsEnabled="{x:Bind IsMoveDownEnabled, Mode=OneWay}" />
                             </StackPanel>
                         </ContentControl>
@@ -288,7 +288,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind string:ShellMenu.Precautions}" />
+                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('Precautions')}" />
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -299,7 +299,7 @@
                                 Margin="44,10,16,5"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:ShellMenu.PrecautionsContent1}"
+                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('PrecautionsContent1')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
 
@@ -307,7 +307,7 @@
                                 Margin="44,0,16,5"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:ShellMenu.PrecautionsContent2}"
+                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('PrecautionsContent2')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
 
@@ -315,7 +315,7 @@
                                 Margin="44,0,16,5"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:ShellMenu.PrecautionsContent3}"
+                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('PrecautionsContent3')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
 
@@ -323,7 +323,7 @@
                                 Margin="44,0,16,10"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:ShellMenu.PrecautionsContent4}"
+                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('PrecautionsContent4')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                         </StackPanel>
@@ -369,7 +369,7 @@
                         Grid.Column="1"
                         VerticalAlignment="Center"
                         Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind string:ShellMenu.MenuTitle}" />
+                        Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('MenuTitle')}" />
 
                     <TextBox
                         x:Name="MenuTitleTextBox"
@@ -377,7 +377,7 @@
                         Width="350"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        PlaceholderText="{x:Bind string:ShellMenu.MenuTitlePHText}"
+                        PlaceholderText="{x:Bind root:ResourceService.ShellMenuResource.GetString('MenuTitlePHText')}"
                         Text="{x:Bind MenuTitleText, Mode=OneWay}"
                         TextChanged="{x:Bind OnTitleTextChanged}" />
                 </Grid>
@@ -409,7 +409,7 @@
                                 Margin="0,12"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind string:ShellMenu.MenuIcon}" />
+                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('MenuIcon')}" />
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -431,14 +431,14 @@
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
                                     Style="{StaticResource BodyTextBlockStyle}"
-                                    Text="{x:Bind string:ShellMenu.ShouldUseIcon}" />
+                                    Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseIcon')}" />
 
                                 <ToggleSwitch
                                     Grid.Column="1"
                                     FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                     IsOn="{x:Bind ShouldUseIcon, Mode=OneWay}"
-                                    OffContent="{x:Bind string:ShellMenu.ShouldUseIconOffContent}"
-                                    OnContent="{x:Bind string:ShellMenu.ShouldUseIconOnContent}"
+                                    OffContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseIconOffContent')}"
+                                    OnContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseIconOnContent')}"
                                     Toggled="{x:Bind OnShouldUseIconToggled}" />
                             </Grid>
 
@@ -462,14 +462,14 @@
                                         Grid.Column="0"
                                         VerticalAlignment="Center"
                                         Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind string:ShellMenu.ShouldUseProgramIcon}" />
+                                        Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseProgramIcon')}" />
 
                                     <ToggleSwitch
                                         Grid.Column="1"
                                         FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                         IsOn="{x:Bind ShouldUseProgramIcon, Mode=OneWay}"
-                                        OffContent="{x:Bind string:ShellMenu.ShouldUseProgramIconOffContent}"
-                                        OnContent="{x:Bind string:ShellMenu.ShouldUseProgramIconOnContent}"
+                                        OffContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseProgramIconOffContent')}"
+                                        OnContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseProgramIconOnContent')}"
                                         Toggled="{x:Bind OnShouldUseProgramIconToggled}" />
                                 </Grid>
 
@@ -493,14 +493,14 @@
                                             Grid.Column="0"
                                             VerticalAlignment="Center"
                                             Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{x:Bind string:ShellMenu.ShouldUseThemeIcon}" />
+                                            Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseThemeIcon')}" />
 
                                         <ToggleSwitch
                                             Grid.Column="1"
                                             FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                             IsOn="{x:Bind ShouldUseThemeIcon, Mode=OneWay}"
-                                            OffContent="{x:Bind string:ShellMenu.ShouldUseThemeIconOffContent}"
-                                            OnContent="{x:Bind string:ShellMenu.ShouldUseThemeIconOnContent}"
+                                            OffContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseThemeIconOffContent')}"
+                                            OnContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseThemeIconOnContent')}"
                                             Toggled="{x:Bind OnShouldUseThemeIconToggled}" />
                                     </Grid>
 
@@ -525,7 +525,7 @@
                                             Grid.Column="0"
                                             VerticalAlignment="Center"
                                             Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{x:Bind string:ShellMenu.DefaultIcon}" />
+                                            Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('DefaultIcon')}" />
 
                                         <StackPanel
                                             Grid.Column="1"
@@ -543,7 +543,7 @@
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
                                                 IsReadOnly="True"
-                                                PlaceholderText="{x:Bind string:ShellMenu.UnknownDefaultIconPath}"
+                                                PlaceholderText="{x:Bind root:ResourceService.ShellMenuResource.GetString('UnknownDefaultIconPath')}"
                                                 Text="{x:Bind DefaultIconPath, Mode=OneWay}" />
                                         </StackPanel>
 
@@ -552,7 +552,7 @@
                                             Grid.Column="2"
                                             VerticalAlignment="Center"
                                             Click="{x:Bind OnDefaultIconBrowserClicked}"
-                                            Content="{x:Bind string:ShellMenu.Browser}" />
+                                            Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('Browser')}" />
                                     </Grid>
 
                                     <StackPanel Visibility="{x:Bind ShouldUseThemeIcon, Mode=OneWay}">
@@ -576,7 +576,7 @@
                                                 Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Style="{StaticResource BodyTextBlockStyle}"
-                                                Text="{x:Bind string:ShellMenu.LightThemeIcon}" />
+                                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('LightThemeIcon')}" />
 
                                             <StackPanel
                                                 Grid.Column="1"
@@ -594,7 +594,7 @@
                                                     Margin="10,0,0,0"
                                                     VerticalAlignment="Center"
                                                     IsReadOnly="True"
-                                                    PlaceholderText="{x:Bind string:ShellMenu.UnknownLightThemeIconPath}"
+                                                    PlaceholderText="{x:Bind root:ResourceService.ShellMenuResource.GetString('UnknownLightThemeIconPath')}"
                                                     Text="{x:Bind LightThemeIconPath, Mode=OneWay}" />
                                             </StackPanel>
 
@@ -603,7 +603,7 @@
                                                 Grid.Column="2"
                                                 VerticalAlignment="Center"
                                                 Click="{x:Bind OnLightThemeIconBrowserClicked}"
-                                                Content="{x:Bind string:ShellMenu.Browser}" />
+                                                Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('Browser')}" />
                                         </Grid>
 
                                         <MenuFlyoutSeparator Visibility="{x:Bind ShouldUseThemeIcon, Mode=OneWay}" />
@@ -627,7 +627,7 @@
                                                 Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Style="{StaticResource BodyTextBlockStyle}"
-                                                Text="{x:Bind string:ShellMenu.DarkThemeIcon}" />
+                                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('DarkThemeIcon')}" />
 
                                             <StackPanel
                                                 Grid.Column="1"
@@ -646,7 +646,7 @@
                                                     HorizontalAlignment="Right"
                                                     VerticalAlignment="Center"
                                                     IsReadOnly="True"
-                                                    PlaceholderText="{x:Bind string:ShellMenu.UnknownDarkThemeIconPath}"
+                                                    PlaceholderText="{x:Bind root:ResourceService.ShellMenuResource.GetString('UnknownDarkThemeIconPath')}"
                                                     Text="{x:Bind DarkThemeIconPath, Mode=OneWay}" />
                                             </StackPanel>
 
@@ -655,7 +655,7 @@
                                                 Grid.Column="2"
                                                 VerticalAlignment="Center"
                                                 Click="{x:Bind OnDarkThemeIconBrowserClicked}"
-                                                Content="{x:Bind string:ShellMenu.Browser}" />
+                                                Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('Browser')}" />
                                         </Grid>
                                     </StackPanel>
                                 </StackPanel>
@@ -691,7 +691,7 @@
                         Grid.Column="1"
                         VerticalAlignment="Center"
                         Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind string:ShellMenu.MenuProgramPath}" />
+                        Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('MenuProgramPath')}" />
 
                     <TextBox
                         Grid.Column="2"
@@ -700,7 +700,7 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         IsReadOnly="True"
-                        PlaceholderText="{x:Bind string:ShellMenu.MenuProgramPathPHText}"
+                        PlaceholderText="{x:Bind root:ResourceService.ShellMenuResource.GetString('MenuProgramPathPHText')}"
                         Text="{x:Bind MenuProgramPathText, Mode=OneWay}" />
 
                     <Button
@@ -708,7 +708,7 @@
                         Grid.Column="3"
                         VerticalAlignment="Center"
                         Click="{x:Bind OnMenuProgramPathBrowserClicked}"
-                        Content="{x:Bind string:ShellMenu.Browser}" />
+                        Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('Browser')}" />
                 </Grid>
 
                 <!--  ²Ëµ¥²ÎÊý  -->
@@ -737,7 +737,7 @@
                         Grid.Column="1"
                         VerticalAlignment="Center"
                         Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind string:ShellMenu.MenuParameter}" />
+                        Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('MenuParameter')}" />
 
                     <TextBox
                         Grid.Column="2"
@@ -745,7 +745,7 @@
                         Margin="10,0,0,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        PlaceholderText="{x:Bind string:ShellMenu.MenuParameterPHText}"
+                        PlaceholderText="{x:Bind root:ResourceService.ShellMenuResource.GetString('MenuParameterPHText')}"
                         Text="{x:Bind MenuParameterText, Mode=OneWay}"
                         TextChanged="{x:Bind OnMenuParameterTextChanged}" />
                 </Grid>
@@ -776,14 +776,14 @@
                         Grid.Column="1"
                         VerticalAlignment="Center"
                         Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind string:ShellMenu.RunAsAdministrator}" />
+                        Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('RunAsAdministrator')}" />
 
                     <ToggleSwitch
                         Grid.Column="2"
                         FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                         IsOn="{x:Bind IsAlwaysRunAsAdministrator, Mode=OneWay}"
-                        OffContent="{x:Bind string:ShellMenu.IsAlwaysRunAsAdministratorOffContent}"
-                        OnContent="{x:Bind string:ShellMenu.IsAlwaysRunAsAdministratorOnContent}"
+                        OffContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('IsAlwaysRunAsAdministratorOffContent')}"
+                        OnContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('IsAlwaysRunAsAdministratorOnContent')}"
                         Toggled="{x:Bind OnIsAlwaysRunAsAdministratorToggled}" />
                 </Grid>
 
@@ -813,7 +813,7 @@
                         Grid.Column="1"
                         VerticalAlignment="Center"
                         Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind string:ShellMenu.MenuFolderMatch}" />
+                        Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('MenuFolderMatch')}" />
 
                     <StackPanel
                         Grid.Column="2"
@@ -824,22 +824,22 @@
 
                         <CheckBox
                             MinWidth="0"
-                            Content="{x:Bind string:ShellMenu.Background}"
+                            Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('Background')}"
                             IsChecked="{x:Bind FolderBackgroundMatch, Mode=TwoWay}" />
 
                         <CheckBox
                             MinWidth="0"
-                            Content="{x:Bind string:ShellMenu.Desktop}"
+                            Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('Desktop')}"
                             IsChecked="{x:Bind FolderDesktopMatch, Mode=TwoWay}" />
 
                         <CheckBox
                             MinWidth="0"
-                            Content="{x:Bind string:ShellMenu.Directory}"
+                            Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('Directory')}"
                             IsChecked="{x:Bind FolderDirectoryMatch, Mode=TwoWay}" />
 
                         <CheckBox
                             MinWidth="0"
-                            Content="{x:Bind string:ShellMenu.Drive}"
+                            Content="{x:Bind root:ResourceService.ShellMenuResource.GetString('Drive')}"
                             IsChecked="{x:Bind FolderDriveMatch, Mode=TwoWay}" />
                     </StackPanel>
                 </Grid>
@@ -871,7 +871,7 @@
                                 Margin="0,12"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind string:ShellMenu.MenuFileMatch}" />
+                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('MenuFileMatch')}" />
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -893,7 +893,7 @@
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
                                     Style="{StaticResource BodyTextBlockStyle}"
-                                    Text="{x:Bind string:ShellMenu.MenuFileMatchRule}" />
+                                    Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('MenuFileMatchRule')}" />
 
                                 <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedFileMatchRule.Value, Mode=OneWay}">
                                     <muxc:DropDownButton.Flyout>
@@ -967,7 +967,7 @@
                                         Grid.Column="0"
                                         VerticalAlignment="Center"
                                         Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind string:ShellMenu.MenuFileMatchFormat}" />
+                                        Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('MenuFileMatchFormat')}" />
 
                                     <TextBox
                                         x:Name="MenuFileMatchFormatTextBox"
@@ -1012,7 +1012,7 @@
                                 Margin="0,12"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind string:ShellMenu.EditMenuTip}" />
+                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('EditMenuTip')}" />
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -1022,28 +1022,28 @@
                                 Margin="44,10,16,5"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:ShellMenu.TipContent1}"
+                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('TipContent1')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                             <TextBlock
                                 Margin="44,0,16,5"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:ShellMenu.TipContent2}"
+                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('TipContent2')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                             <TextBlock
                                 Margin="44,0,16,5"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:ShellMenu.TipContent3}"
+                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('TipContent3')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                             <TextBlock
                                 Margin="44,0,16,10"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind string:ShellMenu.TipContent4}"
+                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('TipContent4')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                         </StackPanel>

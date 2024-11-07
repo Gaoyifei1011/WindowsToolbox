@@ -6,7 +6,7 @@
     xmlns:helper="using:WindowsTools.Helpers.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:string="using:WindowsTools.Strings"
+    xmlns:root="using:WindowsTools.Services.Root"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -24,13 +24,13 @@
             Grid.Row="0"
             Margin="30,15,30,6"
             FontSize="22"
-            Text="{x:Bind string:WinSAT.Title}" />
+            Text="{x:Bind root:ResourceService.WinSATResource.GetString('Title')}" />
 
         <TextBlock
             Grid.Row="1"
             Margin="32,0,32,3"
             FontSize="14"
-            Text="{x:Bind string:WinSAT.Description}" />
+            Text="{x:Bind root:ResourceService.WinSATResource.GetString('Description')}" />
 
         <Grid
             Grid.Row="2"
@@ -63,14 +63,14 @@
                     Grid.Column="0"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:WinSAT.Component}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('Component')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:WinSAT.Component}"
+                            Content="{x:Bind root:ResourceService.WinSATResource.GetString('Component')}"
                             Visibility="{x:Bind ComponentHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -80,14 +80,14 @@
                     Grid.Column="1"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:WinSAT.AssessmentItems}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('AssessmentItems')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:WinSAT.AssessmentItems}"
+                            Content="{x:Bind root:ResourceService.WinSATResource.GetString('AssessmentItems')}"
                             Visibility="{x:Bind AssessmentItemsHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -97,14 +97,14 @@
                     Grid.Column="2"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:WinSAT.SubScore}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('SubScore')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:WinSAT.SubScore}"
+                            Content="{x:Bind root:ResourceService.WinSATResource.GetString('SubScore')}"
                             Visibility="{x:Bind SubScoreHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -113,7 +113,7 @@
                     x:Name="BasicScoreHeaderText"
                     Grid.Column="3"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:WinSAT.BasicScore}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('BasicScore')}"
                     TextAlignment="Center"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
@@ -121,7 +121,7 @@
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:WinSAT.BasicScore}"
+                            Content="{x:Bind root:ResourceService.WinSATResource.GetString('BasicScore')}"
                             Visibility="{x:Bind BasicScoreHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -145,14 +145,14 @@
                     Grid.Column="0"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:WinSAT.Processor}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('Processor')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:WinSAT.Processor}"
+                            Content="{x:Bind root:ResourceService.WinSATResource.GetString('Processor')}"
                             Visibility="{x:Bind ProcessorText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -162,14 +162,14 @@
                     Grid.Column="1"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:WinSAT.ProcessorItem}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('ProcessorItem')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:WinSAT.ProcessorItem}"
+                            Content="{x:Bind root:ResourceService.WinSATResource.GetString('ProcessorItem')}"
                             Visibility="{x:Bind ProcessorItemText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -210,14 +210,14 @@
                     Grid.Column="0"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:WinSAT.Memory}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('Memory')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:WinSAT.Memory}"
+                            Content="{x:Bind root:ResourceService.WinSATResource.GetString('Memory')}"
                             Visibility="{x:Bind MemoryText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -227,14 +227,14 @@
                     Grid.Column="1"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:WinSAT.MemoryItem}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('MemoryItem')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:WinSAT.MemoryItem}"
+                            Content="{x:Bind root:ResourceService.WinSATResource.GetString('MemoryItem')}"
                             Visibility="{x:Bind MemoryItemText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -275,14 +275,14 @@
                     Grid.Column="0"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:WinSAT.Graphics}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('Graphics')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:WinSAT.Graphics}"
+                            Content="{x:Bind root:ResourceService.WinSATResource.GetString('Graphics')}"
                             Visibility="{x:Bind GraphicsText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -292,14 +292,14 @@
                     Grid.Column="1"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:WinSAT.GraphicsItem}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('GraphicsItem')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:WinSAT.GraphicsItem}"
+                            Content="{x:Bind root:ResourceService.WinSATResource.GetString('GraphicsItem')}"
                             Visibility="{x:Bind GraphicsItemText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -340,14 +340,14 @@
                     Grid.Column="0"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:WinSAT.GamingGraphics}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('GamingGraphics')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:WinSAT.GamingGraphics}"
+                            Content="{x:Bind root:ResourceService.WinSATResource.GetString('GamingGraphics')}"
                             Visibility="{x:Bind GamingGraphicsText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -357,14 +357,14 @@
                     Grid.Column="1"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:WinSAT.GamingGraphicsItem}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('GamingGraphicsItem')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:WinSAT.GamingGraphicsItem}"
+                            Content="{x:Bind root:ResourceService.WinSATResource.GetString('GamingGraphicsItem')}"
                             Visibility="{x:Bind GamingGraphicsItemText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -405,14 +405,14 @@
                     Grid.Column="0"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:WinSAT.PrimaryDisk}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('PrimaryDisk')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:WinSAT.PrimaryDisk}"
+                            Content="{x:Bind root:ResourceService.WinSATResource.GetString('PrimaryDisk')}"
                             Visibility="{x:Bind PrimaryDiskText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -422,14 +422,14 @@
                     Grid.Column="1"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:WinSAT.PrimaryDiskItem}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('PrimaryDiskItem')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:WinSAT.PrimaryDiskItem}"
+                            Content="{x:Bind root:ResourceService.WinSATResource.GetString('PrimaryDiskItem')}"
                             Visibility="{x:Bind PrimaryDiskItemText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -490,7 +490,7 @@
                 <TextBlock
                     Grid.Row="1"
                     Margin="0,0,0,10"
-                    Text="{x:Bind string:WinSAT.LowestSubScore}"
+                    Text="{x:Bind root:ResourceService.WinSATResource.GetString('LowestSubScore')}"
                     TextAlignment="Center" />
             </Grid>
         </Grid>
@@ -529,7 +529,7 @@
             <TextBlock
                 Grid.Column="1"
                 VerticalAlignment="Center"
-                Text="{x:Bind string:WinSAT.Operation}" />
+                Text="{x:Bind root:ResourceService.WinSATResource.GetString('Operation')}" />
 
             <StackPanel
                 Grid.Column="2"
@@ -538,12 +538,12 @@
 
                 <Button
                     Click="{x:Bind OnRunAssesssmentClicked}"
-                    Content="{x:Bind string:WinSAT.RunAssessment}"
+                    Content="{x:Bind root:ResourceService.WinSATResource.GetString('RunAssessment')}"
                     IsEnabled="{x:Bind IsNotRunningAssessment, Mode=OneWay}"
                     Style="{StaticResource AccentButtonStyle}" />
 
-                <Button Click="{x:Bind OnOpenAssessmentLogFolderClicked}" Content="{x:Bind string:WinSAT.OpenAssessmentLogFolder}" />
-                <Button Click="{x:Bind OnLearnSystemAssessmentClicked}" Content="{x:Bind string:WinSAT.LearnSystemAssessment}" />
+                <Button Click="{x:Bind OnOpenAssessmentLogFolderClicked}" Content="{x:Bind root:ResourceService.WinSATResource.GetString('OpenAssessmentLogFolder')}" />
+                <Button Click="{x:Bind OnLearnSystemAssessmentClicked}" Content="{x:Bind root:ResourceService.WinSATResource.GetString('LearnSystemAssessment')}" />
             </StackPanel>
         </Grid>
 
@@ -572,7 +572,7 @@
                     <TextBlock
                         Grid.Column="1"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:WinSAT.Tips}" />
+                        Text="{x:Bind root:ResourceService.WinSATResource.GetString('Tips')}" />
                 </Grid>
             </muxc:Expander.Header>
 
@@ -582,14 +582,14 @@
                         Margin="44,10,16,5"
                         FontSize="14"
                         FontWeight="Normal"
-                        Text="{x:Bind string:WinSAT.TipContent1}"
+                        Text="{x:Bind root:ResourceService.WinSATResource.GetString('TipContent1')}"
                         TextAlignment="Justify"
                         TextWrapping="Wrap" />
                     <TextBlock
                         Margin="44,0,16,10"
                         FontSize="14"
                         FontWeight="Normal"
-                        Text="{x:Bind string:WinSAT.TipContent2}"
+                        Text="{x:Bind root:ResourceService.WinSATResource.GetString('TipContent2')}"
                         TextAlignment="Justify"
                         TextWrapping="Wrap" />
                 </StackPanel>

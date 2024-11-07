@@ -18,7 +18,6 @@ using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.ComTypes;
@@ -35,6 +34,8 @@ namespace WindowsTools.Views.Pages
     {
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly object filePropertiesLock = new();
+
+        private string Total { get; } = ResourceService.FilePropertiesResource.GetString("Total");
 
         private bool _isReadOnlyChecked = false;
 
@@ -235,7 +236,7 @@ namespace WindowsTools.Views.Pages
             args.DragUIOverride.IsCaptionVisible = true;
             args.DragUIOverride.IsContentVisible = false;
             args.DragUIOverride.IsGlyphVisible = true;
-            args.DragUIOverride.Caption = FileProperties.DragOverContent;
+            args.DragUIOverride.Caption = ResourceService.FilePropertiesResource.GetString("DragOverContent");
             args.Handled = true;
         }
 
@@ -465,7 +466,7 @@ namespace WindowsTools.Views.Pages
             OpenFileDialog dialog = new()
             {
                 Multiselect = true,
-                Title = FileProperties.SelectFile
+                Title = ResourceService.FilePropertiesResource.GetString("SelectFile")
             };
             if (dialog.ShowDialog() is DialogResult.OK)
             {
@@ -513,7 +514,7 @@ namespace WindowsTools.Views.Pages
         {
             OpenFolderDialog dialog = new()
             {
-                Description = FileProperties.SelectFolder,
+                Description = ResourceService.FilePropertiesResource.GetString("SelectFolder"),
                 RootFolder = Environment.SpecialFolder.Desktop
             };
             DialogResult result = dialog.ShowDialog();
@@ -663,32 +664,32 @@ namespace WindowsTools.Views.Pages
             StringBuilder stringBuilder = new();
             if (IsReadOnlyChecked)
             {
-                stringBuilder.Append(FileProperties.ReadOnly);
+                stringBuilder.Append(ResourceService.FilePropertiesResource.GetString("ReadOnly"));
                 stringBuilder.Append(' ');
             }
             if (IsArchiveChecked)
             {
-                stringBuilder.Append(FileProperties.Archive);
+                stringBuilder.Append(ResourceService.FilePropertiesResource.GetString("Archive"));
                 stringBuilder.Append(' ');
             }
             if (IsHideChecked)
             {
-                stringBuilder.Append(FileProperties.Hide);
+                stringBuilder.Append(ResourceService.FilePropertiesResource.GetString("Hide"));
                 stringBuilder.Append(' ');
             }
             if (IsSystemChecked)
             {
-                stringBuilder.Append(FileProperties.System);
+                stringBuilder.Append(ResourceService.FilePropertiesResource.GetString("System"));
                 stringBuilder.Append(' ');
             }
             if (IsCreateDateChecked)
             {
-                stringBuilder.Append(FileProperties.CreateDate);
+                stringBuilder.Append(ResourceService.FilePropertiesResource.GetString("CreateDate"));
                 stringBuilder.Append(' ');
             }
             if (IsModifyDateChecked)
             {
-                stringBuilder.Append(FileProperties.ModifyDate);
+                stringBuilder.Append(ResourceService.FilePropertiesResource.GetString("ModifyDate"));
                 stringBuilder.Append(' ');
             }
 

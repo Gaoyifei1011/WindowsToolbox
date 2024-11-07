@@ -17,7 +17,6 @@ using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.PInvoke.FirewallAPI;
 using WindowsTools.WindowsAPI.PInvoke.Shlwapi;
@@ -391,15 +390,15 @@ namespace WindowsTools.Views.Pages
 
                     LoopbackModel loopbackItem = new()
                     {
-                        AppContainerName = string.IsNullOrEmpty(inetContainerItem.appContainerName) ? LoopbackManager.Unknown : inetContainerItem.appContainerName,
+                        AppContainerName = string.IsNullOrEmpty(inetContainerItem.appContainerName) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : inetContainerItem.appContainerName,
                         AppContainerSID = inetContainerItem.appContainerSid,
-                        AppContainerSIDName = string.IsNullOrEmpty(appContainerSid.ToString()) ? LoopbackManager.Unknown : appContainerSid.ToString(),
-                        DisplayName = string.IsNullOrEmpty(displayNameBuilder.ToString()) ? LoopbackManager.Unknown : displayNameBuilder.ToString(),
-                        Description = string.IsNullOrEmpty(descriptionBuilder.ToString()) ? LoopbackManager.Unknown : descriptionBuilder.ToString(),
-                        WorkingDirectory = string.IsNullOrEmpty(inetContainerItem.workingDirectory) ? LoopbackManager.Unknown : inetContainerItem.workingDirectory,
-                        PackageFullName = string.IsNullOrEmpty(inetContainerItem.packageFullName) ? LoopbackManager.Unknown : inetContainerItem.packageFullName,
-                        AppBinariesPath = stringBinaries is not null ? stringBinaries : LoopbackManager.Unknown.Split(),
-                        AppContainerUserName = userAccountType is not null ? userAccountType.ToString() : LoopbackManager.Unknown,
+                        AppContainerSIDName = string.IsNullOrEmpty(appContainerSid.ToString()) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : appContainerSid.ToString(),
+                        DisplayName = string.IsNullOrEmpty(displayNameBuilder.ToString()) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : displayNameBuilder.ToString(),
+                        Description = string.IsNullOrEmpty(descriptionBuilder.ToString()) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : descriptionBuilder.ToString(),
+                        WorkingDirectory = string.IsNullOrEmpty(inetContainerItem.workingDirectory) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : inetContainerItem.workingDirectory,
+                        PackageFullName = string.IsNullOrEmpty(inetContainerItem.packageFullName) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : inetContainerItem.packageFullName,
+                        AppBinariesPath = stringBinaries is not null ? stringBinaries : ResourceService.LoopbackManagerResource.GetString("Unknown").Split(),
+                        AppContainerUserName = userAccountType is not null ? userAccountType.ToString() : ResourceService.LoopbackManagerResource.GetString("Unknown"),
                         IsSelected = isEnabled,
                         IsOldChecked = isEnabled,
                     };

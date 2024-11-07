@@ -6,9 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:root="using:WindowsTools.Services.Root"
     xmlns:service="using:WindowsTools.Services.Controls.Settings"
-    xmlns:string="using:WindowsTools.Strings"
-    xmlns:sys="using:System"
     x:Name="MainContent"
     ActualThemeChanged="{x:Bind OnActualThemeChanged}"
     FlowDirection="{x:Bind GetControlDirection(service:LanguageService.RightToLeft)}"
@@ -46,7 +45,7 @@
                     Margin="12,2,0,0"
                     VerticalAlignment="Center"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind string:Window.AppTitle}"
+                    Text="{x:Bind root:ResourceService.WindowResource.GetString('AppTitle')}"
                     TextWrapping="NoWrap" />
             </Grid>
 
@@ -61,7 +60,7 @@
                         Click="{x:Bind OnRestoreClicked}"
                         IsEnabled="{x:Bind GetWindowMaximizeState(IsWindowMaximized, IsWindowMaximizeEnabled, x:String.Empty), Mode=OneWay}"
                         Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
-                        Text="{x:Bind string:Window.Restore}">
+                        Text="{x:Bind root:ResourceService.WindowResource.GetString('Restore')}">
 
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE923;" />
@@ -73,19 +72,19 @@
                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsWindowMaximized), Mode=OneWay}"
                         Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                         Tag="{x:Bind TitlebarMenuFlyout}"
-                        Text="{x:Bind string:Window.Move}" />
+                        Text="{x:Bind root:ResourceService.WindowResource.GetString('Move')}" />
 
                     <MenuFlyoutItem
                         Click="{x:Bind OnSizeClicked}"
                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsWindowMaximized), Mode=OneWay}"
                         Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                         Tag="{x:Bind TitlebarMenuFlyout}"
-                        Text="{x:Bind string:Window.Size}" />
+                        Text="{x:Bind root:ResourceService.WindowResource.GetString('Size')}" />
 
                     <MenuFlyoutItem
                         Click="{x:Bind OnMinimizeClicked}"
                         Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
-                        Text="{x:Bind string:Window.Minimize}">
+                        Text="{x:Bind root:ResourceService.WindowResource.GetString('Minimize')}">
 
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE921;" />
@@ -96,7 +95,7 @@
                         Click="{x:Bind OnMaximizeClicked}"
                         IsEnabled="{x:Bind GetWindowMaximizeState(IsWindowMaximized, IsWindowMaximizeEnabled, 'isReverse'), Mode=OneWay}"
                         Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
-                        Text="{x:Bind string:Window.Maximize}">
+                        Text="{x:Bind root:ResourceService.WindowResource.GetString('Maximize')}">
 
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE922;" />
@@ -108,7 +107,7 @@
                     <MenuFlyoutItem
                         Click="{x:Bind OnCloseClicked}"
                         Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
-                        Text="{x:Bind string:Window.Close}">
+                        Text="{x:Bind root:ResourceService.WindowResource.GetString('Close')}">
 
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE8BB;" />
@@ -147,7 +146,7 @@
 
             <muxc:NavigationView.MenuItems>
                 <!--  所有工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.AllTools}" Tag="0">
+                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('AllTools')}" Tag="0">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/AllTools.png" />
@@ -157,14 +156,14 @@
                 <muxc:NavigationViewItemSeparator />
 
                 <!--  休闲工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.Relaxation}" Tag="1">
+                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('Relaxation')}" Tag="1">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Relaxation.png" />
                     </muxc:NavigationViewItem.Icon>
 
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.Loaf}" Tag="2">
+                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('Loaf')}" Tag="2">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Loaf.png" />
@@ -174,49 +173,49 @@
                 </muxc:NavigationViewItem>
 
                 <!--  文件工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.File}" Tag="3">
+                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('File')}" Tag="3">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/File.png" />
                     </muxc:NavigationViewItem.Icon>
 
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.FileName}" Tag="4">
+                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('FileName')}" Tag="4">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/FileName.png" />
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.ExtensionName}" Tag="5">
+                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('ExtensionName')}" Tag="5">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/ExtensionName.png" />
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.UpperAndLowerCase}" Tag="6">
+                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('UpperAndLowerCase')}" Tag="6">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/UpperAndLowerCase.png" />
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.FileProperties}" Tag="7">
+                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('FileProperties')}" Tag="7">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/FileProperties.png" />
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.FileCertificate}" Tag="8">
+                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('FileCertificate')}" Tag="8">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/FileCertificate.png" />
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.FileUnlock}" Tag="9">
+                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('FileUnlock')}" Tag="9">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/FileUnlock.png" />
@@ -226,28 +225,28 @@
                 </muxc:NavigationViewItem>
 
                 <!--  资源工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.Resource}" Tag="10">
+                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('Resource')}" Tag="10">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Resource.png" />
                     </muxc:NavigationViewItem.Icon>
 
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.DownloadManager}" Tag="11">
+                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('DownloadManager')}" Tag="11">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/DownloadManager.png" />
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.IconExtract}" Tag="12">
+                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('IconExtract')}" Tag="12">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/IconExtract.png" />
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.PriExtract}" Tag="13">
+                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('PriExtract')}" Tag="13">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/PriExtract.png" />
@@ -257,14 +256,14 @@
                 </muxc:NavigationViewItem>
 
                 <!--  个性化工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.Personalize}" Tag="14">
+                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('Personalize')}" Tag="14">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Personalize.png" />
                     </muxc:NavigationViewItem.Icon>
 
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.ShellMenu}" Tag="15">
+                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('ShellMenu')}" Tag="15">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/ShellMenu.png" />
@@ -274,7 +273,7 @@
                 </muxc:NavigationViewItem>
 
                 <!--  系统工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.System}" Tag="16">
+                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('System')}" Tag="16">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/System.png" />
@@ -282,7 +281,7 @@
 
                     <muxc:NavigationViewItem.MenuItems>
                         <muxc:NavigationViewItem
-                            Content="{x:Bind string:Window.SystemInfo}"
+                            Content="{x:Bind root:ResourceService.WindowResource.GetString('SystemInfo')}"
                             Tag="17"
                             Visibility="Collapsed">
 
@@ -291,7 +290,7 @@
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.LoopbackManager}" Tag="18">
+                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('LoopbackManager')}" Tag="18">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/LoopbackManager.png" />
@@ -299,7 +298,7 @@
                         </muxc:NavigationViewItem>
 
                         <muxc:NavigationViewItem
-                            Content="{x:Bind string:Window.DriverManager}"
+                            Content="{x:Bind root:ResourceService.WindowResource.GetString('DriverManager')}"
                             Tag="19"
                             Visibility="Collapsed">
 
@@ -309,7 +308,7 @@
                         </muxc:NavigationViewItem>
 
                         <muxc:NavigationViewItem
-                            Content="{x:Bind string:Window.UpdateManager}"
+                            Content="{x:Bind root:ResourceService.WindowResource.GetString('UpdateManager')}"
                             Tag="20"
                             Visibility="Collapsed">
 
@@ -318,7 +317,7 @@
                             </muxc:NavigationViewItem.Icon>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind string:Window.WinSAT}" Tag="21">
+                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('WinSAT')}" Tag="21">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/WinSAT.png" />
@@ -329,14 +328,14 @@
             </muxc:NavigationView.MenuItems>
 
             <muxc:NavigationView.FooterMenuItems>
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.About}" Tag="22">
+                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('About')}" Tag="22">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/About.png" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
 
-                <muxc:NavigationViewItem Content="{x:Bind string:Window.Settings}" Tag="23">
+                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('Settings')}" Tag="23">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Settings.png" />

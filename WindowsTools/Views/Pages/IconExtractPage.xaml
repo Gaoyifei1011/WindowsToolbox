@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:string="using:WindowsTools.Strings"
+    xmlns:root="using:WindowsTools.Services.Root"
     xmlns:sys="using:System"
     AllowDrop="True"
     NavigationCacheMode="Enabled"
@@ -24,7 +24,7 @@
             Grid.Row="0"
             Margin="30,15,30,6"
             FontSize="22"
-            Text="{x:Bind string:IconExtract.Title}" />
+            Text="{x:Bind root:ResourceService.IconExtractResource.GetString('Title')}" />
 
         <TextBlock
             x:Name="GetResultsText"
@@ -152,7 +152,7 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             VerticalAlignment="Center"
-                            Text="{x:Bind string:IconExtract.SaveIconFormat}" />
+                            Text="{x:Bind root:ResourceService.IconExtractResource.GetString('SaveIconFormat')}" />
 
                         <muxc:DropDownButton
                             Grid.Row="0"
@@ -188,7 +188,7 @@
                             Grid.Row="1"
                             Grid.Column="0"
                             VerticalAlignment="Center"
-                            Text="{x:Bind string:IconExtract.SaveIconSize}" />
+                            Text="{x:Bind root:ResourceService.IconExtractResource.GetString('SaveIconSize')}" />
 
                         <muxc:DropDownButton
                             Grid.Row="1"
@@ -300,7 +300,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontSize="20"
-                        Text="{x:Bind string:IconExtract.NoPreviewResources}"
+                        Text="{x:Bind root:ResourceService.IconExtractResource.GetString('NoPreviewResources')}"
                         TextWrapping="Wrap"
                         Visibility="{x:Bind IsImageEmpty, Mode=OneWay}" />
                 </Grid>
@@ -312,21 +312,21 @@
                     Margin="0,0,0,3"
                     HorizontalAlignment="Stretch"
                     Click="{x:Bind OnSelectFileClicked}"
-                    Content="{x:Bind string:IconExtract.SelectFile}" />
+                    Content="{x:Bind root:ResourceService.IconExtractResource.GetString('SelectFile')}" />
 
                 <Button
                     Grid.Row="5"
                     Margin="0,0,0,3"
                     HorizontalAlignment="Stretch"
                     Click="{x:Bind OnExportSelectedIconsClicked}"
-                    Content="{x:Bind string:IconExtract.ExportSelectedIcons}"
+                    Content="{x:Bind root:ResourceService.IconExtractResource.GetString('ExportSelectedIcons')}"
                     IsEnabled="{x:Bind IsSelected, Mode=OneWay}" />
 
                 <Button
                     Grid.Row="6"
                     HorizontalAlignment="Stretch"
                     Click="{x:Bind OnExportAllIconsClicked}"
-                    Content="{x:Bind string:IconExtract.ExportAllIcons}"
+                    Content="{x:Bind root:ResourceService.IconExtractResource.GetString('ExportAllIcons')}"
                     IsEnabled="{x:Bind sys:Convert.ToBoolean(IconCollection.Count), Mode=OneWay}" />
 
                 <StackPanel
@@ -342,7 +342,7 @@
                         Height="20"
                         IsActive="{x:Bind IsSaving, Mode=OneWay}" />
 
-                    <TextBlock Text="{x:Bind string:IconExtract.SavingNow}" />
+                    <TextBlock Text="{x:Bind root:ResourceService.IconExtractResource.GetString('SavingNow')}" />
                 </StackPanel>
             </Grid>
         </Grid>

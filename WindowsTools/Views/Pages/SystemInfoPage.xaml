@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:string="using:WindowsTools.Strings"
+    xmlns:root="using:WindowsTools.Services.Root"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -24,9 +24,9 @@
             <TextBlock
                 Grid.Column="0"
                 FontSize="22"
-                Text="{x:Bind string:SystemInfo.Title}" />
+                Text="{x:Bind root:ResourceService.SystemInfoResource.GetString('Title')}" />
 
-            <muxc:DropDownButton Grid.Column="1" Content="{x:Bind string:SystemInfo.AuxiliaryTool}">
+            <muxc:DropDownButton Grid.Column="1" Content="{x:Bind root:ResourceService.SystemInfoResource.GetString('AuxiliaryTool')}">
 
                 <muxc:DropDownButton.Flyout>
                     <MenuFlyout Placement="Bottom">
@@ -35,7 +35,7 @@
                             Height="32"
                             Padding="11,0"
                             Click="{x:Bind OnComputerManagementClicked}"
-                            Text="{x:Bind string:SystemInfo.ComputerManagement}">
+                            Text="{x:Bind root:ResourceService.SystemInfoResource.GetString('ComputerManagement')}">
 
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE7F4;" />
@@ -46,7 +46,7 @@
                             Height="32"
                             Padding="11,0"
                             Click="{x:Bind OnManagementConsoleClicked}"
-                            Text="{x:Bind string:SystemInfo.ManagementConsole}">
+                            Text="{x:Bind root:ResourceService.SystemInfoResource.GetString('ManagementConsole')}">
 
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE912;" />
@@ -57,7 +57,7 @@
                             Height="32"
                             Padding="11,0"
                             Click="{x:Bind OnRegistryEditorClicked}"
-                            Text="{x:Bind string:SystemInfo.RegistryEditor}">
+                            Text="{x:Bind root:ResourceService.SystemInfoResource.GetString('RegistryEditor')}">
 
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE80A;" />
@@ -102,7 +102,7 @@
                                 Margin="0,12"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind string:SystemInfo.OSInformation}" />
+                                Text="{x:Bind root:ResourceService.SystemInfoResource.GetString('OSInformation')}" />
                         </Grid>
                     </muxc:Expander.Header>
                 </muxc:Expander>
@@ -129,7 +129,7 @@
                                 Margin="0,12"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind string:SystemInfo.DeviceInformation}" />
+                                Text="{x:Bind root:ResourceService.SystemInfoResource.GetString('DeviceInformation')}" />
                         </Grid>
                     </muxc:Expander.Header>
                 </muxc:Expander>
@@ -156,7 +156,7 @@
                                 Margin="0,12"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind string:SystemInfo.StorageInformation}" />
+                                Text="{x:Bind root:ResourceService.SystemInfoResource.GetString('StorageInformation')}" />
                         </Grid>
                     </muxc:Expander.Header>
                 </muxc:Expander>
@@ -183,7 +183,7 @@
                                 Margin="0,12"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind string:SystemInfo.GraphicsInformation}" />
+                                Text="{x:Bind root:ResourceService.SystemInfoResource.GetString('GraphicsInformation')}" />
                         </Grid>
                     </muxc:Expander.Header>
                 </muxc:Expander>
@@ -210,7 +210,7 @@
                                 Margin="0,12"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind string:SystemInfo.NetworkInformation}" />
+                                Text="{x:Bind root:ResourceService.SystemInfoResource.GetString('NetworkInformation')}" />
                         </Grid>
                     </muxc:Expander.Header>
                 </muxc:Expander>

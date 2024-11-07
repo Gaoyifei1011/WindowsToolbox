@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:string="using:WindowsTools.Strings"
+    xmlns:root="using:WindowsTools.Services.Root"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -18,6 +18,6 @@
             Grid.Row="0"
             Margin="30,15,30,6"
             FontSize="22"
-            Text="{x:Bind string:DriverManager.Title}" />
+            Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('Title')}" />
     </Grid>
 </Page>

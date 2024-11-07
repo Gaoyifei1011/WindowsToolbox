@@ -6,16 +6,16 @@
     xmlns:helper="using:WindowsTools.Helpers.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
+    xmlns:root="using:WindowsTools.Services.Root"
     xmlns:service="using:WindowsTools.Services.Controls.Settings"
-    xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
-    Title="{x:Bind string:Dialog.OperationFailed}"
+    Title="{x:Bind root:ResourceService.DialogResource.GetString('OperationFailed')}"
     BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
-    CloseButtonText="{x:Bind string:Dialog.CloseDialog}"
+    CloseButtonText="{x:Bind root:ResourceService.DialogResource.GetString('CloseDialog')}"
     FlowDirection="{x:Bind helper:ContentDialogHelper.GetControlDirection(service:LanguageService.RightToLeft)}"
     PrimaryButtonClick="{x:Bind OnCopyOperationFailedClicked}"
     PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
-    PrimaryButtonText="{x:Bind string:Dialog.CopyAll}"
+    PrimaryButtonText="{x:Bind root:ResourceService.DialogResource.GetString('CopyAll')}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
@@ -69,14 +69,14 @@
                     Grid.Column="0"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:Dialog.FileName}"
+                    Text="{x:Bind root:ResourceService.DialogResource.GetString('FileName')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:Dialog.FileName}"
+                            Content="{x:Bind root:ResourceService.DialogResource.GetString('FileName')}"
                             Visibility="{x:Bind FileNameText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -86,14 +86,14 @@
                     Grid.Column="1"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:Dialog.ErrorMessage}"
+                    Text="{x:Bind root:ResourceService.DialogResource.GetString('ErrorMessage')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:Dialog.ErrorMessage}"
+                            Content="{x:Bind root:ResourceService.DialogResource.GetString('ErrorMessage')}"
                             Visibility="{x:Bind ErrorMessageText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -103,14 +103,14 @@
                     Grid.Column="2"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:Dialog.ErrorCode}"
+                    Text="{x:Bind root:ResourceService.DialogResource.GetString('ErrorCode')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:Dialog.ErrorCode}"
+                            Content="{x:Bind root:ResourceService.DialogResource.GetString('ErrorCode')}"
                             Visibility="{x:Bind ErrorCodeText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -120,14 +120,14 @@
                     Grid.Column="3"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:Dialog.Operation}"
+                    Text="{x:Bind root:ResourceService.DialogResource.GetString('Operation')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:Dialog.Operation}"
+                            Content="{x:Bind root:ResourceService.DialogResource.GetString('Operation')}"
                             Visibility="{x:Bind OperationText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -213,14 +213,14 @@
                         <HyperlinkButton.Content>
                             <TextBlock
                                 x:Name="CopyText"
-                                Text="{x:Bind string:Dialog.Copy}"
+                                Text="{x:Bind root:ResourceService.DialogResource.GetString('Copy')}"
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap">
 
                                 <ToolTipService.ToolTip>
                                     <ToolTip
                                         MaxWidth="9999"
-                                        Content="{x:Bind string:Dialog.Copy}"
+                                        Content="{x:Bind root:ResourceService.DialogResource.GetString('Copy')}"
                                         Visibility="{Binding ElementName=CopyText, Path=IsTextTrimmed, Mode=OneWay}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>

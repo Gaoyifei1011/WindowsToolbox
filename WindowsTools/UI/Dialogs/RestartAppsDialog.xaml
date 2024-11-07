@@ -5,21 +5,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="using:WindowsTools.Helpers.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:root="using:WindowsTools.Services.Root"
     xmlns:service="using:WindowsTools.Services.Controls.Settings"
-    xmlns:string="using:WindowsTools.Strings"
-    Title="{x:Bind string:Dialog.Restart}"
+    Title="{x:Bind root:ResourceService.DialogResource.GetString('Restart')}"
     BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
-    CloseButtonText="{x:Bind string:Dialog.Cancel}"
+    CloseButtonText="{x:Bind root:ResourceService.DialogResource.GetString('Cancel')}"
     FlowDirection="{x:Bind helper:ContentDialogHelper.GetControlDirection(service:LanguageService.RightToLeft)}"
     PrimaryButtonClick="{x:Bind OnRestartAppsClicked}"
     PrimaryButtonStyle="{ThemeResource AccentButtonStyle}"
-    PrimaryButtonText="{x:Bind string:Dialog.OK}"
+    PrimaryButtonText="{x:Bind root:ResourceService.DialogResource.GetString('OK')}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <TextBlock
         Margin="0,0,0,5"
-        Text="{x:Bind string:Dialog.RestartContent}"
+        Text="{x:Bind root:ResourceService.DialogResource.GetString('RestartContent')}"
         TextAlignment="Justify"
         TextWrapping="Wrap" />
 </ContentDialog>

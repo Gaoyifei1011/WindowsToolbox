@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:string="using:WindowsTools.Strings"
+    xmlns:root="using:WindowsTools.Services.Root"
     xmlns:sys="using:System"
     AllowDrop="True"
     NavigationCacheMode="Enabled"
@@ -31,7 +31,7 @@
             Grid.Row="0"
             Margin="30,15,30,10"
             FontSize="22"
-            Text="{x:Bind string:FileName.Title}" />
+            Text="{x:Bind root:ResourceService.FileNameResource.GetString('Title')}" />
 
         <Grid
             Grid.Row="1"
@@ -55,11 +55,11 @@
                     <TextBlock
                         Grid.Column="0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:FileName.RenameRule}" />
+                        Text="{x:Bind root:ResourceService.FileNameResource.GetString('RenameRule')}" />
                     <TextBox
                         Grid.Column="1"
                         Height="20"
-                        PlaceholderText="{x:Bind string:FileName.RenameRulePlaceHolderText}"
+                        PlaceholderText="{x:Bind root:ResourceService.FileNameResource.GetString('RenameRulePlaceHolderText')}"
                         Tag="RenameRule"
                         Text="{x:Bind RenameRule, Mode=OneWay}"
                         TextChanged="{x:Bind OnTextChanged}" />
@@ -74,11 +74,11 @@
                     <TextBlock
                         Grid.Column="0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:FileName.StartNumber}" />
+                        Text="{x:Bind root:ResourceService.FileNameResource.GetString('StartNumber')}" />
                     <TextBox
                         Grid.Column="1"
                         Height="20"
-                        PlaceholderText="{x:Bind string:FileName.StartNumberPlaceHolderText}"
+                        PlaceholderText="{x:Bind root:ResourceService.FileNameResource.GetString('StartNumberPlaceHolderText')}"
                         Tag="StartNumber"
                         Text="{x:Bind StartNumber, Mode=OneWay}"
                         TextChanged="{x:Bind OnTextChanged}" />
@@ -96,7 +96,7 @@
                         Grid.Column="0"
                         Margin="0,0,5,0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:FileName.NumberFormat}" />
+                        Text="{x:Bind root:ResourceService.FileNameResource.GetString('NumberFormat')}" />
 
                     <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedNumberFormat.Value, Mode=OneWay}">
 
@@ -180,7 +180,7 @@
                     <CheckBox
                         Grid.Column="2"
                         Margin="0,0,5,0"
-                        Content="{x:Bind string:FileName.ChangeExtensionSimultaneously}"
+                        Content="{x:Bind root:ResourceService.FileNameResource.GetString('ChangeExtensionSimultaneously')}"
                         IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
                         Unchecked="{x:Bind OnUnchecked}" />
 
@@ -205,11 +205,11 @@
                     <TextBlock
                         Grid.Column="0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:FileName.LookUpString}" />
+                        Text="{x:Bind root:ResourceService.FileNameResource.GetString('LookUpString')}" />
                     <TextBox
                         Grid.Column="1"
                         Height="20"
-                        PlaceholderText="{x:Bind string:FileName.LookUpStringPlaceHolderText}"
+                        PlaceholderText="{x:Bind root:ResourceService.FileNameResource.GetString('LookUpStringPlaceHolderText')}"
                         Tag="LookUpString"
                         Text="{x:Bind LookUpString, Mode=OneWay}"
                         TextChanged="{x:Bind OnTextChanged}" />
@@ -224,17 +224,17 @@
                     <TextBlock
                         Grid.Column="0"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:FileName.ReplaceString}" />
+                        Text="{x:Bind root:ResourceService.FileNameResource.GetString('ReplaceString')}" />
                     <TextBox
                         Grid.Column="1"
                         Height="20"
-                        PlaceholderText="{x:Bind string:FileName.ReplaceStringPlaceHolderText}"
+                        PlaceholderText="{x:Bind root:ResourceService.FileNameResource.GetString('ReplaceStringPlaceHolderText')}"
                         Tag="ReplaceString"
                         Text="{x:Bind ReplaceString, Mode=OneWay}"
                         TextChanged="{x:Bind OnTextChanged}" />
                 </Grid>
 
-                <Button HorizontalAlignment="Stretch" Content="{x:Bind string:FileName.ViewNameChangeExample}">
+                <Button HorizontalAlignment="Stretch" Content="{x:Bind root:ResourceService.FileNameResource.GetString('ViewNameChangeExample')}">
                     <Button.Flyout>
                         <Flyout
                             x:Name="NameChangeFlyout"
@@ -260,7 +260,7 @@
                                         Margin="0,0,0,5"
                                         FontSize="20"
                                         FontWeight="SemiBold"
-                                        Text="{x:Bind string:FileName.NameChangeTitle}"
+                                        Text="{x:Bind root:ResourceService.FileNameResource.GetString('NameChangeTitle')}"
                                         TextAlignment="Justify"
                                         TextWrapping="Wrap" />
 
@@ -271,7 +271,7 @@
                                         Padding="0"
                                         Click="{x:Bind OnCloseClicked}"
                                         CornerRadius="{StaticResource ControlCornerRadius}"
-                                        ToolTipService.ToolTip="{x:Bind string:FileName.Close}">
+                                        ToolTipService.ToolTip="{x:Bind root:ResourceService.FileNameResource.GetString('Close')}">
 
                                         <Button.Content>
                                             <FontIcon FontSize="16" Glyph="&#xE711;" />
@@ -281,7 +281,7 @@
 
                                 <TextBlock
                                     Margin="0,0,0,5"
-                                    Text="{x:Bind string:FileName.PlaceHolderDescription}"
+                                    Text="{x:Bind root:ResourceService.FileNameResource.GetString('PlaceHolderDescription')}"
                                     TextAlignment="Justify"
                                     TextWrapping="Wrap" />
 
@@ -301,7 +301,7 @@
                                         Grid.Row="0"
                                         Grid.Column="0"
                                         Margin="0,0,0,5"
-                                        Text="{x:Bind string:FileName.NumberPlaceHolder}"
+                                        Text="{x:Bind root:ResourceService.FileNameResource.GetString('NumberPlaceHolder')}"
                                         TextAlignment="Justify"
                                         TextWrapping="Wrap" />
 
@@ -309,7 +309,7 @@
                                         Grid.Row="0"
                                         Grid.Column="1"
                                         Margin="0,0,0,5"
-                                        Text="{x:Bind string:FileName.TodayDatePlaceHolder}"
+                                        Text="{x:Bind root:ResourceService.FileNameResource.GetString('TodayDatePlaceHolder')}"
                                         TextAlignment="Justify"
                                         TextWrapping="Wrap" />
 
@@ -317,7 +317,7 @@
                                         Grid.Row="0"
                                         Grid.Column="2"
                                         Margin="0,0,0,5"
-                                        Text="{x:Bind string:FileName.OriginalNameChangeFileName}"
+                                        Text="{x:Bind root:ResourceService.FileNameResource.GetString('OriginalNameChangeFileName')}"
                                         TextAlignment="Justify"
                                         TextWrapping="Wrap" />
 
@@ -325,7 +325,7 @@
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Margin="0,0,0,5"
-                                        Text="{x:Bind string:FileName.ModifyDatePlaceHolder}"
+                                        Text="{x:Bind root:ResourceService.FileNameResource.GetString('ModifyDatePlaceHolder')}"
                                         TextAlignment="Justify"
                                         TextWrapping="Wrap" />
 
@@ -333,7 +333,7 @@
                                         Grid.Row="1"
                                         Grid.Column="1"
                                         Margin="0,0,0,5"
-                                        Text="{x:Bind string:FileName.BuildDatePlaceHolder}"
+                                        Text="{x:Bind root:ResourceService.FileNameResource.GetString('BuildDatePlaceHolder')}"
                                         TextAlignment="Justify"
                                         TextWrapping="Wrap" />
                                 </Grid>
@@ -349,7 +349,7 @@
                                     <StackPanel Grid.Column="0">
                                         <TextBlock
                                             Margin="0,0,0,5"
-                                            Text="{x:Bind string:FileName.ReferenceSample}"
+                                            Text="{x:Bind root:ResourceService.FileNameResource.GetString('ReferenceSample')}"
                                             TextAlignment="Justify"
                                             TextWrapping="Wrap" />
 
@@ -373,7 +373,7 @@
                                             Padding="0"
                                             Click="{x:Bind OnForwardNavigateClicked}"
                                             CornerRadius="{StaticResource ControlCornerRadius}"
-                                            ToolTipService.ToolTip="{x:Bind string:FileName.ForwardNavigate}">
+                                            ToolTipService.ToolTip="{x:Bind root:ResourceService.FileNameResource.GetString('ForwardNavigate')}">
 
                                             <Button.Content>
                                                 <FontIcon FontSize="16" Glyph="&#xE76B;" />
@@ -387,7 +387,7 @@
                                             Padding="0"
                                             Click="{x:Bind OnNextNavigateClicked}"
                                             CornerRadius="{StaticResource ControlCornerRadius}"
-                                            ToolTipService.ToolTip="{x:Bind string:FileName.NextNavigate}">
+                                            ToolTipService.ToolTip="{x:Bind root:ResourceService.FileNameResource.GetString('NextNavigate')}">
 
                                             <Button.Content>
                                                 <FontIcon FontSize="16" Glyph="&#xE76C;" />
@@ -434,14 +434,14 @@
                                                 Grid.Column="0"
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
-                                                Text="{x:Bind string:FileName.OriginalName}"
+                                                Text="{x:Bind root:ResourceService.FileNameResource.GetString('OriginalName')}"
                                                 TextTrimming="CharacterEllipsis"
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
                                                     <ToolTip
                                                         MaxWidth="9999"
-                                                        Content="{x:Bind string:FileName.OriginalName}"
+                                                        Content="{x:Bind root:ResourceService.FileNameResource.GetString('OriginalName')}"
                                                         Visibility="{Binding ElementName=OriginalNameHeaderText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
@@ -451,14 +451,14 @@
                                                 Grid.Column="1"
                                                 Margin="10,0,0,0"
                                                 VerticalAlignment="Center"
-                                                Text="{x:Bind string:FileName.ChangedName}"
+                                                Text="{x:Bind root:ResourceService.FileNameResource.GetString('ChangedName')}"
                                                 TextTrimming="CharacterEllipsis"
                                                 TextWrapping="NoWrap">
 
                                                 <ToolTipService.ToolTip>
                                                     <ToolTip
                                                         MaxWidth="9999"
-                                                        Content="{x:Bind string:FileName.ChangedName}"
+                                                        Content="{x:Bind root:ResourceService.FileNameResource.GetString('ChangedName')}"
                                                         Visibility="{Binding ElementName=ChangedNameHeaderText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                 </ToolTipService.ToolTip>
                                             </TextBlock>
@@ -558,14 +558,14 @@
                     Grid.Column="0"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:FileName.OriginalFileName}"
+                    Text="{x:Bind root:ResourceService.FileNameResource.GetString('OriginalFileName')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:FileName.OriginalFileName}"
+                            Content="{x:Bind root:ResourceService.FileNameResource.GetString('OriginalFileName')}"
                             Visibility="{x:Bind OriginalFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -575,14 +575,14 @@
                     Grid.Column="1"
                     Margin="10,0,0,0"
                     VerticalAlignment="Center"
-                    Text="{x:Bind string:FileName.NewFileName}"
+                    Text="{x:Bind root:ResourceService.FileNameResource.GetString('NewFileName')}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap">
 
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind string:FileName.NewFileName}"
+                            Content="{x:Bind root:ResourceService.FileNameResource.GetString('NewFileName')}"
                             Visibility="{x:Bind NewFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
@@ -669,7 +669,7 @@
                 Grid.Row="1"
                 Margin="0,10,0,0"
                 VerticalAlignment="Top"
-                Text="{x:Bind string:FileName.EmptyList}"
+                Text="{x:Bind root:ResourceService.FileNameResource.GetString('EmptyList')}"
                 TextAlignment="Center"
                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FileNameCollection.Count), Mode=OneWay}" />
         </Grid>
@@ -693,29 +693,29 @@
             <Button
                 Grid.Column="0"
                 Click="{x:Bind OnSelectFileClicked}"
-                Content="{x:Bind string:FileName.SelectFile}" />
+                Content="{x:Bind root:ResourceService.FileNameResource.GetString('SelectFile')}" />
 
             <Button
                 Grid.Column="1"
                 Click="{x:Bind OnSelectFolderClicked}"
-                Content="{x:Bind string:FileName.SelectFolder}" />
+                Content="{x:Bind root:ResourceService.FileNameResource.GetString('SelectFolder')}" />
 
             <Button
                 Grid.Column="2"
                 Click="{x:Bind OnClearListClicked}"
-                Content="{x:Bind string:FileName.ClearList}" />
+                Content="{x:Bind root:ResourceService.FileNameResource.GetString('ClearList')}" />
 
             <TextBlock
                 Grid.Column="3"
                 VerticalAlignment="Center"
-                Text="{x:Bind sys:String.Format(string:FileName.Total, FileNameCollection.Count), Mode=OneWay}"
+                Text="{x:Bind sys:String.Format(Total, FileNameCollection.Count), Mode=OneWay}"
                 TextAlignment="Center" />
 
             <HyperlinkButton
                 Grid.Column="4"
                 Margin="0,0,10,0"
                 Click="{x:Bind OnViewErrorInformationClicked}"
-                Content="{x:Bind string:FileName.ViewErrorInformation}"
+                Content="{x:Bind root:ResourceService.FileNameResource.GetString('ViewErrorInformation')}"
                 Style="{StaticResource ErrorHyperlinkButtonStyle}"
                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedCollection.Count), Mode=OneWay}" />
 
@@ -733,19 +733,19 @@
                 Grid.Column="6"
                 Margin="0,0,5,0"
                 VerticalAlignment="Center"
-                Text="{x:Bind string:FileName.ModifyingNow}"
+                Text="{x:Bind root:ResourceService.FileNameResource.GetString('ModifyingNow')}"
                 Visibility="{x:Bind IsModifyingNow, Mode=OneWay}" />
 
             <Button
                 Grid.Column="7"
                 Click="{x:Bind OnPreviewClicked}"
-                Content="{x:Bind string:FileName.Preview}"
+                Content="{x:Bind root:ResourceService.FileNameResource.GetString('Preview')}"
                 IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}" />
 
             <Button
                 Grid.Column="8"
                 Click="{x:Bind OnModifyClicked}"
-                Content="{x:Bind string:FileName.Modify}"
+                Content="{x:Bind root:ResourceService.FileNameResource.GetString('Modify')}"
                 IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}"
                 Style="{StaticResource AccentButtonStyle}" />
         </Grid>

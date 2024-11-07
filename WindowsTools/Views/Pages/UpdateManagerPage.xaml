@@ -9,8 +9,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:root="using:WindowsTools.Services.Root"
     xmlns:service="using:WindowsTools.Services.Controls.Settings"
-    xmlns:string="using:WindowsTools.Strings"
     xmlns:sys="using:System"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -48,18 +48,18 @@
             <TextBlock
                 Grid.Column="0"
                 FontSize="22"
-                Text="{x:Bind string:UpdateManager.Title}" />
+                Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Title')}" />
 
             <Button
                 Grid.Column="1"
                 Click="{x:Bind OnWindowsUpdateClicked}"
-                Content="{x:Bind string:UpdateManager.WindowsUpdate}" />
+                Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('WindowsUpdate')}" />
 
             <Button
                 Grid.Column="2"
                 Click="{x:Bind OnWIPSettingsClicked}"
-                Content="{x:Bind string:UpdateManager.WIPSettings}"
-                ToolTipService.ToolTip="{x:Bind string:UpdateManager.WIPSettingsToolTip}" />
+                Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('WIPSettings')}"
+                ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('WIPSettingsToolTip')}" />
         </Grid>
 
         <ScrollViewer
@@ -109,7 +109,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind string:UpdateManager.AvailableUpdate}" />
+                                Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('AvailableUpdate')}" />
 
                             <AppBarButton
                                 Grid.Column="2"
@@ -117,7 +117,7 @@
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnAvailableSelectAllClicked}"
                                 IsEnabled="{x:Bind sys:Convert.ToBoolean(AvailableUpdateCollection.Count), Mode=OneWay}"
-                                Label="{x:Bind string:UpdateManager.SelectAll}"
+                                Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectAll')}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
                                 <AppBarButton.Icon>
@@ -131,7 +131,7 @@
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnAvailableSelectNoneClicked}"
                                 IsEnabled="{x:Bind sys:Convert.ToBoolean(AvailableUpdateCollection.Count), Mode=OneWay}"
-                                Label="{x:Bind string:UpdateManager.SelectNone}"
+                                Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectNone')}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
                                 <AppBarButton.Icon>
@@ -145,9 +145,9 @@
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnAvailableHideClicked}"
                                 IsEnabled="{x:Bind sys:Convert.ToBoolean(AvailableUpdateCollection.Count), Mode=OneWay}"
-                                Label="{x:Bind string:UpdateManager.Hide}"
+                                Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Hide')}"
                                 Style="{StaticResource AppBarButtonStyle}"
-                                ToolTipService.ToolTip="{x:Bind string:UpdateManager.HideUpdateToolTip}">
+                                ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideUpdateToolTip')}">
 
                                 <AppBarButton.Icon>
                                     <FontIcon Glyph="&#xED1A;" />
@@ -159,7 +159,7 @@
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnAvailableInstallClicked}"
                                 IsEnabled="{x:Bind sys:Convert.ToBoolean(AvailableUpdateCollection.Count), Mode=OneWay}"
-                                Label="{x:Bind string:UpdateManager.Install}"
+                                Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Install')}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
                                 <AppBarButton.Icon>
@@ -191,14 +191,14 @@
                                     Grid.Column="0"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Select}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Select')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.Select}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Select')}"
                                             Visibility="{x:Bind AvailableSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -208,14 +208,14 @@
                                     Grid.Column="1"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.UpdateName}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateName')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.UpdateName}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateName')}"
                                             Visibility="{x:Bind AvailableUpdateNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -225,14 +225,14 @@
                                     Grid.Column="2"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Date}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Date')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.Date}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Date')}"
                                             Visibility="{x:Bind AvailableDateHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -242,14 +242,14 @@
                                     Grid.Column="3"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Size}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Size')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.Size}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Size')}"
                                             Visibility="{x:Bind AvailableSizeHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -259,7 +259,7 @@
                                     Grid.Column="4"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Operation}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Operation')}"
                                     TextAlignment="Left"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
@@ -267,7 +267,7 @@
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.Status}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Status')}"
                                             Visibility="{x:Bind AvailableOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -330,10 +330,10 @@
                                                 <ToolTipService.ToolTip>
                                                     <ToolTip MaxWidth="9999">
                                                         <StackPanel>
-                                                            <TextBlock Text="{x:Bind string:UpdateManager.Title}" />
+                                                            <TextBlock Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Title')}" />
                                                             <TextBlock Text="{x:Bind UpdateName}" TextWrapping="Wrap" />
                                                             <MenuFlyoutSeparator />
-                                                            <TextBlock Text="{x:Bind string:UpdateManager.Description}" />
+                                                            <TextBlock Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Description')}" />
                                                             <TextBlock Text="{x:Bind Description}" TextWrapping="Wrap" />
                                                         </StackPanel>
                                                     </ToolTip>
@@ -385,15 +385,15 @@
                                                 Margin="10,0,0,0"
                                                 Command="{StaticResource AvailableHideCommand}"
                                                 CommandParameter="{Binding}"
-                                                Content="{x:Bind string:UpdateManager.Hide}"
+                                                Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Hide')}"
                                                 Style="{StaticResource HyperlinkButtonStyle}"
-                                                ToolTipService.ToolTip="{x:Bind string:UpdateManager.HideUpdateToolTip}" />
+                                                ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideUpdateToolTip')}" />
 
                                             <HyperlinkButton
                                                 Grid.Column="5"
                                                 Margin="10,0,0,0"
                                                 Command="{StaticResource AvailableInstallCommand}"
-                                                Content="{x:Bind string:UpdateManager.Install}"
+                                                Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Install')}"
                                                 Style="{StaticResource HyperlinkButtonStyle}" />
 
                                             <Grid.ContextFlyout>
@@ -401,13 +401,13 @@
                                                     <MenuFlyoutItem
                                                         Command="{StaticResource CopyInformationCommand}"
                                                         CommandParameter="{Binding}"
-                                                        Text="{x:Bind string:UpdateManager.CopyInformation}" />
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CopyInformation')}" />
 
                                                     <MenuFlyoutItem
                                                         Command="{StaticResource OpenSupportUrlCommand}"
                                                         CommandParameter="{x:Bind SupportURL}"
                                                         IsEnabled="{x:Bind converter:ValueConverterHelper.StringToBooleanConvert(SupportURL)}"
-                                                        Text="{x:Bind string:UpdateManager.OpenSupportUrl}" />
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('OpenSupportUrl')}" />
                                                 </MenuFlyout>
                                             </Grid.ContextFlyout>
                                         </Grid>
@@ -423,7 +423,7 @@
                                 <TextBlock
                                     Margin="0,10"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.NoAvailableUpdate}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('NoAvailableUpdate')}"
                                     TextAlignment="Center" />
                             </Grid>
                         </StackPanel>
@@ -463,7 +463,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind string:UpdateManager.InstalledUpdate}" />
+                                Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('InstalledUpdate')}" />
 
                             <AppBarButton
                                 Grid.Column="2"
@@ -471,7 +471,7 @@
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnInstalledSelectAllClicked}"
                                 IsEnabled="{x:Bind sys:Convert.ToBoolean(InstalledUpdateCollection.Count), Mode=OneWay}"
-                                Label="{x:Bind string:UpdateManager.SelectAll}"
+                                Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectAll')}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
                                 <AppBarButton.Icon>
@@ -485,7 +485,7 @@
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnInstalledSelectNoneClicked}"
                                 IsEnabled="{x:Bind sys:Convert.ToBoolean(InstalledUpdateCollection.Count), Mode=OneWay}"
-                                Label="{x:Bind string:UpdateManager.SelectNone}"
+                                Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectNone')}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
                                 <AppBarButton.Icon>
@@ -498,7 +498,7 @@
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnInstalledUnInstallClicked}"
                                 IsEnabled="{x:Bind sys:Convert.ToBoolean(InstalledUpdateCollection.Count), Mode=OneWay}"
-                                Label="{x:Bind string:UpdateManager.UnInstall}"
+                                Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UnInstall')}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
                                 <AppBarButton.Icon>
@@ -529,14 +529,14 @@
                                     Grid.Column="0"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Select}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Select')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.Select}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Select')}"
                                             Visibility="{x:Bind InstalledSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -546,14 +546,14 @@
                                     Grid.Column="1"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.UpdateName}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateName')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.UpdateName}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateName')}"
                                             Visibility="{x:Bind InstalledUpdateNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -563,14 +563,14 @@
                                     Grid.Column="2"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Date}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Date')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.Date}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Date')}"
                                             Visibility="{x:Bind InstalledDateHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -580,14 +580,14 @@
                                     Grid.Column="3"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Size}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Size')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.Size}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Size')}"
                                             Visibility="{x:Bind InstalledSizeHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -597,7 +597,7 @@
                                     Grid.Column="4"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Operation}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Operation')}"
                                     TextAlignment="Left"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
@@ -605,7 +605,7 @@
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.Operation}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Operation')}"
                                             Visibility="{x:Bind InstalledOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -667,10 +667,10 @@
                                                 <ToolTipService.ToolTip>
                                                     <ToolTip MaxWidth="9999">
                                                         <StackPanel>
-                                                            <TextBlock Text="{x:Bind string:UpdateManager.Title}" />
+                                                            <TextBlock Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Title')}" />
                                                             <TextBlock Text="{x:Bind UpdateName}" TextWrapping="Wrap" />
                                                             <MenuFlyoutSeparator />
-                                                            <TextBlock Text="{x:Bind string:UpdateManager.Description}" />
+                                                            <TextBlock Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Description')}" />
                                                             <TextBlock Text="{x:Bind Description}" TextWrapping="Wrap" />
                                                         </StackPanel>
                                                     </ToolTip>
@@ -721,7 +721,7 @@
                                                 Grid.Column="4"
                                                 Margin="10,0,0,0"
                                                 Command="{StaticResource InstalledUnInstallCommand}"
-                                                Content="{x:Bind string:UpdateManager.UnInstall}"
+                                                Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UnInstall')}"
                                                 Style="{StaticResource HyperlinkButtonStyle}" />
 
                                             <Grid.ContextFlyout>
@@ -729,13 +729,13 @@
                                                     <MenuFlyoutItem
                                                         Command="{StaticResource CopyInformationCommand}"
                                                         CommandParameter="{Binding}"
-                                                        Text="{x:Bind string:UpdateManager.CopyInformation}" />
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CopyInformation')}" />
 
                                                     <MenuFlyoutItem
                                                         Command="{StaticResource OpenSupportUrlCommand}"
                                                         CommandParameter="{x:Bind SupportURL}"
                                                         IsEnabled="{x:Bind converter:ValueConverterHelper.StringToBooleanConvert(SupportURL)}"
-                                                        Text="{x:Bind string:UpdateManager.OpenSupportUrl}" />
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('OpenSupportUrl')}" />
                                                 </MenuFlyout>
                                             </Grid.ContextFlyout>
                                         </Grid>
@@ -751,7 +751,7 @@
                                 <TextBlock
                                     Margin="0,10"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.NoInstalledUpdate}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('NoInstalledUpdate')}"
                                     TextAlignment="Center" />
                             </Grid>
                         </StackPanel>
@@ -791,7 +791,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind string:UpdateManager.HiddenUpdate}" />
+                                Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HiddenUpdate')}" />
 
                             <AppBarButton
                                 Grid.Column="2"
@@ -799,7 +799,7 @@
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnHiddenSelectAllClicked}"
                                 IsEnabled="{x:Bind sys:Convert.ToBoolean(HiddenUpdateCollection.Count), Mode=OneWay}"
-                                Label="{x:Bind string:UpdateManager.SelectAll}"
+                                Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectAll')}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
                                 <AppBarButton.Icon>
@@ -813,7 +813,7 @@
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnHiddenSelectNoneClicked}"
                                 IsEnabled="{x:Bind sys:Convert.ToBoolean(HiddenUpdateCollection.Count), Mode=OneWay}"
-                                Label="{x:Bind string:UpdateManager.SelectNone}"
+                                Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectNone')}"
                                 Style="{StaticResource AppBarButtonStyle}">
 
                                 <AppBarButton.Icon>
@@ -826,9 +826,9 @@
                                 VerticalAlignment="Center"
                                 Click="{x:Bind OnHiddenShowClicked}"
                                 IsEnabled="{x:Bind sys:Convert.ToBoolean(HiddenUpdateCollection.Count), Mode=OneWay}"
-                                Label="{x:Bind string:UpdateManager.Show}"
+                                Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Show')}"
                                 Style="{StaticResource AppBarButtonStyle}"
-                                ToolTipService.ToolTip="{x:Bind string:UpdateManager.ShowUpdateToolTip}">
+                                ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ShowUpdateToolTip')}">
 
                                 <AppBarButton.Icon>
                                     <FontIcon Glyph="&#xE890;" />
@@ -858,14 +858,14 @@
                                     Grid.Column="0"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Select}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Select')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.Select}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Select')}"
                                             Visibility="{x:Bind HiddenSelectHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -875,14 +875,14 @@
                                     Grid.Column="1"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.UpdateName}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateName')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.UpdateName}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateName')}"
                                             Visibility="{x:Bind HiddenUpdateNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -892,14 +892,14 @@
                                     Grid.Column="2"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Date}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Date')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.Date}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Date')}"
                                             Visibility="{x:Bind HiddenDateHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -909,14 +909,14 @@
                                     Grid.Column="3"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Size}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Size')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.Size}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Size')}"
                                             Visibility="{x:Bind HiddenSizeHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -926,7 +926,7 @@
                                     Grid.Column="4"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Operation}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Operation')}"
                                     TextAlignment="Left"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
@@ -934,7 +934,7 @@
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.Operation}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Operation')}"
                                             Visibility="{x:Bind HiddenOperationHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -996,10 +996,10 @@
                                                 <ToolTipService.ToolTip>
                                                     <ToolTip MaxWidth="9999">
                                                         <StackPanel>
-                                                            <TextBlock Text="{x:Bind string:UpdateManager.Title}" />
+                                                            <TextBlock Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Title')}" />
                                                             <TextBlock Text="{x:Bind UpdateName}" TextWrapping="Wrap" />
                                                             <MenuFlyoutSeparator />
-                                                            <TextBlock Text="{x:Bind string:UpdateManager.Description}" />
+                                                            <TextBlock Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Description')}" />
                                                             <TextBlock Text="{x:Bind Description}" TextWrapping="Wrap" />
                                                         </StackPanel>
                                                     </ToolTip>
@@ -1051,22 +1051,22 @@
                                                 Margin="10,0,0,0"
                                                 Command="{StaticResource HiddenShowCommand}"
                                                 CommandParameter="{Binding}"
-                                                Content="{x:Bind string:UpdateManager.Show}"
+                                                Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Show')}"
                                                 Style="{StaticResource HyperlinkButtonStyle}"
-                                                ToolTipService.ToolTip="{x:Bind string:UpdateManager.ShowUpdateToolTip}" />
+                                                ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ShowUpdateToolTip')}" />
 
                                             <Grid.ContextFlyout>
                                                 <MenuFlyout Placement="Bottom">
                                                     <MenuFlyoutItem
                                                         Command="{StaticResource CopyInformationCommand}"
                                                         CommandParameter="{Binding}"
-                                                        Text="{x:Bind string:UpdateManager.CopyInformation}" />
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CopyInformation')}" />
 
                                                     <MenuFlyoutItem
                                                         Command="{StaticResource OpenSupportUrlCommand}"
                                                         CommandParameter="{x:Bind SupportURL}"
                                                         IsEnabled="{x:Bind converter:ValueConverterHelper.StringToBooleanConvert(SupportURL)}"
-                                                        Text="{x:Bind string:UpdateManager.OpenSupportUrl}" />
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('OpenSupportUrl')}" />
                                                 </MenuFlyout>
                                             </Grid.ContextFlyout>
                                         </Grid>
@@ -1082,7 +1082,7 @@
                                 <TextBlock
                                     Margin="0,10"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.NoHiddenUpdate}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('NoHiddenUpdate')}"
                                     TextAlignment="Center" />
                             </Grid>
                         </StackPanel>
@@ -1119,7 +1119,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind string:UpdateManager.UpdateHistory}" />
+                                Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateHistory')}" />
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -1143,14 +1143,14 @@
                                     Grid.Column="0"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.UpdateName}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateName')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.UpdateName}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateName')}"
                                             Visibility="{x:Bind HistoryUpdateNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -1160,14 +1160,14 @@
                                     Grid.Column="1"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.ApplicationID}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ApplicationID')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
 
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.ApplicationID}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ApplicationID')}"
                                             Visibility="{x:Bind HistoryApplicationIDHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -1177,7 +1177,7 @@
                                     Grid.Column="2"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Date}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Date')}"
                                     TextAlignment="Left"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
@@ -1185,7 +1185,7 @@
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.Date}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Date')}"
                                             Visibility="{x:Bind HistoryDateHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -1195,7 +1195,7 @@
                                     Grid.Column="3"
                                     Margin="10,0,10,0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.Status}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Status')}"
                                     TextAlignment="Left"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap">
@@ -1203,7 +1203,7 @@
                                     <ToolTipService.ToolTip>
                                         <ToolTip
                                             MaxWidth="9999"
-                                            Content="{x:Bind string:UpdateManager.Status}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Status')}"
                                             Visibility="{x:Bind HistoryStatusHeaderText.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
@@ -1254,10 +1254,10 @@
                                                 <ToolTipService.ToolTip>
                                                     <ToolTip MaxWidth="9999">
                                                         <StackPanel>
-                                                            <TextBlock Text="{x:Bind string:UpdateManager.Title}" />
+                                                            <TextBlock Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Title')}" />
                                                             <TextBlock Text="{x:Bind UpdateName}" TextWrapping="Wrap" />
                                                             <MenuFlyoutSeparator />
-                                                            <TextBlock Text="{x:Bind string:UpdateManager.Description}" />
+                                                            <TextBlock Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Description')}" />
                                                             <TextBlock Text="{x:Bind Description}" TextWrapping="Wrap" />
                                                         </StackPanel>
                                                     </ToolTip>
@@ -1329,13 +1329,13 @@
                                                     <MenuFlyoutItem
                                                         Command="{StaticResource CopyInformationCommand}"
                                                         CommandParameter="{Binding}"
-                                                        Text="{x:Bind string:UpdateManager.CopyInformation}" />
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CopyInformation')}" />
 
                                                     <MenuFlyoutItem
                                                         Command="{StaticResource OpenSupportUrlCommand}"
                                                         CommandParameter="{x:Bind SupportURL}"
                                                         IsEnabled="{x:Bind converter:ValueConverterHelper.StringToBooleanConvert(SupportURL)}"
-                                                        Text="{x:Bind string:UpdateManager.OpenSupportUrl}" />
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('OpenSupportUrl')}" />
                                                 </MenuFlyout>
                                             </Grid.ContextFlyout>
                                         </Grid>
@@ -1351,7 +1351,7 @@
                                 <TextBlock
                                     Margin="0,10"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.NoUpdateHistory}"
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('NoUpdateHistory')}"
                                     TextAlignment="Center" />
                             </Grid>
                         </StackPanel>
@@ -1388,7 +1388,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind string:UpdateManager.OperationResult}" />
+                                Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('OperationResult')}" />
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -1420,7 +1420,7 @@
                     <TextBlock
                         Grid.Column="1"
                         VerticalAlignment="Center"
-                        Text="{x:Bind string:UpdateManager.Operation}" />
+                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Operation')}" />
 
                     <StackPanel Grid.Column="2" Orientation="Horizontal">
 
@@ -1434,12 +1434,12 @@
                         <TextBlock
                             Margin="0,0,8,0"
                             VerticalAlignment="Center"
-                            Text="{x:Bind string:UpdateManager.CheckingUpdate}"
+                            Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CheckingUpdate')}"
                             Visibility="{x:Bind IsChecking, Mode=OneWay}" />
 
                         <Button
                             Click="{x:Bind OnCheckUpdateClicked}"
-                            Content="{x:Bind string:UpdateManager.ChcekUpdate}"
+                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ChcekUpdate')}"
                             IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsChecking), Mode=OneWay}"
                             Style="{StaticResource AccentButtonStyle}" />
                     </StackPanel>
@@ -1474,7 +1474,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind string:UpdateManager.UpdateSettings}" />
+                                Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateSettings')}" />
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -1494,7 +1494,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.IncludePotentiallySupersededUpdate}" />
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('IncludePotentiallySupersededUpdate')}" />
 
                                 <ToggleSwitch
                                     Grid.Column="1"
@@ -1502,8 +1502,8 @@
                                     Margin="0,-2,0,0"
                                     FlowDirection="{x:Bind controlHelper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                     IsOn="{x:Bind IsIncludePotentiallySupersededUpdate}"
-                                    OffContent="{x:Bind string:UpdateManager.IncludePotentiallySupersededUpdateOffContent}"
-                                    OnContent="{x:Bind string:UpdateManager.IncludePotentiallySupersededUpdateOnContent}"
+                                    OffContent="{x:Bind root:ResourceService.UpdateManagerResource.GetString('IncludePotentiallySupersededUpdateOffContent')}"
+                                    OnContent="{x:Bind root:ResourceService.UpdateManagerResource.GetString('IncludePotentiallySupersededUpdateOnContent')}"
                                     Toggled="{x:Bind OnIncludePotentiallySupersededUpdateToggled}" />
                             </Grid>
 
@@ -1523,7 +1523,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind string:UpdateManager.UpdateSource}" />
+                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateSource')}" />
 
                                 <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedUpdateSource.Key, Mode=OneWay}">
                                     <muxc:DropDownButton.Flyout>
@@ -1602,7 +1602,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind string:UpdateManager.UpdateConfiguration}" />
+                                Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateConfiguration')}" />
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -1624,7 +1624,7 @@
                                     <TextBlock
                                         Grid.Column="0"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind string:UpdateManager.ExcludeDrivers}" />
+                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ExcludeDrivers')}" />
 
                                     <ToggleSwitch
                                         Grid.Column="1"
@@ -1632,8 +1632,8 @@
                                         Margin="0,-2,0,0"
                                         FlowDirection="{x:Bind controlHelper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                         IsOn="{x:Bind IsExcludeDrivers}"
-                                        OffContent="{x:Bind string:UpdateManager.ExcludeDriversOffContent}"
-                                        OnContent="{x:Bind string:UpdateManager.ExcludeDriversOnContent}"
+                                        OffContent="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ExcludeDriversOffContent')}"
+                                        OnContent="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ExcludeDriversOnContent')}"
                                         Toggled="{x:Bind OnExcludeDriversToggled}" />
                                 </Grid>
 
@@ -1653,7 +1653,7 @@
                                     <TextBlock
                                         Grid.Column="0"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind string:UpdateManager.ForceAccessWIP}" />
+                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ForceAccessWIP')}" />
 
                                     <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedPreviewChannel.Key, Mode=OneWay}">
                                         <muxc:DropDownButton.Flyout>

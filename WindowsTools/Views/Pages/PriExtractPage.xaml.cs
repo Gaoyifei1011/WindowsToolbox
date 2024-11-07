@@ -24,7 +24,6 @@ using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
@@ -47,6 +46,8 @@ namespace WindowsTools.Views.Pages
         private bool isLoadCompleted = false;
         private string stringFileName;
         private string filePathFileName;
+
+        private string SelectedFolder { get; } = ResourceService.PriExtractResource.GetString("SelectedFolder");
 
         private bool _isExtractSaveSamely;
 
@@ -210,9 +211,9 @@ namespace WindowsTools.Views.Pages
 
         private List<KeyValuePair<string, string>> ResourceCandidateKindList { get; } =
         [
-            new KeyValuePair<string,string>("String", PriExtract.String),
-            new KeyValuePair<string,string>("FilePath", PriExtract.FilePath),
-            new KeyValuePair<string,string>("EmbeddedData", PriExtract.EmbeddedData)
+            new KeyValuePair<string,string>("String", ResourceService.PriExtractResource.GetString("String")),
+            new KeyValuePair<string,string>("FilePath", ResourceService.PriExtractResource.GetString("FilePath")),
+            new KeyValuePair<string,string>("EmbeddedData", ResourceService.PriExtractResource.GetString("EmbeddedData"))
         ];
 
         private readonly List<StringModel> stringList = [];
@@ -232,7 +233,7 @@ namespace WindowsTools.Views.Pages
         public PriExtractPage()
         {
             InitializeComponent();
-            GetResults = PriExtract.NoSelectedFile;
+            GetResults = ResourceService.PriExtractResource.GetString("NoSelectedFile");
             SelectedResourceCandidateKind = ResourceCandidateKindList[0];
             Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
             SelectedSaveFolder = downloadFolder;
@@ -247,7 +248,7 @@ namespace WindowsTools.Views.Pages
         {
             base.OnDragOver(args);
 
-            IReadOnlyList<IStorageItem> dragItemsList = args.DataView.GetStorageItemsAsync().AsTask().Result;
+            IReadOnlyList<IStorageItem> dragItemsList = args.DataView.GetStorageItemsAsync().GetResults();
 
             if (dragItemsList.Count is 1)
             {
@@ -259,7 +260,7 @@ namespace WindowsTools.Views.Pages
                     args.DragUIOverride.IsCaptionVisible = true;
                     args.DragUIOverride.IsContentVisible = false;
                     args.DragUIOverride.IsGlyphVisible = true;
-                    args.DragUIOverride.Caption = PriExtract.DragOverContent;
+                    args.DragUIOverride.Caption = ResourceService.PriExtractResource.GetString("DragOverContent");
                 }
                 else
                 {
@@ -267,7 +268,7 @@ namespace WindowsTools.Views.Pages
                     args.DragUIOverride.IsCaptionVisible = true;
                     args.DragUIOverride.IsContentVisible = false;
                     args.DragUIOverride.IsGlyphVisible = true;
-                    args.DragUIOverride.Caption = PriExtract.NoOtherExtensionNameFile;
+                    args.DragUIOverride.Caption = ResourceService.PriExtractResource.GetString("NoOtherExtensionNameFile");
                 }
             }
             else
@@ -276,7 +277,7 @@ namespace WindowsTools.Views.Pages
                 args.DragUIOverride.IsCaptionVisible = true;
                 args.DragUIOverride.IsContentVisible = false;
                 args.DragUIOverride.IsGlyphVisible = true;
-                args.DragUIOverride.Caption = PriExtract.NoMultiFile;
+                args.DragUIOverride.Caption = ResourceService.PriExtractResource.GetString("NoMultiFile");
             }
 
             args.Handled = true;
@@ -408,7 +409,7 @@ namespace WindowsTools.Views.Pages
             {
                 OpenFolderDialog dialog = new()
                 {
-                    Description = PriExtract.SelectFolder,
+                    Description = ResourceService.PriExtractResource.GetString("SelectFolder"),
                     RootFolder = Environment.SpecialFolder.Desktop
                 };
 
@@ -582,7 +583,7 @@ namespace WindowsTools.Views.Pages
         {
             OpenFolderDialog dialog = new()
             {
-                Description = PriExtract.SelectFolder,
+                Description = ResourceService.PriExtractResource.GetString("SelectFolder"),
                 RootFolder = Environment.SpecialFolder.Desktop
             };
             DialogResult result = dialog.ShowDialog();
@@ -616,8 +617,8 @@ namespace WindowsTools.Views.Pages
             OpenFileDialog dialog = new()
             {
                 Multiselect = false,
-                Filter = PriExtract.FilterCondition,
-                Title = PriExtract.SelectFile
+                Filter = ResourceService.PriExtractResource.GetString("FilterCondition"),
+                Title = ResourceService.PriExtractResource.GetString("SelectFile")
             };
 
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
@@ -689,7 +690,7 @@ namespace WindowsTools.Views.Pages
                 IsProcessing = true;
                 OpenFolderDialog dialog = new()
                 {
-                    Description = PriExtract.SelectFolder,
+                    Description = ResourceService.PriExtractResource.GetString("SelectFolder"),
                     RootFolder = Environment.SpecialFolder.Desktop
                 };
                 DialogResult result = dialog.ShowDialog();
@@ -773,7 +774,7 @@ namespace WindowsTools.Views.Pages
         {
             OpenFolderDialog dialog = new()
             {
-                Description = PriExtract.SelectFolder,
+                Description = ResourceService.PriExtractResource.GetString("SelectFolder"),
                 RootFolder = Environment.SpecialFolder.Desktop
             };
 
@@ -1222,7 +1223,7 @@ namespace WindowsTools.Views.Pages
                         LanguageCollection.Add(new LanguageModel()
                         {
                             IsChecked = true,
-                            LangaugeInfo = new KeyValuePair<string, string>("AllLanguage", PriExtract.AllLanguage)
+                            LangaugeInfo = new KeyValuePair<string, string>("AllLanguage", ResourceService.PriExtractResource.GetString("AllLanguage"))
                         });
 
                         foreach (string languageItem in languageList)
@@ -1253,7 +1254,7 @@ namespace WindowsTools.Views.Pages
                         }
 
                         IsProcessing = false;
-                        GetResults = string.Format(PriExtract.GetResults, Path.GetFileName(filePath), stringList.Count + filePathList.Count + embeddedDataList.Count);
+                        GetResults = string.Format(ResourceService.PriExtractResource.GetString("GetResults"), Path.GetFileName(filePath), stringList.Count + filePathList.Count + embeddedDataList.Count);
                         isLoadCompleted = true;
                     }, null);
                 }
@@ -1264,7 +1265,7 @@ namespace WindowsTools.Views.Pages
                     synchronizationContext.Post(_ =>
                     {
                         IsProcessing = false;
-                        GetResults = string.Format(PriExtract.GetResults, Path.GetFileName(filePath), 0);
+                        GetResults = string.Format(ResourceService.PriExtractResource.GetString("GetResults"), Path.GetFileName(filePath), 0);
                         isLoadCompleted = true;
                     }, null);
 

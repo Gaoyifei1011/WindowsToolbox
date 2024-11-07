@@ -17,7 +17,6 @@ using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.ComTypes;
@@ -34,6 +33,8 @@ namespace WindowsTools.Views.Pages
     {
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly object upperAndLowerCaseLock = new();
+
+        private string Total { get; } = ResourceService.UpperAndLowerCaseResource.GetString("Total");
 
         private bool _isModifyingNow = false;
 
@@ -90,7 +91,7 @@ namespace WindowsTools.Views.Pages
             args.DragUIOverride.IsCaptionVisible = true;
             args.DragUIOverride.IsContentVisible = false;
             args.DragUIOverride.IsGlyphVisible = true;
-            args.DragUIOverride.Caption = UpperAndLowerCase.DragOverContent;
+            args.DragUIOverride.Caption = ResourceService.UpperAndLowerCaseResource.GetString("DragOverContent");
             args.Handled = true;
         }
 
@@ -313,7 +314,7 @@ namespace WindowsTools.Views.Pages
             OpenFileDialog dialog = new()
             {
                 Multiselect = true,
-                Title = UpperAndLowerCase.SelectFile
+                Title = ResourceService.UpperAndLowerCaseResource.GetString("SelectFile")
             };
             if (dialog.ShowDialog() is DialogResult.OK)
             {
@@ -361,7 +362,7 @@ namespace WindowsTools.Views.Pages
         {
             OpenFolderDialog dialog = new()
             {
-                Description = UpperAndLowerCase.SelectFolder,
+                Description = ResourceService.UpperAndLowerCaseResource.GetString("SelectFolder"),
                 RootFolder = Environment.SpecialFolder.Desktop
             };
             DialogResult result = dialog.ShowDialog();

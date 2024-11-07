@@ -1,7 +1,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Strings;
+using WindowsTools.Services.Root;
 
 namespace WindowsTools.UI.TeachingTips
 {
@@ -25,27 +25,27 @@ namespace WindowsTools.UI.TeachingTips
             QuickOperationFailed.Visibility = isPinnedSuccessfully ? Visibility.Collapsed : Visibility.Visible;
             if (quickOperationKind is QuickOperationKind.Desktop && isPinnedSuccessfully)
             {
-                QuickOperationSuccess.Text = Notification.DesktopShortcutSuccessfully;
+                QuickOperationSuccess.Text = ResourceService.NotificationResource.GetString("DesktopShortcutSuccessfully");
             }
             else if (quickOperationKind is QuickOperationKind.Desktop && !isPinnedSuccessfully)
             {
-                QuickOperationFailed.Text = Notification.DesktopShortFailed;
+                QuickOperationFailed.Text = ResourceService.NotificationResource.GetString("DesktopShortFailed");
             }
             else if (quickOperationKind is QuickOperationKind.StartScreen && isPinnedSuccessfully)
             {
-                QuickOperationSuccess.Text = Notification.StartScreenSuccessfully;
+                QuickOperationSuccess.Text = ResourceService.NotificationResource.GetString("StartScreenSuccessfully");
             }
             else if (quickOperationKind is QuickOperationKind.StartScreen && !isPinnedSuccessfully)
             {
-                QuickOperationFailed.Text = Notification.StartScreenFailed;
+                QuickOperationFailed.Text = ResourceService.NotificationResource.GetString("StartScreenFailed");
             }
             else if (quickOperationKind is QuickOperationKind.Taskbar && isPinnedSuccessfully)
             {
-                QuickOperationSuccess.Text = Notification.TaskbarSuccessfully;
+                QuickOperationSuccess.Text = ResourceService.NotificationResource.GetString("TaskbarSuccessfully");
             }
             else if (quickOperationKind is QuickOperationKind.Taskbar && !isPinnedSuccessfully)
             {
-                QuickOperationFailed.Text = Notification.TaskbarFailed;
+                QuickOperationFailed.Text = ResourceService.NotificationResource.GetString("TaskbarFailed");
             }
         }
     }

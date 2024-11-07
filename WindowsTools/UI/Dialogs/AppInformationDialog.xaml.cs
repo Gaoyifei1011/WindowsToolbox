@@ -6,13 +6,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
-using WindowsTools.Strings;
+using WindowsTools.Services.Root;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.PInvoke.KernelAppCore;
 
@@ -26,18 +26,20 @@ namespace WindowsTools.UI.Dialogs
     /// </summary>
     public sealed partial class AppInformationDialog : ContentDialog
     {
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-
         private ObservableCollection<DictionaryEntry> AppInformationCollection { get; } = [];
 
         public AppInformationDialog()
         {
             InitializeComponent();
+        }
 
-            Task.Run(() =>
+        private async void OnLoaded(object sender, RoutedEventArgs args)
+        {
+            List<KeyValuePair<string, Version>> dependencyInformationList = [];
+            await Task.Run(() =>
             {
                 uint bufferLength = 0;
-                List<KeyValuePair<string, Version>> dependencyInformationList = [];
+
                 KernelAppCoreLibrary.GetCurrentPackageInfo2(PACKAGE_FLAGS.PACKAGE_PROPERTY_STATIC, PackagePathType.PackagePathType_Install, ref bufferLength, null, out uint count);
 
                 if (count > 0)
@@ -61,7 +63,7 @@ namespace WindowsTools.UI.Dialogs
                         if (packageInfo.packageFullName.Contains("WindowsAppRuntime"))
                         {
                             // Windows 应用 SDK 版本信息
-                            dependencyInformationList.Add(new KeyValuePair<string, Version>(Dialog.WindowsAppSDKVersion, new Version(
+                            dependencyInformationList.Add(new KeyValuePair<string, Version>(ResourceService.DialogResource.GetString("WindowsAppSDKVersion"), new Version(
                                 packageInfo.packageId.version.Parts.Major,
                                 packageInfo.packageId.version.Parts.Minor,
                                 packageInfo.packageId.version.Parts.Build,
@@ -72,39 +74,37 @@ namespace WindowsTools.UI.Dialogs
                         if (packageInfo.packageFullName.Contains("Microsoft.UI.Xaml"))
                         {
                             FileVersionInfo winUI2File = FileVersionInfo.GetVersionInfo(Path.Combine(packageInfo.path, "Microsoft.UI.Xaml.dll"));
-                            dependencyInformationList.Add(new KeyValuePair<string, Version>(Dialog.WinUI2Version, new Version(winUI2File.ProductMajorPart, winUI2File.ProductMinorPart, winUI2File.ProductBuildPart, winUI2File.ProductPrivatePart)));
+                            dependencyInformationList.Add(new KeyValuePair<string, Version>(ResourceService.DialogResource.GetString("WinUI2Version"), new Version(winUI2File.ProductMajorPart, winUI2File.ProductMinorPart, winUI2File.ProductBuildPart, winUI2File.ProductPrivatePart)));
                         }
                     }
+
+                    // Windows UI 版本信息
+                    FileVersionInfo windowsUIFile = FileVersionInfo.GetVersionInfo(Path.Combine(Environment.SystemDirectory, "Windows.UI.Xaml.dll"));
+                    dependencyInformationList.Add(new KeyValuePair<string, Version>(ResourceService.DialogResource.GetString("WindowsUIVersion"), new Version(windowsUIFile.ProductMajorPart, windowsUIFile.ProductMinorPart, windowsUIFile.ProductBuildPart, windowsUIFile.ProductPrivatePart)));
+
+                    FileVersionInfo mileXamlFile = FileVersionInfo.GetVersionInfo(Path.Combine(AppContext.BaseDirectory, @"Mile.Xaml.Managed.dll"));
+                    dependencyInformationList.Add(new KeyValuePair<string, Version>(ResourceService.DialogResource.GetString("MileXamlVersion"), new Version(mileXamlFile.FileVersion)));
+
+                    // .NET 版本信息
+                    dependencyInformationList.Add(new KeyValuePair<string, Version>(ResourceService.DialogResource.GetString("DoNetVersion"), new Version(RuntimeInformation.FrameworkDescription.Remove(0, 15))));
                 }
-
-                // Windows UI 版本信息
-                FileVersionInfo windowsUIFile = FileVersionInfo.GetVersionInfo(Path.Combine(Environment.SystemDirectory, "Windows.UI.Xaml.dll"));
-                dependencyInformationList.Add(new KeyValuePair<string, Version>(Dialog.WindowsUIVersion, new Version(windowsUIFile.ProductMajorPart, windowsUIFile.ProductMinorPart, windowsUIFile.ProductBuildPart, windowsUIFile.ProductPrivatePart)));
-
-                FileVersionInfo mileXamlFile = FileVersionInfo.GetVersionInfo(Path.Combine(AppContext.BaseDirectory, @"Mile.Xaml.Managed.dll"));
-                dependencyInformationList.Add(new KeyValuePair<string, Version>(Dialog.MileXamlVersion, new Version(mileXamlFile.FileVersion)));
-
-                // .NET 版本信息
-                dependencyInformationList.Add(new KeyValuePair<string, Version>(Dialog.DoNetVersion, new Version(RuntimeInformation.FrameworkDescription.Remove(0, 15))));
-
-                synchronizationContext.Post(_ =>
-                {
-                    foreach (KeyValuePair<string, Version> dependencyInformation in dependencyInformationList)
-                    {
-                        AppInformationCollection.Add(new DictionaryEntry(dependencyInformation.Key, dependencyInformation.Value));
-                    }
-                }, null);
             });
+
+            foreach (KeyValuePair<string, Version> dependencyInformation in dependencyInformationList)
+            {
+                AppInformationCollection.Add(new DictionaryEntry(dependencyInformation.Key, dependencyInformation.Value));
+            }
         }
 
         /// <summary>
         /// 复制应用信息
         /// </summary>
-        private void OnCopyAppInformationClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void OnCopyAppInformationClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             args.Cancel = true;
+            StringBuilder stringBuilder = new();
 
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 StringBuilder stringBuilder = new();
                 foreach (DictionaryEntry appInformationItem in AppInformationCollection)
@@ -113,14 +113,11 @@ namespace WindowsTools.UI.Dialogs
                     stringBuilder.Append(appInformationItem.Value);
                     stringBuilder.Append(Environment.NewLine);
                 }
-
-                synchronizationContext.Post(async (_) =>
-                {
-                    bool copyResult = CopyPasteHelper.CopyToClipboard(stringBuilder.ToString());
-                    sender.Hide();
-                    await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.AppInformation, copyResult));
-                }, null);
             });
+
+            bool copyResult = CopyPasteHelper.CopyToClipboard(stringBuilder.ToString());
+            sender.Hide();
+            await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.AppInformation, copyResult));
         }
     }
 }

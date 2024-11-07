@@ -14,7 +14,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Services.Root;
-using WindowsTools.Strings;
 using WindowsTools.Views.Windows;
 
 // 抑制 IDE0060 警告
@@ -29,6 +28,8 @@ namespace WindowsTools.Views.Pages
     {
         private bool isLoadWallpaperFailed;
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+
+        private string LoafTimeToolTip { get; } = ResourceService.ExtensionNameResource.GetString("LoafTimeToolTip");
 
         private bool _loadImageCompleted = false;
 
@@ -144,8 +145,8 @@ namespace WindowsTools.Views.Pages
 
         private List<KeyValuePair<UpdatingKind, string>> UpdateStyleList { get; } =
         [
-            new KeyValuePair<UpdatingKind,string>(UpdatingKind.Windows11,Loaf.Windows11Style ),
-            new KeyValuePair<UpdatingKind,string>( UpdatingKind.Windows10,Loaf.Windows10Style),
+            new KeyValuePair<UpdatingKind,string>(UpdatingKind.Windows11,ResourceService.LoafResource.GetString("Windows11Style")),
+            new KeyValuePair<UpdatingKind,string>(UpdatingKind.Windows10,ResourceService.LoafResource.GetString("Windows10Style")),
         ];
 
         public event PropertyChangedEventHandler PropertyChanged;
