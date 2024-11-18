@@ -37,7 +37,6 @@ namespace WindowsTools.Views.Pages
     public sealed partial class ShellMenuPage : Page, INotifyPropertyChanged
     {
         public static readonly string shellMenuConfigurationKey = @"Software\WindowsTools\ShellMenuConfigurationTest";
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly InMemoryRandomAccessStream emptyStream = new();
         private string selectedDefaultIconPath = string.Empty;
         private string selectedLightThemeIconPath = string.Empty;
@@ -45,6 +44,7 @@ namespace WindowsTools.Views.Pages
         private Guid editMenuGuid;
         private string editMenuKey;
         private int editMenuIndex;
+        private bool isInitialized;
         private bool needToRefreshData;
         public bool isChanger;
         private ShellMenuItemModel selectedItem;
@@ -502,52 +502,7 @@ namespace WindowsTools.Views.Pages
         public ShellMenuPage()
         {
             InitializeComponent();
-            IsLoading = true;
             SelectedFileMatchRule = FileMatchRuleList[4];
-            RegistryHelper.NotifyKeyValueChanged += OnNotifyKeyValueChanged;
-
-            Task.Run(async () =>
-            {
-                // 获取所有菜单项信息
-                ShellMenuItem rootShellMenuItem = ShellMenuService.GetShellMenuItem();
-                await Task.Delay(500);
-
-                synchronizationContext.Send(_ =>
-                {
-                    IsAddMenuEnabled = true;
-                    IsMoveUpEnabled = false;
-                    IsMoveDownEnabled = false;
-
-                    if (rootShellMenuItem is not null)
-                    {
-                        ShellMenuItemCollection.Add(EnumShellMenuItem(rootShellMenuItem, MenuType.FirstLevelMenu));
-
-                        if (ShellMenuItemCollection.Count is 0)
-                        {
-                            selectedItem = null;
-                            IsRemoveMenuEnabled = false;
-                            IsEditMenuEnabled = false;
-                        }
-                        else
-                        {
-                            ShellMenuItemCollection[0].IsSelected = true;
-                            selectedItem = ShellMenuItemCollection[0];
-                            IsRemoveMenuEnabled = true;
-                            IsEditMenuEnabled = true;
-                        }
-                    }
-                    else
-                    {
-                        selectedItem = null;
-                        IsRemoveMenuEnabled = false;
-                        IsEditMenuEnabled = false;
-                    }
-
-                    IsLoading = false;
-                }, null);
-
-                RegistryHelper.MonitorRegistryValueChange(@"Software\WindowsTools\ShellMenuTest");
-            });
         }
 
         #region 第一部分：重写父类事件
@@ -575,8 +530,55 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 在已构造 FrameworkElement 并将其添加到对象树中并准备好交互时发生的事件
         /// </summary>
-        private void OnLoaded(object sender, RoutedEventArgs args)
+        private async void OnLoaded(object sender, RoutedEventArgs args)
         {
+            if (!isInitialized)
+            {
+                isInitialized = true;
+                IsLoading = true;
+                RegistryHelper.NotifyKeyValueChanged += OnNotifyKeyValueChanged;
+
+                // 获取所有菜单项信息
+                ShellMenuItem rootShellMenuItem = await Task.Run(ShellMenuService.GetShellMenuItem);
+
+                await Task.Delay(500);
+                IsAddMenuEnabled = true;
+                IsMoveUpEnabled = false;
+                IsMoveDownEnabled = false;
+
+                if (rootShellMenuItem is not null)
+                {
+                    ShellMenuItemCollection.Add(EnumShellMenuItem(rootShellMenuItem, MenuType.FirstLevelMenu));
+
+                    if (ShellMenuItemCollection.Count is 0)
+                    {
+                        selectedItem = null;
+                        IsRemoveMenuEnabled = false;
+                        IsEditMenuEnabled = false;
+                    }
+                    else
+                    {
+                        ShellMenuItemCollection[0].IsSelected = true;
+                        selectedItem = ShellMenuItemCollection[0];
+                        IsRemoveMenuEnabled = true;
+                        IsEditMenuEnabled = true;
+                    }
+                }
+                else
+                {
+                    selectedItem = null;
+                    IsRemoveMenuEnabled = false;
+                    IsEditMenuEnabled = false;
+                }
+
+                IsLoading = false;
+
+                await Task.Run(() =>
+                {
+                    RegistryHelper.MonitorRegistryValueChange(@"Software\WindowsTools\ShellMenuTest");
+                });
+            }
+
             foreach (ShellMenuItemModel shellMenuItem in ShellMenuItemCollection)
             {
                 EnumModifyShellMenuItemTheme(shellMenuItem);
@@ -692,7 +694,7 @@ namespace WindowsTools.Views.Pages
 
             if (BreadCollection.Count is 2)
             {
-                await Task.Run(() =>
+                ShellMenuItem rootShellMenuItem = await Task.Run(() =>
                 {
                     // 保存指定菜单项信息
                     ShellMenuItem shellMenuItem = new()
@@ -776,46 +778,43 @@ namespace WindowsTools.Views.Pages
                     }
 
                     // 保存完成，刷新菜单列表
-                    ShellMenuItem rootShellMenuItem = ShellMenuService.GetShellMenuItem();
-
-                    synchronizationContext.Send(async (_) =>
-                    {
-                        BreadCollection.RemoveAt(1);
-                        IsLoading = true;
-                        ShellMenuItemCollection.Clear();
-                        IsAddMenuEnabled = true;
-                        IsMoveUpEnabled = false;
-                        IsMoveDownEnabled = false;
-
-                        if (rootShellMenuItem is not null)
-                        {
-                            ShellMenuItemCollection.Add(EnumShellMenuItem(rootShellMenuItem, MenuType.FirstLevelMenu));
-
-                            if (ShellMenuItemCollection.Count is 0)
-                            {
-                                selectedItem = null;
-                                IsRemoveMenuEnabled = false;
-                                IsEditMenuEnabled = false;
-                            }
-                            else
-                            {
-                                ShellMenuItemCollection[0].IsSelected = true;
-                                selectedItem = ShellMenuItemCollection[0];
-                                IsRemoveMenuEnabled = true;
-                                IsEditMenuEnabled = true;
-                            }
-                        }
-                        else
-                        {
-                            selectedItem = null;
-                            IsRemoveMenuEnabled = false;
-                            IsEditMenuEnabled = false;
-                        }
-
-                        await Task.Delay(500);
-                        IsLoading = false;
-                    }, null);
+                    return ShellMenuService.GetShellMenuItem();
                 });
+
+                BreadCollection.RemoveAt(1);
+                IsLoading = true;
+                ShellMenuItemCollection.Clear();
+                IsAddMenuEnabled = true;
+                IsMoveUpEnabled = false;
+                IsMoveDownEnabled = false;
+
+                if (rootShellMenuItem is not null)
+                {
+                    ShellMenuItemCollection.Add(EnumShellMenuItem(rootShellMenuItem, MenuType.FirstLevelMenu));
+
+                    if (ShellMenuItemCollection.Count is 0)
+                    {
+                        selectedItem = null;
+                        IsRemoveMenuEnabled = false;
+                        IsEditMenuEnabled = false;
+                    }
+                    else
+                    {
+                        ShellMenuItemCollection[0].IsSelected = true;
+                        selectedItem = ShellMenuItemCollection[0];
+                        IsRemoveMenuEnabled = true;
+                        IsEditMenuEnabled = true;
+                    }
+                }
+                else
+                {
+                    selectedItem = null;
+                    IsRemoveMenuEnabled = false;
+                    IsEditMenuEnabled = false;
+                }
+
+                await Task.Delay(500);
+                IsLoading = false;
             }
         }
 
@@ -831,12 +830,12 @@ namespace WindowsTools.Views.Pages
                 return;
             }
 
+            Guid menuGuid = Guid.NewGuid();
+            string menuKey = string.Empty;
+            int menuIndex = -1;
+
             await Task.Run(() =>
             {
-                Guid menuGuid = Guid.NewGuid();
-                string menuKey = string.Empty;
-                int menuIndex = -1;
-
                 // 检查添加项是否为根菜单项
                 if (selectedItem is null)
                 {
@@ -848,41 +847,38 @@ namespace WindowsTools.Views.Pages
                     menuKey = Path.Combine(selectedItem.MenuKey, menuGuid.ToString());
                     menuIndex = selectedItem.SubMenuItemCollection.Count;
                 }
-
-                synchronizationContext.Send(_ =>
-                {
-                    // 添加菜单项信息
-                    editMenuKey = menuKey;
-                    editMenuGuid = menuGuid;
-                    editMenuIndex = menuIndex;
-                    selectedDefaultIconPath = string.Empty;
-                    selectedLightThemeIconPath = string.Empty;
-                    selectedDarkThemeIconPath = string.Empty;
-                    MenuTitleText = string.Empty;
-                    ShouldUseIcon = true;
-                    ShouldUseProgramIcon = true;
-                    ShouldUseThemeIcon = false;
-                    DefaultIconPath = string.Empty;
-                    DefaultIconImage.SetSource(emptyStream);
-                    LightThemeIconPath = string.Empty;
-                    LightThemeIconImage.SetSource(emptyStream);
-                    DarkThemeIconPath = string.Empty;
-                    DarkThemeIconImage.SetSource(emptyStream);
-                    MenuProgramPathText = string.Empty;
-                    MenuParameterText = string.Empty;
-                    FolderBackgroundMatch = false;
-                    IsAlwaysRunAsAdministrator = false;
-                    FolderDesktopMatch = false;
-                    FolderDirectoryMatch = false;
-                    FolderDriveMatch = false;
-                    SelectedFileMatchRule = FileMatchRuleList[4];
-                    NeedInputMatchFormat = false;
-                    MenuFileMatchFormatPHText = string.Empty;
-                    MenuFileMatchFormatText = string.Empty;
-
-                    BreadCollection.Add(new DictionaryEntry(ResourceService.ShellMenuResource.GetString("EditMenu"), "EditMenu"));
-                }, null);
             });
+
+            // 添加菜单项信息
+            editMenuKey = menuKey;
+            editMenuGuid = menuGuid;
+            editMenuIndex = menuIndex;
+            selectedDefaultIconPath = string.Empty;
+            selectedLightThemeIconPath = string.Empty;
+            selectedDarkThemeIconPath = string.Empty;
+            MenuTitleText = string.Empty;
+            ShouldUseIcon = true;
+            ShouldUseProgramIcon = true;
+            ShouldUseThemeIcon = false;
+            DefaultIconPath = string.Empty;
+            DefaultIconImage.SetSource(emptyStream);
+            LightThemeIconPath = string.Empty;
+            LightThemeIconImage.SetSource(emptyStream);
+            DarkThemeIconPath = string.Empty;
+            DarkThemeIconImage.SetSource(emptyStream);
+            MenuProgramPathText = string.Empty;
+            MenuParameterText = string.Empty;
+            FolderBackgroundMatch = false;
+            IsAlwaysRunAsAdministrator = false;
+            FolderDesktopMatch = false;
+            FolderDirectoryMatch = false;
+            FolderDriveMatch = false;
+            SelectedFileMatchRule = FileMatchRuleList[4];
+            NeedInputMatchFormat = false;
+            MenuFileMatchFormatPHText = string.Empty;
+            MenuFileMatchFormatText = string.Empty;
+
+            BreadCollection.Add(new DictionaryEntry(ResourceService.ShellMenuResource.GetString("EditMenu"), "EditMenu"));
         }
 
         /// <summary>
@@ -900,36 +896,33 @@ namespace WindowsTools.Views.Pages
 
             if (selectedItem is not null)
             {
+                // 移除指定的菜单项
                 await Task.Run(() =>
                 {
-                    // 移除指定的菜单项
                     ShellMenuService.RemoveShellMenuItem(selectedItem.MenuKey);
-
-                    synchronizationContext.Send(_ =>
-                    {
-                        ShellMenuItemModel parentItem = EnumRemoveItem(selectedItem, null, ShellMenuItemCollection);
-
-                        // 删除的父项为空，说明被删除项为根菜单项
-                        if (parentItem is null)
-                        {
-                            selectedItem = null;
-                            IsAddMenuEnabled = true;
-                            IsRemoveMenuEnabled = false;
-                            IsEditMenuEnabled = false;
-                            IsMoveUpEnabled = false;
-                            IsMoveDownEnabled = false;
-                        }
-                        else
-                        {
-                            parentItem.IsSelected = true;
-                            selectedItem = parentItem;
-                            IsAddMenuEnabled = true;
-                            IsRemoveMenuEnabled = true;
-                            IsEditMenuEnabled = true;
-                            EnumModifySelectedItem(selectedItem, ShellMenuItemCollection);
-                        }
-                    }, null);
                 });
+
+                ShellMenuItemModel parentItem = EnumRemoveItem(selectedItem, null, ShellMenuItemCollection);
+
+                // 删除的父项为空，说明被删除项为根菜单项
+                if (parentItem is null)
+                {
+                    selectedItem = null;
+                    IsAddMenuEnabled = true;
+                    IsRemoveMenuEnabled = false;
+                    IsEditMenuEnabled = false;
+                    IsMoveUpEnabled = false;
+                    IsMoveDownEnabled = false;
+                }
+                else
+                {
+                    parentItem.IsSelected = true;
+                    selectedItem = parentItem;
+                    IsAddMenuEnabled = true;
+                    IsRemoveMenuEnabled = true;
+                    IsEditMenuEnabled = true;
+                    EnumModifySelectedItem(selectedItem, ShellMenuItemCollection);
+                }
             }
         }
 
@@ -949,74 +942,68 @@ namespace WindowsTools.Views.Pages
             {
                 string rootMenuKey = ShellMenuItemCollection[0].MenuKey;
 
+                // 清空所有菜单项信息
                 await Task.Run(() =>
                 {
-                    // 清空所有菜单项信息
                     ShellMenuService.RemoveShellMenuItem(rootMenuKey);
-
-                    synchronizationContext.Send(_ =>
-                    {
-                        ShellMenuItemCollection.Clear();
-                        selectedItem = null;
-                        IsAddMenuEnabled = true;
-                        IsRemoveMenuEnabled = false;
-                        IsEditMenuEnabled = false;
-                        IsMoveUpEnabled = false;
-                        IsMoveDownEnabled = false;
-                    }, null);
                 });
+
+                ShellMenuItemCollection.Clear();
+                selectedItem = null;
+                IsAddMenuEnabled = true;
+                IsRemoveMenuEnabled = false;
+                IsEditMenuEnabled = false;
+                IsMoveUpEnabled = false;
+                IsMoveDownEnabled = false;
             }
         }
 
         /// <summary>
         /// 刷新列表
         /// </summary>
-        private void OnRefreshClicked(object sender, RoutedEventArgs args)
+        private async void OnRefreshClicked(object sender, RoutedEventArgs args)
         {
             IsLoading = true;
             ShellMenuItemCollection.Clear();
 
-            Task.Run(async () =>
+            // 获取所有菜单项信息
+            ShellMenuItem rootShellMenuItem = await Task.Run(() =>
             {
-                // 获取所有菜单项信息
-                ShellMenuItem rootShellMenuItem = ShellMenuService.GetShellMenuItem();
-                await Task.Delay(500);
-
-                synchronizationContext.Send(_ =>
-                {
-                    IsAddMenuEnabled = true;
-                    IsMoveUpEnabled = false;
-                    IsMoveDownEnabled = false;
-
-                    if (rootShellMenuItem is not null)
-                    {
-                        ShellMenuItemCollection.Add(EnumShellMenuItem(rootShellMenuItem, MenuType.FirstLevelMenu));
-
-                        if (ShellMenuItemCollection.Count is 0)
-                        {
-                            selectedItem = null;
-                            IsRemoveMenuEnabled = false;
-                            IsEditMenuEnabled = false;
-                        }
-                        else
-                        {
-                            ShellMenuItemCollection[0].IsSelected = true;
-                            selectedItem = ShellMenuItemCollection[0];
-                            IsRemoveMenuEnabled = true;
-                            IsEditMenuEnabled = true;
-                        }
-                    }
-                    else
-                    {
-                        selectedItem = null;
-                        IsRemoveMenuEnabled = false;
-                        IsEditMenuEnabled = false;
-                    }
-
-                    IsLoading = false;
-                    needToRefreshData = false;
-                }, null);
+                return ShellMenuService.GetShellMenuItem();
             });
+
+            await Task.Delay(500);
+            IsAddMenuEnabled = true;
+            IsMoveUpEnabled = false;
+            IsMoveDownEnabled = false;
+
+            if (rootShellMenuItem is not null)
+            {
+                ShellMenuItemCollection.Add(EnumShellMenuItem(rootShellMenuItem, MenuType.FirstLevelMenu));
+
+                if (ShellMenuItemCollection.Count is 0)
+                {
+                    selectedItem = null;
+                    IsRemoveMenuEnabled = false;
+                    IsEditMenuEnabled = false;
+                }
+                else
+                {
+                    ShellMenuItemCollection[0].IsSelected = true;
+                    selectedItem = ShellMenuItemCollection[0];
+                    IsRemoveMenuEnabled = true;
+                    IsEditMenuEnabled = true;
+                }
+            }
+            else
+            {
+                selectedItem = null;
+                IsRemoveMenuEnabled = false;
+                IsEditMenuEnabled = false;
+            }
+
+            IsLoading = false;
+            needToRefreshData = false;
         }
 
         /// <summary>

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Threading;
-using System.Windows.Forms;
 using Windows.Foundation;
-using Windows.UI.Composition.Desktop;
-using Windows.UI.Xaml;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Combase;
 
@@ -17,7 +13,7 @@ namespace WindowsTools.Helpers.Backdrop
     /// </summary>
     public static class BackdropHelper
     {
-        public static Lazy<IPropertyValueStatics> PropertyValueStatics { get; } = new(() => GetActivationFactory<IPropertyValueStatics>(typeof(PropertyValue).FullName, typeof(IPropertyValueStatics).GUID));
+        public static IPropertyValueStatics PropertyValueStatics { get; } = GetActivationFactory<IPropertyValueStatics>(typeof(PropertyValue).FullName, typeof(IPropertyValueStatics).GUID);
 
         /// <summary>
         /// 获取指定运行时类的激活工厂。
@@ -33,25 +29,6 @@ namespace WindowsTools.Helpers.Backdrop
             {
                 return default;
             }
-        }
-
-        /// <summary>
-        /// 初始化 DesktopWindowTarget（表示作为合成目标的窗口）
-        /// </summary>
-        public static DesktopWindowTarget InitializeDesktopWindowTarget(Form form, bool isTopMost)
-        {
-            if (form.Handle == IntPtr.Zero)
-            {
-                throw new NullReferenceException("窗口尚未初始化");
-            }
-
-            DesktopWindowTarget desktopWindowTarget = null;
-            if (SynchronizationContext.Current is not null)
-            {
-                ICompositorDesktopInterop interop = Window.Current.Compositor as object as ICompositorDesktopInterop;
-                interop.CreateDesktopWindowTarget(form.Handle, isTopMost, out desktopWindowTarget);
-            }
-            return desktopWindowTarget;
         }
     }
 }

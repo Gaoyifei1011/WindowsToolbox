@@ -62,7 +62,7 @@ namespace WindowsTools.UI.Backdrop
         {
             if (index is 0)
             {
-                BackdropHelper.PropertyValueStatics.Value.CreateSingle(BlurAmount, out IntPtr ptr);
+                BackdropHelper.PropertyValueStatics.CreateSingle(BlurAmount, out IntPtr ptr);
 
                 if (ptr != IntPtr.Zero)
                 {
@@ -72,7 +72,7 @@ namespace WindowsTools.UI.Backdrop
             }
             else if (index is 1)
             {
-                BackdropHelper.PropertyValueStatics.Value.CreateUInt32((uint)Optimization, out IntPtr ptr);
+                BackdropHelper.PropertyValueStatics.CreateUInt32((uint)Optimization, out IntPtr ptr);
 
                 if (ptr != IntPtr.Zero)
                 {
@@ -82,7 +82,7 @@ namespace WindowsTools.UI.Backdrop
             }
             else if (index is 2)
             {
-                BackdropHelper.PropertyValueStatics.Value.CreateUInt32((uint)BorderMode, out IntPtr ptr);
+                BackdropHelper.PropertyValueStatics.CreateUInt32((uint)BorderMode, out IntPtr ptr);
 
                 if (ptr != IntPtr.Zero)
                 {

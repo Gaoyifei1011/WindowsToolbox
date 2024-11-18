@@ -245,7 +245,7 @@
                                     x:Name="MicaFlyoutItem"
                                     Height="32"
                                     Padding="11,0"
-                                    x:Load="{x:Bind backdrop:MicaBackdrop.IsSupported}"
+                                    x:Load="{x:Bind backdrop:MicaBrush.IsSupported}"
                                     Text="{x:Bind root:ResourceService.SettingsResource.GetString('Mica')}">
 
                                     <muxc:RadioMenuFlyoutItem
@@ -271,7 +271,7 @@
                                     x:Name="DesktopAcrylicFlyoutItem"
                                     Height="32"
                                     Padding="11,0,11,0"
-                                    x:Load="{x:Bind backdrop:DesktopAcrylicBackdrop.IsSupported}"
+                                    x:Load="{x:Bind backdrop:DesktopAcrylicBrush.IsSupported}"
                                     Text="{x:Bind root:ResourceService.SettingsResource.GetString('DesktopAcrylic')}">
 
                                     <muxc:RadioMenuFlyoutItem

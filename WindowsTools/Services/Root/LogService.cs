@@ -53,42 +53,6 @@ namespace WindowsTools.Services.Root
         /// <summary>
         /// 写入日志
         /// </summary>
-        public static void WriteLog(EventLevel logLevel, string logContent, StringBuilder logBuilder)
-        {
-            if (isInitialized)
-            {
-                Task.Run(() =>
-                {
-                    try
-                    {
-                        lock (logLock)
-                        {
-                            File.AppendAllText(
-                                    Path.Combine(logDirectory.FullName, string.Format("{0}_{1}.log", logName, DateTime.Now.ToString("yyyy_MM_dd"))),
-                                    string.Format("{0}\t{1}:{2}{3}{4}{5}{6}{7}{8}",
-                                        DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                                        "LogType",
-                                        Convert.ToString(logLevel),
-                                        Environment.NewLine,
-                                        "LogContent:",
-                                        logContent,
-                                        Environment.NewLine,
-                                        logBuilder,
-                                        Environment.NewLine)
-                                    );
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        return;
-                    }
-                });
-            }
-        }
-
-        /// <summary>
-        /// 写入日志
-        /// </summary>
         public static void WriteLog(EventLevel logLevel, string logContent, Exception exception)
         {
             if (isInitialized)
@@ -142,7 +106,14 @@ namespace WindowsTools.Services.Root
             {
                 Task.Run(() =>
                 {
-                    Process.Start(logDirectory.FullName);
+                    try
+                    {
+                        Process.Start(logDirectory.FullName);
+                    }
+                    catch (Exception e)
+                    {
+                        WriteLog(EventLevel.Error, "Open log folder failed", e);
+                    }
                 });
             }
         }
@@ -150,24 +121,25 @@ namespace WindowsTools.Services.Root
         /// <summary>
         /// 清除所有的日志文件
         /// </summary>
-        public static bool ClearLog()
+        public static async Task<bool> ClearLogAsync()
         {
-            try
+            return await Task.Run(() =>
             {
-                Task.Run(() =>
+                try
                 {
                     string[] logFiles = Directory.GetFiles(logDirectory.FullName, "*.log");
                     foreach (string logFile in logFiles)
                     {
                         File.Delete(logFile);
                     }
-                });
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            });
         }
     }
 }

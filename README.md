@@ -74,6 +74,7 @@
 | 提取包资源文件索引内容           | 已完成                                                             |
 | 颜色选择器                       | 未完成                                                             |
 | 自定义右键菜单                   | 已完成                                                             |
+| 右键菜单项管理                   | 未完成                                                             |
 | 系统信息                         | 未完成                                                             |
 | 驱动管理                         | 未完成                                                             |
 | 更新管理                         | 未完成                                                             |
@@ -89,7 +90,6 @@
 > * [Microsoft.Windows.SDK.Contracts](https://aka.ms/WinSDKProjectURL)&emsp;
 > * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
-> * [System.Numerics.Vectors](https://dot.net)&emsp;
 > * [System.Private.Uri](https://dot.net)&emsp;
 
 [学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;
@@ -128,8 +128,8 @@
 > * README_(对应的语言).md文件中添加的语言截图替换为您熟悉的语言的应用截图。
 > * 完成上面所述的翻译步骤，确保所有步骤能够顺利运行。
 > * 打开WindowsToolboxPackage打包项目，找到Package.appxmanifest文件，右键该文件，点击查看代码，找到Resources标签，根据模板添加相对应的语言，例如“<Resource Language="EN-US"/>”。
-> * 打开WindowsToolbox项目的Strings文件夹，并创建您使用的语言，比如（English(United States)）文件名称为*.en-us.resx，具体可以参考表示语言(文化)代码与国家地区对照表）。
-> * 打开子文件夹下的resx文件，对每一个名称进行翻译。
+> * 打开WindowsToolbox项目的Strings文件夹，并创建您使用的语言，比如（English(United States)）文件名称为*.en-us.restext，具体可以参考表示语言(文化)代码与国家地区对照表）。
+> * 打开子文件夹下的 restext 文件，对每一个名称进行翻译。
 > * 编译运行代码并测试您的语言，应用在初次打开的时候如果没有您使用的语言默认显示English(United States)，需要在设置中动态调整。
 > * 完成上述步骤后创建PR，然后将修改的内容提交到本项目，等待合并即可。
 

@@ -68,7 +68,7 @@
       <Isolated>false</Isolated>
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
-
+    
     <COMReference Include="WINSATLib">
       <WrapperTool>tlbimp</WrapperTool>
       <VersionMinor>0</VersionMinor>
@@ -165,7 +165,6 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\WindowsTools.ico" CopyToOutputDirectory="Always" />
 
     <EmbeddedResource Include="Strings\About.en-us.restext" />
     <EmbeddedResource Include="Strings\About.restext" />
@@ -242,6 +241,7 @@
     <EmbeddedResource Include="Strings\WinSAT.zh-hans.restext" />
     <EmbeddedResource Update="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
 
+    <None Update="Assets\WindowsTools.ico" CopyToOutputDirectory="Never" />
     <None Remove="Styles\WinUI\AppBarButton.xaml" />
     <None Remove="Styles\WinUI\DateTimePicker.xaml" />
     <None Remove="Styles\WinUI\HyperlinkButton.xaml" />
@@ -281,9 +281,8 @@
 
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1742" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240923002" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241106002" GeneratePathProperty="true" />
     <PackageReference Include="Mile.Xaml" Version="2.3.1064" />
-    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
 
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -332,6 +331,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+  <ItemGroup>
   </ItemGroup>
 
   <Target Name="SignExeFile" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">

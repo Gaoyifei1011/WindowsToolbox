@@ -27,8 +27,8 @@ using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.PInvoke.Rstrtmgr;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
-// 抑制 CA1806，IDE0060 警告
-#pragma warning disable CA1806,IDE0060
+// 抑制 CA1806，CA1822，IDE0060 警告
+#pragma warning disable CA1806,CA1822,IDE0060
 
 namespace WindowsTools.Views.Pages
 {
@@ -137,7 +137,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         protected override void OnDragOver(global::Windows.UI.Xaml.DragEventArgs args)
         {
-            IReadOnlyList<IStorageItem> dragItemsList = args.DataView.GetStorageItemsAsync().GetResults();
+            base.OnDragOver(args);
+
+            IReadOnlyList<IStorageItem> dragItemsList = args.DataView.GetStorageItemsAsync().AsTask().Result;
 
             if (dragItemsList.Count is 1)
             {
@@ -162,34 +164,33 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 拖动文件完成后获取文件信息
         /// </summary>
-        protected override void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
+        protected override async void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
         {
             base.OnDrop(args);
             DragOperationDeferral deferral = args.GetDeferral();
             DataPackageView view = args.DataView;
 
-            Task.Run(async () =>
+            IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
             {
                 try
                 {
                     if (view.Contains(StandardDataFormats.StorageItems))
                     {
-                        IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
-
-                        if (filesList.Count is 1)
-                        {
-                            synchronizationContext.Post(_ =>
-                            {
-                                ParseFile(filesList[0].Path);
-                            }, null);
-                        }
+                        return await view.GetStorageItemsAsync();
                     }
                 }
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Warning, "Drop file in icon extract page failed", e);
                 }
+
+                return null;
             });
+
+            if (filesList is not null && filesList.Count is 1)
+            {
+                ParseFile(filesList[0].Path);
+            }
             deferral.Complete();
         }
 
@@ -200,42 +201,40 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 终止进程
         /// </summary>
-        private void OnTerminateProcessExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnTerminateProcessExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
             int processid = Convert.ToInt32(args.Parameter);
 
             if (processid is not 0)
             {
-                Task.Run(() =>
+                bool result = await Task.Run(() =>
                 {
                     try
                     {
                         Process process = Process.GetProcessById(processid);
                         process?.Kill();
-
-                        synchronizationContext.Post(async (_) =>
-                        {
-                            foreach (ProcessInfoModel processItem in ProcessInfoCollection)
-                            {
-                                if (processItem.ProcessId.Equals(processid))
-                                {
-                                    ProcessInfoCollection.Remove(processItem);
-                                    break;
-                                }
-                            }
-
-                            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.TerminateProcess, true));
-                        }, null);
+                        return true;
                     }
                     catch (Exception e)
                     {
                         LogService.WriteLog(EventLevel.Error, string.Format("Terminate process id {0} failed", processid), e);
-                        synchronizationContext.Post(async (_) =>
-                        {
-                            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.TerminateProcess, false));
-                        }, null);
+                        return false;
                     }
                 });
+
+                if (result)
+                {
+                    foreach (ProcessInfoModel processItem in ProcessInfoCollection)
+                    {
+                        if (processItem.ProcessId.Equals(processid))
+                        {
+                            ProcessInfoCollection.Remove(processItem);
+                            break;
+                        }
+                    }
+                }
+
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.TerminateProcess, result));
             }
         }
 
@@ -251,30 +250,37 @@ namespace WindowsTools.Views.Pages
             {
                 Task.Run(() =>
                 {
-                    if (!string.IsNullOrEmpty(filePath))
+                    try
                     {
-                        if (File.Exists(filePath))
+                        if (!string.IsNullOrEmpty(filePath))
                         {
-                            IntPtr pidlList = Shell32Library.ILCreateFromPath(filePath);
-                            if (pidlList != IntPtr.Zero)
+                            if (File.Exists(filePath))
                             {
-                                Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, IntPtr.Zero, 0);
-                                Shell32Library.ILFree(pidlList);
-                            }
-                        }
-                        else
-                        {
-                            string directoryPath = Path.GetDirectoryName(filePath);
-
-                            if (Directory.Exists(directoryPath))
-                            {
-                                Process.Start(directoryPath);
+                                IntPtr pidlList = Shell32Library.ILCreateFromPath(filePath);
+                                if (pidlList != IntPtr.Zero)
+                                {
+                                    Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, IntPtr.Zero, 0);
+                                    Shell32Library.ILFree(pidlList);
+                                }
                             }
                             else
                             {
-                                Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                                string directoryPath = Path.GetDirectoryName(filePath);
+
+                                if (Directory.Exists(directoryPath))
+                                {
+                                    Process.Start(directoryPath);
+                                }
+                                else
+                                {
+                                    Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                                }
                             }
                         }
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Open terminate process path failed", e);
                     }
                 });
             }
@@ -291,7 +297,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("taskmgr.exe");
+                try
+                {
+                    Process.Start("taskmgr.exe");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open task manager failed", e);
+                }
             });
         }
 
@@ -348,7 +361,6 @@ namespace WindowsTools.Views.Pages
                 try
                 {
                     uint pnProcInfo = 0;
-                    uint lpdwRebootReasons = 0;
                     string[] resources = [filePath];
 
                     result = RstrtmgrLibrary.RmRegisterResources(handle, (uint)resources.Length, resources, 0, null, 0, null);
@@ -365,7 +377,7 @@ namespace WindowsTools.Views.Pages
                         }, null);
                     }
 
-                    result = RstrtmgrLibrary.RmGetList(handle, out uint pnProcInfoNeeded, ref pnProcInfo, null, out lpdwRebootReasons);
+                    result = RstrtmgrLibrary.RmGetList(handle, out uint pnProcInfoNeeded, ref pnProcInfo, null, out uint lpdwRebootReasons);
 
                     if (result is 234)
                     {
@@ -376,7 +388,7 @@ namespace WindowsTools.Views.Pages
 
                         if (result is 0)
                         {
-                            for (int index = 0; index < pnProcInfo; index++)
+                            for (int index = 0; index < (uint)0; index++)
                             {
                                 try
                                 {

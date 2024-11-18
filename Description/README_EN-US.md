@@ -67,6 +67,7 @@ A toolbox that integrates multiple gadgets.
 | Extract the package resource index(.pri) file conten      | Finished                                                             |
 | Color picker                                              | Unfinished                                                           |
 | Customize the right-click menu                            | Finished                                                             |
+| Right-click menu items manager                            | Unfinished                                                           |
 | System information                                        | Unfinished                                                           |
 | Driver manager                                            | Unfinished                                                           |
 | Update manager                                            | Unfinished                                                           |
@@ -82,7 +83,6 @@ A toolbox that integrates multiple gadgets.
 > * [Microsoft.Windows.SDK.Contracts](https://aka.ms/WinSDKProjectURL)&emsp;
 > * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
-> * [System.Numerics.Vectors](https://dot.net)&emsp;
 > * [System.Private.Uri](https://dot.net)&emsp;
 
 [Code referenced or used during the learning process](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;

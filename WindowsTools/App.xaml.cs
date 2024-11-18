@@ -28,7 +28,6 @@ namespace WindowsTools
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs args)
         {
             LogService.WriteLog(EventLevel.Warning, "Xaml islands UI Exception", args.Exception);
-            Dispose();
         }
 
         /// <summary>
@@ -64,7 +63,6 @@ namespace WindowsTools
                     GlobalNotificationService.SendNotification();
                     DownloadSchedulerService.TerminateDownload();
                     DownloadSchedulerService.CloseDownloadScheduler();
-                    SystemTrayService.CloseSystemTray();
                     System.Windows.Forms.Application.Exit();
                 }
 

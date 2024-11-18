@@ -53,7 +53,6 @@ namespace WindowsTools
         private static void OnThreadException(object sender, ThreadExceptionEventArgs args)
         {
             LogService.WriteLog(EventLevel.Warning, "Windows Forms Xaml Islands UI Exception", args.Exception);
-            (Windows.UI.Xaml.Application.Current as App).Dispose();
         }
 
         /// <summary>
@@ -62,7 +61,6 @@ namespace WindowsTools
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
             LogService.WriteLog(EventLevel.Warning, "Background thread Exception", args.ExceptionObject as Exception);
-            (Windows.UI.Xaml.Application.Current as App).Dispose();
         }
 
         /// <summary>

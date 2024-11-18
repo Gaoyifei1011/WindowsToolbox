@@ -254,11 +254,11 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 可用更新：隐藏
         /// </summary>
-        private void OnAvailableHideExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnAvailableHideExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is UpdateModel updateItem)
             {
-                Task.Run(() =>
+                await Task.Run(() =>
                 {
                     // 隐藏更新（只有 Power Users 管理组的管理员和成员才能设置此属性的值）
                     if (RuntimeHelper.IsElevated)
@@ -266,30 +266,6 @@ namespace WindowsTools.Views.Pages
                         try
                         {
                             updateItem.Update.IsHidden = true;
-
-                            synchronizationContext.Post(_ =>
-                            {
-                                try
-                                {
-                                    for (int index = 0; index < AvailableUpdateCollection.Count; index++)
-                                    {
-                                        if (AvailableUpdateCollection[index].UpdateID.Equals(updateItem.UpdateID))
-                                        {
-                                            AvailableUpdateCollection.RemoveAt(index);
-                                            break;
-                                        }
-                                    }
-
-                                    HiddenUpdateCollection.Add(updateItem);
-
-                                    IsAUExpanderExpanded = true;
-                                    IsHUExpanderExpanded = true;
-                                }
-                                catch (Exception e)
-                                {
-                                    LogService.WriteLog(EventLevel.Error, "Hide updates update UI failed", e);
-                                }
-                            }, null);
                         }
                         catch (Exception e)
                         {
@@ -297,6 +273,30 @@ namespace WindowsTools.Views.Pages
                         }
                     }
                 });
+
+                if (RuntimeHelper.IsElevated)
+                {
+                    try
+                    {
+                        for (int index = 0; index < AvailableUpdateCollection.Count; index++)
+                        {
+                            if (AvailableUpdateCollection[index].UpdateID.Equals(updateItem.UpdateID))
+                            {
+                                AvailableUpdateCollection.RemoveAt(index);
+                                break;
+                            }
+                        }
+
+                        HiddenUpdateCollection.Add(updateItem);
+
+                        IsAUExpanderExpanded = true;
+                        IsHUExpanderExpanded = true;
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Hide updates update UI failed", e);
+                    }
+                }
             }
         }
 
@@ -347,11 +347,11 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 隐藏更新：显示
         /// </summary>
-        private void OnHiddenShowExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnHiddenShowExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is UpdateModel updateItem)
             {
-                Task.Run(() =>
+                await Task.Run(() =>
                 {
                     // 隐藏更新（只有 Power Users 管理组的管理员和成员才能设置此属性的值）
                     if (RuntimeHelper.IsElevated)
@@ -359,30 +359,6 @@ namespace WindowsTools.Views.Pages
                         try
                         {
                             updateItem.Update.IsHidden = false;
-
-                            synchronizationContext.Post(_ =>
-                            {
-                                try
-                                {
-                                    for (int index = 0; index < HiddenUpdateCollection.Count; index++)
-                                    {
-                                        if (HiddenUpdateCollection[index].UpdateID.Equals(updateItem.UpdateID))
-                                        {
-                                            HiddenUpdateCollection.RemoveAt(index);
-                                            break;
-                                        }
-                                    }
-
-                                    AvailableUpdateCollection.Add(updateItem);
-
-                                    IsAUExpanderExpanded = true;
-                                    IsHUExpanderExpanded = true;
-                                }
-                                catch (Exception e)
-                                {
-                                    LogService.WriteLog(EventLevel.Error, "Show updates update UI failed", e);
-                                }
-                            }, null);
                         }
                         catch (Exception e)
                         {
@@ -390,30 +366,52 @@ namespace WindowsTools.Views.Pages
                         }
                     }
                 });
+
+                if (RuntimeHelper.IsElevated)
+                {
+                    try
+                    {
+                        for (int index = 0; index < HiddenUpdateCollection.Count; index++)
+                        {
+                            if (HiddenUpdateCollection[index].UpdateID.Equals(updateItem.UpdateID))
+                            {
+                                HiddenUpdateCollection.RemoveAt(index);
+                                break;
+                            }
+                        }
+
+                        AvailableUpdateCollection.Add(updateItem);
+
+                        IsAUExpanderExpanded = true;
+                        IsHUExpanderExpanded = true;
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Show updates update UI failed", e);
+                    }
+                }
             }
         }
 
         /// <summary>
         /// 更新历史记录，复制更新描述信息
         /// </summary>
-        private void OnCopyInformationExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnCopyInformationExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is UpdateModel updateItem)
             {
-                Task.Run(() =>
+                string copyString = await Task.Run(() =>
                 {
                     StringBuilder copyInformationBuilder = new();
                     copyInformationBuilder.AppendLine(ResourceService.UpdateManagerResource.GetString("Title"));
                     copyInformationBuilder.AppendLine(updateItem.UpdateName);
                     copyInformationBuilder.AppendLine(ResourceService.UpdateManagerResource.GetString("Description"));
                     copyInformationBuilder.AppendLine(updateItem.Description);
-
-                    synchronizationContext.Post(async (_) =>
-                    {
-                        bool copyResult = CopyPasteHelper.CopyToClipboard(copyInformationBuilder.ToString());
-                        await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.UpdateInformation, copyResult));
-                    }, null);
+                    return copyInformationBuilder.ToString();
                 });
+
+                bool copyResult = CopyPasteHelper.CopyToClipboard(copyString);
+                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.UpdateInformation, copyResult));
             }
         }
 
@@ -426,7 +424,14 @@ namespace WindowsTools.Views.Pages
             {
                 Task.Run(() =>
                 {
-                    Process.Start(supportUrl);
+                    try
+                    {
+                        Process.Start(supportUrl);
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Open support url failed", e);
+                    }
                 });
             }
         }
@@ -442,7 +447,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("ms-settings:windowsupdate");
+                try
+                {
+                    Process.Start("ms-settings:windowsupdate");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open windows update settings failed", e);
+                }
             });
         }
 
@@ -453,7 +465,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("ms-settings:windowsinsider");
+                try
+                {
+                    Process.Start("ms-settings:windowsinsider");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open windows insider settings failed", e);
+                }
             });
         }
 
@@ -482,10 +501,10 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 可用更新：隐藏
         /// </summary>
-        private void OnAvailableHideClicked(object sender, RoutedEventArgs args)
+        private async void OnAvailableHideClicked(object sender, RoutedEventArgs args)
         {
             List<UpdateModel> hideList = AvailableUpdateCollection.Where(item => item.IsSelected is true).ToList();
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 if (RuntimeHelper.IsElevated)
                 {
@@ -501,38 +520,38 @@ namespace WindowsTools.Views.Pages
                             continue;
                         }
                     }
-
-                    synchronizationContext.Post(_ =>
-                    {
-                        foreach (UpdateModel hideItem in hideList)
-                        {
-                            try
-                            {
-                                if (hideItem.Update.IsHidden)
-                                {
-                                    for (int index = 0; index < AvailableUpdateCollection.Count; index++)
-                                    {
-                                        if (AvailableUpdateCollection[index].UpdateID.Equals(hideItem.UpdateID))
-                                        {
-                                            AvailableUpdateCollection.RemoveAt(index);
-                                            break;
-                                        }
-                                    }
-
-                                    HiddenUpdateCollection.Add(hideItem);
-
-                                    IsAUExpanderExpanded = true;
-                                    IsHUExpanderExpanded = true;
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                LogService.WriteLog(EventLevel.Error, "Hide updates update UI failed", e);
-                            }
-                        }
-                    }, null);
                 }
             });
+
+            if (RuntimeHelper.IsElevated)
+            {
+                foreach (UpdateModel hideItem in hideList)
+                {
+                    try
+                    {
+                        if (hideItem.Update.IsHidden)
+                        {
+                            for (int index = 0; index < AvailableUpdateCollection.Count; index++)
+                            {
+                                if (AvailableUpdateCollection[index].UpdateID.Equals(hideItem.UpdateID))
+                                {
+                                    AvailableUpdateCollection.RemoveAt(index);
+                                    break;
+                                }
+                            }
+
+                            HiddenUpdateCollection.Add(hideItem);
+
+                            IsAUExpanderExpanded = true;
+                            IsHUExpanderExpanded = true;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Hide updates update UI failed", e);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -601,10 +620,10 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 隐藏更新：显示
         /// </summary>
-        private void OnHiddenShowClicked(object sender, RoutedEventArgs args)
+        private async void OnHiddenShowClicked(object sender, RoutedEventArgs args)
         {
             List<UpdateModel> showList = HiddenUpdateCollection.Where(item => item.IsSelected is true).ToList();
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 if (RuntimeHelper.IsElevated)
                 {
@@ -620,38 +639,38 @@ namespace WindowsTools.Views.Pages
                             continue;
                         }
                     }
-
-                    synchronizationContext.Post(_ =>
-                    {
-                        foreach (UpdateModel showItem in showList)
-                        {
-                            try
-                            {
-                                if (showItem.Update.IsHidden is false)
-                                {
-                                    for (int index = 0; index < HiddenUpdateCollection.Count; index++)
-                                    {
-                                        if (HiddenUpdateCollection[index].UpdateID.Equals(showItem.UpdateID))
-                                        {
-                                            HiddenUpdateCollection.RemoveAt(index);
-                                            break;
-                                        }
-                                    }
-
-                                    AvailableUpdateCollection.Add(showItem);
-
-                                    IsAUExpanderExpanded = true;
-                                    IsHUExpanderExpanded = true;
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                LogService.WriteLog(EventLevel.Error, "Show updates update UI failed", e);
-                            }
-                        }
-                    }, null);
                 }
             });
+
+            if (RuntimeHelper.IsElevated)
+            {
+                foreach (UpdateModel showItem in showList)
+                {
+                    try
+                    {
+                        if (showItem.Update.IsHidden is false)
+                        {
+                            for (int index = 0; index < HiddenUpdateCollection.Count; index++)
+                            {
+                                if (HiddenUpdateCollection[index].UpdateID.Equals(showItem.UpdateID))
+                                {
+                                    HiddenUpdateCollection.RemoveAt(index);
+                                    break;
+                                }
+                            }
+
+                            AvailableUpdateCollection.Add(showItem);
+
+                            IsAUExpanderExpanded = true;
+                            IsHUExpanderExpanded = true;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Show updates update UI failed", e);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -684,10 +703,7 @@ namespace WindowsTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        synchronizationContext.Post(_ =>
-                        {
-                            IsExcludeDrivers = !IsExcludeDrivers;
-                        }, null);
+                        IsExcludeDrivers = !IsExcludeDrivers;
                         LogService.WriteLog(EventLevel.Warning, "Set exclude driver options failed", e);
                     }
                 });

@@ -8,7 +8,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -21,8 +20,8 @@ using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.PInvoke.FirewallAPI;
 using WindowsTools.WindowsAPI.PInvoke.Shlwapi;
 
-// 抑制 CA1806，IDE0060 警告
-#pragma warning disable CA1806,IDE0060
+// 抑制 CA1806，CA1822，IDE0060 警告
+#pragma warning disable CA1806,CA1822,IDE0060
 
 namespace WindowsTools.Views.Pages
 {
@@ -31,7 +30,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class LoopbackManagerPage : Page, INotifyPropertyChanged
     {
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+        private bool isInitialized;
         private IntPtr pACs;
 
         private bool _isLoadCompleted;
@@ -105,11 +104,6 @@ namespace WindowsTools.Views.Pages
         public LoopbackManagerPage()
         {
             InitializeComponent();
-
-            IsLoadCompleted = false;
-            IsSaved = false;
-            Task.Run(GetLoopbackDataAsync);
-            GlobalNotificationService.ApplicationExit += OnApplicationExit;
         }
 
         #region 第一部分：XamlUICommand 命令调用时挂载的事件
@@ -142,6 +136,22 @@ namespace WindowsTools.Views.Pages
         #endregion 第一部分：XamlUICommand 命令调用时挂载的事件
 
         #region 第二部分：网络回环管理页面——挂载的事件
+
+        /// <summary>
+        /// 网络回环页面初始化触发的事件
+        /// </summary>
+        private async void OnLoaded(object sender, RoutedEventArgs args)
+        {
+            if (!isInitialized)
+            {
+                isInitialized = true;
+
+                IsLoadCompleted = false;
+                IsSaved = false;
+                await GetLoopbackDataAsync();
+                GlobalNotificationService.ApplicationExit += OnApplicationExit;
+            }
+        }
 
         /// <summary>
         /// 了解网络回环
@@ -273,18 +283,18 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 刷新
         /// </summary>
-        private void OnRefreshClicked(object sender, RoutedEventArgs args)
+        private async void OnRefreshClicked(object sender, RoutedEventArgs args)
         {
             IsLoadCompleted = false;
             IsSaved = false;
             LoopbackCollection.Clear();
-            Task.Run(GetLoopbackDataAsync);
+            await GetLoopbackDataAsync();
         }
 
         /// <summary>
         /// 保存
         /// </summary>
-        private void OnSaveClicked(object sender, RoutedEventArgs args)
+        private async void OnSaveClicked(object sender, RoutedEventArgs args)
         {
             IsSaved = false;
             List<LoopbackModel> selectedLoopbackList = [];
@@ -297,10 +307,7 @@ namespace WindowsTools.Views.Pages
                 }
             }
 
-            Task.Run(() =>
-            {
-                SetLoopbackState(selectedLoopbackList);
-            });
+            await SetLoopbackStateAsync(selectedLoopbackList);
         }
 
         #endregion 第二部分：网络回环管理页面——挂载的事件
@@ -330,95 +337,99 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async Task GetLoopbackDataAsync()
         {
-            pACs = IntPtr.Zero;
-            List<INET_FIREWALL_APP_CONTAINER> inetLoopbackList = GetLoopbackList();
-            List<SID_AND_ATTRIBUTES> inetLoopbackEnabledList = GetLoopbackEnabledList();
+            List<LoopbackModel> loopbackList = [];
 
-            foreach (INET_FIREWALL_APP_CONTAINER inetContainerItem in inetLoopbackList)
+            await Task.Run(async () =>
             {
-                try
+                pACs = IntPtr.Zero;
+                List<INET_FIREWALL_APP_CONTAINER> inetLoopbackList = GetLoopbackList();
+                List<SID_AND_ATTRIBUTES> inetLoopbackEnabledList = GetLoopbackEnabledList();
+
+                foreach (INET_FIREWALL_APP_CONTAINER inetContainerItem in inetLoopbackList)
                 {
-                    bool isEnabled = GetLoopbackEnabled(inetContainerItem.appContainerSid, inetLoopbackEnabledList);
-
-                    StringBuilder displayNameBuilder = new(1024);
-                    ShlwapiLibrary.SHLoadIndirectString(inetContainerItem.displayName, displayNameBuilder, displayNameBuilder.Capacity, IntPtr.Zero);
-
-                    StringBuilder descriptionBuilder = new(1024);
-                    ShlwapiLibrary.SHLoadIndirectString(inetContainerItem.description, descriptionBuilder, descriptionBuilder.Capacity, IntPtr.Zero);
-
-                    INET_FIREWALL_AC_BINARIES inetBinaries = inetContainerItem.binaries;
-                    string[] stringBinaries = null;
-                    if (inetBinaries.count != 0 && inetBinaries.binaries != IntPtr.Zero)
-                    {
-                        stringBinaries = new string[inetBinaries.count];
-                        long num = inetBinaries.binaries.ToInt64();
-                        for (int i = 0; i < inetBinaries.count; i++)
-                        {
-                            stringBinaries[i] = Marshal.PtrToStringUni(Marshal.ReadIntPtr((IntPtr)num));
-                            num += IntPtr.Size;
-                        }
-                    }
-
-                    SecurityIdentifier appContainerSid = null;
-
                     try
                     {
-                        if (inetContainerItem.appContainerSid != IntPtr.Zero)
+                        bool isEnabled = GetLoopbackEnabled(inetContainerItem.appContainerSid, inetLoopbackEnabledList);
+
+                        StringBuilder displayNameBuilder = new(1024);
+                        ShlwapiLibrary.SHLoadIndirectString(inetContainerItem.displayName, displayNameBuilder, displayNameBuilder.Capacity, IntPtr.Zero);
+
+                        StringBuilder descriptionBuilder = new(1024);
+                        ShlwapiLibrary.SHLoadIndirectString(inetContainerItem.description, descriptionBuilder, descriptionBuilder.Capacity, IntPtr.Zero);
+
+                        INET_FIREWALL_AC_BINARIES inetBinaries = inetContainerItem.binaries;
+                        string[] stringBinaries = null;
+                        if (inetBinaries.count != 0 && inetBinaries.binaries != IntPtr.Zero)
                         {
-                            appContainerSid = new SecurityIdentifier(inetContainerItem.appContainerSid);
+                            stringBinaries = new string[inetBinaries.count];
+                            long num = inetBinaries.binaries.ToInt64();
+                            for (int i = 0; i < inetBinaries.count; i++)
+                            {
+                                stringBinaries[i] = Marshal.PtrToStringUni(Marshal.ReadIntPtr((IntPtr)num));
+                                num += IntPtr.Size;
+                            }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLevel.Error, "Parse app container sid failed", e);
-                    }
 
-                    NTAccount userAccountType = null;
+                        SecurityIdentifier appContainerSid = null;
 
-                    try
-                    {
-                        if (inetContainerItem.userSid != IntPtr.Zero)
+                        try
                         {
-                            SecurityIdentifier userSid = new(inetContainerItem.userSid);
-                            userAccountType = (NTAccount)userSid.Translate(typeof(NTAccount));
+                            if (inetContainerItem.appContainerSid != IntPtr.Zero)
+                            {
+                                appContainerSid = new SecurityIdentifier(inetContainerItem.appContainerSid);
+                            }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLevel.Error, "Parse user sid failed", e);
-                    }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, "Parse app container sid failed", e);
+                        }
 
-                    LoopbackModel loopbackItem = new()
-                    {
-                        AppContainerName = string.IsNullOrEmpty(inetContainerItem.appContainerName) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : inetContainerItem.appContainerName,
-                        AppContainerSID = inetContainerItem.appContainerSid,
-                        AppContainerSIDName = string.IsNullOrEmpty(appContainerSid.ToString()) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : appContainerSid.ToString(),
-                        DisplayName = string.IsNullOrEmpty(displayNameBuilder.ToString()) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : displayNameBuilder.ToString(),
-                        Description = string.IsNullOrEmpty(descriptionBuilder.ToString()) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : descriptionBuilder.ToString(),
-                        WorkingDirectory = string.IsNullOrEmpty(inetContainerItem.workingDirectory) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : inetContainerItem.workingDirectory,
-                        PackageFullName = string.IsNullOrEmpty(inetContainerItem.packageFullName) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : inetContainerItem.packageFullName,
-                        AppBinariesPath = stringBinaries is not null ? stringBinaries : ResourceService.LoopbackManagerResource.GetString("Unknown").Split(),
-                        AppContainerUserName = userAccountType is not null ? userAccountType.ToString() : ResourceService.LoopbackManagerResource.GetString("Unknown"),
-                        IsSelected = isEnabled,
-                        IsOldChecked = isEnabled,
-                    };
+                        NTAccount userAccountType = null;
 
-                    synchronizationContext.Post(_ =>
+                        try
+                        {
+                            if (inetContainerItem.userSid != IntPtr.Zero)
+                            {
+                                SecurityIdentifier userSid = new(inetContainerItem.userSid);
+                                userAccountType = (NTAccount)userSid.Translate(typeof(NTAccount));
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, "Parse user sid failed", e);
+                        }
+
+                        LoopbackModel loopbackItem = new()
+                        {
+                            AppContainerName = string.IsNullOrEmpty(inetContainerItem.appContainerName) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : inetContainerItem.appContainerName,
+                            AppContainerSID = inetContainerItem.appContainerSid,
+                            AppContainerSIDName = string.IsNullOrEmpty(appContainerSid.ToString()) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : appContainerSid.ToString(),
+                            DisplayName = string.IsNullOrEmpty(displayNameBuilder.ToString()) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : displayNameBuilder.ToString(),
+                            Description = string.IsNullOrEmpty(descriptionBuilder.ToString()) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : descriptionBuilder.ToString(),
+                            WorkingDirectory = string.IsNullOrEmpty(inetContainerItem.workingDirectory) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : inetContainerItem.workingDirectory,
+                            PackageFullName = string.IsNullOrEmpty(inetContainerItem.packageFullName) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : inetContainerItem.packageFullName,
+                            AppBinariesPath = stringBinaries is not null ? stringBinaries : ResourceService.LoopbackManagerResource.GetString("Unknown").Split(),
+                            AppContainerUserName = userAccountType is not null ? userAccountType.ToString() : ResourceService.LoopbackManagerResource.GetString("Unknown"),
+                            IsSelected = isEnabled,
+                            IsOldChecked = isEnabled,
+                        };
+
+                        loopbackList.Add(loopbackItem);
+                    }
+                    catch (Exception)
                     {
-                        LoopbackCollection.Add(loopbackItem);
-                    }, null);
+                        continue;
+                    }
                 }
-                catch (Exception)
-                {
-                    continue;
-                }
+
+                await Task.Delay(500);
+            });
+
+            foreach (LoopbackModel loopbackItem in loopbackList)
+            {
+                LoopbackCollection.Add(loopbackItem);
             }
-
-            await Task.Delay(500);
-            synchronizationContext.Post(_ =>
-            {
-                IsLoadCompleted = true;
-            }, null);
+            IsLoadCompleted = true;
         }
 
         /// <summary>
@@ -497,40 +508,32 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 设置网络回环状态
         /// </summary>
-        private void SetLoopbackState(List<LoopbackModel> loopbackList)
+        private async Task SetLoopbackStateAsync(List<LoopbackModel> loopbackList)
         {
             if (loopbackList is not null)
             {
-                SID_AND_ATTRIBUTES[] sidAndAttributesArray = new SID_AND_ATTRIBUTES[loopbackList.Count];
-                int count = 0;
-
-                foreach (LoopbackModel loopbackItem in loopbackList)
+                bool result = await Task.Run(() =>
                 {
-                    if (loopbackItem.IsSelected)
+                    SID_AND_ATTRIBUTES[] sidAndAttributesArray = new SID_AND_ATTRIBUTES[loopbackList.Count];
+                    int count = 0;
+
+                    foreach (LoopbackModel loopbackItem in loopbackList)
                     {
-                        sidAndAttributesArray[count] = new SID_AND_ATTRIBUTES
+                        if (loopbackItem.IsSelected)
                         {
-                            Attributes = 0u,
-                            Sid = loopbackItem.AppContainerSID
-                        };
-                        count++;
+                            sidAndAttributesArray[count] = new SID_AND_ATTRIBUTES
+                            {
+                                Attributes = 0u,
+                                Sid = loopbackItem.AppContainerSID
+                            };
+                            count++;
+                        }
                     }
-                }
 
-                if (FirewallAPILibrary.NetworkIsolationSetAppContainerConfig(loopbackList.Count, sidAndAttributesArray) is 0)
-                {
-                    synchronizationContext.Post(async (_) =>
-                    {
-                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.LoopbackSetResult, true));
-                    }, null);
-                }
-                else
-                {
-                    synchronizationContext.Post(async (_) =>
-                    {
-                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.LoopbackSetResult, false));
-                    }, null);
-                }
+                    return FirewallAPILibrary.NetworkIsolationSetAppContainerConfig(loopbackList.Count, sidAndAttributesArray) is 0;
+                });
+
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.LoopbackSetResult, result));
             }
         }
 

@@ -8,7 +8,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -25,8 +24,8 @@ using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
-// 抑制 IDE0060 警告
-#pragma warning disable IDE0060
+// 抑制 CA1822，IDE0060 警告
+#pragma warning disable CA1822,IDE0060
 
 namespace WindowsTools.Views.Pages
 {
@@ -35,7 +34,6 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class IconExtractPage : Page, INotifyPropertyChanged
     {
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly object iconExtractLock = new();
 
         private string filePath;
@@ -211,7 +209,7 @@ namespace WindowsTools.Views.Pages
         {
             base.OnDragOver(args);
 
-            IReadOnlyList<IStorageItem> dragItemsList = args.DataView.GetStorageItemsAsync().GetResults();
+            IReadOnlyList<IStorageItem> dragItemsList = args.DataView.GetStorageItemsAsync().AsTask().Result;
 
             if (dragItemsList.Count is 1)
             {
@@ -249,34 +247,34 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 拖动文件完成后获取文件信息
         /// </summary>
-        protected override void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
+        protected override async void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
         {
             base.OnDrop(args);
             DragOperationDeferral deferral = args.GetDeferral();
             DataPackageView view = args.DataView;
 
-            Task.Run(async () =>
+            IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
             {
                 try
                 {
                     if (view.Contains(StandardDataFormats.StorageItems))
                     {
-                        IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
-
-                        if (filesList.Count is 1)
-                        {
-                            synchronizationContext.Post(_ =>
-                            {
-                                ParseIconFile(filesList[0].Path);
-                            }, null);
-                        }
+                        return await view.GetStorageItemsAsync();
                     }
                 }
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Warning, "Drop file in icon extract page failed", e);
                 }
+
+                return null;
             });
+
+            if (filesList is not null && filesList.Count is 1)
+            {
+                await ParseIconFileAsync(filesList[0].Path);
+            }
+
             deferral.Complete();
         }
 
@@ -391,7 +389,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 选择文件
         /// </summary>
-        private void OnSelectFileClicked(object sender, RoutedEventArgs args)
+        private async void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
             OpenFileDialog dialog = new()
             {
@@ -401,7 +399,7 @@ namespace WindowsTools.Views.Pages
             };
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
-                ParseIconFile(dialog.FileName);
+                await ParseIconFileAsync(dialog.FileName);
             }
             dialog.Dispose();
         }
@@ -409,7 +407,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 导出选中的图标
         /// </summary>
-        private void OnExportSelectedIconsClicked(object sender, RoutedEventArgs args)
+        private async void OnExportSelectedIconsClicked(object sender, RoutedEventArgs args)
         {
             if (!string.IsNullOrEmpty(filePath))
             {
@@ -423,11 +421,11 @@ namespace WindowsTools.Views.Pages
                 DialogResult result = dialog.ShowDialog();
                 if (result is DialogResult.OK || result is DialogResult.Yes)
                 {
-                    IsSaving = true;
-                    Task.Run(async () =>
-                    {
-                        int saveFailedCount = 0;
+                    IsSaving = false;
+                    int saveFailedCount = 0;
 
+                    await Task.Run(async () =>
+                    {
                         for (int index = 0; index < selectedItemsList.Count; index++)
                         {
                             if (selectedItemsList[index] is object selectedItem)
@@ -468,15 +466,11 @@ namespace WindowsTools.Views.Pages
                         }
 
                         dialog.Dispose();
-
                         await Task.Delay(300);
-
-                        synchronizationContext.Post(async (_) =>
-                        {
-                            IsSaving = false;
-                            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.IconExtract, selectedItemsList.Count - saveFailedCount, saveFailedCount));
-                        }, null);
                     });
+
+                    IsSaving = false;
+                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.IconExtract, selectedItemsList.Count - saveFailedCount, saveFailedCount));
                 }
                 else
                 {
@@ -488,7 +482,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 导出所有图标
         /// </summary>
-        private void OnExportAllIconsClicked(object sender, RoutedEventArgs args)
+        private async void OnExportAllIconsClicked(object sender, RoutedEventArgs args)
         {
             if (!string.IsNullOrEmpty(filePath))
             {
@@ -500,11 +494,11 @@ namespace WindowsTools.Views.Pages
                 DialogResult result = dialog.ShowDialog();
                 if (result is DialogResult.OK || result is DialogResult.Yes)
                 {
-                    IsSaving = true;
-                    Task.Run(async () =>
-                    {
-                        int saveFailedCount = 0;
+                    IsSaving = false;
+                    int saveFailedCount = 0;
 
+                    await Task.Run(async () =>
+                    {
                         lock (iconExtractLock)
                         {
                             for (int index = 0; index < IconCollection.Count; index++)
@@ -549,17 +543,10 @@ namespace WindowsTools.Views.Pages
 
                         dialog.Dispose();
                         await Task.Delay(300);
-
-                        synchronizationContext.Post(async (_) =>
-                        {
-                            lock (iconExtractLock)
-                            {
-                                IsSaving = false;
-                            }
-
-                            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.IconExtract, IconCollection.Count - saveFailedCount, saveFailedCount));
-                        }, null);
                     });
+
+                    IsSaving = false;
+                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.IconExtract, IconCollection.Count - saveFailedCount, saveFailedCount));
                 }
                 else
                 {
@@ -573,25 +560,28 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 解析带有图标的二进制文件
         /// </summary>
-        public void ParseIconFile(string iconFilePath)
+        public async Task ParseIconFileAsync(string iconFilePath)
         {
             lock (iconExtractLock)
             {
                 IconCollection.Clear();
             }
 
-            Task.Run(() =>
+            int iconsNum = 0;
+            List<IconModel> iconsList = [];
+
+            bool result = await Task.Run(() =>
             {
                 try
                 {
                     filePath = iconFilePath;
                     // 图标个数
-                    int iconsNum = User32Library.PrivateExtractIcons(filePath, 0, 0, 0, null, null, 0, 0);
+                    iconsNum = User32Library.PrivateExtractIcons(filePath, 0, 0, 0, null, null, 0, 0);
 
                     // 显示图标
                     IntPtr[] phicon = new IntPtr[iconsNum];
                     int[] piconid = new int[iconsNum];
-                    List<IconModel> iconsList = [];
+
                     int nIcons = User32Library.PrivateExtractIcons(filePath, 0, 48, 48, phicon, piconid, iconsNum, 0);
                     for (int index = 0; index < iconsNum; index++)
                     {
@@ -609,51 +599,53 @@ namespace WindowsTools.Views.Pages
                         icon.Dispose();
                     }
 
-                    synchronizationContext.Post(_ =>
-                    {
-                        try
-                        {
-                            GetResults = string.Format(ResourceService.IconExtractResource.GetString("GetResults"), Path.GetFileName(filePath), iconsNum);
-                            NoResources = string.Format(ResourceService.IconExtractResource.GetString("NoResources"), Path.GetFileName(filePath));
-                            ImageSource = null;
-                            IsImageEmpty = true;
-
-                            foreach (IconModel iconItem in iconsList)
-                            {
-                                BitmapImage bitmapImage = new();
-                                bitmapImage.SetSource(iconItem.IconMemoryStream.AsRandomAccessStream());
-
-                                lock (iconExtractLock)
-                                {
-                                    IconCollection.Add(new IconModel()
-                                    {
-                                        DisplayIndex = iconItem.DisplayIndex,
-                                        IconImage = bitmapImage
-                                    });
-                                }
-
-                                iconItem.IconMemoryStream.Dispose();
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Display {0} icons failed", iconsList), e);
-                        }
-                    }, null);
+                    return true;
                 }
                 catch (Exception e)
                 {
-                    synchronizationContext.Post(_ =>
-                    {
-                        GetResults = string.Format(ResourceService.IconExtractResource.GetString("GetResults"), Path.GetFileName(filePath), 0);
-                        NoResources = string.Format(ResourceService.IconExtractResource.GetString("NoResources"), Path.GetFileName(filePath));
-                        ImageSource = null;
-                        IsImageEmpty = true;
-                    }, null);
-
                     LogService.WriteLog(EventLevel.Error, string.Format("Parse {0} file icons failed", filePath), e);
+                    return false;
                 }
             });
+
+            if (result)
+            {
+                try
+                {
+                    GetResults = string.Format(ResourceService.IconExtractResource.GetString("GetResults"), Path.GetFileName(filePath), iconsNum);
+                    NoResources = string.Format(ResourceService.IconExtractResource.GetString("NoResources"), Path.GetFileName(filePath));
+                    ImageSource = null;
+                    IsImageEmpty = true;
+
+                    foreach (IconModel iconItem in iconsList)
+                    {
+                        BitmapImage bitmapImage = new();
+                        bitmapImage.SetSource(iconItem.IconMemoryStream.AsRandomAccessStream());
+
+                        lock (iconExtractLock)
+                        {
+                            IconCollection.Add(new IconModel()
+                            {
+                                DisplayIndex = iconItem.DisplayIndex,
+                                IconImage = bitmapImage
+                            });
+                        }
+
+                        iconItem.IconMemoryStream.Dispose();
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, string.Format("Display {0} icons failed", iconsList), e);
+                }
+            }
+            else
+            {
+                GetResults = string.Format(ResourceService.IconExtractResource.GetString("GetResults"), Path.GetFileName(filePath), 0);
+                NoResources = string.Format(ResourceService.IconExtractResource.GetString("NoResources"), Path.GetFileName(filePath));
+                ImageSource = null;
+                IsImageEmpty = true;
+            }
         }
 
         /// <summary>

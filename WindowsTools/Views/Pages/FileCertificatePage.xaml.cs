@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -33,7 +32,6 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class FileCertificatePage : Page, INotifyPropertyChanged
     {
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly object fileCertificateLock = new();
 
         private string Total { get; } = ResourceService.FileCertificateResource.GetString("Total");
@@ -84,7 +82,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 拖动文件完成后获取文件信息
         /// </summary>
-        protected override void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
+        protected override async void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
         {
             base.OnDrop(args);
             DragOperationDeferral deferral = args.GetDeferral();
@@ -93,10 +91,12 @@ namespace WindowsTools.Views.Pages
                 DataPackageView view = args.DataView;
                 if (view.Contains(StandardDataFormats.StorageItems))
                 {
-                    Task.Run(async () =>
+                    List<CertificateResultModel> fileCertificateList = [];
+
+                    await Task.Run(async () =>
                     {
                         IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
-                        List<CertificateResultModel> fileCertificateList = [];
+
                         foreach (IStorageItem storageItem in storageItemList)
                         {
                             try
@@ -122,9 +122,9 @@ namespace WindowsTools.Views.Pages
                                 continue;
                             }
                         }
-
-                        AddToFileCertificatePage(fileCertificateList);
                     });
+
+                    AddToFileCertificatePage(fileCertificateList);
                 }
             }
             finally
@@ -158,7 +158,7 @@ namespace WindowsTools.Views.Pages
                 }
                 else
                 {
-                    RemoveFileCertificates();
+                    await RemoveFileCertificatesAsync();
                 }
             }
         }
@@ -198,14 +198,14 @@ namespace WindowsTools.Views.Pages
             }
             else
             {
-                RemoveFileCertificates();
+                await RemoveFileCertificatesAsync();
             }
         }
 
         /// <summary>
         /// 选择文件
         /// </summary>
-        private void OnSelectFileClicked(object sender, RoutedEventArgs args)
+        private async void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
             OpenFileDialog dialog = new()
             {
@@ -214,10 +214,10 @@ namespace WindowsTools.Views.Pages
             };
             if (dialog.ShowDialog() is DialogResult.OK)
             {
-                Task.Run(() =>
-                {
-                    List<CertificateResultModel> fileCertificateList = [];
+                List<CertificateResultModel> fileCertificateList = [];
 
+                await Task.Run(() =>
+                {
                     foreach (string fileName in dialog.FileNames)
                     {
                         try
@@ -245,8 +245,9 @@ namespace WindowsTools.Views.Pages
                     }
 
                     dialog.Dispose();
-                    AddToFileCertificatePage(fileCertificateList);
                 });
+
+                AddToFileCertificatePage(fileCertificateList);
             }
             else
             {
@@ -257,7 +258,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 选择文件夹
         /// </summary>
-        private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
+        private async void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
             OpenFolderDialog dialog = new()
             {
@@ -270,10 +271,11 @@ namespace WindowsTools.Views.Pages
                 OperationFailedCollection.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
-                    Task.Run(() =>
+                    List<CertificateResultModel> fileNameList = [];
+
+                    await Task.Run(() =>
                     {
                         DirectoryInfo currentFolder = new(dialog.SelectedPath);
-                        List<CertificateResultModel> fileNameList = [];
 
                         try
                         {
@@ -297,8 +299,9 @@ namespace WindowsTools.Views.Pages
                         }
 
                         dialog.Dispose();
-                        AddToFileCertificatePage(fileNameList);
                     });
+
+                    AddToFileCertificatePage(fileNameList);
                 }
             }
             else
@@ -322,26 +325,23 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         public void AddToFileCertificatePage(List<CertificateResultModel> fileCertificateList)
         {
-            synchronizationContext.Post(_ =>
+            lock (fileCertificateLock)
             {
-                lock (fileCertificateLock)
+                foreach (CertificateResultModel certificateResultItem in fileCertificateList)
                 {
-                    foreach (CertificateResultModel certificateResultItem in fileCertificateList)
-                    {
-                        FileCertificateCollection.Add(certificateResultItem);
-                    }
+                    FileCertificateCollection.Add(certificateResultItem);
                 }
-            }, null);
+            }
         }
 
         /// <summary>
         /// 移除文件证书
         /// </summary>
-        private void RemoveFileCertificates()
+        private async Task RemoveFileCertificatesAsync()
         {
             List<OperationFailedModel> operationFailedList = [];
             IsModifyingNow = true;
-            Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 lock (fileCertificateLock)
                 {
@@ -378,25 +378,22 @@ namespace WindowsTools.Views.Pages
                 }
 
                 await Task.Delay(300);
-
-                synchronizationContext.Post(async (_) =>
-                {
-                    IsModifyingNow = false;
-                    foreach (OperationFailedModel operationFailedItem in operationFailedList)
-                    {
-                        OperationFailedCollection.Add(operationFailedItem);
-                    }
-
-                    int count = FileCertificateCollection.Count;
-
-                    lock (fileCertificateLock)
-                    {
-                        FileCertificateCollection.Clear();
-                    }
-
-                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
-                }, null);
             });
+
+            IsModifyingNow = false;
+            foreach (OperationFailedModel operationFailedItem in operationFailedList)
+            {
+                OperationFailedCollection.Add(operationFailedItem);
+            }
+
+            int count = FileCertificateCollection.Count;
+
+            lock (fileCertificateLock)
+            {
+                FileCertificateCollection.Clear();
+            }
+
+            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
         }
     }
 }

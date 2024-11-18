@@ -29,8 +29,8 @@ using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
-// 抑制 CA1806，IDE0060 警告
-#pragma warning disable CA1806,IDE0060
+// 抑制 CA1806，CA1822，IDE0060 警告
+#pragma warning disable CA1806,CA1822,IDE0060
 
 namespace WindowsTools.Views.Pages
 {
@@ -210,30 +210,37 @@ namespace WindowsTools.Views.Pages
 
             Task.Run(() =>
             {
-                if (!string.IsNullOrEmpty(filePath))
+                try
                 {
-                    if (File.Exists(filePath))
+                    if (!string.IsNullOrEmpty(filePath))
                     {
-                        IntPtr pidlList = Shell32Library.ILCreateFromPath(filePath);
-                        if (pidlList != IntPtr.Zero)
+                        if (File.Exists(filePath))
                         {
-                            Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, IntPtr.Zero, 0);
-                            Shell32Library.ILFree(pidlList);
-                        }
-                    }
-                    else
-                    {
-                        string directoryPath = Path.GetDirectoryName(filePath);
-
-                        if (Directory.Exists(directoryPath))
-                        {
-                            Process.Start(directoryPath);
+                            IntPtr pidlList = Shell32Library.ILCreateFromPath(filePath);
+                            if (pidlList != IntPtr.Zero)
+                            {
+                                Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, IntPtr.Zero, 0);
+                                Shell32Library.ILFree(pidlList);
+                            }
                         }
                         else
                         {
-                            Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                            string directoryPath = Path.GetDirectoryName(filePath);
+
+                            if (Directory.Exists(directoryPath))
+                            {
+                                Process.Start(directoryPath);
+                            }
+                            else
+                            {
+                                Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                            }
                         }
                     }
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open download file path failed", e);
                 }
             });
         }
@@ -275,39 +282,40 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 删除下载（包括文件）
         /// </summary>
-        private void OnDeleteWithFileExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnDeleteWithFileExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
             DownloadModel downloadItem = args.Parameter as DownloadModel;
 
-            Task.Run(() =>
+            bool result = await Task.Run(() =>
             {
-                if (!string.IsNullOrEmpty(downloadItem.FilePath))
+                if (!string.IsNullOrEmpty(downloadItem.FilePath) && File.Exists(downloadItem.FilePath))
                 {
-                    if (File.Exists(downloadItem.FilePath))
+                    try
                     {
-                        try
-                        {
-                            File.Delete(downloadItem.FilePath);
-                        }
-                        catch (Exception e)
-                        {
-                            LogService.WriteLog(EventLevel.Warning, string.Format("Delete file {0} failed", downloadItem.FilePath), e);
-                        }
+                        File.Delete(downloadItem.FilePath);
+                        return true;
                     }
-
-                    synchronizationContext.Post(_ =>
+                    catch (Exception e)
                     {
-                        foreach (DownloadModel item in DownloadCollection)
-                        {
-                            if (downloadItem.DownloadID.Equals(item.DownloadID))
-                            {
-                                DownloadCollection.Remove(item);
-                                break;
-                            }
-                        }
-                    }, null);
+                        LogService.WriteLog(EventLevel.Warning, string.Format("Delete file {0} failed", downloadItem.FilePath), e);
+                        return false;
+                    }
                 }
+
+                return false;
             });
+
+            if (result)
+            {
+                foreach (DownloadModel item in DownloadCollection)
+                {
+                    if (downloadItem.DownloadID.Equals(item.DownloadID))
+                    {
+                        DownloadCollection.Remove(item);
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -473,8 +481,15 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
-                Process.Start(downloadFolder);
+                try
+                {
+                    Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
+                    Process.Start(downloadFolder);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open default download folder failed", e);
+                }
             });
         }
 
@@ -485,7 +500,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("https://learn.microsoft.com/windows/deployment/do/waas-delivery-optimization");
+                try
+                {
+                    Process.Start("https://learn.microsoft.com/windows/deployment/do/waas-delivery-optimization");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open learn delivery optimization url failed", e);
+                }
             });
         }
 
@@ -496,7 +518,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("ms-settings:delivery-optimization");
+                try
+                {
+                    Process.Start("ms-settings:delivery-optimization");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open delivery optimization settings failed", e);
+                }
             });
         }
 
@@ -670,13 +699,13 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 获取输入的下载链接
         /// </summary>
-        private void OnDownloadLinkTextChanged(object sender, TextChangedEventArgs args)
+        private async void OnDownloadLinkTextChanged(object sender, TextChangedEventArgs args)
         {
             DownloadLinkText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
 
             if (!string.IsNullOrEmpty(DownloadLinkText))
             {
-                Task.Run(() =>
+                string createFileName = await Task.Run(() =>
                 {
                     try
                     {
@@ -686,19 +715,24 @@ namespace WindowsTools.Views.Pages
                             string fileName = uri.Segments[uri.Segments.Length - 1];
                             if (fileName is not "/")
                             {
-                                synchronizationContext.Post(_ =>
-                                {
-                                    DownloadFileNameText = fileName;
-                                    IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
-                                }, null);
+                                return fileName;
                             }
                         }
+
+                        return string.Empty;
                     }
                     catch (Exception e)
                     {
                         LogService.WriteLog(EventLevel.Warning, "Parse download link file name failed", e);
+                        return string.Empty;
                     }
                 });
+
+                if (!string.IsNullOrEmpty(createFileName))
+                {
+                    DownloadFileNameText = createFileName;
+                    IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
+                }
             }
             else
             {

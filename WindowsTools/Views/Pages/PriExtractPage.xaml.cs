@@ -9,7 +9,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -38,8 +37,6 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class PriExtractPage : Page, INotifyPropertyChanged
     {
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-
         private bool isStringAllSelect = false;
         private bool isFilePathAllSelect = false;
         private bool isEmbeddedDataAllSelect = false;
@@ -248,7 +245,7 @@ namespace WindowsTools.Views.Pages
         {
             base.OnDragOver(args);
 
-            IReadOnlyList<IStorageItem> dragItemsList = args.DataView.GetStorageItemsAsync().GetResults();
+            IReadOnlyList<IStorageItem> dragItemsList = args.DataView.GetStorageItemsAsync().AsTask().Result;
 
             if (dragItemsList.Count is 1)
             {
@@ -286,38 +283,38 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 拖动文件完成后获取文件信息
         /// </summary>
-        protected override void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
+        protected override async void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
         {
             base.OnDrop(args);
             DragOperationDeferral deferral = args.GetDeferral();
             DataPackageView view = args.DataView;
 
-            Task.Run(async () =>
+            IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
             {
                 try
                 {
                     if (view.Contains(StandardDataFormats.StorageItems))
                     {
-                        IReadOnlyList<IStorageItem> filesList = await view.GetStorageItemsAsync();
-
-                        if (filesList.Count is 1)
-                        {
-                            synchronizationContext.Post(_ =>
-                            {
-                                ParseResourceFile(filesList[0].Path);
-                            }, null);
-                        }
+                        return await view.GetStorageItemsAsync();
                     }
                 }
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Warning, "Drop file in pri extract page failed", e);
-                    synchronizationContext.Post(_ =>
-                    {
-                        IsProcessing = false;
-                    }, null);
                 }
+
+                return null;
             });
+
+            if (filesList is not null && filesList.Count is 1)
+            {
+                ParseResourceFile(filesList[0].Path);
+            }
+            else
+            {
+                IsProcessing = false;
+            }
+
             deferral.Complete();
         }
 
@@ -325,7 +322,7 @@ namespace WindowsTools.Views.Pages
 
         #region 第二部分：XamlUICommand 命令调用时挂载的事件
 
-        private void OnLanguageExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnLanguageExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
             if (LanguageFlyout.IsOpen)
             {
@@ -355,18 +352,15 @@ namespace WindowsTools.Views.Pages
                 }
                 else
                 {
-                    Task.Run(() =>
+                    List<StringModel> coincidentStringList = await Task.Run(() =>
                     {
-                        List<StringModel> coincidentStringList = stringList.Where(item => item.Language.Equals(SelectedLanguage.Key, StringComparison.OrdinalIgnoreCase)).ToList();
-
-                        synchronizationContext.Post(_ =>
-                        {
-                            foreach (StringModel stringItem in coincidentStringList)
-                            {
-                                StringCollection.Add(stringItem);
-                            }
-                        }, null);
+                        return stringList.Where(item => item.Language.Equals(SelectedLanguage.Key, StringComparison.OrdinalIgnoreCase)).ToList();
                     });
+
+                    foreach (StringModel stringItem in coincidentStringList)
+                    {
+                        StringCollection.Add(stringItem);
+                    }
                 }
 
                 foreach (StringModel stringItem in stringList)
@@ -403,7 +397,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 导出嵌入数据
         /// </summary>
-        private void OnEmbeddedDataExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnEmbeddedDataExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is EmbeddedDataModel embeddedDataItem)
             {
@@ -416,7 +410,7 @@ namespace WindowsTools.Views.Pages
                 DialogResult result = dialog.ShowDialog();
                 if (result is DialogResult.OK || result is DialogResult.Yes)
                 {
-                    Task.Run(() =>
+                    await Task.Run(() =>
                     {
                         try
                         {
@@ -435,11 +429,9 @@ namespace WindowsTools.Views.Pages
                         }
 
                         dialog.Dispose();
-                        synchronizationContext.Post(_ =>
-                        {
-                            IsProcessing = false;
-                        }, null);
                     });
+
+                    IsProcessing = false;
                 }
                 else
                 {
@@ -682,7 +674,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 导出选中的嵌入数据
         /// </summary>
-        private void OnExportSelectedEmbeddedDataClicked(object sender, RoutedEventArgs args)
+        private async void OnExportSelectedEmbeddedDataClicked(object sender, RoutedEventArgs args)
         {
             List<EmbeddedDataModel> selectedEmbeddedDataList = EmbeddedDataCollection.Where(item => item.IsSelected is true).ToList();
             if (selectedEmbeddedDataList.Count > 0)
@@ -696,7 +688,7 @@ namespace WindowsTools.Views.Pages
                 DialogResult result = dialog.ShowDialog();
                 if (result is DialogResult.OK || result is DialogResult.Yes)
                 {
-                    Task.Run(() =>
+                    await Task.Run(() =>
                     {
                         try
                         {
@@ -713,11 +705,9 @@ namespace WindowsTools.Views.Pages
                         }
 
                         dialog.Dispose();
-                        synchronizationContext.Post(_ =>
-                        {
-                            IsProcessing = false;
-                        }, null);
                     });
+
+                    IsProcessing = false;
                 }
                 else
                 {
@@ -770,7 +760,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 导出所有的嵌入数据
         /// </summary>
-        private void OnExportAllEmbeddedDataClicked(object sender, RoutedEventArgs args)
+        private async void OnExportAllEmbeddedDataClicked(object sender, RoutedEventArgs args)
         {
             OpenFolderDialog dialog = new()
             {
@@ -785,7 +775,7 @@ namespace WindowsTools.Views.Pages
                 List<EmbeddedDataModel> exportAllEmbeddedDataList = [.. EmbeddedDataCollection];
                 if (exportAllEmbeddedDataList.Count > 0)
                 {
-                    Task.Run(() =>
+                    await Task.Run(() =>
                     {
                         try
                         {
@@ -802,11 +792,9 @@ namespace WindowsTools.Views.Pages
                         }
 
                         dialog.Dispose();
-                        synchronizationContext.Post(_ =>
-                        {
-                            IsProcessing = false;
-                        }, null);
                     });
+
+                    IsProcessing = false;
                 }
             }
             else
@@ -820,7 +808,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 解析 PRI 资源文件
         /// </summary>
-        public void ParseResourceFile(string filePath)
+        public async void ParseResourceFile(string filePath)
         {
             isLoadCompleted = false;
             IsProcessing = true;
@@ -828,8 +816,9 @@ namespace WindowsTools.Views.Pages
             StringCollection.Clear();
             FilePathCollection.Clear();
             EmbeddedDataCollection.Clear();
+            List<string> languageList = [];
 
-            Task.Run(() =>
+            bool result = await Task.Run(() =>
             {
                 stringFileName = string.Format("{0} - {1}.txt", Path.GetFileName(filePath), "Strings.txt");
                 filePathFileName = string.Format("{0} - {1}.txt", Path.GetFileName(filePath), "FilePath.txt");
@@ -1211,67 +1200,66 @@ namespace WindowsTools.Views.Pages
                     }
 
                     // 根据分段列表得到的内容进行归纳分类
-                    List<string> languageList = stringList.Select(item => item.Language).Distinct().ToList();
+                    languageList.AddRange(stringList.Select(item => item.Language).Distinct());
                     languageList.Sort();
                     stringList.Sort();
                     filePathList.Sort((item1, item2) => item1.Key.CompareTo(item2.Key));
                     embeddedDataList.Sort((item1, item2) => item1.Key.CompareTo(item2.Key));
-
-                    // 显示获取到的所有内容
-                    synchronizationContext.Post(_ =>
-                    {
-                        LanguageCollection.Add(new LanguageModel()
-                        {
-                            IsChecked = true,
-                            LangaugeInfo = new KeyValuePair<string, string>("AllLanguage", ResourceService.PriExtractResource.GetString("AllLanguage"))
-                        });
-
-                        foreach (string languageItem in languageList)
-                        {
-                            CultureInfo cultureInfo = CultureInfo.GetCultureInfo(languageItem);
-                            LanguageCollection.Add(new LanguageModel()
-                            {
-                                IsChecked = false,
-                                LangaugeInfo = new KeyValuePair<string, string>(cultureInfo.Name, string.Format("{0}[{1}]", cultureInfo.DisplayName, languageItem))
-                            });
-                        }
-
-                        SelectedLanguage = LanguageCollection[0].LangaugeInfo;
-
-                        foreach (StringModel stringItem in stringList)
-                        {
-                            StringCollection.Add(stringItem);
-                        }
-
-                        foreach (FilePathModel filePathItem in filePathList)
-                        {
-                            FilePathCollection.Add(filePathItem);
-                        }
-
-                        foreach (EmbeddedDataModel embeddedDataItem in embeddedDataList)
-                        {
-                            EmbeddedDataCollection.Add(embeddedDataItem);
-                        }
-
-                        IsProcessing = false;
-                        GetResults = string.Format(ResourceService.PriExtractResource.GetString("GetResults"), Path.GetFileName(filePath), stringList.Count + filePathList.Count + embeddedDataList.Count);
-                        isLoadCompleted = true;
-                    }, null);
+                    return true;
                 }
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Error, string.Format("Parse file {0} resources failed", filePath), e);
-
-                    synchronizationContext.Post(_ =>
-                    {
-                        IsProcessing = false;
-                        GetResults = string.Format(ResourceService.PriExtractResource.GetString("GetResults"), Path.GetFileName(filePath), 0);
-                        isLoadCompleted = true;
-                    }, null);
-
-                    return;
+                    return false;
                 }
             });
+
+            if (result)
+            {
+                // 显示获取到的所有内容
+                LanguageCollection.Add(new LanguageModel()
+                {
+                    IsChecked = true,
+                    LangaugeInfo = new KeyValuePair<string, string>("AllLanguage", ResourceService.PriExtractResource.GetString("AllLanguage"))
+                });
+
+                foreach (string languageItem in languageList)
+                {
+                    CultureInfo cultureInfo = CultureInfo.GetCultureInfo(languageItem);
+                    LanguageCollection.Add(new LanguageModel()
+                    {
+                        IsChecked = false,
+                        LangaugeInfo = new KeyValuePair<string, string>(cultureInfo.Name, string.Format("{0}[{1}]", cultureInfo.DisplayName, languageItem))
+                    });
+                }
+
+                SelectedLanguage = LanguageCollection[0].LangaugeInfo;
+
+                foreach (StringModel stringItem in stringList)
+                {
+                    StringCollection.Add(stringItem);
+                }
+
+                foreach (FilePathModel filePathItem in filePathList)
+                {
+                    FilePathCollection.Add(filePathItem);
+                }
+
+                foreach (EmbeddedDataModel embeddedDataItem in embeddedDataList)
+                {
+                    EmbeddedDataCollection.Add(embeddedDataItem);
+                }
+
+                IsProcessing = false;
+                GetResults = string.Format(ResourceService.PriExtractResource.GetString("GetResults"), Path.GetFileName(filePath), stringList.Count + filePathList.Count + embeddedDataList.Count);
+                isLoadCompleted = true;
+            }
+            else
+            {
+                IsProcessing = false;
+                GetResults = string.Format(ResourceService.PriExtractResource.GetString("GetResults"), Path.GetFileName(filePath), 0);
+                isLoadCompleted = true;
+            }
         }
     }
 }

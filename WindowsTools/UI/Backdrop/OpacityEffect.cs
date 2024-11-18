@@ -46,7 +46,7 @@ namespace WindowsTools.UI.Backdrop
         {
             if (index is 0)
             {
-                BackdropHelper.PropertyValueStatics.Value.CreateSingle(Opacity, out IntPtr ptr);
+                BackdropHelper.PropertyValueStatics.CreateSingle(Opacity, out IntPtr ptr);
                 if (ptr != IntPtr.Zero)
                 {
                     source = ptr;

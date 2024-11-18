@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.System;
@@ -27,8 +26,6 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-
         private ElementTheme _windowTheme;
 
         public ElementTheme WindowTheme
@@ -465,17 +462,16 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 将提权模式下拖放获得到的文件列表发送到各个页面
         /// </summary>
-        public void SendReceivedFilesList(List<string> filesList)
+        public async Task SendReceivedFilesListAsync(List<string> filesList)
         {
             Type currentPageType = GetCurrentPageType();
             if (currentPageType.Equals(typeof(FileNamePage)))
             {
                 FileNamePage page = (MainNavigationView.Content as Frame).Content as FileNamePage;
+                List<OldAndNewNameModel> fileNameList = [];
 
-                Task.Run(() =>
+                await Task.Run(() =>
                 {
-                    List<OldAndNewNameModel> fileNameList = [];
-
                     foreach (string file in filesList)
                     {
                         FileInfo fileInfo = new(file);
@@ -490,18 +486,17 @@ namespace WindowsTools.Views.Pages
                             OriginalFilePath = file,
                         });
                     }
-
-                    page.AddToFileNamePage(fileNameList);
                 });
+
+                page.AddToFileNamePage(fileNameList);
             }
             else if (currentPageType.Equals(typeof(ExtensionNamePage)))
             {
                 ExtensionNamePage page = (MainNavigationView.Content as Frame).Content as ExtensionNamePage;
+                List<OldAndNewNameModel> extensionNameList = [];
 
-                Task.Run(() =>
+                await Task.Run(() =>
                 {
-                    List<OldAndNewNameModel> extensionNameList = [];
-
                     foreach (string file in filesList)
                     {
                         FileInfo fileInfo = new(file);
@@ -519,18 +514,17 @@ namespace WindowsTools.Views.Pages
                             });
                         }
                     }
-
-                    page.AddToExtensionNamePage(extensionNameList);
                 });
+
+                page.AddToExtensionNamePage(extensionNameList);
             }
             else if (currentPageType.Equals(typeof(UpperAndLowerCasePage)))
             {
                 UpperAndLowerCasePage page = (MainNavigationView.Content as Frame).Content as UpperAndLowerCasePage;
+                List<OldAndNewNameModel> upperAndLowerCaseList = [];
 
-                Task.Run(() =>
+                await Task.Run(() =>
                 {
-                    List<OldAndNewNameModel> upperAndLowerCaseList = [];
-
                     foreach (string file in filesList)
                     {
                         FileInfo fileInfo = new(file);
@@ -545,18 +539,17 @@ namespace WindowsTools.Views.Pages
                             OriginalFilePath = file,
                         });
                     }
-
-                    page.AddtoUpperAndLowerCasePage(upperAndLowerCaseList);
                 });
+
+                page.AddtoUpperAndLowerCasePage(upperAndLowerCaseList);
             }
             else if (currentPageType.Equals(typeof(FilePropertiesPage)))
             {
                 FilePropertiesPage page = (MainNavigationView.Content as Frame).Content as FilePropertiesPage;
+                List<OldAndNewPropertiesModel> filePropertiesList = [];
 
-                Task.Run(() =>
+                await Task.Run(() =>
                 {
-                    List<OldAndNewPropertiesModel> filePropertiesList = [];
-
                     foreach (string file in filesList)
                     {
                         FileInfo fileInfo = new(file);
@@ -571,18 +564,17 @@ namespace WindowsTools.Views.Pages
                             FilePath = file,
                         });
                     }
-
-                    page.AddToFilePropertiesPage(filePropertiesList);
                 });
+
+                page.AddToFilePropertiesPage(filePropertiesList);
             }
             else if (currentPageType.Equals(typeof(FileCertificatePage)))
             {
                 FileCertificatePage page = (MainNavigationView.Content as Frame).Content as FileCertificatePage;
+                List<CertificateResultModel> fileCertificateList = [];
 
-                Task.Run(() =>
+                await Task.Run(() =>
                 {
-                    List<CertificateResultModel> fileCertificateList = [];
-
                     foreach (string file in filesList)
                     {
                         FileInfo fileInfo = new(file);
@@ -600,16 +592,16 @@ namespace WindowsTools.Views.Pages
                             });
                         }
                     }
-
-                    page.AddToFileCertificatePage(fileCertificateList);
                 });
+
+                page.AddToFileCertificatePage(fileCertificateList);
             }
             else if (currentPageType.Equals(typeof(IconExtractPage)))
             {
                 IconExtractPage page = (MainNavigationView.Content as Frame).Content as IconExtractPage;
                 if (filesList.Count is 1 && (Path.GetExtension(filesList[0]).Equals(".exe") || Path.GetExtension(filesList[0]).Equals(".dll")))
                 {
-                    page.ParseIconFile(filesList[0]);
+                    await page.ParseIconFileAsync(filesList[0]);
                 }
             }
             else if (currentPageType.Equals(typeof(PriExtractPage)))

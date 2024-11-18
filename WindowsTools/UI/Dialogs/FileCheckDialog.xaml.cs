@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Services.Controls.Download;
+using WindowsTools.Services.Root;
 using WindowsTools.UI.TeachingTips;
 
 // 抑制 IDE0060 警告
@@ -21,7 +22,6 @@ namespace WindowsTools.UI.Dialogs
     {
         private readonly string downloadUrl;
         private readonly string downloadFilePath;
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
 
         public FileCheckDialog(string url, string saveFilePath)
         {
@@ -33,24 +33,26 @@ namespace WindowsTools.UI.Dialogs
         /// <summary>
         /// 删除本地文件并下载文件
         /// </summary>
-        private void OnPrimaryButtonClicked(object sender, ContentDialogButtonClickEventArgs args)
+        private async void OnPrimaryButtonClicked(object sender, ContentDialogButtonClickEventArgs args)
         {
-            Task.Run(() =>
+            bool result = await Task.Run(() =>
             {
                 try
                 {
                     File.Delete(downloadFilePath);
                     DownloadSchedulerService.CreateDownload(downloadUrl, downloadFilePath);
+                    return true;
                 }
                 catch (Exception)
                 {
-                    synchronizationContext.Post(async (_) =>
-                    {
-                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.DeleteFileFailed));
-                    }, null);
-                    Process.Start(Path.GetDirectoryName(downloadFilePath));
+                    return false;
                 }
             });
+
+            if (!result)
+            {
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.DeleteFileFailed));
+            }
         }
 
         /// <summary>
@@ -60,7 +62,14 @@ namespace WindowsTools.UI.Dialogs
         {
             Task.Run(() =>
             {
-                Process.Start(Path.GetDirectoryName(downloadFilePath));
+                try
+                {
+                    Process.Start(Path.GetDirectoryName(downloadFilePath));
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open download file path failed", e);
+                }
             });
         }
     }

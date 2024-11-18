@@ -48,7 +48,7 @@ namespace WindowsTools.UI.Backdrop
         {
             if (index is 0)
             {
-                BackdropHelper.PropertyValueStatics.Value.CreateUInt32((uint)Mode, out IntPtr ptr);
+                BackdropHelper.PropertyValueStatics.CreateUInt32((uint)Mode, out IntPtr ptr);
                 if (ptr != IntPtr.Zero)
                 {
                     source = ptr;

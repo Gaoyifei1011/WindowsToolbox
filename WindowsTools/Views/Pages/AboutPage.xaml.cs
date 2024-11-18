@@ -10,7 +10,6 @@ using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
@@ -36,9 +35,7 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class AboutPage : Page, INotifyPropertyChanged
     {
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-
-        private string AppVersion = ResourceService.AboutResource.GetString("AppVersion");
+        private readonly string AppVersion = ResourceService.AboutResource.GetString("AppVersion");
 
         private bool _isChecking;
 
@@ -64,7 +61,6 @@ namespace WindowsTools.Views.Pages
             { "Microsoft.Windows.SDK.Contracts", new Uri("https://aka.ms/WinSDKProjectURL") },
             { "Microsoft.WindowsAppSDK", new Uri("https://github.com/microsoft/windowsappsdk") },
             { "Mile.Xaml", new Uri("https://github.com/ProjectMile/Mile.Xaml") },
-            { "System.Numerics.Vectors", new Uri("https://dot.net") },
             { "System.Private.Uri", new Uri("https://dot.net") }
         };
 
@@ -89,11 +85,9 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 固定应用到桌面
         /// </summary>
-        private void OnPinToDesktopClicked(object sender, RoutedEventArgs args)
+        private async void OnPinToDesktopClicked(object sender, RoutedEventArgs args)
         {
-            bool isCreatedSuccessfully = false;
-
-            Task.Run(() =>
+            bool isCreatedSuccessfully = await Task.Run(() =>
             {
                 try
                 {
@@ -104,20 +98,16 @@ namespace WindowsTools.Views.Pages
                     Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
                     appShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", aumidBuilder.ToString());
                     appShortcut.Save();
-                    isCreatedSuccessfully = true;
+                    return true;
                 }
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Error, "Create desktop shortcut failed.", e);
-                }
-                finally
-                {
-                    synchronizationContext.Post(async (_) =>
-                    {
-                        await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.Desktop, isCreatedSuccessfully));
-                    }, null);
+                    return false;
                 }
             });
+
+            await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.Desktop, isCreatedSuccessfully));
         }
 
         /// <summary>
@@ -151,10 +141,7 @@ namespace WindowsTools.Views.Pages
             }
             finally
             {
-                synchronizationContext.Post(async (_) =>
-                {
-                    await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.StartScreen, isPinnedSuccessfully));
-                }, null);
+                await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.StartScreen, isPinnedSuccessfully));
             }
         }
 
@@ -183,10 +170,7 @@ namespace WindowsTools.Views.Pages
             }
             finally
             {
-                synchronizationContext.Send(async (_) =>
-                {
-                    await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.Taskbar, isPinnedSuccessfully));
-                }, null);
+                await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.Taskbar, isPinnedSuccessfully));
             }
         }
 
@@ -197,7 +181,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("https://github.com/Gaoyifei1011/WindowsTools/releases");
+                try
+                {
+                    Process.Start("https://github.com/Gaoyifei1011/WindowsTools/releases");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open show release notes url failed", e);
+                }
             });
         }
 
@@ -216,7 +207,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("https://github.com/Gaoyifei1011/WindowsTools/releases");
+                try
+                {
+                    Process.Start("https://github.com/Gaoyifei1011/WindowsTools/releases");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open help translate url failed", e);
+                }
             });
         }
 
@@ -227,7 +225,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("https://github.com/Gaoyifei1011/WindowsTools");
+                try
+                {
+                    Process.Start("https://github.com/Gaoyifei1011/WindowsTools");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open project description url failed", e);
+                }
             });
         }
 
@@ -238,21 +243,30 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("https://github.com/Gaoyifei1011/WindowsTools/issues");
+                try
+                {
+                    Process.Start("https://github.com/Gaoyifei1011/WindowsTools/issues");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open send feedback url failed", e);
+                }
             });
         }
 
         /// <summary>
         /// 检查更新
         /// </summary>
-        private void OnCheckUpdateClicked(object sender, RoutedEventArgs args)
+        private async void OnCheckUpdateClicked(object sender, RoutedEventArgs args)
         {
             if (!IsChecking)
             {
                 IsChecking = true;
 
-                Task.Run(async () =>
+                (bool, bool) result = await Task.Run(async () =>
                 {
+                    bool isNewest = false;
+
                     try
                     {
                         HttpClient httpClient = new();
@@ -276,7 +290,7 @@ namespace WindowsTools.Views.Pages
                             httpClient.Dispose();
                             responseMessage.Dispose();
 
-                            Regex tagRegex = new(@"""tag_name"":[\s]*""v(\d.\d.\d{3}.\d)""");
+                            Regex tagRegex = new(@"""tag_name"":[\s]*""v(\d.\d.\d{3,}.\d)""");
 
                             MatchCollection tagCollection = tagRegex.Matches(responseString);
 
@@ -286,12 +300,7 @@ namespace WindowsTools.Views.Pages
 
                                 if (tagGroups.Count > 0 && new Version(tagGroups[1].Value) is Version tagVersion)
                                 {
-                                    bool isNewest = InfoHelper.AppVersion >= tagVersion;
-
-                                    synchronizationContext.Post(async (_) =>
-                                    {
-                                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.CheckUpdate, isNewest));
-                                    }, null);
+                                    isNewest = InfoHelper.AppVersion >= tagVersion;
                                 }
                             }
                         }
@@ -300,32 +309,33 @@ namespace WindowsTools.Views.Pages
                             httpClient.Dispose();
                             responseMessage.Dispose();
                         }
+
+                        return (true, isNewest);
                     }
                     // 捕捉因为网络失去链接获取信息时引发的异常
                     catch (COMException e)
                     {
                         LogService.WriteLog(EventLevel.Informational, "Check update request failed", e);
+                        return (false, isNewest);
                     }
 
                     // 捕捉因访问超时引发的异常
                     catch (TaskCanceledException e)
                     {
                         LogService.WriteLog(EventLevel.Informational, "Check update request timeout", e);
+                        return (false, isNewest);
                     }
 
                     // 其他异常
                     catch (Exception e)
                     {
                         LogService.WriteLog(EventLevel.Warning, "Check update request unknown exception", e);
-                    }
-                    finally
-                    {
-                        synchronizationContext.Post(_ =>
-                        {
-                            IsChecking = false;
-                        }, null);
+                        return (false, isNewest);
                     }
                 });
+
+                IsChecking = false;
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.CheckUpdate, result.Item2));
             }
         }
 
@@ -334,10 +344,20 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSystemInformationClicked(object sender, RoutedEventArgs args)
         {
-            Task.Run(() =>
+            if (RuntimeHelper.IsElevated)
             {
-                Process.Start("ms-settings:about");
-            });
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        Process.Start("ms-settings:about");
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Open system information failed", e);
+                    }
+                });
+            }
         }
 
         /// <summary>
@@ -357,7 +377,14 @@ namespace WindowsTools.Views.Pages
             {
                 Task.Run(() =>
                 {
-                    Process.Start("ms-settings:appsfeatures-app");
+                    try
+                    {
+                        Process.Start("ms-settings:appsfeatures-app");
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Open app settings failed", e);
+                    }
                 });
             }
         }
@@ -367,10 +394,20 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnTroubleShootClicked(object sender, RoutedEventArgs args)
         {
-            Task.Run(() =>
+            if (RuntimeHelper.IsElevated)
             {
-                Process.Start("ms-settings:troubleshoot");
-            });
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        Process.Start("ms-settings:troubleshoot");
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Open trouble shoot failed", e);
+                    }
+                });
+            }
         }
 
         #endregion 第一部分：关于页面——挂载的事件

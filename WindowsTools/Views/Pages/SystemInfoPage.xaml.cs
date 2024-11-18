@@ -1,7 +1,10 @@
+using System;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using WindowsTools.Services.Root;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060
@@ -25,7 +28,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("CompMgmtLauncher.exe");
+                try
+                {
+                    Process.Start("CompMgmtLauncher.exe");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open computer management launcher failed", e);
+                }
             });
         }
 
@@ -36,7 +46,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("mmc.exe");
+                try
+                {
+                    Process.Start("mmc.exe");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open management console failed", e);
+                }
             });
         }
 
@@ -47,7 +64,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("Regedit.exe");
+                try
+                {
+                    Process.Start("Regedit.exe");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open registry editor failed", e);
+                }
             });
         }
     }

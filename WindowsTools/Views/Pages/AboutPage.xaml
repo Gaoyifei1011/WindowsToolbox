@@ -334,6 +334,7 @@
                                 Margin="30,0,16,5"
                                 Click="{x:Bind OnSystemInformationClicked}"
                                 Content="{x:Bind root:ResourceService.AboutResource.GetString('SystemInformation')}"
+                                NavigateUri="ms-settings:about"
                                 Style="{StaticResource HyperlinkButtonStyle}" />
 
                             <MenuFlyoutSeparator />
@@ -410,6 +411,7 @@
                                 <HyperlinkButton
                                     Click="{x:Bind OnTroubleShootClicked}"
                                     Content="{x:Bind root:ResourceService.AboutResource.GetString('TroubleShoot')}"
+                                    NavigateUri="ms-settings:troubleshoot"
                                     Style="{StaticResource HyperlinkButtonStyle}" />
                             </StackPanel>
                         </StackPanel>

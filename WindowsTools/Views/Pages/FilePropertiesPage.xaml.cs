@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.ApplicationModel.DataTransfer;
@@ -32,7 +31,6 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class FilePropertiesPage : Page, INotifyPropertyChanged
     {
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly object filePropertiesLock = new();
 
         private string Total { get; } = ResourceService.FilePropertiesResource.GetString("Total");
@@ -243,7 +241,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 拖动文件完成后获取文件信息
         /// </summary>
-        protected override void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
+        protected override async void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
         {
             base.OnDrop(args);
             DragOperationDeferral deferral = args.GetDeferral();
@@ -252,10 +250,11 @@ namespace WindowsTools.Views.Pages
                 DataPackageView view = args.DataView;
                 if (view.Contains(StandardDataFormats.StorageItems))
                 {
-                    Task.Run(async () =>
+                    List<OldAndNewPropertiesModel> filePropertiesList = [];
+
+                    await Task.Run(async () =>
                     {
                         IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
-                        List<OldAndNewPropertiesModel> filePropertiesList = [];
 
                         foreach (IStorageItem storageItem in storageItemList)
                         {
@@ -279,9 +278,9 @@ namespace WindowsTools.Views.Pages
                                 continue;
                             }
                         }
-
-                        AddToFilePropertiesPage(filePropertiesList);
                     });
+
+                    AddToFilePropertiesPage(filePropertiesList);
                 }
             }
             catch (Exception e)
@@ -351,7 +350,7 @@ namespace WindowsTools.Views.Pages
                     else
                     {
                         PreviewChangedFileAttributes();
-                        ChangeFileAttributes();
+                        await ChangeFileAttributesAsync();
                     }
                 }
                 else
@@ -449,7 +448,7 @@ namespace WindowsTools.Views.Pages
                 else
                 {
                     PreviewChangedFileAttributes();
-                    ChangeFileAttributes();
+                    await ChangeFileAttributesAsync();
                 }
             }
             else
@@ -461,7 +460,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 选择文件
         /// </summary>
-        private void OnSelectFileClicked(object sender, RoutedEventArgs args)
+        private async void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
             OpenFileDialog dialog = new()
             {
@@ -470,10 +469,10 @@ namespace WindowsTools.Views.Pages
             };
             if (dialog.ShowDialog() is DialogResult.OK)
             {
-                Task.Run(() =>
-                {
-                    List<OldAndNewPropertiesModel> filePropertiesList = [];
+                List<OldAndNewPropertiesModel> filePropertiesList = [];
 
+                await Task.Run(() =>
+                {
                     foreach (string fileName in dialog.FileNames)
                     {
                         try
@@ -498,8 +497,9 @@ namespace WindowsTools.Views.Pages
                     }
 
                     dialog.Dispose();
-                    AddToFilePropertiesPage(filePropertiesList);
                 });
+
+                AddToFilePropertiesPage(filePropertiesList);
             }
             else
             {
@@ -510,7 +510,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 选择文件夹
         /// </summary>
-        private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
+        private async void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
             OpenFolderDialog dialog = new()
             {
@@ -523,11 +523,12 @@ namespace WindowsTools.Views.Pages
                 OperationFailedCollection.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
-                    Task.Run(() =>
+                    List<OldAndNewPropertiesModel> directoryNameList = [];
+                    List<OldAndNewPropertiesModel> fileNameList = [];
+
+                    await Task.Run(() =>
                     {
                         DirectoryInfo currentFolder = new(dialog.SelectedPath);
-                        List<OldAndNewPropertiesModel> directoryNameList = [];
-                        List<OldAndNewPropertiesModel> fileNameList = [];
 
                         try
                         {
@@ -572,9 +573,10 @@ namespace WindowsTools.Views.Pages
                         }
 
                         dialog.Dispose();
-                        AddToFilePropertiesPage(directoryNameList);
-                        AddToFilePropertiesPage(fileNameList);
                     });
+
+                    AddToFilePropertiesPage(directoryNameList);
+                    AddToFilePropertiesPage(fileNameList);
                 }
             }
             else
@@ -636,16 +638,13 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         public void AddToFilePropertiesPage(List<OldAndNewPropertiesModel> filePropertiesList)
         {
-            synchronizationContext.Post(_ =>
+            lock (filePropertiesLock)
             {
-                lock (filePropertiesLock)
+                foreach (OldAndNewPropertiesModel oldAndNewPropertiesItem in filePropertiesList)
                 {
-                    foreach (OldAndNewPropertiesModel oldAndNewPropertiesItem in filePropertiesList)
-                    {
-                        FilePropertiesCollection.Add(oldAndNewPropertiesItem);
-                    }
+                    FilePropertiesCollection.Add(oldAndNewPropertiesItem);
                 }
-            }, null);
+            }
         }
 
         /// <summary>
@@ -705,11 +704,11 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 更改文件属性
         /// </summary>
-        private void ChangeFileAttributes()
+        private async Task ChangeFileAttributesAsync()
         {
             List<OperationFailedModel> operationFailedList = [];
             IsModifyingNow = true;
-            Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 lock (filePropertiesLock)
                 {
@@ -749,25 +748,22 @@ namespace WindowsTools.Views.Pages
                 }
 
                 await Task.Delay(300);
-
-                synchronizationContext.Post(async (_) =>
-                {
-                    IsModifyingNow = false;
-                    foreach (OperationFailedModel operationFailedItem in operationFailedList)
-                    {
-                        OperationFailedCollection.Add(operationFailedItem);
-                    }
-
-                    int count = FilePropertiesCollection.Count;
-
-                    lock (filePropertiesLock)
-                    {
-                        FilePropertiesCollection.Clear();
-                    }
-
-                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
-                }, null);
             });
+
+            IsModifyingNow = false;
+            foreach (OperationFailedModel operationFailedItem in operationFailedList)
+            {
+                OperationFailedCollection.Add(operationFailedItem);
+            }
+
+            int count = FilePropertiesCollection.Count;
+
+            lock (filePropertiesLock)
+            {
+                FilePropertiesCollection.Clear();
+            }
+
+            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
         }
     }
 }

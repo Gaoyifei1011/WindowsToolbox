@@ -27,6 +27,7 @@ namespace WindowsTools.Views.Pages
         private readonly CInitiateWinSAT cInitiateWinSAT = new();
         private readonly Guid CLSID_ProgressDialog = new("F8383852-FCD3-11d1-A6B9-006097DF5BD4");
 
+        private bool isInitialized;
         private _RemotableHandle _RemotableHandle = new();
         private CWinSATCallbacks cWinSATCallbacks;
         private IProgressDialog progressDialog;
@@ -196,10 +197,21 @@ namespace WindowsTools.Views.Pages
         public WinSATPage()
         {
             InitializeComponent();
-            GetWinSATInfo();
         }
 
         #region 第一部分：系统评估页面——挂载的事件
+
+        /// <summary>
+        /// 初始化完成后加载的事件
+        /// </summary>
+        private async void OnLoaded(object sender, RoutedEventArgs args)
+        {
+            if (!isInitialized)
+            {
+                isInitialized = true;
+                await GetWinSATInfoAsync();
+            }
+        }
 
         /// <summary>
         /// 运行评估
@@ -243,7 +255,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), @"performance\winsat\datastore"));
+                try
+                {
+                    Process.Start(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), @"performance\winsat\datastore"));
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open assessment log folder failed", e);
+                }
             });
         }
 
@@ -252,10 +271,14 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnLearnSystemAssessmentClicked(object sender, RoutedEventArgs args)
         {
-            Task.Run(() =>
+            try
             {
                 Process.Start("https://learn.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/configure-windows-system-assessment-test-scores");
-            });
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, "Open learn system assessment url failed", e);
+            }
         }
 
         #endregion 第一部分：系统评估页面——挂载的事件
@@ -310,7 +333,7 @@ namespace WindowsTools.Views.Pages
         {
             if (cWinSATCallbacks is not null && progressDialog is not null)
             {
-                synchronizationContext.Post(_ =>
+                synchronizationContext.Post(async _ =>
                 {
                     try
                     {
@@ -321,7 +344,7 @@ namespace WindowsTools.Views.Pages
                             cWinSATCallbacks.StatusUpdated -= OnStatusUpdated;
                             cWinSATCallbacks = null;
                             progressDialog = null;
-                            GetWinSATInfo();
+                            await GetWinSATInfoAsync();
                             IsNotRunningAssessment = true;
                         }
                     }
@@ -341,17 +364,19 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 加载系统评估信息
         /// </summary>
-        private void GetWinSATInfo()
+        private async Task GetWinSATInfoAsync()
         {
-            Task.Run(() =>
+            double basicScore = 0.0;
+            double processorSubScore = 0.0;
+            double memorySubScore = 0.0;
+            double graphicsSubScore = 0.0;
+            double gamingGraphicsSubScore = 0.0;
+            double primaryDiskSubScore = 0.0;
+            dynamic assessmentDate = null;
+
+            await Task.Run(() =>
             {
                 CQueryWinSAT queryWinSAT = new();
-                double basicScore = 0.0;
-                double processorSubScore = 0.0;
-                double memorySubScore = 0.0;
-                double graphicsSubScore = 0.0;
-                double gamingGraphicsSubScore = 0.0;
-                double primaryDiskSubScore = 0.0;
 
                 try
                 {
@@ -361,38 +386,23 @@ namespace WindowsTools.Views.Pages
                     graphicsSubScore = queryWinSAT.Info.GetAssessmentInfo(WINSAT_ASSESSMENT_TYPE.WINSAT_ASSESSMENT_GRAPHICS).Score;
                     gamingGraphicsSubScore = queryWinSAT.Info.GetAssessmentInfo(WINSAT_ASSESSMENT_TYPE.WINSAT_ASSESSMENT_D3D).Score;
                     primaryDiskSubScore = queryWinSAT.Info.GetAssessmentInfo(WINSAT_ASSESSMENT_TYPE.WINSAT_ASSESSMENT_DISK).Score;
-                    dynamic assessmentDate = queryWinSAT.Info.AssessmentDateTime;
-
-                    synchronizationContext.Post(_ =>
-                    {
-                        BasicScoreExisted = basicScore is not 0.0;
-                        BasicScore = basicScore is 0.0 ? "N/A" : basicScore.ToString("F1");
-                        ProcessorSubScore = processorSubScore is 0.0 ? "N/A" : processorSubScore.ToString("F1");
-                        MemorySubScore = memorySubScore is 0.0 ? "N/A" : memorySubScore.ToString("F1");
-                        GraphicsSubScore = graphicsSubScore is 0.0 ? "N/A" : graphicsSubScore.ToString("F1");
-                        GamingGraphicsSubScore = gamingGraphicsSubScore is 0.0 ? "N/A" : gamingGraphicsSubScore.ToString("F1");
-                        PrimaryDiskSubScore = primaryDiskSubScore is 0.0 ? "N/A" : primaryDiskSubScore.ToString("F1");
-                        ResultMessage = basicScore is 0.0 ? ResourceService.WinSATResource.GetString("ErrorMessage") : string.Format(ResourceService.WinSATResource.GetString("SuccessMessage"), assessmentDate);
-                        ResultServerity = basicScore is 0.0 ? InfoBarSeverity.Warning : InfoBarSeverity.Success;
-                    }, null);
+                    assessmentDate = queryWinSAT.Info.AssessmentDateTime;
                 }
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Error, "Query WinSAT score failed", e);
-                    synchronizationContext.Post(_ =>
-                    {
-                        BasicScoreExisted = false;
-                        BasicScore = "N/A";
-                        ProcessorSubScore = "N/A";
-                        MemorySubScore = "N/A";
-                        GraphicsSubScore = "N/A";
-                        GamingGraphicsSubScore = "N/A";
-                        PrimaryDiskSubScore = "N/A";
-                        ResultMessage = ResourceService.WinSATResource.GetString("ErrorMessage");
-                        ResultServerity = InfoBarSeverity.Warning;
-                    }, null);
                 }
             });
+
+            BasicScoreExisted = basicScore is not 0.0;
+            BasicScore = basicScore is 0.0 ? "N/A" : basicScore.ToString("F1");
+            ProcessorSubScore = processorSubScore is 0.0 ? "N/A" : processorSubScore.ToString("F1");
+            MemorySubScore = memorySubScore is 0.0 ? "N/A" : memorySubScore.ToString("F1");
+            GraphicsSubScore = graphicsSubScore is 0.0 ? "N/A" : graphicsSubScore.ToString("F1");
+            GamingGraphicsSubScore = gamingGraphicsSubScore is 0.0 ? "N/A" : gamingGraphicsSubScore.ToString("F1");
+            PrimaryDiskSubScore = primaryDiskSubScore is 0.0 ? "N/A" : primaryDiskSubScore.ToString("F1");
+            ResultMessage = basicScore is 0.0 ? ResourceService.WinSATResource.GetString("ErrorMessage") : string.Format(ResourceService.WinSATResource.GetString("SuccessMessage"), assessmentDate is null ? string.Empty : assessmentDate);
+            ResultServerity = basicScore is 0.0 ? InfoBarSeverity.Warning : InfoBarSeverity.Success;
         }
     }
 }

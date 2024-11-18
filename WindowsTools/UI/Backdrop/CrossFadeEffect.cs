@@ -48,7 +48,7 @@ namespace WindowsTools.UI.Backdrop
         {
             if (index is 0)
             {
-                BackdropHelper.PropertyValueStatics.Value.CreateSingle((float)CrossFade, out IntPtr ptr);
+                BackdropHelper.PropertyValueStatics.CreateSingle((float)CrossFade, out IntPtr ptr);
                 if (ptr != IntPtr.Zero)
                 {
                     source = ptr;

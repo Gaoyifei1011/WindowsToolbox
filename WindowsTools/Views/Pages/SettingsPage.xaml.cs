@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.UI.Xaml;
@@ -262,7 +263,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("ms-settings:colors");
+                try
+                {
+                    Process.Start("ms-settings:colors");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open system theme settings failed", e);
+                }
             });
         }
 
@@ -273,7 +281,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("ms-settings:easeofaccess-visualeffects");
+                try
+                {
+                    Process.Start("ms-settings:easeofaccess-visualeffects");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open system backdrop settings failed", e);
+                }
             });
         }
 
@@ -284,7 +299,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start("ms-settings:regionlanguage-languageoptions");
+                try
+                {
+                    Process.Start("ms-settings:regionlanguage-languageoptions");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open system language settings failed", e);
+                }
             });
         }
 
@@ -328,13 +350,20 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                ProcessStartInfo restartInfo = new()
+                try
                 {
-                    FileName = "cmd.exe",
-                    Arguments = "/C taskkill /f /im explorer.exe & start \"\" explorer.exe",
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                };
-                Process.Start(restartInfo);
+                    ProcessStartInfo restartInfo = new()
+                    {
+                        FileName = "cmd.exe",
+                        Arguments = "/C taskkill /f /im explorer.exe & start \"\" explorer.exe",
+                        WindowStyle = ProcessWindowStyle.Hidden,
+                    };
+                    Process.Start(restartInfo);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Restart explorer failed", e);
+                }
             });
         }
 
@@ -372,7 +401,14 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
-                Process.Start(DownloadFolder);
+                try
+                {
+                    Process.Start(DownloadFolder);
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open saved folder failed", e);
+                }
             });
         }
 
@@ -455,7 +491,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnClearClicked(object sender, RoutedEventArgs args)
         {
-            bool result = LogService.ClearLog();
+            bool result = await LogService.ClearLogAsync();
             await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.LogClean, result));
         }
 

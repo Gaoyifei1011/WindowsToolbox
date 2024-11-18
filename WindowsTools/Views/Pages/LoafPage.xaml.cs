@@ -5,10 +5,8 @@ using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -26,10 +24,10 @@ namespace WindowsTools.Views.Pages
     /// </summary>
     public sealed partial class LoafPage : Page, INotifyPropertyChanged
     {
+        private bool isInitialized;
         private bool isLoadWallpaperFailed;
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
 
-        private string LoafTimeToolTip { get; } = ResourceService.ExtensionNameResource.GetString("LoafTimeToolTip");
+        private string LoafTimeToolTip { get; } = ResourceService.LoafResource.GetString("LoafTimeToolTip");
 
         private bool _loadImageCompleted = false;
 
@@ -155,64 +153,6 @@ namespace WindowsTools.Views.Pages
         {
             InitializeComponent();
             SelectedUpdateStyle = UpdateStyleList[0];
-
-            Task.Run(async () =>
-            {
-                try
-                {
-                    HttpClient httpClient = new()
-                    {
-                        Timeout = TimeSpan.FromSeconds(5)
-                    };
-
-                    HttpResponseMessage responseMessage = await httpClient.GetAsync("https://bing.biturl.top/?resolution=1920&format=image");
-
-                    if (responseMessage.IsSuccessStatusCode)
-                    {
-                        Stream stream = await responseMessage.Content.ReadAsStreamAsync();
-                        IRandomAccessStream randomAccessStream = stream.AsRandomAccessStream();
-
-                        synchronizationContext.Post(async (_) =>
-                        {
-                            try
-                            {
-                                BitmapImage bitmapImage = new();
-                                await bitmapImage.SetSourceAsync(randomAccessStream);
-                                LoafImage = bitmapImage;
-                                LoadImageCompleted = true;
-                                responseMessage.Dispose();
-                                httpClient.Dispose();
-                            }
-                            catch (Exception e)
-                            {
-                                isLoadWallpaperFailed = true;
-                                LoafImage = ActualTheme is ElementTheme.Light ? new(new Uri("ms-appx:///Assets/Images/LoafLightWallpaper.jpg")) : new(new Uri("ms-appx:///Assets/Images/LoafDarkWallpaper.jpg"));
-                                LoadImageCompleted = true;
-                                LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
-                            }
-                        }, null);
-                    }
-                    else
-                    {
-                        synchronizationContext.Post(_ =>
-                        {
-                            isLoadWallpaperFailed = true;
-                            LoafImage = ActualTheme is ElementTheme.Light ? new(new Uri("ms-appx:///Assets/Images/LoafLightWallpaper.jpg")) : new(new Uri("ms-appx:///Assets/Images/LoafDarkWallpaper.jpg"));
-                            LoadImageCompleted = true;
-                        }, null);
-                    }
-                }
-                catch (Exception e)
-                {
-                    isLoadWallpaperFailed = true;
-                    LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
-                    synchronizationContext.Post(_ =>
-                    {
-                        LoafImage = ActualTheme is ElementTheme.Light ? new(new Uri("ms-appx:///Assets/Images/LoafLightWallpaper.jpg")) : new(new Uri("ms-appx:///Assets/Images/LoafDarkWallpaper.jpg"));
-                        LoadImageCompleted = true;
-                    }, null);
-                }
-            });
         }
 
         #region 第一部分：摸鱼页面——挂载的事件
@@ -220,8 +160,58 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 在已构造 FrameworkElement 并将其添加到对象树中并准备好交互时发生的事件
         /// </summary>
-        private void OnLoaded(object sender, RoutedEventArgs args)
+        private async void OnLoaded(object sender, RoutedEventArgs args)
         {
+            if (!isInitialized)
+            {
+                isInitialized = true;
+                MemoryStream memoryStream = new();
+
+                await Task.Run(async () =>
+                {
+                    try
+                    {
+                        HttpClient httpClient = new()
+                        {
+                            Timeout = TimeSpan.FromSeconds(5)
+                        };
+
+                        HttpResponseMessage responseMessage = await httpClient.GetAsync("https://bing.biturl.top/?resolution=1920&format=image");
+
+                        if (responseMessage.IsSuccessStatusCode)
+                        {
+                            Stream stream = await responseMessage.Content.ReadAsStreamAsync();
+                            await stream.CopyToAsync(memoryStream);
+                            memoryStream.Seek(0, SeekOrigin.Begin);
+                        }
+
+                        responseMessage.Dispose();
+                        httpClient.Dispose();
+                    }
+                    catch (Exception e)
+                    {
+                        isLoadWallpaperFailed = true;
+                        LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
+                    }
+                });
+
+                try
+                {
+                    BitmapImage bitmapImage = new();
+                    await bitmapImage.SetSourceAsync(memoryStream.AsRandomAccessStream());
+                    LoafImage = bitmapImage;
+                    LoadImageCompleted = true;
+                    memoryStream.Dispose();
+                }
+                catch (Exception e)
+                {
+                    isLoadWallpaperFailed = true;
+                    LoafImage = ActualTheme is ElementTheme.Light ? new(new Uri("ms-appx:///Assets/Images/LoafLightWallpaper.jpg")) : new(new Uri("ms-appx:///Assets/Images/LoafDarkWallpaper.jpg"));
+                    LoadImageCompleted = true;
+                    LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
+                }
+            }
+
             ActualThemeChanged += OnActualThemeChanged;
         }
 
