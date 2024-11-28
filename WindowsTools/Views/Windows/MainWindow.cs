@@ -196,39 +196,20 @@ namespace WindowsTools.Views.Windows
         protected override void OnMove(EventArgs args)
         {
             base.OnMove(args);
-            if ((Content as FrameworkElement).XamlRoot is not null)
+            if (Content is not null && Content.XamlRoot is not null)
             {
-                IReadOnlyList<Popup> popupRootList = VisualTreeHelper.GetOpenPopupsForXamlRoot((Content as FrameworkElement).XamlRoot);
-                foreach (Popup popupRoot in popupRootList)
+                // 窗口移动时，校对并纠正弹出窗口位置错误的问题
+                foreach (Popup popup in VisualTreeHelper.GetOpenPopupsForXamlRoot(Content.XamlRoot))
                 {
-                    // 关闭浮出控件
-                    if (popupRoot.Child is FlyoutPresenter flyoutPresenter && !flyoutPresenter.Name.Equals("DialogFlyout"))
-                    {
-                        popupRoot.IsOpen = false;
-                    }
-
-                    // 关闭菜单浮出控件
-                    if (popupRoot.Child as MenuFlyoutPresenter is not null)
-                    {
-                        popupRoot.IsOpen = false;
-                    }
-
-                    // 关闭日期选择器浮出控件
-                    if (popupRoot.Child as DatePickerFlyoutPresenter is not null)
-                    {
-                        popupRoot.IsOpen = false;
-                    }
-
-                    // 关闭时间选择器浮出控件
-                    if (popupRoot.Child as TimePickerFlyoutPresenter is not null)
-                    {
-                        popupRoot.IsOpen = false;
-                    }
+                    ElementCompositeMode compositeMode = popup.CompositeMode;
+                    popup.CompositeMode = compositeMode is ElementCompositeMode.SourceOver ? ElementCompositeMode.MinBlend : ElementCompositeMode.SourceOver;
+                    popup.CompositeMode = compositeMode;
                 }
             }
 
             // 修改托管 CoreWindow 窗口的大小和位置
             Form CoreWindowHostWindowForm = typeof(XamlApplicationExtensions).GetField("CoreWindowHostWindow", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null) as Form;
+
             CoreWindowHostWindowForm.Location = Location;
             CoreWindowHostWindowForm.Size = Size;
         }
@@ -247,8 +228,7 @@ namespace WindowsTools.Views.Windows
 
                 if (Content.XamlRoot is not null)
                 {
-                    IReadOnlyList<Popup> PopupRoot = VisualTreeHelper.GetOpenPopupsForXamlRoot(Content.XamlRoot);
-                    foreach (Popup popupRoot in PopupRoot)
+                    foreach (Popup popupRoot in VisualTreeHelper.GetOpenPopupsForXamlRoot(Content.XamlRoot))
                     {
                         // 关闭内容对话框
                         if (popupRoot.Child as ContentDialog is not null)
