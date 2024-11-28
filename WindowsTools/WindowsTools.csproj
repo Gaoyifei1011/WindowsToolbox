@@ -281,7 +281,7 @@
 
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1742" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241106002" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" GeneratePathProperty="true" />
     <PackageReference Include="Mile.Xaml" Version="2.3.1064" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
 
