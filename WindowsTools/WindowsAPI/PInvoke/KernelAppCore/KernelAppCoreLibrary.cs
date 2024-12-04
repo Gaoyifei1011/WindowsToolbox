@@ -21,7 +21,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.KernelAppCore
         /// <param name="buffer">包信息，表示为 PACKAGE_INFO 结构的数组。</param>
         /// <param name="count">缓冲区中的结构数。</param>
         /// <returns>如果该函数成功，则返回 ERROR_SUCCESS。 否则，该函数将返回错误代码。</returns>
-        [DllImport(KernelAppCore, CharSet = CharSet.Unicode, EntryPoint = "GetCurrentPackageInfo2", SetLastError = false, PreserveSig = true)]
+        [DllImport(KernelAppCore, CharSet = CharSet.Unicode, EntryPoint = "GetCurrentPackageInfo2", PreserveSig = true, SetLastError = false)]
         public static extern int GetCurrentPackageInfo2(PACKAGE_FLAGS flags, PackagePathType packagePathType, ref uint bufferLength, [MarshalAs(UnmanagedType.LPArray)] byte[] buffer, out uint count);
     }
 }

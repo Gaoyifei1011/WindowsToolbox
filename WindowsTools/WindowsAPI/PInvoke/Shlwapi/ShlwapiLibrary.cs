@@ -14,7 +14,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shlwapi
     /// </summary>
     public static class ShlwapiLibrary
     {
-        public const string Shlwapi = "shlwapi.dll";
+        private const string Shlwapi = "shlwapi.dll";
 
         /// <summary>
         /// 打开或创建文件，并检索要读取或写入该文件的流。

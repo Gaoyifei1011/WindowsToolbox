@@ -6,6 +6,7 @@
     <Application.Resources>
         <controls:XamlControlsResources>
             <controls:XamlControlsResources.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/Button.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/AppBarButton.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/DateTimePicker.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/HyperlinkButton.xaml" />

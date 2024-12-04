@@ -8,7 +8,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Shell32
     /// </summary>
     public static partial class Shell32Library
     {
-        public const string Shell32 = "shell32.dll";
+        private const string Shell32 = "shell32.dll";
 
         /// <summary>
         /// 对指定文件执行操作。

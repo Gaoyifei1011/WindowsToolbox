@@ -15,14 +15,14 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
     /// </summary>
     public static class Shell32Library
     {
-        public const string Shell32 = "shell32.dll";
+        private const string Shell32 = "shell32.dll";
 
         /// <summary>
         /// 注册窗口是否接受已删除的文件。
         /// </summary>
         /// <param name="hwnd">正在注册是否接受已删除文件的窗口的标识符。</param>
         /// <param name="fAccept">一个值，该值指示 hWnd 参数标识的窗口是否接受已删除的文件。 如果接受已删除的文件，则此值为 TRUE ;如果值为 FALSE ，则表示停止接受已删除的文件。</param>
-        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragAcceptFiles", SetLastError = false, PreserveSig = true)]
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragAcceptFiles", PreserveSig = true, SetLastError = false)]
         public static extern void DragAcceptFiles(IntPtr hwnd, bool fAccept);
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// 如果索引值为0xFFFFFFFF，则返回值是已删除文件的计数。 请注意，索引变量本身返回不变，因此保持0xFFFFFFFF。
         /// 如果索引值介于零和已删除文件总数之间，并且 lpszFile 缓冲区地址为 NULL，则返回值是缓冲区所需的大小（以字符为单位）， 不包括 终止 null 字符。
         /// </returns>
-        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragQueryFileW", SetLastError = false, PreserveSig = true)]
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragQueryFileW", PreserveSig = true, SetLastError = false)]
         public static extern uint DragQueryFile(IntPtr hDrop, uint iFile, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpszFile, uint cch);
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// <param name="hDrop">述已删除文件的放置结构的句柄。</param>
         /// <param name="lppt">指向 POINT 结构的指针，当此函数成功返回时，该结构接收删除文件时鼠标指针的坐标。</param>
         /// <returns>如果删除发生在窗口的工作区中，则为 TRUE;否则为 FALSE。</returns>
-        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragQueryPoint", SetLastError = false, PreserveSig = true)]
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragQueryPoint", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DragQueryPoint(IntPtr hDrop, out Point lppt);
 
@@ -55,7 +55,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// 描述已删除的文件的结构的标识符。 此句柄是从WM_DROPFILES消息的 wParam 参数检索的。
         /// </summary>
         /// <param name="hDrop">释放系统分配用于将文件名传输到应用程序的内存。</param>
-        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragFinish", SetLastError = false, PreserveSig = true)]
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragFinish", PreserveSig = true, SetLastError = false)]
         public static extern void DragFinish(IntPtr hDrop);
 
         /// <summary>
@@ -63,22 +63,31 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// </summary>
         /// <param name="pszPath">指向包含路径的以 null 结尾的 Unicode 字符串的指针。 此字符串的长度应不超过 MAX_PATH 个字符，包括终止 null 字符。</param>
         /// <returns>返回指向对应于路径的 ITEMIDLIST 结构的指针。</returns>
-        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILCreateFromPathW", SetLastError = false, PreserveSig = true)]
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILCreateFromPathW", PreserveSig = true, SetLastError = false)]
         public static extern IntPtr ILCreateFromPath([MarshalAs(UnmanagedType.LPWStr)] string pszPath);
 
         /// <summary>
         /// 释放 Shell 分配的 ITEMIDLIST 结构。
         /// </summary>
         /// <param name="pidl">指向要释放的 ITEMIDLIST 结构的指针。 此参数可以为 NULL。</param>
-        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILFree", SetLastError = false, PreserveSig = true)]
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ILFree", PreserveSig = true, SetLastError = false)]
         public static extern void ILFree(IntPtr pidl);
+
+        /// <summary>
+        /// 向系统发送应用栏消息。
+        /// </summary>
+        /// <param name="dwMessage">要发送的应用栏消息值。</param>
+        /// <param name="pData">指向 APPBARDATA 结构的指针。 进入和退出时结构的内容取决于 dwMessage 参数中设置的值。</param>
+        /// <returns>此函数返回一个依赖于消息的值。 </returns>
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHAppBarMessage", PreserveSig = true, SetLastError = false)]
+        public static extern IntPtr SHAppBarMessage(ABM dwMessage, ref APPBARDATA pData);
 
         /// <summary>
         /// 对指定文件执行操作。
         /// </summary>
         /// <param name="lpExecInfo">指向 SHELLEXECUTEINFO 结构的指针，该结构包含并接收有关正在执行的应用程序的信息。</param>
         /// <returns>如果成功，则返回 TRUE ;否则为 FALSE。 调用 GetLastError 获取扩展错误信息。</returns>
-        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteExW", SetLastError = false, PreserveSig = true)]
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteExW", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ShellExecuteEx(ref SHELLEXECUTEINFO lpExecInfo);
 
@@ -98,7 +107,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// <param name="riid">对接口的 IID 的引用，以通过ppv（通常为IID_IShellItem或IID_IShellItem2）进行检索。</param>
         /// <param name="ppv">此方法成功返回时，包含 riid 中请求的接口指针。这通常是IShellItem或IShellItem2。</param>
         /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
-        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHCreateItemFromParsingName", SetLastError = false, PreserveSig = true)]
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHCreateItemFromParsingName", PreserveSig = true, SetLastError = false)]
         public static extern int SHCreateItemFromParsingName([MarshalAs(UnmanagedType.LPWStr)] string pszPath, IBindCtx pbc, Guid riid, [MarshalAs(UnmanagedType.Interface)] out IShellItem ppv);
 
         /// <summary>
@@ -115,7 +124,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// 此方法返回时，包含指向以 null 结尾的 Unicode 字符串的指针的地址，该字符串指定已知文件夹的路径。 调用进程负责通过调用 CoTaskMemFree 不再需要此资源后释放此资源，无论 SHGetKnownFolderPath 是否成功。 返回的路径不包括尾随反斜杠。 例如，返回“C：\Users”而不是“C：\Users\”。
         /// </param>
         /// <returns>如果成功，则返回S_OK，否则返回错误值</returns>
-        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderPath", SetLastError = false, PreserveSig = true)]
+        [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderPath", PreserveSig = true, SetLastError = false)]
         public static extern int SHGetKnownFolderPath(Guid rfid, KNOWN_FOLDER_FLAG dwFlags, IntPtr hToken, [MarshalAs(UnmanagedType.LPWStr)] out string pszPath);
 
         /// <summary>

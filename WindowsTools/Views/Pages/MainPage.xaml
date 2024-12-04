@@ -9,47 +9,17 @@
     xmlns:root="using:WindowsTools.Services.Root"
     xmlns:service="using:WindowsTools.Services.Controls.Settings"
     x:Name="MainContent"
-    ActualThemeChanged="{x:Bind OnActualThemeChanged}"
     FlowDirection="{x:Bind GetControlDirection(service:LanguageService.RightToLeft)}"
     RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}"
     mc:Ignorable="d">
 
     <Grid>
-        <!--  应用标题栏内容  -->
         <Grid
             x:Name="AppTitlebar"
             Height="45"
             Margin="45,0,0,0"
             VerticalAlignment="Top"
             x:FieldModifier="public">
-
-            <!--  标题栏图标和应用名称  -->
-            <Grid
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Canvas.ZIndex="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="22" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <Image
-                    Grid.Column="0"
-                    Width="18"
-                    Height="18"
-                    Margin="2,3,0,0"
-                    HorizontalAlignment="Left"
-                    Source="ms-appx:///Assets/Square44x44Logo.altform-unplated_targetsize-256.png" />
-                <TextBlock
-                    Grid.Column="1"
-                    Margin="12,2,0,0"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind root:ResourceService.WindowResource.GetString('AppTitle')}"
-                    TextWrapping="NoWrap" />
-            </Grid>
-
-            <!--  标题栏右键菜单  -->
             <Grid.Resources>
                 <MenuFlyout
                     x:Name="TitlebarMenuFlyout"
@@ -119,6 +89,147 @@
                     </MenuFlyoutItem>
                 </MenuFlyout>
             </Grid.Resources>
+            <!--  标题栏图标和应用名称  -->
+            <Grid
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                Canvas.ZIndex="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="22" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Width="18"
+                    Height="18"
+                    Margin="2,3,0,0"
+                    HorizontalAlignment="Left"
+                    Source="ms-appx:///Assets/Square44x44Logo.altform-unplated_targetsize-256.png" />
+                <TextBlock
+                    x:Name="TitleTextBlock"
+                    Grid.Column="1"
+                    Margin="12,2,0,0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind root:ResourceService.WindowResource.GetString('AppTitle')}"
+                    TextWrapping="NoWrap" />
+            </Grid>
+
+            <StackPanel
+                x:Name="CaptionButtons"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                x:FieldModifier="public"
+                Orientation="Horizontal">
+
+                <Button
+                    x:Name="MinimizeButton"
+                    Grid.Column="1"
+                    Width="46.0"
+                    Height="{StaticResource CaptionButtonHeightWindowed}"
+                    MinWidth="46.0"
+                    VerticalAlignment="Top"
+                    AutomationProperties.AccessibilityView="Raw"
+                    IsEnabled="{x:Bind IsWindowMinimizeEnabled, Mode=OneWay}"
+                    Style="{StaticResource CaptionButton}">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Light">
+                                    <StaticResource x:Key="CaptionButtonGlyph" ResourceKey="MinimizeGlyph" />
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="Dark">
+                                    <StaticResource x:Key="CaptionButtonGlyph" ResourceKey="MinimizeGlyph" />
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="HighContrast">
+                                    <StaticResource x:Key="CaptionButtonGlyph" ResourceKey="MinimizeGlyphContrast" />
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                </Button>
+
+                <Button
+                    x:Name="MaximizeButton"
+                    Grid.Column="2"
+                    Width="46.0"
+                    Height="{StaticResource CaptionButtonHeightWindowed}"
+                    MinWidth="46.0"
+                    VerticalAlignment="Top"
+                    AutomationProperties.AccessibilityView="Raw"
+                    IsEnabled="{x:Bind IsWindowMaximizeEnabled, Mode=OneWay}"
+                    Style="{StaticResource CaptionButton}">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Light">
+                                    <StaticResource x:Key="CaptionButtonGlyph" ResourceKey="MaximizeGlyph" />
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="Dark">
+                                    <StaticResource x:Key="CaptionButtonGlyph" ResourceKey="MaximizeGlyph" />
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="HighContrast">
+                                    <StaticResource x:Key="CaptionButtonGlyph" ResourceKey="MaximizeGlyphContrast" />
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                </Button>
+
+                <Button
+                    x:Name="CloseButton"
+                    Grid.Column="3"
+                    Width="46.0"
+                    Height="{StaticResource CaptionButtonHeightWindowed}"
+                    MinWidth="46.0"
+                    VerticalAlignment="Top"
+                    AutomationProperties.AccessibilityView="Raw"
+                    Style="{StaticResource CaptionButton}">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Light">
+                                    <StaticResource x:Key="CaptionButtonBackgroundPointerOver" ResourceKey="CloseButtonBackgroundPointerOver" />
+                                    <StaticResource x:Key="CaptionButtonBackgroundPressed" ResourceKey="CloseButtonBackgroundPressed" />
+                                    <StaticResource x:Key="CaptionButtonForegroundPointerOver" ResourceKey="CloseButtonForegroundPointerOver" />
+                                    <StaticResource x:Key="CaptionButtonForegroundPressed" ResourceKey="CloseButtonForegroundPressed" />
+                                    <StaticResource x:Key="CaptionButtonBackground" ResourceKey="CloseButtonBackground" />
+                                    <StaticResource x:Key="CaptionButtonBackgroundColor" ResourceKey="CloseButtonBackgroundColor" />
+                                    <StaticResource x:Key="CaptionButtonGlyph" ResourceKey="CloseGlyph" />
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="Dark">
+                                    <StaticResource x:Key="CaptionButtonBackgroundPointerOver" ResourceKey="CloseButtonBackgroundPointerOver" />
+                                    <StaticResource x:Key="CaptionButtonBackgroundPressed" ResourceKey="CloseButtonBackgroundPressed" />
+                                    <StaticResource x:Key="CaptionButtonForegroundPointerOver" ResourceKey="CloseButtonForegroundPointerOver" />
+                                    <StaticResource x:Key="CaptionButtonForegroundPressed" ResourceKey="CloseButtonForegroundPressed" />
+                                    <StaticResource x:Key="CaptionButtonBackground" ResourceKey="CloseButtonBackground" />
+                                    <StaticResource x:Key="CaptionButtonBackgroundColor" ResourceKey="CloseButtonBackgroundColor" />
+                                    <StaticResource x:Key="CaptionButtonGlyph" ResourceKey="CloseGlyph" />
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="HighContrast">
+                                    <StaticResource x:Key="CaptionButtonBackgroundPointerOver" ResourceKey="CloseButtonBackgroundPointerOver" />
+                                    <StaticResource x:Key="CaptionButtonBackgroundPressed" ResourceKey="CloseButtonBackgroundPressed" />
+                                    <StaticResource x:Key="CaptionButtonForegroundPointerOver" ResourceKey="CloseButtonForegroundPointerOver" />
+                                    <StaticResource x:Key="CaptionButtonForegroundPressed" ResourceKey="CloseButtonForegroundPressed" />
+                                    <StaticResource x:Key="CaptionButtonGlyph" ResourceKey="CloseGlyphContrast" />
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="ActiveStates">
+                    <VisualState x:Name="Active" />
+                    <VisualState x:Name="NotActive">
+                        <VisualState.Setters>
+                            <Setter Target="TitleTextBlock.Foreground" Value="#8E8E8E" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
         </Grid>
 
         <muxc:NavigationView

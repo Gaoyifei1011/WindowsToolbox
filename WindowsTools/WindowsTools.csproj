@@ -28,8 +28,6 @@
     <UseWPF>true</UseWPF>
     <WebView2EnableCsWinRTProjection>false</WebView2EnableCsWinRTProjection>
     <WebView2NeverCopyLoaderDllToOutputDirectory>true</WebView2NeverCopyLoaderDllToOutputDirectory>
-    <WindowsAppSDKVerifyWinrtRuntimeVersion>false</WindowsAppSDKVerifyWinrtRuntimeVersion>
-    <WindowsKitsPath></WindowsKitsPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='x86'">
@@ -242,6 +240,7 @@
     <EmbeddedResource Update="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
 
     <None Update="Assets\WindowsTools.ico" CopyToOutputDirectory="Never" />
+    <None Remove="Styles\WinUI\Button.xaml" />
     <None Remove="Styles\WinUI\AppBarButton.xaml" />
     <None Remove="Styles\WinUI\DateTimePicker.xaml" />
     <None Remove="Styles\WinUI\HyperlinkButton.xaml" />
@@ -281,10 +280,10 @@
 
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1742" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" GeneratePathProperty="true" />
     <PackageReference Include="Mile.Xaml" Version="2.3.1064" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
 
+    <Page Include="Styles\Button.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\DateTimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\HyperlinkButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -327,13 +326,9 @@
     <PRIResource Include="Strings\zh-hans\Resources.resjson" />
 
     <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />
-    <Reference Include="Microsoft.UI.Windowing" HintPath="$(PkgMicrosoft_WindowsAppSDK)\lib\uap10.0.18362\Microsoft.UI.winmd" IsWinMDFile="true" Private="false" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
-  </ItemGroup>
-
-  <ItemGroup>
   </ItemGroup>
 
   <Target Name="SignExeFile" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">

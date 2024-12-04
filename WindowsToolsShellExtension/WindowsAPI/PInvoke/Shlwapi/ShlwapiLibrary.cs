@@ -8,7 +8,7 @@ namespace WindowsToolsShellExtension.WindowsAPI.PInvoke.Shlwapi
     /// </summary>
     public static partial class ShlwapiLibrary
     {
-        public const string Shlwapi = "shlwapi.dll";
+        private const string Shlwapi = "shlwapi.dll";
 
         /// <summary>
         /// 尝试通过查询具有 GetWindow 方法的各种接口，从组件对象模型 (COM) 对象检索窗口句柄。
