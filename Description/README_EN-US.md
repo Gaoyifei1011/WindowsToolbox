@@ -81,7 +81,6 @@ A toolbox that integrates multiple gadgets.
 > * [Microsoft.UI.Xaml](https://github.com/microsoft/microsoft-ui-xaml)&emsp;
 > * [Microsoft.Windows.SDK.BuildTools](https://aka.ms/WinSDKProjectURL)&emsp;
 > * [Microsoft.Windows.SDK.Contracts](https://aka.ms/WinSDKProjectURL)&emsp;
-> * [Microsoft.WindowsAppSDK](https://github.com/microsoft/windowsappsdk)&emsp;
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [System.Private.Uri](https://dot.net)&emsp;
 
@@ -131,6 +130,7 @@ A toolbox that integrates multiple gadgets.
 ### Thanks (Sort by alphabetical order)
 
 > * [AndromedaMelody](https://github.com/AndromedaMelody)&emsp;
+> * [Blinue](https://github.com/Blinue)&emsp;
 > * [cnbluefire](https://github.com/cnbluefire)&emsp;
 > * [MicaApps](https://github.com/MicaApps)&emsp;
 > * [MouriNaruto](https://github.com/MouriNaruto)&emsp;

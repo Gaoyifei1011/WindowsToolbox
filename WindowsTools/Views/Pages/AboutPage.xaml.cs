@@ -59,7 +59,6 @@ namespace WindowsTools.Views.Pages
             { "Microsoft.UI.Xaml", new Uri("https://github.com/microsoft/microsoft-ui-xaml") },
             { "Microsoft.Windows.SDK.BuildTools", new Uri("https://aka.ms/WinSDKProjectURL") },
             { "Microsoft.Windows.SDK.Contracts", new Uri("https://aka.ms/WinSDKProjectURL") },
-            { "Microsoft.WindowsAppSDK", new Uri("https://github.com/microsoft/windowsappsdk") },
             { "Mile.Xaml", new Uri("https://github.com/ProjectMile/Mile.Xaml") },
             { "System.Private.Uri", new Uri("https://dot.net") }
         };
@@ -68,6 +67,7 @@ namespace WindowsTools.Views.Pages
         private ListDictionary ThanksList { get; } = new()
         {
             { "AndromedaMelody", new Uri("https://github.com/AndromedaMelody") },
+            { "Blinue", new Uri("https://github.com/Blinue") },
             { "cnbluefire", new Uri("https://github.com/cnbluefire") },
             { "MicaApps", new Uri("https://github.com/MicaApps") },
             { "MouriNaruto" , new Uri("https://github.com/MouriNaruto") }
