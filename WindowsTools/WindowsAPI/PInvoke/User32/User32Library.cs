@@ -15,7 +15,17 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
     {
         private const string User32 = "user32.dll";
 
+        /// <summary>
+        /// 根据所需的客户端矩形大小和提供的 DPI 计算窗口矩形的所需大小。 然后，可以将此窗口矩形传递给 CreateWindowEx 函数，以创建具有所需大小的工作区的窗口。
+        /// </summary>
+        /// <param name="lpRect">指向 RECT 结构的指针，该结构包含所需工作区的左上角和右下角的坐标。 函数返回时，结构包含窗口左上角和右下角的坐标，以适应所需的工作区。</param>
+        /// <param name="dwStyle">要计算其所需大小的窗口的窗口 样式 。 请注意，不能指定 WS_OVERLAPPED 样式。</param>
+        /// <param name="bMenu">指示窗口是否具有菜单。</param>
+        /// <param name="dwExStyle">要计算其所需大小的窗口的 扩展窗口样式 。</param>
+        /// <param name="dpi">用于缩放的 DPI。</param>
+        /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRectExForDpi", PreserveSig = true, SetLastError = false)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool AdjustWindowRectExForDpi(ref RECT lpRect, WindowStyle dwStyle, bool bMenu, uint dwExStyle, uint dpi);
 
         /// <summary>
@@ -114,6 +124,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="lpPaint">指向 PAINTSTRUCT 结构的指针，该结构包含 BeginPaint 检索的绘画信息。</param>
         /// <returns>返回值始终为非零值。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "EndPaint", PreserveSig = true, SetLastError = false)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool EndPaint(IntPtr hWnd, [In] ref PAINTSTRUCT lpPaint);
 
         /// <summary>
@@ -133,6 +144,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="lpRect">指向接收客户端坐标的 RECT 结构的指针。 左侧成员和顶部成员为零。 右侧和底部成员包含窗口的宽度和高度。</param>
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "GetClientRect", PreserveSig = true, SetLastError = false)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
 
         /// <summary>
@@ -165,6 +177,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="lpRect">指向 RECT 结构的指针，该结构接收窗口左上角和右下角的屏幕坐标。</param>
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "GetWindowRect", PreserveSig = true, SetLastError = false)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
         /// <summary>
@@ -272,6 +285,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="pt">包含指定点的 POINT 结构。</param>
         /// <returns>如果指定的点位于矩形内，则返回值为非零值。如果指定的点不在矩形内，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "PtInRect", PreserveSig = true, SetLastError = false)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool PtInRect(ref RECT lprc, Point pt);
 
         /// <summary>
@@ -307,6 +321,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// </summary>
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。 </returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "ReleaseCapture", PreserveSig = true, SetLastError = false)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ReleaseCapture();
 
         /// <summary>
@@ -334,6 +349,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="dwFlags">要执行的操作。 </param>
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。 要获得更多的错误信息，请调用 GetLastError。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetLayeredWindowAttributes", PreserveSig = true, SetLastError = false)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetLayeredWindowAttributes(IntPtr hWnd, int crKey, int alpha, LWA dwFlags);
 
         /// <summary>
@@ -412,6 +428,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="lpEventTrack">指向包含跟踪信息的 TRACKMOUSEEVENT 结构的指针。</param>
         /// <returns>如果函数成功，则返回值为非零 。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "TrackMouseEvent", PreserveSig = true, SetLastError = false)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool TrackMouseEvent(TRACKMOUSEEVENT lpEventTrack);
 
         /// <summary>

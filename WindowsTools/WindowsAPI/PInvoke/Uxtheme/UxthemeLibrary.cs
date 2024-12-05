@@ -55,6 +55,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Uxtheme
         /// <param name="fUpdateTarget">若要将缓冲区复制到目标 DC，则为 TRUE。</param>
         /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "EndBufferedPaint", PreserveSig = true, SetLastError = false)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern int EndBufferedPaint(IntPtr hBufferedPaint, bool fUpdateTarget);
 
         /// <summary>

@@ -7,7 +7,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
     /// 由 TrackMouseEvent 函数用来跟踪在指定的时间范围内，鼠标指针何时离开窗口或鼠标悬停在窗口上。
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    public class TRACKMOUSEEVENT
+    public struct TRACKMOUSEEVENT
     {
         /// <summary>
         /// TRACKMOUSEEVENT 结构的大小（以字节为单位）。

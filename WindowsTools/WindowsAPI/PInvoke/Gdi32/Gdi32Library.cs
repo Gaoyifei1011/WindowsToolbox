@@ -18,8 +18,13 @@ namespace WindowsTools.WindowsAPI.PInvoke.Gdi32
         [DllImport(Gdi32, CharSet = CharSet.Unicode, EntryPoint = "CreateSolidBrush", PreserveSig = true, SetLastError = false)]
         public static extern IntPtr CreateSolidBrush(int crColor);
 
+        /// <summary>
+        /// DeleteObject 函数删除逻辑笔、画笔、字体、位图、区域或调色板，从而释放与对象关联的所有系统资源。 删除对象后，指定的句柄不再有效。
+        /// </summary>
+        /// <param name="ho">逻辑笔、画笔、字体、位图、区域或调色板的句柄。</param>
+        /// <returns>如果该函数成功，则返回值为非零值。如果指定的句柄无效或当前已选择到 DC 中，则返回值为零。</returns>
         [DllImport(Gdi32, CharSet = CharSet.Unicode, EntryPoint = "DeleteObject", PreserveSig = true, SetLastError = false)]
-        public static extern int DeleteObject(IntPtr hObject);
+        public static extern int DeleteObject(IntPtr ho);
 
         /// <summary>
         /// GetStockObject 函数检索其中一支股票笔、画笔、字体或调色板的句柄。

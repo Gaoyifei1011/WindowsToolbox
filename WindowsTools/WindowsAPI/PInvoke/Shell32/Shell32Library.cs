@@ -23,7 +23,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// <param name="hwnd">正在注册是否接受已删除文件的窗口的标识符。</param>
         /// <param name="fAccept">一个值，该值指示 hWnd 参数标识的窗口是否接受已删除的文件。 如果接受已删除的文件，则此值为 TRUE ;如果值为 FALSE ，则表示停止接受已删除的文件。</param>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragAcceptFiles", PreserveSig = true, SetLastError = false)]
-        public static extern void DragAcceptFiles(IntPtr hwnd, bool fAccept);
+        public static extern void DragAcceptFiles(IntPtr hwnd, [MarshalAs(UnmanagedType.Bool)] bool fAccept);
 
         /// <summary>
         /// 检索由于成功拖放操作而删除的文件的名称。
