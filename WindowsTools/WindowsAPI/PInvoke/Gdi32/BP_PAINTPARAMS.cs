@@ -6,7 +6,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Gdi32
     /// <summary>
     /// 定义 BeginBufferedPaint 的绘制操作参数。
     /// </summary>
-    public unsafe struct BP_PAINTPARAMS
+    public struct BP_PAINTPARAMS
     {
         /// <summary>
         /// 此结构的大小（以字节为单位）。

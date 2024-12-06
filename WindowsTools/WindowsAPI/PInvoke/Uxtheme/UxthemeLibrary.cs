@@ -29,7 +29,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Uxtheme
         /// 在调用 BeginBufferedPaint 之前，应用程序应在调用线程上调用 BufferedPaintInit，并在线程终止之前调用 BufferedPaintUnInit。 调用 BufferedPaintInit 失败可能会导致性能下降，因为每个缓冲的绘制操作的内部数据都会被初始化和销毁。
         /// </returns>
         [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "BeginBufferedPaint", PreserveSig = true, SetLastError = false)]
-        public static extern unsafe IntPtr BeginBufferedPaint(IntPtr hdcTarget, ref RECT prcTarget, BP_BUFFERFORMAT dwFormat, ref BP_PAINTPARAMS pPaintParams, out IntPtr phdc);
+        public static extern IntPtr BeginBufferedPaint(IntPtr hdcTarget, ref RECT prcTarget, BP_BUFFERFORMAT dwFormat, ref BP_PAINTPARAMS pPaintParams, out IntPtr phdc);
 
         /// <summary>
         /// 初始化当前线程的缓冲绘制。
