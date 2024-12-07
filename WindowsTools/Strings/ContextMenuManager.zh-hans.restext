@@ -1,0 +1,11 @@
+Title=右键菜单管理
+EmptyDescription=该设备没有任何新版的右键菜单项
+ExplainTitle=菜单管理说明
+ExplanContent=管理 Windows 新版右键菜单项的显示状态
+LearnContextMenuManager=了解右键菜单管理
+LearnCustomRightClickMenu=了解自定义右键菜单
+LoadingContextMenuInformation=正在加载右键菜单信息中，请稍候...
+OpenPackagePathToolTip=打开应用安装目录
+SearchAppNamePHText=搜索应用名称
+SearchEmptyDescription=没有搜索到复合的右键菜单项
+Refresh=刷新

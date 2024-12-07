@@ -147,6 +147,7 @@ namespace WindowsTools.Views.Pages
             new KeyValuePair<string, Type>("PriExtract",typeof(PriExtractPage)),
             new KeyValuePair<string, Type>("Personalize",null),
             new KeyValuePair<string, Type>("ShellMenu",typeof(ShellMenuPage)),
+            new KeyValuePair<string, Type>("ContextMenuManager",typeof(ContextMenuManagerPage)),
             new KeyValuePair<string, Type>("System",null),
             new KeyValuePair<string, Type>("SystemInfo",typeof(SystemInfoPage)),
             new KeyValuePair<string, Type>("LoopbackManager",typeof(LoopbackManagerPage)),
@@ -255,13 +256,13 @@ namespace WindowsTools.Views.Pages
                 {
                     if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem && navigationViewItem.Tag is not null)
                     {
-                        int TagIndex = Convert.ToInt32(navigationViewItem.Tag);
+                        int tagIndex = PageList.FindIndex(item => item.Key.Equals(navigationViewItem.Tag));
 
                         NavigationItemList.Add(new NavigationModel()
                         {
-                            NavigationTag = PageList[TagIndex].Key,
+                            NavigationTag = PageList[tagIndex].Key,
                             NavigationItem = navigationViewItem,
-                            NavigationPage = PageList[TagIndex].Value,
+                            NavigationPage = PageList[tagIndex].Value,
                             ParentTag = null
                         });
 
@@ -271,14 +272,14 @@ namespace WindowsTools.Views.Pages
                             {
                                 if (subItem is Microsoft.UI.Xaml.Controls.NavigationViewItem subNavigationViewItem)
                                 {
-                                    int subTagIndex = Convert.ToInt32(subNavigationViewItem.Tag);
+                                    int subTagIndex = PageList.FindIndex(item => item.Key.Equals(subNavigationViewItem.Tag));
 
                                     NavigationItemList.Add(new NavigationModel()
                                     {
                                         NavigationTag = PageList[subTagIndex].Key,
                                         NavigationItem = subNavigationViewItem,
                                         NavigationPage = PageList[subTagIndex].Value,
-                                        ParentTag = PageList[TagIndex].Key
+                                        ParentTag = PageList[tagIndex].Key
                                     });
                                 }
                             }
@@ -290,13 +291,13 @@ namespace WindowsTools.Views.Pages
                 {
                     if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem && navigationViewItem.Tag is not null)
                     {
-                        int TagIndex = Convert.ToInt32(navigationViewItem.Tag);
+                        int tagIndex = PageList.FindIndex(item => item.Key.Equals(navigationViewItem.Tag));
 
                         NavigationItemList.Add(new NavigationModel()
                         {
-                            NavigationTag = PageList[TagIndex].Key,
+                            NavigationTag = PageList[tagIndex].Key,
                             NavigationItem = navigationViewItem,
-                            NavigationPage = PageList[TagIndex].Value,
+                            NavigationPage = PageList[tagIndex].Value,
                         });
                     }
                 }
@@ -322,7 +323,7 @@ namespace WindowsTools.Views.Pages
         {
             if (args.InvokedItemContainer is Microsoft.UI.Xaml.Controls.NavigationViewItemBase navigationViewItem && navigationViewItem.Tag is not null)
             {
-                NavigationModel navigationItem = NavigationItemList.Find(item => item.NavigationTag.Equals(PageList[Convert.ToInt32(navigationViewItem.Tag)].Key, StringComparison.OrdinalIgnoreCase));
+                NavigationModel navigationItem = NavigationItemList.Find(item => item.NavigationTag.Equals(navigationViewItem.Tag.ToString(), StringComparison.OrdinalIgnoreCase));
 
                 if (navigationItem.NavigationPage is not null && SelectedItem != navigationItem.NavigationItem)
                 {

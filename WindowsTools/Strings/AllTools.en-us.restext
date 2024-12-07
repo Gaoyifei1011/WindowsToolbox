@@ -1,3 +1,5 @@
+ContextMenuManager=Context menu manager
+ContextMenuManagerDescription=Manage the display status of the right-click menu item
 DownloadManager=Download manager
 DownloadManagerDescription=A simple downloader built using the system's built-in delivery optimization
 DriverManager=Driver manager

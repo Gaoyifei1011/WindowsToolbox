@@ -33,6 +33,9 @@ namespace WindowsTools.UI.Dialogs
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 应用信息初始化触发的事件
+        /// </summary>
         private async void OnLoaded(object sender, RoutedEventArgs args)
         {
             List<KeyValuePair<string, Version>> dependencyInformationList = [];

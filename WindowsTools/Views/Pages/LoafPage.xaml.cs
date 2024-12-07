@@ -158,7 +158,7 @@ namespace WindowsTools.Views.Pages
         #region 第一部分：摸鱼页面——挂载的事件
 
         /// <summary>
-        /// 在已构造 FrameworkElement 并将其添加到对象树中并准备好交互时发生的事件
+        /// 摸鱼页面初始化触发的事件
         /// </summary>
         private async void OnLoaded(object sender, RoutedEventArgs args)
         {

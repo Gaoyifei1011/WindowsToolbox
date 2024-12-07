@@ -113,7 +113,7 @@ namespace WindowsTools.Views.Windows
                 lpfnWndProc = TitleBarWndProc,
                 hIconSm = IntPtr.Zero
             };
-            int result = User32Library.RegisterClassEx(ref wcex);
+            User32Library.RegisterClassEx(ref wcex);
 
             // 隐藏原生标题栏上的图标
             WTA_OPTIONS wtaOptions = new()

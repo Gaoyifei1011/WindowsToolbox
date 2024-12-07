@@ -1,0 +1,11 @@
+Title=Context menu manager
+EmptyDescription=The device does not have any new right-click menu items
+ExplainTitle=Menu management instructions
+ExplanContent=Manage the display status of Windows new-click right-click menu items
+LearnContextMenuManager=Learn right-click menu management
+LearnCustomRightClickMenu=Learn about customizing the right-click menu
+LoadingContextMenuInformation=Loading right-click menu information, please wait...
+OpenPackagePathToolTip=Open the app installation folder
+SearchAppNamePHText=Search app name
+SearchEmptyDescription=No matching right-click menu item found
+Refresh=Refresh

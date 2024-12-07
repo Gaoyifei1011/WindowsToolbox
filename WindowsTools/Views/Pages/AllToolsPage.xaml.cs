@@ -108,6 +108,13 @@ namespace WindowsTools.Views.Pages
                 Description = ResourceService.AllToolsResource.GetString("ShellMenuDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/ShellMenu.png",
                 Tag = "ShellMenu"
+            },
+            new ControlItemModel()
+            {
+                Title = ResourceService.AllToolsResource.GetString("ContextMenuManager"),
+                Description = ResourceService.AllToolsResource.GetString("ContextMenuManagerDescription"),
+                ImagePath = "ms-appx:///Assets/ControlIcon/ContextMenuManager.png",
+                Tag = "ContextMenuManager"
             }
         ];
 

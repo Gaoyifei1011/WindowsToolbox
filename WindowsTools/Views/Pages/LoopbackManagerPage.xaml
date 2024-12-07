@@ -68,6 +68,7 @@
                 Grid.Column="0"
                 Margin="0,0,2,0"
                 VerticalAlignment="Center"
+                IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
                 PlaceholderText="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('SearchAppNamePHText')}"
                 QuerySubmitted="{x:Bind OnSearchAppNameQuerySubmitted}"
                 Text="{x:Bind SearchAppNameText, Mode=OneWay}"

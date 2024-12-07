@@ -24,6 +24,8 @@ namespace WindowsTools.Services.Root
 
         public static ResourceManager ColorPickerResource { get; } = new("WindowsTools.Strings.ColorPicker", Assembly.GetExecutingAssembly());
 
+        public static ResourceManager ContextMenuManagerResource { get; } = new("WindowsTools.Strings.ContextMenuManager", Assembly.GetExecutingAssembly());
+
         public static ResourceManager DialogResource { get; } = new("WindowsTools.Strings.Dialog", Assembly.GetExecutingAssembly());
 
         public static ResourceManager DownloadManagerResource { get; } = new("WindowsTools.Strings.DownloadManager", Assembly.GetExecutingAssembly());

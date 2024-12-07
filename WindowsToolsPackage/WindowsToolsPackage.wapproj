@@ -49,7 +49,7 @@
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <VisualStudioVersion>17.0</VisualStudioVersion>
     <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
-    <WinUISDKReferences>false</WinUISDKReferences>
+    <WebView2UseWinRT>false</WebView2UseWinRT>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <AppxBundle>Always</AppxBundle>
@@ -75,6 +75,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="WindowsToolsPackage_SignKey.pfx" />
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <ProjectReference Include="..\WindowsTools\WindowsTools.csproj" />
     <ProjectReference Include="..\WindowsToolsShellExtension\WindowsToolsShellExtension.csproj" />
@@ -100,7 +101,6 @@
   -->
   <Target Name="_RemoveXrXmlFromPayload" AfterTargets="_CalculateInputsForGenerateAppxPackageRecipe" Condition="'$(MSBuildProjectExtension)' == '.wapproj'">
     <ItemGroup>
-      <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="'%(FileName)%(Extension)'=='Microsoft.WindowsAppRuntime.Bootstrap.dll'" />
       <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('.xr.xml'))" />
       <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('Microsoft.UI.Xaml.pri'))" />
       <AppxPackagePayload Remove="@(AppxPackagePayload)" Condition="$([System.String]::new('%(Identity)').EndsWith('Microsoft.UI.Xaml.winmd'))" />
