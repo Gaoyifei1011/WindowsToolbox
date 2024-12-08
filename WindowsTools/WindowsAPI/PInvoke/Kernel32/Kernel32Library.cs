@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using System.Text;
 
 // 抑制 CA1401 警告
@@ -32,6 +33,19 @@ namespace WindowsTools.WindowsAPI.PInvoke.Kernel32
         /// <returns>如果函数成功，则返回 ERROR_SUCCESS。 否则，函数将返回错误代码。</returns>
         [DllImport(Kernel32, CharSet = CharSet.Unicode, EntryPoint = "GetCurrentPackageFamilyName", PreserveSig = true, SetLastError = false)]
         public static extern int GetCurrentPackageFamilyName(ref int packageFamilyNameLength, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder packageFamilyName);
+
+        /// <summary>
+        /// 获取指定包的路径。
+        /// </summary>
+        /// <param name="packageFullName">包的全名。</param>
+        /// <param name="pathLength">
+        /// 指向包含包路径字符串中 WCHAR) 字符数 (的变量的指针，其中包含 null 终止符。
+        /// 首先，将 NULL 传递给 路径 以获取字符数。 使用此数字为 路径分配内存空间。 然后传递此内存空间的地址以填充 路径。
+        /// </param>
+        /// <param name="path">指向接收包路径字符串（包括 null 终止符）的内存空间的指针。</param>
+        /// <returns>如果函数成功，则返回 ERROR_SUCCESS。 否则，函数将返回错误代码。</returns>
+        [DllImport(Kernel32, CharSet = CharSet.Unicode, EntryPoint = "GetPackagePathByFullName", PreserveSig = true, SetLastError = false)]
+        public static extern int GetPackagePathByFullName([MarshalAs(UnmanagedType.LPWStr)] string packageFullName, ref int pathLength, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder path);
 
         /// <summary>
         /// 检索系统的电源状态。 状态指示系统是使用交流还是直流电源运行，电池当前是否正在充电，剩余的电池使用时间，以及节电模式是打开还是关闭。

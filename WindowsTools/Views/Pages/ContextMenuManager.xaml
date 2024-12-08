@@ -12,6 +12,11 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <XamlUICommand x:Name="CheckCommand" ExecuteRequested="{x:Bind OnCheckExecuteRequested}" />
+        <XamlUICommand x:Name="OpenPackagePathCommand" ExecuteRequested="{x:Bind OnOpenPackagePathExecuteRequested}" />
+    </Page.Resources>
+
     <Grid Padding="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -292,6 +297,60 @@
                                         </Button>
                                     </Grid>
                                 </muxc:Expander.Header>
+
+                                <muxc:Expander.Content>
+                                    <ListView
+                                        ItemsSource="{x:Bind ContextMenuItemCollection, Mode=OneWay}"
+                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                        ScrollViewer.HorizontalScrollMode="Disabled"
+                                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                        ScrollViewer.VerticalScrollMode="Disabled"
+                                        SelectionMode="None">
+
+                                        <ListView.ItemContainerStyle>
+                                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                <Setter Property="Padding" Value="0" />
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                <Setter Property="Margin" Value="0,1" />
+                                                <Setter Property="MinHeight" Value="0 " />
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate x:DataType="model:ContextMenuItemModel">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <CheckBox
+                                                        Grid.Column="0"
+                                                        MinWidth="0"
+                                                        Margin="0,0,12,0"
+                                                        Command="{StaticResource CheckCommand}"
+                                                        CommandParameter="{x:Bind}"
+                                                        IsChecked="{x:Bind IsEnabled, Mode=TwoWay}">
+
+                                                        <ToolTipService.ToolTip>
+                                                            <ToolTip MaxWidth="9999">
+                                                                <Grid>
+                                                                    <TextBlock Text="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('SelectedToolTip')}" Visibility="{x:Bind IsEnabled, Mode=OneWay}" />
+                                                                    <TextBlock Text="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('UnSelectedToolTip')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsEnabled), Mode=OneWay}" />
+                                                                </Grid>
+                                                            </ToolTip>
+                                                        </ToolTipService.ToolTip>
+                                                    </CheckBox>
+
+                                                    <TextBlock
+                                                        Grid.Column="1"
+                                                        VerticalAlignment="Center"
+                                                        Text="{x:Bind Clsid.ToString()}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </muxc:Expander.Content>
                             </muxc:Expander>
                         </DataTemplate>
                     </ListView.ItemTemplate>
