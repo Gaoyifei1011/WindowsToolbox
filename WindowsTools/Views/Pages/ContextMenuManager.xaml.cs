@@ -5,19 +5,28 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
+using Windows.ApplicationModel;
+using Windows.Management.Deployment;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Imaging;
+using WindowsTools.Extensions.DataType.Enums;
+using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
+using WindowsTools.UI.TeachingTips;
+using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.Kernel32;
 
-// 抑制 CA1822 警告
-#pragma warning disable CA1822
+// 抑制 CA18062，CA1822，IDE0060 警告
+#pragma warning disable CA1806,CA1822,IDE0060
 
 namespace WindowsTools.Views.Pages
 {
@@ -29,6 +38,7 @@ namespace WindowsTools.Views.Pages
         private bool isInitialized;
         private const string packageComPackageKey = @"SOFTWARE\Classes\PackagedCom\Package";
         private const string blockedKey = @"Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked";
+        private readonly PackageManager packageManager = new();
 
         private bool _isLoadCompleted;
 
@@ -46,7 +56,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private string _searchAppNameText;
+        private string _searchAppNameText = string.Empty;
 
         public string SearchAppNameText
         {
@@ -110,8 +120,122 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 点击复选框时使保存按钮处于可选状态
         /// </summary>
-        private void OnCheckExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnCheckBoxClickExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
+            ContextMenuItemModel contextMenuItem = args.Parameter as ContextMenuItemModel;
+
+            if (contextMenuItem is not null)
+            {
+                Tuple<BlockedClsidType, bool> result = await Task.Run(() =>
+                {
+                    RegistryKey registryKey = null;
+                    BlockedClsidType blockedClsidType = BlockedClsidType.Unknown;
+                    if (contextMenuItem.BlockedClsidType is BlockedClsidType.LocalMachine)
+                    {
+                        try
+                        {
+                            registryKey = Registry.LocalMachine.CreateSubKey(blockedKey, true);
+                            blockedClsidType = BlockedClsidType.LocalMachine;
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, string.Format("Open block key {0} of value in local machine failed", contextMenuItem.Clsid.ToString()), e);
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            registryKey = Registry.CurrentUser.CreateSubKey(blockedKey, true);
+                            blockedClsidType = BlockedClsidType.CurrentUser;
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, string.Format("Open block key {0} of value in current user failed", contextMenuItem.Clsid.ToString()), e);
+                        }
+                    }
+
+                    if (registryKey is not null)
+                    {
+                        try
+                        {
+                            string name = contextMenuItem.Clsid.ToString("B").ToUpperInvariant();
+                            if (contextMenuItem.IsEnabled)
+                            {
+                                object oldValue = registryKey.GetValue(name);
+                                if (oldValue is null)
+                                {
+                                    registryKey.SetValue(name, "Blocked by WindowsTools");
+                                    registryKey.Close();
+                                    registryKey.Dispose();
+                                }
+                                return Tuple.Create(blockedClsidType, true);
+                            }
+                            else
+                            {
+                                registryKey.DeleteValue(name);
+                                registryKey.Close();
+                                registryKey.Dispose();
+                                return Tuple.Create(blockedClsidType, true);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, "Update block result failed", e);
+                            registryKey.Close();
+                            registryKey.Dispose();
+                            return Tuple.Create(blockedClsidType, false); ;
+                        }
+                    }
+                    else
+                    {
+                        registryKey.Close();
+                        registryKey.Dispose();
+                        return Tuple.Create(blockedClsidType, true);
+                    }
+                });
+
+                if (result.Item2)
+                {
+                    foreach (ContextMenuModel item in ContextMenuCollection)
+                    {
+                        bool isModified = false;
+                        foreach (ContextMenuItemModel subItem in item.ContextMenuItemCollection)
+                        {
+                            if (subItem.Clsid.Equals(contextMenuItem.Clsid))
+                            {
+                                if (result.Item2)
+                                {
+                                    if (IsEnabled)
+                                    {
+                                        subItem.BlockedClsidType = BlockedClsidType.Unknown;
+                                    }
+                                    else
+                                    {
+                                        subItem.BlockedClsidType = result.Item1;
+                                    }
+                                }
+
+                                subItem.IsEnabled = !subItem.IsEnabled;
+                                if (!result.Item2)
+                                {
+                                    subItem.IsEnabled = !subItem.IsEnabled;
+                                }
+
+                                isModified = true;
+                                break;
+                            }
+                        }
+
+                        if (isModified)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ContextMenuUpdate, result.Item2));
+            }
         }
 
         #region 第一部分：右键菜单管理页面——挂载的事件
@@ -131,10 +255,24 @@ namespace WindowsTools.Views.Pages
                     List<ContextMenuModel> contextMenuList = GetContextMenuList();
                     return contextMenuList;
                 });
+
                 foreach (ContextMenuModel contextMenuItem in contextMenuList)
                 {
+                    try
+                    {
+                        BitmapImage bitmapImage = new()
+                        {
+                            UriSource = contextMenuItem.PackageIconUri
+                        };
+                        contextMenuItem.PackageIcon = bitmapImage;
+                    }
+                    catch (Exception)
+                    {
+                        contextMenuItem.PackageIcon = new BitmapImage();
+                    }
                     ContextMenuCollection.Add(contextMenuItem);
                 }
+
                 IsLoadCompleted = true;
             }
         }
@@ -158,12 +296,37 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
+        /// 打开设置
+        /// </summary>
+        private void OnOpenSettingsClicked(object sender, RoutedEventArgs args)
+        {
+            (MainWindow.Current.Content as MainPage).NavigateTo(typeof(SettingsPage));
+        }
+
+        /// <summary>
         /// 查询搜索内容
         /// </summary>
         private void OnSearchAppNameQuerySubmitted(object sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (!string.IsNullOrEmpty(SearchAppNameText))
             {
+                foreach (ContextMenuModel contextMenuItem in ContextMenuCollection)
+                {
+                    if (!string.IsNullOrEmpty(contextMenuItem.PackageDisplayName) && contextMenuItem.PackageDisplayName.Contains(SearchAppNameText))
+                    {
+                        contextMenuItem.IsVisible = Visibility.Visible;
+                        continue;
+                    }
+
+                    if (!string.IsNullOrEmpty(contextMenuItem.PackageFullName) && contextMenuItem.PackageFullName.Contains(SearchAppNameText))
+                    {
+                        contextMenuItem.IsVisible = Visibility.Visible;
+                        continue;
+                    }
+
+                    contextMenuItem.IsVisible = Visibility.Collapsed;
+                }
+
                 IsSearchEmpty = ContextMenuCollection.All(item => item.IsVisible is Visibility.Collapsed);
             }
         }
@@ -177,9 +340,9 @@ namespace WindowsTools.Views.Pages
 
             if (string.IsNullOrEmpty(SearchAppNameText))
             {
-                foreach (ContextMenuModel contextMenu in ContextMenuCollection)
+                foreach (ContextMenuModel contextMenuItem in ContextMenuCollection)
                 {
-                    contextMenu.IsVisible = Visibility.Visible;
+                    contextMenuItem.IsVisible = Visibility.Visible;
                 }
 
                 IsSearchEmpty = false;
@@ -193,9 +356,107 @@ namespace WindowsTools.Views.Pages
         {
             IsLoadCompleted = false;
             ContextMenuCollection.Clear();
-            List<ContextMenuModel> contextMenuList = await Task.Run(GetContextMenuList);
+            List<ContextMenuModel> contextMenuList = await Task.Run(async () =>
+            {
+                await Task.Delay(500);
+                List<ContextMenuModel> contextMenuList = GetContextMenuList();
+                return contextMenuList;
+            });
             foreach (ContextMenuModel contextMenuItem in contextMenuList)
             {
+                try
+                {
+                    BitmapImage bitmapImage = new()
+                    {
+                        UriSource = contextMenuItem.PackageIconUri
+                    };
+                    contextMenuItem.PackageIcon = bitmapImage;
+                }
+                catch (Exception)
+                {
+                    contextMenuItem.PackageIcon = new BitmapImage();
+                }
+                ContextMenuCollection.Add(contextMenuItem);
+            }
+            IsLoadCompleted = true;
+        }
+
+        /// <summary>
+        /// 恢复默认
+        /// </summary>
+        private async void OnRestoreDefaultClicked(object sender, RoutedEventArgs args)
+        {
+            await Task.Run(() =>
+            {
+                List<ContextMenuModel> contextMenuList = [.. ContextMenuCollection];
+
+                try
+                {
+                    RegistryKey blockKey = Registry.LocalMachine.OpenSubKey(blockedKey, true);
+                    string[] blcokedClsidArray = blockKey.GetValueNames();
+
+                    foreach (string blockedClsid in blcokedClsidArray)
+                    {
+                        if (blockKey.GetValue(blockedClsid).ToString() is "Blocked by WindowsTools")
+                        {
+                            blockKey.DeleteValue(blockedClsid);
+                        }
+                    }
+
+                    blockKey.Close();
+                    blockKey.Dispose();
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Return context menu value to default in local machine failed", e);
+                }
+
+                try
+                {
+                    RegistryKey blockKey = Registry.CurrentUser.OpenSubKey(blockedKey, true);
+                    string[] blcokedClsidArray = blockKey.GetValueNames();
+
+                    foreach (string blockedClsid in blcokedClsidArray)
+                    {
+                        if (blockKey.GetValue(blockedClsid).ToString() is "Blocked by WindowsTools")
+                        {
+                            blockKey.DeleteValue(blockedClsid);
+                        }
+                    }
+
+                    blockKey.Close();
+                    blockKey.Dispose();
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Return context menu value to default in current user failed", e);
+                }
+            });
+
+            IsLoadCompleted = false;
+            SearchAppNameText = string.Empty;
+            IsSearchEmpty = false;
+            ContextMenuCollection.Clear();
+            List<ContextMenuModel> contextMenuList = await Task.Run(async () =>
+            {
+                await Task.Delay(500);
+                List<ContextMenuModel> contextMenuList = GetContextMenuList();
+                return contextMenuList;
+            });
+            foreach (ContextMenuModel contextMenuItem in contextMenuList)
+            {
+                try
+                {
+                    BitmapImage bitmapImage = new()
+                    {
+                        UriSource = contextMenuItem.PackageIconUri
+                    };
+                    contextMenuItem.PackageIcon = bitmapImage;
+                }
+                catch (Exception)
+                {
+                    contextMenuItem.PackageIcon = new BitmapImage();
+                }
                 ContextMenuCollection.Add(contextMenuItem);
             }
             IsLoadCompleted = true;
@@ -218,8 +479,23 @@ namespace WindowsTools.Views.Pages
                 if (packageListKey is not null)
                 {
                     string[] packageFullNameArray = packageListKey.GetSubKeyNames();
+                    int length = 0;
+                    string currentPackageFullName = string.Empty;
+
+                    if (Kernel32Library.GetCurrentPackageFullName(ref length, null) is 122)
+                    {
+                        StringBuilder packageFullNameBuilder = new(length + 1);
+                        Kernel32Library.GetCurrentPackageFullName(ref length, packageFullNameBuilder);
+                        currentPackageFullName = packageFullNameBuilder.ToString();
+                    }
+
                     foreach (string packageFullName in packageFullNameArray)
                     {
+                        if (packageFullName.Equals(currentPackageFullName))
+                        {
+                            continue;
+                        }
+
                         RegistryKey classKey = packageListKey.OpenSubKey(string.Join(@"\", packageFullName, "Class"));
 
                         if (classKey is not null)
@@ -241,13 +517,14 @@ namespace WindowsTools.Views.Pages
                                         {
                                             int serverId = Convert.ToInt32(clsidKey.GetValue("ServerId", 0));
                                             int threading = Convert.ToInt32(clsidKey.GetValue("Threading", 0));
-                                            bool isBlocked = blockedList.Any(item => item.Key.Equals(clsid));
+                                            int index = blockedList.FindIndex(item => item.Key.Equals(clsid));
 
                                             contextMenuItemList.Add(new ContextMenuItemModel()
                                             {
+                                                BlockedClsidType = index >= 0 && index < blockedList.Count ? Enum.TryParse(blockedList[index].Value, out BlockedClsidType blockedClsidType) ? blockedClsidType : BlockedClsidType.Unknown : BlockedClsidType.Unknown,
                                                 Clsid = clsid,
                                                 DllPath = dllPath,
-                                                IsEnabled = !isBlocked,
+                                                IsEnabled = index is -1,
                                                 ThreadingMode = threading switch
                                                 {
                                                     0 => ApartmentState.STA,
@@ -263,7 +540,7 @@ namespace WindowsTools.Views.Pages
                                 }
                             }
 
-                            int length = 0;
+                            length = 0;
                             string packagePath = string.Empty;
 
                             if (Kernel32Library.GetPackagePathByFullName(packageFullName, ref length, null) is 122)
@@ -273,13 +550,61 @@ namespace WindowsTools.Views.Pages
                                 packagePath = packagePathBuilder.ToString();
                             }
 
-                            contextMenuList.Add(new()
+                            Tuple<string, string, List<Guid>> appInfo = GetAppInfo(packagePath);
+
+                            if (appInfo.Item3.Count > 0)
                             {
-                                PackageDisplayName = string.Empty,
-                                PackageFullName = packageFullName,
-                                PackagePath = packagePath,
-                                ContextMenuItemCollection = new(contextMenuItemList)
-                            });
+                                Package package = packageManager.FindPackageForUser(string.Empty, packageFullName);
+
+                                if (package is not null)
+                                {
+                                    ContextMenuModel contextMenuItem = new()
+                                    {
+                                        IsVisible = Visibility.Collapsed,
+                                        PackageDisplayName = package.DisplayName,
+                                        PackageFullName = packageFullName,
+                                        PackageIconUri = Uri.TryCreate(appInfo.Item2, UriKind.Absolute, out Uri uri) ? uri : null,
+                                        PackagePath = packagePath,
+                                        ContextMenuItemCollection = new(contextMenuItemList)
+                                    };
+
+                                    if (!string.IsNullOrEmpty(contextMenuItem.PackageDisplayName) && contextMenuItem.PackageDisplayName.Contains(SearchAppNameText))
+                                    {
+                                        contextMenuItem.IsVisible = Visibility.Visible;
+                                    }
+
+                                    if (!string.IsNullOrEmpty(contextMenuItem.PackageFullName) && contextMenuItem.PackageFullName.Contains(SearchAppNameText))
+                                    {
+                                        contextMenuItem.IsVisible = Visibility.Visible;
+                                    }
+
+                                    contextMenuList.Add(contextMenuItem);
+                                }
+                                else
+                                {
+                                    ContextMenuModel contextMenuItem = new()
+                                    {
+                                        IsVisible = Visibility.Collapsed,
+                                        PackageDisplayName = ResourceService.ContextMenuManagerResource.GetString("Unknown"),
+                                        PackageFullName = packageFullName,
+                                        PackageIconUri = null,
+                                        PackagePath = packagePath,
+                                        ContextMenuItemCollection = new(contextMenuItemList)
+                                    };
+
+                                    if (!string.IsNullOrEmpty(contextMenuItem.PackageDisplayName) && contextMenuItem.PackageDisplayName.Contains(SearchAppNameText))
+                                    {
+                                        contextMenuItem.IsVisible = Visibility.Visible;
+                                    }
+
+                                    if (!string.IsNullOrEmpty(contextMenuItem.PackageFullName) && contextMenuItem.PackageFullName.Contains(SearchAppNameText))
+                                    {
+                                        contextMenuItem.IsVisible = Visibility.Visible;
+                                    }
+
+                                    contextMenuList.Add(contextMenuItem);
+                                }
+                            }
 
                             classKey.Close();
                             classKey.Dispose();
@@ -292,7 +617,7 @@ namespace WindowsTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Get com package list info failed", e);
+                LogService.WriteLog(EventLevel.Error, "Get com package clsidList info failed", e);
             }
 
             return contextMenuList;
@@ -327,7 +652,7 @@ namespace WindowsTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Get com package blocked clsid list in local machine registry failed", e);
+                LogService.WriteLog(EventLevel.Error, "Get com package blocked clsid clsidList in local machine registry failed", e);
             }
 
             try
@@ -352,10 +677,121 @@ namespace WindowsTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Get com package blocked clsid list in current user registry failed", e);
+                LogService.WriteLog(EventLevel.Error, "Get com package blocked clsid clsidList in current user registry failed", e);
             }
 
             return blockClsidList;
+        }
+
+        /// <summary>
+        /// 检索打包应用信息
+        /// </summary>
+        /// <returns>
+        /// 参数 1：返回应用的显示名称
+        /// 参数 2：返回应用的显示图片位置
+        /// 参数 3：返回应用的菜单 clsid 项列表
+        /// </returns>
+        private static Tuple<string, string, List<Guid>> GetAppInfo(string packageInstalledLocation)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(packageInstalledLocation))
+                {
+                    return Tuple.Create(string.Empty, string.Empty, new List<Guid>());
+                }
+
+                string manifestFilePath = Path.Combine(packageInstalledLocation, "AppxManifest.xml");
+
+                if (File.Exists(manifestFilePath))
+                {
+                    string contents = File.ReadAllText(manifestFilePath);
+                    XmlDocument xmlDocument = new();
+                    xmlDocument.LoadXml(contents);
+
+                    XmlNamespaceManager xmlNamespaceManager = new(xmlDocument.NameTable);
+                    xmlNamespaceManager.AddNamespace("default", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
+                    xmlNamespaceManager.AddNamespace("desktop4", "http://schemas.microsoft.com/appx/manifest/desktop/windows10/4");
+                    xmlNamespaceManager.AddNamespace("desktop5", "http://schemas.microsoft.com/appx/manifest/desktop/windows10/5");
+                    xmlNamespaceManager.AddNamespace("uap", "http://schemas.microsoft.com/appx/manifest/uap/windows10");
+
+                    XmlNodeList desktop4VerbNodesList = xmlDocument.SelectNodes("//desktop4:FileExplorerContextMenus//desktop4:Verb", xmlNamespaceManager);
+                    XmlNodeList desktop5VerbNodesList = xmlDocument.SelectNodes("//desktop4:FileExplorerContextMenus//desktop5:Verb", xmlNamespaceManager);
+
+                    // 获取右键菜单项 CLSID 列表
+                    List<Guid> clsidList = [];
+                    if ((desktop4VerbNodesList?.Count ?? 0) + (desktop5VerbNodesList?.Count ?? 0) > 0)
+                    {
+                        if (desktop4VerbNodesList is not null)
+                        {
+                            for (int i = 0; i < desktop4VerbNodesList.Count; i++)
+                            {
+                                string clsid = desktop4VerbNodesList[i]?.Attributes?["Clsid"]?.Value;
+                                if (Guid.TryParse(clsid, out Guid guid))
+                                {
+                                    clsidList.Add(guid);
+                                }
+                            }
+                        }
+
+                        if (desktop5VerbNodesList is not null)
+                        {
+                            for (int i = 0; i < desktop5VerbNodesList.Count; i++)
+                            {
+                                string clsid = desktop5VerbNodesList[i]?.Attributes?["Clsid"]?.Value;
+                                if (Guid.TryParse(clsid, out Guid guid))
+                                {
+                                    clsidList.Add(guid);
+                                }
+                            }
+                        }
+
+                        clsidList = clsidList.Distinct().ToList();
+                    }
+
+                    // 获取应用的显示图片
+                    XmlNode logoNode = xmlDocument.SelectSingleNode("//default:Properties/default:Logo", xmlNamespaceManager);
+                    string logo = logoNode?.InnerText ?? string.Empty;
+                    string logoFullPath = Path.Combine(packageInstalledLocation, logo);
+
+                    if (!File.Exists(logoFullPath))
+                    {
+                        string logoDirectory = Path.GetDirectoryName(logoFullPath);
+                        logoFullPath = string.Empty;
+                        string logoKey = Path.GetFileNameWithoutExtension(logo);
+                        string extension = Path.GetExtension(logo);
+                        if (Directory.Exists(logoDirectory))
+                        {
+                            string[] files = Directory.GetFiles(logoDirectory, $"{logoKey}*{extension}");
+                            logoFullPath = files?.FirstOrDefault(c => !c.Contains("contrast"));
+                            if (string.IsNullOrEmpty(logoFullPath))
+                            {
+                                logoFullPath = files?.FirstOrDefault() ?? string.Empty;
+                            }
+                        }
+                    }
+
+                    // 获取应用的显示名称
+                    string displayName = string.Empty;
+                    XmlNodeList appNodesList = xmlDocument.SelectNodes("//uap:VisualElements", xmlNamespaceManager);
+
+                    if (appNodesList is not null && appNodesList.Count > 0)
+                    {
+                        foreach (XmlNode appNode in appNodesList.OfType<XmlNode>().OrderBy(c => c.Attributes?["AppListEntry"]?.Value == "none" ? 1 : 0))
+                        {
+                            displayName = appNode.Attributes?["DisplayName"]?.Value ?? string.Empty;
+                        }
+                    }
+
+                    return Tuple.Create(displayName, logoFullPath, clsidList);
+                }
+
+                return Tuple.Create(string.Empty, string.Empty, new List<Guid>());
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, string.Format("Get specified app info failed,location in {0}", packageInstalledLocation), e);
+                return Tuple.Create(string.Empty, string.Empty, new List<Guid>());
+            }
         }
     }
 }

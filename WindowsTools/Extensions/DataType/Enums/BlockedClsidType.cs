@@ -2,7 +2,8 @@
 {
     public enum BlockedClsidType
     {
-        CurrentUser,
-        LocalMachine
+        Unknown = 0,
+        CurrentUser = 1,
+        LocalMachine = 2
     }
 }

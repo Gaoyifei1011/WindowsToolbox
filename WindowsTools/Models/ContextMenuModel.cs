@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -27,6 +28,8 @@ namespace WindowsTools.Models
         }
 
         public ImageSource PackageIcon { get; set; }
+
+        public Uri PackageIconUri { get; set; }
 
         public string PackageDisplayName { get; set; }
 

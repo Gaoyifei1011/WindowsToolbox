@@ -49,7 +49,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private string _searchAppNameText;
+        private string _searchAppNameText = string.Empty;
 
         public string SearchAppNameText
         {
@@ -111,7 +111,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 点击复选框时使保存按钮处于可选状态
         /// </summary>
-        private void OnCheckExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnCheckBoxClickExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
             if (!IsSaved)
             {
@@ -412,7 +412,38 @@ namespace WindowsTools.Views.Pages
                             AppContainerUserName = userAccountType is not null ? userAccountType.ToString() : ResourceService.LoopbackManagerResource.GetString("Unknown"),
                             IsSelected = isEnabled,
                             IsOldChecked = isEnabled,
+                            IsVisible = Visibility.Collapsed
                         };
+
+                        if (!string.IsNullOrEmpty(loopbackItem.AppContainerName) && loopbackItem.AppContainerName.Contains(SearchAppNameText))
+                        {
+                            loopbackItem.IsVisible = Visibility.Visible;
+                        }
+
+                        if (!string.IsNullOrEmpty(loopbackItem.DisplayName) && loopbackItem.DisplayName.Contains(SearchAppNameText))
+                        {
+                            loopbackItem.IsVisible = Visibility.Visible;
+                        }
+
+                        if (!string.IsNullOrEmpty(loopbackItem.Description) && loopbackItem.Description.Contains(SearchAppNameText))
+                        {
+                            loopbackItem.IsVisible = Visibility.Visible;
+                        }
+
+                        if (!string.IsNullOrEmpty(loopbackItem.PackageFullName) && loopbackItem.PackageFullName.Contains(SearchAppNameText))
+                        {
+                            loopbackItem.IsVisible = Visibility.Visible;
+                        }
+
+                        if (!string.IsNullOrEmpty(loopbackItem.AppContainerUserName) && loopbackItem.AppContainerUserName.Contains(SearchAppNameText))
+                        {
+                            loopbackItem.IsVisible = Visibility.Visible;
+                        }
+
+                        if (!string.IsNullOrEmpty(loopbackItem.AppContainerSIDName) && loopbackItem.AppContainerSIDName.Contains(SearchAppNameText))
+                        {
+                            loopbackItem.IsVisible = Visibility.Visible;
+                        }
 
                         loopbackList.Add(loopbackItem);
                     }

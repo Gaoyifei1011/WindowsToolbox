@@ -397,7 +397,7 @@
                     <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                         <Setter Property="Padding" Value="0" />
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        <Setter Property="Margin" Value="0,1" />
+                        <Setter Property="Margin" Value="0" />
                         <Setter Property="MinHeight" Value="0 " />
                     </Style>
                 </ListView.ItemContainerStyle>
@@ -406,7 +406,7 @@
                     <DataTemplate x:DataType="model:DownloadModel">
                         <Grid
                             Height="66"
-                            Margin="0,0,0,2"
+                            Margin="0,0,0,3"
                             Padding="16,12"
                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"

@@ -13,7 +13,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <XamlUICommand x:Name="CheckCommand" ExecuteRequested="{x:Bind OnCheckExecuteRequested}" />
+        <XamlUICommand x:Name="CheckBoxClickCommand" ExecuteRequested="{x:Bind OnCheckBoxClickExecuteRequested}" />
         <XamlUICommand x:Name="OpenWorkingDirectoryCommand" ExecuteRequested="{x:Bind OnOpenWorkingDirectoryRequested}" />
     </Page.Resources>
 
@@ -225,7 +225,7 @@
                         <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                             <Setter Property="Padding" Value="0" />
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="Margin" Value="0,1" />
+                            <Setter Property="Margin" Value="0" />
                             <Setter Property="MinHeight" Value="0 " />
                         </Style>
                     </ListView.ItemContainerStyle>
@@ -233,7 +233,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="model:LoopbackModel">
                             <muxc:Expander
-                                Margin="0,0,0,2"
+                                Margin="0,0,0,3"
                                 HorizontalAlignment="Stretch"
                                 HorizontalContentAlignment="Stretch"
                                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -252,7 +252,7 @@
                                             Grid.Column="0"
                                             MinWidth="0"
                                             Margin="0,0,12,0"
-                                            Command="{StaticResource CheckCommand}"
+                                            Command="{StaticResource CheckBoxClickCommand}"
                                             IsChecked="{x:Bind IsSelected, Mode=TwoWay}">
 
                                             <ToolTipService.ToolTip>

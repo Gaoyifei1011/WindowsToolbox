@@ -1,4 +1,6 @@
 AppInformationCopy=应用信息信息已成功复制到剪贴板
+ContextMenuUpdateFailed=右键菜单项显示状态更新失败，请手动更新值
+ContextMenuUpdateSuccessfully=右键菜单项显示状态更新成功
 CopyToClipboardFailed=复制内容到剪贴板失败，请检查剪贴板的访问权限
 DesktopShortcutSuccessfully=应用的桌面快捷方式已成功创建
 DesktopShortFailed=应用的桌面快捷方式创建失败，请手动创建

@@ -13,7 +13,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <XamlUICommand x:Name="CheckCommand" ExecuteRequested="{x:Bind OnCheckExecuteRequested}" />
+        <XamlUICommand x:Name="CheckBoxClickCommand" ExecuteRequested="{x:Bind OnCheckBoxClickExecuteRequested}" />
         <XamlUICommand x:Name="OpenPackagePathCommand" ExecuteRequested="{x:Bind OnOpenPackagePathExecuteRequested}" />
     </Page.Resources>
 
@@ -47,11 +47,12 @@
                         <Flyout.FlyoutPresenterStyle>
                             <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                                 <Setter Property="Padding" Value="0" />
+                                <Setter Property="MaxWidth" Value="9999" />
                             </Style>
                         </Flyout.FlyoutPresenterStyle>
 
                         <StackPanel
-                            Width="300"
+                            Width="450"
                             Padding="14"
                             Spacing="5">
 
@@ -69,15 +70,42 @@
 
                             <TextBlock
                                 Margin="0,0,2,0"
-                                Text="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('ExplanContent')}"
+                                Text="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('ExplanContent1')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,0,2,0"
+                                Text="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('ExplanContent2')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,0,2,0"
+                                Text="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('ExplanContent3')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,0,2,0"
+                                Text="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('ExplanContent4')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,0,2,0"
+                                Text="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('ExplanContent5')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,0,2,0"
+                                Text="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('ExplanContent6')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
                             <StackPanel
                                 HorizontalAlignment="Right"
                                 Orientation="Horizontal"
                                 Spacing="5">
 
                                 <Button Click="{x:Bind OnLearnCustomRightClickMenuClicked}" Content="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('LearnCustomRightClickMenu')}" />
+                                <Button Click="{x:Bind OnOpenSettingsClicked}" Content="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('OpenSettings')}" />
                             </StackPanel>
                         </StackPanel>
                     </Flyout>
@@ -97,6 +125,7 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
@@ -119,6 +148,18 @@
                 Style="{StaticResource AppBarButtonStyle}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE72C;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+
+            <AppBarButton
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                Click="{x:Bind OnRestoreDefaultClicked}"
+                IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
+                Label="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('RestoreDefault')}"
+                Style="{StaticResource AppBarButtonStyle}">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE777;" />
                 </AppBarButton.Icon>
             </AppBarButton>
         </Grid>
@@ -213,7 +254,7 @@
                         <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                             <Setter Property="Padding" Value="0" />
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="Margin" Value="0,1" />
+                            <Setter Property="Margin" Value="0" />
                             <Setter Property="MinHeight" Value="0 " />
                         </Style>
                     </ListView.ItemContainerStyle>
@@ -221,7 +262,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="model:ContextMenuModel">
                             <muxc:Expander
-                                Margin="0,0,0,2"
+                                Margin="0,0,0,3"
                                 HorizontalAlignment="Stretch"
                                 HorizontalContentAlignment="Stretch"
                                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -236,11 +277,18 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
-                                        <muxc:ImageIcon
+                                        <Grid
                                             Grid.Column="0"
-                                            MinWidth="0"
+                                            Width="30"
+                                            Height="30"
                                             Margin="0,0,12,0"
-                                            Source="{x:Bind PackageIcon}" />
+                                            Padding="2"
+                                            Background="{ThemeResource SolidBackgroundFillColorSecondaryBrush}"
+                                            BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
+                                            <muxc:ImageIcon Source="{x:Bind PackageIcon}" />
+                                        </Grid>
 
                                         <StackPanel
                                             Grid.Column="1"
@@ -311,14 +359,14 @@
                                             <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                                 <Setter Property="Padding" Value="0" />
                                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                <Setter Property="Margin" Value="0,1" />
+                                                <Setter Property="Margin" Value="0" />
                                                 <Setter Property="MinHeight" Value="0 " />
                                             </Style>
                                         </ListView.ItemContainerStyle>
 
                                         <ListView.ItemTemplate>
                                             <DataTemplate x:DataType="model:ContextMenuItemModel">
-                                                <Grid>
+                                                <Grid Margin="0,1">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto" />
                                                         <ColumnDefinition Width="*" />
@@ -327,10 +375,10 @@
                                                     <CheckBox
                                                         Grid.Column="0"
                                                         MinWidth="0"
-                                                        Margin="0,0,12,0"
-                                                        Command="{StaticResource CheckCommand}"
+                                                        Margin="4,0,9,0"
+                                                        Command="{StaticResource CheckBoxClickCommand}"
                                                         CommandParameter="{x:Bind}"
-                                                        IsChecked="{x:Bind IsEnabled, Mode=TwoWay}">
+                                                        IsChecked="{x:Bind IsEnabled, Mode=OneWay}">
 
                                                         <ToolTipService.ToolTip>
                                                             <ToolTip MaxWidth="9999">

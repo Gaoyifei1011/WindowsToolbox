@@ -24,6 +24,5 @@ Operation=Operation
 OperationFailed=Error message list
 Restart=Application restart
 RestartContent=The app is about to restart, after the restart the app's data will be lost, make sure that your work has been saved in its entirety
-WindowsAppSDKVersion=Windows App SDK version：
 WindowsUIVersion=Windows UI version:
 WinUI2Version=WinUI 2 Version:

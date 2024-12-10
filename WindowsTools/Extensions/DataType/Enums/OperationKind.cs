@@ -24,6 +24,7 @@
         MenuDarkThemeIconPathEmpty = 19,
         MenuProgramPathEmpty = 20,
         MenuMatchRuleEmpty = 21,
-        ShellMenuNeedToRefreshData = 22
+        ShellMenuNeedToRefreshData = 22,
+        ContextMenuUpdate = 23
     }
 }

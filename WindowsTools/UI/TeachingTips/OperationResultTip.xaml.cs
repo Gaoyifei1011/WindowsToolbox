@@ -182,6 +182,21 @@ namespace WindowsTools.UI.TeachingTips
                     OperationResultFailed.Visibility = Visibility.Visible;
                 }
             }
+            else if (operationKind is OperationKind.ContextMenuUpdate)
+            {
+                if (operationResult)
+                {
+                    OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("ContextMenuUpdateSuccessfully");
+                    OperationResultSuccess.Visibility = Visibility.Visible;
+                    OperationResultFailed.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    OperationResultFailed.Text = ResourceService.NotificationResource.GetString("ContextMenuUpdateFailed");
+                    OperationResultSuccess.Visibility = Visibility.Collapsed;
+                    OperationResultFailed.Visibility = Visibility.Visible;
+                }
+            }
         }
 
         public OperationResultTip(OperationKind operationKind, int successItems, int failedItems)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading;
+using WindowsTools.Extensions.DataType.Enums;
 
 namespace WindowsTools.Models
 {
@@ -30,6 +31,8 @@ namespace WindowsTools.Models
         public string DllPath { get; set; }
 
         public ApartmentState ThreadingMode { get; set; }
+
+        public BlockedClsidType BlockedClsidType { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

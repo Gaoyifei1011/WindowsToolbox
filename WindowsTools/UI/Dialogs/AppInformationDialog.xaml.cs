@@ -51,11 +51,11 @@ namespace WindowsTools.UI.Dialogs
                     byte[] buffer = new byte[bufferLength];
                     KernelAppCoreLibrary.GetCurrentPackageInfo2(PACKAGE_FLAGS.PACKAGE_PROPERTY_STATIC, PackagePathType.PackagePathType_Install, ref bufferLength, buffer, out count);
 
-                    for (int i = 0; i < count; i++)
+                    for (int index = 0; index < count; index++)
                     {
                         int packageInfoSize = Marshal.SizeOf<PACKAGE_INFO>();
                         IntPtr packageInfoPtr = Marshal.AllocHGlobal(packageInfoSize);
-                        Marshal.Copy(buffer, i * packageInfoSize, packageInfoPtr, packageInfoSize);
+                        Marshal.Copy(buffer, index * packageInfoSize, packageInfoPtr, packageInfoSize);
                         PACKAGE_INFO packageInfo = Marshal.PtrToStructure<PACKAGE_INFO>(packageInfoPtr);
                         packageInfoList.Add(packageInfo);
                         Marshal.FreeHGlobal(packageInfoPtr);
@@ -63,16 +63,6 @@ namespace WindowsTools.UI.Dialogs
 
                     foreach (PACKAGE_INFO packageInfo in packageInfoList)
                     {
-                        if (packageInfo.packageFullName.Contains("WindowsAppRuntime"))
-                        {
-                            // Windows 应用 SDK 版本信息
-                            dependencyInformationList.Add(new KeyValuePair<string, Version>(ResourceService.DialogResource.GetString("WindowsAppSDKVersion"), new Version(
-                                packageInfo.packageId.version.Parts.Major,
-                                packageInfo.packageId.version.Parts.Minor,
-                                packageInfo.packageId.version.Parts.Build,
-                                packageInfo.packageId.version.Parts.Revision)));
-                        }
-
                         // WinUI 2 版本信息
                         if (packageInfo.packageFullName.Contains("Microsoft.UI.Xaml"))
                         {
