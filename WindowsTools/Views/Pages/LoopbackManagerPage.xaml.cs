@@ -31,7 +31,6 @@ namespace WindowsTools.Views.Pages
     public sealed partial class LoopbackManagerPage : Page, INotifyPropertyChanged
     {
         private bool isInitialized;
-        private IntPtr pACs;
 
         private bool _isLoadCompleted;
 
@@ -341,7 +340,6 @@ namespace WindowsTools.Views.Pages
 
             await Task.Run(async () =>
             {
-                pACs = IntPtr.Zero;
                 List<INET_FIREWALL_APP_CONTAINER> inetLoopbackList = GetLoopbackList();
                 List<SID_AND_ATTRIBUTES> inetLoopbackEnabledList = GetLoopbackEnabledList();
 
@@ -476,7 +474,7 @@ namespace WindowsTools.Views.Pages
             GCHandle handle_ppACs = GCHandle.Alloc(arrayValue, GCHandleType.Pinned);
             FirewallAPILibrary.NetworkIsolationEnumAppContainers(NETISO_FLAG.NETISO_FLAG_MAX, out size, out arrayValue);
 
-            pACs = arrayValue;
+            IntPtr pACs = arrayValue;
 
             int structSize = Marshal.SizeOf<INET_FIREWALL_APP_CONTAINER>();
 
@@ -490,6 +488,8 @@ namespace WindowsTools.Views.Pages
 
             handle_pdwCntPublicACs.Free();
             handle_ppACs.Free();
+
+            FirewallAPILibrary.NetworkIsolationFreeAppContainers(pACs);
             return inetContainerList;
         }
 
@@ -573,7 +573,6 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void FreeResources()
         {
-            FirewallAPILibrary.NetworkIsolationFreeAppContainers(pACs);
         }
     }
 }

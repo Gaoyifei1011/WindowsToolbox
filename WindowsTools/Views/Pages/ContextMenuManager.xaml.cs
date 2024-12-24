@@ -7,12 +7,11 @@ using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
-using Windows.ApplicationModel;
-using Windows.Management.Deployment;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -23,7 +22,9 @@ using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
+using WindowsTools.WindowsAPI.PInvoke.FirewallAPI;
 using WindowsTools.WindowsAPI.PInvoke.Kernel32;
+using WindowsTools.WindowsAPI.PInvoke.Shlwapi;
 
 // 抑制 CA18062，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
@@ -38,7 +39,6 @@ namespace WindowsTools.Views.Pages
         private bool isInitialized;
         private const string packageComPackageKey = @"SOFTWARE\Classes\PackagedCom\Package";
         private const string blockedKey = @"Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked";
-        private readonly PackageManager packageManager = new();
 
         private bool _isLoadCompleted;
 
@@ -471,6 +471,7 @@ namespace WindowsTools.Views.Pages
         {
             List<ContextMenuModel> contextMenuList = [];
             List<KeyValuePair<Guid, string>> blockedList = GetBlockedClsidList();
+            List<INET_FIREWALL_APP_CONTAINER> inetLoopbackList = GetAppContainerList();
 
             try
             {
@@ -554,56 +555,36 @@ namespace WindowsTools.Views.Pages
 
                             if (appInfo.Item3.Count > 0)
                             {
-                                Package package = packageManager.FindPackageForUser(string.Empty, packageFullName);
-
-                                if (package is not null)
+                                StringBuilder displayNameBuilder = new(1024);
+                                foreach (INET_FIREWALL_APP_CONTAINER inetContainerItem in inetLoopbackList)
                                 {
-                                    ContextMenuModel contextMenuItem = new()
+                                    if (inetContainerItem.displayName.Contains(packageFullName))
                                     {
-                                        IsVisible = Visibility.Collapsed,
-                                        PackageDisplayName = package.DisplayName,
-                                        PackageFullName = packageFullName,
-                                        PackageIconUri = Uri.TryCreate(appInfo.Item2, UriKind.Absolute, out Uri uri) ? uri : null,
-                                        PackagePath = packagePath,
-                                        ContextMenuItemCollection = new(contextMenuItemList)
-                                    };
-
-                                    if (!string.IsNullOrEmpty(contextMenuItem.PackageDisplayName) && contextMenuItem.PackageDisplayName.Contains(SearchAppNameText))
-                                    {
-                                        contextMenuItem.IsVisible = Visibility.Visible;
+                                        ShlwapiLibrary.SHLoadIndirectString(inetContainerItem.displayName, displayNameBuilder, displayNameBuilder.Capacity, IntPtr.Zero);
                                     }
-
-                                    if (!string.IsNullOrEmpty(contextMenuItem.PackageFullName) && contextMenuItem.PackageFullName.Contains(SearchAppNameText))
-                                    {
-                                        contextMenuItem.IsVisible = Visibility.Visible;
-                                    }
-
-                                    contextMenuList.Add(contextMenuItem);
                                 }
-                                else
+
+                                ContextMenuModel contextMenuItem = new()
                                 {
-                                    ContextMenuModel contextMenuItem = new()
-                                    {
-                                        IsVisible = Visibility.Collapsed,
-                                        PackageDisplayName = ResourceService.ContextMenuManagerResource.GetString("Unknown"),
-                                        PackageFullName = packageFullName,
-                                        PackageIconUri = null,
-                                        PackagePath = packagePath,
-                                        ContextMenuItemCollection = new(contextMenuItemList)
-                                    };
+                                    IsVisible = Visibility.Collapsed,
+                                    PackageDisplayName = string.IsNullOrEmpty(displayNameBuilder.ToString()) ? appInfo.Item1 : displayNameBuilder.ToString(),
+                                    PackageFullName = packageFullName,
+                                    PackageIconUri = Uri.TryCreate(appInfo.Item2, UriKind.Absolute, out Uri uri) ? uri : null,
+                                    PackagePath = packagePath,
+                                    ContextMenuItemCollection = new(contextMenuItemList)
+                                };
 
-                                    if (!string.IsNullOrEmpty(contextMenuItem.PackageDisplayName) && contextMenuItem.PackageDisplayName.Contains(SearchAppNameText))
-                                    {
-                                        contextMenuItem.IsVisible = Visibility.Visible;
-                                    }
-
-                                    if (!string.IsNullOrEmpty(contextMenuItem.PackageFullName) && contextMenuItem.PackageFullName.Contains(SearchAppNameText))
-                                    {
-                                        contextMenuItem.IsVisible = Visibility.Visible;
-                                    }
-
-                                    contextMenuList.Add(contextMenuItem);
+                                if (!string.IsNullOrEmpty(contextMenuItem.PackageDisplayName) && contextMenuItem.PackageDisplayName.Contains(SearchAppNameText))
+                                {
+                                    contextMenuItem.IsVisible = Visibility.Visible;
                                 }
+
+                                if (!string.IsNullOrEmpty(contextMenuItem.PackageFullName) && contextMenuItem.PackageFullName.Contains(SearchAppNameText))
+                                {
+                                    contextMenuItem.IsVisible = Visibility.Visible;
+                                }
+
+                                contextMenuList.Add(contextMenuItem);
                             }
 
                             classKey.Close();
@@ -792,6 +773,37 @@ namespace WindowsTools.Views.Pages
                 LogService.WriteLog(EventLevel.Error, string.Format("Get specified app info failed,location in {0}", packageInstalledLocation), e);
                 return Tuple.Create(string.Empty, string.Empty, new List<Guid>());
             }
+        }
+
+        /// <summary>
+        /// 获取设备所有应用容器数据列表
+        /// </summary>
+        private List<INET_FIREWALL_APP_CONTAINER> GetAppContainerList()
+        {
+            IntPtr arrayValue = IntPtr.Zero;
+            uint size = 0;
+            List<INET_FIREWALL_APP_CONTAINER> inetContainerList = [];
+
+            GCHandle handle_pdwCntPublicACs = GCHandle.Alloc(size, GCHandleType.Pinned);
+            GCHandle handle_ppACs = GCHandle.Alloc(arrayValue, GCHandleType.Pinned);
+            FirewallAPILibrary.NetworkIsolationEnumAppContainers(NETISO_FLAG.NETISO_FLAG_MAX, out size, out arrayValue);
+
+            IntPtr pACs = arrayValue;
+
+            int structSize = Marshal.SizeOf<INET_FIREWALL_APP_CONTAINER>();
+
+            for (int index = 0; index < size; index++)
+            {
+                INET_FIREWALL_APP_CONTAINER container = Marshal.PtrToStructure<INET_FIREWALL_APP_CONTAINER>(arrayValue);
+
+                inetContainerList.Add(container);
+                arrayValue = new IntPtr((long)arrayValue + structSize);
+            }
+
+            handle_pdwCntPublicACs.Free();
+            handle_ppACs.Free();
+            FirewallAPILibrary.NetworkIsolationFreeAppContainers(pACs);
+            return inetContainerList;
         }
     }
 }
