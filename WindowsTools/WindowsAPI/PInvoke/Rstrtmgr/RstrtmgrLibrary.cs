@@ -21,7 +21,27 @@ namespace WindowsTools.WindowsAPI.PInvoke.Rstrtmgr
         /// <param name="rgsServiceNames">以 null 结尾的服务短名称字符串的数组。 如果 nServices 为 0，此参数可以为 NULL。</param>
         /// <returns>这是收到的最新错误。 函数可以返回 Winerror.h 中定义的系统错误代码之一。</returns>
         [DllImport(Rstrtmgr, CharSet = CharSet.Unicode, EntryPoint = "RmRegisterResources", PreserveSig = true, SetLastError = false)]
-        public static extern int RmRegisterResources(uint pSessionHandle, uint nFiles, [In, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 0)] string[] rgsFilenames, uint nApplications, [In] RM_UNIQUE_PROCESS[] rgApplications, uint nServices, [In, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 0)] string[] rgsServiceNames);
+        public static extern int RmRegisterResources(uint pSessionHandle, uint nFiles, [In, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 0)] string[] rgsFilenames, uint nApplications, [In, MarshalAs(UnmanagedType.LPArray)] RM_UNIQUE_PROCESS[] rgApplications, uint nServices, [In, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = 0)] string[] rgsServiceNames);
+
+        /// <summary>
+        /// 重启已由 RmShutdown 函数关闭且已注册为使用 RegisterApplicationRestart 函数重启的应用程序和服务。 此函数只能由调用 RmStartSession 函数的主安装程序调用，以启动重启管理器会话。
+        /// </summary>
+        /// <param name="dwSessionHandle">现有重启管理器会话的句柄。</param>
+        /// <param name="dwRestartFlags">保留。 此参数应为 0。</param>
+        /// <param name="fnStatus">指向状态消息回调函数的指针，该函数用于在 RmRestart 函数运行时传达状态。 如果 为 NULL，则不提供状态。</param>
+        /// <returns>这是收到的最新错误。 函数可以返回 Winerror.h 中定义的 系统错误代码 之一。</returns>
+        [DllImport(Rstrtmgr, CharSet = CharSet.Unicode, EntryPoint = "RmRestart", PreserveSig = true, SetLastError = false)]
+        public static extern int RmRestart(uint dwSessionHandle, RM_SHUTDOWN_TYPE dwRestartFlags, RM_WRITE_STATUS_CALLBACK fnStatus);
+
+        /// <summary>
+        /// 启动应用程序的关闭。 只能从使用 RmStartSession 函数启动重启管理器会话的安装程序调用此函数。
+        /// </summary>
+        /// <param name="dwSessionHandle">现有 Restart Manager 会话的句柄。</param>
+        /// <param name="lActionFlags">配置组件的关闭 的 一个或多个RM_SHUTDOWN_TYPE选项。 OR 运算符可以组合以下值，以指定当且仅当所有应用程序都已注册重启时，才会强制关闭无响应的应用程序和服务。</param>
+        /// <param name="fnStatus">指向 RM_WRITE_STATUS_CALLBACK 函数的指针，该函数在执行时用于传达详细状态。 如果 为 NULL，则不提供任何状态。</param>
+        /// <returns>这是收到的最新错误。 函数可以返回 Winerror.h 中定义的 系统错误代码 之一。</returns>
+        [DllImport(Rstrtmgr, CharSet = CharSet.Unicode, EntryPoint = "RmShutdown", PreserveSig = true, SetLastError = false)]
+        public static extern int RmShutdown(uint dwSessionHandle, RM_SHUTDOWN_TYPE lActionFlags, RM_WRITE_STATUS_CALLBACK fnStatus);
 
         /// <summary>
         /// 启动新的重启管理器会话。 每个用户会话最多可以同时在系统上打开 64 个重启管理器会话。 当此函数启动会话时，它将返回会话句柄和会话密钥，这些句柄和会话密钥可用于对重启管理器 API 的后续调用。
