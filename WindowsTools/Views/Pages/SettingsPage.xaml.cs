@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.UI.Xaml;
@@ -19,6 +20,7 @@ using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
+using WindowsTools.WindowsAPI.PInvoke.Rstrtmgr;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
 // 抑制 CA1806，IDE0060 警告
@@ -139,6 +141,22 @@ namespace WindowsTools.Views.Pages
                 {
                     _doEngineMode = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DoEngineMode)));
+                }
+            }
+        }
+
+        private bool _isRestarting = false;
+
+        public bool IsRestarting
+        {
+            get { return _isRestarting; }
+
+            set
+            {
+                if (!Equals(_isRestarting, value))
+                {
+                    _isRestarting = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsRestarting)));
                 }
             }
         }
@@ -346,25 +364,72 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 重新启动资源管理器
         /// </summary>
-        private void OnRestartExplorerClicked(object sender, RoutedEventArgs args)
+        private async void OnRestartExplorerClicked(object sender, RoutedEventArgs args)
         {
-            Task.Run(() =>
+            IsRestarting = true;
+
+            await Task.Run(() =>
             {
                 try
                 {
-                    ProcessStartInfo restartInfo = new()
+                    int dwRmStatus = RstrtmgrLibrary.RmStartSession(out uint dwSessionHandle, 0, Guid.Empty.ToString());
+
+                    if (dwRmStatus is 0)
                     {
-                        FileName = "cmd.exe",
-                        Arguments = "/C taskkill /f /im explorer.exe & start \"\" explorer.exe",
-                        WindowStyle = ProcessWindowStyle.Hidden,
-                    };
-                    Process.Start(restartInfo);
+                        Process[] processList = Process.GetProcessesByName("explorer");
+                        RM_UNIQUE_PROCESS[] lpRmProcList = new RM_UNIQUE_PROCESS[processList.Length];
+
+                        for (int index = 0; index < processList.Length; index++)
+                        {
+                            lpRmProcList[index].dwProcessId = processList[index].Id;
+                            FILETIME fileTime = new();
+                            long time = processList[index].StartTime.ToFileTime();
+                            fileTime.dwLowDateTime = (int)(time & 0xFFFFFFFF);
+                            fileTime.dwHighDateTime = (int)(time >> 32);
+                            lpRmProcList[index].ProcessStartTime = fileTime;
+                        }
+
+                        dwRmStatus = RstrtmgrLibrary.RmRegisterResources(dwSessionHandle, 0, null, (uint)processList.Length, lpRmProcList, 0, null);
+
+                        if (dwRmStatus is 0)
+                        {
+                            dwRmStatus = RstrtmgrLibrary.RmShutdown(dwSessionHandle, RM_SHUTDOWN_TYPE.RmForceShutdown, null);
+
+                            if (dwRmStatus is 0)
+                            {
+                                dwRmStatus = RstrtmgrLibrary.RmRestart(dwSessionHandle, 0, null);
+
+                                if (dwRmStatus is 0)
+                                {
+                                    dwRmStatus = RstrtmgrLibrary.RmEndSession(dwSessionHandle);
+                                }
+                                else
+                                {
+                                    LogService.WriteLog(EventLevel.Error, "Restart explorer restart failed", new Exception());
+                                }
+                            }
+                            else
+                            {
+                                LogService.WriteLog(EventLevel.Error, "Restart explorer shutdown failed", new Exception());
+                            }
+                        }
+                        else
+                        {
+                            LogService.WriteLog(EventLevel.Error, "Restart explorer register resources failed", new Exception());
+                        }
+                    }
+                    else
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Restart explorer start session failed", new Exception());
+                    }
                 }
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Error, "Restart explorer failed", e);
                 }
             });
+
+            IsRestarting = false;
         }
 
         /// <summary>

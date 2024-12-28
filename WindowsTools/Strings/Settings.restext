@@ -46,6 +46,7 @@ OpenLogFolder=Open folder
 RestartApp=Application restart
 RestartAppToolTip=After the app settings are modified, some options need to be restarted to take effect
 RestartExplorer=Restart explorer
+Restarting=Restarting now...
 SelectFolder=Select folder
 SettingsInstruction=Settings instruction
 SystemBackdropSettings=System backdrop settings
