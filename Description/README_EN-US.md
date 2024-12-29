@@ -81,7 +81,6 @@ A toolbox that integrates multiple gadgets.
 > * [Microsoft.UI.Xaml](https://github.com/microsoft/microsoft-ui-xaml)&emsp;
 > * [Microsoft.Windows.SDK.BuildTools](https://aka.ms/WinSDKProjectURL)&emsp;
 > * [Microsoft.Windows.SDK.Contracts](https://aka.ms/WinSDKProjectURL)&emsp;
-> * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [System.Private.Uri](https://dot.net)&emsp;
 
 [Code referenced or used during the learning process](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;
@@ -90,7 +89,7 @@ A toolbox that integrates multiple gadgets.
 
 ### Download and installation considerations
 
-> * The program is built using Mile.Xaml (Xaml Islands), it is recommended that your system version is Windows 11 (codenamed 22H2 / internal version number 22621) or later, The minimum version is Windows 11 (codenamed 2004 / internal version number 19041) or later.
+> * The program is built using Xaml Islands, it is recommended that your system version is Windows 11 (codenamed 22H2 / internal version number 22621) or later, The minimum version is Windows 11 (codenamed 2004 / internal version number 19041) or later.
 > * [Release](https://github.com/Gaoyifei1011/WindowsToolbox/releases) The binary installation file for the page has been packaged into a compressed package. Unzip the package and run the install.ps1 file in Powershell admin mode (if necessary) for a quick installation.
 > * Download and compile the project source code yourself. (Please read the project compilation steps below carefully)
 

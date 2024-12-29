@@ -81,7 +81,6 @@
 > * [Microsoft.UI.Xaml](https://github.com/microsoft/microsoft-ui-xaml)&emsp;
 > * [Microsoft.Windows.SDK.BuildTools](https://aka.ms/WinSDKProjectURL)&emsp;
 > * [Microsoft.Windows.SDK.Contracts](https://aka.ms/WinSDKProjectURL)&emsp;
-> * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [System.Private.Uri](https://dot.net)&emsp;
 	
 [学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/WindowsToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;
@@ -90,7 +89,7 @@
 
 ### 下载与安装注意事项
 
-> * 该程序使用的是Mile.Xaml（Xaml Islands）构建的，建议您的系统版本为Windows 11（代号 22H2 / 内部版本号 22621）或更高版本，最低版本为Windows 11（代号 2004 / 内部版本号 19041）或更高版本。
+> * 该程序使用的是 Xaml Islands 构建的，建议您的系统版本为Windows 11（代号 22H2 / 内部版本号 22621）或更高版本，最低版本为Windows 11（代号 2004 / 内部版本号 19041）或更高版本。
 > * [Release](https://github.com/Gaoyifei1011/WindowsToolbox/releases)页面的二进制安装文件已经打包成压缩包。请解压压缩包并使用Powershell管理员模式（必要情况下）运行install.ps1文件方可实现快速安装。
 > * 自行下载项目源代码并编译。（请仔细阅读下面的项目编译步骤）
 
