@@ -1,10 +1,11 @@
-﻿using Mile.Xaml;
-using System;
+﻿using System;
 using System.Diagnostics.Tracing;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Hosting;
 using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Root;
 using WindowsTools.Views.Windows;
+using WindowsTools.WindowsAPI.ComTypes;
 
 namespace WindowsTools
 {
@@ -14,10 +15,12 @@ namespace WindowsTools
     public partial class App : Application, IDisposable
     {
         private bool isDisposed;
+        private WindowsXamlManager windowXamlManager;
 
         public App()
         {
-            this.ThreadInitialize();
+            windowXamlManager = WindowsXamlManager.InitializeForCurrentThread();
+            (Window.Current as object as IXamlSourceTransparency).SetIsBackgroundTransparent(true);
             InitializeComponent();
             UnhandledException += OnUnhandledException;
         }
@@ -51,22 +54,21 @@ namespace WindowsTools
         {
             if (!isDisposed)
             {
+                isDisposed = true;
                 if (disposing)
                 {
-                    this.ThreadUninitialize();
-
                     if (MainWindow.Current is not null && !MainWindow.Current.IsDisposed)
                     {
                         MainWindow.Current?.Close();
                     }
 
+                    windowXamlManager.Dispose();
+                    windowXamlManager = null;
                     GlobalNotificationService.SendNotification();
                     DownloadSchedulerService.TerminateDownload();
                     DownloadSchedulerService.CloseDownloadScheduler();
                     System.Windows.Forms.Application.Exit();
                 }
-
-                isDisposed = true;
             }
         }
     }
