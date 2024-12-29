@@ -13,6 +13,7 @@
 > * [How do I find out which process has a file open](https://devblogs.microsoft.com/oldnewthing/?p=8283)&emsp;
 > * [Loaf](https://github.com/DinoChan/Loaf)&emsp;
 > * [ModernContextMenuManager](https://github.com/cnbluefire/ModernContextMenuManager)&emsp;
+> * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [Mile.Xaml.Samples](https://github.com/ProjectMile/Mile.Xaml.Samples)&emsp;
 > * [ModernContextMenuManager](https://github.com/cnbluefire/ModernContextMenuManager)&emsp;
 > * [PriTools](https://github.com/chausner/PriTools)&emsp;
