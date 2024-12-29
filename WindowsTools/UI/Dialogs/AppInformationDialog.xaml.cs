@@ -75,9 +75,6 @@ namespace WindowsTools.UI.Dialogs
                     FileVersionInfo windowsUIFile = FileVersionInfo.GetVersionInfo(Path.Combine(Environment.SystemDirectory, "Windows.UI.Xaml.dll"));
                     dependencyInformationList.Add(new KeyValuePair<string, Version>(ResourceService.DialogResource.GetString("WindowsUIVersion"), new Version(windowsUIFile.ProductMajorPart, windowsUIFile.ProductMinorPart, windowsUIFile.ProductBuildPart, windowsUIFile.ProductPrivatePart)));
 
-                    FileVersionInfo mileXamlFile = FileVersionInfo.GetVersionInfo(Path.Combine(AppContext.BaseDirectory, @"Mile.Xaml.Managed.dll"));
-                    dependencyInformationList.Add(new KeyValuePair<string, Version>(ResourceService.DialogResource.GetString("MileXamlVersion"), new Version(mileXamlFile.FileVersion)));
-
                     // .NET 版本信息
                     dependencyInformationList.Add(new KeyValuePair<string, Version>(ResourceService.DialogResource.GetString("DoNetVersion"), new Version(RuntimeInformation.FrameworkDescription.Remove(0, 15))));
                 }

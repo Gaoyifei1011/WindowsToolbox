@@ -59,7 +59,6 @@ namespace WindowsTools.Views.Pages
             { "Microsoft.UI.Xaml", new Uri("https://github.com/microsoft/microsoft-ui-xaml") },
             { "Microsoft.Windows.SDK.BuildTools", new Uri("https://aka.ms/WinSDKProjectURL") },
             { "Microsoft.Windows.SDK.Contracts", new Uri("https://aka.ms/WinSDKProjectURL") },
-            { "Mile.Xaml", new Uri("https://github.com/ProjectMile/Mile.Xaml") },
             { "System.Private.Uri", new Uri("https://dot.net") }
         };
 
