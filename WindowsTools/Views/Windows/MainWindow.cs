@@ -1,12 +1,9 @@
-﻿using Mile.Xaml;
-using Mile.Xaml.Interop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +19,7 @@ using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.UI.Backdrop;
 using WindowsTools.Views.Pages;
+using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Comctl32;
 using WindowsTools.WindowsAPI.PInvoke.Dwmapi;
 using WindowsTools.WindowsAPI.PInvoke.Gdi32;
@@ -44,7 +42,7 @@ namespace WindowsTools.Views.Windows
         private readonly IntPtr hwndMaximizeButton;
         private readonly int AUTO_HIDE_TASKBAR_HEIGHT = 2;
         private readonly int lightTintColor = ColorTranslator.ToWin32(Color.FromArgb(243, 243, 243));
-        private readonly int darkTintColor = ColorTranslator.ToWin32(System.Drawing.Color.FromArgb(32, 32, 32));
+        private readonly int darkTintColor = ColorTranslator.ToWin32(Color.FromArgb(32, 32, 32));
         private readonly Container components = new();
         private readonly DesktopWindowXamlSource desktopWindowXamlSource = new();
         private readonly WNDPROC TitleBarWndProc;
@@ -68,9 +66,9 @@ namespace WindowsTools.Views.Windows
             Content = new MainPage();
 
             desktopWindowXamlSource.Content = Content;
-            IDesktopWindowXamlSourceNative2 desktopWindowXamlSourceInterop = desktopWindowXamlSource.GetInterop();
+            IDesktopWindowXamlSourceNative2 desktopWindowXamlSourceInterop = desktopWindowXamlSource as IDesktopWindowXamlSourceNative2;
             desktopWindowXamlSourceInterop.AttachToWindow(Handle);
-            hwndXamlIsland = desktopWindowXamlSourceInterop.GetWindowHandle();
+            desktopWindowXamlSourceInterop.GetWindowHandle(out hwndXamlIsland);
             desktopWindowXamlSource.TakeFocusRequested += OnTakeFocusRequested;
 
             Icon = Icon.ExtractAssociatedIcon(System.Windows.Forms.Application.ExecutablePath);
@@ -170,17 +168,8 @@ namespace WindowsTools.Views.Windows
             BackdropService.PropertyChanged += OnServicePropertyChanged;
             TopMostService.PropertyChanged += OnServicePropertyChanged;
 
-            // 修改 CoreWindow 窗口的大小
-            IntPtr coreWindowhandle = Window.Current.CoreWindow.GetInterop().GetWindowHandle();
+            (Window.Current.CoreWindow as object as ICoreWindowInterop).GetWindowHandle(out IntPtr coreWindowhandle);
             User32Library.SetWindowPos(coreWindowhandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOOWNERZORDER);
-
-            // 修改托管 CoreWindow 窗口的大小和位置
-            Form coreWindowHostWindowForm = typeof(XamlApplicationExtensions).GetField("CoreWindowHostWindow", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null) as Form;
-            if (coreWindowHostWindowForm is not null)
-            {
-                coreWindowHostWindowForm.Location = Location;
-                coreWindowHostWindowForm.Size = Size;
-            }
         }
 
         #region 第一部分：窗口类内置需要重载的事件
@@ -307,14 +296,6 @@ namespace WindowsTools.Views.Windows
                     popup.CompositeMode = compositeMode;
                 }
             }
-
-            // 修改托管 CoreWindow 窗口的大小和位置
-            Form coreWindowHostWindowForm = typeof(XamlApplicationExtensions).GetField("CoreWindowHostWindow", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null) as Form;
-            if (coreWindowHostWindowForm is not null)
-            {
-                coreWindowHostWindowForm.Location = Location;
-                coreWindowHostWindowForm.Size = Size;
-            }
         }
 
         /// <summary>
@@ -343,16 +324,8 @@ namespace WindowsTools.Views.Windows
             }
 
             // 修改 CoreWindow 窗口的大小
-            IntPtr coreWindowhandle = Window.Current.CoreWindow.GetInterop().GetWindowHandle();
+            (Window.Current.CoreWindow as object as ICoreWindowInterop).GetWindowHandle(out IntPtr coreWindowhandle);
             User32Library.SetWindowPos(coreWindowhandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOOWNERZORDER);
-
-            // 修改托管 CoreWindow 窗口的大小和位置
-            Form coreWindowHostWindowForm = typeof(XamlApplicationExtensions).GetField("CoreWindowHostWindow", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null) as Form;
-            if (coreWindowHostWindowForm is not null)
-            {
-                coreWindowHostWindowForm.Location = Location;
-                coreWindowHostWindowForm.Size = Size;
-            }
         }
 
         /// <summary>
