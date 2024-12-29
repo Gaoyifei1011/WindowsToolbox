@@ -1,15 +1,17 @@
-﻿using Mile.Xaml;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Hosting;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Views.Pages;
+using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
 namespace WindowsTools.Views.Windows
@@ -22,10 +24,13 @@ namespace WindowsTools.Views.Windows
         private readonly bool _blockAllKeys = false;
         private readonly bool _lockScreenAutomaticly = false;
         private readonly Container components = new();
-        private readonly WindowsXamlHost windowsXamlHost = new();
+        private readonly DesktopWindowXamlSource desktopWindowXamlSource = new();
 
+        private readonly IntPtr hwndXamlIsland;
         private IntPtr hHook = IntPtr.Zero;
         private HOOKPROC KeyBoardHookProc;
+
+        public UIElement Content { get; set; }
 
         public static LoafWindow Current { get; private set; }
 
@@ -33,23 +38,30 @@ namespace WindowsTools.Views.Windows
         {
             AllowDrop = false;
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = System.Drawing.Color.Black;
             Current = this;
-            Controls.Add(windowsXamlHost);
-            FormBorderStyle = FormBorderStyle.None;
+            Content = new SimulateUpdatePage(updatingKind, duration);
+
+            desktopWindowXamlSource.Content = Content;
+            IDesktopWindowXamlSourceNative2 desktopWindowXamlSourceInterop = desktopWindowXamlSource as IDesktopWindowXamlSourceNative2;
+            desktopWindowXamlSourceInterop.AttachToWindow(Handle);
+            desktopWindowXamlSourceInterop.GetWindowHandle(out hwndXamlIsland);
+            desktopWindowXamlSource.TakeFocusRequested += OnTakeFocusRequested;
+
             RightToLeft = LanguageService.RightToLeft;
             RightToLeftLayout = LanguageService.RightToLeft is RightToLeft.Yes;
-            WindowState = FormWindowState.Maximized;
-            ShowInTaskbar = false;
+            FormBorderStyle = FormBorderStyle.None;
             TopMost = true;
-            windowsXamlHost.AutoSize = true;
-            windowsXamlHost.Dock = DockStyle.Fill;
+            WindowState = FormWindowState.Maximized;
+
             _blockAllKeys = blockAllKeys;
             _lockScreenAutomaticly = lockScreenAutomaticly;
             Cursor.Hide();
-            windowsXamlHost.Child = new SimulateUpdatePage(updatingKind, duration);
+
+            int exStyle = GetWindowLongAuto(Handle, WindowLongIndexFlags.GWL_EXSTYLE);
+            SetWindowLongAuto(Handle, WindowLongIndexFlags.GWL_EXSTYLE, (IntPtr)(exStyle & ~0x00040000 | 0x00000080));
             SystemSleepHelper.PreventForCurrentThread();
             StartHook();
+            Show();
         }
 
         /// <summary>
@@ -59,6 +71,17 @@ namespace WindowsTools.Views.Windows
         {
             base.OnFormClosed(args);
             Current = null;
+            desktopWindowXamlSource.Dispose();
+            desktopWindowXamlSource.TakeFocusRequested -= OnTakeFocusRequested;
+        }
+
+        /// <summary>
+        /// 窗口大小改变时发生的事件
+        /// </summary>
+        protected override void OnSizeChanged(EventArgs args)
+        {
+            base.OnSizeChanged(args);
+            User32Library.SetWindowPos(hwndXamlIsland, IntPtr.Zero, Location.X, Location.Y, Width, Height, SetWindowPosFlags.SWP_NOACTIVATE | SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_SHOWWINDOW);
         }
 
         /// <summary>
@@ -70,6 +93,19 @@ namespace WindowsTools.Views.Windows
             if (disposing && components is not null)
             {
                 components.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// 例如，当主机桌面应用程序收到从 DesktopWindowXamlSource 对象 (获取焦点的请求时发生，用户位于 DesktopWindowXamlSource 中的最后一个可聚焦元素上，然后按 Tab) 。
+        /// </summary>
+        private void OnTakeFocusRequested(DesktopWindowXamlSource sender, DesktopWindowXamlSourceTakeFocusRequestedEventArgs args)
+        {
+            XamlSourceFocusNavigationReason reason = args.Request.Reason;
+
+            if (reason < XamlSourceFocusNavigationReason.Left)
+            {
+                sender.NavigateFocus(args.Request);
             }
         }
 
@@ -196,7 +232,7 @@ namespace WindowsTools.Views.Windows
         {
             Cursor.Show();
             StopHook();
-            (windowsXamlHost.Child as SimulateUpdatePage).StopSimulateUpdate();
+            (Content as SimulateUpdatePage).StopSimulateUpdate();
             if (_lockScreenAutomaticly)
             {
                 User32Library.LockWorkStation();
@@ -208,6 +244,22 @@ namespace WindowsTools.Views.Windows
             User32Library.keybd_event(Keys.D, 0, KEYEVENTFLAGS.KEYEVENTF_KEYDOWN, UIntPtr.Zero);
             User32Library.keybd_event(Keys.D, 0, KEYEVENTFLAGS.KEYEVENTF_KEYUP, UIntPtr.Zero);
             User32Library.keybd_event(Keys.LWin, 0, KEYEVENTFLAGS.KEYEVENTF_KEYUP, UIntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 获取窗口属性
+        /// </summary>
+        private static int GetWindowLongAuto(IntPtr hWnd, WindowLongIndexFlags nIndex)
+        {
+            return IntPtr.Size is 8 ? User32Library.GetWindowLongPtr(hWnd, nIndex) : User32Library.GetWindowLong(hWnd, nIndex);
+        }
+
+        /// <summary>
+        /// 更改窗口属性
+        /// </summary>
+        private static IntPtr SetWindowLongAuto(IntPtr hWnd, WindowLongIndexFlags nIndex, IntPtr dwNewLong)
+        {
+            return IntPtr.Size is 8 ? User32Library.SetWindowLongPtr(hWnd, nIndex, dwNewLong) : User32Library.SetWindowLong(hWnd, nIndex, dwNewLong);
         }
     }
 }
