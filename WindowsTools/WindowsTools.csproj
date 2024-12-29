@@ -6,15 +6,22 @@
     <ApplicationManifest>App.manifest</ApplicationManifest>
     <AssemblyName>WindowsTools</AssemblyName>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <CustomAfterMicrosoftCommonTargets>$(SolutionDir)Configuration\UAPXamlFrameworkCompiler.targets;$(SolutionDir)Configuration\MrtCore.PriGen.targets</CustomAfterMicrosoftCommonTargets>
+    <DefaultXamlRuntime>UAP</DefaultXamlRuntime>
+    <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     <Deterministic>true</Deterministic>
     <DesktopCompatible>true</DesktopCompatible>
     <DisableXbfLineInfo>false</DisableXbfLineInfo>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <EnableDefaultPageItems>false</EnableDefaultPageItems>
+    <EnableTypeInfoReflection>false</EnableTypeInfoReflection>
+    <_EnableWindowsDesktopGlobbing>true</_EnableWindowsDesktopGlobbing>
+    <_EnableWindowsDesktopNETFrameworkImplicitReference>true</_EnableWindowsDesktopNETFrameworkImplicitReference>
+    <ImportWindowsDesktopTargets>false</ImportWindowsDesktopTargets>
+    <ImportFrameworkWinFXTargets>false</ImportFrameworkWinFXTargets>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <IncludeSymbols>false</IncludeSymbols>
     <LangVersion>latest</LangVersion>
-    <MileXamlNoSunValleyXamlStyle>true</MileXamlNoSunValleyXamlStyle>
     <Optimize>false</Optimize>
     <OutputType>WinExe</OutputType>
     <Platforms>x86;x64;ARM64</Platforms>
@@ -282,7 +289,6 @@
 
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" IncludeAssets="none" />
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1742" />
-    <PackageReference Include="Mile.Xaml" Version="2.3.1064" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
 
     <Page Include="Styles\Button.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
