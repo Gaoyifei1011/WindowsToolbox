@@ -41,6 +41,13 @@ Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "signtool", "signtool.exe", 
 		IORedirection = Auto
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{32110B9F-B910-416A-8E03-AEAE448E73F5}"
+	ProjectSection(SolutionItems) = preProject
+		Configuration\Microsoft.WinUI.NET.Markup.Compiler.targets = Configuration\Microsoft.WinUI.NET.Markup.Compiler.targets
+		Configuration\MrtCore.PriGen.targets = Configuration\MrtCore.PriGen.targets
+		Configuration\UAPXamlFrameworkCompiler.targets = Configuration\UAPXamlFrameworkCompiler.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64
@@ -106,6 +113,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{24C140DE-963F-4934-8AF9-F1D93AD7CC4E} = {600A58B9-FBFC-440E-A78C-18DDB7B84865}
 		{6E829014-7CD7-45F1-AE24-BE5447D273AC} = {600A58B9-FBFC-440E-A78C-18DDB7B84865}
+		{32110B9F-B910-416A-8E03-AEAE448E73F5} = {600A58B9-FBFC-440E-A78C-18DDB7B84865}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EFD238CD-573D-4702-9259-13A95FD9D8B3}
