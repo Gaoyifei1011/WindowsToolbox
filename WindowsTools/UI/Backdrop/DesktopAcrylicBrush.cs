@@ -11,8 +11,8 @@ using WindowsTools.WindowsAPI.PInvoke.Comctl32;
 using WindowsTools.WindowsAPI.PInvoke.Kernel32;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
-// 抑制 CA1822 警告
-#pragma warning disable CA1822
+// 抑制 CA1822，IDE0060 警告
+#pragma warning disable CA1822,IDE0060
 
 namespace WindowsTools.UI.Backdrop
 {

@@ -36,7 +36,10 @@
         <Grid
             Grid.Row="2"
             Margin="30,0,30,3"
-            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{StaticResource ControlCornerRadius}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />

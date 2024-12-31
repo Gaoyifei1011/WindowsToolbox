@@ -12,6 +12,9 @@ using WindowsToolsShellExtension.WindowsAPI.ComTypes;
 using WindowsToolsShellExtension.WindowsAPI.PInvoke.Shell32;
 using WindowsToolsShellExtension.WindowsAPI.PInvoke.Shlwapi;
 
+// 抑制 CA1822 警告
+#pragma warning disable CA1822
+
 namespace WindowsToolsShellExtension.Commands
 {
     /// <summary>

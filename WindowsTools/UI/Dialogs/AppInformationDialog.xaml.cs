@@ -16,8 +16,8 @@ using WindowsTools.Services.Root;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.PInvoke.KernelAppCore;
 
-// 抑制 CA1806 警告
-#pragma warning disable CA1806
+// 抑制 CA1806，IDE0060 警告
+#pragma warning disable CA1806,IDE0060
 
 namespace WindowsTools.UI.Dialogs
 {

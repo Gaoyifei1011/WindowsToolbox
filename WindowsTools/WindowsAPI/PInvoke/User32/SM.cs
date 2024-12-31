@@ -70,7 +70,7 @@
         /// 窗口周围具有描述文字但不是相当大的（以像素为单位）的框架的粗细。 SM_CXFIXEDFRAME是水平边框的高度，SM_CYFIXEDFRAME是垂直边框的宽度。
         /// 此值与 SM_CXDLGFRAME 相同。
         /// </summary>
-        SM_CXFIXEDFRAME = 7,
+        SM_CXFIXEDFRAME = SM_CXDLGFRAME,
 
         /// <summary>
         /// DrawFocusRect 绘制的焦点矩形的左边缘和右边缘的宽度。 此值以像素为单位。

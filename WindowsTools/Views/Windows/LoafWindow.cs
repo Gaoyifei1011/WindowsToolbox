@@ -81,7 +81,7 @@ namespace WindowsTools.Views.Windows
         protected override void OnSizeChanged(EventArgs args)
         {
             base.OnSizeChanged(args);
-            User32Library.SetWindowPos(hwndXamlIsland, IntPtr.Zero, Location.X, Location.Y, Width, Height, SetWindowPosFlags.SWP_NOACTIVATE | SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_SHOWWINDOW);
+            User32Library.SetWindowPos(hwndXamlIsland, IntPtr.Zero, 0, 0, Width, Height, SetWindowPosFlags.SWP_NOACTIVATE | SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_SHOWWINDOW);
         }
 
         /// <summary>
