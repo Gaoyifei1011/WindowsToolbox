@@ -219,17 +219,6 @@
                     </Button.Resources>
                 </Button>
             </StackPanel>
-
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="ActiveStates">
-                    <VisualState x:Name="Active" />
-                    <VisualState x:Name="NotActive">
-                        <VisualState.Setters>
-                            <Setter Target="TitleTextBlock.Foreground" Value="#8E8E8E" />
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
         </Grid>
 
         <muxc:NavigationView
@@ -257,207 +246,573 @@
 
             <muxc:NavigationView.MenuItems>
                 <!--  所有工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('AllTools')}" Tag="AllTools">
+                <muxc:NavigationViewItem Tag="AllTools">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/AllTools.png" />
                     </muxc:NavigationViewItem.Icon>
+
+                    <muxc:NavigationViewItem.Content>
+                        <TextBlock
+                            x:Name="WindowAllToolsText"
+                            Text="{x:Bind root:ResourceService.WindowResource.GetString('AllTools')}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </muxc:NavigationViewItem.Content>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind root:ResourceService.WindowResource.GetString('AllTools')}"
+                            Visibility="{x:Bind WindowAllToolsText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
                 </muxc:NavigationViewItem>
 
                 <muxc:NavigationViewItemSeparator />
 
                 <!--  休闲工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('Relaxation')}" Tag="Relaxation">
+                <muxc:NavigationViewItem Tag="Relaxation">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Relaxation.png" />
                     </muxc:NavigationViewItem.Icon>
 
+                    <muxc:NavigationViewItem.Content>
+                        <TextBlock
+                            x:Name="WindowRelaxationText"
+                            Text="{x:Bind root:ResourceService.WindowResource.GetString('Relaxation')}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </muxc:NavigationViewItem.Content>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind root:ResourceService.WindowResource.GetString('Relaxation')}"
+                            Visibility="{x:Bind WindowRelaxationText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('Loaf')}" Tag="Loaf">
+                        <muxc:NavigationViewItem Tag="Loaf">
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowLoafText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('Loaf')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Loaf.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('Loaf')}"
+                                    Visibility="{x:Bind WindowLoafText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
                     </muxc:NavigationViewItem.MenuItems>
                 </muxc:NavigationViewItem>
 
                 <!--  文件工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('File')}" Tag="File">
+                <muxc:NavigationViewItem Tag="File">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/File.png" />
                     </muxc:NavigationViewItem.Icon>
 
+                    <muxc:NavigationViewItem.Content>
+                        <TextBlock
+                            x:Name="WindowFileText"
+                            Text="{x:Bind root:ResourceService.WindowResource.GetString('File')}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </muxc:NavigationViewItem.Content>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind root:ResourceService.WindowResource.GetString('File')}"
+                            Visibility="{x:Bind WindowFileText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('FileName')}" Tag="FileName">
+                        <muxc:NavigationViewItem Tag="FileName">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/FileName.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowFileNameText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('FileName')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('FileName')}"
+                                    Visibility="{x:Bind WindowFileNameText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('ExtensionName')}" Tag="ExtensionName">
+                        <muxc:NavigationViewItem Tag="ExtensionName">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/ExtensionName.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowExtensionNameText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('ExtensionName')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('ExtensionName')}"
+                                    Visibility="{x:Bind WindowExtensionNameText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('UpperAndLowerCase')}" Tag="UpperAndLowerCase">
+                        <muxc:NavigationViewItem Tag="UpperAndLowerCase">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/UpperAndLowerCase.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowUpperAndLowerCaseText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('UpperAndLowerCase')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('UpperAndLowerCase')}"
+                                    Visibility="{x:Bind WindowUpperAndLowerCaseText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('FileProperties')}" Tag="FileProperties">
+                        <muxc:NavigationViewItem Tag="FileProperties">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/FileProperties.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowFilePropertiesText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('FileProperties')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('FileProperties')}"
+                                    Visibility="{x:Bind WindowFilePropertiesText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('FileCertificate')}" Tag="FileCertificate">
+                        <muxc:NavigationViewItem Tag="FileCertificate">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/FileCertificate.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowFileCertificateText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('FileCertificate')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('FileCertificate')}"
+                                    Visibility="{x:Bind WindowFileCertificateText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('FileUnlock')}" Tag="FileUnlock">
+                        <muxc:NavigationViewItem Tag="FileUnlock">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/FileUnlock.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowFileUnlockText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('FileUnlock')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('FileUnlock')}"
+                                    Visibility="{x:Bind WindowFileUnlockText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
                     </muxc:NavigationViewItem.MenuItems>
                 </muxc:NavigationViewItem>
 
                 <!--  资源工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('Resource')}" Tag="Resource">
+                <muxc:NavigationViewItem Tag="Resource">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Resource.png" />
                     </muxc:NavigationViewItem.Icon>
 
+                    <muxc:NavigationViewItem.Content>
+                        <TextBlock
+                            x:Name="WindowResourceText"
+                            Text="{x:Bind root:ResourceService.WindowResource.GetString('Resource')}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </muxc:NavigationViewItem.Content>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind root:ResourceService.WindowResource.GetString('Resource')}"
+                            Visibility="{x:Bind WindowResourceText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('DownloadManager')}" Tag="DownloadManager">
+                        <muxc:NavigationViewItem Tag="DownloadManager">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/DownloadManager.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowDownloadManagerText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('DownloadManager')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('DownloadManager')}"
+                                    Visibility="{x:Bind WindowDownloadManagerText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('IconExtract')}" Tag="IconExtract">
+                        <muxc:NavigationViewItem Tag="IconExtract">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/IconExtract.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowIconExtractText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('IconExtract')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('IconExtract')}"
+                                    Visibility="{x:Bind WindowIconExtractText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('PriExtract')}" Tag="PriExtract">
+                        <muxc:NavigationViewItem Tag="PriExtract">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/PriExtract.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowPriExtractText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('PriExtract')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('PriExtract')}"
+                                    Visibility="{x:Bind WindowPriExtractText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
                     </muxc:NavigationViewItem.MenuItems>
                 </muxc:NavigationViewItem>
 
                 <!--  个性化工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('Personalize')}" Tag="Personalize">
+                <muxc:NavigationViewItem Tag="Personalize">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Personalize.png" />
                     </muxc:NavigationViewItem.Icon>
 
+                    <muxc:NavigationViewItem.Content>
+                        <TextBlock
+                            x:Name="WindowPersonalizeText"
+                            Text="{x:Bind root:ResourceService.WindowResource.GetString('Personalize')}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </muxc:NavigationViewItem.Content>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind root:ResourceService.WindowResource.GetString('Personalize')}"
+                            Visibility="{x:Bind WindowPersonalizeText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('ShellMenu')}" Tag="ShellMenu">
+                        <muxc:NavigationViewItem Tag="ShellMenu">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/ShellMenu.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowShellMenuText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('ShellMenu')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('ShellMenu')}"
+                                    Visibility="{x:Bind WindowShellMenuText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('ContextMenuManager')}" Tag="ContextMenuManager">
+                        <muxc:NavigationViewItem Tag="ContextMenuManager">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/ContextMenuManager.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowContextMenuManagerText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('ContextMenuManager')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('ContextMenuManager')}"
+                                    Visibility="{x:Bind WindowContextMenuManagerText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
                     </muxc:NavigationViewItem.MenuItems>
                 </muxc:NavigationViewItem>
 
                 <!--  系统工具  -->
-                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('System')}" Tag="System">
+                <muxc:NavigationViewItem Tag="System">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/System.png" />
                     </muxc:NavigationViewItem.Icon>
 
+                    <muxc:NavigationViewItem.Content>
+                        <TextBlock
+                            x:Name="WindowSystemText"
+                            Text="{x:Bind root:ResourceService.WindowResource.GetString('System')}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </muxc:NavigationViewItem.Content>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind root:ResourceService.WindowResource.GetString('System')}"
+                            Visibility="{x:Bind WindowSystemText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem
-                            Content="{x:Bind root:ResourceService.WindowResource.GetString('SystemInfo')}"
-                            Tag="SystemInfo"
-                            Visibility="Collapsed">
+                        <muxc:NavigationViewItem Tag="SystemInfo" Visibility="Collapsed">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/SystemInfo.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowSystemInfoText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('SystemInfo')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('SystemInfo')}"
+                                    Visibility="{x:Bind WindowSystemInfoText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('LoopbackManager')}" Tag="LoopbackManager">
+                        <muxc:NavigationViewItem Tag="LoopbackManager">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/LoopbackManager.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowLoopbackManagerText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('LoopbackManager')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('LoopbackManager')}"
+                                    Visibility="{x:Bind WindowLoopbackManagerText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem
-                            Content="{x:Bind root:ResourceService.WindowResource.GetString('DriverManager')}"
-                            Tag="DriverManager"
-                            Visibility="Collapsed">
+                        <muxc:NavigationViewItem Tag="DriverManager" Visibility="Collapsed">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/DriverManager.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowDriverManagerText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('DriverManager')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('DriverManager')}"
+                                    Visibility="{x:Bind WindowDriverManagerText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem
-                            Content="{x:Bind root:ResourceService.WindowResource.GetString('UpdateManager')}"
-                            Tag="UpdateManager"
-                            Visibility="Collapsed">
+                        <muxc:NavigationViewItem Tag="UpdateManager" Visibility="Collapsed">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/UpdateManager.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowUpdateManagerText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('UpdateManager')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('UpdateManager')}"
+                                    Visibility="{x:Bind WindowUpdateManagerText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('WinSAT')}" Tag="WinSAT">
+                        <muxc:NavigationViewItem Tag="WinSAT">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/WinSAT.png" />
                             </muxc:NavigationViewItem.Icon>
+
+                            <muxc:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowWinSATText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('WinSAT')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </muxc:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('WinSAT')}"
+                                    Visibility="{x:Bind WindowWinSATText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
                     </muxc:NavigationViewItem.MenuItems>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
 
             <muxc:NavigationView.FooterMenuItems>
-                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('About')}" Tag="About">
+                <muxc:NavigationViewItem Tag="About">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/About.png" />
                     </muxc:NavigationViewItem.Icon>
+
+                    <muxc:NavigationViewItem.Content>
+                        <TextBlock
+                            x:Name="WindowAboutText"
+                            Text="{x:Bind root:ResourceService.WindowResource.GetString('About')}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </muxc:NavigationViewItem.Content>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind root:ResourceService.WindowResource.GetString('About')}"
+                            Visibility="{x:Bind WindowAboutText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
                 </muxc:NavigationViewItem>
 
-                <muxc:NavigationViewItem Content="{x:Bind root:ResourceService.WindowResource.GetString('Settings')}" Tag="Settings">
+                <muxc:NavigationViewItem Tag="Settings">
 
                     <muxc:NavigationViewItem.Icon>
                         <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/Settings.png" />
                     </muxc:NavigationViewItem.Icon>
+
+                    <muxc:NavigationViewItem.Content>
+                        <TextBlock
+                            x:Name="WindowSettingsText"
+                            Text="{x:Bind root:ResourceService.WindowResource.GetString('Settings')}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </muxc:NavigationViewItem.Content>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind root:ResourceService.WindowResource.GetString('Settings')}"
+                            Visibility="{x:Bind WindowSettingsText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.FooterMenuItems>
 
