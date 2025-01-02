@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Diagnostics.Tracing;
 using System.Globalization;
 using System.Threading;
@@ -21,7 +23,8 @@ namespace WindowsTools
     /// </summary>
     public class Program
     {
-        private static Guid CLSID_ApplicationActivationManager = new("45BA127D-10A8-46EA-8AB7-56EA9078943C");
+        private static readonly Guid CLSID_ApplicationActivationManager = new("45BA127D-10A8-46EA-8AB7-56EA9078943C");
+        private static readonly NameValueCollection configurationCollection = ConfigurationManager.GetSection("System.Windows.Forms.ApplicationConfigurationSection") as NameValueCollection;
 
         /// <summary>
         /// 应用程序的主入口点
@@ -38,6 +41,8 @@ namespace WindowsTools
 
             InitializeProgramResources();
 
+            configurationCollection["DpiAwareness"] = "PerMonitorV2";
+            Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += OnThreadException;
