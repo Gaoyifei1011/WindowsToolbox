@@ -3,7 +3,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AnalysisLevel>latest</AnalysisLevel>
     <ApplicationIcon>Assets\WindowsTools.ico</ApplicationIcon>
-    <ApplicationManifest>App.manifest</ApplicationManifest>
+    <ApplicationManifest>WindowsTools.manifest</ApplicationManifest>
     <AssemblyName>WindowsTools</AssemblyName>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <CustomAfterMicrosoftCommonTargets>$(SolutionDir)Configuration\UAPXamlFrameworkCompiler.targets;$(SolutionDir)Configuration\MrtCore.PriGen.targets</CustomAfterMicrosoftCommonTargets>
