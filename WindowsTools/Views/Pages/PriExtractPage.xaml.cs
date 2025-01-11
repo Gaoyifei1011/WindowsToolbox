@@ -241,11 +241,12 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 设置拖动的数据的可视表示形式
         /// </summary>
-        protected override void OnDragOver(global::Windows.UI.Xaml.DragEventArgs args)
+        protected override async void OnDragOver(global::Windows.UI.Xaml.DragEventArgs args)
         {
             base.OnDragOver(args);
+            DragOperationDeferral deferral = args.GetDeferral();
 
-            IReadOnlyList<IStorageItem> dragItemsList = args.DataView.GetStorageItemsAsync().AsTask().Result;
+            IReadOnlyList<IStorageItem> dragItemsList = await args.DataView.GetStorageItemsAsync();
 
             if (dragItemsList.Count is 1)
             {
@@ -278,6 +279,7 @@ namespace WindowsTools.Views.Pages
             }
 
             args.Handled = true;
+            deferral.Complete();
         }
 
         /// <summary>
