@@ -1147,9 +1147,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnItemInvoked(Microsoft.UI.Xaml.Controls.TreeView sender, Microsoft.UI.Xaml.Controls.TreeViewItemInvokedEventArgs args)
         {
-            selectedItem = args.InvokedItem as ShellMenuItemModel;
-
-            if (selectedItem is not null)
+            if (args.InvokedItem is ShellMenuItemModel selectedItem)
             {
                 EnumModifySelectedItem(selectedItem, ShellMenuItemCollection);
             }

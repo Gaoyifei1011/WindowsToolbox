@@ -206,43 +206,44 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnOpenFolderExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            string filePath = args.Parameter as string;
-
-            Task.Run(() =>
+            if (args.Parameter is string filePath)
             {
-                try
+                Task.Run(() =>
                 {
-                    if (!string.IsNullOrEmpty(filePath))
+                    try
                     {
-                        if (File.Exists(filePath))
+                        if (!string.IsNullOrEmpty(filePath))
                         {
-                            IntPtr pidlList = Shell32Library.ILCreateFromPath(filePath);
-                            if (pidlList != IntPtr.Zero)
+                            if (File.Exists(filePath))
                             {
-                                Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, IntPtr.Zero, 0);
-                                Shell32Library.ILFree(pidlList);
-                            }
-                        }
-                        else
-                        {
-                            string directoryPath = Path.GetDirectoryName(filePath);
-
-                            if (Directory.Exists(directoryPath))
-                            {
-                                Process.Start(directoryPath);
+                                IntPtr pidlList = Shell32Library.ILCreateFromPath(filePath);
+                                if (pidlList != IntPtr.Zero)
+                                {
+                                    Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, IntPtr.Zero, 0);
+                                    Shell32Library.ILFree(pidlList);
+                                }
                             }
                             else
                             {
-                                Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                                string directoryPath = Path.GetDirectoryName(filePath);
+
+                                if (Directory.Exists(directoryPath))
+                                {
+                                    Process.Start(directoryPath);
+                                }
+                                else
+                                {
+                                    Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                                }
                             }
                         }
                     }
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(EventLevel.Error, "Open download file path failed", e);
-                }
-            });
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Open download file path failed", e);
+                    }
+                });
+            }
         }
 
         /// <summary>
@@ -284,35 +285,36 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnDeleteWithFileExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            DownloadModel downloadItem = args.Parameter as DownloadModel;
-
-            bool result = await Task.Run(() =>
+            if (args.Parameter is DownloadModel downloadItem)
             {
-                if (!string.IsNullOrEmpty(downloadItem.FilePath) && File.Exists(downloadItem.FilePath))
+                bool result = await Task.Run(() =>
                 {
-                    try
+                    if (!string.IsNullOrEmpty(downloadItem.FilePath) && File.Exists(downloadItem.FilePath))
                     {
-                        File.Delete(downloadItem.FilePath);
-                        return true;
+                        try
+                        {
+                            File.Delete(downloadItem.FilePath);
+                            return true;
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Warning, string.Format("Delete file {0} failed", downloadItem.FilePath), e);
+                            return false;
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLevel.Warning, string.Format("Delete file {0} failed", downloadItem.FilePath), e);
-                        return false;
-                    }
-                }
 
-                return false;
-            });
+                    return false;
+                });
 
-            if (result)
-            {
-                foreach (DownloadModel item in DownloadCollection)
+                if (result)
                 {
-                    if (downloadItem.DownloadID.Equals(item.DownloadID))
+                    foreach (DownloadModel item in DownloadCollection)
                     {
-                        DownloadCollection.Remove(item);
-                        break;
+                        if (downloadItem.DownloadID.Equals(item.DownloadID))
+                        {
+                            DownloadCollection.Remove(item);
+                            break;
+                        }
                     }
                 }
             }
@@ -323,9 +325,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnShareFileExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            string filePath = args.Parameter as string;
-
-            if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
+            if (args.Parameter is string filePath && !string.IsNullOrEmpty(filePath) && File.Exists(filePath))
             {
                 try
                 {
@@ -355,9 +355,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnFileInformationExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            string filePath = args.Parameter as string;
-
-            if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
+            if (args.Parameter is string filePath && !string.IsNullOrEmpty(filePath) && File.Exists(filePath))
             {
                 SHELLEXECUTEINFO info = new()
                 {

@@ -310,7 +310,7 @@ namespace WindowsTools.Views.Pages
 
             if (filesList is not null && filesList.Count is 1)
             {
-                ParseResourceFile(filesList[0].Path);
+                await ParseResourceFileAsync(filesList[0].Path);
             }
             else
             {
@@ -606,7 +606,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 选择文件
         /// </summary>
-        private void OnSelectFileClicked(object sender, RoutedEventArgs args)
+        private async void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
             OpenFileDialog dialog = new()
             {
@@ -617,7 +617,7 @@ namespace WindowsTools.Views.Pages
 
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
-                ParseResourceFile(dialog.FileName);
+                await ParseResourceFileAsync(dialog.FileName);
             }
             dialog.Dispose();
         }
@@ -810,7 +810,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 解析 PRI 资源文件
         /// </summary>
-        public async void ParseResourceFile(string filePath)
+        public async Task ParseResourceFileAsync(string filePath)
         {
             isLoadCompleted = false;
             IsProcessing = true;

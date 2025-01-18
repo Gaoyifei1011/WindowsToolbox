@@ -80,17 +80,6 @@ namespace WindowsTools.Views.Windows
             RightToLeft = LanguageService.RightToLeft;
             RightToLeftLayout = LanguageService.RightToLeft is RightToLeft.Yes;
 
-            if (RuntimeHelper.IsElevated)
-            {
-                CHANGEFILTERSTRUCT changeFilterStatus = new()
-                {
-                    cbSize = Marshal.SizeOf<CHANGEFILTERSTRUCT>()
-                };
-                User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_DROPFILES, ChangeFilterAction.MSGFLT_ALLOW, changeFilterStatus);
-                User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYGLOBALDATA, ChangeFilterAction.MSGFLT_ALLOW, changeFilterStatus);
-                Shell32Library.DragAcceptFiles(Handle, true);
-            }
-
             windowClassProc = new SUBCLASSPROC(OnWindowSubClassProc);
             Comctl32Library.SetWindowSubclass(Handle, windowClassProc, 0, IntPtr.Zero);
 
@@ -163,6 +152,13 @@ namespace WindowsTools.Views.Windows
                 ResizeTitleBarWindow();
             };
 
+            if (RuntimeHelper.IsElevated)
+            {
+                User32Library.ChangeWindowMessageFilter(WindowMessage.WM_DROPFILES, ChangeFilterFlags.MSGFLT_ADD);
+                User32Library.ChangeWindowMessageFilter(WindowMessage.WM_COPYGLOBALDATA, ChangeFilterFlags.MSGFLT_ADD);
+                Shell32Library.DragAcceptFiles(Handle, true);
+            }
+
             AlwaysShowBackdropService.PropertyChanged += OnServicePropertyChanged;
             ThemeService.PropertyChanged += OnServicePropertyChanged;
             BackdropService.PropertyChanged += OnServicePropertyChanged;
@@ -232,13 +228,10 @@ namespace WindowsTools.Views.Windows
             }
             else
             {
-                if (RuntimeHelper.IsElevated && Handle != IntPtr.Zero)
+                if (RuntimeHelper.IsElevated)
                 {
-                    CHANGEFILTERSTRUCT changeFilterStatus = new()
-                    {
-                        cbSize = Marshal.SizeOf<CHANGEFILTERSTRUCT>()
-                    };
-                    User32Library.ChangeWindowMessageFilterEx(Handle, WindowMessage.WM_COPYDATA, ChangeFilterAction.MSGFLT_RESET, changeFilterStatus);
+                    User32Library.ChangeWindowMessageFilter(WindowMessage.WM_DROPFILES, ChangeFilterFlags.MSGFLT_REMOVE);
+                    User32Library.ChangeWindowMessageFilter(WindowMessage.WM_COPYGLOBALDATA, ChangeFilterFlags.MSGFLT_REMOVE);
                 }
 
                 desktopWindowXamlSource.Dispose();
@@ -756,17 +749,18 @@ namespace WindowsTools.Views.Windows
                         {
                             List<string> filesList = [];
                             StringBuilder stringBuilder = new(260);
-                            uint numFiles = Shell32Library.DragQueryFile((IntPtr)wParam.ToUInt32(), 0xffffffffu, null, 0);
-                            for (uint index = 0; index < numFiles; index++)
+                            uint filesCount = Shell32Library.DragQueryFile(wParam, 0xffffffffu, null, 0);
+
+                            for (uint index = 0; index < filesCount; index++)
                             {
-                                if (Shell32Library.DragQueryFile((IntPtr)wParam.ToUInt32(), index, stringBuilder, Convert.ToUInt32(stringBuilder.Capacity) * 2) > 0)
+                                if (Shell32Library.DragQueryFile(wParam, index, stringBuilder, (uint)stringBuilder.Length) is 0)
                                 {
                                     filesList.Add(stringBuilder.ToString());
                                 }
                             }
 
-                            Shell32Library.DragQueryPoint((IntPtr)wParam.ToUInt32(), out Point point);
-                            Shell32Library.DragFinish((IntPtr)wParam.ToUInt32());
+                            Shell32Library.DragQueryPoint(wParam, out Point point);
+                            Shell32Library.DragFinish(wParam);
                             BeginInvoke(async () =>
                             {
                                 await (Content as MainPage).SendReceivedFilesListAsync(filesList);
@@ -855,50 +849,51 @@ namespace WindowsTools.Views.Windows
                 // 窗口鼠标在非工作区移动时收到的窗口消息
                 case WindowMessage.WM_NCMOUSEMOVE:
                     {
-                        MainPage mainPage = (Content as MainPage);
-
-                        // 将 hover 状态通知 CaptionButtons。标题栏窗口拦截了 XAML Islands 中的标题栏
-                        // 控件的鼠标消息，标题栏按钮的状态由我们手动控制。
-                        if (wParam == (UIntPtr)(uint)HITTEST.HTTOP || wParam == (UIntPtr)(uint)HITTEST.HTCAPTION)
+                        if (Content is MainPage mainPage)
                         {
-                            mainPage.LeaveButtons();
+                            // 将 hover 状态通知 CaptionButtons。标题栏窗口拦截了 XAML Islands 中的标题栏
+                            // 控件的鼠标消息，标题栏按钮的状态由我们手动控制。
+                            if (wParam == (UIntPtr)(uint)HITTEST.HTTOP || wParam == (UIntPtr)(uint)HITTEST.HTCAPTION)
+                            {
+                                mainPage.LeaveButtons();
 
-                            // 将 HTTOP 传给主窗口才能通过上边框调整窗口高度
-                            return User32Library.SendMessage(Handle, Msg, wParam, lParam);
-                        }
-                        else if (wParam == (UIntPtr)(uint)HITTEST.HTMINBUTTON || wParam == (UIntPtr)(uint)HITTEST.HTMAXBUTTON || wParam == (UIntPtr)(uint)HITTEST.HTCLOSE)
-                        {
-                            if (wParam.ToUInt32() == (uint)HITTEST.HTMINBUTTON)
-                            {
-                                mainPage.HoverButton(CaptionButton.Minimize);
+                                // 将 HTTOP 传给主窗口才能通过上边框调整窗口高度
+                                return User32Library.SendMessage(Handle, Msg, wParam, lParam);
                             }
-                            else if (wParam.ToUInt32() == (uint)HITTEST.HTMAXBUTTON)
+                            else if (wParam == (UIntPtr)(uint)HITTEST.HTMINBUTTON || wParam == (UIntPtr)(uint)HITTEST.HTMAXBUTTON || wParam == (UIntPtr)(uint)HITTEST.HTCLOSE)
                             {
-                                mainPage.HoverButton(CaptionButton.Maximize);
-                            }
-                            else if (wParam.ToUInt32() == (uint)HITTEST.HTCLOSE)
-                            {
-                                mainPage.HoverButton(CaptionButton.Close);
-                            }
-
-                            // 追踪鼠标以确保鼠标离开标题栏时我们能收到 WM_NCMOUSELEAVE 消息，否则无法
-                            // 可靠的收到这个消息，尤其是在用户快速移动鼠标的时候。
-                            if (!trackingMouse && Msg == WindowMessage.WM_NCMOUSEMOVE)
-                            {
-                                TRACKMOUSEEVENT ev = new()
+                                if (wParam.ToUInt32() == (uint)HITTEST.HTMINBUTTON)
                                 {
-                                    cbSize = Marshal.SizeOf<TRACKMOUSEEVENT>(),
-                                    dwFlags = TRACKMOUSEEVENT_FLAGS.TME_LEAVE | TRACKMOUSEEVENT_FLAGS.TME_NONCLIENT,
-                                    hwndTrack = hwndTitleBar,
-                                    dwHoverTime = 0xFFFFFFFF
-                                };
-                                User32Library.TrackMouseEvent(ev);
-                                trackingMouse = true;
+                                    mainPage.HoverButton(CaptionButton.Minimize);
+                                }
+                                else if (wParam.ToUInt32() == (uint)HITTEST.HTMAXBUTTON)
+                                {
+                                    mainPage.HoverButton(CaptionButton.Maximize);
+                                }
+                                else if (wParam.ToUInt32() == (uint)HITTEST.HTCLOSE)
+                                {
+                                    mainPage.HoverButton(CaptionButton.Close);
+                                }
+
+                                // 追踪鼠标以确保鼠标离开标题栏时我们能收到 WM_NCMOUSELEAVE 消息，否则无法
+                                // 可靠的收到这个消息，尤其是在用户快速移动鼠标的时候。
+                                if (!trackingMouse && Msg == WindowMessage.WM_NCMOUSEMOVE)
+                                {
+                                    TRACKMOUSEEVENT ev = new()
+                                    {
+                                        cbSize = Marshal.SizeOf<TRACKMOUSEEVENT>(),
+                                        dwFlags = TRACKMOUSEEVENT_FLAGS.TME_LEAVE | TRACKMOUSEEVENT_FLAGS.TME_NONCLIENT,
+                                        hwndTrack = hwndTitleBar,
+                                        dwHoverTime = 0xFFFFFFFF
+                                    };
+                                    User32Library.TrackMouseEvent(ev);
+                                    trackingMouse = true;
+                                }
                             }
-                        }
-                        else
-                        {
-                            mainPage.LeaveButtons();
+                            else
+                            {
+                                mainPage.LeaveButtons();
+                            }
                         }
 
                         break;

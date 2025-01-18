@@ -39,7 +39,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// 如果索引值介于零和已删除文件总数之间，并且 lpszFile 缓冲区地址为 NULL，则返回值是缓冲区所需的大小（以字符为单位）， 不包括 终止 null 字符。
         /// </returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragQueryFileW", PreserveSig = true, SetLastError = false)]
-        public static extern uint DragQueryFile(IntPtr hDrop, uint iFile, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpszFile, uint cch);
+        public static extern uint DragQueryFile(UIntPtr hDrop, uint iFile, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpszFile, uint cch);
 
         /// <summary>
         /// 检索在拖放操作期间删除文件时鼠标指针的位置。
@@ -49,14 +49,14 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// <returns>如果删除发生在窗口的工作区中，则为 TRUE;否则为 FALSE。</returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragQueryPoint", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DragQueryPoint(IntPtr hDrop, out Point lppt);
+        public static extern bool DragQueryPoint(UIntPtr hDrop, out Point lppt);
 
         /// <summary>
         /// 描述已删除的文件的结构的标识符。 此句柄是从WM_DROPFILES消息的 wParam 参数检索的。
         /// </summary>
         /// <param name="hDrop">释放系统分配用于将文件名传输到应用程序的内存。</param>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragFinish", PreserveSig = true, SetLastError = false)]
-        public static extern void DragFinish(IntPtr hDrop);
+        public static extern void DragFinish(UIntPtr hDrop);
 
         /// <summary>
         /// 返回与指定文件路径关联的 ITEMIDLIST 结构。

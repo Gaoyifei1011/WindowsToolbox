@@ -246,9 +246,7 @@ namespace WindowsTools.Views.Pages
 
         private void OnOpenProcessPathExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            string filePath = args.Parameter as string;
-
-            if (!string.IsNullOrEmpty(filePath))
+            if (args.Parameter is string filePath && !string.IsNullOrEmpty(filePath))
             {
                 Task.Run(() =>
                 {

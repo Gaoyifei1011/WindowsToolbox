@@ -621,7 +621,7 @@ namespace WindowsTools.Views.Pages
                 PriExtractPage page = (MainNavigationView.Content as Frame).Content as PriExtractPage;
                 if (filesList.Count is 1 && Path.GetExtension(filesList[0]).Equals(".pri"))
                 {
-                    page.ParseResourceFile(filesList[0]);
+                    await page.ParseResourceFileAsync(filesList[0]);
                 }
             }
             else if (currentPageType.Equals(typeof(FileUnlockPage)))

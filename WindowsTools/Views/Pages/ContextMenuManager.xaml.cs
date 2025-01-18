@@ -102,19 +102,20 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnOpenPackagePathExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            string path = args.Parameter as string;
-
-            Task.Run(() =>
+            if (args.Parameter is string path)
             {
-                try
+                Task.Run(() =>
                 {
-                    Process.Start(path);
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(EventLevel.Error, "Open package path failed", e);
-                }
-            });
+                    try
+                    {
+                        Process.Start(path);
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Open package path failed", e);
+                    }
+                });
+            }
         }
 
         /// <summary>

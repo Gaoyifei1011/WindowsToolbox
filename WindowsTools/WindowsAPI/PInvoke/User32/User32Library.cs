@@ -50,16 +50,14 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         public static extern IntPtr CallNextHookEx(IntPtr idHook, int nCode, UIntPtr wParam, IntPtr lParam);
 
         /// <summary>
-        /// 修改指定窗口的用户界面特权隔离 (UIPI) 消息筛选器。
+        /// 在用户界面特权隔离 (UIPI) 消息筛选器中添加或删除消息。
         /// </summary>
-        /// <param name="hWnd">要修改其 UIPI 消息筛选器的窗口的句柄。</param>
-        /// <param name="message">消息筛选器允许通过或阻止的消息。</param>
-        /// <param name="action">要执行的操作，可以执行以下值</param>
-        /// <param name="pChangeFilterStruct">指向 CHANGEFILTERSTRUCT 结构的可选指针。</param>
-        /// <returns>如果函数成功，则返回 TRUE;否则，它将返回 FALSE。</returns>
+        /// <param name="msg">要向筛选器添加或从中删除的消息。</param>
+        /// <param name="flags">要执行的操作。</param>
+        /// <returns>如果成功，则为 TRUE;否则为 FALSE。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilterEx", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ChangeWindowMessageFilterEx(IntPtr hWnd, WindowMessage message, ChangeFilterAction action, CHANGEFILTERSTRUCT pChangeFilterStruct);
+        public static extern bool ChangeWindowMessageFilter(WindowMessage message, ChangeFilterFlags dwFlag);
 
         /// <summary>
         /// 创建具有扩展窗口样式的重叠、弹出窗口或子窗口;否则，此函数与 InitializeWindow 函数相同。
