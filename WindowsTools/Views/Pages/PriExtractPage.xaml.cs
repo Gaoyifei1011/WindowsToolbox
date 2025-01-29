@@ -1006,6 +1006,7 @@ namespace WindowsTools.Views.Pages
                                                     priFileStream.Seek(byteSpan.Offset, SeekOrigin.Begin);
                                                     using BinaryReader binaryReader = new(priFileStream, Encoding.Default, true);
                                                     byte[] data = binaryReader.ReadBytes((int)byteSpan.Length);
+                                                    binaryReader.Dispose();
 
                                                     switch (candidate.Type)
                                                     {
@@ -1207,6 +1208,9 @@ namespace WindowsTools.Views.Pages
                     stringList.Sort();
                     filePathList.Sort((item1, item2) => item1.Key.CompareTo(item2.Key));
                     embeddedDataList.Sort((item1, item2) => item1.Key.CompareTo(item2.Key));
+
+                    priBinaryReader.Dispose();
+                    priFileStream.Dispose();
                     return true;
                 }
                 catch (Exception e)
