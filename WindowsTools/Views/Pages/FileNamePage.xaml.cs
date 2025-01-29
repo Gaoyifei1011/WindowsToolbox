@@ -744,7 +744,7 @@ namespace WindowsTools.Views.Pages
 
             lock (fileNameLock)
             {
-                int endIndex = FileNameCollection.Count - startIndex;
+                int endIndex = FileNameCollection.Count + startIndex;
                 int numberLength = endIndex.ToString().Length;
 
                 foreach (OldAndNewNameModel oldAndNewNameItem in FileNameCollection)
