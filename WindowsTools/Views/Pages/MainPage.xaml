@@ -20,6 +20,7 @@
             Margin="45,0,0,0"
             VerticalAlignment="Top"
             x:FieldModifier="public">
+
             <Grid.Resources>
                 <MenuFlyout
                     x:Name="TitlebarMenuFlyout"
@@ -340,16 +341,16 @@
                     </ToolTipService.ToolTip>
 
                     <muxc:NavigationViewItem.MenuItems>
-                        <muxc:NavigationViewItem Tag="FileName">
+                        <muxc:NavigationViewItem Tag="FileManager">
 
                             <muxc:NavigationViewItem.Icon>
-                                <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/FileName.png" />
+                                <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/FileManager.png" />
                             </muxc:NavigationViewItem.Icon>
 
                             <muxc:NavigationViewItem.Content>
                                 <TextBlock
-                                    x:Name="WindowFileNameText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('FileName')}"
+                                    x:Name="WindowFileManagerText"
+                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('FileManager')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </muxc:NavigationViewItem.Content>
@@ -357,74 +358,8 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('FileName')}"
-                                    Visibility="{x:Bind WindowFileNameText.IsTextTrimmed, Mode=OneWay}" />
-                            </ToolTipService.ToolTip>
-                        </muxc:NavigationViewItem>
-
-                        <muxc:NavigationViewItem Tag="ExtensionName">
-
-                            <muxc:NavigationViewItem.Icon>
-                                <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/ExtensionName.png" />
-                            </muxc:NavigationViewItem.Icon>
-
-                            <muxc:NavigationViewItem.Content>
-                                <TextBlock
-                                    x:Name="WindowExtensionNameText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('ExtensionName')}"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap" />
-                            </muxc:NavigationViewItem.Content>
-
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('ExtensionName')}"
-                                    Visibility="{x:Bind WindowExtensionNameText.IsTextTrimmed, Mode=OneWay}" />
-                            </ToolTipService.ToolTip>
-                        </muxc:NavigationViewItem>
-
-                        <muxc:NavigationViewItem Tag="UpperAndLowerCase">
-
-                            <muxc:NavigationViewItem.Icon>
-                                <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/UpperAndLowerCase.png" />
-                            </muxc:NavigationViewItem.Icon>
-
-                            <muxc:NavigationViewItem.Content>
-                                <TextBlock
-                                    x:Name="WindowUpperAndLowerCaseText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('UpperAndLowerCase')}"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap" />
-                            </muxc:NavigationViewItem.Content>
-
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('UpperAndLowerCase')}"
-                                    Visibility="{x:Bind WindowUpperAndLowerCaseText.IsTextTrimmed, Mode=OneWay}" />
-                            </ToolTipService.ToolTip>
-                        </muxc:NavigationViewItem>
-
-                        <muxc:NavigationViewItem Tag="FileProperties">
-
-                            <muxc:NavigationViewItem.Icon>
-                                <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/FileProperties.png" />
-                            </muxc:NavigationViewItem.Icon>
-
-                            <muxc:NavigationViewItem.Content>
-                                <TextBlock
-                                    x:Name="WindowFilePropertiesText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('FileProperties')}"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap" />
-                            </muxc:NavigationViewItem.Content>
-
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('FileProperties')}"
-                                    Visibility="{x:Bind WindowFilePropertiesText.IsTextTrimmed, Mode=OneWay}" />
+                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('FileManager')}"
+                                    Visibility="{x:Bind WindowFileManagerText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 

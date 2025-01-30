@@ -14,6 +14,5 @@ ReadOnly=Readonly
 SelectFile=Select file
 SelectFolder=Select folder
 System=System
-Title=File properties
 Total=Total：{0}
 ViewErrorInformation=View error information

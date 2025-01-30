@@ -56,7 +56,6 @@ SelectFile=选择文件
 SelectFolder=选择文件夹
 StartNumber=起始编号
 StartNumberPlaceHolderText=请输入起始编号
-Title=文件名称
 TodayDatePlaceHolder=<$> 代表今天日期
 Total=总计：{0}
 ViewErrorInformation=查看错误信息

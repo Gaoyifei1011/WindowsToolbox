@@ -36,6 +36,8 @@ namespace WindowsTools.Services.Root
 
         public static ResourceManager FileCertificateResource { get; } = new("WindowsTools.Strings.FileCertificate", Assembly.GetExecutingAssembly());
 
+        public static ResourceManager FileManagerResource { get; } = new("WindowsTools.Strings.FileManager", Assembly.GetExecutingAssembly());
+
         public static ResourceManager FileNameResource { get; } = new("WindowsTools.Strings.FileName", Assembly.GetExecutingAssembly());
 
         public static ResourceManager FilePropertiesResource { get; } = new("WindowsTools.Strings.FileProperties", Assembly.GetExecutingAssembly());

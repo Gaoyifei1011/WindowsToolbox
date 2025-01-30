@@ -14,6 +14,5 @@ ReadOnly=只读
 SelectFile=选择文件
 SelectFolder=选择文件夹
 System=系统
-Title=文件属性
 Total=总计：{0}
 ViewErrorInformation=查看错误信息

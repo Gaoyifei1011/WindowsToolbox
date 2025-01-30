@@ -31,31 +31,10 @@ namespace WindowsTools.Views.Pages
         [
             new ControlItemModel()
             {
-                Title = ResourceService.AllToolsResource.GetString("FileName"),
-                Description = ResourceService.AllToolsResource.GetString("FileNameDescription"),
-                ImagePath = "ms-appx:///Assets/ControlIcon/FileName.png",
-                Tag = "FileName"
-            },
-            new ControlItemModel()
-            {
-                Title = ResourceService.AllToolsResource.GetString("ExtensionName"),
-                Description = ResourceService.AllToolsResource.GetString("ExtensionNameDescription"),
-                ImagePath = "ms-appx:///Assets/ControlIcon/ExtensionName.png",
-                Tag = "ExtensionName"
-            },
-            new ControlItemModel()
-            {
-                Title = ResourceService.AllToolsResource.GetString("UpperAndLowerCase"),
-                Description = ResourceService.AllToolsResource.GetString("UpperAndLowerCaseDescription"),
-                ImagePath = "ms-appx:///Assets/ControlIcon/UpperAndLowerCase.png",
-                Tag = "UpperAndLowerCase"
-            },
-            new ControlItemModel()
-            {
-                Title = ResourceService.AllToolsResource.GetString("FileProperties"),
-                Description = ResourceService.AllToolsResource.GetString("FilePropertiesDescription"),
-                ImagePath = "ms-appx:///Assets/ControlIcon/FileProperties.png",
-                Tag = "FileProperties"
+                Title = ResourceService.AllToolsResource.GetString("FileManager"),
+                Description = ResourceService.AllToolsResource.GetString("FileManagerDescription"),
+                ImagePath = "ms-appx:///Assets/ControlIcon/FileManager.png",
+                Tag = "FileManager"
             },
             new ControlItemModel()
             {

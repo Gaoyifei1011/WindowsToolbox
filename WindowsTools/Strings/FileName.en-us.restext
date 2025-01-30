@@ -56,7 +56,6 @@ SelectFile=Select file
 SelectFolder=Select folder
 StartNumber=Start number
 StartNumberPlaceHolderText=Please input start number
-Title=File name
 TodayDatePlaceHolder=<$> Represent today date
 Total=Total：{0}
 ViewErrorInformation=View error information
