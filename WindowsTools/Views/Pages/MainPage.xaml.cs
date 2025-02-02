@@ -11,8 +11,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using WindowsTools.Helpers.Controls;
+using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
+using WindowsTools.UI.Dialogs;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
@@ -350,7 +353,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 导航完成后发生
         /// </summary>
-        private void OnNavigated(object sender, NavigationEventArgs args)
+        private async void OnNavigated(object sender, NavigationEventArgs args)
         {
             try
             {
@@ -362,6 +365,13 @@ namespace WindowsTools.Views.Pages
                         SelectedItem = navigationItem.NavigationItem;
                         IsBackEnabled = CanGoBack();
                     }
+                }
+
+                // 如果导航到更新页面，而且是非管理员模式，显示提示对话框
+                if (currentPageType.Equals(typeof(UpdateManagerPage)) && !RuntimeHelper.IsElevated)
+                {
+                    await ContentDialogHelper.ShowAsync(new NeedElevatedDialog(), this);
+                    NavigationFrom();
                 }
             }
             catch (Exception e)

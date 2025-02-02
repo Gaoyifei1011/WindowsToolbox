@@ -658,7 +658,7 @@
                             </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Tag="UpdateManager" Visibility="Collapsed">
+                        <muxc:NavigationViewItem Tag="UpdateManager">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/UpdateManager.png" />

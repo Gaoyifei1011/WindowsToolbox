@@ -121,13 +121,13 @@ namespace WindowsTools.Views.Pages
             //    ImagePath = "ms-appx:///Assets/ControlIcon/DriverManager.png",
             //    Tag = "DriverManager"
             //},
-            //new ControlItemModel()
-            //{
-            //    Title = ResourceService.AllToolsResource.GetString("UpdateManager"),
-            //    Description = ResourceService.AllToolsResource.GetString("UpdateManagerDescription"),
-            //    ImagePath = "ms-appx:///Assets/ControlIcon/UpdateManager.png",
-            //    Tag = "UpdateManager"
-            //},
+            new ControlItemModel()
+            {
+                Title = ResourceService.AllToolsResource.GetString("UpdateManager"),
+                Description = ResourceService.AllToolsResource.GetString("UpdateManagerDescription"),
+                ImagePath = "ms-appx:///Assets/ControlIcon/UpdateManager.png",
+                Tag = "UpdateManager"
+            },
             new ControlItemModel()
             {
                 Title = ResourceService.AllToolsResource.GetString("WinSAT"),

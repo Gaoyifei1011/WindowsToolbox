@@ -623,7 +623,7 @@
                                                 Height="32"
                                                 Padding="11,0"
                                                 Command="{StaticResource DeleteCommand}"
-                                                CommandParameter="{Binding}"
+                                                CommandParameter="{x:Bind}"
                                                 IsEnabled="{x:Bind IsNotOperated, Mode=OneWay}"
                                                 Text="{x:Bind root:ResourceService.DownloadManagerResource.GetString('Delete')}"
                                                 ToolTipService.ToolTip="{x:Bind root:ResourceService.DownloadManagerResource.GetString('DeleteToolTip')}">
@@ -637,7 +637,7 @@
                                                 Height="32"
                                                 Padding="11,0"
                                                 Command="{StaticResource DeleteWithFileCommand}"
-                                                CommandParameter="{Binding}"
+                                                CommandParameter="{x:Bind}"
                                                 Text="{x:Bind root:ResourceService.DownloadManagerResource.GetString('DeleteWithFile')}"
                                                 ToolTipService.ToolTip="{x:Bind root:ResourceService.DownloadManagerResource.GetString('DeleteWithFileToolTip')}"
                                                 Visibility="{x:Bind IsCompleted(DownloadStatus), Mode=OneWay}">

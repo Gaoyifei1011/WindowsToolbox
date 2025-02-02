@@ -11,6 +11,7 @@
 
     <muxc:NavigationView
         x:Name="FileManagerNavigationView"
+        Margin="14,0,0,0"
         x:FieldModifier="public"
         AlwaysShowHeader="False"
         IsBackButtonVisible="Collapsed"
@@ -22,7 +23,6 @@
         SelectedItem="{x:Bind SelectedItem, Mode=OneWay}">
 
         <muxc:NavigationView.MenuItems>
-            <!--  文件名称  -->
             <muxc:NavigationViewItem Tag="FileName">
                 <muxc:NavigationViewItem.Content>
                     <TextBlock
@@ -92,7 +92,10 @@
             </muxc:NavigationViewItem>
         </muxc:NavigationView.MenuItems>
 
-        <Frame Navigated="{x:Bind OnNavigated}" NavigationFailed="{x:Bind OnNavigationFailed}">
+        <Frame
+            Margin="16,0,30,0"
+            Navigated="{x:Bind OnNavigated}"
+            NavigationFailed="{x:Bind OnNavigationFailed}">
             <Frame.ContentTransitions>
                 <TransitionCollection>
                     <NavigationThemeTransition />

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,6 +38,22 @@ namespace WindowsTools.Views.Pages
         private readonly IUpdateSearcher updateSearcher;
 
         private readonly bool isInitialized;
+
+        private Microsoft.UI.Xaml.Controls.NavigationViewItem _selectedItem;
+
+        public Microsoft.UI.Xaml.Controls.NavigationViewItem SelectedItem
+        {
+            get { return _selectedItem; }
+
+            set
+            {
+                if (!Equals(_selectedItem, value))
+                {
+                    _selectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
+                }
+            }
+        }
 
         private bool _isChecking;
 
@@ -70,7 +87,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private bool _isAUExpanderExpanded;
+        private bool _isAUExpanderExpanded = true;
 
         public bool IsAUExpanderExpanded
         {
@@ -86,7 +103,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private bool _isIUExpanderExpanded;
+        private bool _isIUExpanderExpanded = true;
 
         public bool IsIUExpanderExpanded
         {
@@ -102,7 +119,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private bool _isHUExpanderExpanded;
+        private bool _isHUExpanderExpanded = true;
 
         public bool IsHUExpanderExpanded
         {
@@ -118,7 +135,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private bool _isUHExpanderExpanded;
+        private bool _isUHExpanderExpanded = true;
 
         public bool IsUHExpanderExpanded
         {
@@ -146,6 +163,54 @@ namespace WindowsTools.Views.Pages
                 {
                     _isORExpanderExpanded = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsORExpanderExpanded)));
+                }
+            }
+        }
+
+        private bool _isAvailableInstallEnabled;
+
+        private bool IsAvailableInstallEnabled
+        {
+            get { return _isAvailableInstallEnabled; }
+
+            set
+            {
+                if (!Equals(_isAvailableInstallEnabled, value))
+                {
+                    _isAvailableInstallEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAvailableInstallEnabled)));
+                }
+            }
+        }
+
+        private bool _isInstalledUnInstallEnabled;
+
+        private bool IsInstalledUnInstallEnabled
+        {
+            get { return _isInstalledUnInstallEnabled; }
+
+            set
+            {
+                if (!Equals(_isInstalledUnInstallEnabled, value))
+                {
+                    _isInstalledUnInstallEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsInstalledUnInstallEnabled)));
+                }
+            }
+        }
+
+        private bool _isHiddenShowEnabled;
+
+        private bool IsHiddenShowEnabled
+        {
+            get { return _isHiddenShowEnabled; }
+
+            set
+            {
+                if (!Equals(_isHiddenShowEnabled, value))
+                {
+                    _isHiddenShowEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsHiddenShowEnabled)));
                 }
             }
         }
@@ -198,6 +263,14 @@ namespace WindowsTools.Views.Pages
             }
         }
 
+        private List<KeyValuePair<string, Type>> PageList { get; } =
+        [
+            new KeyValuePair<string, Type>("FileName",typeof(FileNamePage)),
+            new KeyValuePair<string, Type>("ExtensionName", typeof(ExtensionNamePage)),
+            new KeyValuePair<string, Type>("UpperAndLowerCase", typeof(UpperAndLowerCasePage)),
+            new KeyValuePair<string, Type>("FileProperties", typeof(FilePropertiesPage)),
+        ];
+
         private List<KeyValuePair<string, string>> UpdateSourceList { get; } =
         [
             new KeyValuePair<string,string>("Microsoft Update", ResourceService.UpdateManagerResource.GetString("MicrosoftUpdate")),
@@ -228,9 +301,10 @@ namespace WindowsTools.Views.Pages
         public UpdateManagerPage()
         {
             InitializeComponent();
+            SelectedItem = UpdateManagerNavigationView.MenuItems[0] as Microsoft.UI.Xaml.Controls.NavigationViewItem;
             SelectedPreviewChannel = PreviewChannelList[0];
             SelectedUpdateSource = UpdateSourceList[0];
-            updateSession.ClientApplicationID = "Update Manager for Windows";
+            updateSession.ClientApplicationID = "WindowsTools:" + Guid.NewGuid().ToString();
             updateSearcher = updateSession.CreateUpdateSearcher();
             GetUpdateHistory();
 
@@ -258,23 +332,29 @@ namespace WindowsTools.Views.Pages
         {
             if (args.Parameter is UpdateModel updateItem)
             {
-                await Task.Run(() =>
+                bool hideResult = await Task.Run(() =>
                 {
+                    bool result = false;
+
                     // 隐藏更新（只有 Power Users 管理组的管理员和成员才能设置此属性的值）
                     if (RuntimeHelper.IsElevated)
                     {
                         try
                         {
                             updateItem.Update.IsHidden = true;
+                            result = true;
                         }
                         catch (Exception e)
                         {
                             LogService.WriteLog(EventLevel.Error, "Hide updates modify hidden property failed", e);
                         }
                     }
+
+                    return result;
                 });
 
-                if (RuntimeHelper.IsElevated)
+                // 隐藏成功时更新界面显示内容
+                if (hideResult)
                 {
                     try
                     {
@@ -305,6 +385,87 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAvailableInstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
+            if (args.Parameter is UpdateModel updateItem)
+            {
+                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                {
+                    if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                    {
+                        availableUpdateItem.IsUpdating = true;
+                    }
+                }
+
+                Task.Run(() =>
+                {
+                    UpdateCollection updateCollection = new() { updateItem.Update };
+
+                    try
+                    {
+                        AutoResetEvent downloadEvent = new(false);
+
+                        // 先下载更新
+                        IDownloadJob downloadJob = null;
+                        UpdateDownloader updateDownloader = updateSession.CreateUpdateDownloader();
+                        updateDownloader.Updates = updateCollection;
+
+                        DownloadProgressChangedCallback downloadProgressChangedCallback = new();
+                        DownloadCompletedCallback downloadCompletedCallback = new();
+                        downloadProgressChangedCallback.DownloadProgressChanged += (sender, args) => OnDownloadProgressChanged(sender, args, updateItem);
+                        downloadCompletedCallback.DownloadCompleted += (sender, args) => downloadEvent.Set();
+                        downloadJob = updateDownloader.BeginDownload(downloadProgressChangedCallback, downloadCompletedCallback, null);
+                        downloadEvent.WaitOne();
+                        downloadEvent.Dispose();
+                        IDownloadResult downloadResult = updateDownloader.EndDownload(downloadJob);
+
+                        synchronizationContext.Post(_ =>
+                        {
+                            if (downloadResult is not null && downloadResult.ResultCode is OperationResultCode.orcSucceeded)
+                            {
+                                OperationTextBlock.Text = "更新已下载完成";
+                            }
+                            else
+                            {
+                                OperationTextBlock.Text = "更新下载失败，错误代码：" + downloadResult.HResult.ToString() + " " + Marshal.GetExceptionForHR(downloadResult.HResult).Message;
+                                return;
+                            }
+                        }, null);
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Download updates failed", e);
+                    }
+
+                    // 后面再安装更新
+                    AutoResetEvent installEvent = new(false);
+
+                    IInstallationJob installationJob = null;
+                    IUpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller();
+                    updateInstaller.Updates = updateCollection;
+                    InstallationCompletedCallback installationCompletedCallback = new();
+                    InstallationProgressChangedCallback installationProgressChangedCallback = new();
+                    installationCompletedCallback.InstallationCompleted += (sender, args) => installEvent.Set();
+                    installationProgressChangedCallback.InstallationProgressChanged += (sender, args) => OnInstallationProgressChanged(sender, args, updateItem);
+                    installationJob = updateInstaller.BeginInstall(installationProgressChangedCallback, installationCompletedCallback, null);
+                    installEvent.WaitOne();
+                    installEvent.Dispose();
+                    IInstallationResult installationResult = updateInstaller.EndInstall(installationJob);
+
+                    synchronizationContext.Post(_ =>
+                    {
+                        if (installationResult.ResultCode is OperationResultCode.orcSucceeded)
+                        {
+                            OperationTextBlock.Text = "更新已安装完成";
+                        }
+                        else
+                        {
+                            OperationTextBlock.Text = "更新安装失败，错误代码：" + installationResult.HResult.ToString() + " " + Marshal.GetExceptionForHR(installationResult.HResult).Message;
+                        }
+
+                        IsChecking = true;
+                        CheckUpdate();
+                    }, null);
+                });
+            }
         }
 
         /// <summary>
@@ -314,33 +475,24 @@ namespace WindowsTools.Views.Pages
         {
             if (args.Parameter is UpdateModel updateItem)
             {
-                IUpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller();
-                updateInstaller.Updates.Add(updateItem.Update);
-                InstallationCompletedCallback installationCompletedCallback = new();
-                InstallationProgressChangedCallback installationProgressChangedCallback = new();
-
-                // 安装完成，更新信息并重新检查更新
-                installationCompletedCallback.InstallationCompleted += (sender, args) =>
+                Task.Run(() =>
                 {
-                    CheckUpdate();
-                };
-
-                // 更新进行中，进度变化时更改 UI 变化信息
-                installationProgressChangedCallback.InstallationProgressChanged += (sender, args) =>
-                {
-                    double percentage = installationProgressChangedCallback.CallbackArgs.Progress.CurrentUpdatePercentComplete / 100.0;
-                    synchronizationContext.Post(_ =>
+                    IUpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller();
+                    updateInstaller.Updates = new UpdateCollection { updateItem.Update };
+                    InstallationCompletedCallback unInstallationCompletedCallback = new();
+                    InstallationProgressChangedCallback unInstallationProgressChangedCallback = new();
+                    unInstallationCompletedCallback.InstallationCompleted += (sender, args) =>
                     {
-                        foreach (UpdateModel installedItem in InstalledUpdateCollection)
+                        synchronizationContext.Post(_ =>
                         {
-                            if (installedItem.UpdateID.Equals(updateItem.UpdateID))
-                            {
-                                installedItem.InstallationProgress = percentage;
-                            }
-                        }
-                    }, null);
-                };
-                updateInstaller.BeginUninstall(installationProgressChangedCallback, installationCompletedCallback, null);
+                            IsChecking = true;
+                        }, null);
+                        CheckUpdate();
+                    };
+
+                    unInstallationProgressChangedCallback.InstallationProgressChanged += (sender, args) => OnUnInstallationProgressChanged(sender, args, updateItem);
+                    updateInstaller.BeginUninstall(unInstallationProgressChangedCallback, unInstallationCompletedCallback, null);
+                });
             }
         }
 
@@ -351,23 +503,28 @@ namespace WindowsTools.Views.Pages
         {
             if (args.Parameter is UpdateModel updateItem)
             {
-                await Task.Run(() =>
+                bool hideResult = await Task.Run(() =>
                 {
+                    bool result = false;
+
                     // 隐藏更新（只有 Power Users 管理组的管理员和成员才能设置此属性的值）
                     if (RuntimeHelper.IsElevated)
                     {
                         try
                         {
                             updateItem.Update.IsHidden = false;
+                            result = true;
                         }
                         catch (Exception e)
                         {
                             LogService.WriteLog(EventLevel.Error, "Show updates modify hidden property failed", e);
                         }
                     }
+
+                    return result;
                 });
 
-                if (RuntimeHelper.IsElevated)
+                if (hideResult)
                 {
                     try
                     {
@@ -477,6 +634,26 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
+        /// 查看 Windows 更新的版本信息
+        /// </summary>
+        private void OnWindowsUpdateInformationClicked(object sender, RoutedEventArgs args)
+        {
+            // TODO :未完成
+            WindowsUpdateAgentInfo windowsUpdateAgentInfo = new();
+        }
+
+        /// <summary>
+        /// 当菜单中的项收到交互（如单击或点击）时发生
+        /// </summary>
+        private void OnItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+        {
+            if (args.InvokedItemContainer is Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem && !navigationViewItem.Equals(SelectedItem))
+            {
+                SelectedItem = navigationViewItem;
+            }
+        }
+
+        /// <summary>
         /// 可用更新：全选
         /// </summary>
         private void OnAvailableSelectAllClicked(object sender, RoutedEventArgs args)
@@ -485,6 +662,8 @@ namespace WindowsTools.Views.Pages
             {
                 updateItem.IsSelected = true;
             }
+
+            IsAvailableInstallEnabled = true;
         }
 
         /// <summary>
@@ -496,6 +675,8 @@ namespace WindowsTools.Views.Pages
             {
                 updateItem.IsSelected = false;
             }
+
+            IsAvailableInstallEnabled = false;
         }
 
         /// <summary>
@@ -504,15 +685,16 @@ namespace WindowsTools.Views.Pages
         private async void OnAvailableHideClicked(object sender, RoutedEventArgs args)
         {
             List<UpdateModel> hideList = AvailableUpdateCollection.Where(item => item.IsSelected is true).ToList();
-            await Task.Run(() =>
+            bool hideResult = await Task.Run(() =>
             {
+                bool result = false;
                 if (RuntimeHelper.IsElevated)
                 {
-                    foreach (UpdateModel hideItem in hideList)
+                    foreach (UpdateModel updateItem in hideList)
                     {
                         try
                         {
-                            hideItem.Update.IsHidden = true;
+                            updateItem.Update.IsHidden = true;
                         }
                         catch (Exception e)
                         {
@@ -520,27 +702,31 @@ namespace WindowsTools.Views.Pages
                             continue;
                         }
                     }
+
+                    result = true;
                 }
+
+                return result;
             });
 
-            if (RuntimeHelper.IsElevated)
+            if (hideResult)
             {
-                foreach (UpdateModel hideItem in hideList)
+                foreach (UpdateModel updateItenm in hideList)
                 {
                     try
                     {
-                        if (hideItem.Update.IsHidden)
+                        if (updateItenm.Update.IsHidden)
                         {
                             for (int index = 0; index < AvailableUpdateCollection.Count; index++)
                             {
-                                if (AvailableUpdateCollection[index].UpdateID.Equals(hideItem.UpdateID))
+                                if (AvailableUpdateCollection[index].UpdateID.Equals(updateItenm.UpdateID))
                                 {
                                     AvailableUpdateCollection.RemoveAt(index);
                                     break;
                                 }
                             }
 
-                            HiddenUpdateCollection.Add(hideItem);
+                            HiddenUpdateCollection.Add(updateItenm);
 
                             IsAUExpanderExpanded = true;
                             IsHUExpanderExpanded = true;
@@ -560,9 +746,103 @@ namespace WindowsTools.Views.Pages
         private void OnAvailableInstallClicked(object sender, RoutedEventArgs args)
         {
             List<UpdateModel> installList = AvailableUpdateCollection.Where(item => item.IsSelected is true).ToList();
-            foreach (UpdateModel hideItem in installList)
+            List<Task> taskList = [];
+
+            Task.Run(() =>
             {
+                foreach (UpdateModel updateItem in installList)
+                {
+                    taskList.Add(Task.Run(() =>
+                    {
+                        UpdateCollection updateCollection = new() { updateItem.Update };
+
+                        try
+                        {
+                            AutoResetEvent downloadEvent = new(false);
+
+                            // 先下载更新
+                            IDownloadJob downloadJob = null;
+                            UpdateDownloader updateDownloader = updateSession.CreateUpdateDownloader();
+                            updateDownloader.Updates = updateCollection;
+
+                            DownloadProgressChangedCallback downloadProgressChangedCallback = new();
+                            DownloadCompletedCallback downloadCompletedCallback = new();
+                            downloadProgressChangedCallback.DownloadProgressChanged += (sender, args) => OnDownloadProgressChanged(sender, args, updateItem);
+                            downloadCompletedCallback.DownloadCompleted += (sender, args) => downloadEvent.Set();
+                            downloadJob = updateDownloader.BeginDownload(downloadProgressChangedCallback, downloadCompletedCallback, null);
+                            downloadEvent.WaitOne();
+                            downloadEvent.Dispose();
+                            IDownloadResult downloadResult = updateDownloader.EndDownload(downloadJob);
+
+                            synchronizationContext.Post(_ =>
+                            {
+                                // TODO: 未完成
+                                if (downloadResult is not null && downloadResult.ResultCode is OperationResultCode.orcSucceeded)
+                                {
+                                    OperationTextBlock.Text = "更新已下载完成";
+                                }
+                                else
+                                {
+                                    OperationTextBlock.Text = "更新下载失败，错误代码：" + downloadResult.HResult.ToString() + " " + Marshal.GetExceptionForHR(downloadResult.HResult).Message;
+                                    return;
+                                }
+                            }, null);
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, "Download updates failed", e);
+                        }
+
+                        // 后面再安装更新
+                        AutoResetEvent installEvent = new(false);
+
+                        IInstallationJob installationJob = null;
+                        IUpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller();
+                        updateInstaller.Updates = updateCollection;
+                        InstallationCompletedCallback installationCompletedCallback = new();
+                        InstallationProgressChangedCallback installationProgressChangedCallback = new();
+                        installationCompletedCallback.InstallationCompleted += (sender, args) => installEvent.Set();
+                        installationProgressChangedCallback.InstallationProgressChanged += (sender, args) => OnInstallationProgressChanged(sender, args, updateItem);
+                        installationJob = updateInstaller.BeginInstall(installationProgressChangedCallback, installationCompletedCallback, null);
+                        installEvent.WaitOne();
+                        installEvent.Dispose();
+                        IInstallationResult installationResult = updateInstaller.EndInstall(installationJob);
+
+                        synchronizationContext.Post(_ =>
+                        {
+                            if (installationResult.ResultCode is OperationResultCode.orcSucceeded)
+                            {
+                                OperationTextBlock.Text = "更新已安装完成";
+                            }
+                            else
+                            {
+                                OperationTextBlock.Text = "更新安装失败，错误代码：" + installationResult.HResult.ToString() + " " + Marshal.GetExceptionForHR(installationResult.HResult).Message;
+                            }
+
+                            IsChecking = true;
+                            CheckUpdate();
+                        }, null);
+                    }));
+
+                    Task.WaitAll([.. taskList]);
+
+                    // TODO : 添加更新完成提示
+                }
+            });
+        }
+
+        /// <summary>
+        /// 可用更新：单击时修改可用更新项选中值
+        /// </summary>
+        private void OnAvailableItemClicked(object sender, ItemClickEventArgs args)
+        {
+            if (args.ClickedItem is UpdateModel updateItem)
+            {
+                int clickedIndex = AvailableUpdateCollection.IndexOf(updateItem);
+                AvailableUpdateCollection[clickedIndex].IsSelected = !AvailableUpdateCollection[clickedIndex].IsSelected;
             }
+
+            IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected);
         }
 
         /// <summary>
@@ -574,6 +854,8 @@ namespace WindowsTools.Views.Pages
             {
                 updateItem.IsSelected = true;
             }
+
+            IsInstalledUnInstallEnabled = InstalledUpdateCollection.Any(item => item.IsUninstallable && item.IsSelected);
         }
 
         /// <summary>
@@ -585,6 +867,8 @@ namespace WindowsTools.Views.Pages
             {
                 updateItem.IsSelected = false;
             }
+
+            IsInstalledUnInstallEnabled = false;
         }
 
         /// <summary>
@@ -593,6 +877,57 @@ namespace WindowsTools.Views.Pages
         private void OnInstalledUnInstallClicked(object sender, RoutedEventArgs args)
         {
             List<UpdateModel> unInstallList = InstalledUpdateCollection.Where(item => item.IsSelected is true).ToList();
+            List<Task> taskList = [];
+
+            Task.Run(() =>
+            {
+                foreach (UpdateModel updateItem in unInstallList)
+                {
+                    taskList.Add(Task.Run(() =>
+                    {
+                        AutoResetEvent autoResetEvent = new(false);
+
+                        try
+                        {
+                            IUpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller();
+                            updateInstaller.Updates = new UpdateCollection { updateItem.Update };
+                            InstallationCompletedCallback unInstallationCompletedCallback = new();
+                            InstallationProgressChangedCallback unInstallationProgressChangedCallback = new();
+                            unInstallationCompletedCallback.InstallationCompleted += (sender, args) => autoResetEvent.Set();
+                            unInstallationProgressChangedCallback.InstallationProgressChanged += (sender, args) => OnUnInstallationProgressChanged(sender, args, updateItem);
+                            updateInstaller.BeginUninstall(unInstallationProgressChangedCallback, unInstallationCompletedCallback, null);
+                            autoResetEvent.WaitOne();
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, "Install update failed", e);
+                            autoResetEvent.Set();
+                        }
+                        finally
+                        {
+                            autoResetEvent.Dispose();
+                        }
+                    }));
+                }
+            });
+
+            Task.WaitAll([.. taskList]);
+
+            // TODO : 添加更新未完成提示
+        }
+
+        /// <summary>
+        /// 已安装更新：单击时修改已安装更新项选中值
+        /// </summary>
+        private void OnInstalledItemClicked(object sender, ItemClickEventArgs args)
+        {
+            if (args.ClickedItem is UpdateModel updateItem)
+            {
+                int clickedIndex = InstalledUpdateCollection.IndexOf(updateItem);
+                InstalledUpdateCollection[clickedIndex].IsSelected = !InstalledUpdateCollection[clickedIndex].IsSelected;
+            }
+
+            IsInstalledUnInstallEnabled = InstalledUpdateCollection.Any(item => item.IsUninstallable && item.IsSelected);
         }
 
         /// <summary>
@@ -604,6 +939,8 @@ namespace WindowsTools.Views.Pages
             {
                 updateItem.IsSelected = true;
             }
+
+            IsHiddenShowEnabled = true;
         }
 
         /// <summary>
@@ -615,6 +952,8 @@ namespace WindowsTools.Views.Pages
             {
                 updateItem.IsSelected = false;
             }
+
+            IsHiddenShowEnabled = false;
         }
 
         /// <summary>
@@ -623,15 +962,17 @@ namespace WindowsTools.Views.Pages
         private async void OnHiddenShowClicked(object sender, RoutedEventArgs args)
         {
             List<UpdateModel> showList = HiddenUpdateCollection.Where(item => item.IsSelected is true).ToList();
-            await Task.Run(() =>
+            bool hiddenResult = await Task.Run(() =>
             {
+                bool result = false;
+
                 if (RuntimeHelper.IsElevated)
                 {
-                    foreach (UpdateModel showItem in showList)
+                    foreach (UpdateModel updateItem in showList)
                     {
                         try
                         {
-                            showItem.Update.IsHidden = false;
+                            updateItem.Update.IsHidden = false;
                         }
                         catch (Exception e)
                         {
@@ -639,27 +980,31 @@ namespace WindowsTools.Views.Pages
                             continue;
                         }
                     }
+
+                    result = true;
                 }
+
+                return result;
             });
 
-            if (RuntimeHelper.IsElevated)
+            if (hiddenResult)
             {
-                foreach (UpdateModel showItem in showList)
+                foreach (UpdateModel updateItem in showList)
                 {
                     try
                     {
-                        if (showItem.Update.IsHidden is false)
+                        if (updateItem.Update.IsHidden is false)
                         {
                             for (int index = 0; index < HiddenUpdateCollection.Count; index++)
                             {
-                                if (HiddenUpdateCollection[index].UpdateID.Equals(showItem.UpdateID))
+                                if (HiddenUpdateCollection[index].UpdateID.Equals(updateItem.UpdateID))
                                 {
                                     HiddenUpdateCollection.RemoveAt(index);
                                     break;
                                 }
                             }
 
-                            AvailableUpdateCollection.Add(showItem);
+                            AvailableUpdateCollection.Add(updateItem);
 
                             IsAUExpanderExpanded = true;
                             IsHUExpanderExpanded = true;
@@ -671,6 +1016,20 @@ namespace WindowsTools.Views.Pages
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 单击时修改隐藏更新项选中值
+        /// </summary>
+        private void OnHiddenItemClicked(object sender, ItemClickEventArgs args)
+        {
+            if (args.ClickedItem is UpdateModel updateItem)
+            {
+                int clickedIndex = HiddenUpdateCollection.IndexOf(updateItem);
+                HiddenUpdateCollection[clickedIndex].IsSelected = !HiddenUpdateCollection[clickedIndex].IsSelected;
+            }
+
+            IsHiddenShowEnabled = HiddenUpdateCollection.Any(item => item.IsSelected);
         }
 
         /// <summary>
@@ -748,6 +1107,65 @@ namespace WindowsTools.Views.Pages
         #region 第三部分：自定义事件
 
         /// <summary>
+        /// 下载更新中，进度变化时更新 UI 下载进度
+        /// </summary>
+        private void OnDownloadProgressChanged(object sender, EventArgs args, UpdateModel updateItem)
+        {
+            double percentage = (sender as DownloadProgressChangedCallback).CallbackArgs.Progress.CurrentUpdatePercentComplete;
+            synchronizationContext.Post(_ =>
+            {
+                OperationTextBlock.Text = string.Format("已下载 {0} % ", percentage);
+                //foreach (UpdateModel updateItem in InstalledUpdateCollection)
+                //{
+                //    if (updateItem.UpdateID.Equals(updateItem.UpdateID))
+                //    {
+                //        // TODO : 未完成
+                //        OperationTextBlock.Text = (string.Format("已下载 {0} %", percentage));
+                //    }
+                //}
+            }, null);
+        }
+
+        /// <summary>
+        /// 卸载更新中，进度变化时更改 UI 卸载进度
+        /// </summary>
+        private void OnUnInstallationProgressChanged(object sender, EventArgs args, UpdateModel updateItem)
+        {
+            double percentage = (sender as InstallationProgressChangedCallback).CallbackArgs.Progress.CurrentUpdatePercentComplete / 100.0;
+            synchronizationContext.Post(_ =>
+            {
+                foreach (UpdateModel updateItem in InstalledUpdateCollection)
+                {
+                    if (updateItem.UpdateID.Equals(updateItem.UpdateID))
+                    {
+                        // TODO : 未完成
+                        updateItem.InstallationProgress = percentage;
+                        OperationTextBlock.Text = (string.Format("已卸载 {0} %", percentage));
+                    }
+                }
+            }, null);
+        }
+
+        /// <summary>
+        /// 安装更新中，进度变化时更改 UI 卸载进度
+        /// </summary>
+        private void OnInstallationProgressChanged(object sender, EventArgs args, UpdateModel updateItem)
+        {
+            double percentage = (sender as InstallationProgressChangedCallback).CallbackArgs.Progress.CurrentUpdatePercentComplete;
+            synchronizationContext.Post(_ =>
+            {
+                foreach (UpdateModel updateItem in AvailableUpdateCollection)
+                {
+                    if (updateItem.UpdateID.Equals(updateItem.UpdateID))
+                    {
+                        // TODO : 未完成
+                        OperationTextBlock.Text = string.Format("已安装 {0} %", percentage);
+                    }
+                }
+            }, null);
+        }
+
+        /// <summary>
         /// 更新搜索完成时触发的事件
         /// </summary>
         private void OnSearchCompleted(object sender, EventArgs args)
@@ -786,7 +1204,7 @@ namespace WindowsTools.Views.Pages
                 List<UpdateModel> hiddenUpdateList = [];
 
                 // 读取已搜索到的更新
-                foreach (IUpdate update in searchResult.Updates)
+                foreach (IUpdate5 update in searchResult.Updates)
                 {
                     // 隐藏的更新
                     if (update.IsHidden)
@@ -796,7 +1214,7 @@ namespace WindowsTools.Views.Pages
                             UpdateName = update.Title,
                             Update = update,
                             Description = update.Description,
-                            Date = update.LastDeploymentChangeTime,
+                            Date = update.LastDeploymentChangeTime.ToLocalTime(),
                             UpdateID = update.Identity.UpdateID,
                             Size = FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(update.MaxDownloadSize)),
                             SupportURL = update.SupportUrl
@@ -809,8 +1227,9 @@ namespace WindowsTools.Views.Pages
                         {
                             UpdateName = update.Title,
                             Update = update,
+                            IsUninstallable = update.IsUninstallable,
                             Description = update.Description,
-                            Date = update.LastDeploymentChangeTime,
+                            Date = update.LastDeploymentChangeTime.ToLocalTime(),
                             UpdateID = update.Identity.UpdateID,
                             Size = FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(update.MaxDownloadSize)),
                             SupportURL = update.SupportUrl
@@ -824,7 +1243,7 @@ namespace WindowsTools.Views.Pages
                             UpdateName = update.Title,
                             Update = update,
                             Description = update.Description,
-                            Date = update.LastDeploymentChangeTime,
+                            Date = update.LastDeploymentChangeTime.ToLocalTime(),
                             UpdateID = update.Identity.UpdateID,
                             Size = FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(update.MaxDownloadSize)),
                             SupportURL = update.SupportUrl
@@ -856,9 +1275,9 @@ namespace WindowsTools.Views.Pages
                     IsAUExpanderExpanded = true;
                     IsIUExpanderExpanded = true;
                     IsHUExpanderExpanded = true;
-                }, null);
 
-                GetUpdateHistory();
+                    GetUpdateHistory();
+                }, null);
             }
         }
 

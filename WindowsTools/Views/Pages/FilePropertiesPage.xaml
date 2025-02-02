@@ -25,10 +25,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid
-            Grid.Row="0"
-            Margin="0,0,0,3"
-            Padding="30,0">
+        <Grid Grid.Row="0" Margin="0,0,0,3">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -155,7 +152,7 @@
 
         <Grid
             Grid.Row="1"
-            Margin="30,0,30,3"
+            Margin="0,0,0,3"
             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1"
@@ -301,7 +298,7 @@
 
         <Grid
             Grid.Row="2"
-            Margin="30,0,30,3"
+            Margin="0,0,0,3"
             ColumnSpacing="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
