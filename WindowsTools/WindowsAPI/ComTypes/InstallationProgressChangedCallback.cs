@@ -8,18 +8,18 @@ namespace WindowsTools.WindowsAPI.ComTypes
     /// </summary>
     public class InstallationProgressChangedCallback : IInstallationProgressChangedCallback
     {
-        public IInstallationJob SearchJob { get; private set; }
+        public IInstallationJob InstallationJob { get; private set; }
 
         public IInstallationProgressChangedCallbackArgs CallbackArgs { get; private set; }
 
-        public event EventHandler<EventArgs> InstallationProgressChanged;
+        public event EventHandler InstallationProgressChanged;
 
         /// <summary>
         /// 处理异步安装或卸载过程中的更改通知，该通知是通过调用 IUpdateInstaller.BeginInstall 方法或 IUpdateInstaller.BeginUninstall 方法启动的。
         /// </summary>
         public void Invoke(IInstallationJob installationJob, IInstallationProgressChangedCallbackArgs callbackArgs)
         {
-            SearchJob = installationJob;
+            InstallationJob = installationJob;
             CallbackArgs = callbackArgs;
             InstallationProgressChanged?.Invoke(this, EventArgs.Empty);
         }
