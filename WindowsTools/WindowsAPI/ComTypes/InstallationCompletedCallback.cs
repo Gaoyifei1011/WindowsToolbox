@@ -12,7 +12,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
 
         public IInstallationCompletedCallbackArgs CallbackArgs { get; private set; }
 
-        public event EventHandler<EventArgs> InstallationCompleted;
+        public event EventHandler InstallationCompleted;
 
         /// <summary>
         /// 处理通过调用 IUpdateInstaller.BeginInstall 或 IUpdateInstaller.BeginUninstall 启动的异步安装或卸载完成的通知。
