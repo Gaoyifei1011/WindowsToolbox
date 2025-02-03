@@ -14,5 +14,10 @@ namespace WindowsTools.Helpers.Converters
         {
             return selectedIndex.Equals(index) ? Visibility.Visible : Visibility.Collapsed;
         }
+
+        public static Visibility IsCurrentItem(object selectedItem, object item)
+        {
+            return selectedItem.Equals(item) ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 }
