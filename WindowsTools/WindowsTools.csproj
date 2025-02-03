@@ -267,7 +267,7 @@
     <None Remove="Views\Pages\AboutPage.xaml" />
     <None Remove="Views\Pages\AllToolsPage.xaml" />
     <None Remove="Views\Pages\ColorPickerPage.xaml" />
-    <None Remove="Views\Pages\ContextMenuManager.xaml" />
+    <None Remove="Views\Pages\ContextMenuManagerPage.xaml" />
     <None Remove="Views\Pages\DownloadManagerPage.xaml" />
     <None Remove="Views\Pages\DriverManagerPage.xaml" />
     <None Remove="Views\Pages\ExtensionNamePage.xaml" />
@@ -312,7 +312,7 @@
     <Page Include="Views\Pages\AboutPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AllToolsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\ColorPickerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Pages\ContextMenuManager.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\ContextMenuManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\DownloadManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\DriverManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\ExtensionNamePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
