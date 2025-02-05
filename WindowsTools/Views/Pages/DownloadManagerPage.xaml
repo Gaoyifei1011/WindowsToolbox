@@ -10,7 +10,6 @@
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:root="using:WindowsTools.Services.Root"
-    xmlns:sys="using:System"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -223,7 +222,7 @@
                 Padding="0"
                 Click="{x:Bind OnAddTaskClicked}"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                IsEnabled="{x:Bind sys:String.IsNullOrEmpty(SearchDownloadText), Mode=OneWay}"
+                IsEnabled="{x:Bind x:String.IsNullOrEmpty(SearchDownloadText), Mode=OneWay}"
                 ToolTipService.ToolTip="{x:Bind root:ResourceService.DownloadManagerResource.GetString('AddTaskToolTip')}">
 
                 <Button.Content>
@@ -239,7 +238,7 @@
                 Padding="0"
                 Click="{x:Bind OnStartDownloadClicked}"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                IsEnabled="{x:Bind sys:String.IsNullOrEmpty(SearchDownloadText), Mode=OneWay}"
+                IsEnabled="{x:Bind x:String.IsNullOrEmpty(SearchDownloadText), Mode=OneWay}"
                 ToolTipService.ToolTip="{x:Bind root:ResourceService.DownloadManagerResource.GetString('StartDownloadToolTip')}">
 
                 <Button.Content>
@@ -255,7 +254,7 @@
                 Padding="0"
                 Click="{x:Bind OnPauseDownloadClicked}"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                IsEnabled="{x:Bind sys:String.IsNullOrEmpty(SearchDownloadText), Mode=OneWay}"
+                IsEnabled="{x:Bind x:String.IsNullOrEmpty(SearchDownloadText), Mode=OneWay}"
                 ToolTipService.ToolTip="{x:Bind root:ResourceService.DownloadManagerResource.GetString('PauseDownloadToolTip')}">
 
                 <Button.Content>
@@ -271,7 +270,7 @@
                 Padding="0"
                 Click="{x:Bind OnDeleteDownloadClicked}"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                IsEnabled="{x:Bind sys:String.IsNullOrEmpty(SearchDownloadText), Mode=OneWay}"
+                IsEnabled="{x:Bind x:String.IsNullOrEmpty(SearchDownloadText), Mode=OneWay}"
                 ToolTipService.ToolTip="{x:Bind root:ResourceService.DownloadManagerResource.GetString('DeleteDownloadToolTip')}">
 
                 <Button.Content>
@@ -543,7 +542,7 @@
                                     Grid.Row="1"
                                     Margin="0,12,0,0"
                                     IsIndeterminate="False"
-                                    ShowPaused="{x:Bind sys:Object.Equals(DownloadStatus, enum:DownloadStatus.Pause), Mode=OneWay}"
+                                    ShowPaused="{x:Bind x:Object.Equals(DownloadStatus, enum:DownloadStatus.Pause), Mode=OneWay}"
                                     Visibility="{x:Bind IsNotCompleted(DownloadStatus), Mode=OneWay}"
                                     Value="{x:Bind DownloadProgress(FinishedSize, TotalSize), Mode=OneWay}" />
                             </Grid>
