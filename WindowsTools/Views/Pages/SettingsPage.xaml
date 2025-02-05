@@ -661,14 +661,24 @@
                                                 Padding="11,0"
                                                 Click="{x:Bind OnChangeFolderClicked}"
                                                 Tag="Download"
-                                                Text="{x:Bind root:ResourceService.SettingsResource.GetString('Download')}" />
+                                                Text="{x:Bind root:ResourceService.SettingsResource.GetString('Download')}">
+
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon Glyph="&#xE896;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
 
                                             <MenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnChangeFolderClicked}"
                                                 Tag="Desktop"
-                                                Text="{x:Bind root:ResourceService.SettingsResource.GetString('Desktop')}" />
+                                                Text="{x:Bind root:ResourceService.SettingsResource.GetString('Desktop')}">
+
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon Glyph="&#xE7F4;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
 
                                             <MenuFlyoutSeparator />
 
@@ -677,7 +687,12 @@
                                                 Padding="11,0"
                                                 Click="{x:Bind OnChangeFolderClicked}"
                                                 Tag="Custom"
-                                                Text="{x:Bind root:ResourceService.SettingsResource.GetString('Custom')}" />
+                                                Text="{x:Bind root:ResourceService.SettingsResource.GetString('Custom')}">
+
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon Glyph="&#xE8B7;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
                                         </MenuFlyout>
                                     </muxc:DropDownButton.Flyout>
                                 </muxc:DropDownButton>
