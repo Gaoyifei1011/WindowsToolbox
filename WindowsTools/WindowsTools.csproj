@@ -288,7 +288,7 @@
     <None Remove="Views\Pages\UpperAndLowerCasePage.xaml" />
     <None Remove="Views\Pages\WinSATPage.xaml" />
 
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.6" GeneratePathProperty="true" IncludeAssets="none" />
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" GeneratePathProperty="true" IncludeAssets="none" />
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1742" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
 
