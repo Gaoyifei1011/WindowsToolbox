@@ -299,7 +299,7 @@ namespace WindowsTools.Views.Pages
                         if (progressDialog is not null)
                         {
                             // 用户主动取消了操作
-                            if (progressDialog.HasUserCancelled())
+                            if (progressDialog.HasUserCanceled())
                             {
                                 progressDialog.StopProgressDialog();
                                 cInitiateWinSAT.CancelAssessment();

@@ -50,7 +50,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// <returns>如果用户已取消操作，则为 TRUE;否则为 FALSE。</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Bool)]
-        bool HasUserCancelled();
+        bool HasUserCanceled();
 
         /// <summary>
         /// 汇报进度对话框，其中包含操作的当前状态。
