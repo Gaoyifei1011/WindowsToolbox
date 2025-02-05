@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using WindowsTools.Extensions.DataType.Class;
 
@@ -15,6 +16,26 @@ namespace WindowsTools.Models
         public UpdateInformation UpdateInformation { get; set; }
 
         /// <summary>
+        /// 驱动信息
+        /// </summary>
+        public DriverInformation DriverInformation { get; set; }
+
+        /// <summary>
+        /// 更新历史记录信息
+        /// </summary>
+        public UpdateHistoryInformation UpdateHistoryInformation { get; set; }
+
+        /// <summary>
+        /// 更新的客户端应用程序的标识符
+        /// </summary>
+        public string ClientApplicationID { get; set; }
+
+        /// <summary>
+        /// 更新的日期和时间
+        /// </summary>
+        public string Date { get; set; }
+
+        /// <summary>
         /// 更新描述内容
         /// </summary>
         public string Description { get; set; }
@@ -23,6 +44,11 @@ namespace WindowsTools.Models
         /// 与更新关联的 Microsoft 软件许可条款的完整本地化文本
         /// </summary>
         public string EulaText { get; set; }
+
+        /// <summary>
+        /// 历史更新记录结果
+        /// </summary>
+        public string HistoryUpdateResult { get; set; }
 
         /// <summary>
         /// 是否为测试版本的更新
@@ -93,6 +119,41 @@ namespace WindowsTools.Models
         /// 更新的标识符
         /// </summary>
         public string UpdateID { get; set; }
+
+        /// <summary>
+        /// Windows 驱动程序更新的匹配设备的问题号
+        /// </summary>
+        public string DeviceProblemNumber { get; set; }
+
+        /// <summary>
+        /// 驱动程序更新的类
+        /// </summary>
+        public string DriverClass { get; set; }
+
+        /// <summary>
+        /// Windows 驱动程序更新必须匹配才能安装的硬件 ID 或兼容 ID
+        /// </summary>
+        public string DriverHardwareID { get; set; }
+
+        /// <summary>
+        /// Windows 驱动程序更新的制造商的语言固定名称
+        /// </summary>
+        public string DriverManufacturer { get; set; }
+
+        /// <summary>
+        /// Windows 驱动程序更新所针对的设备的语言固定模型名称
+        /// </summary>
+        public string DriverModel { get; set; }
+
+        /// <summary>
+        /// Windows 驱动程序更新提供程序的语言固定名称
+        /// </summary>
+        public string DriverProvider { get; set; }
+
+        /// <summary>
+        /// Windows 驱动程序更新的驱动程序版本日期
+        /// </summary>
+        public string DriverVerDate { get; set; }
 
         /// <summary>
         /// 与更新关联的 CVE ID 集合
