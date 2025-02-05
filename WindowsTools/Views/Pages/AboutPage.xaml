@@ -55,7 +55,6 @@
 
                 <muxc:DropDownButton.Flyout>
                     <MenuFlyout Placement="Bottom">
-
                         <MenuFlyoutItem
                             Height="32"
                             Padding="11,0"
