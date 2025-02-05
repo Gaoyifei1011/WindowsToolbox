@@ -42,7 +42,7 @@ namespace WindowsTools.Views.Pages
         private readonly Dictionary<string, IInstallationJob> uninstallationJobDict = [];
 
         private bool isLoaded;
-        private IUpdateSearcher updateSearcher;
+        private UpdateSearcher updateSearcher;
 
         private Microsoft.UI.Xaml.Controls.NavigationViewItem _selectedItem;
 
@@ -308,50 +308,45 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 可用更新：取消更新
         /// </summary>
-        private async void OnAvailableCancelInstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnAvailableCancelInstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is string updateID && !string.IsNullOrEmpty(updateID))
             {
-                bool cancelResult = await Task.Run(() =>
+                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                {
+                    if (availableUpdateItem.UpdateID.Equals(updateID, StringComparison.OrdinalIgnoreCase) && availableUpdateItem.IsUpdating)
+                    {
+                        availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdateCanceling");
+                        availableUpdateItem.IsUpdateCanceled = true;
+                        break;
+                    }
+                }
+
+                IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+                IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+                IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
+
+                Task.Run(() =>
                 {
                     try
                     {
-                        bool result = false;
                         if (downloadJobDict.TryGetValue(updateID, out IDownloadJob downloadJob))
                         {
                             downloadJob.RequestAbort();
                             downloadJobDict.Remove(updateID);
-                            result = true;
                         }
 
                         if (installationJobDict.TryGetValue(updateID, out IInstallationJob installationJob))
                         {
                             installationJob.RequestAbort();
                             installationJobDict.Remove(updateID);
-                            result = true;
                         }
-
-                        return result;
                     }
                     catch (Exception e)
                     {
                         LogService.WriteLog(EventLevel.Error, "Cancel install update failed", e);
-                        return false;
                     }
                 });
-
-                if (cancelResult)
-                {
-                    foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                    {
-                        if (availableUpdateItem.UpdateID.Equals(updateID, StringComparison.OrdinalIgnoreCase) && availableUpdateItem.IsUpdating)
-                        {
-                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdateCanceling");
-                            availableUpdateItem.IsUpdateCanceled = true;
-                            break;
-                        }
-                    }
-                }
             }
         }
 
@@ -404,9 +399,9 @@ namespace WindowsTools.Views.Pages
                         LogService.WriteLog(EventLevel.Error, "Hide updates update UI failed", e);
                     }
 
-                    IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => !item.IsUpdating && !item.UpdateInformation.IsHidden);
-                    IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => !item.IsUpdating);
-                    IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsUpdating && !item.IsUpdateCanceled);
+                    IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+                    IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+                    IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
                 }
             }
         }
@@ -422,17 +417,15 @@ namespace WindowsTools.Views.Pages
 
                 foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                 {
-                    if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                    if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase) && !availableUpdateItem.IsUpdating)
                     {
-                        if (!availableUpdateItem.IsUpdating)
-                        {
-                            isUpdating = true;
-                            availableUpdateItem.IsUpdating = true;
-                            availableUpdateItem.UpdatePercentage = 0;
-                            availableUpdateItem.IsUpdatePreparing = true;
-                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("Updatepreparing");
-                            break;
-                        }
+                        isUpdating = true;
+                        availableUpdateItem.IsUpdating = true;
+                        availableUpdateItem.IsUpdateCanceled = false;
+                        availableUpdateItem.UpdatePercentage = 0;
+                        availableUpdateItem.IsUpdatePreparing = true;
+                        availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("Updatepreparing");
+                        break;
                     }
                 }
 
@@ -441,6 +434,7 @@ namespace WindowsTools.Views.Pages
                     try
                     {
                         IsCheckUpdateEnabled = false;
+                        bool updateResult = false;
                         UpdateCollection updateCollection = new() { updateItem.UpdateInformation.Update };
 
                         // 先下载更新
@@ -487,9 +481,11 @@ namespace WindowsTools.Views.Pages
                                     {
                                         availableUpdateItem.UpdatePercentage = 50;
                                         availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadCompleted");
+
                                         break;
                                     }
                                 }
+                                updateResult = true;
                             }
                             // 更新下载已取消
                             else if (downloadResult.ResultCode is OperationResultCode.orcAborted)
@@ -503,7 +499,6 @@ namespace WindowsTools.Views.Pages
                                         availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadCanceled");
                                     }
                                 }
-                                return;
                             }
                             // 更新下载失败
                             else
@@ -512,6 +507,7 @@ namespace WindowsTools.Views.Pages
                                 {
                                     if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                     {
+                                        availableUpdateItem.IsUpdateCanceled = false;
                                         availableUpdateItem.IsUpdating = false;
                                         Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
 
@@ -521,7 +517,6 @@ namespace WindowsTools.Views.Pages
                                         break;
                                     }
                                 }
-                                return;
                             }
                         }
                         // 更新下载失败
@@ -531,6 +526,7 @@ namespace WindowsTools.Views.Pages
                             {
                                 if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                 {
+                                    availableUpdateItem.IsUpdateCanceled = false;
                                     availableUpdateItem.IsUpdating = false;
                                     Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
 
@@ -540,72 +536,93 @@ namespace WindowsTools.Views.Pages
                                     break;
                                 }
                             }
-                            return;
                         }
 
                         // 移除更新下载任务
                         downloadJobDict.Remove(updateItem.UpdateID);
 
-                        // 后面再安装更新
-                        IInstallationResult installationResult = await Task.Run(() =>
+                        // 保证更新下载成功后再进行安装更新
+                        if (updateResult)
                         {
-                            try
+                            // 后面再安装更新
+                            IInstallationResult installationResult = await Task.Run(() =>
                             {
-                                AutoResetEvent installEvent = new(false);
-
-                                IInstallationJob installationJob = null;
-                                IUpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller();
-                                updateInstaller.Updates = updateCollection;
-                                InstallationCompletedCallback installationCompletedCallback = new();
-                                InstallationProgressChangedCallback installationProgressChangedCallback = new();
-                                installationCompletedCallback.InstallationCompleted += (sender, args) => installEvent.Set();
-                                installationProgressChangedCallback.InstallationProgressChanged += (sender, args) => OnInstallationProgressChanged(sender, args, updateItem);
-                                installationJob = updateInstaller.BeginInstall(installationProgressChangedCallback, installationCompletedCallback, null);
-
-                                if (!installationJobDict.ContainsKey(updateItem.UpdateID))
+                                try
                                 {
-                                    installationJobDict.Add(updateItem.UpdateID, installationJob);
-                                }
+                                    AutoResetEvent installEvent = new(false);
 
-                                installEvent.WaitOne();
-                                installEvent.Dispose();
-                                return updateInstaller.EndInstall(installationJob);
-                            }
-                            catch (Exception e)
-                            {
-                                LogService.WriteLog(EventLevel.Error, "Install updates failed", e);
-                                return null;
-                            }
-                        });
+                                    IInstallationJob installationJob = null;
+                                    UpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller() as UpdateInstaller;
+                                    updateInstaller.Updates = updateCollection;
+                                    updateInstaller.ForceQuiet = true;
+                                    InstallationCompletedCallback installationCompletedCallback = new();
+                                    InstallationProgressChangedCallback installationProgressChangedCallback = new();
+                                    installationCompletedCallback.InstallationCompleted += (sender, args) => installEvent.Set();
+                                    installationProgressChangedCallback.InstallationProgressChanged += (sender, args) => OnInstallationProgressChanged(sender, args, updateItem);
+                                    installationJob = updateInstaller.BeginInstall(installationProgressChangedCallback, installationCompletedCallback, null);
 
-                        if (installationResult is not null)
-                        {
-                            // 更新安装成功
-                            if (installationResult.ResultCode is OperationResultCode.orcSucceeded)
-                            {
-                                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                                {
-                                    if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                    if (!installationJobDict.ContainsKey(updateItem.UpdateID))
                                     {
-                                        availableUpdateItem.UpdatePercentage = 100;
-                                        availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallCompleted");
-                                        break;
+                                        installationJobDict.Add(updateItem.UpdateID, installationJob);
+                                    }
+
+                                    installEvent.WaitOne();
+                                    installEvent.Dispose();
+                                    return updateInstaller.EndInstall(installationJob);
+                                }
+                                catch (Exception e)
+                                {
+                                    LogService.WriteLog(EventLevel.Error, "Install updates failed", e);
+                                    return null;
+                                }
+                            });
+
+                            if (installationResult is not null)
+                            {
+                                // 更新安装成功
+                                if (installationResult.ResultCode is OperationResultCode.orcSucceeded)
+                                {
+                                    foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                                    {
+                                        if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            availableUpdateItem.UpdatePercentage = 100;
+                                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallCompleted");
+                                            break;
+                                        }
                                     }
                                 }
-                            }
-                            // 更新安装已取消
-                            else if (downloadResult.ResultCode is OperationResultCode.orcAborted)
-                            {
-                                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                                // 更新安装已取消
+                                else if (downloadResult.ResultCode is OperationResultCode.orcAborted)
                                 {
-                                    if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                    foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                                     {
-                                        availableUpdateItem.IsUpdateCanceled = false;
-                                        availableUpdateItem.IsUpdating = false;
-                                        availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallCanceled");
+                                        if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            availableUpdateItem.IsUpdateCanceled = false;
+                                            availableUpdateItem.IsUpdating = false;
+                                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallCanceled");
+                                        }
                                     }
                                 }
-                                return;
+                                // 更新安装失败
+                                else
+                                {
+                                    foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                                    {
+                                        if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            availableUpdateItem.IsUpdateCanceled = false;
+                                            availableUpdateItem.IsUpdating = false;
+                                            Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
+
+                                            availableUpdateItem.UpdateProgress = exception is not null
+                                                ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithInformation"), exception.Message)
+                                                : string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithCode"), installationResult.HResult);
+                                            break;
+                                        }
+                                    }
+                                }
                             }
                             // 更新安装失败
                             else
@@ -614,6 +631,7 @@ namespace WindowsTools.Views.Pages
                                 {
                                     if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                     {
+                                        availableUpdateItem.IsUpdateCanceled = false;
                                         availableUpdateItem.IsUpdating = false;
                                         Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
 
@@ -624,31 +642,15 @@ namespace WindowsTools.Views.Pages
                                     }
                                 }
                             }
-                        }
-                        // 更新安装失败
-                        else
-                        {
-                            foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                            {
-                                if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    availableUpdateItem.IsUpdating = false;
-                                    Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
 
-                                    availableUpdateItem.UpdateProgress = exception is not null
-                                        ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithInformation"), exception.Message)
-                                        : string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithCode"), installationResult.HResult);
-                                    break;
-                                }
-                            }
+                            // 移除更新安装任务
+                            installationJobDict.Remove(updateItem.UpdateID);
                         }
 
-                        // 移除更新安装任务
-                        installationJobDict.Remove(updateItem.UpdateID);
-
-                        IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => !item.IsUpdating && !item.UpdateInformation.IsHidden);
-                        IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => !item.IsUpdating);
-                        IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsUpdating && !item.IsUpdateCanceled);
+                        // 当前更新的下载和安装所有步骤都已完成
+                        IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+                        IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+                        IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
 
                         // 所有更新下载、安装和卸载完成，恢复检查更新功能
                         if (downloadJobDict.Count is 0 && installationJobDict.Count is 0 && uninstallationJobDict.Count is 0)
@@ -682,9 +684,9 @@ namespace WindowsTools.Views.Pages
                     }
                 }
 
-                IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => !item.IsUpdating && !item.UpdateInformation.IsHidden);
-                IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => !item.IsUpdating);
-                IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsUpdating && !item.IsUpdateCanceled);
+                IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+                IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+                IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
             }
         }
 
@@ -698,8 +700,9 @@ namespace WindowsTools.Views.Pages
             {
                 Task.Run(() =>
                 {
-                    IUpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller();
+                    UpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller() as UpdateInstaller;
                     updateInstaller.Updates = new UpdateCollection { updateItem.UpdateInformation.Update };
+                    updateInstaller.ForceQuiet = true;
                     InstallationCompletedCallback unInstallationCompletedCallback = new();
                     InstallationProgressChangedCallback unInstallationProgressChangedCallback = new();
                     unInstallationCompletedCallback.InstallationCompleted += (sender, args) =>
@@ -875,7 +878,8 @@ namespace WindowsTools.Views.Pages
                     try
                     {
                         updateSession.ClientApplicationID = "WindowsTools:" + Guid.NewGuid().ToString();
-                        updateSearcher = updateSession.CreateUpdateSearcher();
+                        updateSearcher = updateSession.CreateUpdateSearcher() as UpdateSearcher;
+                        updateSearcher.IgnoreDownloadPriority = true;
                         WindowsUpdateAgentInfo windowsUpdateAgentInfo = new();
                         object apiMajorVersion = windowsUpdateAgentInfo.GetInfo("ApiMajorVersion");
                         object apiMinorVersion = windowsUpdateAgentInfo.GetInfo("ApiMinorVersion");
@@ -977,9 +981,9 @@ namespace WindowsTools.Views.Pages
                 updateItem.IsSelected = true;
             }
 
-            IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => !item.IsUpdating && !item.UpdateInformation.IsHidden);
-            IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => !item.IsUpdating);
-            IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsUpdating && !item.IsUpdateCanceled);
+            IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+            IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+            IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
         }
 
         /// <summary>
@@ -1056,9 +1060,9 @@ namespace WindowsTools.Views.Pages
                     }
                 }
 
-                IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => !item.IsUpdating && !item.UpdateInformation.IsHidden);
-                IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => !item.IsUpdating);
-                IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsUpdating && !item.IsUpdateCanceled);
+                IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+                IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+                IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
             }
         }
 
@@ -1068,117 +1072,96 @@ namespace WindowsTools.Views.Pages
         private void OnAvailableInstallClicked(object sender, RoutedEventArgs args)
         {
             List<UpdateModel> installList = AvailableUpdateCollection.Where(item => item.IsSelected is true).ToList();
-            bool isUpdating = false;
 
+            foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+            {
+                availableUpdateItem.IsSelected = false;
+            }
+
+            IsCheckUpdateEnabled = false;
             foreach (UpdateModel installItem in installList)
             {
-                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                if (!installItem.IsUpdating)
                 {
-                    if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                    // 更新更新项的状态
+                    foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                     {
-                        if (!availableUpdateItem.IsUpdating)
+                        if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase) && !availableUpdateItem.IsUpdating)
                         {
-                            isUpdating = true;
                             availableUpdateItem.IsUpdating = true;
+                            availableUpdateItem.IsUpdateCanceled = false;
                             availableUpdateItem.UpdatePercentage = 0;
                             availableUpdateItem.IsUpdatePreparing = true;
-                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("Updatepreparing");
+                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdatePreparing");
                             break;
                         }
                     }
-                }
-            }
 
-            if (isUpdating)
-            {
-                IsCheckUpdateEnabled = false;
-                foreach (UpdateModel installItem in installList)
-                {
-                    if (!installItem.IsUpdating)
+                    Task.Run(() =>
                     {
-                        Task.Run(() =>
+                        AutoResetEvent updateProgressEvent = new(false);
+                        bool updateResult = false;
+                        UpdateCollection updateCollection = new() { installItem.UpdateInformation.Update };
+
+                        // 先下载更新
+                        IDownloadResult downloadResult = null;
+
+                        try
                         {
-                            AutoResetEvent updateProgressEvent = new(false);
-                            bool updateResult = false;
-                            UpdateCollection updateCollection = new() { installItem.UpdateInformation.Update };
+                            AutoResetEvent downloadEvent = new(false);
 
-                            // 先下载更新
-                            IDownloadResult downloadResult = null;
+                            IDownloadJob downloadJob = null;
+                            UpdateDownloader updateDownloader = updateSession.CreateUpdateDownloader();
+                            updateDownloader.Updates = updateCollection;
 
-                            try
+                            DownloadProgressChangedCallback downloadProgressChangedCallback = new();
+                            DownloadCompletedCallback downloadCompletedCallback = new();
+                            downloadProgressChangedCallback.DownloadProgressChanged += (sender, args) => OnDownloadProgressChanged(sender, args, installItem);
+                            downloadCompletedCallback.DownloadCompleted += (sender, args) => downloadEvent.Set();
+                            downloadJob = updateDownloader.BeginDownload(downloadProgressChangedCallback, downloadCompletedCallback, null);
+
+                            if (!downloadJobDict.ContainsKey(installItem.UpdateID))
                             {
-                                AutoResetEvent downloadEvent = new(false);
+                                downloadJobDict.Add(installItem.UpdateID, downloadJob);
+                            }
 
-                                IDownloadJob downloadJob = null;
-                                UpdateDownloader updateDownloader = updateSession.CreateUpdateDownloader();
-                                updateDownloader.Updates = updateCollection;
+                            downloadEvent.WaitOne();
+                            downloadEvent.Dispose();
+                            downloadResult = updateDownloader.EndDownload(downloadJob);
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, "Download updates failed", e);
+                        }
 
-                                DownloadProgressChangedCallback downloadProgressChangedCallback = new();
-                                DownloadCompletedCallback downloadCompletedCallback = new();
-                                downloadProgressChangedCallback.DownloadProgressChanged += (sender, args) => OnDownloadProgressChanged(sender, args, installItem);
-                                downloadCompletedCallback.DownloadCompleted += (sender, args) => downloadEvent.Set();
-                                downloadJob = updateDownloader.BeginDownload(downloadProgressChangedCallback, downloadCompletedCallback, null);
-
-                                if (!downloadJobDict.ContainsKey(installItem.UpdateID))
+                        synchronizationContext.Post(_ =>
+                        {
+                            if (downloadResult is not null)
+                            {
+                                // 更新下载成功
+                                if (downloadResult.ResultCode is OperationResultCode.orcSucceeded)
                                 {
-                                    downloadJobDict.Add(installItem.UpdateID, downloadJob);
+                                    foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                                    {
+                                        if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            availableUpdateItem.UpdatePercentage = 50;
+                                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadCompleted");
+                                            break;
+                                        }
+                                    }
+                                    updateResult = true;
                                 }
-
-                                downloadEvent.WaitOne();
-                                downloadEvent.Dispose();
-                                downloadResult = updateDownloader.EndDownload(downloadJob);
-                            }
-                            catch (Exception e)
-                            {
-                                LogService.WriteLog(EventLevel.Error, "Download updates failed", e);
-                            }
-
-                            synchronizationContext.Post(_ =>
-                            {
-                                if (downloadResult is not null)
+                                // 更新下载已取消
+                                else if (downloadResult.ResultCode is OperationResultCode.orcAborted)
                                 {
-                                    // 更新下载成功
-                                    if (downloadResult.ResultCode is OperationResultCode.orcSucceeded)
+                                    foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                                     {
-                                        foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                                        if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                         {
-                                            if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                            {
-                                                availableUpdateItem.UpdatePercentage = 50;
-                                                availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadCompleted");
-                                                break;
-                                            }
-                                        }
-                                        updateResult = true;
-                                    }
-                                    // 更新下载已取消
-                                    else if (downloadResult.ResultCode is OperationResultCode.orcAborted)
-                                    {
-                                        foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                                        {
-                                            if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                            {
-                                                availableUpdateItem.IsUpdateCanceled = false;
-                                                availableUpdateItem.IsUpdating = false;
-                                                availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadCanceled");
-                                            }
-                                        }
-                                    }
-                                    // 更新下载失败
-                                    else
-                                    {
-                                        foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                                        {
-                                            if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                            {
-                                                availableUpdateItem.IsUpdating = false;
-                                                Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
-
-                                                availableUpdateItem.UpdateProgress = exception is not null
-                                                    ? string.Format(ResourceService.UpdateManagerResource.GetString("DownloadFailedWithInformation"), exception.Message)
-                                                    : string.Format(ResourceService.UpdateManagerResource.GetString("DownloadFailedWithCode"), downloadResult.HResult);
-                                                break;
-                                            }
+                                            availableUpdateItem.IsUpdateCanceled = false;
+                                            availableUpdateItem.IsUpdating = false;
+                                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadCanceled");
                                         }
                                     }
                                 }
@@ -1189,6 +1172,7 @@ namespace WindowsTools.Views.Pages
                                     {
                                         if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                         {
+                                            availableUpdateItem.IsUpdateCanceled = false;
                                             availableUpdateItem.IsUpdating = false;
                                             Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
 
@@ -1199,23 +1183,37 @@ namespace WindowsTools.Views.Pages
                                         }
                                     }
                                 }
-
-                                updateProgressEvent.Set();
-                            }, null);
-
-                            updateProgressEvent.WaitOne();
-
-                            if (updateResult)
-                            {
-                                updateResult = false;
                             }
+                            // 更新下载失败
                             else
                             {
-                                return;
+                                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                                {
+                                    if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        availableUpdateItem.IsUpdateCanceled = false;
+                                        availableUpdateItem.IsUpdating = false;
+                                        Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
+
+                                        availableUpdateItem.UpdateProgress = exception is not null
+                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("DownloadFailedWithInformation"), exception.Message)
+                                            : string.Format(ResourceService.UpdateManagerResource.GetString("DownloadFailedWithCode"), downloadResult.HResult);
+                                        break;
+                                    }
+                                }
                             }
 
-                            // 移除更新下载任务
-                            downloadJobDict.Remove(installItem.UpdateID);
+                            updateProgressEvent.Set();
+                        }, null);
+
+                        updateProgressEvent.WaitOne();
+
+                        // 移除更新下载任务
+                        downloadJobDict.Remove(installItem.UpdateID);
+
+                        // 保证更新下载成功后再进行安装更新
+                        if (updateResult)
+                        {
                             IInstallationResult installationResult = null;
 
                             try
@@ -1223,8 +1221,9 @@ namespace WindowsTools.Views.Pages
                                 AutoResetEvent installEvent = new(false);
 
                                 IInstallationJob installationJob = null;
-                                IUpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller();
+                                UpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller() as UpdateInstaller;
                                 updateInstaller.Updates = updateCollection;
+                                updateInstaller.ForceQuiet = true;
                                 InstallationCompletedCallback installationCompletedCallback = new();
                                 InstallationProgressChangedCallback installationProgressChangedCallback = new();
                                 installationCompletedCallback.InstallationCompleted += (sender, args) => installEvent.Set();
@@ -1274,7 +1273,6 @@ namespace WindowsTools.Views.Pages
                                                 availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallCanceled");
                                             }
                                         }
-                                        return;
                                     }
                                     // 更新安装失败
                                     else
@@ -1283,6 +1281,7 @@ namespace WindowsTools.Views.Pages
                                         {
                                             if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                             {
+                                                availableUpdateItem.IsUpdateCanceled = false;
                                                 availableUpdateItem.IsUpdating = false;
                                                 Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
 
@@ -1301,6 +1300,7 @@ namespace WindowsTools.Views.Pages
                                     {
                                         if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                         {
+                                            availableUpdateItem.IsUpdateCanceled = false;
                                             availableUpdateItem.IsUpdating = false;
                                             Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
 
@@ -1320,23 +1320,28 @@ namespace WindowsTools.Views.Pages
 
                             // 移除更新安装任务
                             installationJobDict.Remove(installItem.UpdateID);
+                        }
 
-                            synchronizationContext.Post(_ =>
+                        // 当前更新的下载和安装所有步骤都已完成
+                        synchronizationContext.Post(_ =>
+                        {
+                            IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+                            IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+                            IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
+
+                            // 所有更新下载、安装和卸载完成，恢复检查更新功能
+                            if (downloadJobDict.Count is 0 && installationJobDict.Count is 0 && uninstallationJobDict.Count is 0)
                             {
-                                IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => !item.IsUpdating && !item.UpdateInformation.IsHidden);
-                                IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => !item.IsUpdating);
-                                IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsUpdating && !item.IsUpdateCanceled);
-
-                                // 所有更新下载、安装和卸载完成，恢复检查更新功能
-                                if (downloadJobDict.Count is 0 && installationJobDict.Count is 0 && uninstallationJobDict.Count is 0)
-                                {
-                                    IsCheckUpdateEnabled = true;
-                                }
-                            }, null);
-                        });
-                    }
+                                IsCheckUpdateEnabled = true;
+                            }
+                        }, null);
+                    });
                 }
             }
+
+            IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+            IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+            IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
         }
 
         /// <summary>
@@ -1346,50 +1351,49 @@ namespace WindowsTools.Views.Pages
         {
             List<UpdateModel> cancelList = AvailableUpdateCollection.Where(item => item.IsSelected is true).ToList();
 
+            foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+            {
+                availableUpdateItem.IsSelected = false;
+            }
+
             foreach (UpdateModel cancelItem in cancelList)
             {
+                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                {
+                    if (availableUpdateItem.UpdateID.Equals(cancelItem.UpdateID, StringComparison.OrdinalIgnoreCase) && availableUpdateItem.IsUpdating)
+                    {
+                        availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdateCanceling");
+                        availableUpdateItem.IsUpdateCanceled = true;
+                        break;
+                    }
+                }
+
                 Task.Run(() =>
                 {
-                    bool cancelResult = false;
-
                     try
                     {
                         if (downloadJobDict.TryGetValue(cancelItem.UpdateID, out IDownloadJob downloadJob))
                         {
                             downloadJob.RequestAbort();
                             downloadJobDict.Remove(cancelItem.UpdateID);
-                            cancelResult = true;
                         }
 
                         if (installationJobDict.TryGetValue(cancelItem.UpdateID, out IInstallationJob installationJob))
                         {
                             installationJob.RequestAbort();
                             installationJobDict.Remove(cancelItem.UpdateID);
-                            cancelResult = true;
                         }
                     }
                     catch (Exception e)
                     {
                         LogService.WriteLog(EventLevel.Error, "Cancel install update failed", e);
                     }
-
-                    if (cancelResult)
-                    {
-                        synchronizationContext.Post(_ =>
-                        {
-                            foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                            {
-                                if (availableUpdateItem.UpdateID.Equals(cancelItem.UpdateID, StringComparison.OrdinalIgnoreCase) && availableUpdateItem.IsUpdating)
-                                {
-                                    availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdateCanceling");
-                                    availableUpdateItem.IsUpdateCanceled = true;
-                                    break;
-                                }
-                            }
-                        }, null);
-                    }
                 });
             }
+
+            IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+            IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+            IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
         }
 
         // TODO:未完成
@@ -1439,8 +1443,9 @@ namespace WindowsTools.Views.Pages
 
                         try
                         {
-                            IUpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller();
+                            UpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller() as UpdateInstaller;
                             updateInstaller.Updates = new UpdateCollection { updateItem.UpdateInformation.Update };
+                            updateInstaller.ForceQuiet = true;
                             InstallationCompletedCallback unInstallationCompletedCallback = new();
                             InstallationProgressChangedCallback unInstallationProgressChangedCallback = new();
                             unInstallationCompletedCallback.InstallationCompleted += (sender, args) => autoResetEvent.Set();
@@ -1742,6 +1747,7 @@ namespace WindowsTools.Views.Pages
             List<UpdateModel> availableUpdateList = [];
             List<UpdateModel> installedUpdateList = [];
             List<UpdateModel> hiddenUpdateList = [];
+            List<UpdateModel> updateHistoryList = [];
 
             bool searchResult = await Task.Run(() =>
             {
@@ -1750,11 +1756,12 @@ namespace WindowsTools.Views.Pages
                 // 设置搜索结果中是否接收已替代的更新
                 updateSearcher.IncludePotentiallySupersededUpdates = IsIncludePotentiallySupersededUpdate;
                 updateSearcher.ServerSelection = ServerSelection.ssDefault;
+                updateSearcher.IgnoreDownloadPriority = true;
 
                 // 设置更新源
-                foreach (IUpdateService updateService in updateServiceManager.Services)
+                foreach (IUpdateService2 updateService in updateServiceManager.Services)
                 {
-                    if (updateService.Name.Equals(SelectedUpdateSource.Key))
+                    if (updateService.Name.Equals(SelectedUpdateSource.Key, StringComparison.OrdinalIgnoreCase))
                     {
                         updateSearcher.ServiceID = updateService.ServiceID;
                         break;
@@ -1772,6 +1779,7 @@ namespace WindowsTools.Views.Pages
                     searchEvent.Dispose();
                     ISearchResult searchResult = updateSearcher.EndSearch(searchJob);
 
+                    // 搜索更新内容
                     if (searchResult is not null)
                     {
                         // 读取已搜索到的更新
@@ -1798,7 +1806,7 @@ namespace WindowsTools.Views.Pages
                                 SupportURL = update.SupportUrl,
                                 Title = update.Title,
                                 UpdateType = update.Type,
-                                UpdateID = update.Identity.UpdateID,
+                                UpdateID = string.IsNullOrEmpty(update.Identity.UpdateID) ? Guid.NewGuid().ToString() : update.Identity.UpdateID,
                             };
 
                             foreach (object item in update.CveIDs)
@@ -1845,6 +1853,14 @@ namespace WindowsTools.Views.Pages
                                 IsUpdateCanceled = false,
                                 IsUpdatePreparing = false,
                                 UpdatePercentage = 0,
+                                DriverInformation = new DriverInformation(),
+                                DeviceProblemNumber = string.Empty,
+                                DriverClass = string.Empty,
+                                DriverHardwareID = string.Empty,
+                                DriverManufacturer = string.Empty,
+                                DriverModel = string.Empty,
+                                DriverProvider = string.Empty,
+                                DriverVerDate = string.Empty,
                             };
 
                             if (updateInformation.UpdateType is UpdateType.utSoftware)
@@ -1854,6 +1870,31 @@ namespace WindowsTools.Views.Pages
                             else if (updateInformation.UpdateType is UpdateType.utDriver)
                             {
                                 updateItem.UpdateType = ResourceService.UpdateManagerResource.GetString("UpdateTypeDriver");
+                                IWindowsDriverUpdate5 windowsDriverUpdate = update as IWindowsDriverUpdate5;
+
+                                if (windowsDriverUpdate is not null)
+                                {
+                                    DriverInformation driverInformation = new()
+                                    {
+                                        DeviceProblemNumber = windowsDriverUpdate.DeviceProblemNumber,
+                                        DriverClass = windowsDriverUpdate.DriverClass,
+                                        DriverHardwareID = windowsDriverUpdate.DriverHardwareID,
+                                        DriverManufacturer = windowsDriverUpdate.DriverManufacturer,
+                                        DriverModel = windowsDriverUpdate.DriverModel,
+                                        DriverProvider = windowsDriverUpdate.DriverProvider,
+                                        DriverVerDate = windowsDriverUpdate.DriverVerDate,
+                                        WindowsDriverUpdate = windowsDriverUpdate
+                                    };
+
+                                    updateItem.DriverInformation = driverInformation;
+                                    updateItem.DeviceProblemNumber = Convert.ToString(driverInformation.DriverManufacturer);
+                                    updateItem.DriverClass = string.IsNullOrEmpty(driverInformation.DriverClass) ? ResourceService.UpdateManagerResource.GetString("Unknown") : driverInformation.DriverClass;
+                                    updateItem.DriverHardwareID = string.IsNullOrEmpty(driverInformation.DriverHardwareID) ? ResourceService.UpdateManagerResource.GetString("Unknown") : driverInformation.DriverHardwareID;
+                                    updateItem.DriverManufacturer = string.IsNullOrEmpty(driverInformation.DriverManufacturer) ? ResourceService.UpdateManagerResource.GetString("Unknown") : driverInformation.DriverManufacturer;
+                                    updateItem.DriverModel = string.IsNullOrEmpty(driverInformation.DriverModel) ? ResourceService.UpdateManagerResource.GetString("Unknown") : driverInformation.DriverModel;
+                                    updateItem.DriverProvider = string.IsNullOrEmpty(driverInformation.DriverProvider) ? ResourceService.UpdateManagerResource.GetString("Unknown") : driverInformation.DriverProvider;
+                                    updateItem.DriverVerDate = driverInformation.DriverVerDate.ToString();
+                                }
                             }
                             else
                             {
@@ -1885,6 +1926,42 @@ namespace WindowsTools.Views.Pages
                         }
                         result = true;
                     }
+
+                    // 获取更新记录
+                    int updateHistoryCount = updateSearcher.GetTotalHistoryCount();
+
+                    if (updateHistoryCount > 0)
+                    {
+                        foreach (IUpdateHistoryEntry2 updateHistoryEntry in updateSearcher.QueryHistory(0, updateHistoryCount))
+                        {
+                            if (!string.IsNullOrEmpty(updateHistoryEntry.Title))
+                            {
+                                string status = GetStatus(updateHistoryEntry.ResultCode, updateHistoryEntry.HResult);
+
+                                UpdateHistoryInformation updateHistoryInformation = new()
+                                {
+                                    ClientApplicationID = updateHistoryEntry.ClientApplicationID,
+                                    Date = updateHistoryEntry.Date,
+                                    HResult = updateHistoryEntry.HResult,
+                                    OperationResultCode = updateHistoryEntry.ResultCode,
+                                    SupportUrl = updateHistoryEntry.SupportUrl,
+                                    Title = updateHistoryEntry.Title,
+                                    UpdateHistoryEntry = updateHistoryEntry,
+                                    UpdateID = !string.IsNullOrEmpty(updateHistoryEntry.UpdateIdentity.UpdateID) ? Guid.NewGuid().ToString() : updateHistoryEntry.UpdateIdentity.UpdateID
+                                };
+
+                                UpdateModel updateItem = new()
+                                {
+                                    UpdateHistoryInformation = updateHistoryInformation,
+                                    Date = updateHistoryInformation.Date.ToString(),
+                                    HistoryUpdateResult = GetStatus(updateHistoryInformation.OperationResultCode, updateHistoryInformation.HResult),
+                                    SupportURL = updateHistoryInformation.SupportUrl,
+                                    Title = updateHistoryInformation.Title,
+                                    UpdateID = updateHistoryInformation.UpdateID
+                                };
+                            }
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
@@ -1897,71 +1974,34 @@ namespace WindowsTools.Views.Pages
             if (searchResult)
             {
                 AvailableUpdateCollection.Clear();
-                foreach (UpdateModel updateItem in availableUpdateList)
+                foreach (UpdateModel availableUpdateItem in availableUpdateList)
                 {
-                    AvailableUpdateCollection.Add(updateItem);
+                    AvailableUpdateCollection.Add(availableUpdateItem);
                 }
 
                 InstalledUpdateCollection.Clear();
-                foreach (UpdateModel updateItem in installedUpdateList)
+                foreach (UpdateModel installedUpdateItem in installedUpdateList)
                 {
-                    InstalledUpdateCollection.Add(updateItem);
+                    InstalledUpdateCollection.Add(installedUpdateItem);
                 }
 
                 HiddenUpdateCollection.Clear();
-                foreach (UpdateModel updateItem in hiddenUpdateList)
+                foreach (UpdateModel hiddenUpdateItem in hiddenUpdateList)
                 {
-                    HiddenUpdateCollection.Add(updateItem);
+                    HiddenUpdateCollection.Add(hiddenUpdateItem);
                 }
 
-                // TODO: 未完成，需要更改
-                GetUpdateHistory();
+                UpdateHistoryCollection.Clear();
+                foreach (UpdateModel updateHistoryItem in updateHistoryList)
+                {
+                    UpdateHistoryCollection.Add(updateHistoryItem);
+                }
             }
 
             IsCheckUpdateEnabled = true;
             IsChecking = false;
         }
 
-        // TODO:未完成
-        /// <summary>
-        /// 获取更新历史记录
-        /// </summary>
-        private void GetUpdateHistory()
-        {
-            UpdateHistoryCollection.Clear();
-
-            Task.Run(() =>
-            {
-                int updateHistoryCount = updateSearcher.GetTotalHistoryCount();
-
-                if (updateHistoryCount > 0)
-                {
-                    foreach (IUpdateHistoryEntry2 updateHistoryEntry in updateSearcher.QueryHistory(0, updateHistoryCount))
-                    {
-                        if (!string.IsNullOrEmpty(updateHistoryEntry.Title))
-                        {
-                            string status = GetStatus(updateHistoryEntry.ResultCode, updateHistoryEntry.HResult);
-
-                            synchronizationContext.Post(_ =>
-                            {
-                                // TODO : 未完成
-                                UpdateModel updateItem = new()
-                                {
-                                    Title = updateHistoryEntry.Title,
-                                    Description = updateHistoryEntry.Description,
-                                    UpdateID = updateHistoryEntry.UpdateIdentity.UpdateID,
-                                    SupportURL = updateHistoryEntry.SupportUrl,
-                                };
-
-                                UpdateHistoryCollection.Add(updateItem);
-                            }, null);
-                        }
-                    }
-                }
-            });
-        }
-
-        // TODO:未完成
         /// <summary>
         /// 获取更新的安装状态
         /// </summary>
