@@ -153,6 +153,41 @@ namespace WindowsTools.Models
         }
 
         /// <summary>
+        /// 是否在准备安装当前更新
+        /// </summary>
+        private bool _isUpdatePreparing;
+
+        public bool IsUpdatePreparing
+        {
+            get { return _isUpdatePreparing; }
+
+            set
+            {
+                if (!Equals(_isUpdatePreparing, value))
+                {
+                    _isUpdatePreparing = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsUpdatePreparing)));
+                }
+            }
+        }
+
+        private bool _isUpdateCanceled;
+
+        public bool IsUpdateCanceled
+        {
+            get { return _isUpdateCanceled; }
+
+            set
+            {
+                if (!Equals(_isUpdateCanceled, value))
+                {
+                    _isUpdateCanceled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsUpdateCanceled)));
+                }
+            }
+        }
+
+        /// <summary>
         /// 更新进度
         /// </summary>
         private string _updateProgress;
@@ -167,6 +202,22 @@ namespace WindowsTools.Models
                 {
                     _updateProgress = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UpdateProgress)));
+                }
+            }
+        }
+
+        private double _updatePercentage;
+
+        public double UpdatePercentage
+        {
+            get { return _updatePercentage; }
+
+            set
+            {
+                if (!Equals(_updatePercentage, value))
+                {
+                    _updatePercentage = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UpdatePercentage)));
                 }
             }
         }

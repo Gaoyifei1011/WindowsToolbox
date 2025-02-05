@@ -368,11 +368,11 @@ namespace WindowsTools.Views.Pages
                 }
 
                 // 如果导航到更新页面，而且是非管理员模式，显示提示对话框
-                if (currentPageType.Equals(typeof(UpdateManagerPage)) && !RuntimeHelper.IsElevated)
-                {
-                    await ContentDialogHelper.ShowAsync(new NeedElevatedDialog(), this);
-                    NavigationFrom();
-                }
+                //if (currentPageType.Equals(typeof(UpdateManagerPage)) && !RuntimeHelper.IsElevated)
+                //{
+                //    await ContentDialogHelper.ShowAsync(new NeedElevatedDialog(), this);
+                //    NavigationFrom();
+                //}
             }
             catch (Exception e)
             {

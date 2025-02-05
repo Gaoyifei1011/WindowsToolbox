@@ -13,6 +13,7 @@
     xmlns:root="using:WindowsTools.Services.Root"
     xmlns:service="using:WindowsTools.Services.Controls.Settings"
     xmlns:sys="using:System"
+    Loaded="{x:Bind OnLoaded}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -70,12 +71,29 @@
 
                 <muxc:DropDownButton.Flyout>
                     <MenuFlyout Placement="Bottom">
-                        <MenuFlyoutItem Click="{x:Bind OnWindowsUpdateClicked}" Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('WindowsUpdate')}" />
+                        <MenuFlyoutItem Click="{x:Bind OnWindowsUpdateClicked}" Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('WindowsUpdate')}">
+
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE777;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+
                         <MenuFlyoutItem
                             Click="{x:Bind OnWIPSettingsClicked}"
                             Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('WIPSettings')}"
-                            ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('WIPSettingsToolTip')}" />
-                        <MenuFlyoutItem Click="{x:Bind OnWindowsUpdateInformationClicked}" Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('WindowsUpdateInformation')}" />
+                            ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('WIPSettingsToolTip')}">
+
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8A1;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+
+                        <MenuFlyoutItem Click="{x:Bind OnWindowsUpdateInformationClicked}" Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('WindowsUpdateInformation')}">
+
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE946;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                     </MenuFlyout>
                 </muxc:DropDownButton.Flyout>
 
@@ -242,7 +260,7 @@
                                     Margin="0,0,3,0"
                                     VerticalAlignment="Center"
                                     Click="{x:Bind OnAvailableHideClicked}"
-                                    IsEnabled="{x:Bind IsAvailableInstallEnabled, Mode=OneWay}"
+                                    IsEnabled="{x:Bind IsAvailableHideEnabled, Mode=OneWay}"
                                     Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Hide')}"
                                     Style="{StaticResource AppBarButtonStyle}"
                                     ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideUpdateToolTip')}">
@@ -253,14 +271,29 @@
                                 </AppBarButton>
 
                                 <AppBarButton
+                                    Margin="0,0,3,0"
                                     VerticalAlignment="Center"
                                     Click="{x:Bind OnAvailableInstallClicked}"
                                     IsEnabled="{x:Bind IsAvailableInstallEnabled, Mode=OneWay}"
                                     Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Install')}"
-                                    Style="{StaticResource AppBarButtonStyle}">
+                                    Style="{StaticResource AppBarButtonStyle}"
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('InstallSelectedUpdate')}">
 
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE896;" />
+                                    </AppBarButton.Icon>
+                                </AppBarButton>
+
+                                <AppBarButton
+                                    VerticalAlignment="Center"
+                                    Click="{x:Bind OnAvailableCancelInstallClicked}"
+                                    IsEnabled="{x:Bind IsAvailableCancelInstallEnabled, Mode=OneWay}"
+                                    Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Cancel')}"
+                                    Style="{StaticResource AppBarButtonStyle}"
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CancelSelectedUpdate')}">
+
+                                    <AppBarButton.Icon>
+                                        <FontIcon Glyph="&#xE711;" />
                                     </AppBarButton.Icon>
                                 </AppBarButton>
                             </StackPanel>
@@ -320,6 +353,7 @@
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
 
                                                 <CheckBox
@@ -342,7 +376,7 @@
 
                                                 <StackPanel
                                                     Grid.Column="1"
-                                                    Margin="0,12"
+                                                    Margin="0,12,20,12"
                                                     VerticalAlignment="Center"
                                                     Orientation="Vertical">
 
@@ -378,10 +412,20 @@
                                                     </TextBlock>
                                                 </StackPanel>
 
-                                                <StackPanel
+                                                <muxc:ProgressRing
                                                     Grid.Column="2"
+                                                    Width="32"
+                                                    Height="32"
+                                                    Margin="0,0,5,0"
+                                                    IsActive="{x:Bind IsUpdating, Mode=OneWay}"
+                                                    IsIndeterminate="{x:Bind IsUpdatePreparing, Mode=OneWay}"
+                                                    Visibility="{x:Bind IsUpdating, Mode=OneWay}"
+                                                    Value="{x:Bind UpdatePercentage, Mode=OneWay}" />
+
+                                                <StackPanel
+                                                    Grid.Column="3"
                                                     Height="30"
-                                                    Margin="20,0,-15,0"
+                                                    Margin="0,0,-15,0"
                                                     BorderBrush="{ThemeResource ButtonBorderBrush}"
                                                     BorderThickness="{ThemeResource ButtonBorderThemeThickness}"
                                                     CornerRadius="{ThemeResource ControlCornerRadius}"
@@ -403,9 +447,10 @@
                                                         VerticalContentAlignment="Center"
                                                         BorderThickness="0,0,1,0"
                                                         Command="{StaticResource AvailableCancelInstallCommand}"
-                                                        CommandParameter="{x:Bind}"
+                                                        CommandParameter="{x:Bind UpdateID}"
                                                         Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Cancel')}"
                                                         CornerRadius="0"
+                                                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsUpdateCanceled), Mode=OneWay}"
                                                         ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CancelUpdate')}"
                                                         Visibility="{x:Bind IsUpdating, Mode=OneWay}" />
 
@@ -437,21 +482,549 @@
                                                         <Button.Flyout>
                                                             <MenuFlyout Placement="Bottom">
                                                                 <MenuFlyoutItem
-                                                                    Command="{StaticResource CopyInformationCommand}"
+                                                                    Command="{StaticResource AvailableHideCommand}"
                                                                     CommandParameter="{x:Bind}"
-                                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CopyInformation')}" />
+                                                                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsUpdating), Mode=OneWay}"
+                                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideUpdate')}">
+
+                                                                    <MenuFlyoutItem.Icon>
+                                                                        <FontIcon Glyph="&#xED1A;" />
+                                                                    </MenuFlyoutItem.Icon>
+                                                                </MenuFlyoutItem>
+
+                                                                <MenuFlyoutSeparator />
+
+                                                                <MenuFlyoutItem
+                                                                    Command="{StaticResource CopyInformationCommand}"
+                                                                    CommandParameter="{x:Bind UpdateInformation}"
+                                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CopyInformation')}">
+
+                                                                    <MenuFlyoutItem.Icon>
+                                                                        <FontIcon Glyph="&#xE8C8;" />
+                                                                    </MenuFlyoutItem.Icon>
+                                                                </MenuFlyoutItem>
 
                                                                 <MenuFlyoutItem
                                                                     Command="{StaticResource OpenSupportUrlCommand}"
                                                                     CommandParameter="{x:Bind SupportURL}"
                                                                     IsEnabled="{x:Bind converter:ValueConverterHelper.StringToBooleanConvert(SupportURL)}"
-                                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('OpenSupportUrl')}" />
+                                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('OpenSupportUrl')}">
+
+                                                                    <MenuFlyoutItem.Icon>
+                                                                        <FontIcon Glyph="&#xE71B;" />
+                                                                    </MenuFlyoutItem.Icon>
+                                                                </MenuFlyoutItem>
                                                             </MenuFlyout>
                                                         </Button.Flyout>
                                                     </Button>
                                                 </StackPanel>
                                             </Grid>
                                         </muxc:Expander.Header>
+
+                                        <muxc:Expander.Content>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <FontIcon
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Description')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind Description}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('IsBeta')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind IsBeta}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('IsMandatory')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind IsMandatory}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="3"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="3"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MaxDownloadSize')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="3"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind MaxDownloadSize}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="4"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="4"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MinDownloadSize')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="4"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind MinDownloadSize}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="5"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="5"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MsrcSeverity')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="5"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind MsrcSeverity}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="6"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="6"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RecommendedCpuSpeed')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="6"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind RecommendedCpuSpeed}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="7"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="7"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RecommendedHardDiskSpace')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="7"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind RecommendedHardDiskSpace}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="8"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="8"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RecommendedMemory')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="8"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind RecommendedMemory}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="9"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="9"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RebootRequired')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="9"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind RebootRequired}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="10"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="10"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ReleaseNotes')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="10"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind ReleaseNotes}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="11"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="11"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateType')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="11"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind UpdateType}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="12"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="12"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CVEID')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="12"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
+                                                    TextWrapping="Wrap"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert (CveIDList.Count), Mode=OneWay}" />
+
+                                                <ListView
+                                                    Grid.Row="12"
+                                                    Grid.Column="2"
+                                                    ItemsSource="{x:Bind CveIDList}"
+                                                    SelectionMode="None"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(CveIDList.Count), Mode=OneWay}">
+
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                            <Setter Property="Background" Value="Transparent" />
+                                                            <Setter Property="Margin" Value="0" />
+                                                            <Setter Property="MinHeight" Value="0" />
+                                                            <Setter Property="Padding" Value="0" />
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate x:DataType="sys:String">
+                                                            <TextBlock
+                                                                Margin="0,0,0,3"
+                                                                Text="{x:Bind}"
+                                                                TextTrimming="CharacterEllipsis"
+                                                                TextWrapping="Wrap" />
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+
+                                                <FontIcon
+                                                    Grid.Row="13"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="13"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('KBArticleID')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="13"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
+                                                    TextWrapping="Wrap"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(KBArticleIDList.Count), Mode=OneWay}" />
+
+                                                <ListView
+                                                    Grid.Row="13"
+                                                    Grid.Column="2"
+                                                    ItemsSource="{x:Bind KBArticleIDList}"
+                                                    SelectionMode="None"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(KBArticleIDList.Count), Mode=OneWay}">
+
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                            <Setter Property="Background" Value="Transparent" />
+                                                            <Setter Property="Margin" Value="0" />
+                                                            <Setter Property="MinHeight" Value="0" />
+                                                            <Setter Property="Padding" Value="0,0,0,3" />
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate x:DataType="sys:String">
+                                                            <HyperlinkButton
+                                                                Margin="0,0,0,3"
+                                                                Command="{StaticResource OpenSupportUrlCommand}"
+                                                                CommandParameter="{x:Bind}"
+                                                                Style="{StaticResource HyperlinkButtonStyle}">
+
+                                                                <TextBlock
+                                                                    Text="{x:Bind}"
+                                                                    TextTrimming="CharacterEllipsis"
+                                                                    TextWrapping="Wrap" />
+                                                            </HyperlinkButton>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+
+                                                <FontIcon
+                                                    Grid.Row="14"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="14"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Language')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="14"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
+                                                    TextWrapping="Wrap"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(LanguageList.Count), Mode=OneWay}" />
+
+                                                <ListView
+                                                    Grid.Row="14"
+                                                    Grid.Column="2"
+                                                    ItemsSource="{x:Bind LanguageList}"
+                                                    SelectionMode="None"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(LanguageList.Count), Mode=OneWay}">
+
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                            <Setter Property="Background" Value="Transparent" />
+                                                            <Setter Property="Margin" Value="0" />
+                                                            <Setter Property="MinHeight" Value="0" />
+                                                            <Setter Property="Padding" Value="0" />
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate x:DataType="sys:String">
+                                                            <TextBlock
+                                                                Margin="0,0,0,3"
+                                                                Text="{x:Bind}"
+                                                                TextTrimming="CharacterEllipsis"
+                                                                TextWrapping="Wrap" />
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+
+                                                <FontIcon
+                                                    Grid.Row="15"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="15"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="15"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MoreInfo')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="15"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
+                                                    TextWrapping="Wrap"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(MoreInfoList.Count), Mode=OneWay}" />
+
+                                                <ListView
+                                                    Grid.Row="15"
+                                                    Grid.Column="2"
+                                                    ItemsSource="{x:Bind MoreInfoList}"
+                                                    SelectionMode="None"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(MoreInfoList.Count), Mode=OneWay}">
+
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                            <Setter Property="Background" Value="Transparent" />
+                                                            <Setter Property="Margin" Value="0" />
+                                                            <Setter Property="MinHeight" Value="0" />
+                                                            <Setter Property="Padding" Value="0" />
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate x:DataType="sys:String">
+                                                            <HyperlinkButton
+                                                                Margin="0,0,0,3"
+                                                                Command="{StaticResource OpenSupportUrlCommand}"
+                                                                CommandParameter="{x:Bind}"
+                                                                Style="{StaticResource HyperlinkButtonStyle}">
+
+                                                                <TextBlock
+                                                                    Text="{x:Bind}"
+                                                                    TextTrimming="CharacterEllipsis"
+                                                                    TextWrapping="Wrap" />
+                                                            </HyperlinkButton>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </Grid>
+                                        </muxc:Expander.Content>
                                     </muxc:Expander>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -693,13 +1266,23 @@
                                                                 <MenuFlyoutItem
                                                                     Command="{StaticResource CopyInformationCommand}"
                                                                     CommandParameter="{x:Bind}"
-                                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CopyInformation')}" />
+                                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CopyInformation')}">
+
+                                                                    <MenuFlyoutItem.Icon>
+                                                                        <FontIcon Glyph="&#xE8C8;" />
+                                                                    </MenuFlyoutItem.Icon>
+                                                                </MenuFlyoutItem>
 
                                                                 <MenuFlyoutItem
                                                                     Command="{StaticResource OpenSupportUrlCommand}"
                                                                     CommandParameter="{x:Bind SupportURL}"
                                                                     IsEnabled="{x:Bind converter:ValueConverterHelper.StringToBooleanConvert(SupportURL)}"
-                                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('OpenSupportUrl')}" />
+                                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('OpenSupportUrl')}">
+
+                                                                    <MenuFlyoutItem.Icon>
+                                                                        <FontIcon Glyph="&#xE71B;" />
+                                                                    </MenuFlyoutItem.Icon>
+                                                                </MenuFlyoutItem>
                                                             </MenuFlyout>
                                                         </Button.Flyout>
                                                     </Button>
