@@ -24,15 +24,18 @@
         <SolidColorBrush x:Key="ListViewItemBackgroundPressed" Color="Transparent" />
 
         <XamlUICommand x:Name="AvailableCancelInstallCommand" ExecuteRequested="{x:Bind OnAvailableCancelInstallExecuteRequested}" />
+        <XamlUICommand x:Name="AvailableCheckBoxClickCommand" ExecuteRequested="{x:Bind OnAvailableCheckClickExecuteRequested}" />
         <XamlUICommand x:Name="AvailableHideCommand" ExecuteRequested="{x:Bind OnAvailableHideExecuteRequested}" />
         <XamlUICommand x:Name="AvailableInstallCommand" ExecuteRequested="{x:Bind OnAvailableInstallExecuteRequested}" />
-        <XamlUICommand x:Name="AvailableCheckBoxClickCommand" ExecuteRequested="{x:Bind OnAvailableCheckClickExecuteRequested}" />
-        <XamlUICommand x:Name="InstalledUnInstallCommand" ExecuteRequested="{x:Bind OnInstalledUnInstallExecuteRequested}" />
-        <XamlUICommand x:Name="InstalledCheckBoxClickCommand" ExecuteRequested="{x:Bind OnInstalledCheckBoxClickExecuteRequested}" />
-        <XamlUICommand x:Name="HiddenShowCommand" ExecuteRequested="{x:Bind OnHiddenShowExecuteRequested}" />
-        <XamlUICommand x:Name="HiddenCheckBoxClickCommand" ExecuteRequested="{x:Bind OnHiddenCheckBoxClickExecuteRequested}" />
-        <XamlUICommand x:Name="OpenSupportUrlCommand" ExecuteRequested="{x:Bind OnOpenSupportUrlExecuteRequested}" />
         <XamlUICommand x:Name="CopyInformationCommand" ExecuteRequested="{x:Bind OnCopyInformationExecuteRequested}" />
+        <XamlUICommand x:Name="HiddenCheckBoxClickCommand" ExecuteRequested="{x:Bind OnHiddenCheckBoxClickExecuteRequested}" />
+        <XamlUICommand x:Name="HiddenShowCommand" ExecuteRequested="{x:Bind OnHiddenShowExecuteRequested}" />
+        <XamlUICommand x:Name="InstalledCancelUninstallCommand" ExecuteRequested="{x:Bind OnInstalledCancelUninstallExecuteRequested}" />
+        <XamlUICommand x:Name="InstalledCheckBoxClickCommand" ExecuteRequested="{x:Bind OnInstalledCheckBoxClickExecuteRequested}" />
+        <XamlUICommand x:Name="InstalledUninstallCommand" ExecuteRequested="{x:Bind OnInstalledUninstallExecuteRequested}" />
+        <XamlUICommand x:Name="LearnMoreCommand" ExecuteRequested="{x:Bind OnLearnMoreExecuteRequested}" />
+        <XamlUICommand x:Name="OpenSupportUrlCommand" ExecuteRequested="{x:Bind OnOpenSupportUrlExecuteRequested}" />
+        <XamlUICommand x:Name="UninstallWithCmdCommand" ExecuteRequested="{x:Bind OnUninstallWithCmdExecuteRequested}" />
     </Page.Resources>
 
     <Grid>
@@ -75,7 +78,7 @@
                         <MenuFlyoutItem Click="{x:Bind OnWindowsUpdateClicked}" Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('WindowsUpdate')}">
 
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE777;" />
+                                <FontIcon Glyph="&#xE895;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
 
@@ -291,7 +294,7 @@
                                     IsEnabled="{x:Bind IsAvailableCancelInstallEnabled, Mode=OneWay}"
                                     Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Cancel')}"
                                     Style="{StaticResource AppBarButtonStyle}"
-                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CancelSelectedUpdate')}">
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CancelInstallSelectedUpdate')}">
 
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE711;" />
@@ -452,7 +455,7 @@
                                                         Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Cancel')}"
                                                         CornerRadius="0"
                                                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsUpdateCanceled), Mode=OneWay}"
-                                                        ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CancelUpdate')}"
+                                                        ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CancelInstallUpdate')}"
                                                         Visibility="{x:Bind IsUpdating, Mode=OneWay}" />
 
                                                     <Button
@@ -1268,13 +1271,26 @@
 
                                 <AppBarButton
                                     VerticalAlignment="Center"
-                                    Click="{x:Bind OnInstalledUnInstallClicked}"
-                                    IsEnabled="{x:Bind IsInstalledUnInstallEnabled, Mode=OneWay}"
-                                    Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UnInstall')}"
+                                    Click="{x:Bind OnInstalledUninstallClicked}"
+                                    IsEnabled="{x:Bind IsInstalledUninstallEnabled, Mode=OneWay}"
+                                    Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Uninstall')}"
                                     Style="{StaticResource AppBarButtonStyle}">
 
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE74D;" />
+                                    </AppBarButton.Icon>
+                                </AppBarButton>
+
+                                <AppBarButton
+                                    VerticalAlignment="Center"
+                                    Click="{x:Bind OnInstalledCancelUninstallClicked}"
+                                    IsEnabled="{x:Bind IsInstalledCancelInstallEnabled, Mode=OneWay}"
+                                    Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Cancel')}"
+                                    Style="{StaticResource AppBarButtonStyle}"
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CancelUninstallSelectedUpdate')}">
+
+                                    <AppBarButton.Icon>
+                                        <FontIcon Glyph="&#xE711;" />
                                     </AppBarButton.Icon>
                                 </AppBarButton>
                             </StackPanel>
@@ -1402,15 +1418,30 @@
                                                     Orientation="Horizontal">
 
                                                     <ContentControl IsEnabled="{x:Bind UpdateInformation.IsUninstallable, Mode=OneWay}">
-                                                        <Button
-                                                            VerticalAlignment="Stretch"
-                                                            VerticalContentAlignment="Center"
-                                                            BorderThickness="0,0,1,0"
-                                                            Command="{StaticResource InstalledUnInstallCommand}"
-                                                            CommandParameter="{x:Bind}"
-                                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UnInstall')}"
-                                                            CornerRadius="0"
-                                                            IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsUpdating), Mode=OneWay}" />
+                                                        <Grid>
+                                                            <Button
+                                                                VerticalAlignment="Stretch"
+                                                                VerticalContentAlignment="Center"
+                                                                BorderThickness="0,0,1,0"
+                                                                Command="{StaticResource InstalledUninstallCommand}"
+                                                                CommandParameter="{x:Bind}"
+                                                                Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Uninstall')}"
+                                                                CornerRadius="0"
+                                                                ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UninstallUpdate')}"
+                                                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsUpdating), Mode=OneWay}" />
+
+                                                            <Button
+                                                                VerticalAlignment="Stretch"
+                                                                VerticalContentAlignment="Center"
+                                                                BorderThickness="0,0,1,0"
+                                                                Command="{StaticResource InstalledCancelUninstallCommand}"
+                                                                CommandParameter="{x:Bind UpdateID}"
+                                                                Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Cancel')}"
+                                                                CornerRadius="0"
+                                                                IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsUpdateCanceled), Mode=OneWay}"
+                                                                ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CancelUninstallUpdate')}"
+                                                                Visibility="{x:Bind IsUpdating, Mode=OneWay}" />
+                                                        </Grid>
                                                     </ContentControl>
 
                                                     <Button
@@ -1441,6 +1472,18 @@
                                                         <Button.Flyout>
                                                             <MenuFlyout Placement="Bottom">
                                                                 <MenuFlyoutItem
+                                                                    Command="{StaticResource UninstallWithCmdCommand}"
+                                                                    CommandParameter="{x:Bind Title}"
+                                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UninstallWithCmd')}">
+
+                                                                    <MenuFlyoutItem.Icon>
+                                                                        <FontIcon Glyph="&#xE756;" />
+                                                                    </MenuFlyoutItem.Icon>
+                                                                </MenuFlyoutItem>
+
+                                                                <MenuFlyoutSeparator />
+
+                                                                <MenuFlyoutItem
                                                                     Command="{StaticResource CopyInformationCommand}"
                                                                     CommandParameter="{x:Bind}"
                                                                     Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CopyInformation')}">
@@ -1466,6 +1509,687 @@
                                                 </StackPanel>
                                             </Grid>
                                         </muxc:Expander.Header>
+
+                                        <muxc:Expander.Content>
+                                            <StackPanel>
+                                                <!--  更新信息  -->
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+
+                                                    <FontIcon
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Description')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind Description}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="1"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('IsBeta')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind IsBeta}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="2"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="2"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('IsMandatory')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="2"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind IsMandatory}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="3"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="3"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MaxDownloadSize')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="3"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind MaxDownloadSize}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="4"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="4"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MinDownloadSize')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="4"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind MinDownloadSize}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="5"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="5"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MsrcSeverity')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="5"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind MsrcSeverity}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="6"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="6"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RecommendedCpuSpeed')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="6"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind RecommendedCpuSpeed}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="7"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="7"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RecommendedHardDiskSpace')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="7"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind RecommendedHardDiskSpace}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="8"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="8"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RecommendedMemory')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="8"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind RecommendedMemory}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="9"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="9"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RebootRequired')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="9"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind RebootRequired}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="10"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="10"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ReleaseNotes')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="10"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind ReleaseNotes}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="11"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="11"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateType')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="11"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind UpdateType}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="12"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="12"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CVEID')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="12"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
+                                                        TextWrapping="Wrap"
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert (CveIDList.Count), Mode=OneWay}" />
+
+                                                    <ListView
+                                                        Grid.Row="12"
+                                                        Grid.Column="2"
+                                                        ItemsSource="{x:Bind CveIDList}"
+                                                        SelectionMode="None"
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(CveIDList.Count), Mode=OneWay}">
+
+                                                        <ListView.ItemContainerStyle>
+                                                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                                <Setter Property="Margin" Value="0" />
+                                                                <Setter Property="MinHeight" Value="0" />
+                                                                <Setter Property="Padding" Value="0" />
+                                                            </Style>
+                                                        </ListView.ItemContainerStyle>
+
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate x:DataType="x:String">
+                                                                <TextBlock
+                                                                    Margin="0,0,0,3"
+                                                                    Text="{x:Bind}"
+                                                                    TextTrimming="CharacterEllipsis"
+                                                                    TextWrapping="Wrap" />
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+
+                                                    <FontIcon
+                                                        Grid.Row="13"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="13"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('KBArticleID')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="13"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
+                                                        TextWrapping="Wrap"
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(KBArticleIDList.Count), Mode=OneWay}" />
+
+                                                    <ListView
+                                                        Grid.Row="13"
+                                                        Grid.Column="2"
+                                                        ItemsSource="{x:Bind KBArticleIDList}"
+                                                        SelectionMode="None"
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(KBArticleIDList.Count), Mode=OneWay}">
+
+                                                        <ListView.ItemContainerStyle>
+                                                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                                <Setter Property="Margin" Value="0" />
+                                                                <Setter Property="MinHeight" Value="0" />
+                                                                <Setter Property="Padding" Value="0,0,0,3" />
+                                                            </Style>
+                                                        </ListView.ItemContainerStyle>
+
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate x:DataType="x:String">
+                                                                <HyperlinkButton
+                                                                    Margin="0,0,0,3"
+                                                                    Command="{StaticResource OpenSupportUrlCommand}"
+                                                                    CommandParameter="{x:Bind}"
+                                                                    Style="{StaticResource HyperlinkButtonStyle}">
+
+                                                                    <TextBlock
+                                                                        Text="{x:Bind}"
+                                                                        TextTrimming="CharacterEllipsis"
+                                                                        TextWrapping="Wrap" />
+                                                                </HyperlinkButton>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+
+                                                    <FontIcon
+                                                        Grid.Row="14"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="14"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="14"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Language')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="14"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
+                                                        TextWrapping="Wrap"
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(LanguageList.Count), Mode=OneWay}" />
+
+                                                    <ListView
+                                                        Grid.Row="14"
+                                                        Grid.Column="2"
+                                                        ItemsSource="{x:Bind LanguageList}"
+                                                        SelectionMode="None"
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(LanguageList.Count), Mode=OneWay}">
+
+                                                        <ListView.ItemContainerStyle>
+                                                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                                <Setter Property="Margin" Value="0" />
+                                                                <Setter Property="MinHeight" Value="0" />
+                                                                <Setter Property="Padding" Value="0" />
+                                                            </Style>
+                                                        </ListView.ItemContainerStyle>
+
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate x:DataType="x:String">
+                                                                <TextBlock
+                                                                    Margin="0,0,0,3"
+                                                                    Text="{x:Bind}"
+                                                                    TextTrimming="CharacterEllipsis"
+                                                                    TextWrapping="Wrap" />
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+
+                                                    <FontIcon
+                                                        Grid.Row="15"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="15"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="15"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MoreInfo')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="15"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
+                                                        TextWrapping="Wrap"
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(MoreInfoList.Count), Mode=OneWay}" />
+
+                                                    <ListView
+                                                        Grid.Row="15"
+                                                        Grid.Column="2"
+                                                        ItemsSource="{x:Bind MoreInfoList}"
+                                                        SelectionMode="None"
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(MoreInfoList.Count), Mode=OneWay}">
+
+                                                        <ListView.ItemContainerStyle>
+                                                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                                <Setter Property="Margin" Value="0" />
+                                                                <Setter Property="MinHeight" Value="0" />
+                                                                <Setter Property="Padding" Value="0" />
+                                                            </Style>
+                                                        </ListView.ItemContainerStyle>
+
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate x:DataType="x:String">
+                                                                <HyperlinkButton
+                                                                    Margin="0,0,0,3"
+                                                                    Command="{StaticResource OpenSupportUrlCommand}"
+                                                                    CommandParameter="{x:Bind}"
+                                                                    Style="{StaticResource HyperlinkButtonStyle}">
+
+                                                                    <TextBlock
+                                                                        Text="{x:Bind}"
+                                                                        TextTrimming="CharacterEllipsis"
+                                                                        TextWrapping="Wrap" />
+                                                                </HyperlinkButton>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </Grid>
+
+                                                <!--  驱动信息  -->
+                                                <Grid x:Name="DriverInformationGrid" x:Load="{x:Bind x:Object.Equals(UpdateInformation.UpdateType, wuapiLib:UpdateType.utDriver)}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+
+                                                    <FontIcon
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="15"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('DeviceProblemNumber')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind DeviceProblemNumber}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="1"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="15"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('DriverClass')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind DriverClass}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="2"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="2"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="15"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('DriverHardwareID')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="2"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind DriverHardwareID}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="3"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="3"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="15"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('DriverManufacturer')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="3"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind DriverManufacturer}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="4"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="4"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="15"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('DriverModel')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="4"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind DriverModel}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="5"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="5"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="15"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('DriverProvider')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="5"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind DriverProvider}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <FontIcon
+                                                        Grid.Row="6"
+                                                        Grid.Column="0"
+                                                        Margin="0,4,16,3"
+                                                        VerticalAlignment="Top"
+                                                        FontSize="12"
+                                                        Glyph="&#xE915;" />
+
+                                                    <TextBlock
+                                                        Grid.Row="6"
+                                                        Grid.Column="1"
+                                                        Margin="0,0,3,3"
+                                                        FontSize="15"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('DriverVerDate')}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="6"
+                                                        Grid.Column="2"
+                                                        Margin="0,0,0,3"
+                                                        Text="{x:Bind DriverVerDate}"
+                                                        TextWrapping="Wrap" />
+                                                </Grid>
+                                            </StackPanel>
+                                        </muxc:Expander.Content>
                                     </muxc:Expander>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -1533,7 +2257,7 @@
                                 <AppBarButton
                                     VerticalAlignment="Center"
                                     Click="{x:Bind OnHiddenShowClicked}"
-                                    IsEnabled="{x:Bind IsHiddenEnabled, Mode=OneWay}"
+                                    IsEnabled="{x:Bind IsHiddenShowEnabled, Mode=OneWay}"
                                     Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Show')}"
                                     Style="{StaticResource AppBarButtonStyle}"
                                     ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ShowUpdateToolTip')}">
@@ -1619,43 +2343,23 @@
                                                     </ToolTipService.ToolTip>
                                                 </CheckBox>
 
-                                                <StackPanel
+                                                <TextBlock
+                                                    x:Name="TitleText"
                                                     Grid.Column="1"
                                                     Margin="0,12"
                                                     VerticalAlignment="Center"
-                                                    Orientation="Vertical">
+                                                    Style="{StaticResource BodyTextBlockStyle}"
+                                                    Text="{x:Bind Title}"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    TextWrapping="NoWrap">
 
-                                                    <TextBlock
-                                                        x:Name="TitleText"
-                                                        Style="{StaticResource BodyTextBlockStyle}"
-                                                        Text="{x:Bind Title}"
-                                                        TextTrimming="CharacterEllipsis"
-                                                        TextWrapping="NoWrap">
-
-                                                        <ToolTipService.ToolTip>
-                                                            <ToolTip
-                                                                MaxWidth="9999"
-                                                                Content="{x:Bind Title}"
-                                                                Visibility="{Binding ElementName=TitleText, Path=IsTextTrimmed, Mode=OneWay}" />
-                                                        </ToolTipService.ToolTip>
-                                                    </TextBlock>
-
-                                                    <TextBlock
-                                                        x:Name="UpdateProgressText"
-                                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{x:Bind UpdateProgress, Mode=OneWay}"
-                                                        TextTrimming="CharacterEllipsis"
-                                                        TextWrapping="NoWrap">
-
-                                                        <ToolTipService.ToolTip>
-                                                            <ToolTip
-                                                                MaxWidth="9999"
-                                                                Content="{x:Bind UpdateProgress, Mode=OneWay}"
-                                                                Visibility="{Binding ElementName=UpdateProgressText, Path=IsTextTrimmed, Mode=OneWay}" />
-                                                        </ToolTipService.ToolTip>
-                                                    </TextBlock>
-                                                </StackPanel>
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip
+                                                            MaxWidth="9999"
+                                                            Content="{x:Bind Title}"
+                                                            Visibility="{Binding ElementName=TitleText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    </ToolTipService.ToolTip>
+                                                </TextBlock>
 
                                                 <StackPanel
                                                     Grid.Column="2"
@@ -1671,9 +2375,9 @@
                                                             VerticalAlignment="Stretch"
                                                             VerticalContentAlignment="Center"
                                                             BorderThickness="0,0,1,0"
-                                                            Command="{StaticResource InstalledUnInstallCommand}"
+                                                            Command="{StaticResource InstalledUninstallCommand}"
                                                             CommandParameter="{x:Bind}"
-                                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UnInstall')}"
+                                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Uninstall')}"
                                                             CornerRadius="0"
                                                             IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsUpdating), Mode=OneWay}" />
                                                     </ContentControl>
@@ -1721,6 +2425,685 @@
                                                 </StackPanel>
                                             </Grid>
                                         </muxc:Expander.Header>
+
+                                        <StackPanel>
+                                            <!--  更新信息  -->
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <FontIcon
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Description')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind Description}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('IsBeta')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind IsBeta}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('IsMandatory')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind IsMandatory}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="3"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="3"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MaxDownloadSize')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="3"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind MaxDownloadSize}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="4"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="4"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MinDownloadSize')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="4"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind MinDownloadSize}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="5"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="5"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MsrcSeverity')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="5"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind MsrcSeverity}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="6"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="6"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RecommendedCpuSpeed')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="6"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind RecommendedCpuSpeed}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="7"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="7"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RecommendedHardDiskSpace')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="7"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind RecommendedHardDiskSpace}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="8"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="8"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RecommendedMemory')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="8"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind RecommendedMemory}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="9"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="9"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RebootRequired')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="9"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind RebootRequired}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="10"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="10"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ReleaseNotes')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="10"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind ReleaseNotes}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="11"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="11"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateType')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="11"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind UpdateType}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="12"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="12"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CVEID')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="12"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
+                                                    TextWrapping="Wrap"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert (CveIDList.Count), Mode=OneWay}" />
+
+                                                <ListView
+                                                    Grid.Row="12"
+                                                    Grid.Column="2"
+                                                    ItemsSource="{x:Bind CveIDList}"
+                                                    SelectionMode="None"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(CveIDList.Count), Mode=OneWay}">
+
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                            <Setter Property="Background" Value="Transparent" />
+                                                            <Setter Property="Margin" Value="0" />
+                                                            <Setter Property="MinHeight" Value="0" />
+                                                            <Setter Property="Padding" Value="0" />
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate x:DataType="x:String">
+                                                            <TextBlock
+                                                                Margin="0,0,0,3"
+                                                                Text="{x:Bind}"
+                                                                TextTrimming="CharacterEllipsis"
+                                                                TextWrapping="Wrap" />
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+
+                                                <FontIcon
+                                                    Grid.Row="13"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="13"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('KBArticleID')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="13"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
+                                                    TextWrapping="Wrap"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(KBArticleIDList.Count), Mode=OneWay}" />
+
+                                                <ListView
+                                                    Grid.Row="13"
+                                                    Grid.Column="2"
+                                                    ItemsSource="{x:Bind KBArticleIDList}"
+                                                    SelectionMode="None"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(KBArticleIDList.Count), Mode=OneWay}">
+
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                            <Setter Property="Background" Value="Transparent" />
+                                                            <Setter Property="Margin" Value="0" />
+                                                            <Setter Property="MinHeight" Value="0" />
+                                                            <Setter Property="Padding" Value="0,0,0,3" />
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate x:DataType="x:String">
+                                                            <HyperlinkButton
+                                                                Margin="0,0,0,3"
+                                                                Command="{StaticResource OpenSupportUrlCommand}"
+                                                                CommandParameter="{x:Bind}"
+                                                                Style="{StaticResource HyperlinkButtonStyle}">
+
+                                                                <TextBlock
+                                                                    Text="{x:Bind}"
+                                                                    TextTrimming="CharacterEllipsis"
+                                                                    TextWrapping="Wrap" />
+                                                            </HyperlinkButton>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+
+                                                <FontIcon
+                                                    Grid.Row="14"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="14"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="14"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Language')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="14"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
+                                                    TextWrapping="Wrap"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(LanguageList.Count), Mode=OneWay}" />
+
+                                                <ListView
+                                                    Grid.Row="14"
+                                                    Grid.Column="2"
+                                                    ItemsSource="{x:Bind LanguageList}"
+                                                    SelectionMode="None"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(LanguageList.Count), Mode=OneWay}">
+
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                            <Setter Property="Background" Value="Transparent" />
+                                                            <Setter Property="Margin" Value="0" />
+                                                            <Setter Property="MinHeight" Value="0" />
+                                                            <Setter Property="Padding" Value="0" />
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate x:DataType="x:String">
+                                                            <TextBlock
+                                                                Margin="0,0,0,3"
+                                                                Text="{x:Bind}"
+                                                                TextTrimming="CharacterEllipsis"
+                                                                TextWrapping="Wrap" />
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+
+                                                <FontIcon
+                                                    Grid.Row="15"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="15"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="15"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MoreInfo')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="15"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
+                                                    TextWrapping="Wrap"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(MoreInfoList.Count), Mode=OneWay}" />
+
+                                                <ListView
+                                                    Grid.Row="15"
+                                                    Grid.Column="2"
+                                                    ItemsSource="{x:Bind MoreInfoList}"
+                                                    SelectionMode="None"
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(MoreInfoList.Count), Mode=OneWay}">
+
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                                            <Setter Property="Background" Value="Transparent" />
+                                                            <Setter Property="Margin" Value="0" />
+                                                            <Setter Property="MinHeight" Value="0" />
+                                                            <Setter Property="Padding" Value="0" />
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate x:DataType="x:String">
+                                                            <HyperlinkButton
+                                                                Margin="0,0,0,3"
+                                                                Command="{StaticResource OpenSupportUrlCommand}"
+                                                                CommandParameter="{x:Bind}"
+                                                                Style="{StaticResource HyperlinkButtonStyle}">
+
+                                                                <TextBlock
+                                                                    Text="{x:Bind}"
+                                                                    TextTrimming="CharacterEllipsis"
+                                                                    TextWrapping="Wrap" />
+                                                            </HyperlinkButton>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </Grid>
+
+                                            <!--  驱动信息  -->
+                                            <Grid x:Name="DriverInformationGrid" x:Load="{x:Bind x:Object.Equals(UpdateInformation.UpdateType, wuapiLib:UpdateType.utDriver)}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <FontIcon
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="15"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('DeviceProblemNumber')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind DeviceProblemNumber}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="15"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('DriverClass')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="1"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind DriverClass}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="15"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('DriverHardwareID')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="2"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind DriverHardwareID}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="3"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="3"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="15"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('DriverManufacturer')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="3"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind DriverManufacturer}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="4"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="4"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="15"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('DriverModel')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="4"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind DriverModel}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="5"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="5"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="15"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('DriverProvider')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="5"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind DriverProvider}"
+                                                    TextWrapping="Wrap" />
+
+                                                <FontIcon
+                                                    Grid.Row="6"
+                                                    Grid.Column="0"
+                                                    Margin="0,4,16,3"
+                                                    VerticalAlignment="Top"
+                                                    FontSize="12"
+                                                    Glyph="&#xE915;" />
+
+                                                <TextBlock
+                                                    Grid.Row="6"
+                                                    Grid.Column="1"
+                                                    Margin="0,0,3,3"
+                                                    FontSize="15"
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('DriverVerDate')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="6"
+                                                    Grid.Column="2"
+                                                    Margin="0,0,0,3"
+                                                    Text="{x:Bind DriverVerDate}"
+                                                    TextWrapping="Wrap" />
+                                            </Grid>
+                                        </StackPanel>
                                     </muxc:Expander>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -1728,33 +3111,6 @@
                     </Grid>
 
                     <!--  更新历史记录  -->
-                    <Grid
-                        Height="61"
-                        Margin="0,0,0,3"
-                        Padding="18,0,10,0"
-                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                        BorderThickness="1"
-                        CornerRadius="{StaticResource ControlCornerRadius}"
-                        Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentItem(SelectedItem, UpdateManagerNavigationView.MenuItems[3]), Mode=OneWay}">
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <FontIcon
-                            Grid.Column="0"
-                            Margin="0,0,12,0"
-                            FontSize="16"
-                            Glyph="&#xE74C;" />
-
-                        <TextBlock
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Operation')}" />
-                    </Grid>
-
                     <Grid Margin="0,0,0,3" Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentItem(SelectedItem, UpdateManagerNavigationView.MenuItems[3]), Mode=OneWay}">
 
                         <Grid.RowDefinitions>
@@ -1795,60 +3151,64 @@
 
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="model:UpdateModel">
-                                    <muxc:Expander
+                                    <Grid
+                                        Height="61"
                                         Margin="0,0,0,3"
-                                        HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Stretch"
+                                        Padding="16,12"
                                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                        IsExpanded="False">
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="{StaticResource ControlCornerRadius}">
 
-                                        <muxc:Expander.Header>
-                                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
 
-                                                <StackPanel
-                                                    Grid.Column="0"
-                                                    Margin="0,12"
-                                                    VerticalAlignment="Center"
-                                                    Orientation="Vertical">
+                                        <StackPanel
+                                            Grid.Column="0"
+                                            VerticalAlignment="Center"
+                                            Orientation="Vertical">
 
-                                                    <TextBlock
-                                                        x:Name="TitleText"
-                                                        Style="{StaticResource BodyTextBlockStyle}"
-                                                        Text="{x:Bind Title}"
-                                                        TextTrimming="CharacterEllipsis"
-                                                        TextWrapping="NoWrap">
+                                            <TextBlock
+                                                x:Name="TitleText"
+                                                Style="{StaticResource BodyTextBlockStyle}"
+                                                Text="{x:Bind Title}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap">
 
-                                                        <ToolTipService.ToolTip>
-                                                            <ToolTip
-                                                                MaxWidth="9999"
-                                                                Content="{x:Bind Title}"
-                                                                Visibility="{Binding ElementName=TitleText, Path=IsTextTrimmed, Mode=OneWay}" />
-                                                        </ToolTipService.ToolTip>
-                                                    </TextBlock>
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind Title}"
+                                                        Visibility="{Binding ElementName=TitleText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                </ToolTipService.ToolTip>
+                                            </TextBlock>
 
-                                                    <TextBlock
-                                                        x:Name="UpdateProgressText"
-                                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{x:Bind UpdateProgress, Mode=OneWay}"
-                                                        TextTrimming="CharacterEllipsis"
-                                                        TextWrapping="NoWrap">
+                                            <TextBlock
+                                                x:Name="HistoryUpdateResultText"
+                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                Text="{x:Bind HistoryUpdateResult, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap">
 
-                                                        <ToolTipService.ToolTip>
-                                                            <ToolTip
-                                                                MaxWidth="9999"
-                                                                Content="{x:Bind UpdateProgress, Mode=OneWay}"
-                                                                Visibility="{Binding ElementName=UpdateProgressText, Path=IsTextTrimmed, Mode=OneWay}" />
-                                                        </ToolTipService.ToolTip>
-                                                    </TextBlock>
-                                                </StackPanel>
-                                            </Grid>
-                                        </muxc:Expander.Header>
-                                    </muxc:Expander>
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip
+                                                        MaxWidth="9999"
+                                                        Content="{x:Bind HistoryUpdateResult, Mode=OneWay}"
+                                                        Visibility="{Binding ElementName=HistoryUpdateResultText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                </ToolTipService.ToolTip>
+                                            </TextBlock>
+                                        </StackPanel>
+
+                                        <HyperlinkButton
+                                            Grid.Column="1"
+                                            Margin="20,0,0,0"
+                                            Command="{StaticResource LearnMoreCommand}"
+                                            CommandParameter="{x:Bind SupportURL}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('LearnMore')}" />
+                                    </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
@@ -2040,7 +3400,7 @@
                         </muxc:Expander.Header>
 
                         <muxc:Expander.Content>
-                            <ContentControl HorizontalContentAlignment="Stretch" IsEnabled="{x:Bind helper:RuntimeHelper.IsElevated}">
+                            <ContentControl HorizontalContentAlignment="Stretch">
 
                                 <StackPanel Padding="0">
                                     <Grid
