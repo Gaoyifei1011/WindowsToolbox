@@ -299,7 +299,7 @@ namespace WindowsTools.Views.Pages
             List<LoopbackModel> selectedLoopbackList = [];
             foreach (LoopbackModel loopbackItem in LoopbackCollection)
             {
-                if (loopbackItem.IsSelected is true)
+                if (loopbackItem.IsSelected)
                 {
                     loopbackItem.IsOldChecked = loopbackItem.IsSelected;
                     selectedLoopbackList.Add(loopbackItem);

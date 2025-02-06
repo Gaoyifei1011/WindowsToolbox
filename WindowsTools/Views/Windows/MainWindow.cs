@@ -121,7 +121,7 @@ namespace WindowsTools.Views.Windows
             // WS_EX_NOREDIRECTIONBITMAP 可以避免 WS_EX_LAYERED 导致的额外内存开销
             // WS_MINIMIZEBOX 和 WS_MAXIMIZEBOX 使得鼠标悬停时显示文字提示，Win11 的贴靠布局不依赖它们
             WindowExStyle windowExStyle = WindowExStyle.WS_EX_LAYERED | WindowExStyle.WS_EX_NOPARENTNOTIFY | WindowExStyle.WS_EX_NOREDIRECTIONBITMAP | WindowExStyle.WS_EX_NOACTIVATE;
-            if (RightToLeft is RightToLeft.Yes && RightToLeftLayout is true)
+            if (RightToLeft is RightToLeft.Yes && RightToLeftLayout)
             {
                 windowExStyle |= WindowExStyle.WS_EX_LAYOUTRTL;
             }
@@ -133,7 +133,7 @@ namespace WindowsTools.Views.Windows
                 // 如果鼠标正位于一个按钮上，贴靠布局弹窗会出现在按钮下方。我们利用这个特性来修正贴靠布局弹窗的位置
                 // FIXME: 以管理员身份运行时这不起作用。Office 也有这个问题，所以可能没有解决方案
                 windowExStyle = WindowExStyle.WS_EX_LEFT;
-                if (RightToLeft is RightToLeft.Yes && RightToLeftLayout is true)
+                if (RightToLeft is RightToLeft.Yes && RightToLeftLayout)
                 {
                     windowExStyle |= WindowExStyle.WS_EX_LAYOUTRTL;
                 }

@@ -639,7 +639,7 @@ namespace WindowsTools.Views.Pages
         private async void OnCopySelectedStringClicked(object sender, RoutedEventArgs args)
         {
             IsProcessing = true;
-            List<StringModel> selectedStringList = StringCollection.Where(item => item.IsSelected is true).ToList();
+            List<StringModel> selectedStringList = StringCollection.Where(item => item.IsSelected).ToList();
             if (selectedStringList.Count > 0)
             {
                 StringBuilder copyStringBuilder = new();
@@ -659,7 +659,7 @@ namespace WindowsTools.Views.Pages
         private async void OnCopySelectedFilePathClicked(object sender, RoutedEventArgs args)
         {
             IsProcessing = true;
-            List<FilePathModel> selectedFilePathList = FilePathCollection.Where(item => item.IsSelected is true).ToList();
+            List<FilePathModel> selectedFilePathList = FilePathCollection.Where(item => item.IsSelected).ToList();
             if (selectedFilePathList.Count > 0)
             {
                 StringBuilder copyFilePathBuilder = new();
@@ -678,7 +678,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnExportSelectedEmbeddedDataClicked(object sender, RoutedEventArgs args)
         {
-            List<EmbeddedDataModel> selectedEmbeddedDataList = EmbeddedDataCollection.Where(item => item.IsSelected is true).ToList();
+            List<EmbeddedDataModel> selectedEmbeddedDataList = EmbeddedDataCollection.Where(item => item.IsSelected).ToList();
             if (selectedEmbeddedDataList.Count > 0)
             {
                 IsProcessing = true;
