@@ -289,7 +289,7 @@ namespace WindowsTools.Views.Pages
                             httpClient.Dispose();
                             responseMessage.Dispose();
 
-                            Regex tagRegex = new(@"""tag_name"":[\s]*""v(\d.\d.\d{3,}.\d)""");
+                            Regex tagRegex = new(@"""tag_name"":[\s]*""v(\d.\d.\d{3,}.\d)""", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
                             MatchCollection tagCollection = tagRegex.Matches(responseString);
 
