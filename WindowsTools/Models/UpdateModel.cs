@@ -232,6 +232,9 @@ namespace WindowsTools.Models
             }
         }
 
+        /// <summary>
+        /// 更新安装是否已取消
+        /// </summary>
         private bool _isUpdateCanceled;
 
         public bool IsUpdateCanceled

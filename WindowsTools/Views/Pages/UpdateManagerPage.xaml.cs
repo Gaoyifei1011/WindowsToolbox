@@ -297,11 +297,11 @@ namespace WindowsTools.Views.Pages
 
         private List<KeyValuePair<string, string>> PreviewChannelList { get; } =
         [
-            new KeyValuePair<string,string>(ResourceService.UpdateManagerResource.GetString("DonotEnter"), "DoNotEnter"),
-            new KeyValuePair<string,string>(ResourceService.UpdateManagerResource.GetString("ReleasePreview"), "ReleasePreview"),
-            new KeyValuePair<string,string>(ResourceService.UpdateManagerResource.GetString("Beta"), "Beta"),
-            new KeyValuePair<string,string>(ResourceService.UpdateManagerResource.GetString("Dev"), "Dev"),
-            new KeyValuePair<string,string>(ResourceService.UpdateManagerResource.GetString("Canary"), "Canary"),
+            new KeyValuePair<string,string>("DoNotEnter",ResourceService.UpdateManagerResource.GetString("DonotEnter")),
+            new KeyValuePair<string,string>("ReleasePreview",ResourceService.UpdateManagerResource.GetString("ReleasePreview")),
+            new KeyValuePair<string,string>("Beta",ResourceService.UpdateManagerResource.GetString("Beta") ),
+            new KeyValuePair<string,string>("Dev",ResourceService.UpdateManagerResource.GetString("Dev")),
+            new KeyValuePair<string,string>("Canary",ResourceService.UpdateManagerResource.GetString("Canary") ),
         ];
 
         private ObservableCollection<UpdateModel> AvailableUpdateCollection { get; } = [];
@@ -398,6 +398,15 @@ namespace WindowsTools.Views.Pages
         {
             if (args.Parameter is UpdateModel updateItem)
             {
+                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                {
+                    if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                    {
+                        availableUpdateItem.IsSelected = false;
+                        break;
+                    }
+                }
+
                 bool hideResult = await Task.Run(() =>
                 {
                     bool result = false;
@@ -407,7 +416,16 @@ namespace WindowsTools.Views.Pages
                     {
                         try
                         {
-                            updateItem.UpdateInformation.Update.IsHidden = true;
+                            foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                            {
+                                if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    availableUpdateItem.UpdateInformation.IsHidden = true;
+                                    availableUpdateItem.UpdateInformation.Update.IsHidden = true;
+                                    break;
+                                }
+                            }
+
                             result = true;
                         }
                         catch (Exception e)
@@ -428,6 +446,7 @@ namespace WindowsTools.Views.Pages
                         {
                             if (AvailableUpdateCollection[index].UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                             {
+                                AvailableUpdateCollection[index].UpdateProgress = string.Empty;
                                 AvailableUpdateCollection.RemoveAt(index);
                                 break;
                             }
@@ -441,6 +460,8 @@ namespace WindowsTools.Views.Pages
                     }
 
                     IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+                    IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+                    IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
                     IsHiddenShowEnabled = HiddenUpdateCollection.Any(item => item.IsSelected && item.UpdateInformation.IsHidden);
                 }
             }
@@ -755,6 +776,15 @@ namespace WindowsTools.Views.Pages
         {
             if (args.Parameter is UpdateModel updateItem)
             {
+                foreach (UpdateModel hiddenUpdateItem in HiddenUpdateCollection)
+                {
+                    if (hiddenUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                    {
+                        hiddenUpdateItem.IsSelected = false;
+                        break;
+                    }
+                }
+
                 bool showResult = await Task.Run(() =>
                 {
                     bool result = false;
@@ -764,7 +794,16 @@ namespace WindowsTools.Views.Pages
                     {
                         try
                         {
-                            updateItem.UpdateInformation.Update.IsHidden = false;
+                            foreach (UpdateModel hiddenUpdateItem in HiddenUpdateCollection)
+                            {
+                                if (hiddenUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    hiddenUpdateItem.UpdateInformation.IsHidden = false;
+                                    hiddenUpdateItem.UpdateInformation.Update.IsHidden = false;
+                                    break;
+                                }
+                            }
+
                             result = true;
                         }
                         catch (Exception e)
@@ -785,6 +824,7 @@ namespace WindowsTools.Views.Pages
                         {
                             if (HiddenUpdateCollection[index].UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                             {
+                                HiddenUpdateCollection[index].UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdateNotInstalled");
                                 HiddenUpdateCollection.RemoveAt(index);
                                 break;
                             }
@@ -798,6 +838,8 @@ namespace WindowsTools.Views.Pages
                     }
 
                     IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+                    IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+                    IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
                     IsHiddenShowEnabled = HiddenUpdateCollection.Any(item => item.IsSelected && item.UpdateInformation.IsHidden);
                 }
             }
@@ -819,6 +861,7 @@ namespace WindowsTools.Views.Pages
                         break;
                     }
                 }
+
                 IsInstalledUninstallEnabled = InstalledUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && item.UpdateInformation.IsUninstallable);
                 IsInstalledCancelInstallEnabled = InstalledUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled && item.UpdateInformation.IsUninstallable);
 
@@ -934,6 +977,7 @@ namespace WindowsTools.Views.Pages
                                     {
                                         installedUpdateItem.UpdatePercentage = 100;
                                         installedUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallCompleted");
+                                        InstalledUpdateCollection.Remove(installedUpdateItem);
                                         break;
                                     }
                                 }
@@ -1271,6 +1315,11 @@ namespace WindowsTools.Views.Pages
         {
             List<UpdateModel> hideList = AvailableUpdateCollection.Where(item => item.IsSelected).ToList();
 
+            foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+            {
+                availableUpdateItem.IsSelected = false;
+            }
+
             bool hideResult = await Task.Run(() =>
             {
                 bool result = false;
@@ -1278,16 +1327,25 @@ namespace WindowsTools.Views.Pages
                 {
                     foreach (UpdateModel hideItem in hideList)
                     {
-                        if (!hideItem.IsUpdating)
+                        foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                         {
-                            try
+                            if (availableUpdateItem.UpdateID.Equals(hideItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                             {
-                                hideItem.UpdateInformation.Update.IsHidden = true;
-                            }
-                            catch (Exception e)
-                            {
-                                LogService.WriteLog(EventLevel.Error, "Hide updates modify hidden property failed", e);
-                                continue;
+                                if (!availableUpdateItem.IsUpdating)
+                                {
+                                    try
+                                    {
+                                        availableUpdateItem.UpdateInformation.IsHidden = true;
+                                        availableUpdateItem.UpdateInformation.Update.IsHidden = true;
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        LogService.WriteLog(EventLevel.Error, "Hide updates modify hidden property failed", e);
+                                        continue;
+                                    }
+                                }
+
+                                break;
                             }
                         }
                     }
@@ -1304,12 +1362,13 @@ namespace WindowsTools.Views.Pages
                 {
                     try
                     {
-                        if (!hideItem.UpdateInformation.Update.IsHidden)
+                        if (hideItem.UpdateInformation.Update.IsHidden)
                         {
                             for (int index = 0; index < AvailableUpdateCollection.Count; index++)
                             {
                                 if (AvailableUpdateCollection[index].UpdateID.Equals(hideItem.UpdateID))
                                 {
+                                    AvailableUpdateCollection[index].UpdateProgress = string.Empty;
                                     AvailableUpdateCollection.RemoveAt(index);
                                     break;
                                 }
@@ -1325,6 +1384,8 @@ namespace WindowsTools.Views.Pages
                 }
 
                 IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+                IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+                IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
                 IsHiddenShowEnabled = HiddenUpdateCollection.Any(item => item.IsSelected && item.UpdateInformation.IsHidden);
             }
         }
@@ -1767,6 +1828,7 @@ namespace WindowsTools.Views.Pages
                                         {
                                             installedUpdateItem.UpdatePercentage = 100;
                                             installedUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UninstallCompleted");
+                                            InstalledUpdateCollection.Remove(installedUpdateItem);
                                             break;
                                         }
                                     }
@@ -1938,6 +2000,11 @@ namespace WindowsTools.Views.Pages
         {
             List<UpdateModel> showList = HiddenUpdateCollection.Where(item => item.IsSelected).ToList();
 
+            foreach (UpdateModel hiddenUpdateItem in HiddenUpdateCollection)
+            {
+                hiddenUpdateItem.IsSelected = false;
+            }
+
             bool showResult = await Task.Run(() =>
             {
                 bool result = false;
@@ -1945,16 +2012,25 @@ namespace WindowsTools.Views.Pages
                 {
                     foreach (UpdateModel showItem in showList)
                     {
-                        if (!showItem.IsUpdating)
+                        foreach (UpdateModel hiddenUpdateItem in HiddenUpdateCollection)
                         {
-                            try
+                            if (hiddenUpdateItem.UpdateID.Equals(showItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                             {
-                                showItem.UpdateInformation.Update.IsHidden = true;
-                            }
-                            catch (Exception e)
-                            {
-                                LogService.WriteLog(EventLevel.Error, "Show updates modify hidden property failed", e);
-                                continue;
+                                if (!showItem.IsUpdating)
+                                {
+                                    try
+                                    {
+                                        hiddenUpdateItem.UpdateInformation.IsHidden = false;
+                                        hiddenUpdateItem.UpdateInformation.Update.IsHidden = false;
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        LogService.WriteLog(EventLevel.Error, "Show updates modify hidden property failed", e);
+                                        continue;
+                                    }
+                                }
+
+                                break;
                             }
                         }
                     }
@@ -1977,6 +2053,7 @@ namespace WindowsTools.Views.Pages
                             {
                                 if (HiddenUpdateCollection[index].UpdateID.Equals(showItem.UpdateID))
                                 {
+                                    HiddenUpdateCollection[index].UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdateNotInstalled");
                                     HiddenUpdateCollection.RemoveAt(index);
                                     break;
                                 }
@@ -1992,6 +2069,8 @@ namespace WindowsTools.Views.Pages
                 }
 
                 IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+                IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+                IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
                 IsHiddenShowEnabled = HiddenUpdateCollection.Any(item => item.IsSelected && item.UpdateInformation.IsHidden);
             }
         }
@@ -2338,6 +2417,7 @@ namespace WindowsTools.Views.Pages
                             // 隐藏的更新
                             if (updateInformation.Update.IsHidden)
                             {
+                                updateItem.UpdateProgress = string.Empty;
                                 hiddenUpdateList.Add(updateItem);
                             }
                             // 已安装的更新
