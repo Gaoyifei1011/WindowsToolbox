@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using System.Text;
 
 // 抑制 CA1401 警告
@@ -41,6 +42,13 @@ namespace WindowsTools.WindowsAPI.PInvoke.Kernel32
         /// <returns>如果函数成功，则返回 ERROR_SUCCESS。 否则，函数将返回错误代码。</returns>
         [DllImport(Kernel32, CharSet = CharSet.Unicode, EntryPoint = "GetCurrentPackageFullName", PreserveSig = true, SetLastError = false)]
         public static extern int GetCurrentPackageFullName(ref int packageFullNameLength, StringBuilder packageFullName);
+
+        /// <summary>
+        /// 检索当前进程的伪句柄。
+        /// </summary>
+        /// <returns>返回值是当前进程的伪句柄。</returns>
+        [DllImport(Kernel32, CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcess", PreserveSig = true, SetLastError = false)]
+        public static extern IntPtr GetCurrentProcess();
 
         /// <summary>
         /// 获取指定包的路径。

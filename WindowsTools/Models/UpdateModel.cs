@@ -168,7 +168,7 @@ namespace WindowsTools.Models
         /// <summary>
         /// 更新支持的语言列表
         /// </summary>
-        public List<string> LanguageList { get; } = [];
+        public List<string> SupportedLanguageList { get; } = [];
 
         /// <summary>
         /// 有关更新的详细信息的超链接

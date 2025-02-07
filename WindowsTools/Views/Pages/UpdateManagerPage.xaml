@@ -54,14 +54,12 @@
 
                 <Button.Content>
                     <Grid>
-                        <StackPanel
-                            Orientation="Horizontal"
-                            Spacing="3"
-                            Visibility="{x:Bind IsChecking, Mode=OneWay}">
+                        <StackPanel Orientation="Horizontal" Visibility="{x:Bind IsChecking, Mode=OneWay}">
 
                             <muxc:ProgressRing
                                 Width="16"
                                 Height="16"
+                                Margin="0,0,5,0"
                                 IsActive="{x:Bind IsChecking, Mode=OneWay}" />
                             <TextBlock Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CheckingUpdate')}" />
                         </StackPanel>
@@ -267,7 +265,7 @@
                                     IsEnabled="{x:Bind IsAvailableHideEnabled, Mode=OneWay}"
                                     Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Hide')}"
                                     Style="{StaticResource AppBarButtonStyle}"
-                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideUpdateToolTip')}">
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideSelectedUpdate')}">
 
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xED1A;" />
@@ -304,7 +302,7 @@
                         </ContentControl>
                     </Grid>
 
-                    <Grid Margin="0,0,0,3" Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentItem(SelectedItem, UpdateManagerNavigationView.MenuItems[0]), Mode=OneWay}">
+                    <Grid Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentItem(SelectedItem, UpdateManagerNavigationView.MenuItems[0]), Mode=OneWay}">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -313,6 +311,7 @@
 
                         <Grid
                             Grid.Row="0"
+                            Margin="0,0,0,3"
                             Padding="16,12"
                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -443,7 +442,7 @@
                                                         CommandParameter="{x:Bind}"
                                                         Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Install')}"
                                                         CornerRadius="0"
-                                                        ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('InstallUpdate')}"
+                                                        ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('InstallCurrentUpdate')}"
                                                         Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsUpdating), Mode=OneWay}" />
 
                                                     <Button
@@ -455,7 +454,7 @@
                                                         Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Cancel')}"
                                                         CornerRadius="0"
                                                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsUpdateCanceled), Mode=OneWay}"
-                                                        ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CancelInstallUpdate')}"
+                                                        ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CancelInstallCurrentUpdate')}"
                                                         Visibility="{x:Bind IsUpdating, Mode=OneWay}" />
 
                                                     <Button
@@ -489,7 +488,7 @@
                                                                     Command="{StaticResource AvailableHideCommand}"
                                                                     CommandParameter="{x:Bind}"
                                                                     IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsUpdating), Mode=OneWay}"
-                                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideUpdate')}">
+                                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideCurrentUpdate')}">
 
                                                                     <MenuFlyoutItem.Icon>
                                                                         <FontIcon Glyph="&#xED1A;" />
@@ -937,7 +936,7 @@
                                                         Grid.Column="1"
                                                         Margin="0,0,3,3"
                                                         FontSize="14"
-                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Language')}" />
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SupportedLanguage')}" />
 
                                                     <TextBlock
                                                         Grid.Row="14"
@@ -945,14 +944,14 @@
                                                         Margin="0,0,0,3"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
                                                         TextWrapping="Wrap"
-                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(LanguageList.Count), Mode=OneWay}" />
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(SupportedLanguageList.Count), Mode=OneWay}" />
 
                                                     <ListView
                                                         Grid.Row="14"
                                                         Grid.Column="2"
-                                                        ItemsSource="{x:Bind LanguageList}"
+                                                        ItemsSource="{x:Bind SupportedLanguageList}"
                                                         SelectionMode="None"
-                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(LanguageList.Count), Mode=OneWay}">
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(SupportedLanguageList.Count), Mode=OneWay}">
 
                                                         <ListView.ItemContainerStyle>
                                                             <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
@@ -1274,7 +1273,8 @@
                                     Click="{x:Bind OnInstalledUninstallClicked}"
                                     IsEnabled="{x:Bind IsInstalledUninstallEnabled, Mode=OneWay}"
                                     Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Uninstall')}"
-                                    Style="{StaticResource AppBarButtonStyle}">
+                                    Style="{StaticResource AppBarButtonStyle}"
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UninstallSelectedUpdate')}">
 
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE74D;" />
@@ -1297,7 +1297,7 @@
                         </ContentControl>
                     </Grid>
 
-                    <Grid Margin="0,0,0,3" Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentItem(SelectedItem, UpdateManagerNavigationView.MenuItems[1]), Mode=OneWay}">
+                    <Grid Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentItem(SelectedItem, UpdateManagerNavigationView.MenuItems[1]), Mode=OneWay}">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -1306,6 +1306,7 @@
 
                         <Grid
                             Grid.Row="0"
+                            Margin="0,0,0,3"
                             Padding="16,12"
                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -1427,7 +1428,7 @@
                                                                 CommandParameter="{x:Bind}"
                                                                 Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Uninstall')}"
                                                                 CornerRadius="0"
-                                                                ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UninstallUpdate')}"
+                                                                ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UninstallCurrentUpdate')}"
                                                                 Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsUpdating), Mode=OneWay}" />
 
                                                             <Button
@@ -1439,7 +1440,7 @@
                                                                 Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Cancel')}"
                                                                 CornerRadius="0"
                                                                 IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsUpdateCanceled), Mode=OneWay}"
-                                                                ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CancelUninstallUpdate')}"
+                                                                ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CancelUninstallCurrentUpdate')}"
                                                                 Visibility="{x:Bind IsUpdating, Mode=OneWay}" />
                                                         </Grid>
                                                     </ContentControl>
@@ -1922,7 +1923,7 @@
                                                         Grid.Column="1"
                                                         Margin="0,0,3,3"
                                                         FontSize="14"
-                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Language')}" />
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SupportedLanguage')}" />
 
                                                     <TextBlock
                                                         Grid.Row="14"
@@ -1930,14 +1931,14 @@
                                                         Margin="0,0,0,3"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
                                                         TextWrapping="Wrap"
-                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(LanguageList.Count), Mode=OneWay}" />
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(SupportedLanguageList.Count), Mode=OneWay}" />
 
                                                     <ListView
                                                         Grid.Row="14"
                                                         Grid.Column="2"
-                                                        ItemsSource="{x:Bind LanguageList}"
+                                                        ItemsSource="{x:Bind SupportedLanguageList}"
                                                         SelectionMode="None"
-                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(LanguageList.Count), Mode=OneWay}">
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(SupportedLanguageList.Count), Mode=OneWay}">
 
                                                         <ListView.ItemContainerStyle>
                                                             <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
@@ -2260,7 +2261,7 @@
                                     IsEnabled="{x:Bind IsHiddenShowEnabled, Mode=OneWay}"
                                     Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Show')}"
                                     Style="{StaticResource AppBarButtonStyle}"
-                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ShowUpdateToolTip')}">
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ShowSelectedUpdate')}">
 
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE890;" />
@@ -2270,7 +2271,7 @@
                         </ContentControl>
                     </Grid>
 
-                    <Grid Margin="0,0,0,3" Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentItem(SelectedItem, UpdateManagerNavigationView.MenuItems[2]), Mode=OneWay}">
+                    <Grid Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentItem(SelectedItem, UpdateManagerNavigationView.MenuItems[2]), Mode=OneWay}">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -2279,6 +2280,7 @@
 
                         <Grid
                             Grid.Row="0"
+                            Margin="0,0,0,3"
                             Padding="16,12"
                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -2380,7 +2382,8 @@
                                                         Command="{StaticResource HiddenShowCommand}"
                                                         CommandParameter="{x:Bind}"
                                                         Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Show')}"
-                                                        CornerRadius="0" />
+                                                        CornerRadius="0"
+                                                        ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ShowCurrentUpdate')}" />
 
                                                     <Button
                                                         Width="35"
@@ -2837,7 +2840,7 @@
                                                     Grid.Column="1"
                                                     Margin="0,0,3,3"
                                                     FontSize="14"
-                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Language')}" />
+                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SupportedLanguage')}" />
 
                                                 <TextBlock
                                                     Grid.Row="14"
@@ -2845,14 +2848,14 @@
                                                     Margin="0,0,0,3"
                                                     Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
                                                     TextWrapping="Wrap"
-                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(LanguageList.Count), Mode=OneWay}" />
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(SupportedLanguageList.Count), Mode=OneWay}" />
 
                                                 <ListView
                                                     Grid.Row="14"
                                                     Grid.Column="2"
-                                                    ItemsSource="{x:Bind LanguageList}"
+                                                    ItemsSource="{x:Bind SupportedLanguageList}"
                                                     SelectionMode="None"
-                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(LanguageList.Count), Mode=OneWay}">
+                                                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(SupportedLanguageList.Count), Mode=OneWay}">
 
                                                     <ListView.ItemContainerStyle>
                                                         <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
@@ -3111,7 +3114,7 @@
                     </Grid>
 
                     <!--  更新历史记录  -->
-                    <Grid Margin="0,0,0,3" Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentItem(SelectedItem, UpdateManagerNavigationView.MenuItems[3]), Mode=OneWay}">
+                    <Grid Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentItem(SelectedItem, UpdateManagerNavigationView.MenuItems[3]), Mode=OneWay}">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -3120,6 +3123,7 @@
 
                         <Grid
                             Grid.Row="0"
+                            Margin="0,0,0,3"
                             Padding="16,12"
                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -3213,6 +3217,32 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </Grid>
+
+                    <muxc:InfoBar
+                        Margin="0,0,0,3"
+                        IsClosable="True"
+                        IsIconVisible="True"
+                        IsOpen="{x:Bind IsNeedRebootPrompt, Mode=OneWay}"
+                        Message="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateCompletedNeedReboot')}"
+                        Severity="Warning">
+
+                        <muxc:InfoBar.Content>
+                            <muxc:SplitButton
+                                Click="{x:Bind OnRebootClicked}"
+                                Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Reboot')}"
+                                ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RebootFinishUpdate')}">
+                                <muxc:SplitButton.Flyout>
+                                    <MenuFlyout Placement="Bottom">
+                                        <MenuFlyoutItem Click="{x:Bind OnHideNeedRebootPromptClicked}" Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideNeedRebootPrompt')}">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xED1A;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </muxc:SplitButton.Flyout>
+                            </muxc:SplitButton>
+                        </muxc:InfoBar.Content>
+                    </muxc:InfoBar>
 
                     <StackPanel
                         Margin="0,0,0,5"
@@ -3428,6 +3458,31 @@
                                             OffContent="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ExcludeDriversOffContent')}"
                                             OnContent="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ExcludeDriversOnContent')}"
                                             Toggled="{x:Bind OnExcludeDriversToggled}" />
+                                    </Grid>
+
+                                    <MenuFlyoutSeparator />
+
+                                    <Grid
+                                        Height="52"
+                                        Padding="44,0,16,0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            VerticalAlignment="Center"
+                                            Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CleanUpdateHistory')}" />
+
+                                        <Button
+                                            Grid.Column="1"
+                                            MinWidth="0"
+                                            Click="{x:Bind OnCleanUpdateHistoryClicked}"
+                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Clean')}" />
                                     </Grid>
 
                                     <MenuFlyoutSeparator />

@@ -30,6 +30,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
         /// </summary>
         /// <param name="hasNext">如果枚举器成功前进，则为 TRUE,如果枚举器已通过集合的末尾，则为 FALSE。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，它将返回错误代码。</returns>
-        [PreserveSig] int MoveNext([MarshalAs(UnmanagedType.Bool)] out bool hasNext);
+        [PreserveSig]
+        int MoveNext([MarshalAs(UnmanagedType.Bool)] out bool hasNext);
     }
 }

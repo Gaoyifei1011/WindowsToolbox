@@ -239,6 +239,22 @@ namespace WindowsTools.Views.Pages
             }
         }
 
+        private bool _isNeedRebootPrompt;
+
+        public bool IsNeedRebootPrompt
+        {
+            get { return _isNeedRebootPrompt; }
+
+            set
+            {
+                if (!Equals(_isNeedRebootPrompt, value))
+                {
+                    _isNeedRebootPrompt = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsNeedRebootPrompt)));
+                }
+            }
+        }
+
         private bool _isIncludePotentiallySupersededUpdate;
 
         public bool IsIncludePotentiallySupersededUpdate
@@ -299,9 +315,9 @@ namespace WindowsTools.Views.Pages
         [
             new KeyValuePair<string,string>("DoNotEnter",ResourceService.UpdateManagerResource.GetString("DonotEnter")),
             new KeyValuePair<string,string>("ReleasePreview",ResourceService.UpdateManagerResource.GetString("ReleasePreview")),
-            new KeyValuePair<string,string>("Beta",ResourceService.UpdateManagerResource.GetString("Beta") ),
+            new KeyValuePair<string,string>("Beta",ResourceService.UpdateManagerResource.GetString("Beta")),
             new KeyValuePair<string,string>("Dev",ResourceService.UpdateManagerResource.GetString("Dev")),
-            new KeyValuePair<string,string>("Canary",ResourceService.UpdateManagerResource.GetString("Canary") ),
+            new KeyValuePair<string,string>("Canary",ResourceService.UpdateManagerResource.GetString("Canary")),
         ];
 
         private ObservableCollection<UpdateModel> AvailableUpdateCollection { get; } = [];
@@ -541,8 +557,7 @@ namespace WindowsTools.Views.Pages
                                     if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                     {
                                         availableUpdateItem.UpdatePercentage = 50;
-                                        availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadCompleted");
-
+                                        availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadUpdateCompleted");
                                         break;
                                     }
                                 }
@@ -557,7 +572,7 @@ namespace WindowsTools.Views.Pages
                                     {
                                         availableUpdateItem.IsUpdateCanceled = false;
                                         availableUpdateItem.IsUpdating = false;
-                                        availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadCanceled");
+                                        availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadUpdateCanceled");
                                     }
                                 }
                             }
@@ -573,8 +588,8 @@ namespace WindowsTools.Views.Pages
                                         Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
 
                                         availableUpdateItem.UpdateProgress = exception is not null
-                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("DownloadFailedWithInformation"), exception.Message)
-                                            : string.Format(ResourceService.UpdateManagerResource.GetString("DownloadFailedWithCode"), downloadResult.HResult);
+                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithInformation"), exception.Message)
+                                            : string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithCode"), downloadResult.HResult);
                                         break;
                                     }
                                 }
@@ -592,8 +607,8 @@ namespace WindowsTools.Views.Pages
                                     Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
 
                                     availableUpdateItem.UpdateProgress = exception is not null
-                                        ? string.Format(ResourceService.UpdateManagerResource.GetString("DownloadFailedWithInformation"), exception.Message)
-                                        : string.Format(ResourceService.UpdateManagerResource.GetString("DownloadFailedWithCode"), downloadResult.HResult);
+                                        ? string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithInformation"), exception.Message)
+                                        : string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithCode"), downloadResult.HResult);
                                     break;
                                 }
                             }
@@ -648,7 +663,15 @@ namespace WindowsTools.Views.Pages
                                         if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                         {
                                             availableUpdateItem.UpdatePercentage = 100;
-                                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallCompleted");
+                                            availableUpdateItem.IsUpdateCanceled = true;
+                                            availableUpdateItem.UpdateProgress = installationResult.RebootRequired
+                                                ? ResourceService.UpdateManagerResource.GetString("InstallUpdateCompletedNeedReboot")
+                                                : ResourceService.UpdateManagerResource.GetString("InstallUpdateCompleted");
+
+                                            if (installationResult.RebootRequired && !IsNeedRebootPrompt)
+                                            {
+                                                IsNeedRebootPrompt = true;
+                                            }
                                             break;
                                         }
                                     }
@@ -662,7 +685,7 @@ namespace WindowsTools.Views.Pages
                                         {
                                             availableUpdateItem.IsUpdateCanceled = false;
                                             availableUpdateItem.IsUpdating = false;
-                                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallCanceled");
+                                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallUpdateCanceled");
                                         }
                                     }
                                 }
@@ -678,8 +701,8 @@ namespace WindowsTools.Views.Pages
                                             Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
 
                                             availableUpdateItem.UpdateProgress = exception is not null
-                                                ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithInformation"), exception.Message)
-                                                : string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithCode"), installationResult.HResult);
+                                                ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithInformation"), exception.Message)
+                                                : string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithCode"), installationResult.HResult);
                                             break;
                                         }
                                     }
@@ -697,8 +720,8 @@ namespace WindowsTools.Views.Pages
                                         Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
 
                                         availableUpdateItem.UpdateProgress = exception is not null
-                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithInformation"), exception.Message)
-                                            : string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithCode"), installationResult.HResult);
+                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithInformation"), exception.Message)
+                                            : string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithCode"), installationResult.HResult);
                                         break;
                                     }
                                 }
@@ -727,6 +750,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
+        // TODO:未完成
         /// <summary>
         /// 更新历史记录，复制更新描述信息
         /// </summary>
@@ -976,8 +1000,15 @@ namespace WindowsTools.Views.Pages
                                     if (installedUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                     {
                                         installedUpdateItem.UpdatePercentage = 100;
-                                        installedUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallCompleted");
-                                        InstalledUpdateCollection.Remove(installedUpdateItem);
+                                        installedUpdateItem.IsUpdateCanceled = true;
+                                        installedUpdateItem.UpdateProgress = installationResult.RebootRequired
+                                                   ? ResourceService.UpdateManagerResource.GetString("UninstallUpdateCompletedNeedReboot")
+                                                   : ResourceService.UpdateManagerResource.GetString("UninstallUpdateCompleted");
+
+                                        if (installationResult.RebootRequired && !IsNeedRebootPrompt)
+                                        {
+                                            IsNeedRebootPrompt = true;
+                                        }
                                         break;
                                     }
                                 }
@@ -991,7 +1022,7 @@ namespace WindowsTools.Views.Pages
                                     {
                                         installedUpdateItem.IsUpdateCanceled = false;
                                         installedUpdateItem.IsUpdating = false;
-                                        installedUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallCanceled");
+                                        installedUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UninstallUpdateCanceled");
                                     }
                                 }
                             }
@@ -1007,8 +1038,8 @@ namespace WindowsTools.Views.Pages
                                         Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
 
                                         installedUpdateItem.UpdateProgress = exception is not null
-                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithInformation"), exception.Message)
-                                            : string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithCode"), installationResult.HResult);
+                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithInformation"), exception.Message)
+                                            : string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithCode"), installationResult.HResult);
                                         break;
                                     }
                                 }
@@ -1026,8 +1057,8 @@ namespace WindowsTools.Views.Pages
                                     Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
 
                                     installedUpdateItem.UpdateProgress = exception is not null
-                                        ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithInformation"), exception.Message)
-                                        : string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithCode"), installationResult.HResult);
+                                        ? string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithInformation"), exception.Message)
+                                        : string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithCode"), installationResult.HResult);
                                     break;
                                 }
                             }
@@ -1470,7 +1501,7 @@ namespace WindowsTools.Views.Pages
                                         if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                         {
                                             availableUpdateItem.UpdatePercentage = 50;
-                                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadCompleted");
+                                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadUpdateCompleted");
                                             break;
                                         }
                                     }
@@ -1485,7 +1516,7 @@ namespace WindowsTools.Views.Pages
                                         {
                                             availableUpdateItem.IsUpdateCanceled = false;
                                             availableUpdateItem.IsUpdating = false;
-                                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadCanceled");
+                                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadUpdateCanceled");
                                         }
                                     }
                                 }
@@ -1501,8 +1532,8 @@ namespace WindowsTools.Views.Pages
                                             Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
 
                                             availableUpdateItem.UpdateProgress = exception is not null
-                                                ? string.Format(ResourceService.UpdateManagerResource.GetString("DownloadFailedWithInformation"), exception.Message)
-                                                : string.Format(ResourceService.UpdateManagerResource.GetString("DownloadFailedWithCode"), downloadResult.HResult);
+                                                ? string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithInformation"), exception.Message)
+                                                : string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithCode"), downloadResult.HResult);
                                             break;
                                         }
                                     }
@@ -1520,8 +1551,8 @@ namespace WindowsTools.Views.Pages
                                         Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
 
                                         availableUpdateItem.UpdateProgress = exception is not null
-                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("DownloadFailedWithInformation"), exception.Message)
-                                            : string.Format(ResourceService.UpdateManagerResource.GetString("DownloadFailedWithCode"), downloadResult.HResult);
+                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithInformation"), exception.Message)
+                                            : string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithCode"), downloadResult.HResult);
                                         break;
                                     }
                                 }
@@ -1580,7 +1611,15 @@ namespace WindowsTools.Views.Pages
                                             if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                             {
                                                 availableUpdateItem.UpdatePercentage = 100;
-                                                availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallCompleted");
+                                                availableUpdateItem.IsUpdateCanceled = true;
+                                                availableUpdateItem.UpdateProgress = installationResult.RebootRequired
+                                                    ? ResourceService.UpdateManagerResource.GetString("InstallUpdateCompletedNeedReboot")
+                                                    : ResourceService.UpdateManagerResource.GetString("InstallUpdateCompleted");
+
+                                                if (installationResult.RebootRequired && !IsNeedRebootPrompt)
+                                                {
+                                                    IsNeedRebootPrompt = true;
+                                                }
                                                 break;
                                             }
                                         }
@@ -1594,7 +1633,7 @@ namespace WindowsTools.Views.Pages
                                             {
                                                 availableUpdateItem.IsUpdateCanceled = false;
                                                 availableUpdateItem.IsUpdating = false;
-                                                availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallCanceled");
+                                                availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallUpdateCanceled");
                                             }
                                         }
                                     }
@@ -1610,8 +1649,8 @@ namespace WindowsTools.Views.Pages
                                                 Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
 
                                                 availableUpdateItem.UpdateProgress = exception is not null
-                                                    ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithInformation"), exception.Message)
-                                                    : string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithCode"), installationResult.HResult);
+                                                    ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithInformation"), exception.Message)
+                                                    : string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithCode"), installationResult.HResult);
                                                 break;
                                             }
                                         }
@@ -1629,8 +1668,8 @@ namespace WindowsTools.Views.Pages
                                             Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
 
                                             availableUpdateItem.UpdateProgress = exception is not null
-                                                ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithInformation"), exception.Message)
-                                                : string.Format(ResourceService.UpdateManagerResource.GetString("InstallFailedWithCode"), installationResult.HResult);
+                                                ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithInformation"), exception.Message)
+                                                : string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithCode"), installationResult.HResult);
                                             break;
                                         }
                                     }
@@ -1827,8 +1866,15 @@ namespace WindowsTools.Views.Pages
                                         if (installedUpdateItem.UpdateID.Equals(uninstallItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                         {
                                             installedUpdateItem.UpdatePercentage = 100;
-                                            installedUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UninstallCompleted");
-                                            InstalledUpdateCollection.Remove(installedUpdateItem);
+                                            installedUpdateItem.IsUpdateCanceled = true;
+                                            installedUpdateItem.UpdateProgress = installationResult.RebootRequired
+                                                  ? ResourceService.UpdateManagerResource.GetString("UninstallUpdateCompletedNeedReboot")
+                                                  : ResourceService.UpdateManagerResource.GetString("UninstallUpdateCompleted");
+
+                                            if (installationResult.RebootRequired && !IsNeedRebootPrompt)
+                                            {
+                                                IsNeedRebootPrompt = true;
+                                            }
                                             break;
                                         }
                                     }
@@ -1842,7 +1888,7 @@ namespace WindowsTools.Views.Pages
                                         {
                                             installedUpdateItem.IsUpdateCanceled = false;
                                             installedUpdateItem.IsUpdating = false;
-                                            installedUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UninstallCanceled");
+                                            installedUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UninstallUpdateCanceled");
                                         }
                                     }
                                 }
@@ -1858,8 +1904,8 @@ namespace WindowsTools.Views.Pages
                                             Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
 
                                             installedUpdateItem.UpdateProgress = exception is not null
-                                                ? string.Format(ResourceService.UpdateManagerResource.GetString("UninstallFailedWithInformation"), exception.Message)
-                                                : string.Format(ResourceService.UpdateManagerResource.GetString("UninstallFailedWithCode"), installationResult.HResult);
+                                                ? string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithInformation"), exception.Message)
+                                                : string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithCode"), installationResult.HResult);
                                             break;
                                         }
                                     }
@@ -1877,8 +1923,8 @@ namespace WindowsTools.Views.Pages
                                         Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
 
                                         installedUpdateItem.UpdateProgress = exception is not null
-                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("UninstallFailedWithInformation"), exception.Message)
-                                            : string.Format(ResourceService.UpdateManagerResource.GetString("UninstallFailedWithCode"), installationResult.HResult);
+                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithInformation"), exception.Message)
+                                            : string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithCode"), installationResult.HResult);
                                         break;
                                     }
                                 }
@@ -2076,6 +2122,25 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
+        /// 重启以完成后续更新的安装或卸载
+        /// </summary>
+        private void OnRebootClicked(Microsoft.UI.Xaml.Controls.SplitButton sender, Microsoft.UI.Xaml.Controls.SplitButtonClickEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                ShutdownHelper.Restart(ResourceService.UpdateManagerResource.GetString("RestartPC"), TimeSpan.FromSeconds(120));
+            });
+        }
+
+        /// <summary>
+        /// 点击重新更新提示栏关闭按钮关闭通知显示
+        /// </summary>
+        private void OnHideNeedRebootPromptClicked(object sender, RoutedEventArgs args)
+        {
+            IsNeedRebootPrompt = false;
+        }
+
+        /// <summary>
         /// 搜索结果中是否包含被取代的更新
         /// </summary>
         private void OnIncludePotentiallySupersededUpdateToggled(object sender, RoutedEventArgs args)
@@ -2125,6 +2190,22 @@ namespace WindowsTools.Views.Pages
             }
         }
 
+        /// <summary>
+        /// 清除历史更新记录
+        /// </summary>
+        private void OnCleanUpdateHistoryClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                ProcessStartInfo processStartInfo = new()
+                {
+                    FileName = "PowerShell.exe",
+                    Arguments = string.Format(@"-windowstyle hidden -command ""Start-Process cmd -ArgumentList '/s,/c,net stop usosvc & net stop wuauserv & del %SystemRoot%\SoftwareDistribution\DataStore\Logs\edb.log & del /f /q %ALLUSERSPROFILE%\USOPrivate\UpdateStore\* & net start usosvc & net start wuauserv & UsoClient.exe RefreshSettings' -Verb runAs""")
+                };
+                Process.Start(processStartInfo);
+            });
+        }
+
         // TODO:未完成
         /// <summary>
         /// 更改设备的预览计划频道
@@ -2160,7 +2241,7 @@ namespace WindowsTools.Views.Pages
                         {
                             availableUpdateItem.IsUpdatePreparing = false;
                             availableUpdateItem.UpdatePercentage = percentage / 2;
-                            availableUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("DownloadingUpdateProgressInitializing"), percentage);
+                            availableUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateProgressInitializing"), percentage);
                             break;
                         }
                     }
@@ -2177,7 +2258,7 @@ namespace WindowsTools.Views.Pages
                         {
                             availableUpdateItem.IsUpdatePreparing = false;
                             availableUpdateItem.UpdatePercentage = percentage / 2;
-                            availableUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("DownloadingUpdateProgressDownloading"), percentage);
+                            availableUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateProgressDownloading"), percentage);
                             break;
                         }
                     }
@@ -2193,7 +2274,7 @@ namespace WindowsTools.Views.Pages
                         {
                             availableUpdateItem.IsUpdatePreparing = false;
                             availableUpdateItem.UpdatePercentage = percentage / 2;
-                            availableUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("DownloadingUpdateProgressVerifying"), percentage);
+                            availableUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateProgressVerifying"), percentage);
                             break;
                         }
                     }
@@ -2216,7 +2297,7 @@ namespace WindowsTools.Views.Pages
                     if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                     {
                         availableUpdateItem.UpdatePercentage = 50 + percentage / 2;
-                        availableUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("InstallingUpdateProgress"), percentage);
+                        availableUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateProgress"), percentage);
                         break;
                     }
                 }
@@ -2238,7 +2319,7 @@ namespace WindowsTools.Views.Pages
                     if (installedUpdateItem.UpdateID.Equals(updateItem.UpdateID))
                     {
                         installedUpdateItem.UpdatePercentage = percentage;
-                        installedUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("UninstallingUpdateProgress"), percentage);
+                        installedUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateProgress"), percentage);
                         break;
                     }
                 }
@@ -2334,7 +2415,7 @@ namespace WindowsTools.Views.Pages
 
                             foreach (object item in update.Languages)
                             {
-                                updateInformation.LanguageList.Add(item.ToString());
+                                updateInformation.SupportedLanguageList.Add(item.ToString());
                             }
 
                             UpdateModel updateItem = new()
@@ -2411,7 +2492,7 @@ namespace WindowsTools.Views.Pages
 
                             updateItem.CveIDList.AddRange(updateInformation.CveIDList);
                             updateItem.KBArticleIDList.AddRange(updateInformation.KBArticleIDList);
-                            updateItem.LanguageList.AddRange(updateInformation.LanguageList);
+                            updateItem.SupportedLanguageList.AddRange(updateInformation.SupportedLanguageList);
                             updateItem.MoreInfoList.AddRange(updateInformation.MoreInfoList);
 
                             // 隐藏的更新
