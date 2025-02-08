@@ -19,12 +19,12 @@ namespace WindowsTools.Helpers.Root
         /// <summary>
         /// 读取注册表指定项的内容
         /// </summary>
-        public static T ReadRegistryKey<T>(string rootKey, string key)
+        public static T ReadRegistryKey<T>(RegistryKey rootRegistryKey, string rootKey, string key)
         {
             T value = default;
             try
             {
-                if (Registry.CurrentUser.OpenSubKey(rootKey, false) is RegistryKey registryKey && registryKey.GetValue(key) is object getValue)
+                if ((rootRegistryKey.Equals(Registry.ClassesRoot) || rootRegistryKey.Equals(Registry.CurrentConfig) || rootRegistryKey.Equals(Registry.CurrentUser) || rootRegistryKey.Equals(Registry.LocalMachine) || rootRegistryKey.Equals(Registry.PerformanceData) || rootRegistryKey.Equals(Registry.Users)) && rootRegistryKey.OpenSubKey(rootKey, false) is RegistryKey registryKey && registryKey.GetValue(key) is object getValue)
                 {
                     // 读取布尔值
                     if (typeof(T) == typeof(bool) || typeof(T) == typeof(bool?))
@@ -71,17 +71,16 @@ namespace WindowsTools.Helpers.Root
         /// <summary>
         /// 保存注册表指定项的内容
         /// </summary>
-        public static void SaveRegistryKey<T>(string rootKey, string key, T value, bool isExpandString = false)
+        public static bool SaveRegistryKey<T>(RegistryKey rootRegistryKey, string rootKey, string key, T value, bool isExpandString = false)
         {
             try
             {
-                if (Registry.CurrentUser.CreateSubKey(rootKey, true) is RegistryKey registryKey)
+                if ((rootRegistryKey.Equals(Registry.ClassesRoot) || rootRegistryKey.Equals(Registry.CurrentConfig) || rootRegistryKey.Equals(Registry.CurrentUser) || rootRegistryKey.Equals(Registry.LocalMachine) || rootRegistryKey.Equals(Registry.PerformanceData) || rootRegistryKey.Equals(Registry.Users)) && rootRegistryKey.CreateSubKey(rootKey, true) is RegistryKey registryKey)
                 {
                     // 存储 32 位整数类型或者布尔值
                     if (typeof(T) == typeof(bool) || typeof(T) == typeof(int) || typeof(T) == typeof(uint))
                     {
                         int saveValue = Convert.ToInt32(value);
-
                         if (saveValue >= 0)
                         {
                             registryKey.SetValue(key, Convert.ToInt32(value), RegistryValueKind.DWord);
@@ -123,10 +122,12 @@ namespace WindowsTools.Helpers.Root
                     registryKey.Close();
                     registryKey.Dispose();
                 }
+                return true;
             }
             catch (Exception e)
             {
                 LogService.WriteLog(EventLevel.Error, string.Format("Save Registry rootKey {0} and key {1} value failed", rootKey, key), e);
+                return false;
             }
         }
 
@@ -134,33 +135,45 @@ namespace WindowsTools.Helpers.Root
         /// 移除注册表指定项
         /// </summary>
 
-        public static void RemoveRegistryKey(string rootKey)
+        public static bool RemoveRegistryKey(RegistryKey rootRegistryKey, string rootKey, string key)
         {
             try
             {
-                if (Registry.CurrentUser.OpenSubKey(rootKey, true) is RegistryKey registryKey)
+                if ((rootRegistryKey.Equals(Registry.ClassesRoot) || rootRegistryKey.Equals(Registry.CurrentConfig) || rootRegistryKey.Equals(Registry.CurrentUser) || rootRegistryKey.Equals(Registry.LocalMachine) || rootRegistryKey.Equals(Registry.PerformanceData) || rootRegistryKey.Equals(Registry.Users)) && rootRegistryKey.CreateSubKey(rootKey, true) is RegistryKey registryKey)
                 {
-                    Registry.CurrentUser.DeleteSubKeyTree(rootKey, false);
+                    // 删除整项
+                    if (key is null)
+                    {
+                        rootRegistryKey.DeleteSubKeyTree(rootKey, false);
+                    }
+                    // 删除项下的某一个键值
+                    else
+                    {
+                        registryKey.DeleteValue(key);
+                    }
+
                     registryKey.Close();
                     registryKey.Dispose();
                 }
+                return true;
             }
             catch (Exception e)
             {
                 LogService.WriteLog(EventLevel.Error, string.Format("Remove registry rootkey {0} failed", rootKey), e);
+                return false;
             }
         }
 
         /// <summary>
         /// 枚举并递归当前注册表项的所有子项
         /// </summary>
-        public static RegistryEnumKeyItem EnumSubKey(string rootKey)
+        public static RegistryEnumKeyItem EnumSubKey(RegistryKey rootRegistryKey, string rootKey)
         {
             RegistryEnumKeyItem registryEnumKeyItem = new();
 
             try
             {
-                if (Registry.CurrentUser.OpenSubKey(rootKey) is RegistryKey registryKey)
+                if ((rootRegistryKey.Equals(Registry.ClassesRoot) || rootRegistryKey.Equals(Registry.CurrentConfig) || rootRegistryKey.Equals(Registry.CurrentUser) || rootRegistryKey.Equals(Registry.LocalMachine) || rootRegistryKey.Equals(Registry.PerformanceData) || rootRegistryKey.Equals(Registry.Users)) && rootRegistryKey.OpenSubKey(rootKey) is RegistryKey registryKey)
                 {
                     // 添加当前项信息
                     registryEnumKeyItem.RootKey = rootKey;
@@ -171,7 +184,7 @@ namespace WindowsTools.Helpers.Root
                     // 递归遍历所有子项列表
                     foreach (string subKey in subKeyArray)
                     {
-                        registryEnumKeyItem.SubRegistryKeyList.Add(EnumSubKey(Path.Combine(rootKey, subKey)));
+                        registryEnumKeyItem.SubRegistryKeyList.Add(EnumSubKey(rootRegistryKey, Path.Combine(rootKey, subKey)));
                     }
 
                     registryKey.Close();
@@ -189,14 +202,14 @@ namespace WindowsTools.Helpers.Root
         /// <summary>
         /// 添加注册表监控
         /// </summary>
-        public static void MonitorRegistryValueChange(string rootKey)
+        public static bool MonitorRegistryValueChange(RegistryKey rootRegistryKey, string rootKey)
         {
             ManualResetEvent manualResetEvent = null;
             RegisteredWaitHandle registeredWaitHandle = null;
 
             try
             {
-                if (Registry.CurrentUser.OpenSubKey(rootKey, false) is RegistryKey registryKey)
+                if ((rootRegistryKey.Equals(Registry.ClassesRoot) || rootRegistryKey.Equals(Registry.CurrentConfig) || rootRegistryKey.Equals(Registry.CurrentUser) || rootRegistryKey.Equals(Registry.LocalMachine) || rootRegistryKey.Equals(Registry.PerformanceData) || rootRegistryKey.Equals(Registry.Users)) && Registry.CurrentUser.OpenSubKey(rootKey, false) is RegistryKey registryKey)
                 {
                     manualResetEvent = new(false);
                     int ret = Advapi32Library.RegNotifyChangeKeyValue(registryKey.Handle.DangerousGetHandle(), true, REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_LAST_SET | REG_NOTIFY_FILTER.REG_NOTIFY_THREAD_AGNOSTIC, manualResetEvent.SafeWaitHandle.DangerousGetHandle(), true);
@@ -208,10 +221,12 @@ namespace WindowsTools.Helpers.Root
                         NotifyKeyValueChanged?.Invoke(null, EventArgs.Empty);
                     }, null, Timeout.Infinite, true);
                 }
+                return true;
             }
             catch (Exception e)
             {
                 LogService.WriteLog(EventLevel.Error, string.Format("Monitor Registry rootKey change {0} failed", rootKey), e);
+                return false;
             }
         }
     }
