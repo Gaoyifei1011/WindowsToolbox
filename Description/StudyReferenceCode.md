@@ -16,8 +16,10 @@
 > * [Mile.Xaml](https://github.com/ProjectMile/Mile.Xaml)&emsp;
 > * [Mile.Xaml.Samples](https://github.com/ProjectMile/Mile.Xaml.Samples)&emsp;
 > * [ModernContextMenuManager](https://github.com/cnbluefire/ModernContextMenuManager)&emsp;
+> * [OfflineInsiderEnroll](https://github.com/SyXo/offlineinsiderenroll)&emsp;
 > * [PriTools](https://github.com/chausner/PriTools)&emsp;
 > * [Uno](https://github.com/unoplatform/uno)&emsp;
 > * [UWP-Loopback-Exemption-Manager](https://github.com/themerror/UWP-Loopback-Exemption-Manager)&emsp;
 > * [Xaml-Islands-Cpp](https://github.com/Blinue/Xaml-Islands-Cpp)&emsp;
 > * [Wice](https://github.com/aelyo-softworks/Wice)&emsp;
+> * [wumgr](https://github.com/DavidXanatos/wumgr)&emsp;

@@ -70,7 +70,7 @@ A toolbox that integrates multiple gadgets.
 | Right-click menu items manager                            | Finished                                                             |
 | System information                                        | Unfinished                                                           |
 | Driver manager                                            | Unfinished                                                           |
-| Update manager                                            | Unfinished                                                           |
+| Update manager                                            | Finished                                                             |
 | Loopback manager                                          | Finished                                                             |
 | Windows system assessment tool                            | Finished                                                             |
 
