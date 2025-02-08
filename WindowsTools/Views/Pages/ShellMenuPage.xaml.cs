@@ -1,4 +1,5 @@
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -575,7 +576,7 @@ namespace WindowsTools.Views.Pages
 
                 await Task.Run(() =>
                 {
-                    RegistryHelper.MonitorRegistryValueChange(@"Software\WindowsTools\ShellMenuTest");
+                    RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, @"Software\WindowsTools\ShellMenuTest");
                 });
             }
 
@@ -1388,7 +1389,7 @@ namespace WindowsTools.Views.Pages
             isChanger = false;
 
             // 注册的变化通知在使用一次后就消失了，需要重新注册
-            RegistryHelper.MonitorRegistryValueChange(@"Software\WindowsTools\ShellMenuTest");
+            RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, @"Software\WindowsTools\ShellMenuTest");
         }
 
         #endregion 第三部分：自定义事件

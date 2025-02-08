@@ -9,6 +9,7 @@ using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using WindowsTools.Helpers.Root;
 using WindowsTools.WindowsAPI.PInvoke.Comctl32;
 using WindowsTools.WindowsAPI.PInvoke.Kernel32;
 using WindowsTools.WindowsAPI.PInvoke.User32;
@@ -428,7 +429,7 @@ namespace WindowsTools.UI.Backdrop
         /// </summary>
         private bool IsAdvancedEffectsEnabled()
         {
-            return Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize") is RegistryKey key && key.GetValue("EnableTransparency") is object value && Convert.ToInt32(value) is 1;
+            return RegistryHelper.ReadRegistryKey<int>(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "EnableTransparency") is 1;
         }
     }
 }

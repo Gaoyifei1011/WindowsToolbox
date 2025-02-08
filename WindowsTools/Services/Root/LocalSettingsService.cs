@@ -1,4 +1,5 @@
-﻿using WindowsTools.Helpers.Root;
+﻿using Microsoft.Win32;
+using WindowsTools.Helpers.Root;
 
 namespace WindowsTools.Services.Root
 {
@@ -14,7 +15,7 @@ namespace WindowsTools.Services.Root
         /// </summary>
         public static T ReadSetting<T>(string key)
         {
-            return RegistryHelper.ReadRegistryKey<T>(settingsKey, key);
+            return RegistryHelper.ReadRegistryKey<T>(Registry.CurrentUser, settingsKey, key);
         }
 
         /// <summary>
@@ -22,7 +23,7 @@ namespace WindowsTools.Services.Root
         /// </summary>
         public static void SaveSetting<T>(string key, T value)
         {
-            RegistryHelper.SaveRegistryKey(settingsKey, key, value);
+            RegistryHelper.SaveRegistryKey(Registry.CurrentUser, settingsKey, key, value);
         }
     }
 }

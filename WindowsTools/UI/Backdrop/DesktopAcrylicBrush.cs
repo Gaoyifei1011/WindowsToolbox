@@ -7,6 +7,7 @@ using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using WindowsTools.Helpers.Root;
 using WindowsTools.WindowsAPI.PInvoke.Comctl32;
 using WindowsTools.WindowsAPI.PInvoke.Kernel32;
 using WindowsTools.WindowsAPI.PInvoke.User32;
@@ -83,7 +84,7 @@ namespace WindowsTools.UI.Backdrop
         {
             get
             {
-                return Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Wallpaper") is RegistryKey key && key.GetValue("WallpaperSurfaceProvidedToDwm") is object value && Convert.ToInt32(value) is 1;
+                return RegistryHelper.ReadRegistryKey<int>(Registry.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Wallpaper", "WallpaperSurfaceProvidedToDwm") is 1;
             }
         }
 
