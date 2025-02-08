@@ -750,21 +750,59 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        // TODO:未完成
         /// <summary>
         /// 更新历史记录，复制更新描述信息
         /// </summary>
         private async void OnCopyInformationExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is UpdateInformation updateInformation)
+            if (args.Parameter is UpdateModel updateItem)
             {
                 string copyString = await Task.Run(() =>
                 {
                     StringBuilder copyInformationBuilder = new();
-                    copyInformationBuilder.AppendLine(ResourceService.UpdateManagerResource.GetString("Title"));
-                    copyInformationBuilder.AppendLine(updateInformation.Title);
-                    copyInformationBuilder.AppendLine(ResourceService.UpdateManagerResource.GetString("Description"));
-                    copyInformationBuilder.AppendLine(updateInformation.Description);
+                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("UpdateName"));
+                    copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.Title) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.UpdateInformation.Title);
+                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("Description"));
+                    copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.Description) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.UpdateInformation.Description);
+                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("IsBeta"));
+                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.IsBeta ? ResourceService.UpdateManagerResource.GetString("Yes") : ResourceService.UpdateManagerResource.GetString("No"));
+                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("IsMandatory"));
+                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.IsMandatory ? ResourceService.UpdateManagerResource.GetString("Yes") : ResourceService.UpdateManagerResource.GetString("No"));
+                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("MaxDownloadSize"));
+                    copyInformationBuilder.AppendLine(FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(updateItem.UpdateInformation.Update.MaxDownloadSize)));
+                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("MinDownloadSize"));
+                    copyInformationBuilder.AppendLine(FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(updateItem.UpdateInformation.Update.MinDownloadSize)));
+                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("MsrcSeverity"));
+                    copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.MsrcSeverity) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.UpdateInformation.MsrcSeverity);
+                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("RecommendedCpuSpeed"));
+                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedCpuSpeed.Equals(0) ? ResourceService.UpdateManagerResource.GetString("Unknown") : string.Format("{0} MHz", updateItem.UpdateInformation.RecommendedCpuSpeed));
+                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("RecommendedHardDiskSpace"));
+                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedHardDiskSpace.Equals(0) ? ResourceService.UpdateManagerResource.GetString("Unknown") : string.Format("{0} MB", updateItem.UpdateInformation.RecommendedHardDiskSpace));
+                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("RecommendedMemory"));
+                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedMemory.Equals(0) ? ResourceService.UpdateManagerResource.GetString("Unknown") : string.Format("{0} MB", updateItem.UpdateInformation.RecommendedMemory));
+                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("ReleaseNotes"));
+                    copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.ReleaseNotes) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.UpdateInformation.ReleaseNotes);
+                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("SupportedUrl"));
+                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.SupportURL);
+
+                    if (updateItem.UpdateInformation.UpdateType is UpdateType.utDriver)
+                    {
+                        copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DeviceProblemNumber"));
+                        copyInformationBuilder.AppendLine(Convert.ToString(updateItem.DriverInformation.DeviceProblemNumber));
+                        copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverClass"));
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.DriverInformation.DriverClass) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.DriverInformation.DriverClass);
+                        copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverHardwareID"));
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.DriverInformation.DriverHardwareID) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.DriverInformation.DriverHardwareID);
+                        copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverManufacturer"));
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.DriverInformation.DriverManufacturer) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.DriverInformation.DriverManufacturer);
+                        copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverModel"));
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.DriverInformation.DriverModel) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.DriverInformation.DriverModel);
+                        copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverProvider"));
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.DriverInformation.DriverProvider) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.DriverInformation.DriverProvider);
+                        copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverVerDate"));
+                        copyInformationBuilder.AppendLine(updateItem.DriverInformation.DriverVerDate.ToString("yyyy/MM/dd"));
+                    }
+
                     return copyInformationBuilder.ToString();
                 });
 
@@ -1066,16 +1104,6 @@ namespace WindowsTools.Views.Pages
 
                         // 移除更新卸载任务
                         uninstallationJobDict.Remove(updateItem.UpdateID);
-
-                        // 当前更新的卸载所有步骤都已完成，移除该安装记录
-                        foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
-                        {
-                            if (installedUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                            {
-                                InstalledUpdateCollection.Remove(installedUpdateItem);
-                                break;
-                            }
-                        }
 
                         IsInstalledUninstallEnabled = InstalledUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && item.UpdateInformation.IsUninstallable);
                         IsInstalledCancelInstallEnabled = InstalledUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled && item.UpdateInformation.IsUninstallable);
@@ -1942,15 +1970,6 @@ namespace WindowsTools.Views.Pages
                         // 当前更新的卸载所有步骤都已完成
                         synchronizationContext.Post(_ =>
                         {
-                            foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
-                            {
-                                if (installedUpdateItem.UpdateID.Equals(uninstallItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    InstalledUpdateCollection.Remove(installedUpdateItem);
-                                    break;
-                                }
-                            }
-
                             IsInstalledUninstallEnabled = InstalledUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && item.UpdateInformation.IsUninstallable);
                             IsInstalledCancelInstallEnabled = InstalledUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled && item.UpdateInformation.IsUninstallable);
 
@@ -2124,7 +2143,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 重启以完成后续更新的安装或卸载
         /// </summary>
-        private void OnRebootClicked(Microsoft.UI.Xaml.Controls.SplitButton sender, Microsoft.UI.Xaml.Controls.SplitButtonClickEventArgs args)
+        private void OnRebootClicked(object sender, RoutedEventArgs args)
         {
             Task.Run(() =>
             {
@@ -2430,11 +2449,10 @@ namespace WindowsTools.Views.Pages
                                 MsrcSeverity = string.IsNullOrEmpty(updateInformation.MsrcSeverity) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateInformation.MsrcSeverity,
                                 RecommendedCpuSpeed = updateInformation.RecommendedCpuSpeed.Equals(0) ? ResourceService.UpdateManagerResource.GetString("Unknown") : string.Format("{0} MHz", updateInformation.RecommendedCpuSpeed),
                                 RecommendedHardDiskSpace = updateInformation.RecommendedHardDiskSpace.Equals(0) ? ResourceService.UpdateManagerResource.GetString("Unknown") : string.Format("{0} MB", updateInformation.RecommendedHardDiskSpace),
-                                RecommendedMemory = updateInformation.RecommendedHardDiskSpace.Equals(0) ? ResourceService.UpdateManagerResource.GetString("Unknown") : string.Format("{0} MB", updateInformation.RecommendedMemory),
-                                RebootRequired = updateInformation.IsUninstallable ? ResourceService.UpdateManagerResource.GetString("Yes") : ResourceService.UpdateManagerResource.GetString("No"),
+                                RecommendedMemory = updateInformation.RecommendedMemory.Equals(0) ? ResourceService.UpdateManagerResource.GetString("Unknown") : string.Format("{0} MB", updateInformation.RecommendedMemory),
                                 ReleaseNotes = string.IsNullOrEmpty(updateInformation.ReleaseNotes) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateInformation.ReleaseNotes,
                                 SupportURL = updateInformation.SupportURL,
-                                Title = updateInformation.Title,
+                                Title = string.IsNullOrEmpty(updateInformation.Title) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateInformation.Title,
                                 UpdateID = updateInformation.UpdateID,
                                 IsUpdating = false,
                                 UpdateProgress = string.Empty,
@@ -2476,7 +2494,7 @@ namespace WindowsTools.Views.Pages
                                     };
 
                                     updateItem.DriverInformation = driverInformation;
-                                    updateItem.DeviceProblemNumber = Convert.ToString(driverInformation.DriverManufacturer);
+                                    updateItem.DeviceProblemNumber = Convert.ToString(driverInformation.DeviceProblemNumber);
                                     updateItem.DriverClass = string.IsNullOrEmpty(driverInformation.DriverClass) ? ResourceService.UpdateManagerResource.GetString("Unknown") : driverInformation.DriverClass;
                                     updateItem.DriverHardwareID = string.IsNullOrEmpty(driverInformation.DriverHardwareID) ? ResourceService.UpdateManagerResource.GetString("Unknown") : driverInformation.DriverHardwareID;
                                     updateItem.DriverManufacturer = string.IsNullOrEmpty(driverInformation.DriverManufacturer) ? ResourceService.UpdateManagerResource.GetString("Unknown") : driverInformation.DriverManufacturer;

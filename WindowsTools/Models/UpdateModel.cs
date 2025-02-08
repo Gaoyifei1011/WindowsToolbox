@@ -91,11 +91,6 @@ namespace WindowsTools.Models
         public string RecommendedMemory { get; set; }
 
         /// <summary>
-        /// 更新是否需要重启系统来完成安装或卸载更新
-        /// </summary>
-        public string RebootRequired { get; set; }
-
-        /// <summary>
         /// 更新的本地化发行说明
         /// </summary>
         public string ReleaseNotes { get; set; }

@@ -499,7 +499,7 @@
 
                                                                 <MenuFlyoutItem
                                                                     Command="{StaticResource CopyInformationCommand}"
-                                                                    CommandParameter="{x:Bind UpdateInformation}"
+                                                                    CommandParameter="{x:Bind}"
                                                                     Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CopyInformation')}">
 
                                                                     <MenuFlyoutItem.Icon>
@@ -535,7 +535,6 @@
                                                     </Grid.ColumnDefinitions>
 
                                                     <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto" />
                                                         <RowDefinition Height="Auto" />
                                                         <RowDefinition Height="Auto" />
                                                         <RowDefinition Height="Auto" />
@@ -764,39 +763,17 @@
                                                         Grid.Column="1"
                                                         Margin="0,0,3,3"
                                                         FontSize="14"
-                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RebootRequired')}" />
-
-                                                    <TextBlock
-                                                        Grid.Row="9"
-                                                        Grid.Column="2"
-                                                        Margin="0,0,0,3"
-                                                        Text="{x:Bind RebootRequired}"
-                                                        TextWrapping="Wrap" />
-
-                                                    <FontIcon
-                                                        Grid.Row="10"
-                                                        Grid.Column="0"
-                                                        Margin="0,4,16,3"
-                                                        VerticalAlignment="Top"
-                                                        FontSize="12"
-                                                        Glyph="&#xE915;" />
-
-                                                    <TextBlock
-                                                        Grid.Row="10"
-                                                        Grid.Column="1"
-                                                        Margin="0,0,3,3"
-                                                        FontSize="14"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ReleaseNotes')}" />
 
                                                     <TextBlock
-                                                        Grid.Row="10"
+                                                        Grid.Row="9"
                                                         Grid.Column="2"
                                                         Margin="0,0,0,3"
                                                         Text="{x:Bind ReleaseNotes}"
                                                         TextWrapping="Wrap" />
 
                                                     <FontIcon
-                                                        Grid.Row="11"
+                                                        Grid.Row="10"
                                                         Grid.Column="0"
                                                         Margin="0,4,16,3"
                                                         VerticalAlignment="Top"
@@ -804,21 +781,21 @@
                                                         Glyph="&#xE915;" />
 
                                                     <TextBlock
-                                                        Grid.Row="11"
+                                                        Grid.Row="10"
                                                         Grid.Column="1"
                                                         Margin="0,0,3,3"
                                                         FontSize="14"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateType')}" />
 
                                                     <TextBlock
-                                                        Grid.Row="11"
+                                                        Grid.Row="10"
                                                         Grid.Column="2"
                                                         Margin="0,0,0,3"
                                                         Text="{x:Bind UpdateType}"
                                                         TextWrapping="Wrap" />
 
                                                     <FontIcon
-                                                        Grid.Row="12"
+                                                        Grid.Row="11"
                                                         Grid.Column="0"
                                                         Margin="0,4,16,3"
                                                         VerticalAlignment="Top"
@@ -826,14 +803,14 @@
                                                         Glyph="&#xE915;" />
 
                                                     <TextBlock
-                                                        Grid.Row="12"
+                                                        Grid.Row="11"
                                                         Grid.Column="1"
                                                         Margin="0,0,3,3"
                                                         FontSize="14"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CVEID')}" />
 
                                                     <TextBlock
-                                                        Grid.Row="12"
+                                                        Grid.Row="11"
                                                         Grid.Column="2"
                                                         Margin="0,0,0,3"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
@@ -841,7 +818,7 @@
                                                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert (CveIDList.Count), Mode=OneWay}" />
 
                                                     <ListView
-                                                        Grid.Row="12"
+                                                        Grid.Row="11"
                                                         Grid.Column="2"
                                                         ItemsSource="{x:Bind CveIDList}"
                                                         SelectionMode="None"
@@ -868,7 +845,7 @@
                                                     </ListView>
 
                                                     <FontIcon
-                                                        Grid.Row="13"
+                                                        Grid.Row="12"
                                                         Grid.Column="0"
                                                         Margin="0,4,16,3"
                                                         VerticalAlignment="Top"
@@ -876,14 +853,14 @@
                                                         Glyph="&#xE915;" />
 
                                                     <TextBlock
-                                                        Grid.Row="13"
+                                                        Grid.Row="12"
                                                         Grid.Column="1"
                                                         Margin="0,0,3,3"
                                                         FontSize="14"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('KBArticleID')}" />
 
                                                     <TextBlock
-                                                        Grid.Row="13"
+                                                        Grid.Row="12"
                                                         Grid.Column="2"
                                                         Margin="0,0,0,3"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
@@ -891,7 +868,7 @@
                                                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(KBArticleIDList.Count), Mode=OneWay}" />
 
                                                     <ListView
-                                                        Grid.Row="13"
+                                                        Grid.Row="12"
                                                         Grid.Column="2"
                                                         ItemsSource="{x:Bind KBArticleIDList}"
                                                         SelectionMode="None"
@@ -924,7 +901,7 @@
                                                     </ListView>
 
                                                     <FontIcon
-                                                        Grid.Row="14"
+                                                        Grid.Row="13"
                                                         Grid.Column="0"
                                                         Margin="0,4,16,3"
                                                         VerticalAlignment="Top"
@@ -932,14 +909,14 @@
                                                         Glyph="&#xE915;" />
 
                                                     <TextBlock
-                                                        Grid.Row="14"
+                                                        Grid.Row="13"
                                                         Grid.Column="1"
                                                         Margin="0,0,3,3"
                                                         FontSize="14"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SupportedLanguage')}" />
 
                                                     <TextBlock
-                                                        Grid.Row="14"
+                                                        Grid.Row="13"
                                                         Grid.Column="2"
                                                         Margin="0,0,0,3"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
@@ -947,7 +924,7 @@
                                                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(SupportedLanguageList.Count), Mode=OneWay}" />
 
                                                     <ListView
-                                                        Grid.Row="14"
+                                                        Grid.Row="13"
                                                         Grid.Column="2"
                                                         ItemsSource="{x:Bind SupportedLanguageList}"
                                                         SelectionMode="None"
@@ -974,7 +951,7 @@
                                                     </ListView>
 
                                                     <FontIcon
-                                                        Grid.Row="15"
+                                                        Grid.Row="14"
                                                         Grid.Column="0"
                                                         Margin="0,4,16,3"
                                                         VerticalAlignment="Top"
@@ -982,14 +959,14 @@
                                                         Glyph="&#xE915;" />
 
                                                     <TextBlock
-                                                        Grid.Row="15"
+                                                        Grid.Row="14"
                                                         Grid.Column="1"
                                                         Margin="0,0,3,3"
-                                                        FontSize="15"
+                                                        FontSize="14"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MoreInfo')}" />
 
                                                     <TextBlock
-                                                        Grid.Row="15"
+                                                        Grid.Row="14"
                                                         Grid.Column="2"
                                                         Margin="0,0,0,3"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
@@ -997,7 +974,7 @@
                                                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(MoreInfoList.Count), Mode=OneWay}" />
 
                                                     <ListView
-                                                        Grid.Row="15"
+                                                        Grid.Row="14"
                                                         Grid.Column="2"
                                                         ItemsSource="{x:Bind MoreInfoList}"
                                                         SelectionMode="None"
@@ -1419,6 +1396,8 @@
                                                     Orientation="Horizontal">
 
                                                     <ContentControl IsEnabled="{x:Bind UpdateInformation.IsUninstallable, Mode=OneWay}">
+                                                    <ContentControl IsEnabled="{x:Bind UpdateInformation.IsUninstallable}">
+
                                                         <Grid>
                                                             <Button
                                                                 VerticalAlignment="Stretch"
@@ -1522,7 +1501,6 @@
                                                     </Grid.ColumnDefinitions>
 
                                                     <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto" />
                                                         <RowDefinition Height="Auto" />
                                                         <RowDefinition Height="Auto" />
                                                         <RowDefinition Height="Auto" />
@@ -1751,39 +1729,17 @@
                                                         Grid.Column="1"
                                                         Margin="0,0,3,3"
                                                         FontSize="14"
-                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RebootRequired')}" />
-
-                                                    <TextBlock
-                                                        Grid.Row="9"
-                                                        Grid.Column="2"
-                                                        Margin="0,0,0,3"
-                                                        Text="{x:Bind RebootRequired}"
-                                                        TextWrapping="Wrap" />
-
-                                                    <FontIcon
-                                                        Grid.Row="10"
-                                                        Grid.Column="0"
-                                                        Margin="0,4,16,3"
-                                                        VerticalAlignment="Top"
-                                                        FontSize="12"
-                                                        Glyph="&#xE915;" />
-
-                                                    <TextBlock
-                                                        Grid.Row="10"
-                                                        Grid.Column="1"
-                                                        Margin="0,0,3,3"
-                                                        FontSize="14"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ReleaseNotes')}" />
 
                                                     <TextBlock
-                                                        Grid.Row="10"
+                                                        Grid.Row="9"
                                                         Grid.Column="2"
                                                         Margin="0,0,0,3"
                                                         Text="{x:Bind ReleaseNotes}"
                                                         TextWrapping="Wrap" />
 
                                                     <FontIcon
-                                                        Grid.Row="11"
+                                                        Grid.Row="10"
                                                         Grid.Column="0"
                                                         Margin="0,4,16,3"
                                                         VerticalAlignment="Top"
@@ -1791,21 +1747,21 @@
                                                         Glyph="&#xE915;" />
 
                                                     <TextBlock
-                                                        Grid.Row="11"
+                                                        Grid.Row="10"
                                                         Grid.Column="1"
                                                         Margin="0,0,3,3"
                                                         FontSize="14"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateType')}" />
 
                                                     <TextBlock
-                                                        Grid.Row="11"
+                                                        Grid.Row="10"
                                                         Grid.Column="2"
                                                         Margin="0,0,0,3"
                                                         Text="{x:Bind UpdateType}"
                                                         TextWrapping="Wrap" />
 
                                                     <FontIcon
-                                                        Grid.Row="12"
+                                                        Grid.Row="11"
                                                         Grid.Column="0"
                                                         Margin="0,4,16,3"
                                                         VerticalAlignment="Top"
@@ -1813,14 +1769,14 @@
                                                         Glyph="&#xE915;" />
 
                                                     <TextBlock
-                                                        Grid.Row="12"
+                                                        Grid.Row="11"
                                                         Grid.Column="1"
                                                         Margin="0,0,3,3"
                                                         FontSize="14"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CVEID')}" />
 
                                                     <TextBlock
-                                                        Grid.Row="12"
+                                                        Grid.Row="11"
                                                         Grid.Column="2"
                                                         Margin="0,0,0,3"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
@@ -1828,7 +1784,7 @@
                                                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert (CveIDList.Count), Mode=OneWay}" />
 
                                                     <ListView
-                                                        Grid.Row="12"
+                                                        Grid.Row="11"
                                                         Grid.Column="2"
                                                         ItemsSource="{x:Bind CveIDList}"
                                                         SelectionMode="None"
@@ -1855,7 +1811,7 @@
                                                     </ListView>
 
                                                     <FontIcon
-                                                        Grid.Row="13"
+                                                        Grid.Row="12"
                                                         Grid.Column="0"
                                                         Margin="0,4,16,3"
                                                         VerticalAlignment="Top"
@@ -1863,14 +1819,14 @@
                                                         Glyph="&#xE915;" />
 
                                                     <TextBlock
-                                                        Grid.Row="13"
+                                                        Grid.Row="12"
                                                         Grid.Column="1"
                                                         Margin="0,0,3,3"
                                                         FontSize="14"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('KBArticleID')}" />
 
                                                     <TextBlock
-                                                        Grid.Row="13"
+                                                        Grid.Row="12"
                                                         Grid.Column="2"
                                                         Margin="0,0,0,3"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
@@ -1878,7 +1834,7 @@
                                                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(KBArticleIDList.Count), Mode=OneWay}" />
 
                                                     <ListView
-                                                        Grid.Row="13"
+                                                        Grid.Row="12"
                                                         Grid.Column="2"
                                                         ItemsSource="{x:Bind KBArticleIDList}"
                                                         SelectionMode="None"
@@ -1911,7 +1867,7 @@
                                                     </ListView>
 
                                                     <FontIcon
-                                                        Grid.Row="14"
+                                                        Grid.Row="13"
                                                         Grid.Column="0"
                                                         Margin="0,4,16,3"
                                                         VerticalAlignment="Top"
@@ -1919,14 +1875,14 @@
                                                         Glyph="&#xE915;" />
 
                                                     <TextBlock
-                                                        Grid.Row="14"
+                                                        Grid.Row="13"
                                                         Grid.Column="1"
                                                         Margin="0,0,3,3"
                                                         FontSize="14"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SupportedLanguage')}" />
 
                                                     <TextBlock
-                                                        Grid.Row="14"
+                                                        Grid.Row="13"
                                                         Grid.Column="2"
                                                         Margin="0,0,0,3"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
@@ -1934,7 +1890,7 @@
                                                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(SupportedLanguageList.Count), Mode=OneWay}" />
 
                                                     <ListView
-                                                        Grid.Row="14"
+                                                        Grid.Row="13"
                                                         Grid.Column="2"
                                                         ItemsSource="{x:Bind SupportedLanguageList}"
                                                         SelectionMode="None"
@@ -1961,7 +1917,7 @@
                                                     </ListView>
 
                                                     <FontIcon
-                                                        Grid.Row="15"
+                                                        Grid.Row="14"
                                                         Grid.Column="0"
                                                         Margin="0,4,16,3"
                                                         VerticalAlignment="Top"
@@ -1969,14 +1925,14 @@
                                                         Glyph="&#xE915;" />
 
                                                     <TextBlock
-                                                        Grid.Row="15"
+                                                        Grid.Row="14"
                                                         Grid.Column="1"
                                                         Margin="0,0,3,3"
-                                                        FontSize="15"
+                                                        FontSize="14"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MoreInfo')}" />
 
                                                     <TextBlock
-                                                        Grid.Row="15"
+                                                        Grid.Row="14"
                                                         Grid.Column="2"
                                                         Margin="0,0,0,3"
                                                         Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
@@ -1984,7 +1940,7 @@
                                                         Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(MoreInfoList.Count), Mode=OneWay}" />
 
                                                     <ListView
-                                                        Grid.Row="15"
+                                                        Grid.Row="14"
                                                         Grid.Column="2"
                                                         ItemsSource="{x:Bind MoreInfoList}"
                                                         SelectionMode="None"
@@ -2454,7 +2410,6 @@
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
                                                 </Grid.RowDefinitions>
 
                                                 <FontIcon
@@ -2668,39 +2623,17 @@
                                                     Grid.Column="1"
                                                     Margin="0,0,3,3"
                                                     FontSize="14"
-                                                    Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RebootRequired')}" />
-
-                                                <TextBlock
-                                                    Grid.Row="9"
-                                                    Grid.Column="2"
-                                                    Margin="0,0,0,3"
-                                                    Text="{x:Bind RebootRequired}"
-                                                    TextWrapping="Wrap" />
-
-                                                <FontIcon
-                                                    Grid.Row="10"
-                                                    Grid.Column="0"
-                                                    Margin="0,4,16,3"
-                                                    VerticalAlignment="Top"
-                                                    FontSize="12"
-                                                    Glyph="&#xE915;" />
-
-                                                <TextBlock
-                                                    Grid.Row="10"
-                                                    Grid.Column="1"
-                                                    Margin="0,0,3,3"
-                                                    FontSize="14"
                                                     Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ReleaseNotes')}" />
 
                                                 <TextBlock
-                                                    Grid.Row="10"
+                                                    Grid.Row="9"
                                                     Grid.Column="2"
                                                     Margin="0,0,0,3"
                                                     Text="{x:Bind ReleaseNotes}"
                                                     TextWrapping="Wrap" />
 
                                                 <FontIcon
-                                                    Grid.Row="11"
+                                                    Grid.Row="10"
                                                     Grid.Column="0"
                                                     Margin="0,4,16,3"
                                                     VerticalAlignment="Top"
@@ -2708,21 +2641,21 @@
                                                     Glyph="&#xE915;" />
 
                                                 <TextBlock
-                                                    Grid.Row="11"
+                                                    Grid.Row="10"
                                                     Grid.Column="1"
                                                     Margin="0,0,3,3"
                                                     FontSize="14"
                                                     Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateType')}" />
 
                                                 <TextBlock
-                                                    Grid.Row="11"
+                                                    Grid.Row="10"
                                                     Grid.Column="2"
                                                     Margin="0,0,0,3"
                                                     Text="{x:Bind UpdateType}"
                                                     TextWrapping="Wrap" />
 
                                                 <FontIcon
-                                                    Grid.Row="12"
+                                                    Grid.Row="11"
                                                     Grid.Column="0"
                                                     Margin="0,4,16,3"
                                                     VerticalAlignment="Top"
@@ -2730,14 +2663,14 @@
                                                     Glyph="&#xE915;" />
 
                                                 <TextBlock
-                                                    Grid.Row="12"
+                                                    Grid.Row="11"
                                                     Grid.Column="1"
                                                     Margin="0,0,3,3"
                                                     FontSize="14"
                                                     Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CVEID')}" />
 
                                                 <TextBlock
-                                                    Grid.Row="12"
+                                                    Grid.Row="11"
                                                     Grid.Column="2"
                                                     Margin="0,0,0,3"
                                                     Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
@@ -2745,7 +2678,7 @@
                                                     Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert (CveIDList.Count), Mode=OneWay}" />
 
                                                 <ListView
-                                                    Grid.Row="12"
+                                                    Grid.Row="11"
                                                     Grid.Column="2"
                                                     ItemsSource="{x:Bind CveIDList}"
                                                     SelectionMode="None"
@@ -2772,7 +2705,7 @@
                                                 </ListView>
 
                                                 <FontIcon
-                                                    Grid.Row="13"
+                                                    Grid.Row="12"
                                                     Grid.Column="0"
                                                     Margin="0,4,16,3"
                                                     VerticalAlignment="Top"
@@ -2780,14 +2713,14 @@
                                                     Glyph="&#xE915;" />
 
                                                 <TextBlock
-                                                    Grid.Row="13"
+                                                    Grid.Row="12"
                                                     Grid.Column="1"
                                                     Margin="0,0,3,3"
                                                     FontSize="14"
                                                     Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('KBArticleID')}" />
 
                                                 <TextBlock
-                                                    Grid.Row="13"
+                                                    Grid.Row="12"
                                                     Grid.Column="2"
                                                     Margin="0,0,0,3"
                                                     Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
@@ -2795,7 +2728,7 @@
                                                     Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(KBArticleIDList.Count), Mode=OneWay}" />
 
                                                 <ListView
-                                                    Grid.Row="13"
+                                                    Grid.Row="12"
                                                     Grid.Column="2"
                                                     ItemsSource="{x:Bind KBArticleIDList}"
                                                     SelectionMode="None"
@@ -2828,7 +2761,7 @@
                                                 </ListView>
 
                                                 <FontIcon
-                                                    Grid.Row="14"
+                                                    Grid.Row="13"
                                                     Grid.Column="0"
                                                     Margin="0,4,16,3"
                                                     VerticalAlignment="Top"
@@ -2836,14 +2769,14 @@
                                                     Glyph="&#xE915;" />
 
                                                 <TextBlock
-                                                    Grid.Row="14"
+                                                    Grid.Row="13"
                                                     Grid.Column="1"
                                                     Margin="0,0,3,3"
                                                     FontSize="14"
                                                     Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SupportedLanguage')}" />
 
                                                 <TextBlock
-                                                    Grid.Row="14"
+                                                    Grid.Row="13"
                                                     Grid.Column="2"
                                                     Margin="0,0,0,3"
                                                     Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
@@ -2851,7 +2784,7 @@
                                                     Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(SupportedLanguageList.Count), Mode=OneWay}" />
 
                                                 <ListView
-                                                    Grid.Row="14"
+                                                    Grid.Row="13"
                                                     Grid.Column="2"
                                                     ItemsSource="{x:Bind SupportedLanguageList}"
                                                     SelectionMode="None"
@@ -2878,7 +2811,7 @@
                                                 </ListView>
 
                                                 <FontIcon
-                                                    Grid.Row="15"
+                                                    Grid.Row="14"
                                                     Grid.Column="0"
                                                     Margin="0,4,16,3"
                                                     VerticalAlignment="Top"
@@ -2886,14 +2819,14 @@
                                                     Glyph="&#xE915;" />
 
                                                 <TextBlock
-                                                    Grid.Row="15"
+                                                    Grid.Row="14"
                                                     Grid.Column="1"
                                                     Margin="0,0,3,3"
-                                                    FontSize="15"
+                                                    FontSize="14"
                                                     Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('MoreInfo')}" />
 
                                                 <TextBlock
-                                                    Grid.Row="15"
+                                                    Grid.Row="14"
                                                     Grid.Column="2"
                                                     Margin="0,0,0,3"
                                                     Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('None')}"
@@ -2901,7 +2834,7 @@
                                                     Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(MoreInfoList.Count), Mode=OneWay}" />
 
                                                 <ListView
-                                                    Grid.Row="15"
+                                                    Grid.Row="14"
                                                     Grid.Column="2"
                                                     ItemsSource="{x:Bind MoreInfoList}"
                                                     SelectionMode="None"
@@ -3227,20 +3160,60 @@
                         Severity="Warning">
 
                         <muxc:InfoBar.Content>
-                            <muxc:SplitButton
-                                Click="{x:Bind OnRebootClicked}"
-                                Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Reboot')}"
-                                ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RebootFinishUpdate')}">
-                                <muxc:SplitButton.Flyout>
-                                    <MenuFlyout Placement="Bottom">
-                                        <MenuFlyoutItem Click="{x:Bind OnHideNeedRebootPromptClicked}" Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideNeedRebootPrompt')}">
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xED1A;" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                    </MenuFlyout>
-                                </muxc:SplitButton.Flyout>
-                            </muxc:SplitButton>
+                            <StackPanel
+                                Grid.Column="2"
+                                Height="30"
+                                Margin="20,0,0,0"
+                                BorderBrush="{ThemeResource ButtonBorderBrush}"
+                                BorderThickness="{ThemeResource ButtonBorderThemeThickness}"
+                                CornerRadius="{ThemeResource ControlCornerRadius}"
+                                Orientation="Horizontal">
+
+                                <Button
+                                    VerticalAlignment="Stretch"
+                                    VerticalContentAlignment="Center"
+                                    BorderThickness="0,0,1,0"
+                                    Click="{x:Bind OnRebootClicked}"
+                                    Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Reboot')}"
+                                    CornerRadius="0"
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RebootFinishUpdate')}" />
+
+                                <Button
+                                    Width="35"
+                                    VerticalAlignment="Stretch"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ViewMoreOptions')}">
+
+                                    <Button.Content>
+                                        <muxc:AnimatedIcon
+                                            Width="12"
+                                            Height="12"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            AutomationProperties.AccessibilityView="Raw">
+                                            <animatedvisuals:AnimatedChevronDownSmallVisualSource />
+                                            <muxc:AnimatedIcon.FallbackIconSource>
+                                                <muxc:FontIconSource
+                                                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                    FontSize="8"
+                                                    Glyph="&#xE96E;"
+                                                    IsTextScaleFactorEnabled="False" />
+                                            </muxc:AnimatedIcon.FallbackIconSource>
+                                        </muxc:AnimatedIcon>
+                                    </Button.Content>
+
+                                    <Button.Flyout>
+                                        <MenuFlyout Placement="Bottom">
+                                            <MenuFlyoutItem Click="{x:Bind OnHideNeedRebootPromptClicked}" Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideNeedRebootPrompt')}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon Glyph="&#xED1A;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
                         </muxc:InfoBar.Content>
                     </muxc:InfoBar>
 
