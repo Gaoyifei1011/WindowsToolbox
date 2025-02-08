@@ -3475,55 +3475,45 @@
                                             VerticalAlignment="Center"
                                             Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ForceAccessWIP')}" />
 
-                                        <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedPreviewChannel.Value, Mode=OneWay}">
+                                        <muxc:DropDownButton Grid.Column="1" Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectChannel')}">
                                             <muxc:DropDownButton.Flyout>
                                                 <MenuFlyout Placement="Bottom">
-                                                    <muxc:RadioMenuFlyoutItem
+                                                    <MenuFlyoutItem
                                                         Height="32"
                                                         Padding="11,0"
                                                         Click="{x:Bind OnPreviewChannelSelectClicked}"
-                                                        GroupName="PreviewChannelRadioGroup"
-                                                        IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[0].Key), Mode=OneWay}"
-                                                        Tag="0"
-                                                        Text="{x:Bind sys:Convert.ToString(PreviewChannelList[0].Value)}" />
+                                                        Tag="ExitPreviewChannel"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ExitPreviewChannel')}" />
 
                                                     <MenuFlyoutSeparator />
 
-                                                    <muxc:RadioMenuFlyoutItem
+                                                    <MenuFlyoutItem
                                                         Height="32"
                                                         Padding="11,0"
                                                         Click="{x:Bind OnPreviewChannelSelectClicked}"
-                                                        GroupName="PreviewChannelRadioGroup"
-                                                        IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[1].Key), Mode=OneWay}"
-                                                        Tag="1"
-                                                        Text="{x:Bind sys:Convert.ToString(PreviewChannelList[1].Value)}" />
+                                                        Tag="ReleasePreview"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ReleasePreview')}" />
 
-                                                    <muxc:RadioMenuFlyoutItem
+                                                    <MenuFlyoutItem
                                                         Height="32"
                                                         Padding="11,0"
                                                         Click="{x:Bind OnPreviewChannelSelectClicked}"
-                                                        GroupName="PreviewChannelRadioGroup"
-                                                        IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[2].Key), Mode=OneWay}"
-                                                        Tag="2"
-                                                        Text="{x:Bind sys:Convert.ToString(PreviewChannelList[2].Value)}" />
+                                                        Tag="Beta"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Beta')}" />
 
-                                                    <muxc:RadioMenuFlyoutItem
+                                                    <MenuFlyoutItem
                                                         Height="32"
                                                         Padding="11,0"
                                                         Click="{x:Bind OnPreviewChannelSelectClicked}"
-                                                        GroupName="PreviewChannelRadioGroup"
-                                                        IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[3].Key), Mode=OneWay}"
-                                                        Tag="3"
-                                                        Text="{x:Bind sys:Convert.ToString(PreviewChannelList[3].Value)}" />
+                                                        Tag="Dev"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Dev')}" />
 
-                                                    <muxc:RadioMenuFlyoutItem
+                                                    <MenuFlyoutItem
                                                         Height="32"
                                                         Padding="11,0"
                                                         Click="{x:Bind OnPreviewChannelSelectClicked}"
-                                                        GroupName="PreviewChannelRadioGroup"
-                                                        IsChecked="{x:Bind SelectedPreviewChannel.Key.Equals(PreviewChannelList[4].Key), Mode=OneWay}"
-                                                        Tag="4"
-                                                        Text="{x:Bind sys:Convert.ToString(PreviewChannelList[4].Value)}" />
+                                                        Tag="Canary"
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Canary')}" />
                                                 </MenuFlyout>
                                             </muxc:DropDownButton.Flyout>
                                         </muxc:DropDownButton>
