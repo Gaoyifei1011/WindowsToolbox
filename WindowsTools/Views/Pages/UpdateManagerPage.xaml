@@ -1395,7 +1395,6 @@
                                                     CornerRadius="{ThemeResource ControlCornerRadius}"
                                                     Orientation="Horizontal">
 
-                                                    <ContentControl IsEnabled="{x:Bind UpdateInformation.IsUninstallable, Mode=OneWay}">
                                                     <ContentControl IsEnabled="{x:Bind UpdateInformation.IsUninstallable}">
 
                                                         <Grid>
@@ -3427,7 +3426,7 @@
                                             MinWidth="0"
                                             Margin="0,-2,0,0"
                                             FlowDirection="{x:Bind controlHelper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
-                                            IsOn="{x:Bind IsExcludeDrivers}"
+                                            IsOn="{x:Bind IsExcludeDrivers, Mode=OneWay}"
                                             OffContent="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ExcludeDriversOffContent')}"
                                             OnContent="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ExcludeDriversOnContent')}"
                                             Toggled="{x:Bind OnExcludeDriversToggled}" />
