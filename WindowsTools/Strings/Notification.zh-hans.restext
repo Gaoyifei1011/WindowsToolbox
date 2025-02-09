@@ -14,6 +14,7 @@ GenerateQRCodeFailed=条形码生成失败
 GenerateTextEmpty=请输入要生成的文本
 IconExtractFailed={0}个图标保存成功，{1}个图标保存失败
 IconExtractSuccessfully={0}个图标保存成功
+InsiderPreviewSuccessfully=预览体验计划设置成功
 LanguageChange=语言设置修改成功，重启应用后生效
 ListEmpty=列表中没有任何文件
 LogCleanFailed=日志清除失败，您可以手动打开文件夹清理日志记录

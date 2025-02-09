@@ -14,6 +14,7 @@ GenerateQRCodeFailed=Bar code generated failed
 GenerateTextEmpty=Please input the text you want to generate
 IconExtractFailed={0} icons were saved successfully and {1} icons failed to be saved
 IconExtractSuccessfully={0} icons saved successfully
+InsiderPreviewSuccessfully=Insider preview settings successfully
 LanguageChange=The language setting is modified successfully and takes effect after restarting the application
 ListEmpty=There are no files in the list
 LogCleanFailed=Log cleanup failed.You can manually turn on folder cleanup logging
