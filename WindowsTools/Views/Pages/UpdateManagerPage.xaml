@@ -3154,9 +3154,10 @@
                         Margin="0,0,0,3"
                         IsClosable="True"
                         IsIconVisible="True"
-                        IsOpen="{x:Bind IsNeedRebootPrompt, Mode=OneWay}"
-                        Message="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateCompletedNeedReboot')}"
-                        Severity="Warning">
+                        IsOpen="{x:Bind IsUpdateCompletedNeedRebootPrompt, Mode=OneWay}"
+                        Message="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UpdateCompletedNeedRebootPrompt')}"
+                        Severity="Warning"
+                        Visibility="{x:Bind IsUpdateCompletedNeedRebootPrompt, Mode=OneWay}">
 
                         <muxc:InfoBar.Content>
                             <StackPanel
@@ -3204,7 +3205,80 @@
 
                                     <Button.Flyout>
                                         <MenuFlyout Placement="Bottom">
-                                            <MenuFlyoutItem Click="{x:Bind OnHideNeedRebootPromptClicked}" Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideNeedRebootPrompt')}">
+                                            <MenuFlyoutItem
+                                                Click="{x:Bind OnHideNeedRebootPromptClicked}"
+                                                Tag="UpdateCompletedNeedReboot"
+                                                Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideNeedRebootPrompt')}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon Glyph="&#xED1A;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
+                        </muxc:InfoBar.Content>
+                    </muxc:InfoBar>
+
+                    <muxc:InfoBar
+                        Margin="0,0,0,3"
+                        IsClosable="True"
+                        IsIconVisible="True"
+                        IsOpen="{x:Bind IsPreviewChannelChangedNeedRebootPrompt, Mode=OneWay}"
+                        Message="{x:Bind root:ResourceService.UpdateManagerResource.GetString('PreviewChannelChangedNeedReboot')}"
+                        Severity="Warning"
+                        Visibility="{x:Bind IsPreviewChannelChangedNeedRebootPrompt, Mode=OneWay}">
+
+                        <muxc:InfoBar.Content>
+                            <StackPanel
+                                Grid.Column="2"
+                                Height="30"
+                                Margin="20,0,0,0"
+                                BorderBrush="{ThemeResource ButtonBorderBrush}"
+                                BorderThickness="{ThemeResource ButtonBorderThemeThickness}"
+                                CornerRadius="{ThemeResource ControlCornerRadius}"
+                                Orientation="Horizontal">
+
+                                <Button
+                                    VerticalAlignment="Stretch"
+                                    VerticalContentAlignment="Center"
+                                    BorderThickness="0,0,1,0"
+                                    Click="{x:Bind OnRebootClicked}"
+                                    Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Reboot')}"
+                                    CornerRadius="0"
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('RebootFinishChange')}" />
+
+                                <Button
+                                    Width="35"
+                                    VerticalAlignment="Stretch"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ViewMoreOptions')}">
+
+                                    <Button.Content>
+                                        <muxc:AnimatedIcon
+                                            Width="12"
+                                            Height="12"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            AutomationProperties.AccessibilityView="Raw">
+                                            <animatedvisuals:AnimatedChevronDownSmallVisualSource />
+                                            <muxc:AnimatedIcon.FallbackIconSource>
+                                                <muxc:FontIconSource
+                                                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                    FontSize="8"
+                                                    Glyph="&#xE96E;"
+                                                    IsTextScaleFactorEnabled="False" />
+                                            </muxc:AnimatedIcon.FallbackIconSource>
+                                        </muxc:AnimatedIcon>
+                                    </Button.Content>
+
+                                    <Button.Flyout>
+                                        <MenuFlyout Placement="Bottom">
+                                            <MenuFlyoutItem
+                                                Click="{x:Bind OnHideNeedRebootPromptClicked}"
+                                                Tag="PreviewChannelChangedNeedReboot"
+                                                Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideNeedRebootPrompt')}">
                                                 <MenuFlyoutItem.Icon>
                                                     <FontIcon Glyph="&#xED1A;" />
                                                 </MenuFlyoutItem.Icon>

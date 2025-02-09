@@ -239,18 +239,34 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private bool _isNeedRebootPrompt;
+        private bool _isUpdateCompletedNeedRebootPrompt;
 
-        public bool IsNeedRebootPrompt
+        public bool IsUpdateCompletedNeedRebootPrompt
         {
-            get { return _isNeedRebootPrompt; }
+            get { return _isUpdateCompletedNeedRebootPrompt; }
 
             set
             {
-                if (!Equals(_isNeedRebootPrompt, value))
+                if (!Equals(_isUpdateCompletedNeedRebootPrompt, value))
                 {
-                    _isNeedRebootPrompt = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsNeedRebootPrompt)));
+                    _isUpdateCompletedNeedRebootPrompt = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsUpdateCompletedNeedRebootPrompt)));
+                }
+            }
+        }
+
+        private bool _isPreviewChannelChangedNeedRebootPrompt;
+
+        public bool IsPreviewChannelChangedNeedRebootPrompt
+        {
+            get { return _isPreviewChannelChangedNeedRebootPrompt; }
+
+            set
+            {
+                if (!Equals(_isPreviewChannelChangedNeedRebootPrompt, value))
+                {
+                    _isPreviewChannelChangedNeedRebootPrompt = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsPreviewChannelChangedNeedRebootPrompt)));
                 }
             }
         }
@@ -642,9 +658,9 @@ namespace WindowsTools.Views.Pages
                                                 ? ResourceService.UpdateManagerResource.GetString("InstallUpdateCompletedNeedReboot")
                                                 : ResourceService.UpdateManagerResource.GetString("InstallUpdateCompleted");
 
-                                            if (installationResult.RebootRequired && !IsNeedRebootPrompt)
+                                            if (installationResult.RebootRequired && !IsUpdateCompletedNeedRebootPrompt)
                                             {
-                                                IsNeedRebootPrompt = true;
+                                                IsUpdateCompletedNeedRebootPrompt = true;
                                             }
                                             break;
                                         }
@@ -1017,9 +1033,9 @@ namespace WindowsTools.Views.Pages
                                                    ? ResourceService.UpdateManagerResource.GetString("UninstallUpdateCompletedNeedReboot")
                                                    : ResourceService.UpdateManagerResource.GetString("UninstallUpdateCompleted");
 
-                                        if (installationResult.RebootRequired && !IsNeedRebootPrompt)
+                                        if (installationResult.RebootRequired && !IsUpdateCompletedNeedRebootPrompt)
                                         {
-                                            IsNeedRebootPrompt = true;
+                                            IsUpdateCompletedNeedRebootPrompt = true;
                                         }
                                         break;
                                     }
@@ -1618,9 +1634,9 @@ namespace WindowsTools.Views.Pages
                                                     ? ResourceService.UpdateManagerResource.GetString("InstallUpdateCompletedNeedReboot")
                                                     : ResourceService.UpdateManagerResource.GetString("InstallUpdateCompleted");
 
-                                                if (installationResult.RebootRequired && !IsNeedRebootPrompt)
+                                                if (installationResult.RebootRequired && !IsUpdateCompletedNeedRebootPrompt)
                                                 {
-                                                    IsNeedRebootPrompt = true;
+                                                    IsUpdateCompletedNeedRebootPrompt = true;
                                                 }
                                                 break;
                                             }
@@ -1873,9 +1889,9 @@ namespace WindowsTools.Views.Pages
                                                   ? ResourceService.UpdateManagerResource.GetString("UninstallUpdateCompletedNeedReboot")
                                                   : ResourceService.UpdateManagerResource.GetString("UninstallUpdateCompleted");
 
-                                            if (installationResult.RebootRequired && !IsNeedRebootPrompt)
+                                            if (installationResult.RebootRequired && !IsUpdateCompletedNeedRebootPrompt)
                                             {
-                                                IsNeedRebootPrompt = true;
+                                                IsUpdateCompletedNeedRebootPrompt = true;
                                             }
                                             break;
                                         }
@@ -2126,11 +2142,21 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 点击重新更新提示栏关闭按钮关闭通知显示
+        /// 关闭按钮关闭通知显示
         /// </summary>
         private void OnHideNeedRebootPromptClicked(object sender, RoutedEventArgs args)
         {
-            IsNeedRebootPrompt = false;
+            if ((sender as MenuFlyoutItem).Tag is string needRebootPrompt && !string.IsNullOrEmpty(needRebootPrompt))
+            {
+                if (needRebootPrompt.Equals("UpdateCompletedNeedReboot", StringComparison.OrdinalIgnoreCase))
+                {
+                    IsUpdateCompletedNeedRebootPrompt = false;
+                }
+                else if (needRebootPrompt.Equals("PreviewChannelChangedNeedReboot", StringComparison.OrdinalIgnoreCase))
+                {
+                    IsPreviewChannelChangedNeedRebootPrompt = false;
+                }
+            }
         }
 
         /// <summary>
@@ -2190,7 +2216,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 更改设备的预览计划频道
         /// </summary>
-        private void OnPreviewChannelSelectClicked(object sender, RoutedEventArgs args)
+        private async void OnPreviewChannelSelectClicked(object sender, RoutedEventArgs args)
         {
             if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is string previewChannel && !string.IsNullOrEmpty(previewChannel))
             {
@@ -2202,6 +2228,9 @@ namespace WindowsTools.Views.Pages
                 {
                     EnterCustomPreviewChannel(previewChannel);
                 }
+
+                IsPreviewChannelChangedNeedRebootPrompt = true;
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.InsiderPreviewSettings));
             }
         }
 
@@ -2628,28 +2657,27 @@ namespace WindowsTools.Views.Pages
             {
                 try
                 {
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Account", null);
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", null);
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Cache", null);
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\ClientState", null);
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI", null);
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Restricted", null);
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\ToastNotification", null);
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\SLS\Programs\WUMUDCat", null);
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\SLS\Programs\RingExternal", null);
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\SLS\Programs\RingPreview", null);
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\SLS\Programs\RingInsiderSlow", null);
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\SLS\Programs\RingInsiderFast", null);
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection", "AllowTelemetry");
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection", "AllowTelemetry");
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", "BranchReadinessLevel");
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SYSTEM\Setup\WindowsUpdate", "AllowWindowsUpdate");
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup", "AllowUpgradesWithUnsupportedTPMOrCPU");
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig", "BypassRAMCheck");
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig", "BypassSecureBootCheck");
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig", "BypassStorageCheck");
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig", "BypassTPMCheck");
-                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\PCHC", "UpgradeEligibility");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Account");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Applicability");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Cache");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\ClientState");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Restricted");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\ToastNotification");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\SLS\Programs\WUMUDCat");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\SLS\Programs\RingExternal");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\SLS\Programs\RingPreview");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\SLS\Programs\RingInsiderSlow");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\SLS\Programs\RingInsiderFast");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection", "AllowTelemetry");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", "BranchReadinessLevel");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SYSTEM\Setup\WindowsUpdate", "AllowWindowsUpdate");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SYSTEM\Setup\MoSetup", "AllowUpgradesWithUnsupportedTPMOrCPU");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SYSTEM\Setup\LabConfig", "BypassRAMCheck");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SYSTEM\Setup\LabConfig", "BypassSecureBootCheck");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SYSTEM\Setup\LabConfig", "BypassStorageCheck");
+                    RegistryHelper.RemoveRegistryKey(Registry.LocalMachine, @"SYSTEM\Setup\LabConfig", "BypassTPMCheck");
+                    RegistryHelper.RemoveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\PCHC", "UpgradeEligibility");
                 }
                 catch (Exception e)
                 {
@@ -2668,63 +2696,148 @@ namespace WindowsTools.Views.Pages
         {
             Task.Run(() =>
             {
+                // 注册表存储的内容
+                // {"Message":"Windows 预览体验计划配置情况","LinkTitle":"","LinkUrl":"","DynamicXaml":"<StackPanel xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" Spacing=\"3\"><TextBlock FontSize=\"18\" FontWeight=\"SemiBold\" Text=\"设备已经使用 Windows 工具箱强行进入 Windows 预览体验计划\" /><TextBlock FontSize=\"15\" Text=\"如果您想更改 Windows 预览体验计划的设置，请在 Windows 工具箱中进行设置\" /><Button Margin=\"0,0,0,10\" Command=\"{StaticResource ActivateUriCommand}\" CommandParameter=\"windowstools://\" Content=\"打开 Windows 工具箱\" /><TextBlock FontSize=\"18\" FontWeight=\"SemiBold\" Text=\"当前配置\" /><TextBlock FontSize=\"15\"><Run Text=\"当前通道：\" /><Run Text=\"开发版（Dev）\" /></TextBlock><Button Margin=\"0,0,0,10\" Command=\"{StaticResource ActivateUriCommand}\" CommandParameter=\"https://www.microsoft.com/windowsinsider\" Content=\"了解 Windows 预览体验计划\" /></StackPanel>","Severity":0}
+                string stickyMessage = """{{"Message":"{0}","LinkTitle":"","LinkUrl":"","DynamicXaml":"<StackPanel xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" Spacing=\"3\"><TextBlock FontSize=\"18\" FontWeight=\"SemiBold\" Text=\"{1}\" /><TextBlock FontSize=\"15\" Text=\"{2}\" /><Button Margin=\"0,0,0,10\" Command=\"{{StaticResource ActivateUriCommand}}\" CommandParameter=\"windowstools://\" Content=\"{3}\" /><TextBlock FontSize=\"18\" FontWeight=\"SemiBold\" Text=\"{4}\" /><TextBlock FontSize=\"15\"><Run Text=\"{5}\" /><Run Text=\"{6}\" /></TextBlock><Button Margin=\"0,0,0,10\" Command=\"{{StaticResource ActivateUriCommand}}\" CommandParameter=\"https://www.microsoft.com/windowsinsider\" Content=\"{7}\" /></StackPanel>","Severity":0}}""";
+                // "<StackPanel xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" Spacing=\"3\"><TextBlock FontSize=\"18\" FontWeight=\"SemiBold\" Text=\"设备已经使用 Windows 工具箱强行进入 Windows 预览体验计划\" /><TextBlock FontSize=\"15\" Text=\"如果您想更改 Windows 预览体验计划的设置，请在 Windows 工具箱中进行设置\" /><Button Margin=\"0,0,0,10\" Command=\"{StaticResource ActivateUriCommand}\" CommandParameter=\"windowstools://\" Content=\"打开 Windows 工具箱\" /><TextBlock FontSize=\"18\" FontWeight=\"SemiBold\" Text=\"当前配置\" /><TextBlock FontSize=\"15\"><Run Text=\"当前通道：\" /><Run Text=\"开发版（Dev）\" /></TextBlock><Button Margin=\"0,0,0,10\" Command=\"{StaticResource ActivateUriCommand}\" CommandParameter=\"https://www.microsoft.com/windowsinsider\" Content=\"了解 Windows 预览体验计划\" /></StackPanel>"
+                string stickyXaml = """<StackPanel xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" Spacing=\"3\"><TextBlock FontSize=\"18\" FontWeight=\"SemiBold\" Text=\"{0}\" /><TextBlock FontSize=\"15\" Text=\"{1}\" /><Button Margin=\"0,0,0,10\" Command=\"{{StaticResource ActivateUriCommand}}\" CommandParameter=\"windowstools://\" Content=\"{2}\" /><TextBlock FontSize=\"18\" FontWeight=\"SemiBold\" Text=\"{3}\" /><TextBlock FontSize=\"15\"><Run Text=\"{4}\" /><Run Text=\"{5}\" /></TextBlock><Button Margin=\"0,0,0,10\" Command=\"{{StaticResource ActivateUriCommand}}\" CommandParameter=\"https://www.microsoft.com/windowsinsider\" Content=\"{6}\" /></StackPanel>""";
+                string channelName = string.Empty;
+                string channelLocalizedName = string.Empty;
+                int branchReadinessLevel = 0;
+
+                if (previewChannel.Equals("ReleasePreview", StringComparison.OrdinalIgnoreCase))
+                {
+                    channelName = "ReleasePreview";
+                    channelLocalizedName = ResourceService.UpdateManagerResource.GetString("InsiderReleasePreview");
+                    branchReadinessLevel = 8;
+                }
+                else if (previewChannel.Equals("Beta", StringComparison.OrdinalIgnoreCase))
+                {
+                    channelName = "Beta";
+                    channelLocalizedName = ResourceService.UpdateManagerResource.GetString("InsiderBeta");
+                    branchReadinessLevel = 4;
+                }
+                else if (previewChannel.Equals("Dev", StringComparison.OrdinalIgnoreCase))
+                {
+                    channelName = "Dev";
+                    channelLocalizedName = ResourceService.UpdateManagerResource.GetString("InsiderDev");
+                    branchReadinessLevel = 2;
+                }
+                else if (previewChannel.Equals("Canary", StringComparison.OrdinalIgnoreCase))
+                {
+                    channelName = "CanaryChannel";
+                    channelLocalizedName = ResourceService.UpdateManagerResource.GetString("InsiderCanary");
+                }
+
                 try
                 {
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Orchestrator", "EnableUUPScan", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\SLS\Programs\RingExternal", "Enabled", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\SLS\Programs\WUMUDCat", "WUMUDCATEnabled", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "EnablePreviewBuilds", 2);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "IsBuildFlightingEnabled", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "IsConfigSettingsFlightingEnabled", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "TestFlags", 32);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "RingId", 11);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "Ring", "External");
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "ContentType", "Mainline");
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "BranchName", "ReleasePreview"); // 改成对应的通道
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Strings", "StickyXaml", "设置中呈现的 Xaml 内容"); // 改成对应的字符串
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility", "UIHiddenElements", 65535);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility", "UIDisabledElements", 65535);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility", "UIServiceDrivenElementVisibility", 0);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility", "UIErrorMessageVisibility", 192);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection", "AllowTelemetry", 3);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", "BranchReadinessLevel", 8); // 改成对应的通道
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility", "UIHiddenElements_Rejuv", 65534);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility", "UIHiddenElements_Rejuv", 65535);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection", "UIRing", 65535);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection", "UIContentType", 65535);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "UIBranch", "ReleasePreview");// 改成对应的通道
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "RingBackup", "External");
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "RingBackupV2", "External");
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "BranchBackup", "ReleasePreview"); // 改成对应的通道
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Cache", "PropertyIgnoreList", "AccountsBlob;;CTACBlob;FlightIDBlob;ServiceDrivenActionResults");
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Cache", "RequestedCTACAppIds", "WU;FSS");
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Account", "SupportedTypes", 3);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Account", "Status", 8);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "UseSettingsExperience", 0);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "AllowFSSCommunications", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "UICapabilities", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "IgnoreConsolidation", 0);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "MsaUserTicketHr", 0);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "MsaDeviceTicketHr", 0);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "ValidateOnlineHr", 0);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "LastHR", 0);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "ErrorState", 0);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "PilotInfoRing", 3);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "RegistryAllowlistVersion", 4);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "FileAllowlistVersion", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI", "UIControllableState", 0);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection", "UIDialogConsent", 0);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection", "UIUsage", 26);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection", "OptOutState", 25);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection", "AdvancedToggleState", 24);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SYSTEM\Setup\WindowsUpdate", "AllowWindowsUpdate", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup", "AllowUpgradesWithUnsupportedTPMOrCPU", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig", "BypassRAMCheck", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig", "BypassSecureBootCheck", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig", "BypassStorageCheck", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig", "BypassTPMCheck", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\PCHC", "UpgradeEligibility", 1);
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsSelfHost\UI\Strings", "设置中呈现的 Xaml 内容", 1); // 改成对应的字符串
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Orchestrator", "EnableUUPScan", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\SLS\Programs\RingExternal", "Enabled", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\SLS\Programs\WUMUDCat", "WUMUDCATEnabled", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "EnablePreviewBuilds", 2);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "IsBuildFlightingEnabled", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "IsConfigSettingsFlightingEnabled", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "IsConfigExpFlightingEnabled", 0);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "TestFlags", 32);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "RingId", 11);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "Ring", "External");
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "ContentType", "Mainline");
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "BranchName", channelName);
+
+                    try
+                    {
+                        string xaml = string.Format(stickyXaml,
+                            ResourceService.UpdateManagerResource.GetString("DeviceEnteredWindowsInsider"),
+                            ResourceService.UpdateManagerResource.GetString("ModifyWindowsInsiderPreview"),
+                            ResourceService.UpdateManagerResource.GetString("OpenWindowsToolbox"),
+                            ResourceService.UpdateManagerResource.GetString("CurrentConfig"),
+                            ResourceService.UpdateManagerResource.GetString("CurrentChannel"),
+                            channelLocalizedName,
+                            ResourceService.UpdateManagerResource.GetString("LearnWindowsInsiderPreview")
+                            );
+                        RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Strings", "StickyXaml", xaml);
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "test string1 failed", e);
+                    }
+
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility", "UIHiddenElements", 65535);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility", "UIDisabledElements", 65535);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility", "UIServiceDrivenElementVisibility", 0);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility", "UIErrorMessageVisibility", 192);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection", "AllowTelemetry", 3);
+
+                    if (branchReadinessLevel is not 0)
+                    {
+                        RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", "BranchReadinessLevel", branchReadinessLevel);
+                    }
+
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility", "UIHiddenElements_Rejuv", 65534);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility", "UIDisabledElements_Rejuv", 65535);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection", "UIRing", "External");
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection", "UIContentType", "Mainline");
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection", "UIBranch", channelName);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection", "UIOptin", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "RingBackup", "External");
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "RingBackupV2", "External");
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "BranchBackup", channelName);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Cache", "PropertyIgnoreList", "AccountsBlob;;CTACBlob;FlightIDBlob;ServiceDrivenActionResults");
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Cache", "RequestedCTACAppIds", "WU;FSS");
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Account", "SupportedTypes", 3);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Account", "Status", 8);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\Applicability", "UseSettingsExperience", 0);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "AllowFSSCommunications", 0);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "UICapabilities", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "IgnoreConsolidation", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "MsaUserTicketHr", 0);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "MsaDeviceTicketHr", 0);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "ValidateOnlineHr", 0);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "LastHR", 0);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "ErrorState", 0);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "PilotInfoRing", 3);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "RegistryAllowlistVersion", 4);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\ClientState", "FileAllowlistVersion", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI", "UIControllableState", 0);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection", "UIDialogConsent", 0);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection", "UIUsage", 26);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection", "OptOutState", 25);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Selection", "AdvancedToggleState", 24);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SYSTEM\Setup\WindowsUpdate", "AllowWindowsUpdate", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SYSTEM\Setup\MoSetup", "AllowUpgradesWithUnsupportedTPMOrCPU", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SYSTEM\Setup\LabConfig", "BypassRAMCheck", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SYSTEM\Setup\LabConfig", "BypassSecureBootCheck", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SYSTEM\Setup\LabConfig", "BypassStorageCheck", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SYSTEM\Setup\LabConfig", "BypassTPMCheck", 1);
+                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\PCHC", "UpgradeEligibility", 1);
+
+                    try
+                    {
+                        System.IO.File.AppendAllText("D:\\01.txt", ResourceService.UpdateManagerResource.GetString("WindowsInsiderConfigStatus") + Environment.NewLine);
+                        System.IO.File.AppendAllText("D:\\01.txt", ResourceService.UpdateManagerResource.GetString("DeviceEnteredWindowsInsider") + Environment.NewLine);
+                        System.IO.File.AppendAllText("D:\\01.txt", ResourceService.UpdateManagerResource.GetString("ModifyWindowsInsiderPreview") + Environment.NewLine);
+                        System.IO.File.AppendAllText("D:\\01.txt", ResourceService.UpdateManagerResource.GetString("OpenWindowsToolbox") + Environment.NewLine);
+                        System.IO.File.AppendAllText("D:\\01.txt", ResourceService.UpdateManagerResource.GetString("CurrentConfig") + Environment.NewLine);
+                        System.IO.File.AppendAllText("D:\\01.txt", ResourceService.UpdateManagerResource.GetString("CurrentChannel") + Environment.NewLine);
+                        System.IO.File.AppendAllText("D:\\01.txt", channelLocalizedName + Environment.NewLine);
+                        System.IO.File.AppendAllText("D:\\01.txt", ResourceService.UpdateManagerResource.GetString("LearnWindowsInsiderPreview") + Environment.NewLine);
+
+                        string message = string.Format(stickyMessage,
+                            ResourceService.UpdateManagerResource.GetString("WindowsInsiderConfigStatus"),
+                            ResourceService.UpdateManagerResource.GetString("DeviceEnteredWindowsInsider"),
+                            ResourceService.UpdateManagerResource.GetString("ModifyWindowsInsiderPreview"),
+                            ResourceService.UpdateManagerResource.GetString("OpenWindowsToolbox"),
+                            ResourceService.UpdateManagerResource.GetString("CurrentConfig"),
+                            ResourceService.UpdateManagerResource.GetString("CurrentChannel"),
+                            channelLocalizedName,
+                            ResourceService.UpdateManagerResource.GetString("LearnWindowsInsiderPreview")
+                            );
+                        RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Strings", "StickyMessage", message);
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "test string2 failed", e);
+                    }
                 }
                 catch (Exception e)
                 {

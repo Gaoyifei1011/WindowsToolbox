@@ -116,6 +116,12 @@ namespace WindowsTools.UI.TeachingTips
                 OperationResultFailed.Visibility = Visibility.Visible;
                 OperationResultFailed.Text = ResourceService.NotificationResource.GetString("ShellMenuNeedToRefreshData");
             }
+            else if (operationKind is OperationKind.InsiderPreviewSettings)
+            {
+                OperationResultSuccess.Visibility = Visibility.Visible;
+                OperationResultFailed.Visibility = Visibility.Collapsed;
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("InsiderPreviewSuccessfully");
+            }
         }
 
         public OperationResultTip(OperationKind operationKind, bool operationResult)
