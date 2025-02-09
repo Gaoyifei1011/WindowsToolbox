@@ -49,7 +49,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Advapi32
         /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。</returns>
         [DllImport(Advapi32, CharSet = CharSet.Unicode, EntryPoint = "InitiateSystemShutdownExW", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool InitiateSystemShutdownEx([MarshalAs(UnmanagedType.LPWStr)] string lpMachineName, [MarshalAs(UnmanagedType.LPWStr)] string lpMessage, uint dwTimeout, [MarshalAs(UnmanagedType.Bool)] bool bForceAppsClosed, [MarshalAs(UnmanagedType.Bool)] bool bRebootAfterShutdown, ShutdownReason dwReason);
+        public static extern bool InitiateSystemShutdownEx([MarshalAs(UnmanagedType.LPWStr)] string lpMachineName, [MarshalAs(UnmanagedType.LPWStr)] string lpMessage, uint dwTimeout, [MarshalAs(UnmanagedType.Bool)] bool bForceAppsClosed, [MarshalAs(UnmanagedType.Bool)] bool bRebootAfterShutdown, SHTDN_REASON dwReason);
 
         /// <summary>
         /// LookupPrivilegeValue 函数检索指定系统上用于本地表示指定特权名称的 本地唯一标识符（LUID）。
