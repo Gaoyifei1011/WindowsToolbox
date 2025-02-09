@@ -42,7 +42,7 @@ namespace WindowsTools.Views.Pages
         private readonly Dictionary<string, IDownloadJob> downloadJobDict = [];
         private readonly Dictionary<string, IInstallationJob> installationJobDict = [];
         private readonly Dictionary<string, IInstallationJob> uninstallationJobDict = [];
-        private readonly Regex updateNumberRegex = new(@"KB(\d)*", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private readonly Regex updateNumberRegex = new("""KB(\d)*""", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private bool isLoaded;
         private UpdateSearcher updateSearcher;
@@ -2813,15 +2813,6 @@ namespace WindowsTools.Views.Pages
 
                     try
                     {
-                        System.IO.File.AppendAllText("D:\\01.txt", ResourceService.UpdateManagerResource.GetString("WindowsInsiderConfigStatus") + Environment.NewLine);
-                        System.IO.File.AppendAllText("D:\\01.txt", ResourceService.UpdateManagerResource.GetString("DeviceEnteredWindowsInsider") + Environment.NewLine);
-                        System.IO.File.AppendAllText("D:\\01.txt", ResourceService.UpdateManagerResource.GetString("ModifyWindowsInsiderPreview") + Environment.NewLine);
-                        System.IO.File.AppendAllText("D:\\01.txt", ResourceService.UpdateManagerResource.GetString("OpenWindowsToolbox") + Environment.NewLine);
-                        System.IO.File.AppendAllText("D:\\01.txt", ResourceService.UpdateManagerResource.GetString("CurrentConfig") + Environment.NewLine);
-                        System.IO.File.AppendAllText("D:\\01.txt", ResourceService.UpdateManagerResource.GetString("CurrentChannel") + Environment.NewLine);
-                        System.IO.File.AppendAllText("D:\\01.txt", channelLocalizedName + Environment.NewLine);
-                        System.IO.File.AppendAllText("D:\\01.txt", ResourceService.UpdateManagerResource.GetString("LearnWindowsInsiderPreview") + Environment.NewLine);
-
                         string message = string.Format(stickyMessage,
                             ResourceService.UpdateManagerResource.GetString("WindowsInsiderConfigStatus"),
                             ResourceService.UpdateManagerResource.GetString("DeviceEnteredWindowsInsider"),

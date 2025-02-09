@@ -27,10 +27,10 @@ namespace WindowsToolsShellExtension.Commands
         private readonly Guid IID_IUnknown = new("00000000-0000-0000-C000-000000000046");
         private IntPtr site = IntPtr.Zero;
 
-        [GeneratedRegex(@"{files-split:'([\s\S]*?)'}", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-us")]
+        [GeneratedRegex("""{files-split:'([\s\S]*?)'}""", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-us")]
         private static partial Regex MultiFileRegex { get; }
 
-        [GeneratedRegex(@"{folders-split:'([\s\S]*?)'}")]
+        [GeneratedRegex("""{folders-split:'([\s\S]*?)'}""")]
         private static partial Regex MultiFolderRegex { get; }
 
         /// <summary>
