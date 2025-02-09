@@ -97,7 +97,7 @@ namespace WindowsTools.Services.Shell
                 RegistryEnumKeyItem menuKeyItem = RegistryHelper.EnumSubKey(Registry.CurrentUser, menuKey);
 
                 EnumRemoveMenuItem(menuKeyItem);
-                RegistryHelper.RemoveRegistryKey(Registry.CurrentUser, menuKey, null);
+                RegistryHelper.RemoveRegistryKey(Registry.CurrentUser, menuKey);
             });
         }
 

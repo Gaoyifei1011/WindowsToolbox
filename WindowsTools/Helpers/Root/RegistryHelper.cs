@@ -80,11 +80,7 @@ namespace WindowsTools.Helpers.Root
                     // 存储 32 位整数类型或者布尔值
                     if (typeof(T) == typeof(bool) || typeof(T) == typeof(int) || typeof(T) == typeof(uint))
                     {
-                        int saveValue = Convert.ToInt32(value);
-                        if (saveValue >= 0)
-                        {
-                            registryKey.SetValue(key, Convert.ToInt32(value), RegistryValueKind.DWord);
-                        }
+                        registryKey.SetValue(key, Convert.ToInt32(value), RegistryValueKind.DWord);
                     }
                     // 存储 64 位整数类型
                     else if (typeof(T) == typeof(long) || typeof(T) == typeof(ulong))
@@ -135,7 +131,7 @@ namespace WindowsTools.Helpers.Root
         /// 移除注册表指定项
         /// </summary>
 
-        public static bool RemoveRegistryKey(RegistryKey rootRegistryKey, string rootKey, string key)
+        public static bool RemoveRegistryKey(RegistryKey rootRegistryKey, string rootKey, string key = null)
         {
             try
             {
