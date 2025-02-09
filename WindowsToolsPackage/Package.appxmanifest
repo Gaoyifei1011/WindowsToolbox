@@ -82,7 +82,11 @@
             </desktop10:ItemType>
           </desktop4:FileExplorerContextMenus>
         </desktop4:Extension>
-
+        <uap:Extension Category="windows.protocol" Executable="WindowsTools.exe" EntryPoint="Windows.FullTrustApplication">
+          <uap:Protocol Name="windowstools">
+            <uap:DisplayName>ms-resource:TaskbarProtocolName</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
         <uap3:Extension Category="windows.appExecutionAlias" Executable="WindowsTools.exe" EntryPoint="Windows.FullTrustApplication">
           <uap3:AppExecutionAlias>
             <desktop:ExecutionAlias Alias="WindowsTools.exe" />
