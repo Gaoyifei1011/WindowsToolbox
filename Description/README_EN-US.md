@@ -44,6 +44,11 @@ A toolbox that integrates multiple gadgets.
 <img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/c13681fe-17c2-4041-8d86-9d4ca78cc1bf">
 </div>
 
+#### <p align="center">更新管理页面</p>
+<div align="center">
+<img src="https://github.com/user-attachments/assets/994ec02e-8704-41df-a938-027e4dd0115e">
+</div>
+
 #### <p align="center">System assessment page</p>
 <div align="center">
 <img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/072f3122-47d0-40b6-812e-6052a6e4416e">

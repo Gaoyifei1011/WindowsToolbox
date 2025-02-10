@@ -51,6 +51,11 @@
 <img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/95130de1-a57b-4c0d-b851-a21d2cd3b740">
 </div>
 
+#### <p align="center">更新管理页面</p>
+<div align="center">
+<img src="https://github.com/user-attachments/assets/53e14692-5ce1-42fb-a659-8870e972eb6b">
+</div>
+
 #### <p align="center">系统评估页面</p>
 <div align="center">
 <img src="https://github.com/Gaoyifei1011/WindowsToolbox/assets/49179966/279ababe-5486-4311-9aa1-76c2be4aa8a5">
