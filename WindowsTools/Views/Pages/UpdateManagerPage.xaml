@@ -80,6 +80,13 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
 
+                        <MenuFlyoutItem Click="{x:Bind OnWindowsUpdateHistoryClicked}" Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('WindowsUpdateHistory')}">
+
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE81C;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+
                         <MenuFlyoutItem
                             Click="{x:Bind OnWIPSettingsClicked}"
                             Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('WIPSettings')}"
@@ -3566,28 +3573,28 @@
                                                         Padding="11,0"
                                                         Click="{x:Bind OnPreviewChannelSelectClicked}"
                                                         Tag="ReleasePreview"
-                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ReleasePreview')}" />
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('InsiderReleasePreview')}" />
 
                                                     <MenuFlyoutItem
                                                         Height="32"
                                                         Padding="11,0"
                                                         Click="{x:Bind OnPreviewChannelSelectClicked}"
                                                         Tag="Beta"
-                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Beta')}" />
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('InsiderBeta')}" />
 
                                                     <MenuFlyoutItem
                                                         Height="32"
                                                         Padding="11,0"
                                                         Click="{x:Bind OnPreviewChannelSelectClicked}"
                                                         Tag="Dev"
-                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Dev')}" />
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('InsiderDev')}" />
 
                                                     <MenuFlyoutItem
                                                         Height="32"
                                                         Padding="11,0"
                                                         Click="{x:Bind OnPreviewChannelSelectClicked}"
                                                         Tag="Canary"
-                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Canary')}" />
+                                                        Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('InsiderCanary')}" />
                                                 </MenuFlyout>
                                             </muxc:DropDownButton.Flyout>
                                         </muxc:DropDownButton>

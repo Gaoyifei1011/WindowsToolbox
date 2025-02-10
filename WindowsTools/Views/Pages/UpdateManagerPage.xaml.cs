@@ -1291,6 +1291,24 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
+        /// 打开 Windows 更新历史记录
+        /// </summary>
+        private void OnWindowsUpdateHistoryClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start("ms-settings:windowsupdate-history");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open windows update history settings failed", e);
+                }
+            });
+        }
+
+        /// <summary>
         /// 打开预览体验计划设置
         /// </summary>
         private void OnWIPSettingsClicked(object sender, RoutedEventArgs args)
@@ -2220,11 +2238,9 @@ namespace WindowsTools.Views.Pages
         {
             if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is string previewChannel && !string.IsNullOrEmpty(previewChannel))
             {
-                if (previewChannel.Equals("ExitPreviewChannel", StringComparison.OrdinalIgnoreCase))
-                {
-                    ExitCustomPreviewChannel();
-                }
-                else
+                ExitCustomPreviewChannel();
+
+                if (!previewChannel.Equals("ExitPreviewChannel", StringComparison.OrdinalIgnoreCase))
                 {
                     EnterCustomPreviewChannel(previewChannel);
                 }
@@ -2688,7 +2704,6 @@ namespace WindowsTools.Views.Pages
             return default;
         }
 
-        // TODO:未完成
         /// <summary>
         /// 添加自定义预览体验计划设置
         /// </summary>
