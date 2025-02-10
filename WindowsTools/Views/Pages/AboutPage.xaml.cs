@@ -182,7 +182,7 @@ namespace WindowsTools.Views.Pages
             {
                 try
                 {
-                    Process.Start("https://github.com/Gaoyifei1011/WindowsTools/releases");
+                    Process.Start("c");
                 }
                 catch (Exception e)
                 {
@@ -208,7 +208,7 @@ namespace WindowsTools.Views.Pages
             {
                 try
                 {
-                    Process.Start("https://github.com/Gaoyifei1011/WindowsTools/releases");
+                    Process.Start("https://github.com/Gaoyifei1011/WindowsToolbox/releases");
                 }
                 catch (Exception e)
                 {
@@ -226,7 +226,7 @@ namespace WindowsTools.Views.Pages
             {
                 try
                 {
-                    Process.Start("https://github.com/Gaoyifei1011/WindowsTools");
+                    Process.Start("https://github.com/Gaoyifei1011/WindowsToolbox/releases");
                 }
                 catch (Exception e)
                 {
@@ -244,7 +244,7 @@ namespace WindowsTools.Views.Pages
             {
                 try
                 {
-                    Process.Start("https://github.com/Gaoyifei1011/WindowsTools/issues");
+                    Process.Start("https://github.com/Gaoyifei1011/WindowsToolbox/releases");
                 }
                 catch (Exception e)
                 {
