@@ -90,14 +90,7 @@ namespace WindowsTools.Helpers.Root
                     // 存储字符串类型
                     else if (typeof(T) == typeof(string))
                     {
-                        if (isExpandString)
-                        {
-                            registryKey.SetValue(key, value, RegistryValueKind.String);
-                        }
-                        else
-                        {
-                            registryKey.SetValue(key, value, RegistryValueKind.ExpandString);
-                        }
+                        registryKey.SetValue(key, value, isExpandString ? RegistryValueKind.ExpandString : RegistryValueKind.String);
                     }
                     // 存储二进制数据
                     else if (typeof(T) == typeof(byte[]))
