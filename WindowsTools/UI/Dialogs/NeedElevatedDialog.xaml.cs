@@ -33,7 +33,8 @@ namespace WindowsTools.UI.Dialogs
                     {
                         UseShellExecute = true,
                         WorkingDirectory = Environment.CurrentDirectory,
-                        FileName = Path.GetFileName(Application.ExecutablePath),
+                        Arguments = "--elevated",
+                        FileName = Application.ExecutablePath,
                         Verb = "runas"
                     };
                     Process.Start(startInfo);

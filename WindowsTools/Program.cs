@@ -30,13 +30,22 @@ namespace WindowsTools
         /// 应用程序的主入口点
         /// </summary>
         [STAThread]
-        public static void Main()
+        public static void Main(string[] args)
         {
             if (!RuntimeHelper.IsMSIX)
             {
                 IApplicationActivationManager applicationActivationManager = (IApplicationActivationManager)Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_ApplicationActivationManager));
                 applicationActivationManager.ActivateApplication("Gaoyifei1011.WindowsTools_pystbwmrmew8c!WindowsTools", string.Empty, ACTIVATEOPTIONS.AO_NONE, out uint _);
                 return;
+            }
+            else
+            {
+                if (RuntimeHelper.IsElevated && args.Length is 1 && args[0] is "--elevated")
+                {
+                    IApplicationActivationManager applicationActivationManager = (IApplicationActivationManager)Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_ApplicationActivationManager));
+                    applicationActivationManager.ActivateApplication("Gaoyifei1011.WindowsTools_pystbwmrmew8c!WindowsTools", string.Empty, ACTIVATEOPTIONS.AO_NONE, out uint _);
+                    return;
+                }
             }
 
             InitializeProgramResources();
