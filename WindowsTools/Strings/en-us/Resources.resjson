@@ -3,5 +3,5 @@
   "AppDisplayName": "WindowsTools",
   "AppShortDisplayName": "WindowsTools",
   "PackageDisplayName": "WindowsTools",
-  "TaskbarProtocolName": "WindowsTools"
+  "ProtocolName": "WindowsTools"
 }
