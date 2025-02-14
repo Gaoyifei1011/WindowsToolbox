@@ -228,6 +228,7 @@
             AlwaysShowHeader="False"
             BackRequested="{x:Bind OnBackRequested}"
             Canvas.ZIndex="0"
+            Collapsed="{x:Bind OnCollapsed}"
             Expanding="{x:Bind OnExpanding}"
             IsBackButtonVisible="Visible"
             IsBackEnabled="{x:Bind IsBackEnabled, Mode=OneWay}"

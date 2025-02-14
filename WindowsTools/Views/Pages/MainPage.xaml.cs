@@ -344,7 +344,18 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnExpanding(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemExpandingEventArgs args)
         {
-            if (sender.SelectedItem != SelectedItem && SelectedItem.Tag is not "0")
+            if (sender.SelectedItem != SelectedItem && SelectedItem.Tag is not null)
+            {
+                sender.SelectedItem = SelectedItem;
+            }
+        }
+
+        /// <summary>
+        /// 当树中的节点开始折叠时发生时的事件
+        /// </summary>
+        private void OnCollapsed(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemCollapsedEventArgs args)
+        {
+            if (sender.SelectedItem != SelectedItem && SelectedItem.Tag is not null)
             {
                 sender.SelectedItem = SelectedItem;
             }
