@@ -77,6 +77,11 @@ namespace WindowsTools.Views.Windows
             StartPosition = FormStartPosition.CenterScreen;
             Text = ResourceService.WindowResource.GetString("AppTitle");
 
+            if (RuntimeHelper.IsElevated)
+            {
+                Text += ResourceService.WindowResource.GetString("RunningAdministrator");
+            }
+
             RightToLeft = LanguageService.RightToLeft;
             RightToLeftLayout = LanguageService.RightToLeft is RightToLeft.Yes;
 

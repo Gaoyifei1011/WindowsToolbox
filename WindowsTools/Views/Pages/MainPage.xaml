@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helper="using:WindowsTools.Helpers.Root"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:root="using:WindowsTools.Services.Root"
@@ -97,7 +98,8 @@
                 Canvas.ZIndex="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="22" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <Image
@@ -107,13 +109,23 @@
                     Margin="2,3,0,0"
                     HorizontalAlignment="Left"
                     Source="ms-appx:///Assets/Square44x44Logo.altform-unplated_targetsize-256.png" />
+
                 <TextBlock
-                    x:Name="TitleTextBlock"
                     Grid.Column="1"
                     Margin="12,2,0,0"
                     VerticalAlignment="Center"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind root:ResourceService.WindowResource.GetString('AppTitle')}"
+                    Text="{x:Bind root:ResourceService.WindowResource.GetString('WindowTitle')}"
+                    TextWrapping="NoWrap" />
+
+                <TextBlock
+                    x:Name="RunningAdministratorText"
+                    Grid.Column="2"
+                    Margin="0,2,0,0"
+                    VerticalAlignment="Center"
+                    x:Load="{x:Bind helper:RuntimeHelper.IsElevated}"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind root:ResourceService.WindowResource.GetString('RunningAdministrator')}"
                     TextWrapping="NoWrap" />
             </Grid>
 
