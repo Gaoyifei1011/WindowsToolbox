@@ -75,7 +75,7 @@ namespace WindowsTools.Views.Windows
             MinimumSize = new Size(Convert.ToInt32(1024 * ((double)DeviceDpi) / 96), Convert.ToInt32(768 * ((double)DeviceDpi / 96)));
             Size = new Size(Convert.ToInt32(1024 * ((double)DeviceDpi) / 96), Convert.ToInt32(768 * ((double)DeviceDpi / 96)));
             StartPosition = FormStartPosition.CenterScreen;
-            Text = ResourceService.WindowResource.GetString("AppTitle");
+            Text = ResourceService.WindowResource.GetString("WindowTitle");
 
             if (RuntimeHelper.IsElevated)
             {
