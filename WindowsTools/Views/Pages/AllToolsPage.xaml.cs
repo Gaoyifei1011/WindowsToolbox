@@ -83,6 +83,13 @@ namespace WindowsTools.Views.Pages
         [
             new ControlItemModel()
             {
+                Title = ResourceService.AllToolsResource.GetString("ChangeTheme"),
+                Description = ResourceService.AllToolsResource.GetString("ChangeThemeDescription"),
+                ImagePath = "ms-appx:///Assets/ControlIcon/ChangeTheme.png",
+                Tag = "ChangeTheme"
+            },
+            new ControlItemModel()
+            {
                 Title = ResourceService.AllToolsResource.GetString("ShellMenu"),
                 Description = ResourceService.AllToolsResource.GetString("ShellMenuDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/ShellMenu.png",
@@ -114,13 +121,13 @@ namespace WindowsTools.Views.Pages
                 ImagePath = "ms-appx:///Assets/ControlIcon/LoopbackManager.png",
                 Tag = "LoopbackManager"
             },
-            //new ControlItemModel()
-            //{
-            //    Title = ResourceService.AllToolsResource.GetString("DriverManager"),
-            //    Description = ResourceService.AllToolsResource.GetString("DriverManagerDescription"),
-            //    ImagePath = "ms-appx:///Assets/ControlIcon/DriverManager.png",
-            //    Tag = "DriverManager"
-            //},
+            new ControlItemModel()
+            {
+                Title = ResourceService.AllToolsResource.GetString("DriverManager"),
+                Description = ResourceService.AllToolsResource.GetString("DriverManagerDescription"),
+                ImagePath = "ms-appx:///Assets/ControlIcon/DriverManager.png",
+                Tag = "DriverManager"
+            },
             new ControlItemModel()
             {
                 Title = ResourceService.AllToolsResource.GetString("UpdateManager"),

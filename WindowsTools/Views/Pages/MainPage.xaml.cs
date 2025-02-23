@@ -146,6 +146,7 @@ namespace WindowsTools.Views.Pages
             new KeyValuePair<string, Type>("IconExtract",typeof(IconExtractPage)),
             new KeyValuePair<string, Type>("PriExtract",typeof(PriExtractPage)),
             new KeyValuePair<string, Type>("Personalize",null),
+            new KeyValuePair<string, Type>("ChangeTheme",typeof(ChangeThemePage)),
             new KeyValuePair<string, Type>("ShellMenu",typeof(ShellMenuPage)),
             new KeyValuePair<string, Type>("ContextMenuManager",typeof(ContextMenuManagerPage)),
             new KeyValuePair<string, Type>("System",null),
@@ -379,7 +380,7 @@ namespace WindowsTools.Views.Pages
                 }
 
                 // 如果导航到更新页面，而且是非管理员模式，显示提示对话框
-                if (currentPageType.Equals(typeof(UpdateManagerPage)) && !RuntimeHelper.IsElevated)
+                if ((currentPageType.Equals(typeof(UpdateManagerPage)) || currentPageType.Equals(typeof(DriverManagerPage))) && !RuntimeHelper.IsElevated)
                 {
                     await ContentDialogHelper.ShowAsync(new NeedElevatedDialog(), this);
                     NavigationFrom();
