@@ -12,63 +12,67 @@ namespace WindowsTools.Services.Root
     /// </summary>
     public static class ResourceService
     {
+        private static Assembly CurrentAssembly { get; } = Assembly.GetExecutingAssembly();
+
         public static List<KeyValuePair<string, string>> ThemeList { get; } = [];
 
         public static List<KeyValuePair<string, string>> BackdropList { get; } = [];
 
         public static List<KeyValuePair<string, string>> DoEngineModeList { get; } = [];
 
-        public static ResourceManager AboutResource { get; } = new("WindowsTools.Strings.About", Assembly.GetExecutingAssembly());
+        public static ResourceManager AboutResource { get; } = new("WindowsTools.Strings.About", CurrentAssembly);
 
-        public static ResourceManager AllToolsResource { get; } = new("WindowsTools.Strings.AllTools", Assembly.GetExecutingAssembly());
+        public static ResourceManager AllToolsResource { get; } = new("WindowsTools.Strings.AllTools", CurrentAssembly);
 
-        public static ResourceManager ColorPickerResource { get; } = new("WindowsTools.Strings.ColorPicker", Assembly.GetExecutingAssembly());
+        public static ResourceManager ChangeThemeResource { get; } = new("WindowsTools.Strings.ChangeTheme", CurrentAssembly);
 
-        public static ResourceManager ContextMenuManagerResource { get; } = new("WindowsTools.Strings.ContextMenuManager", Assembly.GetExecutingAssembly());
+        public static ResourceManager ColorPickerResource { get; } = new("WindowsTools.Strings.ColorPicker", CurrentAssembly);
 
-        public static ResourceManager DialogResource { get; } = new("WindowsTools.Strings.Dialog", Assembly.GetExecutingAssembly());
+        public static ResourceManager ContextMenuManagerResource { get; } = new("WindowsTools.Strings.ContextMenuManager", CurrentAssembly);
 
-        public static ResourceManager DownloadManagerResource { get; } = new("WindowsTools.Strings.DownloadManager", Assembly.GetExecutingAssembly());
+        public static ResourceManager DialogResource { get; } = new("WindowsTools.Strings.Dialog", CurrentAssembly);
 
-        public static ResourceManager DriverManagerResource { get; } = new("WindowsTools.Strings.DriverManager", Assembly.GetExecutingAssembly());
+        public static ResourceManager DownloadManagerResource { get; } = new("WindowsTools.Strings.DownloadManager", CurrentAssembly);
 
-        public static ResourceManager ExtensionNameResource { get; } = new("WindowsTools.Strings.ExtensionName", Assembly.GetExecutingAssembly());
+        public static ResourceManager DriverManagerResource { get; } = new("WindowsTools.Strings.DriverManager", CurrentAssembly);
 
-        public static ResourceManager FileCertificateResource { get; } = new("WindowsTools.Strings.FileCertificate", Assembly.GetExecutingAssembly());
+        public static ResourceManager ExtensionNameResource { get; } = new("WindowsTools.Strings.ExtensionName", CurrentAssembly);
 
-        public static ResourceManager FileManagerResource { get; } = new("WindowsTools.Strings.FileManager", Assembly.GetExecutingAssembly());
+        public static ResourceManager FileCertificateResource { get; } = new("WindowsTools.Strings.FileCertificate", CurrentAssembly);
 
-        public static ResourceManager FileNameResource { get; } = new("WindowsTools.Strings.FileName", Assembly.GetExecutingAssembly());
+        public static ResourceManager FileManagerResource { get; } = new("WindowsTools.Strings.FileManager", CurrentAssembly);
 
-        public static ResourceManager FilePropertiesResource { get; } = new("WindowsTools.Strings.FileProperties", Assembly.GetExecutingAssembly());
+        public static ResourceManager FileNameResource { get; } = new("WindowsTools.Strings.FileName", CurrentAssembly);
 
-        public static ResourceManager FileUnlockResource { get; } = new("WindowsTools.Strings.FileUnlock", Assembly.GetExecutingAssembly());
+        public static ResourceManager FilePropertiesResource { get; } = new("WindowsTools.Strings.FileProperties", CurrentAssembly);
 
-        public static ResourceManager IconExtractResource { get; } = new("WindowsTools.Strings.IconExtract", Assembly.GetExecutingAssembly());
+        public static ResourceManager FileUnlockResource { get; } = new("WindowsTools.Strings.FileUnlock", CurrentAssembly);
 
-        public static ResourceManager LoafResource { get; } = new("WindowsTools.Strings.Loaf", Assembly.GetExecutingAssembly());
+        public static ResourceManager IconExtractResource { get; } = new("WindowsTools.Strings.IconExtract", CurrentAssembly);
 
-        public static ResourceManager LoopbackManagerResource { get; } = new("WindowsTools.Strings.LoopbackManager", Assembly.GetExecutingAssembly());
+        public static ResourceManager LoafResource { get; } = new("WindowsTools.Strings.Loaf", CurrentAssembly);
 
-        public static ResourceManager NotificationResource { get; } = new("WindowsTools.Strings.Notification", Assembly.GetExecutingAssembly());
+        public static ResourceManager LoopbackManagerResource { get; } = new("WindowsTools.Strings.LoopbackManager", CurrentAssembly);
 
-        public static ResourceManager PriExtractResource { get; } = new("WindowsTools.Strings.PriExtract", Assembly.GetExecutingAssembly());
+        public static ResourceManager NotificationResource { get; } = new("WindowsTools.Strings.Notification", CurrentAssembly);
 
-        public static ResourceManager SettingsResource { get; } = new("WindowsTools.Strings.Settings", Assembly.GetExecutingAssembly());
+        public static ResourceManager PriExtractResource { get; } = new("WindowsTools.Strings.PriExtract", CurrentAssembly);
 
-        public static ResourceManager ShellMenuResource { get; } = new("WindowsTools.Strings.ShellMenu", Assembly.GetExecutingAssembly());
+        public static ResourceManager SettingsResource { get; } = new("WindowsTools.Strings.Settings", CurrentAssembly);
 
-        public static ResourceManager SimulateUpdateResource { get; } = new("WindowsTools.Strings.SimulateUpdate", Assembly.GetExecutingAssembly());
+        public static ResourceManager ShellMenuResource { get; } = new("WindowsTools.Strings.ShellMenu", CurrentAssembly);
 
-        public static ResourceManager SystemInfoResource { get; } = new("WindowsTools.Strings.SystemInfo", Assembly.GetExecutingAssembly());
+        public static ResourceManager SimulateUpdateResource { get; } = new("WindowsTools.Strings.SimulateUpdate", CurrentAssembly);
 
-        public static ResourceManager UpdateManagerResource { get; } = new("WindowsTools.Strings.UpdateManager", Assembly.GetExecutingAssembly());
+        public static ResourceManager SystemInfoResource { get; } = new("WindowsTools.Strings.SystemInfo", CurrentAssembly);
 
-        public static ResourceManager UpperAndLowerCaseResource { get; } = new("WindowsTools.Strings.UpperAndLowerCase", Assembly.GetExecutingAssembly());
+        public static ResourceManager UpdateManagerResource { get; } = new("WindowsTools.Strings.UpdateManager", CurrentAssembly);
 
-        public static ResourceManager WindowResource { get; } = new("WindowsTools.Strings.Window", Assembly.GetExecutingAssembly());
+        public static ResourceManager UpperAndLowerCaseResource { get; } = new("WindowsTools.Strings.UpperAndLowerCase", CurrentAssembly);
 
-        public static ResourceManager WinSATResource { get; } = new("WindowsTools.Strings.WinSAT", Assembly.GetExecutingAssembly());
+        public static ResourceManager WindowResource { get; } = new("WindowsTools.Strings.Window", CurrentAssembly);
+
+        public static ResourceManager WinSATResource { get; } = new("WindowsTools.Strings.WinSAT", CurrentAssembly);
 
         /// <summary>
         /// 初始化应用本地化信息
