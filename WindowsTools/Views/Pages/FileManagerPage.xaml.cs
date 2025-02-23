@@ -56,7 +56,7 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 导航控件加载完成后初始化内容，初始化导航控件属性和应用的背景色
+        /// 导航控件加载完成后初始化内容
         /// </summary>
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
