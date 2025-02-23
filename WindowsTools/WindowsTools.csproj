@@ -56,6 +56,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ApplicationDefinition Include="XamlIslandsApp.xaml" />
+    
     <Compile Update="Strings\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -293,6 +295,7 @@
     <None Remove="Views\Pages\UpdateManagerPage.xaml" />
     <None Remove="Views\Pages\UpperAndLowerCasePage.xaml" />
     <None Remove="Views\Pages\WinSATPage.xaml" />
+    <None Remove="XamlIslandsApp.xaml" />
 
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" GeneratePathProperty="true" IncludeAssets="none" />
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1742" />

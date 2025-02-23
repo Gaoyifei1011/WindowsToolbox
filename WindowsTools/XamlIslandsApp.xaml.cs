@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Tracing;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Hosting;
 using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Root;
@@ -22,6 +23,7 @@ namespace WindowsTools
             windowXamlManager = WindowsXamlManager.InitializeForCurrentThread();
             (Window.Current as object as IXamlSourceTransparency).SetIsBackgroundTransparent(true);
             InitializeComponent();
+            LoadComponent(this, new Uri("ms-appx:///XamlIslandsApp.xaml"), ComponentResourceLocation.Application);
             UnhandledException += OnUnhandledException;
         }
 
