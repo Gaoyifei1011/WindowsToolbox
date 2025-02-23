@@ -1,0 +1,12 @@
+AppThemeStyle=App theme settings
+Dark=Dark color
+Light=Light color
+MattersNeedAttention=Matters need attention
+MattersNeedAttentionDescription1=Setting options are only available in system dark mode
+Refresh=Refresh
+ShowThemeColorInStartAndTaskbar=Displays the theme color in the Start Menu and taskbar
+ShowThemeColorInStartAndTaskbarOffContent=No
+ShowThemeColorInStartAndTaskbarOnContent=Yes
+SystemThemeSettings=System theme settings
+SystemThemeStyle=System theme style
+Title=Change theme

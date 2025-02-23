@@ -1,9 +1,11 @@
+ChangeTheme=Change theme
+ChangeThemeDescription= Changes the current Windows theme
 ContextMenuManager=Context menu manager
 ContextMenuManagerDescription=Manage the display status of the right-click menu item
 DownloadManager=Download manager
 DownloadManagerDescription=A simple downloader built using the system's built-in delivery optimization
 DriverManager=Driver manager
-DriverManagerDescription=View and manage device driver software
+DriverManagerDescription=View and manage device driver
 File=File tools
 FileCertificate=File certificate
 FileCertificateDescription=Performs operations on the certificate of the signed file

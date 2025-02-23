@@ -1,9 +1,11 @@
+ChangeTheme=修改主题
+ChangeThemeDescription=修改当前 Windows 主题
 ContextMenuManager=右键菜单管理
 ContextMenuManagerDescription=管理系统右键菜单项的显示状态
 DownloadManager=下载管理
 DownloadManagerDescription=使用系统内置的传递优化构建的的简单下载器
 DriverManager=驱动管理
-DriverManagerDescription=查看和管理设备的驱动程序软件
+DriverManagerDescription=查看和管理设备的驱动程序
 File=文件工具
 FileCertificate=文件证书
 FileCertificateDescription=对已签名文件的证书进行操作
