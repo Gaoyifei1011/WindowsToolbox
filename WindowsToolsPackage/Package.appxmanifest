@@ -16,7 +16,7 @@
   <Identity
 	  Name="Gaoyifei1011.WindowsTools"
 	  Publisher="CN=高怡飞"
-	  Version="3.6.213.0" />
+	  Version="3.6.215.0" />
 
   <Properties>
     <DisplayName>ms-resource:PackageDisplayName</DisplayName>
@@ -25,6 +25,7 @@
     <virtualization:RegistryWriteVirtualization>
       <virtualization:ExcludedKeys>
         <virtualization:ExcludedKey>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Shell Extensions</virtualization:ExcludedKey>
+        <virtualization:ExcludedKey>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize</virtualization:ExcludedKey>
       </virtualization:ExcludedKeys>
     </virtualization:RegistryWriteVirtualization>
   </Properties>
