@@ -94,6 +94,7 @@
 
     <Content Include="Assets\ControlIcon\About.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\AllTools.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\ChangeTheme.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ContextMenuManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\DownloadManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\DriverManager.png" CopyToOutputDirectory="Always" />
@@ -185,6 +186,9 @@
     <EmbeddedResource Include="Strings\DownloadManager.en-us.restext" />
     <EmbeddedResource Include="Strings\DownloadManager.restext" />
     <EmbeddedResource Include="Strings\DownloadManager.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\ChangeTheme.en-us.restext" />
+    <EmbeddedResource Include="Strings\ChangeTheme.restext" />
+    <EmbeddedResource Include="Strings\ChangeTheme.zh-hans.restext" />
     <EmbeddedResource Include="Strings\DriverManager.en-us.restext" />
     <EmbeddedResource Include="Strings\DriverManager.restext" />
     <EmbeddedResource Include="Strings\DriverManager.zh-hans.restext" />
@@ -267,6 +271,7 @@
     <None Remove="UI\TeachingTips\QuickOperationTip.xaml" />
     <None Remove="Views\Pages\AboutPage.xaml" />
     <None Remove="Views\Pages\AllToolsPage.xaml" />
+    <None Remove="Views\Pages\ChangeThemePage.xaml" />
     <None Remove="Views\Pages\ColorPickerPage.xaml" />
     <None Remove="Views\Pages\ContextMenuManagerPage.xaml" />
     <None Remove="Views\Pages\DownloadManagerPage.xaml" />
@@ -312,6 +317,7 @@
     <Page Include="UI\TeachingTips\QuickOperationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AboutPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AllToolsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\ChangeThemePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\ColorPickerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\ContextMenuManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\DownloadManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
