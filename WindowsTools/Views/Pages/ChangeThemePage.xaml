@@ -194,6 +194,204 @@
                         </StackPanel>
                     </muxc:Expander.Content>
                 </muxc:Expander>
+
+                <muxc:Expander
+                    Grid.Row="0"
+                    Margin="30,0,30,3"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    IsExpanded="True">
+
+                    <muxc:Expander.Header>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon
+                                Grid.Column="0"
+                                Margin="0,0,12,0"
+                                FontSize="16"
+                                Glyph="&#xE770;" />
+
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AutoThemeSettings')}" />
+
+                            <HyperlinkButton
+                                Grid.Column="2"
+                                Click="{x:Bind OnRefreshClicked}"
+                                Content="{x:Bind root:ResourceService.ChangeThemeResource.GetString('Save')}" />
+                        </Grid>
+                    </muxc:Expander.Header>
+
+                    <muxc:Expander.Content>
+                        <StackPanel Padding="0">
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AutoChangeSystemTheme')}" />
+
+                                <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedSystemThemeStyle.Value, Mode=OneWay}">
+
+                                    <muxc:DropDownButton.Flyout>
+                                        <MenuFlyout Placement="Bottom">
+                                            <muxc:RadioMenuFlyoutItem
+                                                Height="32"
+                                                Padding="11,0"
+                                                Click="{x:Bind OnSystemThemeStyleClicked}"
+                                                GroupName="SystemThemeStyleRadioGroup"
+                                                IsChecked="{x:Bind x:Object.Equals(SelectedSystemThemeStyle.Key, SystemThemeStyleList[0].Key), Mode=OneWay}"
+                                                Tag="0"
+                                                Text="{x:Bind sys:Convert.ToString(SystemThemeStyleList[0].Value)}" />
+
+                                            <muxc:RadioMenuFlyoutItem
+                                                Height="32"
+                                                Padding="11,0"
+                                                Click="{x:Bind OnSystemThemeStyleClicked}"
+                                                GroupName="SystemThemeStyleRadioGroup"
+                                                IsChecked="{x:Bind x:Object.Equals(SelectedSystemThemeStyle.Key, SystemThemeStyleList[1].Key), Mode=OneWay}"
+                                                Tag="1"
+                                                Text="{x:Bind sys:Convert.ToString(SystemThemeStyleList[1].Value)}" />
+                                        </MenuFlyout>
+                                    </muxc:DropDownButton.Flyout>
+                                </muxc:DropDownButton>
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AutoChangeAppTheme')}" />
+
+                                <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedAppThemeStyle.Value, Mode=OneWay}">
+
+                                    <muxc:DropDownButton.Flyout>
+                                        <MenuFlyout Placement="Bottom">
+                                            <muxc:RadioMenuFlyoutItem
+                                                Height="32"
+                                                Padding="11,0"
+                                                Click="{x:Bind OnAppThemeStyleClicked}"
+                                                GroupName="AppThemeStyleRadioGroup"
+                                                IsChecked="{x:Bind x:Object.Equals(SelectedAppThemeStyle.Key, AppThemeStyleList[0].Key), Mode=OneWay}"
+                                                Tag="0"
+                                                Text="{x:Bind sys:Convert.ToString(AppThemeStyleList[0].Value)}" />
+
+                                            <muxc:RadioMenuFlyoutItem
+                                                Height="32"
+                                                Padding="11,0"
+                                                Click="{x:Bind OnAppThemeStyleClicked}"
+                                                GroupName="AppThemeStyleRadioGroup"
+                                                IsChecked="{x:Bind x:Object.Equals(SelectedAppThemeStyle.Key, AppThemeStyleList[1].Key), Mode=OneWay}"
+                                                Tag="1"
+                                                Text="{x:Bind sys:Convert.ToString(AppThemeStyleList[1].Value)}" />
+                                        </MenuFlyout>
+                                    </muxc:DropDownButton.Flyout>
+                                </muxc:DropDownButton>
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('ShowThemeColorInStartAndTaskbar')}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    MinWidth="0"
+                                    Margin="5,-2,0,0"
+                                    FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
+                                    IsEnabled="{x:Bind IsShowThemeColorInStartAndTaskbarEnabled, Mode=OneWay}"
+                                    IsOn="{x:Bind ShowThemeColorInStartAndTaskbar, Mode=OneWay}"
+                                    OffContent="{x:Bind root:ResourceService.LoafResource.GetString('ShowThemeColorInStartAndTaskbarOffContent')}"
+                                    OnContent="{x:Bind root:ResourceService.LoafResource.GetString('ShowThemeColorInStartAndTaskbarOnContent')}"
+                                    Toggled="{x:Bind OnShowThemeColorInStartAndTaskbarToggled}" />
+                            </Grid>
+                        </StackPanel>
+                    </muxc:Expander.Content>
+                </muxc:Expander>
+
+                <muxc:Expander
+                    Grid.Row="1"
+                    Margin="30,0,30,3"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    IsExpanded="True">
+
+                    <muxc:Expander.Header>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon
+                                Grid.Column="0"
+                                Margin="0,0,12,0"
+                                FontSize="16"
+                                Glyph="&#xE82F;" />
+
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('Tips')}" />
+                        </Grid>
+                    </muxc:Expander.Header>
+
+                    <muxc:Expander.Content>
+                        <StackPanel Margin="0">
+                            <TextBlock
+                                Margin="44,10,16,10"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('TipContent1')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </muxc:Expander.Content>
+                </muxc:Expander>
             </Grid>
         </ScrollViewer>
     </Grid>
