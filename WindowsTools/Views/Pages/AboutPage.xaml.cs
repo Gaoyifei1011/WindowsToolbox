@@ -18,6 +18,7 @@ using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
+using WindowsTools.Helpers.Backdrop;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Root;
@@ -36,6 +37,7 @@ namespace WindowsTools.Views.Pages
     public sealed partial class AboutPage : Page, INotifyPropertyChanged
     {
         private readonly string AppVersion = ResourceService.AboutResource.GetString("AppVersion");
+        private readonly Guid IID_ITaskbarManagerDesktopAppSupportStatics = new("CDFEFD63-E879-4134-B9A7-8283F05F9480");
 
         private bool _isChecking;
 
@@ -153,14 +155,17 @@ namespace WindowsTools.Views.Pages
 
             try
             {
-                string featureId = "com.microsoft.windows.taskbar.pin";
-                string token = FeatureAccessHelper.GenerateTokenFromFeatureId(featureId);
-                string attestation = FeatureAccessHelper.GenerateAttestation(featureId);
-                LimitedAccessFeatureRequestResult accessResult = LimitedAccessFeatures.TryUnlockFeature(featureId, token, attestation);
-
-                if (accessResult.Status is LimitedAccessFeatureStatus.Available)
+                if (WinRTHelper.GetActivationFactory(typeof(TaskbarManager).FullName, IID_ITaskbarManagerDesktopAppSupportStatics) is object obj)
                 {
-                    isPinnedSuccessfully = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
+                    string featureId = "com.microsoft.windows.taskbar.pin";
+                    string token = FeatureAccessHelper.GenerateTokenFromFeatureId(featureId);
+                    string attestation = FeatureAccessHelper.GenerateAttestation(featureId);
+                    LimitedAccessFeatureRequestResult accessResult = LimitedAccessFeatures.TryUnlockFeature(featureId, token, attestation);
+
+                    if (accessResult.Status is LimitedAccessFeatureStatus.Available)
+                    {
+                        isPinnedSuccessfully = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
+                    }
                 }
             }
             catch (Exception e)
