@@ -5,12 +5,10 @@
     xmlns:backdrop="using:WindowsTools.UI.Backdrop"
     xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helper="using:WindowsTools.Helpers.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:root="using:WindowsTools.Services.Root"
-    xmlns:service="using:WindowsTools.Services.Controls.Settings"
     xmlns:sys="using:System"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
@@ -356,12 +354,12 @@
                         Grid.Column="2"
                         MinWidth="0"
                         Margin="0,-2,0,0"
-                        FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                         IsEnabled="{x:Bind converter:ValueConverterHelper.ObjectCompareReverseConvert(Backdrop.Key, BackdropList[0].Key), Mode=OneWay}"
                         IsEnabledChanged="{x:Bind OnIsEnabledChanged}"
                         IsOn="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}"
                         OffContent="{x:Bind root:ResourceService.SettingsResource.GetString('AlwaysShowBackdropOffContent')}"
                         OnContent="{x:Bind root:ResourceService.SettingsResource.GetString('AlwaysShowBackdropOnContent')}"
+                        Style="{StaticResource ToggleSwitchStyle}"
                         Toggled="{x:Bind OnAlwaysShowBackdropToggled}" />
                 </Grid>
 
@@ -529,10 +527,10 @@
                         Grid.Column="2"
                         MinWidth="0"
                         Margin="0,-2,0,0"
-                        FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                         IsOn="{x:Bind TopMostValue, Mode=OneWay}"
                         OffContent="{x:Bind root:ResourceService.SettingsResource.GetString('TopMostOffContent')}"
                         OnContent="{x:Bind root:ResourceService.SettingsResource.GetString('TopMostOnContent')}"
+                        Style="{StaticResource ToggleSwitchStyle}"
                         Toggled="{x:Bind OnTopMostToggled}" />
                 </Grid>
 
@@ -843,10 +841,10 @@
                         Grid.Column="3"
                         MinWidth="0"
                         Margin="0,-2,0,0"
-                        FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                         IsOn="{x:Bind FileShellMenuValue, Mode=OneWay}"
                         OffContent="{x:Bind root:ResourceService.SettingsResource.GetString('FileShellMenuOffContent')}"
                         OnContent="{x:Bind root:ResourceService.SettingsResource.GetString('FileShellMenuOnContent')}"
+                        Style="{StaticResource ToggleSwitchStyle}"
                         Toggled="{x:Bind OnFileShellMenuToggled}" />
                 </Grid>
 

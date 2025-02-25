@@ -4,11 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helper="using:WindowsTools.Helpers.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:root="using:WindowsTools.Services.Root"
-    xmlns:service="using:WindowsTools.Services.Controls.Settings"
     xmlns:sys="using:System"
     Loaded="{x:Bind OnLoaded}"
     NavigationCacheMode="Enabled"
@@ -213,10 +211,10 @@
                                     Grid.Column="1"
                                     MinWidth="0"
                                     Margin="0,-2,0,0"
-                                    FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                     IsOn="{x:Bind BlockAllKeys, Mode=OneWay}"
                                     OffContent="{x:Bind root:ResourceService.LoafResource.GetString('BlockAllKeysOffContent')}"
                                     OnContent="{x:Bind root:ResourceService.LoafResource.GetString('BlockAllKeysOnContent')}"
+                                    Style="{StaticResource ToggleSwitchStyle}"
                                     Toggled="{x:Bind OnBlockAllKeysToggled}" />
                             </Grid>
 
@@ -269,10 +267,10 @@
                                     Grid.Column="1"
                                     MinWidth="0"
                                     Margin="0,-2,0,0"
-                                    FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                     IsOn="{x:Bind LockScreenAutomaticly, Mode=OneWay}"
                                     OffContent="{x:Bind root:ResourceService.LoafResource.GetString('LockScreenAutomaticlyOffContent')}"
                                     OnContent="{x:Bind root:ResourceService.LoafResource.GetString('LockScreenAutomaticlyOnContent')}"
+                                    Style="{StaticResource ToggleSwitchStyle}"
                                     Toggled="{x:Bind OnLockScreenAutomaticlyToggled}" />
                             </Grid>
                         </StackPanel>

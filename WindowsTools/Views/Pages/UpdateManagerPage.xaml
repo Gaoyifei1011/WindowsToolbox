@@ -3,15 +3,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
-    xmlns:controlHelper="using:WindowsTools.Helpers.Controls"
     xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helper="using:WindowsTools.Helpers.Root"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:root="using:WindowsTools.Services.Root"
-    xmlns:service="using:WindowsTools.Services.Controls.Settings"
     xmlns:sys="using:System"
     xmlns:wuapiLib="using:WUApiLib"
     Loaded="{x:Bind OnLoaded}"
@@ -3374,10 +3371,10 @@
                                         Grid.Column="1"
                                         MinWidth="0"
                                         Margin="0,-2,0,0"
-                                        FlowDirection="{x:Bind controlHelper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                         IsOn="{x:Bind IsIncludePotentiallySupersededUpdate}"
                                         OffContent="{x:Bind root:ResourceService.UpdateManagerResource.GetString('IncludePotentiallySupersededUpdateOffContent')}"
                                         OnContent="{x:Bind root:ResourceService.UpdateManagerResource.GetString('IncludePotentiallySupersededUpdateOnContent')}"
+                                        Style="{StaticResource ToggleSwitchStyle}"
                                         Toggled="{x:Bind OnIncludePotentiallySupersededUpdateToggled}" />
                                 </Grid>
 
@@ -3506,10 +3503,10 @@
                                             Grid.Column="1"
                                             MinWidth="0"
                                             Margin="0,-2,0,0"
-                                            FlowDirection="{x:Bind controlHelper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                             IsOn="{x:Bind IsExcludeDrivers, Mode=OneWay}"
                                             OffContent="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ExcludeDriversOffContent')}"
                                             OnContent="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ExcludeDriversOnContent')}"
+                                            Style="{StaticResource ToggleSwitchStyle}"
                                             Toggled="{x:Bind OnExcludeDriversToggled}" />
                                     </Grid>
 

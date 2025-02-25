@@ -4,12 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helper="using:WindowsTools.Helpers.Controls"
-    xmlns:local="using:WindowsTools.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:root="using:WindowsTools.Services.Root"
-    xmlns:service="using:WindowsTools.Services.Controls.Settings"
     xmlns:sys="using:System"
     mc:Ignorable="d">
 
@@ -185,11 +182,11 @@
                                     Grid.Column="1"
                                     MinWidth="0"
                                     Margin="5,-2,0,0"
-                                    FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                     IsEnabled="{x:Bind IsShowThemeColorInStartAndTaskbarEnabled, Mode=OneWay}"
                                     IsOn="{x:Bind ShowThemeColorInStartAndTaskbar, Mode=OneWay}"
                                     OffContent="{x:Bind root:ResourceService.LoafResource.GetString('ShowThemeColorInStartAndTaskbarOffContent')}"
                                     OnContent="{x:Bind root:ResourceService.LoafResource.GetString('ShowThemeColorInStartAndTaskbarOnContent')}"
+                                    Style="{StaticResource ToggleSwitchStyle}"
                                     Toggled="{x:Bind OnShowThemeColorInStartAndTaskbarToggled}" />
                             </Grid>
                         </StackPanel>
@@ -414,10 +411,10 @@
                                     Grid.Column="2"
                                     MinWidth="0"
                                     Margin="5,-2,0,0"
-                                    FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                     IsOn="{x:Bind IsAutoChangeSystemThemeValue, Mode=OneWay}"
                                     OffContent="{x:Bind root:ResourceService.LoafResource.GetString('AutoChangeSystemThemeOffContent')}"
                                     OnContent="{x:Bind root:ResourceService.LoafResource.GetString('AutoChangeSystemThemeOnContent')}"
+                                    Style="{StaticResource ToggleSwitchStyle}"
                                     Toggled="{x:Bind OnAutoChangeSystemThemeToggled}" />
                             </Grid>
 
@@ -603,10 +600,10 @@
                                     Grid.Column="2"
                                     MinWidth="0"
                                     Margin="5,-2,0,0"
-                                    FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                     IsOn="{x:Bind IsAutoChangeAppThemeValue, Mode=OneWay}"
                                     OffContent="{x:Bind root:ResourceService.LoafResource.GetString('AutoChangeAppThemeOffContent')}"
                                     OnContent="{x:Bind root:ResourceService.LoafResource.GetString('AutoChangeAppThemeOnContent')}"
+                                    Style="{StaticResource ToggleSwitchStyle}"
                                     Toggled="{x:Bind OnAutoChangeAppThemeToggled}" />
                             </Grid>
 
@@ -632,10 +629,10 @@
                                     Grid.Column="1"
                                     MinWidth="0"
                                     Margin="5,-2,0,0"
-                                    FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                     IsOn="{x:Bind IsShowColorInDarkTheme, Mode=OneWay}"
                                     OffContent="{x:Bind root:ResourceService.LoafResource.GetString('ShowColorInDarkThemeOffContent')}"
                                     OnContent="{x:Bind root:ResourceService.LoafResource.GetString('ShowColorInDarkThemeOnContent')}"
+                                    Style="{StaticResource ToggleSwitchStyle}"
                                     Toggled="{x:Bind OnShowColorInDarkThemeToggled}" />
                             </Grid>
                         </StackPanel>

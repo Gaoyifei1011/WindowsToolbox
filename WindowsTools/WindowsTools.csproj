@@ -255,14 +255,16 @@
     <EmbeddedResource Update="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
 
     <None Update="Assets\WindowsTools.ico" CopyToOutputDirectory="Never" />
-    <None Remove="Styles\WinUI\Button.xaml" />
-    <None Remove="Styles\WinUI\AppBarButton.xaml" />
-    <None Remove="Styles\WinUI\DateTimePicker.xaml" />
-    <None Remove="Styles\WinUI\HyperlinkButton.xaml" />
-    <None Remove="Styles\WinUI\InfoBar.xaml" />
-    <None Remove="Styles\WinUI\MenuFlyout.xaml" />
-    <None Remove="Styles\WinUI\TeachingTip.xaml" />
-    <None Remove="Styles\WinUI\TimePicker.xaml" />
+
+    <None Remove="Styles\AppBarButton.xaml" />
+    <None Remove="Styles\Button.xaml" />
+    <None Remove="Styles\DateTimePicker.xaml" />
+    <None Remove="Styles\HyperlinkButton.xaml" />
+    <None Remove="Styles\InfoBar.xaml" />
+    <None Remove="Styles\MenuFlyout.xaml" />
+    <None Remove="Styles\TeachingTip.xaml" />
+    <None Remove="Styles\TimePicker.xaml" />
+    <None Remove="Styles\ToggleSwitch.xaml" />
     <None Remove="UI\Dialogs\NeedElevatedDialog.xaml" />
     <None Remove="UI\TeachingTips\AppInformationDialog.xaml" />
     <None Remove="UI\TeachingTips\FileCheckDialog.xaml" />
@@ -301,14 +303,15 @@
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1742" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
 
-    <Page Include="Styles\Button.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\Button.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\DateTimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\HyperlinkButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\InfoBar.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\MenuFlyout.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\TeachingTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\TimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\ToggleSwitch.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\FileCheckDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

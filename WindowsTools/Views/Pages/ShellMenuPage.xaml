@@ -5,12 +5,10 @@
     xmlns:collection="using:System.Collections"
     xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helper="using:WindowsTools.Helpers.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:root="using:WindowsTools.Services.Root"
-    xmlns:service="using:WindowsTools.Services.Controls.Settings"
     xmlns:sys="using:System"
     Loaded="{x:Bind OnLoaded}"
     NavigationCacheMode="Enabled"
@@ -435,10 +433,10 @@
 
                                 <ToggleSwitch
                                     Grid.Column="1"
-                                    FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                     IsOn="{x:Bind ShouldUseIcon, Mode=OneWay}"
                                     OffContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseIconOffContent')}"
                                     OnContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseIconOnContent')}"
+                                    Style="{StaticResource ToggleSwitchStyle}"
                                     Toggled="{x:Bind OnShouldUseIconToggled}" />
                             </Grid>
 
@@ -466,10 +464,10 @@
 
                                     <ToggleSwitch
                                         Grid.Column="1"
-                                        FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                         IsOn="{x:Bind ShouldUseProgramIcon, Mode=OneWay}"
                                         OffContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseProgramIconOffContent')}"
                                         OnContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseProgramIconOnContent')}"
+                                        Style="{StaticResource ToggleSwitchStyle}"
                                         Toggled="{x:Bind OnShouldUseProgramIconToggled}" />
                                 </Grid>
 
@@ -497,10 +495,10 @@
 
                                         <ToggleSwitch
                                             Grid.Column="1"
-                                            FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                                             IsOn="{x:Bind ShouldUseThemeIcon, Mode=OneWay}"
                                             OffContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseThemeIconOffContent')}"
                                             OnContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseThemeIconOnContent')}"
+                                            Style="{StaticResource ToggleSwitchStyle}"
                                             Toggled="{x:Bind OnShouldUseThemeIconToggled}" />
                                     </Grid>
 
@@ -780,10 +778,10 @@
 
                     <ToggleSwitch
                         Grid.Column="2"
-                        FlowDirection="{x:Bind helper:ToggleSwitchHelper.GetFlowDirection(service:LanguageService.RightToLeft)}"
                         IsOn="{x:Bind IsAlwaysRunAsAdministrator, Mode=OneWay}"
                         OffContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('IsAlwaysRunAsAdministratorOffContent')}"
                         OnContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('IsAlwaysRunAsAdministratorOnContent')}"
+                        Style="{StaticResource ToggleSwitchStyle}"
                         Toggled="{x:Bind OnIsAlwaysRunAsAdministratorToggled}" />
                 </Grid>
 
