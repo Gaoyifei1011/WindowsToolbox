@@ -1,13 +1,21 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.Tracing;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Root;
+using WindowsTools.WindowsAPI.PInvoke.User32;
 
-// 抑制 IDE0060 警告
-#pragma warning disable IDE0060
+// 抑制 CA1806，CA1822，IDE0060 警告
+#pragma warning disable CA1806,CA1822,IDE0060
 
 namespace WindowsTools.Views.Pages
 {
@@ -48,18 +56,18 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private bool _showThemeColorInStartAndTaskbar = false;
+        private bool _isShowThemeColorInStartAndTaskbar = false;
 
-        public bool ShowThemeColorInStartAndTaskbar
+        public bool IsShowThemeColorInStartAndTaskbar
         {
-            get { return _showThemeColorInStartAndTaskbar; }
+            get { return _isShowThemeColorInStartAndTaskbar; }
 
             set
             {
-                if (!Equals(_showThemeColorInStartAndTaskbar, value))
+                if (!Equals(_isShowThemeColorInStartAndTaskbar, value))
                 {
-                    _showThemeColorInStartAndTaskbar = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowThemeColorInStartAndTaskbar)));
+                    _isShowThemeColorInStartAndTaskbar = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsShowThemeColorInStartAndTaskbar)));
                 }
             }
         }
@@ -76,6 +84,22 @@ namespace WindowsTools.Views.Pages
                 {
                     _isShowThemeColorInStartAndTaskbarEnabled = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsShowThemeColorInStartAndTaskbarEnabled)));
+                }
+            }
+        }
+
+        private bool _isAutoChangeThemeValue;
+
+        public bool IsAutoChangeThemeValue
+        {
+            get { return _isAutoChangeThemeValue; }
+
+            set
+            {
+                if (!Equals(_isAutoChangeThemeValue, value))
+                {
+                    _isAutoChangeThemeValue = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAutoChangeThemeValue)));
                 }
             }
         }
@@ -194,14 +218,14 @@ namespace WindowsTools.Views.Pages
 
         private List<KeyValuePair<ElementTheme, string>> SystemThemeStyleList { get; } =
         [
-            new KeyValuePair<ElementTheme,string>(ElementTheme.Light,ResourceService.ChangeThemeResource.GetString("Light")),
-            new KeyValuePair<ElementTheme,string>(ElementTheme.Dark,ResourceService.ChangeThemeResource.GetString("Dark")),
+            new KeyValuePair<ElementTheme,string>(ElementTheme.Light, ResourceService.ChangeThemeResource.GetString("Light")),
+            new KeyValuePair<ElementTheme,string>(ElementTheme.Dark, ResourceService.ChangeThemeResource.GetString("Dark")),
         ];
 
         private List<KeyValuePair<ElementTheme, string>> AppThemeStyleList { get; } =
         [
-            new KeyValuePair<ElementTheme,string>(ElementTheme.Light,ResourceService.ChangeThemeResource.GetString("Light")),
-            new KeyValuePair<ElementTheme,string>(ElementTheme.Dark,ResourceService.ChangeThemeResource.GetString("Dark")),
+            new KeyValuePair<ElementTheme,string>(ElementTheme.Light, ResourceService.ChangeThemeResource.GetString("Light")),
+            new KeyValuePair<ElementTheme,string>(ElementTheme.Dark, ResourceService.ChangeThemeResource.GetString("Dark")),
         ];
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -215,11 +239,51 @@ namespace WindowsTools.Views.Pages
 
         #region 第一部分：修改主题页面——挂载的事件
 
+        private async void OnLoaded(object sender, RoutedEventArgs args)
+        {
+            ElementTheme systemTheme = await Task.Run(GetSystemTheme);
+            SelectedSystemThemeStyle = SystemThemeStyleList.Find(item => item.Key.Equals(systemTheme));
+
+            ElementTheme appTheme = await Task.Run(GetAppTheme);
+            SelectedAppThemeStyle = AppThemeStyleList.Find(item => item.Key.Equals(appTheme));
+
+            IsShowThemeColorInStartAndTaskbarEnabled = SelectedSystemThemeStyle.Equals(SystemThemeStyleList[1]);
+            bool showThemeColorInStartAndTaskbar = await Task.Run(GetShowThemeColorInStartAndTaskbar);
+            IsShowThemeColorInStartAndTaskbar = showThemeColorInStartAndTaskbar;
+        }
+
+        /// <summary>
+        /// 打开系统个性化
+        /// </summary>
+        private void OnOpenPersonalizeClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start("ms-settings:colors");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open system theme settings failed", e);
+                }
+            });
+        }
+
         /// <summary>
         /// 刷新主题样式设置值
         /// </summary>
-        private void OnRefreshClicked(object sender, RoutedEventArgs args)
+        private async void OnRefreshClicked(object sender, RoutedEventArgs args)
         {
+            ElementTheme systemTheme = await Task.Run(GetSystemTheme);
+            SelectedSystemThemeStyle = SystemThemeStyleList.Find(item => item.Key.Equals(systemTheme));
+
+            ElementTheme appTheme = await Task.Run(GetAppTheme);
+            SelectedAppThemeStyle = AppThemeStyleList.Find(item => item.Key.Equals(appTheme));
+
+            IsShowThemeColorInStartAndTaskbarEnabled = SelectedSystemThemeStyle.Equals(SystemThemeStyleList[1]);
+            bool showThemeColorInStartAndTaskbar = await Task.Run(GetShowThemeColorInStartAndTaskbar);
+            IsShowThemeColorInStartAndTaskbar = showThemeColorInStartAndTaskbar;
         }
 
         /// <summary>
@@ -227,6 +291,30 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSystemThemeStyleClicked(object sender, RoutedEventArgs args)
         {
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
+            {
+                SelectedSystemThemeStyle = SystemThemeStyleList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
+                int systemTheme = 0;
+
+                if (SelectedSystemThemeStyle.Equals(SystemThemeStyleList[0]))
+                {
+                    systemTheme = 1;
+                    IsShowThemeColorInStartAndTaskbarEnabled = false;
+                    IsShowThemeColorInStartAndTaskbar = false;
+                }
+                else if (SelectedSystemThemeStyle.Equals(SystemThemeStyleList[1]))
+                {
+                    systemTheme = 0;
+                    IsShowThemeColorInStartAndTaskbarEnabled = true;
+                }
+
+                Task.Run(() =>
+                {
+                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", systemTheme);
+                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "ColorPrevalence", IsShowThemeColorInStartAndTaskbar);
+                    User32Library.SendMessageTimeout(new IntPtr(0xffff), WindowMessage.WM_SETTINGCHANGE, UIntPtr.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
+                });
+            }
         }
 
         /// <summary>
@@ -234,6 +322,26 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAppThemeStyleClicked(object sender, RoutedEventArgs args)
         {
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
+            {
+                SelectedAppThemeStyle = AppThemeStyleList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
+                int appTheme = 0;
+
+                if (SelectedAppThemeStyle.Equals(AppThemeStyleList[0]))
+                {
+                    appTheme = 1;
+                }
+                else if (SelectedSystemThemeStyle.Equals(SystemThemeStyleList[1]))
+                {
+                    appTheme = 0;
+                }
+
+                Task.Run(() =>
+                {
+                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", appTheme);
+                    User32Library.SendMessageTimeout(new IntPtr(0xffff), WindowMessage.WM_SETTINGCHANGE, UIntPtr.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
+                });
+            }
         }
 
         /// <summary>
@@ -241,13 +349,34 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnShowThemeColorInStartAndTaskbarToggled(object sender, RoutedEventArgs args)
         {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                IsShowThemeColorInStartAndTaskbar = toggleSwitch.IsOn;
+
+                Task.Run(() =>
+                {
+                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "ColorPrevalence", IsShowThemeColorInStartAndTaskbar);
+                    User32Library.SendMessageTimeout(new IntPtr(0xffff), WindowMessage.WM_SETTINGCHANGE, UIntPtr.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
+                });
+            }
         }
 
         /// <summary>
         /// 保存自动修改主题设置值
         /// </summary>
-        private void OnSaveClicked(object sender, RoutedEventArgs args)
+        private void OnSaveClicked(Microsoft.UI.Xaml.Controls.SplitButton sender, Microsoft.UI.Xaml.Controls.SplitButtonClickEventArgs args)
         {
+        }
+
+        /// <summary>
+        /// 是否启用自动切换主题
+        /// </summary>
+        private void OnAutoChangeThemeToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                IsAutoChangeThemeValue = toggleSwitch.IsOn;
+            }
         }
 
         /// <summary>
@@ -255,6 +384,10 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAutoChangeSystemThemeToggled(object sender, RoutedEventArgs args)
         {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                IsAutoChangeSystemThemeValue = toggleSwitch.IsOn;
+            }
         }
 
         /// <summary>
@@ -270,6 +403,10 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAutoChangeAppThemeToggled(object sender, RoutedEventArgs args)
         {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                IsAutoChangeAppThemeValue = toggleSwitch.IsOn;
+            }
         }
 
         /// <summary>
@@ -277,6 +414,10 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnShowColorInDarkThemeToggled(object sender, RoutedEventArgs args)
         {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                IsShowColorInDarkTheme = toggleSwitch.IsOn;
+            }
         }
 
         /// <summary>
@@ -304,6 +445,10 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSystemThemeLightTimeChanged(object sender, TimePickerValueChangedEventArgs args)
         {
+            if (sender is TimePicker)
+            {
+                SystemThemeLightTime = args.NewTime;
+            }
         }
 
         /// <summary>
@@ -311,6 +456,10 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSystemThemeDarkTimeChanged(object sender, TimePickerValueChangedEventArgs args)
         {
+            if (sender is TimePicker)
+            {
+                SystemThemeDarkTime = args.NewTime;
+            }
         }
 
         /// <summary>
@@ -318,6 +467,10 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAppThemeLightTimeChanged(object sender, TimePickerValueChangedEventArgs args)
         {
+            if (sender is TimePicker)
+            {
+                AppThemeLightTime = args.NewTime;
+            }
         }
 
         /// <summary>
@@ -325,8 +478,36 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAppThemeDarkTimeChanged(object sender, TimePickerValueChangedEventArgs args)
         {
+            if (sender is TimePicker)
+            {
+                AppThemeDarkTime = args.NewTime;
+            }
         }
 
         #endregion 第一部分：修改主题页面——挂载的事件
+
+        /// <summary>
+        /// 获取系统主题样式
+        /// </summary>
+        private ElementTheme GetSystemTheme()
+        {
+            return RegistryHelper.ReadRegistryKey<int>(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme") is 1 ? ElementTheme.Light : ElementTheme.Dark;
+        }
+
+        /// <summary>
+        /// 获取应用主题样式
+        /// </summary>
+        private ElementTheme GetAppTheme()
+        {
+            return RegistryHelper.ReadRegistryKey<int>(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme") is 1 ? ElementTheme.Light : ElementTheme.Dark;
+        }
+
+        /// <summary>
+        /// 获取在“开始菜单”和任务栏中显示主题色设置值
+        /// </summary>
+        private bool GetShowThemeColorInStartAndTaskbar()
+        {
+            return RegistryHelper.ReadRegistryKey<bool>(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "ColorPrevalence");
+        }
     }
 }

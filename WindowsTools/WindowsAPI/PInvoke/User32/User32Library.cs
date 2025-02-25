@@ -353,7 +353,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// 如果函数失败或超时，则返回值为 0。 请注意，函数并不总是在失败时调用 setLastError 。 如果失败的原因对你很重要，请先调用 SetLastError（ERROR_SUCCESS），然后再调用 SendMessageTimeout。 如果函数返回 0，GetLastError 返回ERROR_SUCCESS，则将其视为泛型故障。
         /// </returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SendMessageTimeoutW", PreserveSig = true, SetLastError = false)]
-        private static extern int SendMessageTimeout(IntPtr hWnd, WindowMessage Msg, UIntPtr wParam, IntPtr lParam, SMTO fuFlags, uint uTimeout, out IntPtr result);
+        public static extern int SendMessageTimeout(IntPtr hWnd, WindowMessage Msg, UIntPtr wParam, IntPtr lParam, SMTO fuFlags, uint uTimeout, out IntPtr result);
 
         /// <summary>
         /// 设置分层窗口的不透明度和透明度颜色键。
