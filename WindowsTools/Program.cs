@@ -35,10 +35,6 @@ namespace WindowsTools
         [STAThread]
         public static void Main(string[] args)
         {
-            // Test
-            DriverManagerPage.GetDriverInformation();
-
-            // return
             applicationActivationManager = (IApplicationActivationManager)Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_ApplicationActivationManager));
 
             if (!RuntimeHelper.IsMSIX)

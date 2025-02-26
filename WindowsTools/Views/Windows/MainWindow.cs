@@ -275,7 +275,6 @@ namespace WindowsTools.Views.Windows
             SetWindowTheme();
             TopMost = TopMostService.TopMostValue;
             SetClassicMenuTheme();
-            SetWindowBackdrop();
         }
 
         /// <summary>
@@ -462,15 +461,13 @@ namespace WindowsTools.Views.Windows
                                 if (Content is not null)
                                 {
                                     bool isDarkBrush = (Content as FrameworkElement).ActualTheme is ElementTheme.Dark;
-                                    IntPtr backgroundBrush = Gdi32Library.CreateSolidBrush(isDarkBrush ?
-                                        darkTintColor : lightTintColor);
+                                    IntPtr backgroundBrush = Gdi32Library.CreateSolidBrush(isDarkBrush ? darkTintColor : lightTintColor);
 
                                     if (isDarkBrush != isDarkTheme)
                                     {
                                         isDarkBrush = isDarkTheme;
                                         Gdi32Library.DeleteObject(backgroundBrush);
-                                        backgroundBrush = Gdi32Library.CreateSolidBrush(isDarkBrush ?
-                                            darkTintColor : lightTintColor);
+                                        backgroundBrush = Gdi32Library.CreateSolidBrush(isDarkBrush ? darkTintColor : lightTintColor);
                                     }
 
                                     if (isDarkBrush && Environment.Version.Build < 22000)
@@ -508,6 +505,15 @@ namespace WindowsTools.Views.Windows
                     {
                         SetWindowTheme();
                         SetClassicMenuTheme();
+
+                        if ((Content as MainPage).GetCurrentPageType().Equals(typeof(ChangeThemePage)))
+                        {
+                            ChangeThemePage changeThemePage = ((Content as MainPage).MainNavigationView.Content as Frame).Content as ChangeThemePage;
+                            BeginInvoke(async () =>
+                            {
+                                await changeThemePage.InitializeSystemThemeSettingsAsync();
+                            });
+                        }
                         break;
                     }
                 // 处理非客户区左键按下的窗口消息
@@ -539,25 +545,15 @@ namespace WindowsTools.Views.Windows
 
                                 if (RightToLeft is RightToLeft.Yes)
                                 {
-                                    if (InfoHelper.SystemVersion.Build >= 22000)
-                                    {
-                                        options.Position = new global::Windows.Foundation.Point((ClientSize.Width - clientPoint.X) / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96));
-                                    }
-                                    else
-                                    {
-                                        options.Position = new global::Windows.Foundation.Point(ClientSize.Width - clientPoint.X, clientPoint.Y);
-                                    }
+                                    options.Position = InfoHelper.SystemVersion.Build >= 22000
+                                        ? new global::Windows.Foundation.Point((ClientSize.Width - clientPoint.X) / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96))
+                                        : new global::Windows.Foundation.Point(ClientSize.Width - clientPoint.X, clientPoint.Y);
                                 }
                                 else
                                 {
-                                    if (InfoHelper.SystemVersion.Build >= 22000)
-                                    {
-                                        options.Position = new global::Windows.Foundation.Point(clientPoint.X / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96));
-                                    }
-                                    else
-                                    {
-                                        options.Position = new global::Windows.Foundation.Point(clientPoint.X, clientPoint.Y);
-                                    }
+                                    options.Position = InfoHelper.SystemVersion.Build >= 22000
+                                        ? new global::Windows.Foundation.Point(clientPoint.X / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96))
+                                        : new global::Windows.Foundation.Point(clientPoint.X, clientPoint.Y);
                                 }
 
                                 (Content as MainPage).TitlebarMenuFlyout.ShowAt(null, options);

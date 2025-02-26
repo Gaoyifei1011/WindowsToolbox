@@ -14,7 +14,7 @@ namespace WindowsTools.Helpers.Root
     /// </summary>
     public static class RegistryHelper
     {
-        public static event EventHandler NotifyKeyValueChanged;
+        public static event EventHandler<string> NotifyKeyValueChanged;
 
         /// <summary>
         /// 读取注册表指定项的内容
@@ -198,7 +198,7 @@ namespace WindowsTools.Helpers.Root
 
             try
             {
-                if ((rootRegistryKey.Equals(Registry.ClassesRoot) || rootRegistryKey.Equals(Registry.CurrentConfig) || rootRegistryKey.Equals(Registry.CurrentUser) || rootRegistryKey.Equals(Registry.LocalMachine) || rootRegistryKey.Equals(Registry.PerformanceData) || rootRegistryKey.Equals(Registry.Users)) && Registry.CurrentUser.OpenSubKey(rootKey, false) is RegistryKey registryKey)
+                if ((rootRegistryKey.Equals(Registry.ClassesRoot) || rootRegistryKey.Equals(Registry.CurrentConfig) || rootRegistryKey.Equals(Registry.CurrentUser) || rootRegistryKey.Equals(Registry.LocalMachine) || rootRegistryKey.Equals(Registry.PerformanceData) || rootRegistryKey.Equals(Registry.Users)) && rootRegistryKey.OpenSubKey(rootKey, false) is RegistryKey registryKey)
                 {
                     manualResetEvent = new(false);
                     int ret = Advapi32Library.RegNotifyChangeKeyValue(registryKey.Handle.DangerousGetHandle(), true, REG_NOTIFY_FILTER.REG_NOTIFY_CHANGE_LAST_SET | REG_NOTIFY_FILTER.REG_NOTIFY_THREAD_AGNOSTIC, manualResetEvent.SafeWaitHandle.DangerousGetHandle(), true);
@@ -207,7 +207,7 @@ namespace WindowsTools.Helpers.Root
                         registeredWaitHandle?.Unregister(manualResetEvent);
                         manualResetEvent.Close();
                         registryKey.Close();
-                        NotifyKeyValueChanged?.Invoke(null, EventArgs.Empty);
+                        NotifyKeyValueChanged?.Invoke(null, rootKey);
                     }, null, Timeout.Infinite, true);
                 }
                 return true;

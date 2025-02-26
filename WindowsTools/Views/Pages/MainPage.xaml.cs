@@ -251,6 +251,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
+            MainWindow.Current.SetWindowBackdrop();
             if (sender is Microsoft.UI.Xaml.Controls.NavigationView navigationView)
             {
                 foreach (object item in navigationView.MenuItems)
@@ -502,119 +503,115 @@ namespace WindowsTools.Views.Pages
             if (currentPageType.Equals(typeof(FileManagerPage)))
             {
                 FileManagerPage fileManagerPage = (MainNavigationView.Content as Frame).Content as FileManagerPage;
+                Type currentFileManagerPageType = fileManagerPage.GetCurrentPageType();
 
-                if (fileManagerPage is not null)
+                if (currentFileManagerPageType.Equals(typeof(FileNamePage)))
                 {
-                    Type currentFileManagerPageType = fileManagerPage.GetCurrentPageType();
+                    FileNamePage page = (fileManagerPage.FileManagerNavigationView.Content as Frame).Content as FileNamePage;
+                    List<OldAndNewNameModel> fileNameList = [];
 
-                    if (currentFileManagerPageType.Equals(typeof(FileNamePage)))
+                    await Task.Run(() =>
                     {
-                        FileNamePage page = (fileManagerPage.FileManagerNavigationView.Content as Frame).Content as FileNamePage;
-                        List<OldAndNewNameModel> fileNameList = [];
-
-                        await Task.Run(() =>
+                        foreach (string file in filesList)
                         {
-                            foreach (string file in filesList)
+                            FileInfo fileInfo = new(file);
+                            if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
                             {
-                                FileInfo fileInfo = new(file);
-                                if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
-                                {
-                                    continue;
-                                }
+                                continue;
+                            }
 
-                                fileNameList.Add(new()
+                            fileNameList.Add(new()
+                            {
+                                OriginalFileName = Path.GetFileName(file),
+                                OriginalFilePath = file,
+                            });
+                        }
+                    });
+
+                    page.AddToFileNamePage(fileNameList);
+                }
+                else if (currentFileManagerPageType.Equals(typeof(ExtensionNamePage)))
+                {
+                    ExtensionNamePage page = (fileManagerPage.FileManagerNavigationView.Content as Frame).Content as ExtensionNamePage;
+                    List<OldAndNewNameModel> extensionNameList = [];
+
+                    await Task.Run(() =>
+                    {
+                        foreach (string file in filesList)
+                        {
+                            FileInfo fileInfo = new(file);
+                            if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
+                            {
+                                continue;
+                            }
+
+                            if ((new FileInfo(fileInfo.FullName).Attributes & FileAttributes.Directory) is 0)
+                            {
+                                extensionNameList.Add(new()
                                 {
-                                    OriginalFileName = Path.GetFileName(file),
-                                    OriginalFilePath = file,
+                                    OriginalFileName = fileInfo.Name,
+                                    OriginalFilePath = fileInfo.FullName
                                 });
                             }
-                        });
+                        }
+                    });
 
-                        page.AddToFileNamePage(fileNameList);
-                    }
-                    else if (currentFileManagerPageType.Equals(typeof(ExtensionNamePage)))
+                    page.AddToExtensionNamePage(extensionNameList);
+                }
+                else if (currentFileManagerPageType.Equals(typeof(UpperAndLowerCasePage)))
+                {
+                    UpperAndLowerCasePage page = (fileManagerPage.FileManagerNavigationView.Content as Frame).Content as UpperAndLowerCasePage;
+                    List<OldAndNewNameModel> upperAndLowerCaseList = [];
+
+                    await Task.Run(() =>
                     {
-                        ExtensionNamePage page = (fileManagerPage.FileManagerNavigationView.Content as Frame).Content as ExtensionNamePage;
-                        List<OldAndNewNameModel> extensionNameList = [];
-
-                        await Task.Run(() =>
+                        foreach (string file in filesList)
                         {
-                            foreach (string file in filesList)
+                            FileInfo fileInfo = new(file);
+                            if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
                             {
-                                FileInfo fileInfo = new(file);
-                                if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
-                                {
-                                    continue;
-                                }
-
-                                if ((new FileInfo(fileInfo.FullName).Attributes & FileAttributes.Directory) is 0)
-                                {
-                                    extensionNameList.Add(new()
-                                    {
-                                        OriginalFileName = fileInfo.Name,
-                                        OriginalFilePath = fileInfo.FullName
-                                    });
-                                }
+                                continue;
                             }
-                        });
 
-                        page.AddToExtensionNamePage(extensionNameList);
-                    }
-                    else if (currentFileManagerPageType.Equals(typeof(UpperAndLowerCasePage)))
+                            upperAndLowerCaseList.Add(new()
+                            {
+                                OriginalFileName = Path.GetFileName(file),
+                                OriginalFilePath = file,
+                            });
+                        }
+                    });
+
+                    page.AddtoUpperAndLowerCasePage(upperAndLowerCaseList);
+                }
+                else if (currentFileManagerPageType.Equals(typeof(FilePropertiesPage)))
+                {
+                    FilePropertiesPage page = (fileManagerPage.FileManagerNavigationView.Content as Frame).Content as FilePropertiesPage;
+                    List<OldAndNewPropertiesModel> filePropertiesList = [];
+
+                    await Task.Run(() =>
                     {
-                        UpperAndLowerCasePage page = (fileManagerPage.FileManagerNavigationView.Content as Frame).Content as UpperAndLowerCasePage;
-                        List<OldAndNewNameModel> upperAndLowerCaseList = [];
-
-                        await Task.Run(() =>
+                        foreach (string file in filesList)
                         {
-                            foreach (string file in filesList)
+                            FileInfo fileInfo = new(file);
+                            if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
                             {
-                                FileInfo fileInfo = new(file);
-                                if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
-                                {
-                                    continue;
-                                }
-
-                                upperAndLowerCaseList.Add(new()
-                                {
-                                    OriginalFileName = Path.GetFileName(file),
-                                    OriginalFilePath = file,
-                                });
+                                continue;
                             }
-                        });
 
-                        page.AddtoUpperAndLowerCasePage(upperAndLowerCaseList);
-                    }
-                    else if (currentFileManagerPageType.Equals(typeof(FilePropertiesPage)))
-                    {
-                        FilePropertiesPage page = (fileManagerPage.FileManagerNavigationView.Content as Frame).Content as FilePropertiesPage;
-                        List<OldAndNewPropertiesModel> filePropertiesList = [];
-
-                        await Task.Run(() =>
-                        {
-                            foreach (string file in filesList)
+                            filePropertiesList.Add(new OldAndNewPropertiesModel()
                             {
-                                FileInfo fileInfo = new(file);
-                                if ((fileInfo.Attributes & FileAttributes.Hidden) is FileAttributes.Hidden)
-                                {
-                                    continue;
-                                }
+                                FileName = Path.GetFileName(file),
+                                FilePath = file,
+                            });
+                        }
+                    });
 
-                                filePropertiesList.Add(new OldAndNewPropertiesModel()
-                                {
-                                    FileName = Path.GetFileName(file),
-                                    FilePath = file,
-                                });
-                            }
-                        });
-
-                        page.AddToFilePropertiesPage(filePropertiesList);
-                    }
+                    page.AddToFilePropertiesPage(filePropertiesList);
                 }
             }
             else if (currentPageType.Equals(typeof(FileCertificatePage)))
             {
-                FileCertificatePage page = (MainNavigationView.Content as Frame).Content as FileCertificatePage;
+                FileCertificatePage fileCertificatePage = (MainNavigationView.Content as Frame).Content as FileCertificatePage;
                 List<CertificateResultModel> fileCertificateList = [];
 
                 await Task.Run(() =>
@@ -638,30 +635,30 @@ namespace WindowsTools.Views.Pages
                     }
                 });
 
-                page.AddToFileCertificatePage(fileCertificateList);
+                fileCertificatePage.AddToFileCertificatePage(fileCertificateList);
             }
             else if (currentPageType.Equals(typeof(IconExtractPage)))
             {
-                IconExtractPage page = (MainNavigationView.Content as Frame).Content as IconExtractPage;
+                IconExtractPage iconExtractPage = (MainNavigationView.Content as Frame).Content as IconExtractPage;
                 if (filesList.Count is 1 && (Path.GetExtension(filesList[0]).Equals(".exe") || Path.GetExtension(filesList[0]).Equals(".dll")))
                 {
-                    await page.ParseIconFileAsync(filesList[0]);
+                    await iconExtractPage.ParseIconFileAsync(filesList[0]);
                 }
             }
             else if (currentPageType.Equals(typeof(PriExtractPage)))
             {
-                PriExtractPage page = (MainNavigationView.Content as Frame).Content as PriExtractPage;
+                PriExtractPage priExtractPage = (MainNavigationView.Content as Frame).Content as PriExtractPage;
                 if (filesList.Count is 1 && Path.GetExtension(filesList[0]).Equals(".pri"))
                 {
-                    await page.ParseResourceFileAsync(filesList[0]);
+                    await priExtractPage.ParseResourceFileAsync(filesList[0]);
                 }
             }
             else if (currentPageType.Equals(typeof(FileUnlockPage)))
             {
-                FileUnlockPage page = (MainNavigationView.Content as Frame).Content as FileUnlockPage;
+                FileUnlockPage fileUnlockPage = (MainNavigationView.Content as Frame).Content as FileUnlockPage;
                 if (filesList.Count is 1)
                 {
-                    page.ParseFile(filesList[0]);
+                    fileUnlockPage.ParseFile(filesList[0]);
                 }
             }
         }

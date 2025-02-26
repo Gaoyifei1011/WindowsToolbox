@@ -2,7 +2,8 @@
     x:Class="WindowsTools.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Microsoft.UI.Xaml.Controls">
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:media="using:Microsoft.UI.Xaml.Media">
     <Application.Resources>
         <controls:XamlControlsResources>
             <controls:XamlControlsResources.MergedDictionaries>
@@ -23,18 +24,36 @@
                             <Color x:Key="DialogContentFillColor">#2B2B2B</Color>
                             <SolidColorBrush x:Key="DefaultBackgroundColorBrush" Color="{ThemeResource DefaultBackgroundColor}" />
                             <SolidColorBrush x:Key="DialogContentFillColorBrush" Color="{ThemeResource DialogContentFillColor}" />
+                            <media:AcrylicBrush
+                                x:Key="AppThemeDisplayBrush"
+                                FallbackColor="#FF2C2C2C"
+                                TintColor="#FF2C2C2C"
+                                TintLuminosityOpacity="0.96"
+                                TintOpacity="0.15" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighConstract">
                             <Color x:Key="DefaultBackgroundColor">#FF0000</Color>
                             <Color x:Key="DialogContentFillColor">#FF0000</Color>
                             <SolidColorBrush x:Key="DefaultBackgroundColorBrush" Color="{ThemeResource DefaultBackgroundColor}" />
                             <SolidColorBrush x:Key="DialogContentFillColorBrush" Color="{ThemeResource DialogContentFillColor}" />
+                            <media:AcrylicBrush
+                                x:Key="AppThemeDisplayBrush"
+                                FallbackColor="#FFF9F9F9"
+                                TintColor="#FFFCFCFC"
+                                TintLuminosityOpacity="0.85"
+                                TintOpacity="0" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Light">
                             <Color x:Key="DefaultBackgroundColor">#F0F3F9</Color>
                             <Color x:Key="DialogContentFillColor">#FFFFFF</Color>
                             <SolidColorBrush x:Key="DefaultBackgroundColorBrush" Color="{ThemeResource DefaultBackgroundColor}" />
                             <SolidColorBrush x:Key="DialogContentFillColorBrush" Color="{ThemeResource DialogContentFillColor}" />
+                            <media:AcrylicBrush
+                                x:Key="AppThemeDisplayBrush"
+                                FallbackColor="#FFF9F9F9"
+                                TintColor="#FFFCFCFC"
+                                TintLuminosityOpacity="0.85"
+                                TintOpacity="0" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>

@@ -49,8 +49,78 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <muxc:Expander
+                <Grid
                     Grid.Row="0"
+                    Width="335"
+                    Height="188"
+                    Margin="0,0,0,10"
+                    Background="{x:Bind SystemAppBackground, Mode=OneWay}"
+                    BorderBrush="Black"
+                    BorderThickness="8"
+                    CornerRadius="8"
+                    RequestedTheme="{x:Bind SystemAppTheme, Mode=OneWay}">
+
+                    <Image
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Source="{x:Bind SystemAppImage, Mode=OneWay}"
+                        Stretch="UniformToFill" />
+
+                    <StackPanel
+                        Width="98"
+                        Height="98"
+                        Margin="8,8,8,20"
+                        Padding="12"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Background="{ThemeResource AppThemeDisplayBrush}"
+                        BorderBrush="Transparent"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Opacity="1">
+
+                        <Border
+                            Height="1"
+                            Margin="0,0,0,8"
+                            HorizontalAlignment="Stretch"
+                            Background="{ThemeResource TextFillColorSecondaryBrush}"
+                            Opacity="1" />
+
+                        <Border
+                            Height="1"
+                            Margin="0,0,0,8"
+                            HorizontalAlignment="Stretch"
+                            Background="{ThemeResource TextFillColorSecondaryBrush}"
+                            Opacity="1" />
+
+                        <Border
+                            Height="1"
+                            Margin="0,0,0,8"
+                            HorizontalAlignment="Stretch"
+                            Background="{ThemeResource TextFillColorSecondaryBrush}"
+                            Opacity="1" />
+
+                        <Border
+                            Width="42"
+                            Height="1"
+                            Margin="0,0,0,8"
+                            HorizontalAlignment="Left"
+                            Background="{ThemeResource TextFillColorSecondaryBrush}"
+                            Opacity="1" />
+
+                        <Border
+                            Width="24"
+                            Height="8"
+                            Margin="0,26,0,0"
+                            HorizontalAlignment="Right"
+                            Background="{ThemeResource AccentFillColorDefaultBrush}"
+                            CornerRadius="2"
+                            Opacity="1" />
+                    </StackPanel>
+                </Grid>
+
+                <muxc:Expander
+                    Grid.Row="1"
                     Margin="30,0,30,3"
                     Padding="0"
                     HorizontalAlignment="Stretch"
@@ -206,7 +276,7 @@
                 </muxc:Expander>
 
                 <muxc:Expander
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Margin="30,0,30,3"
                     Padding="0"
                     HorizontalAlignment="Stretch"
@@ -683,7 +753,7 @@
                 </muxc:Expander>
 
                 <muxc:Expander
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Margin="30,0,30,3"
                     Padding="0"
                     HorizontalAlignment="Stretch"

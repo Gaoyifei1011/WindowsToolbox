@@ -1379,17 +1379,20 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 注册表内容发生变更时触发的事件
         /// </summary>
-        private void OnNotifyKeyValueChanged(object sender, EventArgs args)
+        private void OnNotifyKeyValueChanged(object sender, string key)
         {
-            if (!isChanger)
+            if (key.Equals(@"Software\WindowsTools\ShellMenuTest"))
             {
-                needToRefreshData = true;
+                if (!isChanger)
+                {
+                    needToRefreshData = true;
+                }
+
+                isChanger = false;
+
+                // 注册的变化通知在使用一次后就消失了，需要重新注册
+                RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, key);
             }
-
-            isChanger = false;
-
-            // 注册的变化通知在使用一次后就消失了，需要重新注册
-            RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, @"Software\WindowsTools\ShellMenuTest");
         }
 
         #endregion 第三部分：自定义事件
