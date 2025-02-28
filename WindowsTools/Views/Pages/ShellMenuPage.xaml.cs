@@ -576,7 +576,7 @@ namespace WindowsTools.Views.Pages
 
                 await Task.Run(() =>
                 {
-                    RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, @"Software\WindowsTools\ShellMenuTest");
+                    RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, @"Software\WindowsTools\ShellMenu");
                 });
             }
 
@@ -840,7 +840,7 @@ namespace WindowsTools.Views.Pages
                 // 检查添加项是否为根菜单项
                 if (selectedItem is null)
                 {
-                    menuKey = Path.Combine(@"Software\WindowsTools\ShellMenuTest", menuGuid.ToString());
+                    menuKey = Path.Combine(@"Software\WindowsTools\ShellMenu", menuGuid.ToString());
                     menuIndex = 0;
                 }
                 else if (selectedItem.MenuType is MenuType.FirstLevelMenu)
@@ -1381,7 +1381,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnNotifyKeyValueChanged(object sender, string key)
         {
-            if (key.Equals(@"Software\WindowsTools\ShellMenuTest"))
+            if (key.Equals(@"Software\WindowsTools\ShellMenu"))
             {
                 if (!isChanger)
                 {

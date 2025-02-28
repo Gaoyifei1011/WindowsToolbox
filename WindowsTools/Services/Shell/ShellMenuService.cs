@@ -20,7 +20,7 @@ namespace WindowsTools.Services.Shell
     public static class ShellMenuService
     {
         // Stable Software\WindowsTools\Personalize\ShellMenu
-        private static readonly string shellMenuKey = @"Software\WindowsTools\ShellMenuTest";
+        private static readonly string shellMenuKey = @"Software\WindowsTools\ShellMenu";
 
         private static Guid FOLDERID_LocalAppData = new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091");
 
