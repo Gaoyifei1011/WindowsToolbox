@@ -194,6 +194,7 @@ namespace WindowsTools.Views.Windows
         {
             base.OnActivated(args);
             (Content as MainPage).ChangeButtonActiveState(true);
+            VisualStateManager.GoToState(Content as MainPage, "TitlebarTitleActivate", false);
         }
 
         /// <summary>
@@ -203,6 +204,7 @@ namespace WindowsTools.Views.Windows
         {
             base.OnDeactivate(args);
             (Content as MainPage).ChangeButtonActiveState(false);
+            VisualStateManager.GoToState(Content as MainPage, "TitlebarTitleDeactive", false);
         }
 
         /// <summary>

@@ -103,6 +103,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Image
+                    x:Name="TitleBarIcon"
                     Grid.Column="0"
                     Width="18"
                     Height="18"
@@ -111,22 +112,24 @@
                     Source="ms-appx:///Assets/Square44x44Logo.altform-unplated_targetsize-256.png" />
 
                 <TextBlock
+                    x:Name="TitleRunNormalText"
                     Grid.Column="1"
                     Margin="12,2,0,0"
                     VerticalAlignment="Center"
-                    Style="{StaticResource CaptionTextBlockStyle}"
+                    FontSize="12"
                     Text="{x:Bind root:ResourceService.WindowResource.GetString('WindowTitle')}"
-                    TextWrapping="NoWrap" />
+                    TextWrapping="NoWrap"
+                    Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(helper:RuntimeHelper.IsElevated)}" />
 
                 <TextBlock
-                    x:Name="RunningAdministratorText"
+                    x:Name="TitleRunAdministratorText"
                     Grid.Column="2"
                     Margin="0,2,0,0"
                     VerticalAlignment="Center"
-                    x:Load="{x:Bind helper:RuntimeHelper.IsElevated}"
-                    Style="{StaticResource CaptionTextBlockStyle}"
+                    FontSize="12"
                     Text="{x:Bind root:ResourceService.WindowResource.GetString('RunningAdministrator')}"
-                    TextWrapping="NoWrap" />
+                    TextWrapping="NoWrap"
+                    Visibility="{x:Bind helper:RuntimeHelper.IsElevated}" />
             </Grid>
 
             <StackPanel
@@ -805,6 +808,21 @@
                 <VisualState x:Name="BackgroundTransparent">
                     <VisualState.Setters>
                         <Setter Target="MainContent.Background" Value="Transparent" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="TitlebarTitleActivate">
+                    <VisualState.Setters>
+                        <Setter Target="TitleBarIcon.Opacity" Value="1" />
+                        <Setter Target="TitleRunNormalText.Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+                        <Setter Target="TitleRunAdministratorText.Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="TitlebarTitleDeactive">
+                    <VisualState.Setters>
+                        <Setter Target="TitleBarIcon.Opacity" Value="0.5" />
+                        <Setter Target="TitleRunNormalText.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+                        <Setter Target="TitleRunAdministratorText.Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
