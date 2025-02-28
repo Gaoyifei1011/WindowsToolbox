@@ -16,7 +16,7 @@ namespace WindowsTools.WindowsAPI.ComTypes
     /// </summary>
     public class OpenFolderDialog : IDisposable
     {
-        private readonly Guid CLSID_FileOpenDialog = new("DC1C5A9C-E88A-4dde-A5A1-60F82A20AEF7");
+        private readonly Guid CLSID_FileOpenDialog = new("DC1C5A9C-E88A-4DDE-A5A1-60F82A20AEF7");
         private IFileOpenDialog FileOpenDialog;
         private Form parentForm;
 
