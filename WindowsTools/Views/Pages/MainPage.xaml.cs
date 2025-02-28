@@ -146,7 +146,7 @@ namespace WindowsTools.Views.Pages
             new KeyValuePair<string, Type>("IconExtract",typeof(IconExtractPage)),
             new KeyValuePair<string, Type>("PriExtract",typeof(PriExtractPage)),
             new KeyValuePair<string, Type>("Personalize",null),
-            new KeyValuePair<string, Type>("ChangeTheme",typeof(ChangeThemePage)),
+            new KeyValuePair<string, Type>("SwitchTheme",typeof(SwitchThemePage)),
             new KeyValuePair<string, Type>("ShellMenu",typeof(ShellMenuPage)),
             new KeyValuePair<string, Type>("ContextMenuManager",typeof(ContextMenuManagerPage)),
             new KeyValuePair<string, Type>("System",null),

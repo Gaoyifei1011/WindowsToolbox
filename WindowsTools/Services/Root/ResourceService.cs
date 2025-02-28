@@ -24,7 +24,7 @@ namespace WindowsTools.Services.Root
 
         public static ResourceManager AllToolsResource { get; } = new("WindowsTools.Strings.AllTools", CurrentAssembly);
 
-        public static ResourceManager ChangeThemeResource { get; } = new("WindowsTools.Strings.ChangeTheme", CurrentAssembly);
+        public static ResourceManager SwitchThemeResource { get; } = new("WindowsTools.Strings.SwitchTheme", CurrentAssembly);
 
         public static ResourceManager ColorPickerResource { get; } = new("WindowsTools.Strings.ColorPicker", CurrentAssembly);
 

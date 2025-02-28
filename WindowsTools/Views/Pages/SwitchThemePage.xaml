@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="WindowsTools.Views.Pages.ChangeThemePage"
+    x:Class="WindowsTools.Views.Pages.SwitchThemePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
@@ -14,7 +14,7 @@
     <Grid Padding="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Margin="30,15,30,6">
@@ -26,12 +26,12 @@
             <TextBlock
                 Grid.Column="0"
                 FontSize="22"
-                Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('Title')}" />
+                Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('Title')}" />
 
             <Button
                 Grid.Column="1"
                 Click="{x:Bind OnOpenPersonalizeClicked}"
-                Content="{x:Bind root:ResourceService.ChangeThemeResource.GetString('Personalize')}" />
+                Content="{x:Bind root:ResourceService.SwitchThemeResource.GetString('Personalize')}" />
         </Grid>
 
         <ScrollViewer
@@ -145,12 +145,12 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('SystemThemeSettings')}" />
+                                Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('SystemThemeSettings')}" />
 
                             <Button
                                 Grid.Column="2"
                                 Click="{x:Bind OnRefreshClicked}"
-                                Content="{x:Bind root:ResourceService.ChangeThemeResource.GetString('Refresh')}" />
+                                Content="{x:Bind root:ResourceService.SwitchThemeResource.GetString('Refresh')}" />
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -170,7 +170,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('SystemThemeStyle')}" />
+                                    Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('SystemThemeStyle')}" />
 
                                 <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedSystemThemeStyle.Value, Mode=OneWay}">
 
@@ -214,7 +214,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AppThemeStyle')}" />
+                                    Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('AppThemeStyle')}" />
 
                                 <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedAppThemeStyle.Value, Mode=OneWay}">
 
@@ -258,7 +258,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('ShowThemeColorInStartAndTaskbar')}" />
+                                    Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('ShowThemeColorInStartAndTaskbar')}" />
 
                                 <ToggleSwitch
                                     Grid.Column="1"
@@ -266,8 +266,8 @@
                                     Margin="5,-2,0,0"
                                     IsEnabled="{x:Bind IsShowThemeColorInStartAndTaskbarEnabled, Mode=OneWay}"
                                     IsOn="{x:Bind IsShowThemeColorInStartAndTaskbar, Mode=OneWay}"
-                                    OffContent="{x:Bind root:ResourceService.ChangeThemeResource.GetString('ShowThemeColorInStartAndTaskbarOffContent')}"
-                                    OnContent="{x:Bind root:ResourceService.ChangeThemeResource.GetString('ShowThemeColorInStartAndTaskbarOnContent')}"
+                                    OffContent="{x:Bind root:ResourceService.SwitchThemeResource.GetString('ShowThemeColorInStartAndTaskbarOffContent')}"
+                                    OnContent="{x:Bind root:ResourceService.SwitchThemeResource.GetString('ShowThemeColorInStartAndTaskbarOnContent')}"
                                     Style="{StaticResource ToggleSwitchStyle}"
                                     Toggled="{x:Bind OnShowThemeColorInStartAndTaskbarToggled}" />
                             </Grid>
@@ -301,13 +301,62 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AutoChangeThemeSettings')}" />
+                                Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('AutoSwitchThemeSettings')}" />
 
-                            <muxc:SplitButton
+                            <StackPanel
                                 Grid.Column="2"
-                                Click="{x:Bind OnSaveClicked}"
-                                Content="{x:Bind root:ResourceService.ChangeThemeResource.GetString('Save')}"
-                                ToolTipService.ToolTip="{x:Bind root:ResourceService.ChangeThemeResource.GetString('SaveToolTip')}" />
+                                Height="30"
+                                Margin="20,0,0,0"
+                                BorderBrush="{ThemeResource ButtonBorderBrush}"
+                                BorderThickness="{ThemeResource ButtonBorderThemeThickness}"
+                                CornerRadius="{ThemeResource ControlCornerRadius}"
+                                Orientation="Horizontal">
+
+                                <Button
+                                    VerticalAlignment="Stretch"
+                                    VerticalContentAlignment="Center"
+                                    BorderThickness="0,0,1,0"
+                                    Click="{x:Bind OnSaveClicked}"
+                                    Content="{x:Bind root:ResourceService.SwitchThemeResource.GetString('Save')}"
+                                    CornerRadius="0"
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.SwitchThemeResource.GetString('SaveToolTip')}" />
+
+                                <Button
+                                    Width="35"
+                                    VerticalAlignment="Stretch"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.SwitchThemeResource.GetString('ViewMoreOptions')}">
+
+                                    <Button.Content>
+                                        <muxc:AnimatedIcon
+                                            Width="12"
+                                            Height="12"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            AutomationProperties.AccessibilityView="Raw">
+                                            <animatedvisuals:AnimatedChevronDownSmallVisualSource />
+                                            <muxc:AnimatedIcon.FallbackIconSource>
+                                                <muxc:FontIconSource
+                                                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                    FontSize="8"
+                                                    Glyph="&#xE96E;"
+                                                    IsTextScaleFactorEnabled="False" />
+                                            </muxc:AnimatedIcon.FallbackIconSource>
+                                        </muxc:AnimatedIcon>
+                                    </Button.Content>
+
+                                    <Button.Flyout>
+                                        <MenuFlyout Placement="Bottom">
+                                            <MenuFlyoutItem Click="{x:Bind OnRestoreDefaultClicked}" Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('RestoreDefault')}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon Glyph="&#xE777;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -327,20 +376,21 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AutoChangeTheme')}" />
+                                    Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('AutoSwitchThemeEnable')}" />
 
                                 <ToggleSwitch
                                     Grid.Column="1"
                                     MinWidth="0"
                                     Margin="5,-2,0,0"
-                                    IsOn="{x:Bind IsAutoChangeThemeValue, Mode=OneWay}"
-                                    OffContent="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AutoChangeThemeOffContent')}"
-                                    OnContent="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AutoChangeThemeOnContent')}"
+                                    IsOn="{x:Bind IsAutoSwitchThemeEnableValue, Mode=OneWay}"
+                                    OffContent="{x:Bind root:ResourceService.SwitchThemeResource.GetString('AutoSwitchThemeEnableOffContent')}"
+                                    OnContent="{x:Bind root:ResourceService.SwitchThemeResource.GetString('AutoSwitchThemeEnableOnContent')}"
                                     Style="{StaticResource ToggleSwitchStyle}"
-                                    Toggled="{x:Bind OnAutoChangeThemeToggled}" />
+                                    Toggled="{x:Bind OnAutoSwitchThemeEnableToggled}" />
                             </Grid>
 
-                            <StackPanel Visibility="{x:Bind IsAutoChangeThemeValue, Mode=OneWay}">
+                            <StackPanel Visibility="{x:Bind IsAutoSwitchThemeEnableValue, Mode=OneWay}">
+
                                 <MenuFlyoutSeparator />
 
                                 <Grid
@@ -358,16 +408,16 @@
                                     <TextBlock
                                         Grid.Column="0"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AutoChangeSystemTheme')}" />
+                                        Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('AutoSwitchSystemTheme')}" />
 
                                     <HyperlinkButton
                                         Grid.Column="1"
                                         Click="{x:Bind OnShowSetTimeFlyoutClicked}"
-                                        Visibility="{x:Bind IsAutoChangeSystemThemeValue, Mode=OneWay}">
+                                        Visibility="{x:Bind IsAutoSwitchSystemThemeValue, Mode=OneWay}">
 
                                         <HyperlinkButton.Content>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('SetTime')}" />
+                                                <TextBlock Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('SetTime')}" />
 
                                                 <muxc:AnimatedIcon
                                                     Width="12"
@@ -430,7 +480,7 @@
                                                             Grid.Column="1"
                                                             VerticalAlignment="Center"
                                                             FontSize="14"
-                                                            Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('SetTime')}" />
+                                                            Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('SetTime')}" />
 
                                                         <Button
                                                             Grid.Column="2"
@@ -440,7 +490,7 @@
                                                             Click="{x:Bind OnCloseFlyoutClicked}"
                                                             Style="{StaticResource AlternateCloseButtonStyle}"
                                                             Tag="SystemThemeSetTimeFlyout"
-                                                            ToolTipService.ToolTip="{x:Bind root:ResourceService.ChangeThemeResource.GetString('CloseFlyout')}">
+                                                            ToolTipService.ToolTip="{x:Bind root:ResourceService.SwitchThemeResource.GetString('CloseFlyout')}">
 
                                                             <Button.Content>
                                                                 <FontIcon
@@ -473,7 +523,7 @@
                                                         <TextBlock
                                                             Grid.Column="1"
                                                             VerticalAlignment="Center"
-                                                            Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('SystemThemeLightTime')}" />
+                                                            Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('SystemThemeLightTime')}" />
 
                                                         <TimePicker
                                                             Grid.Column="2"
@@ -504,7 +554,7 @@
                                                         <TextBlock
                                                             Grid.Column="1"
                                                             VerticalAlignment="Center"
-                                                            Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('SystemThemeDarkTime')}" />
+                                                            Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('SystemThemeDarkTime')}" />
 
                                                         <TimePicker
                                                             Grid.Column="2"
@@ -523,11 +573,11 @@
                                         Grid.Column="2"
                                         MinWidth="0"
                                         Margin="5,-2,0,0"
-                                        IsOn="{x:Bind IsAutoChangeSystemThemeValue, Mode=OneWay}"
-                                        OffContent="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AutoChangeSystemThemeOffContent')}"
-                                        OnContent="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AutoChangeSystemThemeOnContent')}"
+                                        IsOn="{x:Bind IsAutoSwitchSystemThemeValue, Mode=OneWay}"
+                                        OffContent="{x:Bind root:ResourceService.SwitchThemeResource.GetString('AutoSwitchSystemThemeOffContent')}"
+                                        OnContent="{x:Bind root:ResourceService.SwitchThemeResource.GetString('AutoSwitchSystemThemeOnContent')}"
                                         Style="{StaticResource ToggleSwitchStyle}"
-                                        Toggled="{x:Bind OnAutoChangeSystemThemeToggled}" />
+                                        Toggled="{x:Bind OnAutoSwitchSystemThemeToggled}" />
                                 </Grid>
 
                                 <MenuFlyoutSeparator />
@@ -547,16 +597,16 @@
                                     <TextBlock
                                         Grid.Column="0"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AutoChangeAppTheme')}" />
+                                        Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('AutoSwitchAppTheme')}" />
 
                                     <HyperlinkButton
                                         Grid.Column="1"
                                         Click="{x:Bind OnShowSetTimeFlyoutClicked}"
-                                        Visibility="{x:Bind IsAutoChangeAppThemeValue, Mode=OneWay}">
+                                        Visibility="{x:Bind IsAutoSwitchAppThemeValue, Mode=OneWay}">
 
                                         <HyperlinkButton.Content>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('SetTime')}" />
+                                                <TextBlock Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('SetTime')}" />
 
                                                 <muxc:AnimatedIcon
                                                     Width="12"
@@ -619,7 +669,7 @@
                                                             Grid.Column="1"
                                                             VerticalAlignment="Center"
                                                             FontSize="14"
-                                                            Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('SetTime')}" />
+                                                            Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('SetTime')}" />
 
                                                         <Button
                                                             Grid.Column="2"
@@ -629,7 +679,7 @@
                                                             Click="{x:Bind OnCloseFlyoutClicked}"
                                                             Style="{StaticResource AlternateCloseButtonStyle}"
                                                             Tag="AppThemeSetTimeFlyout"
-                                                            ToolTipService.ToolTip="{x:Bind root:ResourceService.ChangeThemeResource.GetString('CloseFlyout')}">
+                                                            ToolTipService.ToolTip="{x:Bind root:ResourceService.SwitchThemeResource.GetString('CloseFlyout')}">
 
                                                             <Button.Content>
                                                                 <FontIcon
@@ -662,7 +712,7 @@
                                                         <TextBlock
                                                             Grid.Column="1"
                                                             VerticalAlignment="Center"
-                                                            Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AppThemeLightTime')}" />
+                                                            Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('AppThemeLightTime')}" />
 
                                                         <TimePicker
                                                             Grid.Column="2"
@@ -693,7 +743,7 @@
                                                         <TextBlock
                                                             Grid.Column="1"
                                                             VerticalAlignment="Center"
-                                                            Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AppThemeDarkTime')}" />
+                                                            Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('AppThemeDarkTime')}" />
 
                                                         <TimePicker
                                                             Grid.Column="2"
@@ -712,11 +762,11 @@
                                         Grid.Column="2"
                                         MinWidth="0"
                                         Margin="5,-2,0,0"
-                                        IsOn="{x:Bind IsAutoChangeAppThemeValue, Mode=OneWay}"
-                                        OffContent="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AutoChangeAppThemeOffContent')}"
-                                        OnContent="{x:Bind root:ResourceService.ChangeThemeResource.GetString('AutoChangeAppThemeOnContent')}"
+                                        IsOn="{x:Bind IsAutoSwitchAppThemeValue, Mode=OneWay}"
+                                        OffContent="{x:Bind root:ResourceService.SwitchThemeResource.GetString('AutoSwitchAppThemeOffContent')}"
+                                        OnContent="{x:Bind root:ResourceService.SwitchThemeResource.GetString('AutoSwitchAppThemeOnContent')}"
                                         Style="{StaticResource ToggleSwitchStyle}"
-                                        Toggled="{x:Bind OnAutoChangeAppThemeToggled}" />
+                                        Toggled="{x:Bind OnAutoSwitchAppThemeToggled}" />
                                 </Grid>
 
                                 <MenuFlyoutSeparator />
@@ -735,15 +785,15 @@
                                     <TextBlock
                                         Grid.Column="0"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('ShowColorInDarkTheme')}" />
+                                        Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('ShowColorInDarkTheme')}" />
 
                                     <ToggleSwitch
                                         Grid.Column="1"
                                         MinWidth="0"
                                         Margin="5,-2,0,0"
                                         IsOn="{x:Bind IsShowColorInDarkTheme, Mode=OneWay}"
-                                        OffContent="{x:Bind root:ResourceService.ChangeThemeResource.GetString('ShowColorInDarkThemeOffContent')}"
-                                        OnContent="{x:Bind root:ResourceService.ChangeThemeResource.GetString('ShowColorInDarkThemeOnContent')}"
+                                        OffContent="{x:Bind root:ResourceService.SwitchThemeResource.GetString('ShowColorInDarkThemeOffContent')}"
+                                        OnContent="{x:Bind root:ResourceService.SwitchThemeResource.GetString('ShowColorInDarkThemeOnContent')}"
                                         Style="{StaticResource ToggleSwitchStyle}"
                                         Toggled="{x:Bind OnShowColorInDarkThemeToggled}" />
                                 </Grid>
@@ -777,7 +827,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('Tips')}" />
+                                Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('Tips')}" />
                         </Grid>
                     </muxc:Expander.Header>
 
@@ -787,7 +837,7 @@
                                 Margin="44,10,16,10"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind root:ResourceService.ChangeThemeResource.GetString('TipContent1')}"
+                                Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('TipContent1')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                         </StackPanel>

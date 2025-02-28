@@ -1,6 +1,5 @@
 About=About
 AllTools=All tools
-ChangeTheme=Change theme
 Close=Close
 ContextMenuManager=Context menu manager
 DownloadManager=Download manager
@@ -25,6 +24,7 @@ RunningAdministrator=(Administrator)
 Settings=Settings
 ShellMenu=Custom shell menu
 Size=Size
+SwitchTheme=Switch theme
 System=System tools
 SystemInfo=System information
 UpdateManager=Update manager

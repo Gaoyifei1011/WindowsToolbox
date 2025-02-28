@@ -508,12 +508,12 @@ namespace WindowsTools.Views.Windows
                         SetWindowTheme();
                         SetClassicMenuTheme();
 
-                        if ((Content as MainPage).GetCurrentPageType().Equals(typeof(ChangeThemePage)))
+                        if ((Content as MainPage).GetCurrentPageType().Equals(typeof(SwitchThemePage)))
                         {
-                            ChangeThemePage changeThemePage = ((Content as MainPage).MainNavigationView.Content as Frame).Content as ChangeThemePage;
+                            SwitchThemePage switchThemePage = ((Content as MainPage).MainNavigationView.Content as Frame).Content as SwitchThemePage;
                             BeginInvoke(async () =>
                             {
-                                await changeThemePage.InitializeSystemThemeSettingsAsync();
+                                await switchThemePage.InitializeSystemThemeSettingsAsync();
                             });
                         }
                         break;

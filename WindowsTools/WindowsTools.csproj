@@ -96,7 +96,7 @@
 
     <Content Include="Assets\ControlIcon\About.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\AllTools.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\ChangeTheme.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\SwitchTheme.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ContextMenuManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\DownloadManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\DriverManager.png" CopyToOutputDirectory="Always" />
@@ -188,9 +188,6 @@
     <EmbeddedResource Include="Strings\DownloadManager.en-us.restext" />
     <EmbeddedResource Include="Strings\DownloadManager.restext" />
     <EmbeddedResource Include="Strings\DownloadManager.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\ChangeTheme.en-us.restext" />
-    <EmbeddedResource Include="Strings\ChangeTheme.restext" />
-    <EmbeddedResource Include="Strings\ChangeTheme.zh-hans.restext" />
     <EmbeddedResource Include="Strings\DriverManager.en-us.restext" />
     <EmbeddedResource Include="Strings\DriverManager.restext" />
     <EmbeddedResource Include="Strings\DriverManager.zh-hans.restext" />
@@ -237,6 +234,9 @@
     <EmbeddedResource Include="Strings\SimulateUpdate.en-us.restext" />
     <EmbeddedResource Include="Strings\SimulateUpdate.restext" />
     <EmbeddedResource Include="Strings\SimulateUpdate.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\SwitchTheme.en-us.restext" />
+    <EmbeddedResource Include="Strings\SwitchTheme.restext" />
+    <EmbeddedResource Include="Strings\SwitchTheme.zh-hans.restext" />
     <EmbeddedResource Include="Strings\SystemInfo.en-us.restext" />
     <EmbeddedResource Include="Strings\SystemInfo.restext" />
     <EmbeddedResource Include="Strings\SystemInfo.zh-hans.restext" />
@@ -275,7 +275,6 @@
     <None Remove="UI\TeachingTips\QuickOperationTip.xaml" />
     <None Remove="Views\Pages\AboutPage.xaml" />
     <None Remove="Views\Pages\AllToolsPage.xaml" />
-    <None Remove="Views\Pages\ChangeThemePage.xaml" />
     <None Remove="Views\Pages\ColorPickerPage.xaml" />
     <None Remove="Views\Pages\ContextMenuManagerPage.xaml" />
     <None Remove="Views\Pages\DownloadManagerPage.xaml" />
@@ -293,6 +292,7 @@
     <None Remove="Views\Pages\SettingsPage.xaml" />
     <None Remove="Views\Pages\ShellMenuPage.xaml" />
     <None Remove="Views\Pages\SimulateUpdatePage.xaml" />
+    <None Remove="Views\Pages\SwitchThemePage.xaml" />
     <None Remove="Views\Pages\SystemInfoPage.xaml" />
     <None Remove="Views\Pages\UpdateManagerPage.xaml" />
     <None Remove="Views\Pages\UpperAndLowerCasePage.xaml" />
@@ -323,7 +323,6 @@
     <Page Include="UI\TeachingTips\QuickOperationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AboutPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AllToolsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Pages\ChangeThemePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\ColorPickerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\ContextMenuManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\DownloadManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -342,6 +341,7 @@
     <Page Include="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\ShellMenuPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SimulateUpdatePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\SwitchThemePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SystemInfoPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\UpdateManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\UpperAndLowerCasePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

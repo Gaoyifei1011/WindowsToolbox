@@ -1,5 +1,3 @@
-ChangeTheme=修改主题
-ChangeThemeDescription=修改当前 Windows 主题
 ContextMenuManager=右键菜单管理
 ContextMenuManagerDescription=管理系统右键菜单项的显示状态
 DownloadManager=下载管理
@@ -26,6 +24,8 @@ Relaxation=休闲工具
 Resource=资源工具
 ShellMenu=自定义扩展菜单
 ShellMenuDescription=自定义 Windows 扩展菜单
+SwitchTheme=切换主题
+SwitchThemeDescription=切换当前 Windows 主题
 System=系统工具
 SystemInfo=系统信息
 SystemInfoDescription=查看当前系统的具体详细信息

@@ -26,9 +26,9 @@ using WindowsTools.WindowsAPI.PInvoke.User32;
 namespace WindowsTools.Views.Pages
 {
     /// <summary>
-    /// 修改主题页面
+    /// 切换主题页面
     /// </summary>
-    public sealed partial class ChangeThemePage : Page, INotifyPropertyChanged
+    public sealed partial class SwitchThemePage : Page, INotifyPropertyChanged
     {
         private readonly Guid CLSID_DesktopWallpaper = new("C2CF3110-460E-4fC1-B9D0-8A1C0C9CC4BD");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
@@ -147,50 +147,50 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private bool _isAutoChangeThemeValue;
+        private bool _isAutoSwitchThemeEnableValue;
 
-        public bool IsAutoChangeThemeValue
+        public bool IsAutoSwitchThemeEnableValue
         {
-            get { return _isAutoChangeThemeValue; }
+            get { return _isAutoSwitchThemeEnableValue; }
 
             set
             {
-                if (!Equals(_isAutoChangeThemeValue, value))
+                if (!Equals(_isAutoSwitchThemeEnableValue, value))
                 {
-                    _isAutoChangeThemeValue = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAutoChangeThemeValue)));
+                    _isAutoSwitchThemeEnableValue = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAutoSwitchThemeEnableValue)));
                 }
             }
         }
 
-        private bool _isAutoChangeSystemThemeValue;
+        private bool _isAutoSwitchSystemThemeValue;
 
-        public bool IsAutoChangeSystemThemeValue
+        public bool IsAutoSwitchSystemThemeValue
         {
-            get { return _isAutoChangeSystemThemeValue; }
+            get { return _isAutoSwitchSystemThemeValue; }
 
             set
             {
-                if (!Equals(_isAutoChangeSystemThemeValue, value))
+                if (!Equals(_isAutoSwitchSystemThemeValue, value))
                 {
-                    _isAutoChangeSystemThemeValue = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAutoChangeSystemThemeValue)));
+                    _isAutoSwitchSystemThemeValue = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAutoSwitchSystemThemeValue)));
                 }
             }
         }
 
-        private bool _isAutoChangeAppThemeValue;
+        private bool _isAutoSwitchAppThemeValue;
 
-        public bool IsAutoChangeAppThemeValue
+        public bool IsAutoSwitchAppThemeValue
         {
-            get { return _isAutoChangeAppThemeValue; }
+            get { return _isAutoSwitchAppThemeValue; }
 
             set
             {
-                if (!Equals(_isAutoChangeAppThemeValue, value))
+                if (!Equals(_isAutoSwitchAppThemeValue, value))
                 {
-                    _isAutoChangeAppThemeValue = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAutoChangeAppThemeValue)));
+                    _isAutoSwitchAppThemeValue = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAutoSwitchAppThemeValue)));
                 }
             }
         }
@@ -277,19 +277,19 @@ namespace WindowsTools.Views.Pages
 
         private List<KeyValuePair<ElementTheme, string>> SystemThemeStyleList { get; } =
         [
-            new KeyValuePair<ElementTheme,string>(ElementTheme.Light, ResourceService.ChangeThemeResource.GetString("Light")),
-            new KeyValuePair<ElementTheme,string>(ElementTheme.Dark, ResourceService.ChangeThemeResource.GetString("Dark")),
+            new KeyValuePair<ElementTheme,string>(ElementTheme.Light, ResourceService.SwitchThemeResource.GetString("Light")),
+            new KeyValuePair<ElementTheme,string>(ElementTheme.Dark, ResourceService.SwitchThemeResource.GetString("Dark")),
         ];
 
         private List<KeyValuePair<ElementTheme, string>> AppThemeStyleList { get; } =
         [
-            new KeyValuePair<ElementTheme,string>(ElementTheme.Light, ResourceService.ChangeThemeResource.GetString("Light")),
-            new KeyValuePair<ElementTheme,string>(ElementTheme.Dark, ResourceService.ChangeThemeResource.GetString("Dark")),
+            new KeyValuePair<ElementTheme,string>(ElementTheme.Light, ResourceService.SwitchThemeResource.GetString("Light")),
+            new KeyValuePair<ElementTheme,string>(ElementTheme.Dark, ResourceService.SwitchThemeResource.GetString("Dark")),
         ];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ChangeThemePage()
+        public SwitchThemePage()
         {
             InitializeComponent();
             SelectedSystemThemeStyle = SystemThemeStyleList[0];
@@ -308,7 +308,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnNotifyKeyValueChanged(object sender, string key)
         {
-            if (key.Equals(@"Control Panel\Desktop\WallPaper") || key.Equals(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Wallpapers\BackgroundType") || key.Equals(@"Control Panel\Colors\Background"))
+            if (key.Equals(@"Control Panel\Desktop") || key.Equals(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Wallpapers") || key.Equals(@"Control Panel\Colors"))
             {
                 synchronizationContext.Post(async (_) =>
                 {
@@ -334,9 +334,9 @@ namespace WindowsTools.Views.Pages
                 isInitialized = true;
                 await Task.Run(() =>
                 {
-                    RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, @"Control Panel\Desktop\WallPaper");
-                    RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\Explorer\Wallpapers\BackgroundType");
-                    RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, @"Control Panel\Colors\Background");
+                    RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, @"Control Panel\Desktop");
+                    RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\Explorer\Wallpapers");
+                    RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, @"Control Panel\Colors");
                 });
             }
         }
@@ -445,29 +445,36 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 保存自动修改主题设置值
         /// </summary>
-        private void OnSaveClicked(Microsoft.UI.Xaml.Controls.SplitButton sender, Microsoft.UI.Xaml.Controls.SplitButtonClickEventArgs args)
+        private void OnSaveClicked(object sender, RoutedEventArgs args)
+        {
+        }
+
+        /// <summary>
+        /// 恢复默认值
+        /// </summary>
+        private void OnRestoreDefaultClicked(object sender, RoutedEventArgs args)
         {
         }
 
         /// <summary>
         /// 是否启用自动切换主题
         /// </summary>
-        private void OnAutoChangeThemeToggled(object sender, RoutedEventArgs args)
+        private void OnAutoSwitchThemeEnableToggled(object sender, RoutedEventArgs args)
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
-                IsAutoChangeThemeValue = toggleSwitch.IsOn;
+                IsAutoSwitchThemeEnableValue = toggleSwitch.IsOn;
             }
         }
 
         /// <summary>
         /// 修改选定的自动修改系统主题设置选项
         /// </summary>
-        private void OnAutoChangeSystemThemeToggled(object sender, RoutedEventArgs args)
+        private void OnAutoSwitchSystemThemeToggled(object sender, RoutedEventArgs args)
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
-                IsAutoChangeSystemThemeValue = toggleSwitch.IsOn;
+                IsAutoSwitchSystemThemeValue = toggleSwitch.IsOn;
             }
         }
 
@@ -482,11 +489,11 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 修改选定的自动修改系统主题设置选项
         /// </summary>
-        private void OnAutoChangeAppThemeToggled(object sender, RoutedEventArgs args)
+        private void OnAutoSwitchAppThemeToggled(object sender, RoutedEventArgs args)
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
-                IsAutoChangeAppThemeValue = toggleSwitch.IsOn;
+                IsAutoSwitchAppThemeValue = toggleSwitch.IsOn;
             }
         }
 

@@ -1,5 +1,3 @@
-ChangeTheme=Change theme
-ChangeThemeDescription= Changes the current Windows theme
 ContextMenuManager=Context menu manager
 ContextMenuManagerDescription=Manage the display status of the right-click menu item
 DownloadManager=Download manager
@@ -26,6 +24,8 @@ Relaxation=Relax tools
 Resource=Resource tools
 ShellMenu=Custom shell menu
 ShellMenuDescription=Customize the Windows shell menu
+SwitchTheme=Switch theme
+SwitchThemeDescription= Switch current Windows theme
 System=System tools
 SystemInfo=System information
 SystemInfoDescription=View detailed information about the current system
