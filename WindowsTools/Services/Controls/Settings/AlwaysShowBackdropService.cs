@@ -48,7 +48,7 @@ namespace WindowsTools.Services.Controls.Settings
 
             if (!alwaysShowBackdropValue.HasValue)
             {
-                SetAlwaysShowBackdrop(defaultAlwaysShowBackdropValue);
+                SetAlwaysShowBackdropValue(defaultAlwaysShowBackdropValue);
                 return defaultAlwaysShowBackdropValue;
             }
 
@@ -58,7 +58,7 @@ namespace WindowsTools.Services.Controls.Settings
         /// <summary>
         /// 始终显示背景色发生修改时修改设置存储的始终显示背景色值
         /// </summary>
-        public static void SetAlwaysShowBackdrop(bool alwaysShowBackdropValue)
+        public static void SetAlwaysShowBackdropValue(bool alwaysShowBackdropValue)
         {
             AlwaysShowBackdropValue = alwaysShowBackdropValue;
 

@@ -98,10 +98,11 @@ namespace WindowsTools
             AlwaysShowBackdropService.InitializeAlwaysShowBackdrop();
             BackdropService.InitializeBackdrop();
             ThemeService.InitializeTheme();
-            TopMostService.InitializeTopMostValue();
+            TopMostService.InitializeTopMost();
 
-            DownloadOptionsService.InitializeDownload();
+            DownloadOptionsService.InitializeDownloadOptions();
             FileShellMenuService.InitializeFileShellMenu();
+            AutoSwitchThemeService.InitializeAutoSwitchTheme();
             ShellMenuService.InitializeShellMenu();
 
             DownloadSchedulerService.InitializeDownloadScheduler();

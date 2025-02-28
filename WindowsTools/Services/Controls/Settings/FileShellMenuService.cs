@@ -31,7 +31,7 @@ namespace WindowsTools.Services.Controls.Settings
 
             if (!fileShellMenuValue.HasValue)
             {
-                SetFileShellMenu(defaultFileShellMenuValue);
+                SetFileShellMenuValue(defaultFileShellMenuValue);
                 return defaultFileShellMenuValue;
             }
 
@@ -41,7 +41,7 @@ namespace WindowsTools.Services.Controls.Settings
         /// <summary>
         /// 文件右键菜单显示值发生修改时修改设置存储的文件右键菜单显示值
         /// </summary>
-        public static void SetFileShellMenu(bool fileShellMenuValue)
+        public static void SetFileShellMenuValue(bool fileShellMenuValue)
         {
             FileShellMenuValue = fileShellMenuValue;
 

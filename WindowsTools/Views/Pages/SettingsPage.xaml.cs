@@ -439,7 +439,7 @@ namespace WindowsTools.Views.Pages
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
-                AlwaysShowBackdropService.SetAlwaysShowBackdrop(toggleSwitch.IsOn);
+                AlwaysShowBackdropService.SetAlwaysShowBackdropValue(toggleSwitch.IsOn);
                 AlwaysShowBackdropValue = toggleSwitch.IsOn;
             }
         }
@@ -526,7 +526,7 @@ namespace WindowsTools.Views.Pages
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
-                FileShellMenuService.SetFileShellMenu(toggleSwitch.IsOn);
+                FileShellMenuService.SetFileShellMenuValue(toggleSwitch.IsOn);
                 FileShellMenuValue = toggleSwitch.IsOn;
             }
         }
@@ -567,7 +567,7 @@ namespace WindowsTools.Views.Pages
         {
             if (sender is ToggleSwitch)
             {
-                AlwaysShowBackdropService.SetAlwaysShowBackdrop(false);
+                AlwaysShowBackdropService.SetAlwaysShowBackdropValue(false);
                 AlwaysShowBackdropValue = false;
             }
         }

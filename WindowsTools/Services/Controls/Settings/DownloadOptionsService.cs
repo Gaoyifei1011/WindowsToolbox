@@ -31,11 +31,13 @@ namespace WindowsTools.Services.Controls.Settings
         /// <summary>
         /// 应用在初始化前获取设置存储的下载目录设置值，并创建默认下载目录
         /// </summary>
-        public static void InitializeDownload()
+        public static void InitializeDownloadOptions()
         {
             Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
+
             defaultDownloadFolder = downloadFolder;
             defaultDoEngineMode = DoEngineModeList[0];
+
             DownloadFolder = GetFolder();
             DoEngineMode = GetDoEngineMode();
         }
