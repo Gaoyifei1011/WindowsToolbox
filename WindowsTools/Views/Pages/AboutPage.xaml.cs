@@ -8,6 +8,7 @@ using System.Diagnostics.Tracing;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace WindowsTools.Views.Pages
     public sealed partial class AboutPage : Page, INotifyPropertyChanged
     {
         private readonly string AppVersion = ResourceService.AboutResource.GetString("AppVersion");
-        private readonly Guid IID_ITaskbarManagerDesktopAppSupportStatics = new("CDFEFD63-E879-4134-B9A7-8283F05F9480");
+        private Guid IID_ITaskbarManagerDesktopAppSupportStatics = new("CDFEFD63-E879-4134-B9A7-8283F05F9480");
 
         private bool _isChecking;
 
@@ -154,7 +155,7 @@ namespace WindowsTools.Views.Pages
 
             try
             {
-                if (WinRTHelper.GetActivationFactory(typeof(TaskbarManager).FullName, IID_ITaskbarManagerDesktopAppSupportStatics) is object obj)
+                if (Marshal.QueryInterface(Marshal.GetIUnknownForObject(WindowsRuntimeMarshal.GetActivationFactory(typeof(TaskbarManager))), ref IID_ITaskbarManagerDesktopAppSupportStatics, out _) is 0)
                 {
                     string featureId = "com.microsoft.windows.taskbar.pin";
                     string token = FeatureAccessHelper.GenerateTokenFromFeatureId(featureId);

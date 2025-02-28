@@ -1,5 +1,5 @@
-﻿using Windows.Foundation;
-using WindowsTools.Helpers.Root;
+﻿using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
 using WindowsTools.WindowsAPI.ComTypes;
 
 // 抑制 CA1806 警告
@@ -12,6 +12,6 @@ namespace WindowsTools.Helpers.Backdrop
     /// </summary>
     public static class BackdropHelper
     {
-        public static IPropertyValueStatics PropertyValueStatics { get; } = (IPropertyValueStatics)WinRTHelper.GetActivationFactory(typeof(PropertyValue).FullName, typeof(IPropertyValueStatics).GUID);
+        public static IPropertyValueStatics PropertyValueStatics { get; } = (IPropertyValueStatics)WindowsRuntimeMarshal.GetActivationFactory(typeof(PropertyValue));
     }
 }
