@@ -429,7 +429,7 @@ namespace WindowsTools.UI.Backdrop
         /// </summary>
         private bool IsAdvancedEffectsEnabled()
         {
-            return RegistryHelper.ReadRegistryKey<int>(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "EnableTransparency") is 1;
+            return RegistryHelper.ReadRegistryKey<bool>(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "EnableTransparency");
         }
     }
 }

@@ -84,7 +84,7 @@ namespace WindowsTools.UI.Backdrop
         {
             get
             {
-                return RegistryHelper.ReadRegistryKey<int>(Registry.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Wallpaper", "WallpaperSurfaceProvidedToDwm") is 1;
+                return RegistryHelper.ReadRegistryKey<bool>(Registry.LocalMachine, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Wallpaper", "WallpaperSurfaceProvidedToDwm");
             }
         }
 
@@ -504,7 +504,7 @@ namespace WindowsTools.UI.Backdrop
         /// </summary>
         private bool IsAdvancedEffectsEnabled()
         {
-            return Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize") is RegistryKey key && key.GetValue("EnableTransparency") is object value && Convert.ToInt32(value) is 1;
+            return RegistryHelper.ReadRegistryKey<bool>(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "EnableTransparency");
         }
 
         /// <summary>
