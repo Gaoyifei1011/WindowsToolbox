@@ -18,14 +18,16 @@
         TerminateProcess = 13,
         File = 14,
         IconExtract = 15,
-        MenuTitleEmpty = 16,
-        MenuDefaultIconPathEmpty = 17,
-        MenuLightThemeIconPathEmpty = 18,
-        MenuDarkThemeIconPathEmpty = 19,
-        MenuProgramPathEmpty = 20,
-        MenuMatchRuleEmpty = 21,
-        ShellMenuNeedToRefreshData = 22,
-        ContextMenuUpdate = 23,
-        InsiderPreviewSettings = 24
+        SwitchThemeSaveResult = 16,
+        SwitchThemeRestoreResult = 17,
+        MenuTitleEmpty = 18,
+        MenuDefaultIconPathEmpty = 19,
+        MenuLightThemeIconPathEmpty = 20,
+        MenuDarkThemeIconPathEmpty = 21,
+        MenuProgramPathEmpty = 22,
+        MenuMatchRuleEmpty = 23,
+        ShellMenuNeedToRefreshData = 24,
+        ContextMenuUpdate = 25,
+        InsiderPreviewSettings = 26
     }
 }

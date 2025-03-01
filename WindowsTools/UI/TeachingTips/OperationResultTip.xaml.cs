@@ -68,6 +68,18 @@ namespace WindowsTools.UI.TeachingTips
                 OperationResultFailed.Visibility = Visibility.Visible;
                 OperationResultFailed.Text = ResourceService.NotificationResource.GetString("TextEmpty");
             }
+            else if (operationKind is OperationKind.SwitchThemeSaveResult)
+            {
+                OperationResultSuccess.Visibility = Visibility.Visible;
+                OperationResultFailed.Visibility = Visibility.Collapsed;
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("SwitchThemeSaveResult");
+            }
+            else if (operationKind is OperationKind.SwitchThemeRestoreResult)
+            {
+                OperationResultSuccess.Visibility = Visibility.Visible;
+                OperationResultFailed.Visibility = Visibility.Collapsed;
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("SwitchThemeRestoreResult");
+            }
             else if (operationKind is OperationKind.MenuTitleEmpty)
             {
                 OperationResultSuccess.Visibility = Visibility.Collapsed;

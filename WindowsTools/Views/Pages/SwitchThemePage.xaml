@@ -791,7 +791,7 @@
                                         Grid.Column="1"
                                         MinWidth="0"
                                         Margin="5,-2,0,0"
-                                        IsOn="{x:Bind IsShowColorInDarkTheme, Mode=OneWay}"
+                                        IsOn="{x:Bind IsShowColorInDarkThemeValue, Mode=OneWay}"
                                         OffContent="{x:Bind root:ResourceService.SwitchThemeResource.GetString('ShowColorInDarkThemeOffContent')}"
                                         OnContent="{x:Bind root:ResourceService.SwitchThemeResource.GetString('ShowColorInDarkThemeOnContent')}"
                                         Style="{StaticResource ToggleSwitchStyle}"

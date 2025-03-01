@@ -15,8 +15,12 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using WindowsTools.Extensions.DataType.Enums;
+using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
+using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
+using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
@@ -147,7 +151,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private bool _isAutoSwitchThemeEnableValue;
+        private bool _isAutoSwitchThemeEnableValue = AutoSwitchThemeService.AutoSwitchThemeEnableValue;
 
         public bool IsAutoSwitchThemeEnableValue
         {
@@ -163,7 +167,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private bool _isAutoSwitchSystemThemeValue;
+        private bool _isAutoSwitchSystemThemeValue = AutoSwitchThemeService.AutoSwitchSystemThemeValue;
 
         public bool IsAutoSwitchSystemThemeValue
         {
@@ -179,7 +183,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private bool _isAutoSwitchAppThemeValue;
+        private bool _isAutoSwitchAppThemeValue = AutoSwitchThemeService.AutoSwitchAppThemeValue;
 
         public bool IsAutoSwitchAppThemeValue
         {
@@ -195,23 +199,23 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private bool _isShowColorInDarkTheme;
+        private bool _isShowColorInDarkThemeValue = AutoSwitchThemeService.IsShowColorInDarkThemeValue;
 
-        public bool IsShowColorInDarkTheme
+        public bool IsShowColorInDarkThemeValue
         {
-            get { return _isShowColorInDarkTheme; }
+            get { return _isShowColorInDarkThemeValue; }
 
             set
             {
-                if (!Equals(_isShowColorInDarkTheme, value))
+                if (!Equals(_isShowColorInDarkThemeValue, value))
                 {
-                    _isShowColorInDarkTheme = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsShowColorInDarkTheme)));
+                    _isShowColorInDarkThemeValue = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsShowColorInDarkThemeValue)));
                 }
             }
         }
 
-        private TimeSpan _systemThemeLightTime = DateTimeOffset.Now.TimeOfDay;
+        private TimeSpan _systemThemeLightTime = AutoSwitchThemeService.SystemThemeLightTime;
 
         public TimeSpan SystemThemeLightTime
         {
@@ -227,7 +231,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private TimeSpan _systemThemeDarkTime = DateTimeOffset.Now.TimeOfDay;
+        private TimeSpan _systemThemeDarkTime = AutoSwitchThemeService.SystemThemeDarkTime;
 
         public TimeSpan SystemThemeDarkTime
         {
@@ -243,7 +247,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private TimeSpan _appThemeLightTime = DateTimeOffset.Now.TimeOfDay;
+        private TimeSpan _appThemeLightTime = AutoSwitchThemeService.AppThemeLightTime;
 
         public TimeSpan AppThemeLightTime
         {
@@ -259,7 +263,7 @@ namespace WindowsTools.Views.Pages
             }
         }
 
-        private TimeSpan _appThemeDarkTime = DateTimeOffset.Now.TimeOfDay;
+        private TimeSpan _appThemeDarkTime = AutoSwitchThemeService.AppThemeDarkTime;
 
         public TimeSpan AppThemeDarkTime
         {
@@ -445,15 +449,88 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 保存自动修改主题设置值
         /// </summary>
-        private void OnSaveClicked(object sender, RoutedEventArgs args)
+        private async void OnSaveClicked(object sender, RoutedEventArgs args)
         {
+            await Task.Run(() =>
+            {
+                AutoSwitchThemeService.SetAutoSwitchThemeEnableValue(IsAutoSwitchThemeEnableValue);
+                AutoSwitchThemeService.SetAutoSwitchSystemThemeValue(IsAutoSwitchSystemThemeValue);
+                AutoSwitchThemeService.SetAutoSwitchAppThemeValue(IsAutoSwitchAppThemeValue);
+                AutoSwitchThemeService.SetIsShowColorInDarkThemeValue(IsShowColorInDarkThemeValue);
+                AutoSwitchThemeService.SetSystemThemeLightTime(SystemThemeLightTime);
+                AutoSwitchThemeService.SetSystemThemeDarkTime(SystemThemeDarkTime);
+                AutoSwitchThemeService.SetAppThemeLightTime(AppThemeLightTime);
+                AutoSwitchThemeService.SetAppThemeDarkTime(AppThemeDarkTime);
+
+                if (IsAutoSwitchThemeEnableValue)
+                {
+                    try
+                    {
+                        Process.Start("WindowsToolsSystemTray.exe");
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Open process name WindowsToolsSystemTray.exe failed", e);
+                    }
+                }
+                else
+                {
+                    foreach (Process processItem in Process.GetProcessesByName("WindowsToolsSystemTray.exe"))
+                    {
+                        try
+                        {
+                            processItem.Kill();
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, string.Format("Terminate process name {0} id {1} failed", processItem.ProcessName, processItem.Id), e);
+                        }
+                    }
+                }
+            });
+
+            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.SwitchThemeSaveResult));
         }
 
         /// <summary>
         /// 恢复默认值
         /// </summary>
-        private void OnRestoreDefaultClicked(object sender, RoutedEventArgs args)
+        private async void OnRestoreDefaultClicked(object sender, RoutedEventArgs args)
         {
+            await Task.Run(() =>
+            {
+                AutoSwitchThemeService.SetAutoSwitchSystemThemeValue(AutoSwitchThemeService.DefaultAutoSwitchThemeEnableValue);
+                AutoSwitchThemeService.SetAutoSwitchSystemThemeValue(AutoSwitchThemeService.DefaultAutoSwitchSystemThemeValue);
+                AutoSwitchThemeService.SetAutoSwitchAppThemeValue(AutoSwitchThemeService.DefaultAutoSwitchAppThemeValue);
+                AutoSwitchThemeService.SetIsShowColorInDarkThemeValue(AutoSwitchThemeService.DefaultIsShowColorInDarkThemeValue);
+                AutoSwitchThemeService.SetSystemThemeLightTime(AutoSwitchThemeService.DefaultSystemThemeLightTime);
+                AutoSwitchThemeService.SetSystemThemeDarkTime(AutoSwitchThemeService.DefaultSystemThemeDarkTime);
+                AutoSwitchThemeService.SetAppThemeLightTime(AutoSwitchThemeService.DefaultAppThemeLightTime);
+                AutoSwitchThemeService.SetAppThemeDarkTime(AutoSwitchThemeService.DefaultAppThemeDarkTime);
+
+                foreach (Process processItem in Process.GetProcessesByName("WindowsToolsSystemTray.exe"))
+                {
+                    try
+                    {
+                        processItem.Kill();
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, string.Format("Terminate process name {0} id {1} failed", processItem.ProcessName, processItem.Id), e);
+                    }
+                }
+            });
+
+            IsAutoSwitchThemeEnableValue = AutoSwitchThemeService.DefaultAutoSwitchThemeEnableValue;
+            IsAutoSwitchSystemThemeValue = AutoSwitchThemeService.DefaultAutoSwitchSystemThemeValue;
+            IsAutoSwitchAppThemeValue = AutoSwitchThemeService.DefaultAutoSwitchAppThemeValue;
+            IsShowColorInDarkThemeValue = AutoSwitchThemeService.DefaultIsShowColorInDarkThemeValue;
+            SystemThemeLightTime = AutoSwitchThemeService.DefaultSystemThemeLightTime;
+            SystemThemeDarkTime = AutoSwitchThemeService.DefaultSystemThemeDarkTime;
+            AppThemeLightTime = AutoSwitchThemeService.DefaultAppThemeLightTime;
+            AppThemeDarkTime = AutoSwitchThemeService.DefaultAppThemeDarkTime;
+
+            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.SwitchThemeRestoreResult));
         }
 
         /// <summary>
@@ -504,7 +581,7 @@ namespace WindowsTools.Views.Pages
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
-                IsShowColorInDarkTheme = toggleSwitch.IsOn;
+                IsShowColorInDarkThemeValue = toggleSwitch.IsOn;
             }
         }
 
@@ -648,7 +725,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private ElementTheme GetSystemTheme()
         {
-            return RegistryHelper.ReadRegistryKey<int>(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme") is 1 ? ElementTheme.Light : ElementTheme.Dark;
+            return RegistryHelper.ReadRegistryKey<bool>(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme") ? ElementTheme.Light : ElementTheme.Dark;
         }
 
         /// <summary>
@@ -656,7 +733,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private ElementTheme GetAppTheme()
         {
-            return RegistryHelper.ReadRegistryKey<int>(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme") is 1 ? ElementTheme.Light : ElementTheme.Dark;
+            return RegistryHelper.ReadRegistryKey<bool>(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme") ? ElementTheme.Light : ElementTheme.Dark;
         }
 
         /// <summary>

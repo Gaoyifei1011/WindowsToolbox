@@ -25,6 +25,8 @@
 
         public const string FileShellMenuKey = "FileShellMenu";
 
+        public const string IsShowColorInDarkThemeKey = "IsShowColorInDarkThemeValue";
+
         public const string LanguageKey = "AppLanguage";
 
         public const string SystemThemeLightTimeKey = "SystemThemeLightTime";
