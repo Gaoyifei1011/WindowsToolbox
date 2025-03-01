@@ -48,6 +48,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 		Configuration\UAPXamlFrameworkCompiler.targets = Configuration\UAPXamlFrameworkCompiler.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsToolsSystemTray", "WindowsToolsSystemTray\WindowsToolsSystemTray.csproj", "{05579FA6-EA3F-414D-ABA8-E1CA7EC3ADE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64
@@ -100,12 +102,24 @@ Global
 		{59EC84C2-8B65-40DC-94BB-33B0D43FDD3B}.Release|x64.Build.0 = Release|x64
 		{59EC84C2-8B65-40DC-94BB-33B0D43FDD3B}.Release|x86.ActiveCfg = Release|x86
 		{59EC84C2-8B65-40DC-94BB-33B0D43FDD3B}.Release|x86.Build.0 = Release|x86
-		{6E829014-7CD7-45F1-AE24-BE5447D273AC}.Debug|ARM64.ActiveCfg = Release|x64
+		{6E829014-7CD7-45F1-AE24-BE5447D273AC}.Debug|ARM64.ActiveCfg = Release|ARM64
 		{6E829014-7CD7-45F1-AE24-BE5447D273AC}.Debug|x64.ActiveCfg = Release|x64
-		{6E829014-7CD7-45F1-AE24-BE5447D273AC}.Debug|x86.ActiveCfg = Release|x64
-		{6E829014-7CD7-45F1-AE24-BE5447D273AC}.Release|ARM64.ActiveCfg = Release|x64
+		{6E829014-7CD7-45F1-AE24-BE5447D273AC}.Debug|x86.ActiveCfg = Release|x86
+		{6E829014-7CD7-45F1-AE24-BE5447D273AC}.Release|ARM64.ActiveCfg = Release|ARM64
 		{6E829014-7CD7-45F1-AE24-BE5447D273AC}.Release|x64.ActiveCfg = Release|x64
-		{6E829014-7CD7-45F1-AE24-BE5447D273AC}.Release|x86.ActiveCfg = Release|x64
+		{6E829014-7CD7-45F1-AE24-BE5447D273AC}.Release|x86.ActiveCfg = Release|x86
+		{05579FA6-EA3F-414D-ABA8-E1CA7EC3ADE2}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{05579FA6-EA3F-414D-ABA8-E1CA7EC3ADE2}.Debug|ARM64.Build.0 = Debug|ARM64
+		{05579FA6-EA3F-414D-ABA8-E1CA7EC3ADE2}.Debug|x64.ActiveCfg = Debug|x64
+		{05579FA6-EA3F-414D-ABA8-E1CA7EC3ADE2}.Debug|x64.Build.0 = Debug|x64
+		{05579FA6-EA3F-414D-ABA8-E1CA7EC3ADE2}.Debug|x86.ActiveCfg = Debug|x86
+		{05579FA6-EA3F-414D-ABA8-E1CA7EC3ADE2}.Debug|x86.Build.0 = Debug|x86
+		{05579FA6-EA3F-414D-ABA8-E1CA7EC3ADE2}.Release|ARM64.ActiveCfg = Release|ARM64
+		{05579FA6-EA3F-414D-ABA8-E1CA7EC3ADE2}.Release|ARM64.Build.0 = Release|ARM64
+		{05579FA6-EA3F-414D-ABA8-E1CA7EC3ADE2}.Release|x64.ActiveCfg = Release|x64
+		{05579FA6-EA3F-414D-ABA8-E1CA7EC3ADE2}.Release|x64.Build.0 = Release|x64
+		{05579FA6-EA3F-414D-ABA8-E1CA7EC3ADE2}.Release|x86.ActiveCfg = Release|x86
+		{05579FA6-EA3F-414D-ABA8-E1CA7EC3ADE2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
