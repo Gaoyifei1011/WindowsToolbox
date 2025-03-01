@@ -33,7 +33,7 @@ using WindowsTools.WindowsAPI.PInvoke.Uxtheme;
 namespace WindowsTools.Views.Windows
 {
     /// <summary>
-    /// 应用主界面
+    /// 应用主窗口
     /// </summary>
     public class MainWindow : Form
     {
@@ -248,7 +248,7 @@ namespace WindowsTools.Views.Windows
                 TopMostService.PropertyChanged -= OnServicePropertyChanged;
 
                 Current = null;
-                (global::Windows.UI.Xaml.Application.Current as App).Dispose();
+                (global::Windows.UI.Xaml.Application.Current as XamlIslandsApp).Dispose();
             }
         }
 

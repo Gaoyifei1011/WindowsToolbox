@@ -54,13 +54,20 @@
     <DebuggerSupport>false</DebuggerSupport>
     <DebugType>none</DebugType>
   </PropertyGroup>
-
+  
   <ItemGroup>
+    <ApplicationDefinition Include="SystemTrayApp.xaml" />
+    
+    <None Remove="XamlIslandsApp.xaml" />
     <None Update="Assets\WindowsToolsSystemTray.ico" CopyToOutputDirectory="Never" />
 
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" GeneratePathProperty="true" IncludeAssets="none" />
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1742" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
 
+    <ProjectCapability Include="Uwp" />
+
+    <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />
     <Reference Include="System.Configuration" />
   </ItemGroup>
 </Project>

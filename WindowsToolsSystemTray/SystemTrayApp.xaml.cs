@@ -3,27 +3,26 @@ using System.Diagnostics.Tracing;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Hosting;
-using WindowsTools.Services.Controls.Download;
-using WindowsTools.Services.Root;
-using WindowsTools.Views.Windows;
-using WindowsTools.WindowsAPI.ComTypes;
+using WindowsToolsSystemTray.Services.Root;
+using WindowsToolsSystemTray.Views.Windows;
+using WindowsToolsSystemTray.WindowsAPI.ComTypes;
 
-namespace WindowsTools
+namespace WindowsToolsSystemTray
 {
     /// <summary>
     /// Windows 工具箱应用程序
     /// </summary>
-    public partial class XamlIslandsApp : Application, IDisposable
+    public partial class SystemTrayApp : Application, IDisposable
     {
         private bool isDisposed;
         private WindowsXamlManager windowXamlManager;
 
-        public XamlIslandsApp()
+        public SystemTrayApp()
         {
             windowXamlManager = WindowsXamlManager.InitializeForCurrentThread();
             (Window.Current as object as IXamlSourceTransparency).SetIsBackgroundTransparent(true);
             InitializeComponent();
-            LoadComponent(this, new Uri("ms-appx:///XamlIslandsApp.xaml"), ComponentResourceLocation.Application);
+            LoadComponent(this, new Uri("ms-appx:///SystemTrayApp.xaml"), ComponentResourceLocation.Application);
             UnhandledException += OnUnhandledException;
         }
 
@@ -44,7 +43,7 @@ namespace WindowsTools
             GC.SuppressFinalize(this);
         }
 
-        ~XamlIslandsApp()
+        ~SystemTrayApp()
         {
             Dispose(false);
         }
@@ -59,16 +58,13 @@ namespace WindowsTools
                 isDisposed = true;
                 if (disposing)
                 {
-                    if (MainWindow.Current is not null && !MainWindow.Current.IsDisposed)
+                    if (SystemTrayWindow.Current is not null && !SystemTrayWindow.Current.IsDisposed)
                     {
-                        MainWindow.Current?.Close();
+                        SystemTrayWindow.Current?.Close();
                     }
 
                     windowXamlManager.Dispose();
                     windowXamlManager = null;
-                    GlobalNotificationService.SendNotification();
-                    DownloadSchedulerService.TerminateDownload();
-                    DownloadSchedulerService.CloseDownloadScheduler();
                     System.Windows.Forms.Application.Exit();
                 }
             }

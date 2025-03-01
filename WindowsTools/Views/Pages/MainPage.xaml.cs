@@ -400,7 +400,7 @@ namespace WindowsTools.Views.Pages
         {
             args.Handled = true;
             LogService.WriteLog(EventLevel.Warning, string.Format(ResourceService.WindowResource.GetString("NavigationFailed"), args.SourcePageType.FullName), args.Exception);
-            (global::Windows.UI.Xaml.Application.Current as App).Dispose();
+            (global::Windows.UI.Xaml.Application.Current as XamlIslandsApp).Dispose();
         }
 
         #endregion 第四部分：导航控件及其内容挂载的事件

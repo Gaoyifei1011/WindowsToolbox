@@ -64,7 +64,7 @@ namespace WindowsTools
             Application.ThreadException += OnThreadException;
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
-            new App();
+            new XamlIslandsApp();
             Application.Run(new MainWindow());
         }
 

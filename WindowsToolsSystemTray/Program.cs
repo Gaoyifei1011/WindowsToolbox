@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.Globalization;
 using System.Threading;
+using System.Windows.Forms;
 using WindowsToolsSystemTray.Helpers.Root;
 using WindowsToolsSystemTray.Services.Controls.Settings;
 using WindowsToolsSystemTray.Services.Root;
@@ -33,9 +34,20 @@ namespace WindowsToolsSystemTray
             }
 
             InitializeProgramResources();
-
             configurationCollection["DpiAwareness"] = "PerMonitorV2";
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            Application.ThreadException += OnThreadException;
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+        }
+
+        /// <summary>
+        /// 处理 Windows 窗体 UI 线程异常
+        /// </summary>
+        private static void OnThreadException(object sender, ThreadExceptionEventArgs args)
+        {
+            LogService.WriteLog(EventLevel.Warning, "Windows Forms Xaml Islands UI Exception", args.Exception);
         }
 
         /// <summary>

@@ -131,7 +131,7 @@ namespace WindowsTools.Views.Pages
         {
             args.Handled = true;
             LogService.WriteLog(EventLevel.Warning, string.Format(ResourceService.WindowResource.GetString("NavigationFailed"), args.SourcePageType.FullName), args.Exception);
-            (Application.Current as App).Dispose();
+            (Application.Current as XamlIslandsApp).Dispose();
         }
 
         /// <summary>
