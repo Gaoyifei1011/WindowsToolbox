@@ -70,6 +70,9 @@
             </com:SurrogateServer>
           </com:ComServer>
         </com:Extension>
+        <desktop:Extension Category="windows.startupTask" Executable="WindowsToolsSystemTray.exe" EntryPoint="Windows.FullTrustApplication">
+          <desktop:StartupTask TaskId="WindowsToolsSystemTray" Enabled="false" DisplayName="ms-resource:SystemTrayDisplayName" />
+        </desktop:Extension>
         <desktop4:Extension Category="windows.fileExplorerContextMenus">
           <desktop4:FileExplorerContextMenus>
             <desktop4:ItemType Type="*">
