@@ -45,3 +45,5 @@ MenuDefaultIconPathEmpty=The menu icon is empty by default. Please select the ic
 MenuLightThemeIconPathEmpty=The menu light theme icon is empty, please select icon file
 MenuDarkThemeIconPathEmpty=The menu dark theme icon is empty, please select icon file
 ShellMenuNeedToRefreshData=The menu storage content has changed and needs to be refreshed
+SwitchThemeRestoreResult=Automatically switch theme settings restore default successfully
+SwitchThemeSaveResult=Automatically switch theme settings saved successfully

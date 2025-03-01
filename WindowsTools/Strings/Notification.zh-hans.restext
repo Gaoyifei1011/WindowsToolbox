@@ -45,3 +45,5 @@ MenuDefaultIconPathEmpty=菜单默认图标为空，请选择图标文件
 MenuLightThemeIconPathEmpty=菜单浅色主题图标为空，请选择图标文件
 MenuDarkThemeIconPathEmpty=菜单深色主题图标为空，请选择图标文件
 ShellMenuNeedToRefreshData=菜单存储内容已改变，需要刷新才能进行操作
+SwitchThemeRestoreResult=自动切换主题设置恢复默认成功
+SwitchThemeSaveResult=自动切换主题设置保存成功
