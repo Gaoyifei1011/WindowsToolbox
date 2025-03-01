@@ -2,7 +2,6 @@
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
-using WindowsTools.WindowsAPI.ComTypes;
 
 // 抑制 CA1401 警告
 #pragma warning disable CA1401

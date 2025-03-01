@@ -256,15 +256,15 @@
 
     <None Update="Assets\WindowsTools.ico" CopyToOutputDirectory="Never" />
 
-    <None Remove="Styles\AppBarButton.xaml" />
-    <None Remove="Styles\Button.xaml" />
-    <None Remove="Styles\DateTimePicker.xaml" />
-    <None Remove="Styles\HyperlinkButton.xaml" />
-    <None Remove="Styles\InfoBar.xaml" />
-    <None Remove="Styles\MenuFlyout.xaml" />
-    <None Remove="Styles\TeachingTip.xaml" />
-    <None Remove="Styles\TimePicker.xaml" />
-    <None Remove="Styles\ToggleSwitch.xaml" />
+    <None Remove="Styles\XamlIslands\AppBarButton.xaml" />
+    <None Remove="Styles\XamlIslands\Button.xaml" />
+    <None Remove="Styles\XamlIslands\DateTimePicker.xaml" />
+    <None Remove="Styles\XamlIslands\HyperlinkButton.xaml" />
+    <None Remove="Styles\XamlIslands\InfoBar.xaml" />
+    <None Remove="Styles\XamlIslands\MenuFlyout.xaml" />
+    <None Remove="Styles\XamlIslands\TeachingTip.xaml" />
+    <None Remove="Styles\XamlIslands\TimePicker.xaml" />
+    <None Remove="Styles\XamlIslands\ToggleSwitch.xaml" />
     <None Remove="UI\Dialogs\NeedElevatedDialog.xaml" />
     <None Remove="UI\TeachingTips\AppInformationDialog.xaml" />
     <None Remove="UI\TeachingTips\FileCheckDialog.xaml" />
@@ -303,15 +303,15 @@
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1742" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
 
-    <Page Include="Styles\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Styles\Button.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Styles\DateTimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Styles\HyperlinkButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Styles\InfoBar.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Styles\MenuFlyout.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Styles\TeachingTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Styles\TimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Styles\ToggleSwitch.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\XamlIslands\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\XamlIslands\Button.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\XamlIslands\DateTimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\XamlIslands\HyperlinkButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\XamlIslands\InfoBar.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\XamlIslands\MenuFlyout.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\XamlIslands\TeachingTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\XamlIslands\TimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\XamlIslands\ToggleSwitch.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\FileCheckDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

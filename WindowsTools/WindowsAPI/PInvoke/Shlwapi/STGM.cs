@@ -3,7 +3,7 @@
 // 抑制 CA1069 警告
 #pragma warning disable CA1069
 
-namespace WindowsTools.WindowsAPI.ComTypes
+namespace WindowsTools.WindowsAPI.PInvoke.Shlwapi
 {
     /// <summary>
     /// STGM 常量是指示创建和删除对象的条件以及对象的访问模式的标志。 STGM 常量包含在 IStorage、 IStream 和 IPropertySetStorage 接口以及 StgCreateDocfile、 StgCreateStorageEx、 StgCreateDocfileOnILockBytes、 StgOpenStorage 和 StgOpenStorageEx 函数中。

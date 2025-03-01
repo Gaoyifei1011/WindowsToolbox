@@ -11,7 +11,6 @@ using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.Services.Shell;
-using WindowsTools.Views.Pages;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 
