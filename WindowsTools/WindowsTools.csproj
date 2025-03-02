@@ -240,6 +240,9 @@
     <EmbeddedResource Include="Strings\SystemInfo.en-us.restext" />
     <EmbeddedResource Include="Strings\SystemInfo.restext" />
     <EmbeddedResource Include="Strings\SystemInfo.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\SystemTray.en-us.restext" />
+    <EmbeddedResource Include="Strings\SystemTray.restext" />
+    <EmbeddedResource Include="Strings\SystemTray.zh-hans.restext" />
     <EmbeddedResource Include="Strings\UpdateManager.en-us.restext" />
     <EmbeddedResource Include="Strings\UpdateManager.restext" />
     <EmbeddedResource Include="Strings\UpdateManager.zh-hans.restext" />

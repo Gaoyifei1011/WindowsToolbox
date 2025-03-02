@@ -473,20 +473,6 @@ namespace WindowsTools.Views.Pages
                         LogService.WriteLog(EventLevel.Error, "Open process name WindowsToolsSystemTray.exe failed", e);
                     }
                 }
-                else
-                {
-                    foreach (Process processItem in Process.GetProcessesByName("WindowsToolsSystemTray.exe"))
-                    {
-                        try
-                        {
-                            processItem.Kill();
-                        }
-                        catch (Exception e)
-                        {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Terminate process name {0} id {1} failed", processItem.ProcessName, processItem.Id), e);
-                        }
-                    }
-                }
             });
 
             await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.SwitchThemeSaveResult));
@@ -507,18 +493,6 @@ namespace WindowsTools.Views.Pages
                 AutoSwitchThemeService.SetSystemThemeDarkTime(AutoSwitchThemeService.DefaultSystemThemeDarkTime);
                 AutoSwitchThemeService.SetAppThemeLightTime(AutoSwitchThemeService.DefaultAppThemeLightTime);
                 AutoSwitchThemeService.SetAppThemeDarkTime(AutoSwitchThemeService.DefaultAppThemeDarkTime);
-
-                foreach (Process processItem in Process.GetProcessesByName("WindowsToolsSystemTray.exe"))
-                {
-                    try
-                    {
-                        processItem.Kill();
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLevel.Error, string.Format("Terminate process name {0} id {1} failed", processItem.ProcessName, processItem.Id), e);
-                    }
-                }
             });
 
             IsAutoSwitchThemeEnableValue = AutoSwitchThemeService.DefaultAutoSwitchThemeEnableValue;
@@ -531,6 +505,21 @@ namespace WindowsTools.Views.Pages
             AppThemeDarkTime = AutoSwitchThemeService.DefaultAppThemeDarkTime;
 
             await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.SwitchThemeRestoreResult));
+        }
+
+        /// <summary>
+        /// 启动自动切换主题程序
+        /// </summary>
+        private void OnOpenAutoSwitchProgramClicked(object sender, RoutedEventArgs args)
+        {
+            try
+            {
+                Process.Start("WindowsToolsSystemTray.exe");
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, "Open process name WindowsToolsSystemTray.exe failed", e);
+            }
         }
 
         /// <summary>

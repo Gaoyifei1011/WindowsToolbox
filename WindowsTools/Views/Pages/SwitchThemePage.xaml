@@ -371,6 +371,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock
@@ -378,8 +379,14 @@
                                     VerticalAlignment="Center"
                                     Text="{x:Bind root:ResourceService.SwitchThemeResource.GetString('AutoSwitchThemeEnable')}" />
 
-                                <ToggleSwitch
+                                <HyperlinkButton
                                     Grid.Column="1"
+                                    Click="{x:Bind OnOpenAutoSwitchProgramClicked}"
+                                    Content="{x:Bind root:ResourceService.SwitchThemeResource.GetString('OpenAutoSwitchProgram')}"
+                                    Visibility="{x:Bind IsAutoSwitchThemeEnableValue, Mode=OneWay}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="2"
                                     MinWidth="0"
                                     Margin="5,-2,0,0"
                                     IsOn="{x:Bind IsAutoSwitchThemeEnableValue, Mode=OneWay}"

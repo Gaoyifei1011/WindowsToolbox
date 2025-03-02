@@ -23,7 +23,7 @@ namespace WindowsTools.Views.Windows
     {
         private readonly bool _blockAllKeys = false;
         private readonly bool _lockScreenAutomaticly = false;
-        private readonly Container components = new();
+        private readonly Container container = new();
         private readonly DesktopWindowXamlSource desktopWindowXamlSource = new();
 
         private readonly IntPtr hwndXamlIsland;
@@ -90,9 +90,9 @@ namespace WindowsTools.Views.Windows
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            if (disposing && components is not null)
+            if (disposing && container is not null)
             {
-                components.Dispose();
+                container.Dispose();
             }
         }
 

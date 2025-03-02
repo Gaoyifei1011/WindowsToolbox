@@ -43,7 +43,7 @@ namespace WindowsTools.Views.Windows
         private readonly int AUTO_HIDE_TASKBAR_HEIGHT = 2;
         private readonly int lightTintColor = ColorTranslator.ToWin32(Color.FromArgb(243, 243, 243));
         private readonly int darkTintColor = ColorTranslator.ToWin32(Color.FromArgb(32, 32, 32));
-        private readonly Container components = new();
+        private readonly Container container = new();
         private readonly DesktopWindowXamlSource desktopWindowXamlSource = new();
         private readonly WNDPROC TitleBarWndProc;
         private readonly SUBCLASSPROC windowClassProc;
@@ -181,9 +181,9 @@ namespace WindowsTools.Views.Windows
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            if (disposing && components is not null)
+            if (disposing && container is not null)
             {
-                components.Dispose();
+                container.Dispose();
             }
         }
 
@@ -241,11 +241,11 @@ namespace WindowsTools.Views.Windows
                     User32Library.ChangeWindowMessageFilter(WindowMessage.WM_COPYGLOBALDATA, ChangeFilterFlags.MSGFLT_REMOVE);
                 }
 
-                desktopWindowXamlSource.Dispose();
                 desktopWindowXamlSource.TakeFocusRequested -= OnTakeFocusRequested;
                 ThemeService.PropertyChanged -= OnServicePropertyChanged;
                 BackdropService.PropertyChanged -= OnServicePropertyChanged;
                 TopMostService.PropertyChanged -= OnServicePropertyChanged;
+                desktopWindowXamlSource.Dispose();
 
                 Current = null;
                 (global::Windows.UI.Xaml.Application.Current as XamlIslandsApp).Dispose();
@@ -346,7 +346,7 @@ namespace WindowsTools.Views.Windows
         #region 第二部分：自定义事件
 
         /// <summary>
-        /// 例如，当主机桌面应用程序收到从 DesktopWindowXamlSource 对象 (获取焦点的请求时发生，用户位于 DesktopWindowXamlSource 中的最后一个可聚焦元素上，然后按 Tab) 。
+        /// 当主机桌面应用程序收到从 DesktopWindowXamlSource 对象 (获取焦点的请求时发生，用户位于 DesktopWindowXamlSource 中的最后一个可聚焦元素上，然后按 Tab) 。
         /// </summary>
         private void OnTakeFocusRequested(DesktopWindowXamlSource sender, DesktopWindowXamlSourceTakeFocusRequestedEventArgs args)
         {
@@ -545,18 +545,13 @@ namespace WindowsTools.Views.Windows
                                     ShowMode = FlyoutShowMode.Standard,
                                 };
 
-                                if (RightToLeft is RightToLeft.Yes)
-                                {
-                                    options.Position = InfoHelper.SystemVersion.Build >= 22000
+                                options.Position = RightToLeft is RightToLeft.Yes
+                                    ? InfoHelper.SystemVersion.Build >= 22000
                                         ? new global::Windows.Foundation.Point((ClientSize.Width - clientPoint.X) / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96))
-                                        : new global::Windows.Foundation.Point(ClientSize.Width - clientPoint.X, clientPoint.Y);
-                                }
-                                else
-                                {
-                                    options.Position = InfoHelper.SystemVersion.Build >= 22000
+                                        : new global::Windows.Foundation.Point(ClientSize.Width - clientPoint.X, clientPoint.Y)
+                                    : InfoHelper.SystemVersion.Build >= 22000
                                         ? new global::Windows.Foundation.Point(clientPoint.X / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96))
                                         : new global::Windows.Foundation.Point(clientPoint.X, clientPoint.Y);
-                                }
 
                                 (Content as MainPage).TitlebarMenuFlyout.ShowAt(null, options);
                             }
