@@ -63,6 +63,7 @@ namespace WindowsToolsSystemTray
                         SystemTrayWindow.Current?.Close();
                     }
 
+                    SystemTrayService.CloseSystemTray();
                     windowXamlManager.Dispose();
                     windowXamlManager = null;
                     System.Windows.Forms.Application.Exit();
