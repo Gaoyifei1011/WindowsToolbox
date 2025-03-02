@@ -9,6 +9,10 @@ using System.Windows.Forms;
 using WindowsToolsSystemTray.Helpers.Root;
 using WindowsToolsSystemTray.Services.Controls.Settings;
 using WindowsToolsSystemTray.Services.Root;
+using WindowsToolsSystemTray.Views.Windows;
+
+// “÷÷∆ CA1806 æØ∏Ê
+#pragma warning disable CA1806
 
 namespace WindowsToolsSystemTray
 {
@@ -34,12 +38,44 @@ namespace WindowsToolsSystemTray
             }
 
             InitializeProgramResources();
+
             configurationCollection["DpiAwareness"] = "PerMonitorV2";
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += OnThreadException;
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+
+            if (AutoSwitchThemeService.AutoSwitchThemeEnableValue)
+            {
+                Process[] processArray = Process.GetProcessesByName("WindowsToolsSystemTray.exe");
+
+                bool isExisted = false;
+                foreach (Process process in processArray)
+                {
+                    if (process.Id is not 0 && process.MainWindowHandle != IntPtr.Zero)
+                    {
+                        isExisted = true;
+                        break;
+                    }
+                }
+
+                if (!isExisted)
+                {
+                    string notifyIconTitle = string.Join(Environment.NewLine, ResourceService.SystemTrayResource.GetString("Title"), ResourceService.SystemTrayResource.GetString("CurrentSystemTheme"), ResourceService.SystemTrayResource.GetString("CurrentAppTheme"));
+                    SystemTrayService.InitializeSystemTray(ResourceService.SystemTrayResource.GetString("Title"), Application.ExecutablePath);
+                    new SystemTrayApp();
+                    Application.Run(new SystemTrayWindow());
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
         }
 
         /// <summary>
@@ -69,6 +105,7 @@ namespace WindowsToolsSystemTray
             ResourceService.LocalizeReosurce();
 
             ThemeService.InitializeTheme();
+            AutoSwitchThemeService.InitializeAutoSwitchTheme();
         }
     }
 }

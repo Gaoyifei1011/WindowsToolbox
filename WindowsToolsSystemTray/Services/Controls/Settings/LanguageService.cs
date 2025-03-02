@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms;
 using Windows.Globalization;
-using WindowsToolsSystemTray.Extensions.Constant;
+using WindowsToolsSystemTray.Extensions.DataType.Constant;
 using WindowsToolsSystemTray.Services.Root;
 using WindowsToolsSystemTray.WindowsAPI.ComTypes;
 using WindowsToolsSystemTray.WindowsAPI.PInvoke.Shlwapi;

@@ -17,13 +17,5 @@ namespace WindowsToolsSystemTray.Services.Root
         {
             return RegistryHelper.ReadRegistryKey<T>(Registry.CurrentUser, settingsKey, key);
         }
-
-        /// <summary>
-        /// 保存设置选项存储信息
-        /// </summary>
-        public static void SaveSetting<T>(string key, T value)
-        {
-            RegistryHelper.SaveRegistryKey(Registry.CurrentUser, settingsKey, key, value);
-        }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Windows.UI.Xaml;
-using WindowsToolsSystemTray.Extensions.Constant;
+using WindowsToolsSystemTray.Extensions.DataType.Constant;
 using WindowsToolsSystemTray.Services.Root;
 
 namespace WindowsToolsSystemTray.Services.Controls.Settings
