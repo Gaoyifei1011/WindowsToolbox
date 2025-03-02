@@ -1,4 +1,4 @@
-﻿namespace WindowsToolsSystemTray.Extensions.Constant
+﻿namespace WindowsToolsSystemTray.Extensions.DataType.Constant
 {
     /// <summary>
     /// 设置选项对应的键值
