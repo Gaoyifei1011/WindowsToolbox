@@ -1,4 +1,5 @@
-﻿using WindowsToolsSystemTray.WindowsAPI.PInvoke.Kernel32;
+﻿using System.Security.Principal;
+using WindowsToolsSystemTray.WindowsAPI.PInvoke.Kernel32;
 
 namespace WindowsToolsSystemTray.Helpers.Root
 {
@@ -14,6 +15,7 @@ namespace WindowsToolsSystemTray.Helpers.Root
         static RuntimeHelper()
         {
             IsInMsixContainer();
+            IsRunningElevated();
         }
 
         /// <summary>
@@ -23,6 +25,16 @@ namespace WindowsToolsSystemTray.Helpers.Root
         {
             int length = 0;
             IsMSIX = Kernel32Library.GetCurrentPackageFamilyName(ref length, null) is not (int)Kernel32Library.APPMODEL_ERROR_NO_PACKAGE;
+        }
+
+        /// <summary>
+        /// 判断应用是否以管理员身份运行
+        /// </summary>
+        private static void IsRunningElevated()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new(identity);
+            IsElevated = principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
     }
 }

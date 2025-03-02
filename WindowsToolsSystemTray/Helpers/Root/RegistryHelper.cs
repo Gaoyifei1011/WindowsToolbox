@@ -146,5 +146,10 @@ namespace WindowsToolsSystemTray.Helpers.Root
                 return false;
             }
         }
+
+        internal static void SaveRegistryKey(object currentUser, string v1, string v2, object appTheme)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
