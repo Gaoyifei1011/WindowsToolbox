@@ -4,5 +4,7 @@ Light=浅色
 OpenMainProgram=打开主程序
 SwitchAppTheme=切换应用主题
 SwitchSystemTheme=切换系统主题
+AppTheme=应用主题：{0}
+SystemTheme=系统主题：{0}
 Title=主题切换
 WindowTitle=主题切换

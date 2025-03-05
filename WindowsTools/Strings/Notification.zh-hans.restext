@@ -47,3 +47,4 @@ MenuDarkThemeIconPathEmpty=菜单深色主题图标为空，请选择图标文�
 ShellMenuNeedToRefreshData=菜单存储内容已改变，需要刷新才能进行操作
 SwitchThemeRestoreResult=自动切换主题设置恢复默认成功
 SwitchThemeSaveResult=自动切换主题设置保存成功
+ThemeChangeSameTime=主题切换时间不能是同一个时间

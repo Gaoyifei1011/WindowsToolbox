@@ -47,3 +47,4 @@ MenuDarkThemeIconPathEmpty=The menu dark theme icon is empty, please select icon
 ShellMenuNeedToRefreshData=The menu storage content has changed and needs to be refreshed
 SwitchThemeRestoreResult=Automatically switch theme settings restore default successfully
 SwitchThemeSaveResult=Automatically switch theme settings saved successfully
+ThemeChangeSameTime=Switching time cannot be the same time
