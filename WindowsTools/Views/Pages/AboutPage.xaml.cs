@@ -187,7 +187,7 @@ namespace WindowsTools.Views.Pages
             {
                 try
                 {
-                    Process.Start("c");
+                    Process.Start("https://github.com/Gaoyifei1011/WindowsToolbox/releases");
                 }
                 catch (Exception e)
                 {
