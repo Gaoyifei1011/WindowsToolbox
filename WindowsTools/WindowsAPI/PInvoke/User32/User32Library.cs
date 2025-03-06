@@ -55,7 +55,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
         /// <param name="msg">要向筛选器添加或从中删除的消息。</param>
         /// <param name="flags">要执行的操作。</param>
         /// <returns>如果成功，则为 TRUE;否则为 FALSE。</returns>
-        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilterEx", PreserveSig = true, SetLastError = false)]
+        [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "ChangeWindowMessageFilter", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ChangeWindowMessageFilter(WindowMessage message, ChangeFilterFlags dwFlag);
 
