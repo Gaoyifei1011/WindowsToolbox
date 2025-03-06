@@ -269,6 +269,7 @@
     <None Remove="Styles\XamlIslands\TimePicker.xaml" />
     <None Remove="Styles\XamlIslands\ToggleSwitch.xaml" />
     <None Remove="UI\Dialogs\NeedElevatedDialog.xaml" />
+    <None Remove="UI\Dialogs\OpenStartupTaskFailedDialog.xaml" />
     <None Remove="UI\TeachingTips\AppInformationDialog.xaml" />
     <None Remove="UI\TeachingTips\FileCheckDialog.xaml" />
     <None Remove="UI\TeachingTips\LicenseDialog.xaml" />
@@ -319,6 +320,7 @@
     <Page Include="UI\Dialogs\FileCheckDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\NeedElevatedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="UI\Dialogs\OpenStartupTaskFailedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\OperationFailedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\TeachingTips\DataCopyTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
