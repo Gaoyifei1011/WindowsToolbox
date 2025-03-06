@@ -42,9 +42,9 @@ namespace WindowsTools.Views.Windows
             Content = new SimulateUpdatePage(updatingKind, duration);
 
             desktopWindowXamlSource.Content = Content;
-            IDesktopWindowXamlSourceNative2 desktopWindowXamlSourceInterop = desktopWindowXamlSource as IDesktopWindowXamlSourceNative2;
-            desktopWindowXamlSourceInterop.AttachToWindow(Handle);
-            desktopWindowXamlSourceInterop.GetWindowHandle(out hwndXamlIsland);
+            IDesktopWindowXamlSourceNative2 desktopWindowXamlSourceNative = desktopWindowXamlSource as IDesktopWindowXamlSourceNative2;
+            desktopWindowXamlSourceNative.AttachToWindow(Handle);
+            desktopWindowXamlSourceNative.GetWindowHandle(out hwndXamlIsland);
             desktopWindowXamlSource.TakeFocusRequested += OnTakeFocusRequested;
 
             RightToLeft = LanguageService.RightToLeft;
