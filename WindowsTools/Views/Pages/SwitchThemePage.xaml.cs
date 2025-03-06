@@ -387,6 +387,10 @@ namespace WindowsTools.Views.Pages
                     await ContentDialogHelper.ShowAsync(new OpenStartupTaskFailedDialog(), this);
                 }
             }
+            else
+            {
+                IsSwitchThemeNotificationEnabled = false;
+            }
         }
 
         /// <summary>
@@ -572,12 +576,8 @@ namespace WindowsTools.Views.Pages
                 }
             });
 
+            IsSwitchThemeNotificationEnabled = AutoSwitchThemeService.AutoSwitchThemeEnableValue && !await Task.Run(GetStartupTaskEnabledAsync);
             await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.SwitchThemeSaveResult));
-
-            if (AutoSwitchThemeService.AutoSwitchThemeEnableValue)
-            {
-                IsSwitchThemeNotificationEnabled = !await Task.Run(GetStartupTaskEnabledAsync);
-            }
         }
 
         /// <summary>
@@ -587,7 +587,7 @@ namespace WindowsTools.Views.Pages
         {
             await Task.Run(() =>
             {
-                AutoSwitchThemeService.SetAutoSwitchSystemThemeValue(AutoSwitchThemeService.DefaultAutoSwitchThemeEnableValue);
+                AutoSwitchThemeService.SetAutoSwitchThemeEnableValue(AutoSwitchThemeService.DefaultAutoSwitchThemeEnableValue);
                 AutoSwitchThemeService.SetAutoSwitchSystemThemeValue(AutoSwitchThemeService.DefaultAutoSwitchSystemThemeValue);
                 AutoSwitchThemeService.SetAutoSwitchAppThemeValue(AutoSwitchThemeService.DefaultAutoSwitchAppThemeValue);
                 AutoSwitchThemeService.SetIsShowColorInDarkThemeValue(AutoSwitchThemeService.DefaultIsShowColorInDarkThemeValue);
@@ -628,6 +628,7 @@ namespace WindowsTools.Views.Pages
             SystemThemeDarkTime = AutoSwitchThemeService.DefaultSystemThemeDarkTime;
             AppThemeLightTime = AutoSwitchThemeService.DefaultAppThemeLightTime;
             AppThemeDarkTime = AutoSwitchThemeService.DefaultAppThemeDarkTime;
+            IsSwitchThemeNotificationEnabled = AutoSwitchThemeService.AutoSwitchThemeEnableValue && !await Task.Run(GetStartupTaskEnabledAsync);
 
             await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.SwitchThemeRestoreResult));
         }
@@ -884,11 +885,7 @@ namespace WindowsTools.Views.Pages
             IsShowThemeColorInStartAndTaskbarEnabled = SelectedSystemThemeStyle.Equals(SystemThemeStyleList[1]);
             bool showThemeColorInStartAndTaskbar = await Task.Run(GetShowThemeColorInStartAndTaskbar);
             IsShowThemeColorInStartAndTaskbar = showThemeColorInStartAndTaskbar;
-
-            if (AutoSwitchThemeService.AutoSwitchThemeEnableValue)
-            {
-                IsSwitchThemeNotificationEnabled = !await Task.Run(GetStartupTaskEnabledAsync);
-            }
+            IsSwitchThemeNotificationEnabled = AutoSwitchThemeService.AutoSwitchThemeEnableValue && !await Task.Run(GetStartupTaskEnabledAsync);
         }
 
         /// <summary>

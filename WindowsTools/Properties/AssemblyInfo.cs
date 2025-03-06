@@ -5,11 +5,11 @@ using System.Resources;
 [assembly: AssemblyCompany("高怡飞")]
 [assembly: AssemblyCopyright("Copyright 2022-2025 高怡飞 版权所有")]
 [assembly: AssemblyDescription("Windows 工具箱")]
-[assembly: AssemblyFileVersion("3.6.215.0")]
-[assembly: AssemblyInformationalVersion("3.6.215.0")]
+[assembly: AssemblyFileVersion("3.7.306.0")]
+[assembly: AssemblyInformationalVersion("3.7.306.0")]
 [assembly: AssemblyProduct("Windows 工具箱")]
 [assembly: AssemblyTitle("Windows 工具箱")]
-[assembly: AssemblyVersion("3.6.215.0")]
+[assembly: AssemblyVersion("3.7.306.0")]
 
 // 应用程序默认区域性的资源控制器设置
 [assembly: NeutralResourcesLanguage("en-us")]

@@ -121,13 +121,13 @@ namespace WindowsTools.Views.Pages
                 ImagePath = "ms-appx:///Assets/ControlIcon/LoopbackManager.png",
                 Tag = "LoopbackManager"
             },
-            new ControlItemModel()
-            {
-                Title = ResourceService.AllToolsResource.GetString("DriverManager"),
-                Description = ResourceService.AllToolsResource.GetString("DriverManagerDescription"),
-                ImagePath = "ms-appx:///Assets/ControlIcon/DriverManager.png",
-                Tag = "DriverManager"
-            },
+            //new ControlItemModel()
+            //{
+            //    Title = ResourceService.AllToolsResource.GetString("DriverManager"),
+            //    Description = ResourceService.AllToolsResource.GetString("DriverManagerDescription"),
+            //    ImagePath = "ms-appx:///Assets/ControlIcon/DriverManager.png",
+            //    Tag = "DriverManager"
+            //},
             new ControlItemModel()
             {
                 Title = ResourceService.AllToolsResource.GetString("UpdateManager"),
