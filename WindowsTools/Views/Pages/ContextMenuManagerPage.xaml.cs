@@ -39,6 +39,7 @@ namespace WindowsTools.Views.Pages
         private bool isInitialized;
         private const string packageComPackageKey = @"SOFTWARE\Classes\PackagedCom\Package";
         private const string blockedKey = @"Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked";
+        private readonly List<ContextMenuModel> contextMenuList = [];
 
         private bool _isLoadCompleted;
 
@@ -68,6 +69,22 @@ namespace WindowsTools.Views.Pages
                 {
                     _searchAppNameText = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchAppNameText)));
+                }
+            }
+        }
+
+        private bool _isContextMenuEmpty = false;
+
+        public bool IsContextMenuEmpty
+        {
+            get { return _isContextMenuEmpty; }
+
+            set
+            {
+                if (!Equals(_isContextMenuEmpty, value))
+                {
+                    _isContextMenuEmpty = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsContextMenuEmpty)));
                 }
             }
         }
@@ -249,12 +266,13 @@ namespace WindowsTools.Views.Pages
             if (!isInitialized)
             {
                 isInitialized = true;
+                contextMenuList.Clear();
                 ContextMenuCollection.Clear();
-                List<ContextMenuModel> contextMenuList = await Task.Run(async () =>
+
+                await Task.Run(async () =>
                 {
                     await Task.Delay(500);
-                    List<ContextMenuModel> contextMenuList = GetContextMenuList();
-                    return contextMenuList;
+                    contextMenuList.AddRange(GetContextMenuList());
                 });
 
                 foreach (ContextMenuModel contextMenuItem in contextMenuList)
@@ -271,9 +289,30 @@ namespace WindowsTools.Views.Pages
                     {
                         contextMenuItem.PackageIcon = new BitmapImage();
                     }
-                    ContextMenuCollection.Add(contextMenuItem);
+
+                    if (string.IsNullOrEmpty(SearchAppNameText))
+                    {
+                        ContextMenuCollection.Add(contextMenuItem);
+                        continue;
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(contextMenuItem.PackageDisplayName) && contextMenuItem.PackageDisplayName.Contains(SearchAppNameText))
+                        {
+                            ContextMenuCollection.Add(contextMenuItem);
+                            continue;
+                        }
+
+                        if (!string.IsNullOrEmpty(contextMenuItem.PackageFullName) && contextMenuItem.PackageFullName.Contains(SearchAppNameText))
+                        {
+                            ContextMenuCollection.Add(contextMenuItem);
+                            continue;
+                        }
+                    }
                 }
 
+                IsContextMenuEmpty = contextMenuList.Count is 0;
+                IsSearchEmpty = ContextMenuCollection.Count is 0;
                 IsLoadCompleted = true;
             }
         }
@@ -311,24 +350,23 @@ namespace WindowsTools.Views.Pages
         {
             if (!string.IsNullOrEmpty(SearchAppNameText))
             {
-                foreach (ContextMenuModel contextMenuItem in ContextMenuCollection)
+                ContextMenuCollection.Clear();
+                foreach (ContextMenuModel contextMenuItem in contextMenuList)
                 {
                     if (!string.IsNullOrEmpty(contextMenuItem.PackageDisplayName) && contextMenuItem.PackageDisplayName.Contains(SearchAppNameText))
                     {
-                        contextMenuItem.IsVisible = Visibility.Visible;
+                        ContextMenuCollection.Add(contextMenuItem);
                         continue;
                     }
 
                     if (!string.IsNullOrEmpty(contextMenuItem.PackageFullName) && contextMenuItem.PackageFullName.Contains(SearchAppNameText))
                     {
-                        contextMenuItem.IsVisible = Visibility.Visible;
+                        ContextMenuCollection.Add(contextMenuItem);
                         continue;
                     }
-
-                    contextMenuItem.IsVisible = Visibility.Collapsed;
                 }
 
-                IsSearchEmpty = ContextMenuCollection.All(item => item.IsVisible is Visibility.Collapsed);
+                IsSearchEmpty = ContextMenuCollection.Count is 0;
             }
         }
 
@@ -341,9 +379,10 @@ namespace WindowsTools.Views.Pages
 
             if (string.IsNullOrEmpty(SearchAppNameText))
             {
-                foreach (ContextMenuModel contextMenuItem in ContextMenuCollection)
+                ContextMenuCollection.Clear();
+                foreach (ContextMenuModel contextMenuItem in contextMenuList)
                 {
-                    contextMenuItem.IsVisible = Visibility.Visible;
+                    ContextMenuCollection.Add(contextMenuItem);
                 }
 
                 IsSearchEmpty = false;
@@ -356,13 +395,15 @@ namespace WindowsTools.Views.Pages
         private async void OnRefreshClicked(object sender, RoutedEventArgs args)
         {
             IsLoadCompleted = false;
+            contextMenuList.Clear();
             ContextMenuCollection.Clear();
-            List<ContextMenuModel> contextMenuList = await Task.Run(async () =>
+
+            await Task.Run(async () =>
             {
                 await Task.Delay(500);
-                List<ContextMenuModel> contextMenuList = GetContextMenuList();
-                return contextMenuList;
+                contextMenuList.AddRange(GetContextMenuList());
             });
+
             foreach (ContextMenuModel contextMenuItem in contextMenuList)
             {
                 try
@@ -377,8 +418,30 @@ namespace WindowsTools.Views.Pages
                 {
                     contextMenuItem.PackageIcon = new BitmapImage();
                 }
-                ContextMenuCollection.Add(contextMenuItem);
+
+                if (string.IsNullOrEmpty(SearchAppNameText))
+                {
+                    ContextMenuCollection.Add(contextMenuItem);
+                    continue;
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(contextMenuItem.PackageDisplayName) && contextMenuItem.PackageDisplayName.Contains(SearchAppNameText))
+                    {
+                        ContextMenuCollection.Add(contextMenuItem);
+                        continue;
+                    }
+
+                    if (!string.IsNullOrEmpty(contextMenuItem.PackageFullName) && contextMenuItem.PackageFullName.Contains(SearchAppNameText))
+                    {
+                        ContextMenuCollection.Add(contextMenuItem);
+                        continue;
+                    }
+                }
             }
+
+            IsContextMenuEmpty = contextMenuList.Count is 0;
+            IsSearchEmpty = ContextMenuCollection.Count is 0;
             IsLoadCompleted = true;
         }
 
@@ -437,13 +500,15 @@ namespace WindowsTools.Views.Pages
             IsLoadCompleted = false;
             SearchAppNameText = string.Empty;
             IsSearchEmpty = false;
+            contextMenuList.Clear();
             ContextMenuCollection.Clear();
-            List<ContextMenuModel> contextMenuList = await Task.Run(async () =>
+
+            await Task.Run(async () =>
             {
                 await Task.Delay(500);
-                List<ContextMenuModel> contextMenuList = GetContextMenuList();
-                return contextMenuList;
+                contextMenuList.AddRange(GetContextMenuList());
             });
+
             foreach (ContextMenuModel contextMenuItem in contextMenuList)
             {
                 try
@@ -458,8 +523,30 @@ namespace WindowsTools.Views.Pages
                 {
                     contextMenuItem.PackageIcon = new BitmapImage();
                 }
-                ContextMenuCollection.Add(contextMenuItem);
+
+                if (string.IsNullOrEmpty(SearchAppNameText))
+                {
+                    ContextMenuCollection.Add(contextMenuItem);
+                    continue;
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(contextMenuItem.PackageDisplayName) && contextMenuItem.PackageDisplayName.Contains(SearchAppNameText))
+                    {
+                        ContextMenuCollection.Add(contextMenuItem);
+                        continue;
+                    }
+
+                    if (!string.IsNullOrEmpty(contextMenuItem.PackageFullName) && contextMenuItem.PackageFullName.Contains(SearchAppNameText))
+                    {
+                        ContextMenuCollection.Add(contextMenuItem);
+                        continue;
+                    }
+                }
             }
+
+            IsContextMenuEmpty = contextMenuList.Count is 0;
+            IsSearchEmpty = ContextMenuCollection.Count is 0;
             IsLoadCompleted = true;
         }
 
@@ -470,7 +557,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private List<ContextMenuModel> GetContextMenuList()
         {
-            List<ContextMenuModel> contextMenuList = [];
+            List<ContextMenuModel> queryedContextMenuList = [];
             List<KeyValuePair<Guid, string>> blockedList = GetBlockedClsidList();
             List<INET_FIREWALL_APP_CONTAINER> inetLoopbackList = GetAppContainerList();
 
@@ -567,25 +654,14 @@ namespace WindowsTools.Views.Pages
 
                                 ContextMenuModel contextMenuItem = new()
                                 {
-                                    IsVisible = Visibility.Collapsed,
                                     PackageDisplayName = string.IsNullOrEmpty(displayNameBuilder.ToString()) ? appInfo.Item1 : displayNameBuilder.ToString(),
                                     PackageFullName = packageFullName,
                                     PackageIconUri = Uri.TryCreate(appInfo.Item2, UriKind.Absolute, out Uri uri) ? uri : null,
                                     PackagePath = packagePath,
-                                    ContextMenuItemCollection = new(contextMenuItemList)
+                                    ContextMenuItemCollection = [.. contextMenuItemList]
                                 };
 
-                                if (!string.IsNullOrEmpty(contextMenuItem.PackageDisplayName) && contextMenuItem.PackageDisplayName.Contains(SearchAppNameText))
-                                {
-                                    contextMenuItem.IsVisible = Visibility.Visible;
-                                }
-
-                                if (!string.IsNullOrEmpty(contextMenuItem.PackageFullName) && contextMenuItem.PackageFullName.Contains(SearchAppNameText))
-                                {
-                                    contextMenuItem.IsVisible = Visibility.Visible;
-                                }
-
-                                contextMenuList.Add(contextMenuItem);
+                                queryedContextMenuList.Add(contextMenuItem);
                             }
 
                             classKey.Close();
@@ -602,7 +678,7 @@ namespace WindowsTools.Views.Pages
                 LogService.WriteLog(EventLevel.Error, "Get com package clsidList info failed", e);
             }
 
-            return contextMenuList;
+            return queryedContextMenuList;
         }
 
         /// <summary>
