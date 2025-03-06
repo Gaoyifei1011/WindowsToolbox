@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.Windows.Forms;
@@ -20,13 +19,13 @@ namespace WindowsToolsSystemTray.Services.Root
         /// <summary>
         /// 初始化系统托盘
         /// </summary>
-        public static void InitializeSystemTray(string content, string iconPath)
+        public static void InitializeSystemTray(string title, string iconPath)
         {
             if (notifyIcon is null)
             {
                 notifyIcon = new NotifyIcon
                 {
-                    Text = content,
+                    Text = title,
                     Icon = Icon.ExtractAssociatedIcon(iconPath),
                     Visible = true,
                     ContextMenu = new ContextMenu()
@@ -34,6 +33,17 @@ namespace WindowsToolsSystemTray.Services.Root
 
                 notifyIcon.MouseClick += OnMouseClick;
                 notifyIcon.MouseDoubleClick += OnMouseDoubleClick;
+            }
+        }
+
+        /// <summary>
+        /// 更新标题
+        /// </summary>
+        public static void UpdateTitle(string title)
+        {
+            if (notifyIcon is not null)
+            {
+                notifyIcon.Text = title;
             }
         }
 

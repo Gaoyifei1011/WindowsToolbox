@@ -37,32 +37,31 @@ namespace WindowsToolsSystemTray
                 return;
             }
 
-            InitializeProgramResources();
+            bool isExisted = false;
+            Process[] processArray = Process.GetProcessesByName("WindowsToolsSystemTray");
 
-            configurationCollection["DpiAwareness"] = "PerMonitorV2";
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-            Application.ThreadException += OnThreadException;
-            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
-
-            if (AutoSwitchThemeService.AutoSwitchThemeEnableValue)
+            foreach (Process process in processArray)
             {
-                Process[] processArray = Process.GetProcessesByName("WindowsToolsSystemTray.exe");
-
-                bool isExisted = false;
-                foreach (Process process in processArray)
+                if (process.Id is not 0 && process.MainWindowHandle != IntPtr.Zero)
                 {
-                    if (process.Id is not 0 && process.MainWindowHandle != IntPtr.Zero)
-                    {
-                        isExisted = true;
-                        break;
-                    }
+                    isExisted = true;
+                    break;
                 }
+            }
 
-                if (!isExisted)
+            if (!isExisted)
+            {
+                InitializeProgramResources();
+
+                configurationCollection["DpiAwareness"] = "PerMonitorV2";
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+                Application.ThreadException += OnThreadException;
+                AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+
+                if (AutoSwitchThemeService.AutoSwitchThemeEnableValue)
                 {
-                    string notifyIconTitle = string.Join(Environment.NewLine, ResourceService.SystemTrayResource.GetString("Title"), ResourceService.SystemTrayResource.GetString("CurrentSystemTheme"), ResourceService.SystemTrayResource.GetString("CurrentAppTheme"));
                     SystemTrayService.InitializeSystemTray(ResourceService.SystemTrayResource.GetString("Title"), Application.ExecutablePath);
                     new SystemTrayApp();
                     Application.Run(new SystemTrayWindow());
