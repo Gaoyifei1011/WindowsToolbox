@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
@@ -185,55 +184,66 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSearchAppNameQuerySubmitted(object sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (!string.IsNullOrEmpty(SearchAppNameText))
+            LoopbackCollection.Clear();
+
+            if (string.IsNullOrEmpty(SearchAppNameText))
             {
-                foreach (LoopbackModel loopbackItem in LoopbackCollection)
+                foreach (LoopbackModel loopbackItem in loopbackList)
                 {
                     loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+                    LoopbackCollection.Add(loopbackItem);
+                    continue;
                 }
-
-                LoopbackCollection.Clear();
+            }
+            else
+            {
                 foreach (LoopbackModel loopbackItem in loopbackList)
                 {
                     if (!string.IsNullOrEmpty(loopbackItem.AppContainerName) && loopbackItem.AppContainerName.Contains(SearchAppNameText))
                     {
+                        loopbackItem.IsSelected = loopbackItem.IsOldChecked;
                         LoopbackCollection.Add(loopbackItem);
                         continue;
                     }
 
                     if (!string.IsNullOrEmpty(loopbackItem.DisplayName) && loopbackItem.DisplayName.Contains(SearchAppNameText))
                     {
+                        loopbackItem.IsSelected = loopbackItem.IsOldChecked;
                         LoopbackCollection.Add(loopbackItem);
                         continue;
                     }
 
                     if (!string.IsNullOrEmpty(loopbackItem.Description) && loopbackItem.Description.Contains(SearchAppNameText))
                     {
+                        loopbackItem.IsSelected = loopbackItem.IsOldChecked;
                         LoopbackCollection.Add(loopbackItem);
                         continue;
                     }
 
                     if (!string.IsNullOrEmpty(loopbackItem.PackageFullName) && loopbackItem.PackageFullName.Contains(SearchAppNameText))
                     {
+                        loopbackItem.IsSelected = loopbackItem.IsOldChecked;
                         LoopbackCollection.Add(loopbackItem);
                         continue;
                     }
 
                     if (!string.IsNullOrEmpty(loopbackItem.AppContainerUserName) && loopbackItem.AppContainerUserName.Contains(SearchAppNameText))
                     {
+                        loopbackItem.IsSelected = loopbackItem.IsOldChecked;
                         LoopbackCollection.Add(loopbackItem);
                         continue;
                     }
 
                     if (!string.IsNullOrEmpty(loopbackItem.AppContainerSIDName) && loopbackItem.AppContainerSIDName.Contains(SearchAppNameText))
                     {
+                        loopbackItem.IsSelected = loopbackItem.IsOldChecked;
                         LoopbackCollection.Add(loopbackItem);
                         continue;
                     }
                 }
-
-                IsSearchEmpty = LoopbackCollection.Count is 0;
             }
+
+            IsSearchEmpty = LoopbackCollection.Count is 0;
         }
 
         /// <summary>
@@ -438,42 +448,61 @@ namespace WindowsTools.Views.Pages
             });
 
             LoopbackCollection.Clear();
-            foreach (LoopbackModel loopbackItem in loopbackList)
+
+            if (string.IsNullOrEmpty(SearchAppNameText))
             {
-                if (!string.IsNullOrEmpty(loopbackItem.AppContainerName) && loopbackItem.AppContainerName.Contains(SearchAppNameText))
+                foreach (LoopbackModel loopbackItem in loopbackList)
                 {
+                    loopbackItem.IsSelected = loopbackItem.IsOldChecked;
                     LoopbackCollection.Add(loopbackItem);
                     continue;
                 }
-
-                if (!string.IsNullOrEmpty(loopbackItem.DisplayName) && loopbackItem.DisplayName.Contains(SearchAppNameText))
+            }
+            else
+            {
+                foreach (LoopbackModel loopbackItem in loopbackList)
                 {
-                    LoopbackCollection.Add(loopbackItem);
-                    continue;
-                }
+                    if (!string.IsNullOrEmpty(loopbackItem.AppContainerName) && loopbackItem.AppContainerName.Contains(SearchAppNameText))
+                    {
+                        loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+                        LoopbackCollection.Add(loopbackItem);
+                        continue;
+                    }
 
-                if (!string.IsNullOrEmpty(loopbackItem.Description) && loopbackItem.Description.Contains(SearchAppNameText))
-                {
-                    LoopbackCollection.Add(loopbackItem);
-                    continue;
-                }
+                    if (!string.IsNullOrEmpty(loopbackItem.DisplayName) && loopbackItem.DisplayName.Contains(SearchAppNameText))
+                    {
+                        loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+                        LoopbackCollection.Add(loopbackItem);
+                        continue;
+                    }
 
-                if (!string.IsNullOrEmpty(loopbackItem.PackageFullName) && loopbackItem.PackageFullName.Contains(SearchAppNameText))
-                {
-                    LoopbackCollection.Add(loopbackItem);
-                    continue;
-                }
+                    if (!string.IsNullOrEmpty(loopbackItem.Description) && loopbackItem.Description.Contains(SearchAppNameText))
+                    {
+                        loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+                        LoopbackCollection.Add(loopbackItem);
+                        continue;
+                    }
 
-                if (!string.IsNullOrEmpty(loopbackItem.AppContainerUserName) && loopbackItem.AppContainerUserName.Contains(SearchAppNameText))
-                {
-                    LoopbackCollection.Add(loopbackItem);
-                    continue;
-                }
+                    if (!string.IsNullOrEmpty(loopbackItem.PackageFullName) && loopbackItem.PackageFullName.Contains(SearchAppNameText))
+                    {
+                        loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+                        LoopbackCollection.Add(loopbackItem);
+                        continue;
+                    }
 
-                if (!string.IsNullOrEmpty(loopbackItem.AppContainerSIDName) && loopbackItem.AppContainerSIDName.Contains(SearchAppNameText))
-                {
-                    LoopbackCollection.Add(loopbackItem);
-                    continue;
+                    if (!string.IsNullOrEmpty(loopbackItem.AppContainerUserName) && loopbackItem.AppContainerUserName.Contains(SearchAppNameText))
+                    {
+                        loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+                        LoopbackCollection.Add(loopbackItem);
+                        continue;
+                    }
+
+                    if (!string.IsNullOrEmpty(loopbackItem.AppContainerSIDName) && loopbackItem.AppContainerSIDName.Contains(SearchAppNameText))
+                    {
+                        loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+                        LoopbackCollection.Add(loopbackItem);
+                        continue;
+                    }
                 }
             }
 
