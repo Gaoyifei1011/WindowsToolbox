@@ -47,6 +47,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid
@@ -119,8 +120,21 @@
                     </StackPanel>
                 </Grid>
 
-                <muxc:Expander
+                <muxc:InfoBar
                     Grid.Row="1"
+                    Margin="30,0,30,3"
+                    IsOpen="{x:Bind IsSwitchThemeNotificationEnabled, Mode=OneWay}"
+                    Message="{x:Bind root:ResourceService.SwitchThemeResource.GetString('StartupTaskNotEnabled')}"
+                    Severity="Warning"
+                    Visibility="{x:Bind IsSwitchThemeNotificationEnabled, Mode=OneWay}">
+
+                    <muxc:InfoBar.Content>
+                        <Button Click="{x:Bind OnEnableStartupTaskClicked}" Content="{x:Bind root:ResourceService.SwitchThemeResource.GetString('EnableStartupTask')}" />
+                    </muxc:InfoBar.Content>
+                </muxc:InfoBar>
+
+                <muxc:Expander
+                    Grid.Row="2"
                     Margin="30,0,30,3"
                     Padding="0"
                     HorizontalAlignment="Stretch"
@@ -276,7 +290,7 @@
                 </muxc:Expander>
 
                 <muxc:Expander
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Margin="30,0,30,3"
                     Padding="0"
                     HorizontalAlignment="Stretch"
@@ -810,7 +824,7 @@
                 </muxc:Expander>
 
                 <muxc:Expander
-                    Grid.Row="3"
+                    Grid.Row="4"
                     Margin="30,0,30,3"
                     Padding="0"
                     HorizontalAlignment="Stretch"

@@ -7,8 +7,10 @@ using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -20,6 +22,7 @@ using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
+using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.User32;
@@ -27,6 +30,7 @@ using WindowsTools.WindowsAPI.PInvoke.User32;
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
 
+// TODO:缺少 StartupTask 任务修改和提示，托盘程序双击打开主程序
 namespace WindowsTools.Views.Pages
 {
     /// <summary>
@@ -83,6 +87,22 @@ namespace WindowsTools.Views.Pages
                 {
                     _systemAppImage = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SystemAppImage)));
+                }
+            }
+        }
+
+        private bool _isSwitchThemeNotificationEnabled;
+
+        public bool IsSwitchThemeNotificationEnabled
+        {
+            get { return _isSwitchThemeNotificationEnabled; }
+
+            set
+            {
+                if (!Equals(_isSwitchThemeNotificationEnabled, value))
+                {
+                    _isSwitchThemeNotificationEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSwitchThemeNotificationEnabled)));
                 }
             }
         }
@@ -307,23 +327,6 @@ namespace WindowsTools.Views.Pages
             RegistryHelper.NotifyKeyValueChanged += OnNotifyKeyValueChanged;
         }
 
-        /// <summary>
-        /// 注册表内容发生变更时触发的事件
-        /// </summary>
-        private void OnNotifyKeyValueChanged(object sender, string key)
-        {
-            if (key.Equals(@"Control Panel\Desktop") || key.Equals(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Wallpapers") || key.Equals(@"Control Panel\Colors"))
-            {
-                synchronizationContext.Post(async (_) =>
-                {
-                    await InitializeSystemThemeSettingsAsync();
-                }, null);
-
-                // 注册的变化通知在使用一次后就消失了，需要重新注册
-                RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, key);
-            }
-        }
-
         #region 第一部分：修改主题页面——挂载的事件
 
         /// <summary>
@@ -361,6 +364,29 @@ namespace WindowsTools.Views.Pages
                     LogService.WriteLog(EventLevel.Error, "Open system theme settings failed", e);
                 }
             });
+        }
+
+        /// <summary>
+        /// 启用开机自启任务
+        /// </summary>
+        private async void OnEnableStartupTaskClicked(object sender, RoutedEventArgs args)
+        {
+            bool isStartupTaskEnabled = await Task.Run(async () =>
+            {
+                StartupTask startupTask = await StartupTask.GetAsync("WindowsToolsSystemTray");
+                StartupTaskState startupTaskState = await startupTask.RequestEnableAsync();
+                return startupTaskState is StartupTaskState.Enabled || startupTaskState is StartupTaskState.Disabled;
+            });
+
+            if (AutoSwitchThemeService.AutoSwitchThemeEnableValue)
+            {
+                IsSwitchThemeNotificationEnabled = !isStartupTaskEnabled;
+
+                if (IsSwitchThemeNotificationEnabled)
+                {
+                    await ContentDialogHelper.ShowAsync(new OpenStartupTaskFailedDialog(), this);
+                }
+            }
         }
 
         /// <summary>
@@ -451,6 +477,17 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnSaveClicked(object sender, RoutedEventArgs args)
         {
+            if (IsAutoSwitchSystemThemeValue && SystemThemeLightTime.Equals(SystemThemeDarkTime))
+            {
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ThemeChangeSameTime));
+                return;
+            }
+            else if (IsAutoSwitchAppThemeValue && AppThemeLightTime.Equals(AppThemeDarkTime))
+            {
+                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ThemeChangeSameTime));
+                return;
+            }
+
             await Task.Run(() =>
             {
                 AutoSwitchThemeService.SetAutoSwitchThemeEnableValue(IsAutoSwitchThemeEnableValue);
@@ -466,16 +503,81 @@ namespace WindowsTools.Views.Pages
                 {
                     try
                     {
-                        Process.Start("WindowsToolsSystemTray.exe");
+                        bool isExisted = false;
+                        Process[] processArray = Process.GetProcessesByName("WindowsToolsSystemTray");
+
+                        foreach (Process process in processArray)
+                        {
+                            if (process.Id is not 0 && process.MainWindowHandle != IntPtr.Zero)
+                            {
+                                isExisted = true;
+                                string message = "Auto switch theme settings changed";
+
+                                COPYDATASTRUCT copyDataStruct = new()
+                                {
+                                    dwData = IntPtr.Zero,
+                                    cbData = Encoding.Unicode.GetBytes(message).Length + 1,
+                                    lpData = message,
+                                };
+
+                                IntPtr copyDataStructPtr = Marshal.AllocHGlobal(Marshal.SizeOf<COPYDATASTRUCT>());
+                                Marshal.StructureToPtr(copyDataStruct, copyDataStructPtr, false);
+                                User32Library.SendMessage(process.MainWindowHandle, WindowMessage.WM_COPYDATA, UIntPtr.Zero, copyDataStructPtr);
+                                Marshal.FreeHGlobal(copyDataStructPtr);
+                                break;
+                            }
+                        }
+
+                        if (!isExisted)
+                        {
+                            ProcessStartInfo startInfo = new()
+                            {
+                                UseShellExecute = true,
+                                WorkingDirectory = Environment.CurrentDirectory,
+                                FileName = Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "WindowsToolsSystemTray.exe"),
+                                Verb = "open"
+                            };
+                            Process.Start(startInfo);
+                        }
                     }
                     catch (Exception e)
                     {
                         LogService.WriteLog(EventLevel.Error, "Open process name WindowsToolsSystemTray.exe failed", e);
                     }
                 }
+                else
+                {
+                    Process[] processArray = Process.GetProcessesByName("WindowsToolsSystemTray");
+
+                    foreach (Process process in processArray)
+                    {
+                        if (process.Id is not 0 && process.MainWindowHandle != IntPtr.Zero)
+                        {
+                            string message = "Auto switch theme settings changed";
+
+                            COPYDATASTRUCT copyDataStruct = new()
+                            {
+                                dwData = IntPtr.Zero,
+                                cbData = Encoding.Unicode.GetBytes(message).Length + 1,
+                                lpData = message,
+                            };
+
+                            IntPtr copyDataStructPtr = Marshal.AllocHGlobal(Marshal.SizeOf<COPYDATASTRUCT>());
+                            Marshal.StructureToPtr(copyDataStruct, copyDataStructPtr, false);
+                            User32Library.SendMessage(process.MainWindowHandle, WindowMessage.WM_COPYDATA, UIntPtr.Zero, copyDataStructPtr);
+                            Marshal.FreeHGlobal(copyDataStructPtr);
+                            break;
+                        }
+                    }
+                }
             });
 
             await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.SwitchThemeSaveResult));
+
+            if (AutoSwitchThemeService.AutoSwitchThemeEnableValue)
+            {
+                IsSwitchThemeNotificationEnabled = !await Task.Run(GetStartupTaskEnabledAsync);
+            }
         }
 
         /// <summary>
@@ -493,6 +595,29 @@ namespace WindowsTools.Views.Pages
                 AutoSwitchThemeService.SetSystemThemeDarkTime(AutoSwitchThemeService.DefaultSystemThemeDarkTime);
                 AutoSwitchThemeService.SetAppThemeLightTime(AutoSwitchThemeService.DefaultAppThemeLightTime);
                 AutoSwitchThemeService.SetAppThemeDarkTime(AutoSwitchThemeService.DefaultAppThemeDarkTime);
+
+                Process[] processArray = Process.GetProcessesByName("WindowsToolsSystemTray");
+
+                foreach (Process process in processArray)
+                {
+                    if (process.Id is not 0 && process.MainWindowHandle != IntPtr.Zero)
+                    {
+                        string message = "Auto switch theme settings changed";
+
+                        COPYDATASTRUCT copyDataStruct = new()
+                        {
+                            dwData = IntPtr.Zero,
+                            cbData = Encoding.Unicode.GetBytes(message).Length + 1,
+                            lpData = message,
+                        };
+
+                        IntPtr copyDataStructPtr = Marshal.AllocHGlobal(Marshal.SizeOf<COPYDATASTRUCT>());
+                        Marshal.StructureToPtr(copyDataStruct, copyDataStructPtr, false);
+                        User32Library.SendMessage(process.MainWindowHandle, WindowMessage.WM_COPYDATA, UIntPtr.Zero, copyDataStructPtr);
+                        Marshal.FreeHGlobal(copyDataStructPtr);
+                        break;
+                    }
+                }
             });
 
             IsAutoSwitchThemeEnableValue = AutoSwitchThemeService.DefaultAutoSwitchThemeEnableValue;
@@ -514,7 +639,42 @@ namespace WindowsTools.Views.Pages
         {
             try
             {
-                Process.Start("WindowsToolsSystemTray.exe");
+                bool isExisted = false;
+                Process[] processArray = Process.GetProcessesByName("WindowsToolsSystemTray");
+
+                foreach (Process process in processArray)
+                {
+                    if (process.Id is not 0 && process.MainWindowHandle != IntPtr.Zero)
+                    {
+                        isExisted = true;
+                        string message = "Auto switch theme settings changed";
+
+                        COPYDATASTRUCT copyDataStruct = new()
+                        {
+                            dwData = IntPtr.Zero,
+                            cbData = Encoding.Unicode.GetBytes(message).Length + 1,
+                            lpData = message,
+                        };
+
+                        IntPtr copyDataStructPtr = Marshal.AllocHGlobal(Marshal.SizeOf<COPYDATASTRUCT>());
+                        Marshal.StructureToPtr(copyDataStruct, copyDataStructPtr, false);
+                        User32Library.SendMessage(process.MainWindowHandle, WindowMessage.WM_COPYDATA, UIntPtr.Zero, copyDataStructPtr);
+                        Marshal.FreeHGlobal(copyDataStructPtr);
+                        break;
+                    }
+                }
+
+                if (!isExisted)
+                {
+                    ProcessStartInfo startInfo = new()
+                    {
+                        UseShellExecute = true,
+                        WorkingDirectory = Environment.CurrentDirectory,
+                        FileName = Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "WindowsToolsSystemTray.exe"),
+                        Verb = "open"
+                    };
+                    Process.Start(startInfo);
+                }
             }
             catch (Exception e)
             {
@@ -641,6 +801,23 @@ namespace WindowsTools.Views.Pages
         #endregion 第一部分：修改主题页面——挂载的事件
 
         /// <summary>
+        /// 注册表内容发生变更时触发的事件
+        /// </summary>
+        private void OnNotifyKeyValueChanged(object sender, string key)
+        {
+            if (key.Equals(@"Control Panel\Desktop") || key.Equals(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Wallpapers") || key.Equals(@"Control Panel\Colors"))
+            {
+                synchronizationContext.Post(async (_) =>
+                {
+                    await InitializeSystemThemeSettingsAsync();
+                }, null);
+
+                // 注册的变化通知在使用一次后就消失了，需要重新注册
+                RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, key);
+            }
+        }
+
+        /// <summary>
         /// 初始化系统主题设置内容
         /// </summary>
         public async Task InitializeSystemThemeSettingsAsync()
@@ -707,6 +884,11 @@ namespace WindowsTools.Views.Pages
             IsShowThemeColorInStartAndTaskbarEnabled = SelectedSystemThemeStyle.Equals(SystemThemeStyleList[1]);
             bool showThemeColorInStartAndTaskbar = await Task.Run(GetShowThemeColorInStartAndTaskbar);
             IsShowThemeColorInStartAndTaskbar = showThemeColorInStartAndTaskbar;
+
+            if (AutoSwitchThemeService.AutoSwitchThemeEnableValue)
+            {
+                IsSwitchThemeNotificationEnabled = !await Task.Run(GetStartupTaskEnabledAsync);
+            }
         }
 
         /// <summary>
@@ -731,6 +913,15 @@ namespace WindowsTools.Views.Pages
         private bool GetShowThemeColorInStartAndTaskbar()
         {
             return RegistryHelper.ReadRegistryKey<bool>(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "ColorPrevalence");
+        }
+
+        /// <summary>
+        /// 获取启动任务状态
+        /// </summary>
+        private async Task<bool> GetStartupTaskEnabledAsync()
+        {
+            StartupTask startupTask = await StartupTask.GetAsync("WindowsToolsSystemTray");
+            return startupTask is not null ? startupTask.State is StartupTaskState.Enabled || startupTask.State is StartupTaskState.EnabledByPolicy : await Task.FromResult(true);
         }
     }
 }

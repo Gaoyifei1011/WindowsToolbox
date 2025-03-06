@@ -68,6 +68,12 @@ namespace WindowsTools.UI.TeachingTips
                 OperationResultFailed.Visibility = Visibility.Visible;
                 OperationResultFailed.Text = ResourceService.NotificationResource.GetString("TextEmpty");
             }
+            else if (operationKind is OperationKind.ThemeChangeSameTime)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("ThemeChangeSameTime");
+            }
             else if (operationKind is OperationKind.SwitchThemeSaveResult)
             {
                 OperationResultSuccess.Visibility = Visibility.Visible;
