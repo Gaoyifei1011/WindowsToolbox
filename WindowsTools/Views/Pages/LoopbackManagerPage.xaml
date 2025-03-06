@@ -177,7 +177,7 @@
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
                 CornerRadius="{StaticResource ControlCornerRadius}"
-                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(LoopbackCollection.Count), Mode=OneWay}">
+                Visibility="{x:Bind IsAppEmpty, Mode=OneWay}">
 
                 <TextBlock
                     Margin="0,10"
@@ -186,7 +186,7 @@
                     TextAlignment="Center" />
             </Grid>
 
-            <Grid Grid.Row="1" Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(LoopbackCollection.Count), Mode=OneWay}">
+            <Grid Grid.Row="1" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsAppEmpty), Mode=OneWay}">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -237,8 +237,7 @@
                                 HorizontalAlignment="Stretch"
                                 HorizontalContentAlignment="Stretch"
                                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                IsExpanded="False"
-                                Visibility="{x:Bind IsVisible, Mode=OneWay}">
+                                IsExpanded="False">
 
                                 <muxc:Expander.Header>
                                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">

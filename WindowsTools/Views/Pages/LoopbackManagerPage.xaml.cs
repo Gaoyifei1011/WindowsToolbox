@@ -31,6 +31,7 @@ namespace WindowsTools.Views.Pages
     public sealed partial class LoopbackManagerPage : Page, INotifyPropertyChanged
     {
         private bool isInitialized;
+        private readonly List<LoopbackModel> loopbackList = [];
 
         private bool _isLoadCompleted;
 
@@ -60,6 +61,22 @@ namespace WindowsTools.Views.Pages
                 {
                     _searchAppNameText = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchAppNameText)));
+                }
+            }
+        }
+
+        private bool _isAppEmpty = false;
+
+        public bool IsAppEmpty
+        {
+            get { return _isAppEmpty; }
+
+            set
+            {
+                if (!Equals(_isAppEmpty, value))
+                {
+                    _isAppEmpty = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAppEmpty)));
                 }
             }
         }
@@ -172,46 +189,50 @@ namespace WindowsTools.Views.Pages
             {
                 foreach (LoopbackModel loopbackItem in LoopbackCollection)
                 {
+                    loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+                }
+
+                LoopbackCollection.Clear();
+                foreach (LoopbackModel loopbackItem in loopbackList)
+                {
                     if (!string.IsNullOrEmpty(loopbackItem.AppContainerName) && loopbackItem.AppContainerName.Contains(SearchAppNameText))
                     {
-                        loopbackItem.IsVisible = Visibility.Visible;
+                        LoopbackCollection.Add(loopbackItem);
                         continue;
                     }
 
                     if (!string.IsNullOrEmpty(loopbackItem.DisplayName) && loopbackItem.DisplayName.Contains(SearchAppNameText))
                     {
-                        loopbackItem.IsVisible = Visibility.Visible;
+                        LoopbackCollection.Add(loopbackItem);
                         continue;
                     }
 
                     if (!string.IsNullOrEmpty(loopbackItem.Description) && loopbackItem.Description.Contains(SearchAppNameText))
                     {
-                        loopbackItem.IsVisible = Visibility.Visible;
+                        LoopbackCollection.Add(loopbackItem);
                         continue;
                     }
 
                     if (!string.IsNullOrEmpty(loopbackItem.PackageFullName) && loopbackItem.PackageFullName.Contains(SearchAppNameText))
                     {
-                        loopbackItem.IsVisible = Visibility.Visible;
+                        LoopbackCollection.Add(loopbackItem);
                         continue;
                     }
 
                     if (!string.IsNullOrEmpty(loopbackItem.AppContainerUserName) && loopbackItem.AppContainerUserName.Contains(SearchAppNameText))
                     {
-                        loopbackItem.IsVisible = Visibility.Visible;
+                        LoopbackCollection.Add(loopbackItem);
                         continue;
                     }
 
                     if (!string.IsNullOrEmpty(loopbackItem.AppContainerSIDName) && loopbackItem.AppContainerSIDName.Contains(SearchAppNameText))
                     {
-                        loopbackItem.IsVisible = Visibility.Visible;
+                        LoopbackCollection.Add(loopbackItem);
                         continue;
                     }
-
-                    loopbackItem.IsVisible = Visibility.Collapsed;
                 }
 
-                IsSearchEmpty = LoopbackCollection.All(item => item.IsVisible is Visibility.Collapsed);
+                IsSearchEmpty = LoopbackCollection.Count is 0;
             }
         }
 
@@ -224,9 +245,11 @@ namespace WindowsTools.Views.Pages
 
             if (string.IsNullOrEmpty(SearchAppNameText))
             {
-                foreach (LoopbackModel loopbackItem in LoopbackCollection)
+                LoopbackCollection.Clear();
+                foreach (LoopbackModel loopbackItem in loopbackList)
                 {
-                    loopbackItem.IsVisible = Visibility.Visible;
+                    loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+                    LoopbackCollection.Add(loopbackItem);
                 }
 
                 IsSearchEmpty = false;
@@ -241,10 +264,7 @@ namespace WindowsTools.Views.Pages
             IsSaved = true;
             foreach (LoopbackModel loopbackItem in LoopbackCollection)
             {
-                if (loopbackItem.IsVisible is Visibility.Visible)
-                {
-                    loopbackItem.IsSelected = true;
-                }
+                loopbackItem.IsSelected = true;
             }
         }
 
@@ -256,10 +276,7 @@ namespace WindowsTools.Views.Pages
             IsSaved = true;
             foreach (LoopbackModel loopbackItem in LoopbackCollection)
             {
-                if (loopbackItem.IsVisible is Visibility.Visible)
-                {
-                    loopbackItem.IsSelected = false;
-                }
+                loopbackItem.IsSelected = false;
             }
         }
 
@@ -274,7 +291,6 @@ namespace WindowsTools.Views.Pages
 
             foreach (LoopbackModel loopbackItem in LoopbackCollection)
             {
-                loopbackItem.IsVisible = Visibility.Visible;
                 loopbackItem.IsSelected = loopbackItem.IsOldChecked;
             }
         }
@@ -320,7 +336,6 @@ namespace WindowsTools.Views.Pages
         {
             try
             {
-                FreeResources();
                 GlobalNotificationService.ApplicationExit -= OnApplicationExit;
             }
             catch (Exception e)
@@ -336,10 +351,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async Task GetLoopbackDataAsync()
         {
-            List<LoopbackModel> loopbackList = [];
-
             await Task.Run(async () =>
             {
+                loopbackList.Clear();
                 List<INET_FIREWALL_APP_CONTAINER> inetLoopbackList = GetLoopbackList();
                 List<SID_AND_ATTRIBUTES> inetLoopbackEnabledList = GetLoopbackEnabledList();
 
@@ -409,39 +423,8 @@ namespace WindowsTools.Views.Pages
                             AppBinariesPath = stringBinaries is not null ? stringBinaries : ResourceService.LoopbackManagerResource.GetString("Unknown").Split(),
                             AppContainerUserName = userAccountType is not null ? userAccountType.ToString() : ResourceService.LoopbackManagerResource.GetString("Unknown"),
                             IsSelected = isEnabled,
-                            IsOldChecked = isEnabled,
-                            IsVisible = Visibility.Collapsed
+                            IsOldChecked = isEnabled
                         };
-
-                        if (!string.IsNullOrEmpty(loopbackItem.AppContainerName) && loopbackItem.AppContainerName.Contains(SearchAppNameText))
-                        {
-                            loopbackItem.IsVisible = Visibility.Visible;
-                        }
-
-                        if (!string.IsNullOrEmpty(loopbackItem.DisplayName) && loopbackItem.DisplayName.Contains(SearchAppNameText))
-                        {
-                            loopbackItem.IsVisible = Visibility.Visible;
-                        }
-
-                        if (!string.IsNullOrEmpty(loopbackItem.Description) && loopbackItem.Description.Contains(SearchAppNameText))
-                        {
-                            loopbackItem.IsVisible = Visibility.Visible;
-                        }
-
-                        if (!string.IsNullOrEmpty(loopbackItem.PackageFullName) && loopbackItem.PackageFullName.Contains(SearchAppNameText))
-                        {
-                            loopbackItem.IsVisible = Visibility.Visible;
-                        }
-
-                        if (!string.IsNullOrEmpty(loopbackItem.AppContainerUserName) && loopbackItem.AppContainerUserName.Contains(SearchAppNameText))
-                        {
-                            loopbackItem.IsVisible = Visibility.Visible;
-                        }
-
-                        if (!string.IsNullOrEmpty(loopbackItem.AppContainerSIDName) && loopbackItem.AppContainerSIDName.Contains(SearchAppNameText))
-                        {
-                            loopbackItem.IsVisible = Visibility.Visible;
-                        }
 
                         loopbackList.Add(loopbackItem);
                     }
@@ -454,10 +437,47 @@ namespace WindowsTools.Views.Pages
                 await Task.Delay(500);
             });
 
+            LoopbackCollection.Clear();
             foreach (LoopbackModel loopbackItem in loopbackList)
             {
-                LoopbackCollection.Add(loopbackItem);
+                if (!string.IsNullOrEmpty(loopbackItem.AppContainerName) && loopbackItem.AppContainerName.Contains(SearchAppNameText))
+                {
+                    LoopbackCollection.Add(loopbackItem);
+                    continue;
+                }
+
+                if (!string.IsNullOrEmpty(loopbackItem.DisplayName) && loopbackItem.DisplayName.Contains(SearchAppNameText))
+                {
+                    LoopbackCollection.Add(loopbackItem);
+                    continue;
+                }
+
+                if (!string.IsNullOrEmpty(loopbackItem.Description) && loopbackItem.Description.Contains(SearchAppNameText))
+                {
+                    LoopbackCollection.Add(loopbackItem);
+                    continue;
+                }
+
+                if (!string.IsNullOrEmpty(loopbackItem.PackageFullName) && loopbackItem.PackageFullName.Contains(SearchAppNameText))
+                {
+                    LoopbackCollection.Add(loopbackItem);
+                    continue;
+                }
+
+                if (!string.IsNullOrEmpty(loopbackItem.AppContainerUserName) && loopbackItem.AppContainerUserName.Contains(SearchAppNameText))
+                {
+                    LoopbackCollection.Add(loopbackItem);
+                    continue;
+                }
+
+                if (!string.IsNullOrEmpty(loopbackItem.AppContainerSIDName) && loopbackItem.AppContainerSIDName.Contains(SearchAppNameText))
+                {
+                    LoopbackCollection.Add(loopbackItem);
+                    continue;
+                }
             }
+
+            IsAppEmpty = loopbackList.Count is 0;
             IsLoadCompleted = true;
         }
 
@@ -566,13 +586,6 @@ namespace WindowsTools.Views.Pages
 
                 await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.LoopbackSetResult, result));
             }
-        }
-
-        /// <summary>
-        /// 释放资源
-        /// </summary>
-        private void FreeResources()
-        {
         }
     }
 }

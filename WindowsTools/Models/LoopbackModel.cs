@@ -9,22 +9,6 @@ namespace WindowsTools.Models
     /// </summary>
     public sealed class LoopbackModel : INotifyPropertyChanged
     {
-        private Visibility _isVisible;
-
-        public Visibility IsVisible
-        {
-            get { return _isVisible; }
-
-            set
-            {
-                if (!Equals(_isVisible, value))
-                {
-                    _isVisible = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsVisible)));
-                }
-            }
-        }
-
         private bool _isSelected;
 
         public bool IsSelected
