@@ -118,8 +118,7 @@
                     VerticalAlignment="Center"
                     FontSize="12"
                     Text="{x:Bind root:ResourceService.WindowResource.GetString('WindowTitle')}"
-                    TextWrapping="NoWrap"
-                    Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(helper:RuntimeHelper.IsElevated)}" />
+                    TextWrapping="NoWrap" />
 
                 <TextBlock
                     x:Name="TitleRunAdministratorText"
