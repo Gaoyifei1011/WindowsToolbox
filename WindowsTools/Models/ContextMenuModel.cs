@@ -21,7 +21,5 @@ namespace WindowsTools.Models
         public string PackagePath { get; set; }
 
         public ObservableCollection<ContextMenuItemModel> ContextMenuItemCollection { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

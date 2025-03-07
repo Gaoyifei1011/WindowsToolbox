@@ -1,9 +1,14 @@
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Helpers.Root;
+using WindowsTools.Services.Root;
 using WindowsTools.WindowsAPI.PInvoke.CfgMgr32;
 using WindowsTools.WindowsAPI.PInvoke.Dismapi;
 
@@ -15,9 +20,75 @@ namespace WindowsTools.Views.Pages
     /// <summary>
     /// 驱动管理页面
     /// </summary>
-    public sealed partial class DriverManagerPage : Page
+    public sealed partial class DriverManagerPage : Page, INotifyPropertyChanged
     {
         private bool isLoaded;
+
+        private bool _isLoadCompleted;
+
+        public bool IsLoadCompleted
+        {
+            get { return _isLoadCompleted; }
+
+            set
+            {
+                if (!Equals(_isLoadCompleted, value))
+                {
+                    _isLoadCompleted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsLoadCompleted)));
+                }
+            }
+        }
+
+        private string _searchDriverNameText = string.Empty;
+
+        public string SearchDriverNameText
+        {
+            get { return _searchDriverNameText; }
+
+            set
+            {
+                if (!Equals(_searchDriverNameText, value))
+                {
+                    _searchDriverNameText = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchDriverNameText)));
+                }
+            }
+        }
+
+        private bool _isDriverEmpty = false;
+
+        public bool IsDriverEmpty
+        {
+            get { return _isDriverEmpty; }
+
+            set
+            {
+                if (!Equals(_isDriverEmpty, value))
+                {
+                    _isDriverEmpty = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsDriverEmpty)));
+                }
+            }
+        }
+
+        private bool _isSearchEmpty = false;
+
+        public bool IsSearchEmpty
+        {
+            get { return _isSearchEmpty; }
+
+            set
+            {
+                if (!Equals(_isSearchEmpty, value))
+                {
+                    _isSearchEmpty = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSearchEmpty)));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public DriverManagerPage()
         {
@@ -25,6 +96,25 @@ namespace WindowsTools.Views.Pages
         }
 
         #region 第二部分：驱动管理页面——挂载的事件
+
+        /// <summary>
+        /// 打开设备管理器
+        /// </summary>
+
+        private void OnOpenDeviceManagementClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start("devmgmt.msc");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open device management failed", e);
+                }
+            });
+        }
 
         /// <summary>
         /// 加载完成后初始化内容
@@ -35,6 +125,38 @@ namespace WindowsTools.Views.Pages
             {
                 isLoaded = true;
             }
+        }
+
+        private void OnSearchDriverNameQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+        }
+
+        private void OnSerachDriverNameTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+        }
+
+        private void OnSelectAllClicked(object sender, RoutedEventArgs args)
+        {
+        }
+
+        private void OnSelectNoneClicked(object sender, RoutedEventArgs args)
+        {
+        }
+
+        private void OnRefreshClicked(object sender, RoutedEventArgs args)
+        {
+        }
+
+        private void OnAddDriverClicked(object sender, RoutedEventArgs args)
+        {
+        }
+
+        private void OnDeleteDriverClicked(object sender, RoutedEventArgs args)
+        {
+        }
+
+        private void OnSelectOldDriverClicked(object sender, RoutedEventArgs args)
+        {
         }
 
         #endregion 第二部分：驱动管理页面——挂载的事件

@@ -13,12 +13,147 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock
-            Grid.Row="0"
-            Margin="30,15,30,6"
-            FontSize="22"
-            Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('Title')}" />
+        <Grid Grid.Row="0" Margin="30,15,30,6">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                FontSize="22"
+                Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('Title')}" />
+
+            <Button
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Click="{x:Bind OnOpenDeviceManagementClicked}"
+                Content="{x:Bind root:ResourceService.DriverManagerResource.GetString('DeviceManagement')}" />
+        </Grid>
+
+        <Grid
+            Grid.Row="1"
+            Height="61"
+            Margin="30,0,30,3"
+            Padding="12,0,10,0"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{StaticResource ControlCornerRadius}">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <AutoSuggestBox
+                Grid.Column="0"
+                Margin="0,0,2,0"
+                VerticalAlignment="Center"
+                IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
+                PlaceholderText="{x:Bind root:ResourceService.DriverManagerResource.GetString('SearchDriverNamePHText')}"
+                QuerySubmitted="{x:Bind OnSearchDriverNameQuerySubmitted}"
+                Text="{x:Bind SearchDriverNameText, Mode=OneWay}"
+                TextChanged="{x:Bind OnSerachDriverNameTextChanged}" />
+
+            <CommandBar
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                DefaultLabelPosition="Right"
+                IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}">
+
+                <CommandBar.Resources>
+                    <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
+                    <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
+                </CommandBar.Resources>
+
+                <CommandBar.PrimaryCommands>
+                    <AppBarButton
+                        Click="{x:Bind OnSelectAllClicked}"
+                        IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
+                        Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('SelectAll')}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE8B3;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+
+                    <AppBarButton
+                        Click="{x:Bind OnSelectNoneClicked}"
+                        IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
+                        Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('SelectNone')}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE8E6;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+
+                    <AppBarButton
+                        Click="{x:Bind OnRefreshClicked}"
+                        IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
+                        Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('Refresh')}">
+
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE72C;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar.PrimaryCommands>
+
+                <CommandBar.SecondaryCommands>
+                    <AppBarButton
+                        Click="{x:Bind OnAddDriverClicked}"
+                        IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
+                        Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('AddDriver')}">
+
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE710;" />
+                        </AppBarButton.Icon>
+
+                        <AppBarButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem />
+                                <MenuFlyoutItem />
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+
+                    <AppBarButton
+                        Click="{x:Bind OnDeleteDriverClicked}"
+                        IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
+                        Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('DeleteDriver')}">
+
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE74E;" />
+                        </AppBarButton.Icon>
+
+                        <AppBarButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem />
+                                <MenuFlyoutItem />
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+
+                    <AppBarButton
+                        Click="{x:Bind OnSelectOldDriverClicked}"
+                        IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
+                        Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('SelectOldDriver')}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE74D;" />
+                        </AppBarButton.Icon>
+
+                        <AppBarButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem />
+                                <MenuFlyoutItem />
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                </CommandBar.SecondaryCommands>
+            </CommandBar>
+        </Grid>
     </Grid>
 </Page>

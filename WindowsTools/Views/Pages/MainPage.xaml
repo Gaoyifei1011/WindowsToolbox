@@ -673,7 +673,7 @@
                             </ToolTipService.ToolTip>
                         </muxc:NavigationViewItem>
 
-                        <muxc:NavigationViewItem Tag="DriverManager" Visibility="Collapsed">
+                        <muxc:NavigationViewItem Tag="DriverManager">
 
                             <muxc:NavigationViewItem.Icon>
                                 <muxc:ImageIcon Source="ms-appx:///Assets/ControlIcon/DriverManager.png" />

@@ -258,8 +258,6 @@
     <EmbeddedResource Update="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
 
     <None Update="Assets\WindowsTools.ico" CopyToOutputDirectory="Never" />
-
-    <None Remove="Styles\XamlIslands\AppBarButton.xaml" />
     <None Remove="Styles\XamlIslands\Button.xaml" />
     <None Remove="Styles\XamlIslands\DateTimePicker.xaml" />
     <None Remove="Styles\XamlIslands\HyperlinkButton.xaml" />
@@ -306,8 +304,6 @@
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" GeneratePathProperty="true" IncludeAssets="none" />
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1742" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
-
-    <Page Include="Styles\XamlIslands\AppBarButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\Button.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\DateTimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\HyperlinkButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

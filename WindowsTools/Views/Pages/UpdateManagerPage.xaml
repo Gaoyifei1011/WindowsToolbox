@@ -232,43 +232,34 @@
                             VerticalAlignment="Center"
                             Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Operation')}" />
 
-                        <ContentControl
+                        <CommandBar
                             Grid.Column="2"
                             VerticalAlignment="Center"
+                            DefaultLabelPosition="Right"
                             IsEnabled="{x:Bind sys:Convert.ToBoolean(AvailableUpdateCollection.Count), Mode=OneWay}">
 
-                            <StackPanel Orientation="Horizontal">
-                                <AppBarButton
-                                    Margin="0,0,3,0"
-                                    VerticalAlignment="Center"
-                                    Click="{x:Bind OnAvailableSelectAllClicked}"
-                                    Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectAll')}"
-                                    Style="{StaticResource AppBarButtonStyle}">
+                            <CommandBar.Resources>
+                                <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
+                                <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
+                            </CommandBar.Resources>
 
+                            <CommandBar.PrimaryCommands>
+                                <AppBarButton Click="{x:Bind OnAvailableSelectAllClicked}" Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectAll')}">
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE8B3;" />
                                     </AppBarButton.Icon>
                                 </AppBarButton>
 
-                                <AppBarButton
-                                    Margin="0,0,3,0"
-                                    VerticalAlignment="Center"
-                                    Click="{x:Bind OnAvailableSelectNoneClicked}"
-                                    Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectNone')}"
-                                    Style="{StaticResource AppBarButtonStyle}">
-
+                                <AppBarButton Click="{x:Bind OnAvailableSelectNoneClicked}" Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectNone')}">
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xEA48;" />
                                     </AppBarButton.Icon>
                                 </AppBarButton>
 
                                 <AppBarButton
-                                    Margin="0,0,3,0"
-                                    VerticalAlignment="Center"
                                     Click="{x:Bind OnAvailableHideClicked}"
                                     IsEnabled="{x:Bind IsAvailableHideEnabled, Mode=OneWay}"
                                     Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Hide')}"
-                                    Style="{StaticResource AppBarButtonStyle}"
                                     ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('HideSelectedUpdate')}">
 
                                     <AppBarButton.Icon>
@@ -277,12 +268,9 @@
                                 </AppBarButton>
 
                                 <AppBarButton
-                                    Margin="0,0,3,0"
-                                    VerticalAlignment="Center"
                                     Click="{x:Bind OnAvailableInstallClicked}"
                                     IsEnabled="{x:Bind IsAvailableInstallEnabled, Mode=OneWay}"
                                     Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Install')}"
-                                    Style="{StaticResource AppBarButtonStyle}"
                                     ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('InstallSelectedUpdate')}">
 
                                     <AppBarButton.Icon>
@@ -291,19 +279,17 @@
                                 </AppBarButton>
 
                                 <AppBarButton
-                                    VerticalAlignment="Center"
                                     Click="{x:Bind OnAvailableCancelInstallClicked}"
                                     IsEnabled="{x:Bind IsAvailableCancelInstallEnabled, Mode=OneWay}"
                                     Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Cancel')}"
-                                    Style="{StaticResource AppBarButtonStyle}"
                                     ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CancelInstallSelectedUpdate')}">
 
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE711;" />
                                     </AppBarButton.Icon>
                                 </AppBarButton>
-                            </StackPanel>
-                        </ContentControl>
+                            </CommandBar.PrimaryCommands>
+                        </CommandBar>
                     </Grid>
 
                     <Grid Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentItem(SelectedItem, UpdateManagerNavigationView.MenuItems[0]), Mode=OneWay}">
@@ -1219,42 +1205,34 @@
                             VerticalAlignment="Center"
                             Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Operation')}" />
 
-                        <ContentControl
+                        <CommandBar
                             Grid.Column="2"
                             VerticalAlignment="Center"
+                            DefaultLabelPosition="Right"
                             IsEnabled="{x:Bind sys:Convert.ToBoolean(InstalledUpdateCollection.Count), Mode=OneWay}">
 
-                            <StackPanel Orientation="Horizontal">
-                                <AppBarButton
-                                    Margin="0,0,3,0"
-                                    VerticalAlignment="Center"
-                                    Click="{x:Bind OnInstalledSelectAllClicked}"
-                                    Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectAll')}"
-                                    Style="{StaticResource AppBarButtonStyle}">
+                            <CommandBar.Resources>
+                                <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
+                                <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
+                            </CommandBar.Resources>
 
+                            <CommandBar.PrimaryCommands>
+                                <AppBarButton Click="{x:Bind OnInstalledSelectAllClicked}" Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectAll')}">
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE8B3;" />
                                     </AppBarButton.Icon>
                                 </AppBarButton>
 
-                                <AppBarButton
-                                    Margin="0,0,3,0"
-                                    VerticalAlignment="Center"
-                                    Click="{x:Bind OnInstalledSelectNoneClicked}"
-                                    Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectNone')}"
-                                    Style="{StaticResource AppBarButtonStyle}">
-
+                                <AppBarButton Click="{x:Bind OnInstalledSelectNoneClicked}" Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectNone')}">
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xEA48;" />
                                     </AppBarButton.Icon>
                                 </AppBarButton>
 
                                 <AppBarButton
-                                    VerticalAlignment="Center"
                                     Click="{x:Bind OnInstalledUninstallClicked}"
                                     IsEnabled="{x:Bind IsInstalledUninstallEnabled, Mode=OneWay}"
                                     Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Uninstall')}"
-                                    Style="{StaticResource AppBarButtonStyle}"
                                     ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('UninstallSelectedUpdate')}">
 
                                     <AppBarButton.Icon>
@@ -1263,19 +1241,17 @@
                                 </AppBarButton>
 
                                 <AppBarButton
-                                    VerticalAlignment="Center"
                                     Click="{x:Bind OnInstalledCancelUninstallClicked}"
                                     IsEnabled="{x:Bind IsInstalledCancelInstallEnabled, Mode=OneWay}"
                                     Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Cancel')}"
-                                    Style="{StaticResource AppBarButtonStyle}"
                                     ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('CancelUninstallSelectedUpdate')}">
 
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE711;" />
                                     </AppBarButton.Icon>
                                 </AppBarButton>
-                            </StackPanel>
-                        </ContentControl>
+                            </CommandBar.PrimaryCommands>
+                        </CommandBar>
                     </Grid>
 
                     <Grid Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentItem(SelectedItem, UpdateManagerNavigationView.MenuItems[1]), Mode=OneWay}">
@@ -2184,30 +2160,25 @@
                             VerticalAlignment="Center"
                             Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Operation')}" />
 
-                        <ContentControl
+                        <CommandBar
                             Grid.Column="2"
                             VerticalAlignment="Center"
+                            DefaultLabelPosition="Right"
                             IsEnabled="{x:Bind sys:Convert.ToBoolean(HiddenUpdateCollection.Count), Mode=OneWay}">
 
-                            <StackPanel Orientation="Horizontal">
-                                <AppBarButton
-                                    Margin="0,0,3,0"
-                                    VerticalAlignment="Center"
-                                    Click="{x:Bind OnHiddenSelectAllClicked}"
-                                    Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectAll')}"
-                                    Style="{StaticResource AppBarButtonStyle}">
+                            <CommandBar.Resources>
+                                <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
+                                <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
+                            </CommandBar.Resources>
 
+                            <CommandBar.PrimaryCommands>
+                                <AppBarButton Click="{x:Bind OnHiddenSelectAllClicked}" Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectAll')}">
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE8B3;" />
                                     </AppBarButton.Icon>
                                 </AppBarButton>
 
-                                <AppBarButton
-                                    Margin="0,0,3,0"
-                                    VerticalAlignment="Center"
-                                    Click="{x:Bind OnHiddenSelectNoneClicked}"
-                                    Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectNone')}"
-                                    Style="{StaticResource AppBarButtonStyle}">
+                                <AppBarButton Click="{x:Bind OnHiddenSelectNoneClicked}" Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('SelectNone')}">
 
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xEA48;" />
@@ -2215,19 +2186,17 @@
                                 </AppBarButton>
 
                                 <AppBarButton
-                                    VerticalAlignment="Center"
                                     Click="{x:Bind OnHiddenShowClicked}"
                                     IsEnabled="{x:Bind IsHiddenShowEnabled, Mode=OneWay}"
                                     Label="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Show')}"
-                                    Style="{StaticResource AppBarButtonStyle}"
                                     ToolTipService.ToolTip="{x:Bind root:ResourceService.UpdateManagerResource.GetString('ShowSelectedUpdate')}">
 
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE890;" />
                                     </AppBarButton.Icon>
                                 </AppBarButton>
-                            </StackPanel>
-                        </ContentControl>
+                            </CommandBar.PrimaryCommands>
+                        </CommandBar>
                     </Grid>
 
                     <Grid Visibility="{x:Bind converter:ValueCheckConverterHelper.IsCurrentItem(SelectedItem, UpdateManagerNavigationView.MenuItems[2]), Mode=OneWay}">

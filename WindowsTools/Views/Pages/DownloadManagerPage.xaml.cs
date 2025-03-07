@@ -42,38 +42,6 @@ namespace WindowsTools.Views.Pages
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private bool isAllowClosed = false;
 
-        private string _searchDownloadText;
-
-        public string SearchDownloadText
-        {
-            get { return _searchDownloadText; }
-
-            set
-            {
-                if (!Equals(_searchDownloadText, value))
-                {
-                    _searchDownloadText = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchDownloadText)));
-                }
-            }
-        }
-
-        private bool _isSearchEmpty = false;
-
-        public bool IsSearchEmpty
-        {
-            get { return _isSearchEmpty; }
-
-            set
-            {
-                if (!Equals(_isSearchEmpty, value))
-                {
-                    _isSearchEmpty = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSearchEmpty)));
-                }
-            }
-        }
-
         private bool _isPrimaryButtonEnabled;
 
         public bool IsPrimaryButtonEnabled
@@ -373,40 +341,6 @@ namespace WindowsTools.Views.Pages
         #endregion 第一部分：XamlUICommand 命令调用时挂载的事件
 
         #region 第二部分：下载管理页面——挂载的事件
-
-        /// <summary>
-        /// 搜索文本框内容发生变化的事件
-        /// </summary>
-        private void OnSearchDownloadTextChanged(object sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            SearchDownloadText = (sender as AutoSuggestBox).Text;
-
-            if (string.IsNullOrEmpty(SearchDownloadText))
-            {
-                foreach (DownloadModel downloadItem in DownloadCollection)
-                {
-                    downloadItem.IsVisible = Visibility.Visible;
-                }
-
-                IsSearchEmpty = false;
-            }
-        }
-
-        /// <summary>
-        /// 查询搜索内容
-        /// </summary>
-        private void OnSearchDownloadQuerySubmitted(object sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            if (!string.IsNullOrEmpty(SearchDownloadText))
-            {
-                foreach (DownloadModel downloadItem in DownloadCollection)
-                {
-                    downloadItem.IsVisible = downloadItem.FileName.Contains(SearchDownloadText) ? Visibility.Visible : Visibility.Collapsed;
-                }
-
-                IsSearchEmpty = DownloadCollection.All(item => item.IsVisible is Visibility.Collapsed);
-            }
-        }
 
         /// <summary>
         /// 添加任务

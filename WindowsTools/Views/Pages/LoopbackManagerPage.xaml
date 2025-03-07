@@ -57,11 +57,6 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <AutoSuggestBox
@@ -74,65 +69,52 @@
                 Text="{x:Bind SearchAppNameText, Mode=OneWay}"
                 TextChanged="{x:Bind OnSerachAppNameTextChanged}" />
 
-            <AppBarButton
+            <CommandBar
                 Grid.Column="1"
                 VerticalAlignment="Center"
-                Click="{x:Bind OnSelectAllClicked}"
-                IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('SelectAll')}"
-                Style="{StaticResource AppBarButtonStyle}">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE8B3;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
+                DefaultLabelPosition="Right"
+                IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}">
 
-            <AppBarButton
-                Grid.Column="2"
-                VerticalAlignment="Center"
-                Click="{x:Bind OnSelectNoneClicked}"
-                IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('SelectNone')}"
-                Style="{StaticResource AppBarButtonStyle}">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE8E6;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
+                <CommandBar.Resources>
+                    <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
+                    <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
+                </CommandBar.Resources>
 
-            <AppBarButton
-                Grid.Column="3"
-                VerticalAlignment="Center"
-                Click="{x:Bind OnResetClicked}"
-                IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('Reset')}"
-                Style="{StaticResource AppBarButtonStyle}">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE777;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
+                <CommandBar.PrimaryCommands>
+                    <AppBarButton Click="{x:Bind OnSelectAllClicked}" Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('SelectAll')}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE8B3;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
 
-            <AppBarButton
-                Grid.Column="4"
-                VerticalAlignment="Center"
-                Click="{x:Bind OnRefreshClicked}"
-                IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('Refresh')}"
-                Style="{StaticResource AppBarButtonStyle}">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE72C;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
+                    <AppBarButton Click="{x:Bind OnSelectNoneClicked}" Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('SelectNone')}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE8E6;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
 
-            <AppBarButton
-                Grid.Column="5"
-                VerticalAlignment="Center"
-                Click="{x:Bind OnSaveClicked}"
-                IsEnabled="{x:Bind IsSaved, Mode=OneWay}"
-                Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('Save')}"
-                Style="{StaticResource AppBarButtonStyle}">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE74E;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
+                    <AppBarButton Click="{x:Bind OnResetClicked}" Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('Reset')}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE777;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+
+                    <AppBarButton Click="{x:Bind OnRefreshClicked}" Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('Refresh')}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE72C;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+
+                    <AppBarButton
+                        Click="{x:Bind OnSaveClicked}"
+                        IsEnabled="{x:Bind IsSaved, Mode=OneWay}"
+                        Label="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('Save')}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE74E;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar.PrimaryCommands>
+            </CommandBar>
         </Grid>
 
         <Grid

@@ -5,6 +5,9 @@ using Windows.UI.Xaml.Controls;
 using WindowsTools.Services.Root;
 using System.Diagnostics.Tracing;
 
+// 抑制 CA1822 警告
+#pragma warning disable CA1822
+
 namespace WindowsTools.UI.Dialogs
 {
     /// <summary>

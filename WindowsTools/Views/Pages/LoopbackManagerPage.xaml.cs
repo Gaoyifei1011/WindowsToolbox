@@ -182,7 +182,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 查询搜索内容
         /// </summary>
-        private void OnSearchAppNameQuerySubmitted(object sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private void OnSearchAppNameQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             LoopbackCollection.Clear();
 
@@ -249,9 +249,9 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 搜索应用名称内容发生变化事件
         /// </summary>
-        private void OnSerachAppNameTextChanged(object sender, AutoSuggestBoxTextChangedEventArgs args)
+        private void OnSerachAppNameTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            SearchAppNameText = (sender as AutoSuggestBox).Text;
+            SearchAppNameText = sender.Text;
 
             if (string.IsNullOrEmpty(SearchAppNameText))
             {

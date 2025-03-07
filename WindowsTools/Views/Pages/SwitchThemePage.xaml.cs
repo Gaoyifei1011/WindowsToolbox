@@ -801,6 +801,8 @@ namespace WindowsTools.Views.Pages
 
         #endregion 第一部分：修改主题页面——挂载的事件
 
+        #region 第二部分：自定义事件
+
         /// <summary>
         /// 注册表内容发生变更时触发的事件
         /// </summary>
@@ -817,6 +819,8 @@ namespace WindowsTools.Views.Pages
                 RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, key);
             }
         }
+
+        #endregion 第二部分：自定义事件
 
         /// <summary>
         /// 初始化系统主题设置内容

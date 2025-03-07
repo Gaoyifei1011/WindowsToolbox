@@ -126,7 +126,6 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <AutoSuggestBox
@@ -139,29 +138,31 @@
                 Text="{x:Bind SearchAppNameText, Mode=OneWay}"
                 TextChanged="{x:Bind OnSerachAppNameTextChanged}" />
 
-            <AppBarButton
+            <CommandBar
                 Grid.Column="1"
                 VerticalAlignment="Center"
-                Click="{x:Bind OnRefreshClicked}"
-                IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                Label="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('Refresh')}"
-                Style="{StaticResource AppBarButtonStyle}">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE72C;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
+                DefaultLabelPosition="Right"
+                IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}">
 
-            <AppBarButton
-                Grid.Column="2"
-                VerticalAlignment="Center"
-                Click="{x:Bind OnRestoreDefaultClicked}"
-                IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                Label="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('RestoreDefault')}"
-                Style="{StaticResource AppBarButtonStyle}">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE777;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
+                <CommandBar.Resources>
+                    <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
+                    <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
+                </CommandBar.Resources>
+
+                <CommandBar.PrimaryCommands>
+                    <AppBarButton Click="{x:Bind OnRefreshClicked}" Label="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('Refresh')}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE72C;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+
+                    <AppBarButton Click="{x:Bind OnRestoreDefaultClicked}" Label="{x:Bind root:ResourceService.ContextMenuManagerResource.GetString('RestoreDefault')}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE777;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar.PrimaryCommands>
+            </CommandBar>
         </Grid>
 
         <Grid

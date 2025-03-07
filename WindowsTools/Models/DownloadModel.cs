@@ -10,22 +10,6 @@ namespace WindowsTools.Models
 {
     public sealed class DownloadModel : INotifyPropertyChanged
     {
-        private Visibility _isVisible;
-
-        public Visibility IsVisible
-        {
-            get { return _isVisible; }
-
-            set
-            {
-                if (!Equals(_isVisible, value))
-                {
-                    _isVisible = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsVisible)));
-                }
-            }
-        }
-
         private bool _isNotOperated;
 
         public bool IsNotOperated
