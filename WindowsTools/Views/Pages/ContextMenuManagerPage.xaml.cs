@@ -140,9 +140,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnCheckBoxClickExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            ContextMenuItemModel contextMenuItem = args.Parameter as ContextMenuItemModel;
-
-            if (contextMenuItem is not null)
+            if (args.Parameter is ContextMenuItemModel contextMenuItem)
             {
                 Tuple<BlockedClsidType, bool> result = await Task.Run(() =>
                 {
@@ -224,14 +222,7 @@ namespace WindowsTools.Views.Pages
                             {
                                 if (result.Item2)
                                 {
-                                    if (IsEnabled)
-                                    {
-                                        subItem.BlockedClsidType = BlockedClsidType.Unknown;
-                                    }
-                                    else
-                                    {
-                                        subItem.BlockedClsidType = result.Item1;
-                                    }
+                                    subItem.BlockedClsidType = IsEnabled ? BlockedClsidType.Unknown : result.Item1;
                                 }
 
                                 subItem.IsEnabled = !subItem.IsEnabled;
