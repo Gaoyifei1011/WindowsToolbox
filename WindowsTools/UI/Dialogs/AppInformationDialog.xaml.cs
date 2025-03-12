@@ -43,13 +43,13 @@ namespace WindowsTools.UI.Dialogs
             {
                 uint bufferLength = 0;
 
-                KernelAppCoreLibrary.GetCurrentPackageInfo2(PACKAGE_FLAGS.PACKAGE_PROPERTY_STATIC, PackagePathType.PackagePathType_Install, ref bufferLength, null, out uint count);
+                KernelAppCoreLibrary.GetCurrentPackageInfo(PACKAGE_FLAGS.PACKAGE_PROPERTY_STATIC, ref bufferLength, null, out uint count);
 
                 if (count > 0)
                 {
                     List<PACKAGE_INFO> packageInfoList = [];
                     byte[] buffer = new byte[bufferLength];
-                    KernelAppCoreLibrary.GetCurrentPackageInfo2(PACKAGE_FLAGS.PACKAGE_PROPERTY_STATIC, PackagePathType.PackagePathType_Install, ref bufferLength, buffer, out count);
+                    KernelAppCoreLibrary.GetCurrentPackageInfo(PACKAGE_FLAGS.PACKAGE_PROPERTY_STATIC, ref bufferLength, buffer, out count);
 
                     for (int index = 0; index < count; index++)
                     {
