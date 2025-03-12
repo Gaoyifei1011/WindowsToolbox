@@ -3,7 +3,7 @@
 namespace WindowsTools.Models
 {
     /// <summary>
-    /// 文件操作结果数据模型
+    /// 文件证书操作结果数据模型
     /// </summary>
     public sealed class CertificateResultModel : INotifyPropertyChanged
     {
