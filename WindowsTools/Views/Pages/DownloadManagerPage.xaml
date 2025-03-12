@@ -266,6 +266,8 @@
                         </AppBarButton.Icon>
                     </AppBarButton>
 
+                    <AppBarSeparator />
+
                     <AppBarButton Click="{x:Bind OnDownloadSettingsClicked}" Label="{x:Bind root:ResourceService.DownloadManagerResource.GetString('DownloadSettings')}">
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xE713;" />
