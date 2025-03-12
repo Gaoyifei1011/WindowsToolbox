@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace WindowsTools.WindowsAPI.PInvoke.CfgMgr32
 {
     /// <summary>
     /// 在 Windows Vista 和更高版本的 Windows 中，DEVPROPKEY 结构表示统一设备属性 模型中设备属性的设备属性键。
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct DEVPROPKEY
     {
         /// <summary>

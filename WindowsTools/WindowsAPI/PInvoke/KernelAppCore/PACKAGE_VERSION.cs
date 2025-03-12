@@ -17,6 +17,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.KernelAppCore
         [FieldOffset(0)]
         public DUMMYSTRUCTNAME Parts;
 
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct DUMMYSTRUCTNAME
         {
             /// <summary>

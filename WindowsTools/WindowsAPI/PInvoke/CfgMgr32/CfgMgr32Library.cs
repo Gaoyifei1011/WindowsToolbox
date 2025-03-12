@@ -45,7 +45,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.CfgMgr32
         /// <param name="ulFlags">保留。 必须设置为零。</param>
         /// <returns>如果操作成功，函数将返回CR_SUCCESS。 否则，它将返回 Cfgmgr32.h 中定义的CR_前缀错误代码之一。</returns>
         [DllImport(CfgMgr32, CharSet = CharSet.Unicode, EntryPoint = "CM_Get_DevNode_PropertyW", PreserveSig = true, SetLastError = false)]
-        public static extern CR CM_Get_DevNode_Property(uint dnDevInst, ref DEVPROPKEY PropertyKey, out DEVPROP_TYPE PropertyType, IntPtr PropertyBuffer, ref uint PropertyBufferSize, uint ulFlags);
+        public static extern CR CM_Get_DevNode_Property(uint dnDevInst, ref DEVPROPKEY PropertyKey, out DEVPROP_TYPE PropertyType, IntPtr PropertyBuffer, ref int PropertyBufferSize, uint ulFlags);
 
         /// <summary>
         /// CM_Locate_DevNode 函数获取与本地计算机上的指定 设备实例 ID 关联的设备节点的设备实例句柄。

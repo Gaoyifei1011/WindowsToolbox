@@ -1,8 +1,11 @@
-﻿namespace WindowsTools.WindowsAPI.PInvoke.Kernel32
+﻿using System.Runtime.InteropServices;
+
+namespace WindowsTools.WindowsAPI.PInvoke.Kernel32
 {
     /// <summary>
     /// 指定日期和时间，使用月份、日、年、工作日、小时、分钟、秒和毫秒的单个成员。 时间采用协调世界时 (UTC) 或本地时间，具体取决于正在调用的函数。
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SYSTEMTIME
     {
         /// <summary>

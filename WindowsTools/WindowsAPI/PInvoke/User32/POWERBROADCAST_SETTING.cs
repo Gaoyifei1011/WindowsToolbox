@@ -6,7 +6,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.User32
     /// <summary>
     /// 随电源设置事件一起发送，并包含有关特定更改的数据。
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct POWERBROADCAST_SETTING
     {
         /// <summary>
