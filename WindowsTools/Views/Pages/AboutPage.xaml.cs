@@ -18,6 +18,7 @@ using Windows.UI.Shell;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
@@ -346,7 +347,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 系统信息
         /// </summary>
-        private void OnSystemInformationClicked(object sender, RoutedEventArgs args)
+        private void OnSystemInformationClicked(Hyperlink sender, HyperlinkClickEventArgs args)
         {
             if (RuntimeHelper.IsElevated)
             {
@@ -367,7 +368,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 应用信息
         /// </summary>
-        private async void OnAppInformationClicked(object sender, RoutedEventArgs args)
+        private async void OnAppInformationClicked(Hyperlink sender, HyperlinkClickEventArgs args)
         {
             await ContentDialogHelper.ShowAsync(new AppInformationDialog(), this);
         }
@@ -375,7 +376,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 应用设置
         /// </summary>
-        private void OnAppSettingsClicked(object sender, RoutedEventArgs args)
+        private void OnAppSettingsClicked(Hyperlink sender, HyperlinkClickEventArgs args)
         {
             if (RuntimeHelper.IsElevated)
             {
@@ -396,7 +397,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 疑难解答
         /// </summary>
-        private void OnTroubleShootClicked(object sender, RoutedEventArgs args)
+        private void OnTroubleShootClicked(Hyperlink sender, HyperlinkClickEventArgs args)
         {
             if (RuntimeHelper.IsElevated)
             {

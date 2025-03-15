@@ -185,12 +185,11 @@
                                 FontSize="15"
                                 Text="{x:Bind root:ResourceService.AboutResource.GetString('Developer')}" />
 
-                            <HyperlinkButton
-                                VerticalAlignment="Center"
-                                Content="{x:Bind root:ResourceService.AboutResource.GetString('DeveloperName')}"
-                                NavigateUri="https://github.com/Gaoyifei1011"
-                                Style="{StaticResource HyperlinkButtonStyle}"
-                                ToolTipService.ToolTip="{x:Bind root:ResourceService.AboutResource.GetString('DeveloperNameToolTip')}" />
+                            <TextBlock VerticalAlignment="Center" ToolTipService.ToolTip="{x:Bind root:ResourceService.AboutResource.GetString('DeveloperNameToolTip')}">
+                                <Hyperlink NavigateUri="https://github.com/Gaoyifei1011" UnderlineStyle="None">
+                                    <Run Text="{x:Bind root:ResourceService.AboutResource.GetString('DeveloperName')}" />
+                                </Hyperlink>
+                            </TextBlock>
                         </StackPanel>
                     </StackPanel>
 
@@ -329,12 +328,14 @@
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
 
-                            <HyperlinkButton
-                                Margin="30,0,16,5"
-                                Click="{x:Bind OnSystemInformationClicked}"
-                                Content="{x:Bind root:ResourceService.AboutResource.GetString('SystemInformation')}"
-                                NavigateUri="ms-settings:about"
-                                Style="{StaticResource HyperlinkButtonStyle}" />
+                            <TextBlock Margin="30,0,16,5" VerticalAlignment="Center">
+                                <Hyperlink
+                                    Click="{x:Bind OnSystemInformationClicked}"
+                                    NavigateUri="ms-settings:about"
+                                    UnderlineStyle="None">
+                                    <Run Text="{x:Bind root:ResourceService.AboutResource.GetString('SystemInformation')}" />
+                                </Hyperlink>
+                            </TextBlock>
 
                             <MenuFlyoutSeparator />
 
@@ -344,6 +345,7 @@
                                 FontWeight="Normal"
                                 Text="{x:Bind root:ResourceService.AboutResource.GetString('Language')}"
                                 TextAlignment="Left" />
+
                             <TextBlock
                                 Margin="30,0,16,5"
                                 FontSize="13.5"
@@ -357,16 +359,20 @@
                                 Orientation="Horizontal"
                                 Spacing="15">
 
-                                <HyperlinkButton
-                                    Click="{x:Bind OnAppInformationClicked}"
-                                    Content="{x:Bind root:ResourceService.AboutResource.GetString('AppInformation')}"
-                                    Style="{StaticResource HyperlinkButtonStyle}" />
+                                <TextBlock VerticalAlignment="Center">
+                                    <Hyperlink Click="{x:Bind OnAppInformationClicked}" UnderlineStyle="None">
+                                        <Run Text="{x:Bind root:ResourceService.AboutResource.GetString('AppInformation')}" />
+                                    </Hyperlink>
+                                </TextBlock>
 
-                                <HyperlinkButton
-                                    Click="{x:Bind OnAppSettingsClicked}"
-                                    Content="{x:Bind root:ResourceService.AboutResource.GetString('AppSettings')}"
-                                    NavigateUri="ms-settings:appsfeatures-app"
-                                    Style="{StaticResource HyperlinkButtonStyle}" />
+                                <TextBlock VerticalAlignment="Center">
+                                    <Hyperlink
+                                        Click="{x:Bind OnAppSettingsClicked}"
+                                        NavigateUri="ms-settings:appsfeatures-app"
+                                        UnderlineStyle="None">
+                                        <Run Text="{x:Bind root:ResourceService.AboutResource.GetString('AppSettings')}" />
+                                    </Hyperlink>
+                                </TextBlock>
                             </StackPanel>
 
                             <MenuFlyoutSeparator />
@@ -397,21 +403,23 @@
                                 Orientation="Horizontal"
                                 Spacing="15">
 
-                                <HyperlinkButton
-                                    Content="{x:Bind root:ResourceService.AboutResource.GetString('LearnDeliveryOptimization')}"
-                                    NavigateUri="https://learn.microsoft.com/windows/deployment/do/waas-delivery-optimization"
-                                    Style="{StaticResource HyperlinkButtonStyle}" />
+                                <TextBlock>
+                                    <Hyperlink NavigateUri="https://learn.microsoft.com/windows/deployment/do/waas-delivery-optimization" UnderlineStyle="None">
+                                        <Run Text="{x:Bind root:ResourceService.AboutResource.GetString('LearnDeliveryOptimization')}" />
+                                    </Hyperlink>
+                                </TextBlock>
 
-                                <HyperlinkButton
-                                    Content="{x:Bind root:ResourceService.AboutResource.GetString('LearnBits')}"
-                                    NavigateUri="https://learn.microsoft.com/windows/win32/bits/background-intelligent-transfer-service-portal"
-                                    Style="{StaticResource HyperlinkButtonStyle}" />
+                                <TextBlock>
+                                    <Hyperlink NavigateUri="https://learn.microsoft.com/windows/win32/bits/background-intelligent-transfer-service-portal" UnderlineStyle="None">
+                                        <Run Text="{x:Bind root:ResourceService.AboutResource.GetString('LearnBits')}" />
+                                    </Hyperlink>
+                                </TextBlock>
 
-                                <HyperlinkButton
-                                    Click="{x:Bind OnTroubleShootClicked}"
-                                    Content="{x:Bind root:ResourceService.AboutResource.GetString('TroubleShoot')}"
-                                    NavigateUri="ms-settings:troubleshoot"
-                                    Style="{StaticResource HyperlinkButtonStyle}" />
+                                <TextBlock>
+                                    <Hyperlink Click="{x:Bind OnTroubleShootClicked}" UnderlineStyle="None">
+                                        <Run Text="{x:Bind root:ResourceService.AboutResource.GetString('TroubleShoot')}" />
+                                    </Hyperlink>
+                                </TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </muxc:Expander.Content>

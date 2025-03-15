@@ -625,14 +625,10 @@
                                         Style="{StaticResource BodyTextBlockStyle}"
                                         Text="{x:Bind root:ResourceService.SettingsResource.GetString('DownloadFolder')}" />
 
-                                    <HyperlinkButton Click="{x:Bind OnOpenFolderClicked}" Style="{StaticResource HyperlinkButtonStyle}">
-
-                                        <HyperlinkButton.Content>
-                                            <TextBlock
-                                                Text="{x:Bind DownloadFolder, Mode=OneWay}"
-                                                TextTrimming="CharacterEllipsis"
-                                                TextWrapping="NoWrap" />
-                                        </HyperlinkButton.Content>
+                                    <TextBlock TextTrimming="CharacterEllipsis" TextWrapping="NoWrap">
+                                        <Hyperlink Click="{x:Bind OnOpenFolderClicked}" UnderlineStyle="None">
+                                            <Run Text="{x:Bind DownloadFolder, Mode=OneWay}" />
+                                        </Hyperlink>
 
                                         <ToolTipService.ToolTip>
                                             <ToolTip MaxWidth="9999">
@@ -644,7 +640,7 @@
                                                 </StackPanel>
                                             </ToolTip>
                                         </ToolTipService.ToolTip>
-                                    </HyperlinkButton>
+                                    </TextBlock>
                                 </StackPanel>
 
                                 <muxc:DropDownButton
