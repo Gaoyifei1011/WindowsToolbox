@@ -501,12 +501,30 @@
 
         <muxc:InfoBar
             Grid.Row="3"
+            Height="50"
             Margin="30,0,30,3"
             IsClosable="False"
             IsIconVisible="True"
             IsOpen="True"
             Message="{x:Bind ResultMessage, Mode=OneWay}"
-            Severity="{x:Bind ResultServerity, Mode=OneWay}" />
+            Severity="{x:Bind ResultServerity, Mode=OneWay}">
+
+            <muxc:InfoBar.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                            <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="CardBackgroundFillColorDefaultBrush" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighConstract">
+                            <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Light">
+                            <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="CardBackgroundFillColorDefaultBrush" />
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </muxc:InfoBar.Resources>
+        </muxc:InfoBar>
 
         <Grid
             Grid.Row="4"

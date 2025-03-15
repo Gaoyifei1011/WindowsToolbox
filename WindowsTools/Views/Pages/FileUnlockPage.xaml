@@ -78,19 +78,42 @@
             </Grid>
 
             <muxc:InfoBar
+                Height="50"
                 Margin="30,0,30,3"
                 IsClosable="False"
                 IsOpen="True"
                 Message="{x:Bind StateInfoText, Mode=OneWay}"
-                Severity="{x:Bind ResultSeverity, Mode=OneWay}"
-                Style="{StaticResource DefaultInfoBarStyle}">
+                Severity="{x:Bind ResultSeverity, Mode=OneWay}">
 
-                <muxc:InfoBar.Content>
-                    <muxc:ProgressRing
-                        IsActive="{x:Bind IsRingActive, Mode=OneWay}"
-                        IsIndeterminate="True"
-                        Visibility="{x:Bind IsRingActive, Mode=OneWay}" />
-                </muxc:InfoBar.Content>
+                <muxc:InfoBar.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.ThemeDictionaries>
+                            <ResourceDictionary x:Key="Default">
+                                <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="CardBackgroundFillColorDefaultBrush" />
+                            </ResourceDictionary>
+                            <ResourceDictionary x:Key="HighConstract">
+                                <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
+                            </ResourceDictionary>
+                            <ResourceDictionary x:Key="Light">
+                                <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="CardBackgroundFillColorDefaultBrush" />
+                            </ResourceDictionary>
+                        </ResourceDictionary.ThemeDictionaries>
+                    </ResourceDictionary>
+                </muxc:InfoBar.Resources>
+
+                <muxc:InfoBar.ActionButton>
+                    <Button
+                        Margin="0"
+                        Padding="0"
+                        HorizontalAlignment="Right"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        IsHitTestVisible="False"
+                        Visibility="{x:Bind IsRingActive, Mode=OneWay}">
+
+                        <muxc:ProgressRing IsActive="{x:Bind IsRingActive, Mode=OneWay}" IsIndeterminate="True" />
+                    </Button>
+                </muxc:InfoBar.ActionButton>
             </muxc:InfoBar>
 
             <Grid Visibility="{x:Bind ResultControlVisable, Mode=OneWay}">
