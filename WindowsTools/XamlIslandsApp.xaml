@@ -14,7 +14,6 @@
                 <controls:XamlControlsResources />
                 <ResourceDictionary Source="ms-appx:///Styles/XamlIslands/Button.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/XamlIslands/DateTimePicker.xaml" />
-                <ResourceDictionary Source="ms-appx:///Styles/XamlIslands/HyperlinkButton.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/XamlIslands/TimePicker.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/XamlIslands/ToggleSwitch.xaml" />
 

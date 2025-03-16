@@ -14,9 +14,33 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <CornerRadius x:Key="ListViewItemCornerRadius">0</CornerRadius>
-        <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="Transparent" />
-        <SolidColorBrush x:Key="ListViewItemBackgroundPressed" Color="Transparent" />
+        <ResourceDictionary>
+            <CornerRadius x:Key="ListViewItemCornerRadius">0</CornerRadius>
+            <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="Transparent" />
+            <SolidColorBrush x:Key="ListViewItemBackgroundPressed" Color="Transparent" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                            <StaticResource x:Key="HyperlinkButtonForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighConstract">
+                            <StaticResource x:Key="HyperlinkButtonForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Light">
+                            <StaticResource x:Key="HyperlinkButtonForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
 
     <Grid Padding="0">
@@ -706,7 +730,6 @@
                 Margin="0,0,10,0"
                 Click="{x:Bind OnViewErrorInformationClicked}"
                 Content="{x:Bind root:ResourceService.FileNameResource.GetString('ViewErrorInformation')}"
-                Style="{StaticResource ErrorHyperlinkButtonStyle}"
                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedCollection.Count), Mode=OneWay}" />
 
             <muxc:ProgressRing

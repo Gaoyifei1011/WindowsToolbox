@@ -260,7 +260,6 @@
     <None Update="Assets\WindowsTools.ico" CopyToOutputDirectory="Never" />
     <None Remove="Styles\XamlIslands\Button.xaml" />
     <None Remove="Styles\XamlIslands\DateTimePicker.xaml" />
-    <None Remove="Styles\XamlIslands\HyperlinkButton.xaml" />
     <None Remove="Styles\XamlIslands\TimePicker.xaml" />
     <None Remove="Styles\XamlIslands\ToggleSwitch.xaml" />
     <None Remove="UI\Dialogs\NeedElevatedDialog.xaml" />
@@ -303,7 +302,6 @@
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
     <Page Include="Styles\XamlIslands\Button.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\DateTimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Styles\XamlIslands\HyperlinkButton.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\TimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\ToggleSwitch.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

@@ -13,6 +13,9 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPressed" Color="Transparent" />
+
         <XamlUICommand x:Name="TerminateProcessCommand" ExecuteRequested="{x:Bind OnTerminateProcessExecuteRequested}" />
         <XamlUICommand x:Name="OpenProcessPathCommand" ExecuteRequested="{x:Bind OnOpenProcessPathExecuteRequested}" />
     </Page.Resources>
@@ -200,9 +203,9 @@
 
                                     <HyperlinkButton
                                         x:Name="ProcessPathText"
+                                        Padding="0"
                                         Command="{StaticResource OpenProcessPathCommand}"
-                                        CommandParameter="{x:Bind ProcessPath}"
-                                        Style="{StaticResource HyperlinkButtonStyle}">
+                                        CommandParameter="{x:Bind ProcessPath}">
 
                                         <HyperlinkButton.Content>
                                             <TextBlock

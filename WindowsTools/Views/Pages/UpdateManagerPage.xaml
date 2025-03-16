@@ -877,9 +877,14 @@
                                                             <DataTemplate x:DataType="x:String">
                                                                 <HyperlinkButton
                                                                     Margin="0,0,0,3"
+                                                                    Padding="0"
                                                                     Command="{StaticResource OpenSupportUrlCommand}"
-                                                                    CommandParameter="{x:Bind}"
-                                                                    Style="{StaticResource HyperlinkButtonStyle}">
+                                                                    CommandParameter="{x:Bind}">
+
+                                                                    <HyperlinkButton.Resources>
+                                                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent" />
+                                                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPressed" Color="Transparent" />
+                                                                    </HyperlinkButton.Resources>
 
                                                                     <TextBlock
                                                                         Text="{x:Bind}"
@@ -983,9 +988,14 @@
                                                             <DataTemplate x:DataType="x:String">
                                                                 <HyperlinkButton
                                                                     Margin="0,0,0,3"
+                                                                    Padding="0"
                                                                     Command="{StaticResource OpenSupportUrlCommand}"
-                                                                    CommandParameter="{x:Bind}"
-                                                                    Style="{StaticResource HyperlinkButtonStyle}">
+                                                                    CommandParameter="{x:Bind}">
+
+                                                                    <HyperlinkButton.Resources>
+                                                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent" />
+                                                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPressed" Color="Transparent" />
+                                                                    </HyperlinkButton.Resources>
 
                                                                     <TextBlock
                                                                         Text="{x:Bind}"
@@ -1832,9 +1842,14 @@
                                                             <DataTemplate x:DataType="x:String">
                                                                 <HyperlinkButton
                                                                     Margin="0,0,0,3"
+                                                                    Padding="0"
                                                                     Command="{StaticResource OpenSupportUrlCommand}"
-                                                                    CommandParameter="{x:Bind}"
-                                                                    Style="{StaticResource HyperlinkButtonStyle}">
+                                                                    CommandParameter="{x:Bind}">
+
+                                                                    <HyperlinkButton.Resources>
+                                                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent" />
+                                                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPressed" Color="Transparent" />
+                                                                    </HyperlinkButton.Resources>
 
                                                                     <TextBlock
                                                                         Text="{x:Bind}"
@@ -1938,9 +1953,14 @@
                                                             <DataTemplate x:DataType="x:String">
                                                                 <HyperlinkButton
                                                                     Margin="0,0,0,3"
+                                                                    Padding="0"
                                                                     Command="{StaticResource OpenSupportUrlCommand}"
-                                                                    CommandParameter="{x:Bind}"
-                                                                    Style="{StaticResource HyperlinkButtonStyle}">
+                                                                    CommandParameter="{x:Bind}">
+
+                                                                    <HyperlinkButton.Resources>
+                                                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent" />
+                                                                        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPressed" Color="Transparent" />
+                                                                    </HyperlinkButton.Resources>
 
                                                                     <TextBlock
                                                                         Text="{x:Bind}"
@@ -2719,9 +2739,14 @@
                                                         <DataTemplate x:DataType="x:String">
                                                             <HyperlinkButton
                                                                 Margin="0,0,0,3"
+                                                                Padding="0"
                                                                 Command="{StaticResource OpenSupportUrlCommand}"
-                                                                CommandParameter="{x:Bind}"
-                                                                Style="{StaticResource HyperlinkButtonStyle}">
+                                                                CommandParameter="{x:Bind}">
+
+                                                                <HyperlinkButton.Resources>
+                                                                    <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent" />
+                                                                    <SolidColorBrush x:Key="HyperlinkButtonBackgroundPressed" Color="Transparent" />
+                                                                </HyperlinkButton.Resources>
 
                                                                 <TextBlock
                                                                     Text="{x:Bind}"
@@ -2825,9 +2850,14 @@
                                                         <DataTemplate x:DataType="x:String">
                                                             <HyperlinkButton
                                                                 Margin="0,0,0,3"
+                                                                Padding="0"
                                                                 Command="{StaticResource OpenSupportUrlCommand}"
-                                                                CommandParameter="{x:Bind}"
-                                                                Style="{StaticResource HyperlinkButtonStyle}">
+                                                                CommandParameter="{x:Bind}">
+
+                                                                <HyperlinkButton.Resources>
+                                                                    <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent" />
+                                                                    <SolidColorBrush x:Key="HyperlinkButtonBackgroundPressed" Color="Transparent" />
+                                                                </HyperlinkButton.Resources>
 
                                                                 <TextBlock
                                                                     Text="{x:Bind}"

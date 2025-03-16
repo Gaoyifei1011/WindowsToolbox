@@ -24,6 +24,9 @@
         <x:Double x:Key="ContentDialogMaxHeight">1000</x:Double>
         <CornerRadius x:Key="ListViewItemCornerRadius">0</CornerRadius>
 
+        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent" />
+        <SolidColorBrush x:Key="HyperlinkButtonBackgroundPressed" Color="Transparent" />
+
         <XamlUICommand x:Name="CopyCommand" ExecuteRequested="{x:Bind OnCopyExecuteRequested}" />
     </ContentDialog.Resources>
 
@@ -206,9 +209,9 @@
                     <HyperlinkButton
                         Grid.Column="3"
                         Margin="10,0,0,0"
+                        Padding="0"
                         Command="{StaticResource CopyCommand}"
-                        CommandParameter="{x:Bind}"
-                        Style="{StaticResource HyperlinkButtonStyle}">
+                        CommandParameter="{x:Bind}">
 
                         <HyperlinkButton.Content>
                             <TextBlock
