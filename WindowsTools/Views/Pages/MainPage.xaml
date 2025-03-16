@@ -29,60 +29,72 @@
                     Placement="BottomEdgeAlignedLeft">
 
                     <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
                         Click="{x:Bind OnRestoreClicked}"
+                        FontSize="12"
                         IsEnabled="{x:Bind GetWindowMaximizeState(IsWindowMaximized, IsWindowMaximizeEnabled, x:String.Empty), Mode=OneWay}"
-                        Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                         Text="{x:Bind root:ResourceService.WindowResource.GetString('Restore')}">
 
                         <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE923;" />
+                            <FontIcon Margin="6" Glyph="&#xE923;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
 
                     <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
                         Click="{x:Bind OnMoveClicked}"
+                        FontSize="12"
                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsWindowMaximized), Mode=OneWay}"
-                        Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                         Tag="{x:Bind TitlebarMenuFlyout}"
                         Text="{x:Bind root:ResourceService.WindowResource.GetString('Move')}" />
 
                     <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
                         Click="{x:Bind OnSizeClicked}"
+                        FontSize="12"
                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsWindowMaximized), Mode=OneWay}"
-                        Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                         Tag="{x:Bind TitlebarMenuFlyout}"
                         Text="{x:Bind root:ResourceService.WindowResource.GetString('Size')}" />
 
                     <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
                         Click="{x:Bind OnMinimizeClicked}"
-                        Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
+                        FontSize="12"
                         Text="{x:Bind root:ResourceService.WindowResource.GetString('Minimize')}">
 
                         <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE921;" />
+                            <FontIcon Margin="6" Glyph="&#xE921;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
 
                     <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
                         Click="{x:Bind OnMaximizeClicked}"
+                        FontSize="12"
                         IsEnabled="{x:Bind GetWindowMaximizeState(IsWindowMaximized, IsWindowMaximizeEnabled, 'isReverse'), Mode=OneWay}"
-                        Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
                         Text="{x:Bind root:ResourceService.WindowResource.GetString('Maximize')}">
 
                         <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE922;" />
+                            <FontIcon Margin="6" Glyph="&#xE922;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
 
                     <MenuFlyoutSeparator Width="200" />
 
                     <MenuFlyoutItem
+                        Height="28"
+                        Padding="11,0"
                         Click="{x:Bind OnCloseClicked}"
-                        Style="{StaticResource AppTitleBarMenuFlyoutItemStyle}"
+                        FontSize="12"
                         Text="{x:Bind root:ResourceService.WindowResource.GetString('Close')}">
 
                         <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE8BB;" />
+                            <FontIcon Margin="6" Glyph="&#xE8BB;" />
                         </MenuFlyoutItem.Icon>
 
                         <MenuFlyoutItem.KeyboardAccelerators>
