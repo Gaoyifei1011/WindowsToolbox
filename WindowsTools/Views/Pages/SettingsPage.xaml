@@ -350,17 +350,33 @@
                         </TextBlock>
                     </StackPanel>
 
-                    <ToggleSwitch
+                    <StackPanel
                         Grid.Column="2"
-                        MinWidth="0"
-                        Margin="0,-2,0,0"
-                        IsEnabled="{x:Bind converter:ValueConverterHelper.ObjectCompareReverseConvert(Backdrop.Key, BackdropList[0].Key), Mode=OneWay}"
-                        IsEnabledChanged="{x:Bind OnIsEnabledChanged}"
-                        IsOn="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}"
-                        OffContent="{x:Bind root:ResourceService.SettingsResource.GetString('AlwaysShowBackdropOffContent')}"
-                        OnContent="{x:Bind root:ResourceService.SettingsResource.GetString('AlwaysShowBackdropOnContent')}"
-                        Style="{StaticResource ToggleSwitchStyle}"
-                        Toggled="{x:Bind OnAlwaysShowBackdropToggled}" />
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind root:ResourceService.SettingsResource.GetString('AlwaysShowBackdropOffContent')}"
+                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(AlwaysShowBackdropValue), Mode=OneWay}" />
+
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind root:ResourceService.SettingsResource.GetString('AlwaysShowBackdropOnContent')}"
+                            Visibility="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}" />
+
+                        <ToggleSwitch
+                            MinWidth="0"
+                            Margin="10,-2,-10,0"
+                            IsEnabled="{x:Bind converter:ValueConverterHelper.ObjectCompareReverseConvert(Backdrop.Key, BackdropList[0].Key), Mode=OneWay}"
+                            IsEnabledChanged="{x:Bind OnIsEnabledChanged}"
+                            IsOn="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}"
+                            OffContent=""
+                            OnContent=""
+                            Toggled="{x:Bind OnAlwaysShowBackdropToggled}" />
+                    </StackPanel>
                 </Grid>
 
                 <!--  界面语言设置  -->
@@ -523,15 +539,33 @@
                         </TextBlock>
                     </StackPanel>
 
-                    <ToggleSwitch
+                    <StackPanel
                         Grid.Column="2"
-                        MinWidth="0"
-                        Margin="0,-2,0,0"
-                        IsOn="{x:Bind TopMostValue, Mode=OneWay}"
-                        OffContent="{x:Bind root:ResourceService.SettingsResource.GetString('TopMostOffContent')}"
-                        OnContent="{x:Bind root:ResourceService.SettingsResource.GetString('TopMostOnContent')}"
-                        Style="{StaticResource ToggleSwitchStyle}"
-                        Toggled="{x:Bind OnTopMostToggled}" />
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind root:ResourceService.SettingsResource.GetString('TopMostOffContent')}"
+                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(TopMostValue), Mode=OneWay}" />
+
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind root:ResourceService.SettingsResource.GetString('TopMostOnContent')}"
+                            Visibility="{x:Bind TopMostValue, Mode=OneWay}" />
+
+                        <ToggleSwitch
+                            MinWidth="0"
+                            Margin="10,-2,-10,0"
+                            IsEnabled="{x:Bind converter:ValueConverterHelper.ObjectCompareReverseConvert(Backdrop.Key, BackdropList[0].Key), Mode=OneWay}"
+                            IsEnabledChanged="{x:Bind OnIsEnabledChanged}"
+                            IsOn="{x:Bind TopMostValue, Mode=OneWay}"
+                            OffContent=""
+                            OnContent=""
+                            Toggled="{x:Bind OnTopMostToggled}" />
+                    </StackPanel>
                 </Grid>
 
                 <StackPanel
@@ -833,15 +867,33 @@
                         </HyperlinkButton.Content>
                     </HyperlinkButton>
 
-                    <ToggleSwitch
+                    <StackPanel
                         Grid.Column="3"
-                        MinWidth="0"
-                        Margin="0,-2,0,0"
-                        IsOn="{x:Bind FileShellMenuValue, Mode=OneWay}"
-                        OffContent="{x:Bind root:ResourceService.SettingsResource.GetString('FileShellMenuOffContent')}"
-                        OnContent="{x:Bind root:ResourceService.SettingsResource.GetString('FileShellMenuOnContent')}"
-                        Style="{StaticResource ToggleSwitchStyle}"
-                        Toggled="{x:Bind OnFileShellMenuToggled}" />
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind root:ResourceService.SettingsResource.GetString('FileShellMenuOffContent')}"
+                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(FileShellMenuValue), Mode=OneWay}" />
+
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind root:ResourceService.SettingsResource.GetString('FileShellMenuOnContent')}"
+                            Visibility="{x:Bind FileShellMenuValue, Mode=OneWay}" />
+
+                        <ToggleSwitch
+                            MinWidth="0"
+                            Margin="10,-2,-10,0"
+                            IsEnabled="{x:Bind converter:ValueConverterHelper.ObjectCompareReverseConvert(Backdrop.Key, BackdropList[0].Key), Mode=OneWay}"
+                            IsEnabledChanged="{x:Bind OnIsEnabledChanged}"
+                            IsOn="{x:Bind FileShellMenuValue, Mode=OneWay}"
+                            OffContent=""
+                            OnContent=""
+                            Toggled="{x:Bind OnFileShellMenuToggled}" />
+                    </StackPanel>
                 </Grid>
 
                 <StackPanel

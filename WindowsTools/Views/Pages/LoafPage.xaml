@@ -207,15 +207,31 @@
                                     VerticalAlignment="Center"
                                     Text="{x:Bind root:ResourceService.LoafResource.GetString('BlockAllKeys')}" />
 
-                                <ToggleSwitch
+                                <StackPanel
                                     Grid.Column="1"
-                                    MinWidth="0"
-                                    Margin="0,-2,0,0"
-                                    IsOn="{x:Bind BlockAllKeys, Mode=OneWay}"
-                                    OffContent="{x:Bind root:ResourceService.LoafResource.GetString('BlockAllKeysOffContent')}"
-                                    OnContent="{x:Bind root:ResourceService.LoafResource.GetString('BlockAllKeysOnContent')}"
-                                    Style="{StaticResource ToggleSwitchStyle}"
-                                    Toggled="{x:Bind OnBlockAllKeysToggled}" />
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+
+                                    <TextBlock
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Text="{x:Bind root:ResourceService.LoafResource.GetString('BlockAllKeysOffContent')}"
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(BlockAllKeys), Mode=OneWay}" />
+
+                                    <TextBlock
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Text="{x:Bind root:ResourceService.LoafResource.GetString('BlockAllKeysOnContent')}"
+                                        Visibility="{x:Bind BlockAllKeys, Mode=OneWay}" />
+
+                                    <ToggleSwitch
+                                        MinWidth="0"
+                                        Margin="10,-2,-10,0"
+                                        IsOn="{x:Bind BlockAllKeys, Mode=OneWay}"
+                                        OffContent=""
+                                        OnContent=""
+                                        Toggled="{x:Bind OnBlockAllKeysToggled}" />
+                                </StackPanel>
                             </Grid>
 
                             <MenuFlyoutSeparator />
@@ -263,15 +279,31 @@
                                     VerticalAlignment="Center"
                                     Text="{x:Bind root:ResourceService.LoafResource.GetString('LockScreenAutomaticly')}" />
 
-                                <ToggleSwitch
+                                <StackPanel
                                     Grid.Column="1"
-                                    MinWidth="0"
-                                    Margin="0,-2,0,0"
-                                    IsOn="{x:Bind LockScreenAutomaticly, Mode=OneWay}"
-                                    OffContent="{x:Bind root:ResourceService.LoafResource.GetString('LockScreenAutomaticlyOffContent')}"
-                                    OnContent="{x:Bind root:ResourceService.LoafResource.GetString('LockScreenAutomaticlyOnContent')}"
-                                    Style="{StaticResource ToggleSwitchStyle}"
-                                    Toggled="{x:Bind OnLockScreenAutomaticlyToggled}" />
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+
+                                    <TextBlock
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Text="{x:Bind root:ResourceService.LoafResource.GetString('LockScreenAutomaticlyOffContent')}"
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(LockScreenAutomaticly), Mode=OneWay}" />
+
+                                    <TextBlock
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Text="{x:Bind root:ResourceService.LoafResource.GetString('LockScreenAutomaticlyOnContent')}"
+                                        Visibility="{x:Bind LockScreenAutomaticly, Mode=OneWay}" />
+
+                                    <ToggleSwitch
+                                        MinWidth="0"
+                                        Margin="10,-2,-10,0"
+                                        IsOn="{x:Bind LockScreenAutomaticly, Mode=OneWay}"
+                                        OffContent=""
+                                        OnContent=""
+                                        Toggled="{x:Bind OnLockScreenAutomaticlyToggled}" />
+                                </StackPanel>
                             </Grid>
                         </StackPanel>
                     </muxc:Expander.Content>

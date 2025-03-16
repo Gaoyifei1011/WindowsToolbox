@@ -261,7 +261,6 @@
     <None Remove="Styles\XamlIslands\Button.xaml" />
     <None Remove="Styles\XamlIslands\DateTimePicker.xaml" />
     <None Remove="Styles\XamlIslands\TimePicker.xaml" />
-    <None Remove="Styles\XamlIslands\ToggleSwitch.xaml" />
     <None Remove="UI\Dialogs\NeedElevatedDialog.xaml" />
     <None Remove="UI\Dialogs\OpenStartupTaskFailedDialog.xaml" />
     <None Remove="UI\TeachingTips\AppInformationDialog.xaml" />
@@ -303,7 +302,6 @@
     <Page Include="Styles\XamlIslands\Button.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\DateTimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\TimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Styles\XamlIslands\ToggleSwitch.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\FileCheckDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

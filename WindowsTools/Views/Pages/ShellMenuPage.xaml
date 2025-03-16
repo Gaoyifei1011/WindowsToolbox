@@ -431,13 +431,31 @@
                                     Style="{StaticResource BodyTextBlockStyle}"
                                     Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseIcon')}" />
 
-                                <ToggleSwitch
+                                <StackPanel
                                     Grid.Column="1"
-                                    IsOn="{x:Bind ShouldUseIcon, Mode=OneWay}"
-                                    OffContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseIconOffContent')}"
-                                    OnContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseIconOnContent')}"
-                                    Style="{StaticResource ToggleSwitchStyle}"
-                                    Toggled="{x:Bind OnShouldUseIconToggled}" />
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+
+                                    <TextBlock
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseIconOffContent')}"
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(ShouldUseIcon), Mode=OneWay}" />
+
+                                    <TextBlock
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseIconOnContent')}"
+                                        Visibility="{x:Bind ShouldUseIcon, Mode=OneWay}" />
+
+                                    <ToggleSwitch
+                                        MinWidth="0"
+                                        Margin="10,-2,-10,0"
+                                        IsOn="{x:Bind ShouldUseIcon, Mode=OneWay}"
+                                        OffContent=""
+                                        OnContent=""
+                                        Toggled="{x:Bind OnShouldUseIconToggled}" />
+                                </StackPanel>
                             </Grid>
 
                             <StackPanel Visibility="{x:Bind ShouldUseIcon, Mode=OneWay}">
@@ -462,13 +480,31 @@
                                         Style="{StaticResource BodyTextBlockStyle}"
                                         Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseProgramIcon')}" />
 
-                                    <ToggleSwitch
+                                    <StackPanel
                                         Grid.Column="1"
-                                        IsOn="{x:Bind ShouldUseProgramIcon, Mode=OneWay}"
-                                        OffContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseProgramIconOffContent')}"
-                                        OnContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseProgramIconOnContent')}"
-                                        Style="{StaticResource ToggleSwitchStyle}"
-                                        Toggled="{x:Bind OnShouldUseProgramIconToggled}" />
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+
+                                        <TextBlock
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseProgramIconOffContent')}"
+                                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(ShouldUseProgramIcon), Mode=OneWay}" />
+
+                                        <TextBlock
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseProgramIconOnContent')}"
+                                            Visibility="{x:Bind ShouldUseProgramIcon, Mode=OneWay}" />
+
+                                        <ToggleSwitch
+                                            MinWidth="0"
+                                            Margin="10,-2,-10,0"
+                                            IsOn="{x:Bind ShouldUseProgramIcon, Mode=OneWay}"
+                                            OffContent=""
+                                            OnContent=""
+                                            Toggled="{x:Bind OnShouldUseProgramIconToggled}" />
+                                    </StackPanel>
                                 </Grid>
 
                                 <StackPanel Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(ShouldUseProgramIcon), Mode=OneWay}">
@@ -493,13 +529,31 @@
                                             Style="{StaticResource BodyTextBlockStyle}"
                                             Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseThemeIcon')}" />
 
-                                        <ToggleSwitch
+                                        <StackPanel
                                             Grid.Column="1"
-                                            IsOn="{x:Bind ShouldUseThemeIcon, Mode=OneWay}"
-                                            OffContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseThemeIconOffContent')}"
-                                            OnContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseThemeIconOnContent')}"
-                                            Style="{StaticResource ToggleSwitchStyle}"
-                                            Toggled="{x:Bind OnShouldUseThemeIconToggled}" />
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+
+                                            <TextBlock
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseThemeIconOffContent')}"
+                                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(ShouldUseProgramIcon), Mode=OneWay}" />
+
+                                            <TextBlock
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('ShouldUseThemeIconOnContent')}"
+                                                Visibility="{x:Bind ShouldUseThemeIcon, Mode=OneWay}" />
+
+                                            <ToggleSwitch
+                                                MinWidth="0"
+                                                Margin="10,-2,-10,0"
+                                                IsOn="{x:Bind ShouldUseThemeIcon, Mode=OneWay}"
+                                                OffContent=""
+                                                OnContent=""
+                                                Toggled="{x:Bind OnShouldUseThemeIconToggled}" />
+                                        </StackPanel>
                                     </Grid>
 
                                     <MenuFlyoutSeparator />
@@ -776,13 +830,31 @@
                         Style="{StaticResource BodyTextBlockStyle}"
                         Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('RunAsAdministrator')}" />
 
-                    <ToggleSwitch
+                    <StackPanel
                         Grid.Column="2"
-                        IsOn="{x:Bind IsAlwaysRunAsAdministrator, Mode=OneWay}"
-                        OffContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('IsAlwaysRunAsAdministratorOffContent')}"
-                        OnContent="{x:Bind root:ResourceService.ShellMenuResource.GetString('IsAlwaysRunAsAdministratorOnContent')}"
-                        Style="{StaticResource ToggleSwitchStyle}"
-                        Toggled="{x:Bind OnIsAlwaysRunAsAdministratorToggled}" />
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('IsAlwaysRunAsAdministratorOffContent')}"
+                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsAlwaysRunAsAdministrator), Mode=OneWay}" />
+
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind root:ResourceService.ShellMenuResource.GetString('IsAlwaysRunAsAdministratorOnContent')}"
+                            Visibility="{x:Bind IsAlwaysRunAsAdministrator, Mode=OneWay}" />
+
+                        <ToggleSwitch
+                            MinWidth="0"
+                            Margin="10,-2,-10,0"
+                            IsOn="{x:Bind IsAlwaysRunAsAdministrator, Mode=OneWay}"
+                            OffContent=""
+                            OnContent=""
+                            Toggled="{x:Bind OnIsAlwaysRunAsAdministratorToggled}" />
+                    </StackPanel>
                 </Grid>
 
                 <!--  文件夹匹配类型  -->
