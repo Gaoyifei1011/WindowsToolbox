@@ -1,0 +1,6 @@
+LIBRARY "PinToTaskbar"
+EXPORTS
+	StartHook
+	StopHook
+SECTIONS
+    Shared   READ WRITE SHARED
