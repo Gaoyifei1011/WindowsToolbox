@@ -28,7 +28,7 @@ namespace WindowsTools.Views.Windows
 
         private readonly IntPtr hwndXamlIsland;
         private IntPtr hHook = IntPtr.Zero;
-        private HOOKPROC KeyBoardHookProc;
+        private HOOKPROC keyBoardHookProc;
 
         public UIElement Content { get; set; }
 
@@ -119,9 +119,9 @@ namespace WindowsTools.Views.Windows
                 // 安装键盘钩子
                 if (hHook == IntPtr.Zero)
                 {
-                    KeyBoardHookProc = new HOOKPROC(OnKeyboardHookProc);
+                    keyBoardHookProc = new HOOKPROC(OnKeyboardHookProc);
 
-                    hHook = User32Library.SetWindowsHookEx(HOOKTYPE.WH_KEYBOARD_LL, KeyBoardHookProc, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
+                    hHook = User32Library.SetWindowsHookEx(HOOKTYPE.WH_KEYBOARD_LL, keyBoardHookProc, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
 
                     //如果设置钩子失败.
                     if (hHook == IntPtr.Zero)
