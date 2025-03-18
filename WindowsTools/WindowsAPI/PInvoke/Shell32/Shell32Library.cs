@@ -39,7 +39,7 @@ namespace WindowsTools.WindowsAPI.PInvoke.Shell32
         /// 如果索引值介于零和已删除文件总数之间，并且 lpszFile 缓冲区地址为 NULL，则返回值是缓冲区所需的大小（以字符为单位）， 不包括 终止 null 字符。
         /// </returns>
         [DllImport(Shell32, CharSet = CharSet.Unicode, EntryPoint = "DragQueryFileW", PreserveSig = true, SetLastError = false)]
-        public static extern uint DragQueryFile(UIntPtr hDrop, uint iFile, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpszFile, uint cch);
+        public static extern uint DragQueryFile(UIntPtr hDrop, uint iFile, [Out, MarshalAs(UnmanagedType.LPArray)] char[] lpszFile, uint cch);
 
         /// <summary>
         /// 检索在拖放操作期间删除文件时鼠标指针的位置。

@@ -13,11 +13,14 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
+using WindowsTools.Extensions.DataType.Enums;
+using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.UI.Backdrop;
+using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Pages;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Comctl32;
@@ -161,6 +164,7 @@ namespace WindowsTools.Views.Windows
             {
                 User32Library.ChangeWindowMessageFilter(WindowMessage.WM_DROPFILES, ChangeFilterFlags.MSGFLT_ADD);
                 User32Library.ChangeWindowMessageFilter(WindowMessage.WM_COPYGLOBALDATA, ChangeFilterFlags.MSGFLT_ADD);
+                User32Library.ChangeWindowMessageFilter(WindowMessage.WM_PINNOTIFY, ChangeFilterFlags.MSGFLT_ADD);
                 Shell32Library.DragAcceptFiles(Handle, true);
             }
 
@@ -239,6 +243,7 @@ namespace WindowsTools.Views.Windows
                 {
                     User32Library.ChangeWindowMessageFilter(WindowMessage.WM_DROPFILES, ChangeFilterFlags.MSGFLT_REMOVE);
                     User32Library.ChangeWindowMessageFilter(WindowMessage.WM_COPYGLOBALDATA, ChangeFilterFlags.MSGFLT_REMOVE);
+                    User32Library.ChangeWindowMessageFilter(WindowMessage.WM_PINNOTIFY, ChangeFilterFlags.MSGFLT_REMOVE);
                 }
 
                 desktopWindowXamlSource.TakeFocusRequested -= OnTakeFocusRequested;
@@ -743,22 +748,30 @@ namespace WindowsTools.Views.Windows
                 // 提升权限时允许应用接收拖放消息
                 case WindowMessage.WM_DROPFILES:
                     {
-                        Task.Run(() =>
+                        List<string> filesList = [];
+                        char[] dragFileCharArray = new char[260];
+                        uint filesCount = Shell32Library.DragQueryFile(wParam, 0xffffffffu, null, 0);
+
+                        for (uint index = 0; index < filesCount; index++)
                         {
-                            List<string> filesList = [];
-                            StringBuilder stringBuilder = new(260);
-                            uint filesCount = Shell32Library.DragQueryFile(wParam, 0xffffffffu, null, 0);
-
-                            for (uint index = 0; index < filesCount; index++)
+                            Array.Clear(dragFileCharArray, 0, dragFileCharArray.Length);
+                            if (Shell32Library.DragQueryFile(wParam, index, dragFileCharArray, (uint)dragFileCharArray.Length) > 0)
                             {
-                                if (Shell32Library.DragQueryFile(wParam, index, stringBuilder, (uint)stringBuilder.Length) is 0)
-                                {
-                                    filesList.Add(stringBuilder.ToString());
-                                }
+                                filesList.Add(new string(dragFileCharArray).Replace("\0", string.Empty));
                             }
+                        }
 
-                            Shell32Library.DragQueryPoint(wParam, out Point point);
-                            Shell32Library.DragFinish(wParam);
+                        Shell32Library.DragQueryPoint(wParam, out Point point);
+                        Shell32Library.DragFinish(wParam);
+
+                        BeginInvoke(async () =>
+                        {
+                            await (Content as MainPage).SendReceivedFilesListAsync(filesList);
+                        });
+
+                        break;
+                    }
+                // 固定应用到任务栏完成提示窗口消息
                 case WindowMessage.WM_PINNOTIFY:
                     {
                         if (wParam == new UIntPtr(1))
