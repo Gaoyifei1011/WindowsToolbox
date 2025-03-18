@@ -66,7 +66,6 @@ namespace WindowsTools
 
                     windowXamlManager.Dispose();
                     windowXamlManager = null;
-                    GlobalNotificationService.SendNotification();
                     DownloadSchedulerService.TerminateDownload();
                     DownloadSchedulerService.CloseDownloadScheduler();
                     System.Windows.Forms.Application.Exit();

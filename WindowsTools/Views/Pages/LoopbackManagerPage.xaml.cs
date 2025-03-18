@@ -164,7 +164,6 @@ namespace WindowsTools.Views.Pages
                 IsLoadCompleted = false;
                 IsSaved = false;
                 await GetLoopbackDataAsync();
-                GlobalNotificationService.ApplicationExit += OnApplicationExit;
             }
         }
 
@@ -336,25 +335,6 @@ namespace WindowsTools.Views.Pages
         }
 
         #endregion 第二部分：网络回环管理页面——挂载的事件
-
-        #region 第三部分：自定义事件
-
-        /// <summary>
-        /// 应用程序退出时触发的事件
-        /// </summary>
-        private void OnApplicationExit(object sender, EventArgs args)
-        {
-            try
-            {
-                GlobalNotificationService.ApplicationExit -= OnApplicationExit;
-            }
-            catch (Exception e)
-            {
-                LogService.WriteLog(EventLevel.Error, "Release loopback manager resources failed", e);
-            }
-        }
-
-        #endregion 第三部分：自定义事件
 
         /// <summary>
         /// 获取应用数据

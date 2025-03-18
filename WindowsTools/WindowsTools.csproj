@@ -258,11 +258,18 @@
     <EmbeddedResource Update="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
 
     <None Update="Assets\WindowsTools.ico" CopyToOutputDirectory="Never" />
+
     <None Remove="Styles\XamlIslands\Button.xaml" />
     <None Remove="Styles\XamlIslands\DateTimePicker.xaml" />
     <None Remove="Styles\XamlIslands\TimePicker.xaml" />
-    <None Remove="UI\Dialogs\NeedElevatedDialog.xaml" />
+    <None Update="UI\Dialogs\AppInformationDialog.xaml" />
+    <None Remove="UI\Dialogs\ClosingWindowDialog.xaml" />
+    <None Remove="UI\Dialogs\FileCheckDialog.xaml" />
+    <None Remove="UI\Dialogs\LicenseDialog.xaml" />
+    <None Update="UI\Dialogs\NeedElevatedDialog.xaml" />
     <None Remove="UI\Dialogs\OpenStartupTaskFailedDialog.xaml" />
+    <None Remove="UI\Dialogs\OperationFailedDialog.xaml" />
+    <None Update="UI\Dialogs\RestartAppsDialog.xaml" />
     <None Remove="UI\TeachingTips\AppInformationDialog.xaml" />
     <None Remove="UI\TeachingTips\FileCheckDialog.xaml" />
     <None Remove="UI\TeachingTips\LicenseDialog.xaml" />
@@ -299,10 +306,12 @@
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" GeneratePathProperty="true" IncludeAssets="none" />
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1742" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
+    
     <Page Include="Styles\XamlIslands\Button.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\DateTimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\TimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="UI\Dialogs\ClosingWindowDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\FileCheckDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\NeedElevatedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

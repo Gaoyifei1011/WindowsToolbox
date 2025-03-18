@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -25,6 +24,7 @@ namespace WindowsTools.UI.Backdrop
     public sealed partial class MicaBrush : XamlCompositionBrushBase
     {
         private const int PBT_POWERSETTINGCHANGE = 0x8013;
+        private static Guid micaBackdropBrushGuid = new("0D8FB190-F122-5B8D-9FDD-543B0D8EB7F3");
 
         private bool isConnected;
         private bool isActivated = true;
@@ -75,7 +75,7 @@ namespace WindowsTools.UI.Backdrop
         {
             get
             {
-                return ApiInformation.IsMethodPresent(typeof(Compositor).FullName, nameof(Compositor.TryCreateBlurredWallpaperBackdropBrush));
+                return Marshal.QueryInterface(Marshal.GetIUnknownForObject(Window.Current.Compositor), ref micaBackdropBrushGuid, out _) is 0;
             }
         }
 

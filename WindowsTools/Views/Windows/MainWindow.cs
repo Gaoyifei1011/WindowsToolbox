@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.UI.Xaml;
@@ -16,16 +16,19 @@ using Windows.UI.Xaml.Media;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
+using WindowsTools.Models;
 using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.UI.Backdrop;
+using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Pages;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Comctl32;
 using WindowsTools.WindowsAPI.PInvoke.Dwmapi;
 using WindowsTools.WindowsAPI.PInvoke.Gdi32;
+using WindowsTools.WindowsAPI.PInvoke.PinToTaskbar;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 using WindowsTools.WindowsAPI.PInvoke.Uxtheme;
@@ -227,33 +230,83 @@ namespace WindowsTools.Views.Windows
         /// <summary>
         /// 关闭窗口时恢复默认状态
         /// </summary>
-        protected override void OnFormClosing(FormClosingEventArgs args)
+        protected override async void OnFormClosing(FormClosingEventArgs args)
         {
             base.OnFormClosing(args);
 
-            // 如果有正在下载的任务，将窗口放到托盘区域
-            if (DownloadSchedulerService.GetDownloadSchedulerList().Count > 0)
+            if (Current is not null)
             {
                 args.Cancel = true;
-                Hide();
-            }
-            else
-            {
-                if (RuntimeHelper.IsElevated)
+
+                List<DownloadSchedulerModel> downloadSchedulerList = null;
+                DownloadSchedulerService.DownloadSchedulerSemaphoreSlim?.Wait();
+                try
                 {
-                    User32Library.ChangeWindowMessageFilter(WindowMessage.WM_DROPFILES, ChangeFilterFlags.MSGFLT_REMOVE);
-                    User32Library.ChangeWindowMessageFilter(WindowMessage.WM_COPYGLOBALDATA, ChangeFilterFlags.MSGFLT_REMOVE);
-                    User32Library.ChangeWindowMessageFilter(WindowMessage.WM_PINNOTIFY, ChangeFilterFlags.MSGFLT_REMOVE);
+                    downloadSchedulerList = DownloadSchedulerService.GetDownloadSchedulerList();
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Query download scheduler list failed", e);
+                }
+                finally
+                {
+                    DownloadSchedulerService.DownloadSchedulerSemaphoreSlim?.Release();
                 }
 
-                desktopWindowXamlSource.TakeFocusRequested -= OnTakeFocusRequested;
-                ThemeService.PropertyChanged -= OnServicePropertyChanged;
-                BackdropService.PropertyChanged -= OnServicePropertyChanged;
-                TopMostService.PropertyChanged -= OnServicePropertyChanged;
-                desktopWindowXamlSource.Dispose();
+                // 下载队列存在任务时，弹出对话窗口确认是否要关闭窗口
+                if (downloadSchedulerList is not null && downloadSchedulerList.Count > 0)
+                {
+                    Show();
 
-                Current = null;
-                (global::Windows.UI.Xaml.Application.Current as XamlIslandsApp).Dispose();
+                    // 关闭窗口提示对话框是否已经处于打开状态，如果是，不再弹出
+                    ContentDialogResult result = await ContentDialogHelper.ShowAsync(new ClosingWindowDialog(), Content as FrameworkElement);
+
+                    if (result is ContentDialogResult.Primary)
+                    {
+                        if (RuntimeHelper.IsElevated)
+                        {
+                            User32Library.ChangeWindowMessageFilter(WindowMessage.WM_DROPFILES, ChangeFilterFlags.MSGFLT_REMOVE);
+                            User32Library.ChangeWindowMessageFilter(WindowMessage.WM_COPYGLOBALDATA, ChangeFilterFlags.MSGFLT_REMOVE);
+                            User32Library.ChangeWindowMessageFilter(WindowMessage.WM_PINNOTIFY, ChangeFilterFlags.MSGFLT_REMOVE);
+                        }
+
+                        desktopWindowXamlSource.TakeFocusRequested -= OnTakeFocusRequested;
+                        ThemeService.PropertyChanged -= OnServicePropertyChanged;
+                        BackdropService.PropertyChanged -= OnServicePropertyChanged;
+                        TopMostService.PropertyChanged -= OnServicePropertyChanged;
+                        desktopWindowXamlSource.Dispose();
+                        PinToTaskbarLibrary.StopHook();
+
+                        Current = null;
+                        (global::Windows.UI.Xaml.Application.Current as XamlIslandsApp).Dispose();
+                    }
+                    else if (result is ContentDialogResult.Secondary)
+                    {
+                        if (!(Content as MainPage).GetCurrentPageType().Equals(typeof(DownloadManagerPage)))
+                        {
+                            (Content as MainPage).NavigateTo(typeof(DownloadManagerPage));
+                        }
+                    }
+                }
+                else
+                {
+                    if (RuntimeHelper.IsElevated)
+                    {
+                        User32Library.ChangeWindowMessageFilter(WindowMessage.WM_DROPFILES, ChangeFilterFlags.MSGFLT_REMOVE);
+                        User32Library.ChangeWindowMessageFilter(WindowMessage.WM_COPYGLOBALDATA, ChangeFilterFlags.MSGFLT_REMOVE);
+                        User32Library.ChangeWindowMessageFilter(WindowMessage.WM_PINNOTIFY, ChangeFilterFlags.MSGFLT_REMOVE);
+                    }
+
+                    desktopWindowXamlSource.TakeFocusRequested -= OnTakeFocusRequested;
+                    ThemeService.PropertyChanged -= OnServicePropertyChanged;
+                    BackdropService.PropertyChanged -= OnServicePropertyChanged;
+                    TopMostService.PropertyChanged -= OnServicePropertyChanged;
+                    PinToTaskbarLibrary.StopHook();
+                    desktopWindowXamlSource.Dispose();
+
+                    Current = null;
+                    (global::Windows.UI.Xaml.Application.Current as XamlIslandsApp).Dispose();
+                }
             }
         }
 
@@ -748,25 +801,28 @@ namespace WindowsTools.Views.Windows
                 // 提升权限时允许应用接收拖放消息
                 case WindowMessage.WM_DROPFILES:
                     {
-                        List<string> filesList = [];
-                        char[] dragFileCharArray = new char[260];
-                        uint filesCount = Shell32Library.DragQueryFile(wParam, 0xffffffffu, null, 0);
-
-                        for (uint index = 0; index < filesCount; index++)
+                        Task.Run(() =>
                         {
-                            Array.Clear(dragFileCharArray, 0, dragFileCharArray.Length);
-                            if (Shell32Library.DragQueryFile(wParam, index, dragFileCharArray, (uint)dragFileCharArray.Length) > 0)
+                            List<string> filesList = [];
+                            char[] dragFileCharArray = new char[260];
+                            uint filesCount = Shell32Library.DragQueryFile(wParam, 0xffffffffu, null, 0);
+
+                            for (uint index = 0; index < filesCount; index++)
                             {
-                                filesList.Add(new string(dragFileCharArray).Replace("\0", string.Empty));
+                                Array.Clear(dragFileCharArray, 0, dragFileCharArray.Length);
+                                if (Shell32Library.DragQueryFile(wParam, index, dragFileCharArray, (uint)dragFileCharArray.Length) > 0)
+                                {
+                                    filesList.Add(new string(dragFileCharArray).Replace("\0", string.Empty));
+                                }
                             }
-                        }
 
-                        Shell32Library.DragQueryPoint(wParam, out Point point);
-                        Shell32Library.DragFinish(wParam);
+                            Shell32Library.DragQueryPoint(wParam, out Point point);
+                            Shell32Library.DragFinish(wParam);
 
-                        BeginInvoke(async () =>
-                        {
-                            await (Content as MainPage).SendReceivedFilesListAsync(filesList);
+                            BeginInvoke(async () =>
+                            {
+                                await (Content as MainPage).SendReceivedFilesListAsync(filesList);
+                            });
                         });
 
                         break;
