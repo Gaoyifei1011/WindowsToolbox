@@ -151,15 +151,23 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 将应用固定到任务栏
         /// </summary>
-        private void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
+        private async void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
         {
             IntPtr handle = MainWindow.Current.Handle;
+            bool isPinnedExceptionOccured = false;
 
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 try
                 {
                     string linkPath = Path.Combine(Path.GetTempPath(), string.Format(@"{0}.lnk", ResourceService.AboutResource.GetString("AppName")));
+
+                    if (System.IO.File.Exists(linkPath))
+                    {
+                        System.IO.File.Delete(linkPath);
+                    }
+
+                    // 保存新快捷方式
                     WshShell shell = new();
                     WshShortcut appShortcut = (WshShortcut)shell.CreateShortcut(linkPath);
                     uint aumidLength = 260;
@@ -168,7 +176,7 @@ namespace WindowsTools.Views.Pages
                     appShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", aumidBuilder.ToString());
                     appShortcut.Save();
 
-                    // 获取资源管理器线程 ID
+                    // 获取资源管理器线程 ID 并开始注入
                     int explorerThreadId = GetExplorerThreadId();
                     PinToTaskbarLibrary.StartHook((uint)explorerThreadId);
                     IntPtr hMapFile = Kernel32Library.CreateFileMapping(new IntPtr(-1), IntPtr.Zero, PAGE_PROTECTION.PAGE_READWRITE, 0, 1024, "PinSharedMemory");
@@ -189,13 +197,14 @@ namespace WindowsTools.Views.Pages
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Error, "Pin app to taskbar failed.", e);
-                }
-                finally
-                {
-                    //PinToTaskbarLibrary.StopHook();
-                    //await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.Taskbar, isPinnedSuccessfully));
+                    isPinnedExceptionOccured = true;
                 }
             });
+
+            if (isPinnedExceptionOccured)
+            {
+                await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.Taskbar, false));
+            }
         }
 
         /// <summary>

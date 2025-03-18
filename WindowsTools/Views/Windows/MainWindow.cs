@@ -759,12 +759,15 @@ namespace WindowsTools.Views.Windows
 
                             Shell32Library.DragQueryPoint(wParam, out Point point);
                             Shell32Library.DragFinish(wParam);
+                case WindowMessage.WM_PINNOTIFY:
+                    {
+                        if (wParam == new UIntPtr(1))
+                        {
                             BeginInvoke(async () =>
                             {
-                                await (Content as MainPage).SendReceivedFilesListAsync(filesList);
+                                await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.Taskbar, true));
                             });
-                        });
-
+                        }
                         break;
                     }
             }
@@ -1053,14 +1056,14 @@ namespace WindowsTools.Views.Windows
                         // 不关心右键，将它们传递给主窗口
                         return User32Library.SendMessage(Handle, Msg, wParam, lParam);
                     }
-                // 处理非客户区右键双击的窗口消息
-                case WindowMessage.WM_NCRBUTTONDBLCLK:
+                // 处理非客户区右键释放的窗口消息
+                case WindowMessage.WM_NCRBUTTONUP:
                     {
                         // 不关心右键，将它们传递给主窗口
                         return User32Library.SendMessage(Handle, Msg, wParam, lParam);
                     }
-                // 处理非客户区右键释放的窗口消息
-                case WindowMessage.WM_NCRBUTTONUP:
+                // 处理非客户区右键双击的窗口消息
+                case WindowMessage.WM_NCRBUTTONDBLCLK:
                     {
                         // 不关心右键，将它们传递给主窗口
                         return User32Library.SendMessage(Handle, Msg, wParam, lParam);
