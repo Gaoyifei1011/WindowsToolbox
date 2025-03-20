@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.Globalization;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using WindowsTools.Helpers.Root;
@@ -13,6 +14,7 @@ using WindowsTools.Services.Root;
 using WindowsTools.Services.Shell;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
+using WindowsTools.WindowsAPI.PInvoke.Kernel32;
 
 // 抑制 CA1806 警告
 #pragma warning disable CA1806
@@ -50,7 +52,10 @@ namespace WindowsTools
             {
                 if (RuntimeHelper.IsElevated && args.Length is 1 && args[0] is "--elevated")
                 {
-                    applicationActivationManager.ActivateApplication("Gaoyifei1011.WindowsTools_pystbwmrmew8c!WindowsTools", string.Empty, ACTIVATEOPTIONS.AO_NONE, out uint _);
+                    uint aumidLength = 260;
+                    StringBuilder aumidBuilder = new((int)aumidLength);
+                    Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
+                    applicationActivationManager.ActivateApplication(aumidBuilder.ToString(), string.Empty, ACTIVATEOPTIONS.AO_NONE, out uint _);
                     return;
                 }
             }
