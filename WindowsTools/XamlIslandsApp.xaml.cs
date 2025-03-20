@@ -59,11 +59,6 @@ namespace WindowsTools
                 isDisposed = true;
                 if (disposing)
                 {
-                    if (MainWindow.Current is not null && !MainWindow.Current.IsDisposed)
-                    {
-                        MainWindow.Current?.Close();
-                    }
-
                     windowXamlManager.Dispose();
                     windowXamlManager = null;
                     DownloadSchedulerService.TerminateDownload();
