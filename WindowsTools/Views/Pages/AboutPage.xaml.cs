@@ -28,8 +28,8 @@ using WindowsTools.WindowsAPI.PInvoke.Kernel32;
 using WindowsTools.WindowsAPI.PInvoke.PinToTaskbar;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
-// 抑制 CA1806，IDE0060 警告
-#pragma warning disable CA1806,IDE0060
+// 抑制 CA1806，CA1822，IDE0060 警告
+#pragma warning disable CA1806,CA1822,IDE0060
 
 namespace WindowsTools.Views.Pages
 {
@@ -110,7 +110,7 @@ namespace WindowsTools.Views.Pages
                 }
             });
 
-            await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.Desktop, isCreatedSuccessfully));
+            await MainWindow.Current.ShowNotificationAsync(new QuickOperationTip(QuickOperationKind.Desktop, isCreatedSuccessfully));
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace WindowsTools.Views.Pages
             }
             finally
             {
-                await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.StartScreen, isPinnedSuccessfully));
+                await MainWindow.Current.ShowNotificationAsync(new QuickOperationTip(QuickOperationKind.StartScreen, isPinnedSuccessfully));
             }
         }
 
@@ -203,7 +203,7 @@ namespace WindowsTools.Views.Pages
 
             if (isPinnedExceptionOccured)
             {
-                await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.Taskbar, false));
+                await MainWindow.Current.ShowNotificationAsync(new QuickOperationTip(QuickOperationKind.Taskbar, false));
             }
         }
 
@@ -368,7 +368,7 @@ namespace WindowsTools.Views.Pages
                 });
 
                 IsChecking = false;
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.CheckUpdate, result.Item2));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.CheckUpdate, result.Item2));
             }
         }
 

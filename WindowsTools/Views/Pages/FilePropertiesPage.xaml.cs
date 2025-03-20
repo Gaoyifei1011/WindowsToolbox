@@ -19,6 +19,7 @@ using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
+using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 
 // 抑制 IDE0060 警告
@@ -317,7 +318,7 @@ namespace WindowsTools.Views.Pages
 
                     if (count is 0)
                     {
-                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ListEmpty));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ListEmpty));
                     }
                     else
                     {
@@ -326,7 +327,7 @@ namespace WindowsTools.Views.Pages
                 }
                 else
                 {
-                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.NoOperation));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.NoOperation));
                 }
             }
             else if (args.Key is VirtualKey.Control && args.Key is VirtualKey.Enter)
@@ -345,7 +346,7 @@ namespace WindowsTools.Views.Pages
 
                     if (count is 0)
                     {
-                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ListEmpty));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ListEmpty));
                     }
                     else
                     {
@@ -355,7 +356,7 @@ namespace WindowsTools.Views.Pages
                 }
                 else
                 {
-                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.NoOperation));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.NoOperation));
                 }
             }
         }
@@ -412,7 +413,7 @@ namespace WindowsTools.Views.Pages
 
                 if (count is 0)
                 {
-                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ListEmpty));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ListEmpty));
                 }
                 else
                 {
@@ -421,7 +422,7 @@ namespace WindowsTools.Views.Pages
             }
             else
             {
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.NoOperation));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.NoOperation));
             }
         }
 
@@ -443,7 +444,7 @@ namespace WindowsTools.Views.Pages
 
                 if (count is 0)
                 {
-                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ListEmpty));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ListEmpty));
                 }
                 else
                 {
@@ -453,7 +454,7 @@ namespace WindowsTools.Views.Pages
             }
             else
             {
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.NoOperation));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.NoOperation));
             }
         }
 
@@ -763,7 +764,7 @@ namespace WindowsTools.Views.Pages
                 FilePropertiesCollection.Clear();
             }
 
-            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
         }
     }
 }

@@ -19,7 +19,6 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Extensions.ShellMenu;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
@@ -638,7 +637,7 @@ namespace WindowsTools.Views.Pages
             // 菜单数据已发生更改，通知用户手动刷新
             if (needToRefreshData)
             {
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 
@@ -646,7 +645,7 @@ namespace WindowsTools.Views.Pages
             if (string.IsNullOrEmpty(MenuTitleText))
             {
                 MenuTitleTextBox.Focus(FocusState.Programmatic);
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.MenuTitleEmpty));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.MenuTitleEmpty));
                 return;
             }
 
@@ -657,14 +656,14 @@ namespace WindowsTools.Views.Pages
                     if (string.IsNullOrEmpty(LightThemeIconPath))
                     {
                         MenuLigthThemeIconBrowserButton.Focus(FocusState.Programmatic);
-                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.MenuLightThemeIconPathEmpty));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.MenuLightThemeIconPathEmpty));
                         return;
                     }
 
                     if (string.IsNullOrEmpty(DarkThemeIconPath))
                     {
                         MenuDarkThemeIconBrowserButton.Focus(FocusState.Programmatic);
-                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.MenuDarkThemeIconPathEmpty));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.MenuDarkThemeIconPathEmpty));
                         return;
                     }
                 }
@@ -673,7 +672,7 @@ namespace WindowsTools.Views.Pages
                     if (string.IsNullOrEmpty(DefaultIconPath))
                     {
                         MenuDefaultIconBrowserButton.Focus(FocusState.Programmatic);
-                        await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.MenuDefaultIconPathEmpty));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.MenuDefaultIconPathEmpty));
                         return;
                     }
                 }
@@ -682,14 +681,14 @@ namespace WindowsTools.Views.Pages
             if (string.IsNullOrEmpty(MenuProgramPathText))
             {
                 MenuProgramBrowserButton.Focus(FocusState.Programmatic);
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.MenuProgramPathEmpty));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.MenuProgramPathEmpty));
                 return;
             }
 
             if ((SelectedFileMatchRule.Equals(FileMatchRuleList[1]) || SelectedFileMatchRule.Equals(FileMatchRuleList[2]) || SelectedFileMatchRule.Equals(FileMatchRuleList[3])) && string.IsNullOrEmpty(MenuFileMatchFormatText))
             {
                 MenuFileMatchFormatTextBox.Focus(FocusState.Programmatic);
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.MenuMatchRuleEmpty));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.MenuMatchRuleEmpty));
                 return;
             }
 
@@ -827,7 +826,7 @@ namespace WindowsTools.Views.Pages
             // 菜单数据已发生更改，通知用户手动刷新
             if (needToRefreshData)
             {
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 
@@ -891,7 +890,7 @@ namespace WindowsTools.Views.Pages
             // 菜单数据已发生更改，通知用户手动刷新
             if (needToRefreshData)
             {
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 
@@ -935,7 +934,7 @@ namespace WindowsTools.Views.Pages
             // 菜单数据已发生更改，通知用户手动刷新
             if (needToRefreshData)
             {
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 
@@ -1015,7 +1014,7 @@ namespace WindowsTools.Views.Pages
             // 菜单数据已发生更改，通知用户手动刷新
             if (needToRefreshData)
             {
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 
@@ -1121,7 +1120,7 @@ namespace WindowsTools.Views.Pages
             // 菜单数据已发生更改，通知用户手动刷新
             if (needToRefreshData)
             {
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 
@@ -1136,7 +1135,7 @@ namespace WindowsTools.Views.Pages
             // 菜单数据已发生更改，通知用户手动刷新
             if (needToRefreshData)
             {
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 

@@ -238,7 +238,7 @@ namespace WindowsTools.Views.Pages
                 }
 
                 LanguageService.SetLanguage(AppLanguage);
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.LanguageChange));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.LanguageChange));
             }
         }
 
@@ -557,7 +557,7 @@ namespace WindowsTools.Views.Pages
         private async void OnClearClicked(object sender, RoutedEventArgs args)
         {
             bool result = await LogService.ClearLogAsync();
-            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.LogClean, result));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.LogClean, result));
         }
 
         /// <summary>

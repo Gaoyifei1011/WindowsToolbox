@@ -20,10 +20,10 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.UI.TeachingTips;
+using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.Rstrtmgr;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
@@ -236,7 +236,7 @@ namespace WindowsTools.Views.Pages
                     }
                 }
 
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.TerminateProcess, result));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.TerminateProcess, result));
             }
         }
 

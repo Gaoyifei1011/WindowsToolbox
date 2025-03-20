@@ -19,11 +19,11 @@ using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Extensions.DataType.Methods;
 using WindowsTools.Extensions.PriExtract;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.UI.TeachingTips;
+using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 
@@ -380,7 +380,7 @@ namespace WindowsTools.Views.Pages
             if (args.Parameter is StringModel stringItem)
             {
                 bool copyResult = CopyPasteHelper.CopyToClipboard(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
-                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.String, copyResult, false));
+                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.String, copyResult, false));
             }
         }
 
@@ -392,7 +392,7 @@ namespace WindowsTools.Views.Pages
             if (args.Parameter is FilePathModel filePathItem)
             {
                 bool copyResult = CopyPasteHelper.CopyToClipboard(string.Format("Key:{0}, FilePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
-                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.String, copyResult, false));
+                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.String, copyResult, false));
             }
         }
 
@@ -648,7 +648,7 @@ namespace WindowsTools.Views.Pages
                     copyStringBuilder.AppendLine(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
                 }
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyStringBuilder.ToString());
-                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, selectedStringList.Count));
+                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, selectedStringList.Count));
             }
             IsProcessing = false;
         }
@@ -668,7 +668,7 @@ namespace WindowsTools.Views.Pages
                     copyFilePathBuilder.AppendLine(string.Format("Key:{0}, AbsolutePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
                 }
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyFilePathBuilder.ToString());
-                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, selectedFilePathList.Count));
+                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, selectedFilePathList.Count));
             }
             IsProcessing = false;
         }
@@ -734,7 +734,7 @@ namespace WindowsTools.Views.Pages
                     copyStringBuilder.AppendLine(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
                 }
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyStringBuilder.ToString());
-                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, copyAllStringList.Count));
+                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, copyAllStringList.Count));
             }
             IsProcessing = false;
         }
@@ -754,7 +754,7 @@ namespace WindowsTools.Views.Pages
                     copyFilePathBuilder.AppendLine(string.Format("Key:{0}, AbsolutePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
                 }
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyFilePathBuilder.ToString());
-                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, copyAllFilePathList.Count));
+                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, copyAllFilePathList.Count));
             }
             IsProcessing = false;
         }

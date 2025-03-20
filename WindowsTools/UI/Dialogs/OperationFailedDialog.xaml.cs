@@ -3,11 +3,11 @@ using System.Text;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.UI.TeachingTips;
+using WindowsTools.Views.Windows;
 
 // 抑制 CA1822，IDE0060 警告
 #pragma warning disable CA1822,IDE0060
@@ -48,7 +48,7 @@ namespace WindowsTools.UI.Dialogs
                 builder.Append(ResourceService.DialogResource.GetString("ExceptionCode"));
                 builder.AppendLine(operationFailedItem.Exception.HResult.ToString());
                 bool copyResult = CopyPasteHelper.CopyToClipboard(builder.ToString());
-                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, false));
+                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, false));
             }
         }
 
@@ -74,7 +74,7 @@ namespace WindowsTools.UI.Dialogs
             }
             bool copyResult = CopyPasteHelper.CopyToClipboard(builder.ToString());
             sender.Hide();
-            await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, true, OperationFailedCollection.Count));
+            await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, true, OperationFailedCollection.Count));
         }
     }
 }

@@ -19,6 +19,7 @@ using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
+using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Imagehlp;
 
@@ -154,7 +155,7 @@ namespace WindowsTools.Views.Pages
 
                 if (count is 0)
                 {
-                    await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ListEmpty));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ListEmpty));
                 }
                 else
                 {
@@ -194,7 +195,7 @@ namespace WindowsTools.Views.Pages
 
             if (count is 0)
             {
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ListEmpty));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ListEmpty));
             }
             else
             {
@@ -393,7 +394,7 @@ namespace WindowsTools.Views.Pages
                 FileCertificateCollection.Clear();
             }
 
-            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
         }
     }
 }

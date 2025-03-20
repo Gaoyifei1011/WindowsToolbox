@@ -24,6 +24,7 @@ using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
 using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
+using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
@@ -483,12 +484,12 @@ namespace WindowsTools.Views.Pages
         {
             if (IsAutoSwitchSystemThemeValue && SystemThemeLightTime.Equals(SystemThemeDarkTime))
             {
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ThemeChangeSameTime));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ThemeChangeSameTime));
                 return;
             }
             else if (IsAutoSwitchAppThemeValue && AppThemeLightTime.Equals(AppThemeDarkTime))
             {
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.ThemeChangeSameTime));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ThemeChangeSameTime));
                 return;
             }
 
@@ -577,7 +578,7 @@ namespace WindowsTools.Views.Pages
             });
 
             IsSwitchThemeNotificationEnabled = AutoSwitchThemeService.AutoSwitchThemeEnableValue && !await Task.Run(GetStartupTaskEnabledAsync);
-            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.SwitchThemeSaveResult));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.SwitchThemeSaveResult));
         }
 
         /// <summary>
@@ -630,7 +631,7 @@ namespace WindowsTools.Views.Pages
             AppThemeDarkTime = AutoSwitchThemeService.DefaultAppThemeDarkTime;
             IsSwitchThemeNotificationEnabled = AutoSwitchThemeService.AutoSwitchThemeEnableValue && !await Task.Run(GetStartupTaskEnabledAsync);
 
-            await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.SwitchThemeRestoreResult));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.SwitchThemeRestoreResult));
         }
 
         /// <summary>

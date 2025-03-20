@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Root;
 using WindowsTools.UI.TeachingTips;
+using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.KernelAppCore;
 
 // 抑制 CA1806，IDE0060 警告
@@ -107,7 +107,7 @@ namespace WindowsTools.UI.Dialogs
 
             bool copyResult = CopyPasteHelper.CopyToClipboard(stringBuilder.ToString());
             sender.Hide();
-            await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.AppInformation, copyResult));
+            await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.AppInformation, copyResult));
         }
     }
 }

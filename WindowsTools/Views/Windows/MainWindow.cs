@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -50,13 +51,14 @@ namespace WindowsTools.Views.Windows
         private readonly int lightTintColor = ColorTranslator.ToWin32(Color.FromArgb(243, 243, 243));
         private readonly int darkTintColor = ColorTranslator.ToWin32(Color.FromArgb(32, 32, 32));
         private readonly Container container = new();
-        private readonly DesktopWindowXamlSource desktopWindowXamlSource = new();
         private readonly WNDPROC TitleBarWndProc;
         private readonly SUBCLASSPROC windowClassProc;
 
         private readonly bool isDarkTheme = false;
         private bool trackingMouse = false;
         private int nativeTopBorderHeight = 1;
+
+        private DesktopWindowXamlSource desktopWindowXamlSource = new();
 
         public bool ExtendsContentIntoTitleBar { get; set; } = true;
 
@@ -200,8 +202,12 @@ namespace WindowsTools.Views.Windows
         protected override void OnActivated(EventArgs args)
         {
             base.OnActivated(args);
-            (Content as MainPage).ChangeButtonActiveState(true);
-            VisualStateManager.GoToState(Content as MainPage, "TitlebarTitleActivate", false);
+
+            if (desktopWindowXamlSource is not null)
+            {
+                (Content as MainPage).ChangeButtonActiveState(true);
+                VisualStateManager.GoToState(Content as MainPage, "TitlebarTitleActivate", false);
+            }
         }
 
         /// <summary>
@@ -210,8 +216,12 @@ namespace WindowsTools.Views.Windows
         protected override void OnDeactivate(EventArgs args)
         {
             base.OnDeactivate(args);
-            (Content as MainPage).ChangeButtonActiveState(false);
-            VisualStateManager.GoToState(Content as MainPage, "TitlebarTitleDeactive", false);
+
+            if (desktopWindowXamlSource is not null)
+            {
+                (Content as MainPage).ChangeButtonActiveState(false);
+                VisualStateManager.GoToState(Content as MainPage, "TitlebarTitleDeactive", false);
+            }
         }
 
         /// <summary>
@@ -274,10 +284,11 @@ namespace WindowsTools.Views.Windows
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
                         BackdropService.PropertyChanged -= OnServicePropertyChanged;
                         TopMostService.PropertyChanged -= OnServicePropertyChanged;
-                        desktopWindowXamlSource.Dispose();
                         PinToTaskbarLibrary.StopHook();
 
                         Current = null;
+                        desktopWindowXamlSource.Dispose();
+                        desktopWindowXamlSource = null;
                         (global::Windows.UI.Xaml.Application.Current as XamlIslandsApp).Dispose();
                     }
                     else if (result is ContentDialogResult.Secondary)
@@ -302,9 +313,10 @@ namespace WindowsTools.Views.Windows
                     BackdropService.PropertyChanged -= OnServicePropertyChanged;
                     TopMostService.PropertyChanged -= OnServicePropertyChanged;
                     PinToTaskbarLibrary.StopHook();
-                    desktopWindowXamlSource.Dispose();
 
                     Current = null;
+                    desktopWindowXamlSource.Dispose();
+                    desktopWindowXamlSource = null;
                     (global::Windows.UI.Xaml.Application.Current as XamlIslandsApp).Dispose();
                 }
             }
@@ -834,7 +846,7 @@ namespace WindowsTools.Views.Windows
                         {
                             BeginInvoke(async () =>
                             {
-                                await TeachingTipHelper.ShowAsync(new QuickOperationTip(QuickOperationKind.Taskbar, true));
+                                await ShowNotificationAsync(new QuickOperationTip(QuickOperationKind.Taskbar, true));
                             });
                         }
                         break;
@@ -1356,5 +1368,35 @@ namespace WindowsTools.Views.Windows
         }
 
         #endregion 第四部分：窗口属性设置
+
+        #region 第五部分：显示对话框和应用通知
+
+        /// <summary>
+        /// 使用教学提示显示应用内通知
+        /// </summary>
+        public async Task ShowNotificationAsync(TeachingTip teachingTip, int duration = 2000)
+        {
+            if (teachingTip is not null && Content is Page page && page.Content is Grid grid)
+            {
+                try
+                {
+                    grid.Children.Add(teachingTip);
+
+                    teachingTip.IsOpen = true;
+                    await Task.Delay(duration);
+                    teachingTip.IsOpen = false;
+
+                    // 应用内通知关闭动画显示耗费 300 ms
+                    await Task.Delay(300);
+                    grid.Children.Remove(teachingTip);
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+            }
+        }
+
+        #endregion 第五部分：显示对话框和应用通知
     }
 }
