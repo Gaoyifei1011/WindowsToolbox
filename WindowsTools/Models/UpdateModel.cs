@@ -17,7 +17,7 @@ namespace WindowsTools.Models
         /// <summary>
         /// 驱动信息
         /// </summary>
-        public DriverInformation DriverInformation { get; set; }
+        public WindowsDriverInformation WindowsDriverInformation { get; set; }
 
         /// <summary>
         /// 更新历史记录信息

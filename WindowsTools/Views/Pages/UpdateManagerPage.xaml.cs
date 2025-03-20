@@ -18,11 +18,11 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Class;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.UI.TeachingTips;
+using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.ComTypes;
 using WUApiLib;
 
@@ -778,26 +778,26 @@ namespace WindowsTools.Views.Pages
                     if (updateItem.UpdateInformation.UpdateType is UpdateType.utDriver)
                     {
                         copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DeviceProblemNumber"));
-                        copyInformationBuilder.AppendLine(Convert.ToString(updateItem.DriverInformation.DeviceProblemNumber));
+                        copyInformationBuilder.AppendLine(Convert.ToString(updateItem.WindowsDriverInformation.DeviceProblemNumber));
                         copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverClass"));
-                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.DriverInformation.DriverClass) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.DriverInformation.DriverClass);
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverClass) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.WindowsDriverInformation.DriverClass);
                         copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverHardwareID"));
-                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.DriverInformation.DriverHardwareID) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.DriverInformation.DriverHardwareID);
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverHardwareID) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.WindowsDriverInformation.DriverHardwareID);
                         copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverManufacturer"));
-                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.DriverInformation.DriverManufacturer) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.DriverInformation.DriverManufacturer);
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverManufacturer) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.WindowsDriverInformation.DriverManufacturer);
                         copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverModel"));
-                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.DriverInformation.DriverModel) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.DriverInformation.DriverModel);
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverModel) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.WindowsDriverInformation.DriverModel);
                         copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverProvider"));
-                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.DriverInformation.DriverProvider) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.DriverInformation.DriverProvider);
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverProvider) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.WindowsDriverInformation.DriverProvider);
                         copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverVerDate"));
-                        copyInformationBuilder.AppendLine(updateItem.DriverInformation.DriverVerDate.ToString("yyyy/MM/dd"));
+                        copyInformationBuilder.AppendLine(updateItem.WindowsDriverInformation.DriverVerDate.ToString("yyyy/MM/dd"));
                     }
 
                     return copyInformationBuilder.ToString();
                 });
 
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyString);
-                await TeachingTipHelper.ShowAsync(new DataCopyTip(DataCopyKind.UpdateInformation, copyResult));
+                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.UpdateInformation, copyResult));
             }
         }
 
@@ -2246,7 +2246,7 @@ namespace WindowsTools.Views.Pages
                 }
 
                 IsPreviewChannelChangedNeedRebootPrompt = true;
-                await TeachingTipHelper.ShowAsync(new OperationResultTip(OperationKind.InsiderPreviewSettings));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.InsiderPreviewSettings));
             }
         }
 
@@ -2473,7 +2473,7 @@ namespace WindowsTools.Views.Pages
                                 IsUpdateCanceled = false,
                                 IsUpdatePreparing = false,
                                 UpdatePercentage = 0,
-                                DriverInformation = new DriverInformation(),
+                                WindowsDriverInformation = new WindowsDriverInformation(),
                                 DeviceProblemNumber = string.Empty,
                                 DriverClass = string.Empty,
                                 DriverHardwareID = string.Empty,
@@ -2494,7 +2494,7 @@ namespace WindowsTools.Views.Pages
 
                                 if (windowsDriverUpdate is not null)
                                 {
-                                    DriverInformation driverInformation = new()
+                                    WindowsDriverInformation windowsDriverInformation = new()
                                     {
                                         DeviceProblemNumber = windowsDriverUpdate.DeviceProblemNumber,
                                         DriverClass = windowsDriverUpdate.DriverClass,
@@ -2506,14 +2506,14 @@ namespace WindowsTools.Views.Pages
                                         WindowsDriverUpdate = windowsDriverUpdate
                                     };
 
-                                    updateItem.DriverInformation = driverInformation;
-                                    updateItem.DeviceProblemNumber = Convert.ToString(driverInformation.DeviceProblemNumber);
-                                    updateItem.DriverClass = string.IsNullOrEmpty(driverInformation.DriverClass) ? ResourceService.UpdateManagerResource.GetString("Unknown") : driverInformation.DriverClass;
-                                    updateItem.DriverHardwareID = string.IsNullOrEmpty(driverInformation.DriverHardwareID) ? ResourceService.UpdateManagerResource.GetString("Unknown") : driverInformation.DriverHardwareID;
-                                    updateItem.DriverManufacturer = string.IsNullOrEmpty(driverInformation.DriverManufacturer) ? ResourceService.UpdateManagerResource.GetString("Unknown") : driverInformation.DriverManufacturer;
-                                    updateItem.DriverModel = string.IsNullOrEmpty(driverInformation.DriverModel) ? ResourceService.UpdateManagerResource.GetString("Unknown") : driverInformation.DriverModel;
-                                    updateItem.DriverProvider = string.IsNullOrEmpty(driverInformation.DriverProvider) ? ResourceService.UpdateManagerResource.GetString("Unknown") : driverInformation.DriverProvider;
-                                    updateItem.DriverVerDate = driverInformation.DriverVerDate.ToString("yyyy/MM/dd");
+                                    updateItem.WindowsDriverInformation = windowsDriverInformation;
+                                    updateItem.DeviceProblemNumber = Convert.ToString(windowsDriverInformation.DeviceProblemNumber);
+                                    updateItem.DriverClass = string.IsNullOrEmpty(windowsDriverInformation.DriverClass) ? ResourceService.UpdateManagerResource.GetString("Unknown") : windowsDriverInformation.DriverClass;
+                                    updateItem.DriverHardwareID = string.IsNullOrEmpty(windowsDriverInformation.DriverHardwareID) ? ResourceService.UpdateManagerResource.GetString("Unknown") : windowsDriverInformation.DriverHardwareID;
+                                    updateItem.DriverManufacturer = string.IsNullOrEmpty(windowsDriverInformation.DriverManufacturer) ? ResourceService.UpdateManagerResource.GetString("Unknown") : windowsDriverInformation.DriverManufacturer;
+                                    updateItem.DriverModel = string.IsNullOrEmpty(windowsDriverInformation.DriverModel) ? ResourceService.UpdateManagerResource.GetString("Unknown") : windowsDriverInformation.DriverModel;
+                                    updateItem.DriverProvider = string.IsNullOrEmpty(windowsDriverInformation.DriverProvider) ? ResourceService.UpdateManagerResource.GetString("Unknown") : windowsDriverInformation.DriverProvider;
+                                    updateItem.DriverVerDate = windowsDriverInformation.DriverVerDate.ToString("yyyy/MM/dd");
                                 }
                             }
                             else

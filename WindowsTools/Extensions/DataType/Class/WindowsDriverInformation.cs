@@ -4,9 +4,9 @@ using WUApiLib;
 namespace WindowsTools.Extensions.DataType.Class
 {
     /// <summary>
-    /// 驱动条目信息
+    /// Windows 驱动条目信息
     /// </summary>
-    public class DriverInformation
+    public class WindowsDriverInformation
     {
         /// <summary>
         /// 驱动条目
