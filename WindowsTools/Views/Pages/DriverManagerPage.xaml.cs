@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using WindowsTools.Extensions.DataType.Class;
 using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
@@ -466,6 +468,7 @@ namespace WindowsTools.Views.Pages
                         dismDriverPackageArray[index] = Marshal.PtrToStructure<DismDriverPackage>(driverPackageOffsetPtr);
                     }
 
+                    List<SystemDriverInformation> systemDriverInformationList = [];
                     if (CfgMgr32Library.CM_Get_Device_ID_List_Size(out int deviceListSize, null, CM_GETIDLIST_FILTER.CM_GETIDLIST_FILTER_NONE) is CR.CR_SUCCESS)
                     {
                         byte[] deviceBuffer = new byte[deviceListSize * sizeof(char) + 2];
@@ -478,13 +481,37 @@ namespace WindowsTools.Views.Pages
                             {
                                 if (CfgMgr32Library.CM_Locate_DevNode(out uint devInst, deviceId, CM_LOCATE_DEVNODE_FLAGS.CM_LOCATE_DEVNODE_PHANTOM) is CR.CR_SUCCESS)
                                 {
+                                    object deviceGuid = GetDevNodeProperty("DEVPKEY_Device_ClassGuid", devInst);
                                     object deviceDesc = GetDevNodeProperty("DEVPKEY_Device_DeviceDesc", devInst);
                                     object driverInfPath = GetDevNodeProperty("DEVPKEY_Device_DriverInfPath", devInst);
                                     object driverDate = GetDevNodeProperty("DEVPKEY_Device_DriverDate", devInst);
                                     object driverVersion = GetDevNodeProperty("DEVPKEY_Device_DriverVersion", devInst);
+
+                                    systemDriverInformationList.Add(new SystemDriverInformation()
+                                    {
+                                        DeviceGuid = deviceGuid is null ? Guid.NewGuid() : Guid.TryParse(Convert.ToString(deviceGuid), out Guid guid) ? guid : Guid.NewGuid(),
+                                        Description = Convert.ToString(deviceDesc),
+                                        InfPath = Convert.ToString(driverInfPath),
+                                        Date = (DateTime)driverDate,
+                                        //                    Version = new Version((int)((driverVersion >> 48) & 0xFFFF), (int)((driverVersion >> 32) & 0xFFFF),
+                                        //(int)((driverVersion >> 16) & 0xFFFF),
+                                        //(int)((driverVersion >> 0) & 0xFFFF));
+                                    });
                                 }
                             }
                         }
+                    }
+
+                    List<DriverModel> driverList = [];
+                    foreach (DismDriverPackage dismDriverPackageItem in dismDriverPackageArray)
+                    {
+                        DriverModel driverItem = new()
+                        {
+                            DriverInfName = Path.GetFileName(dismDriverPackageItem.OriginalFileName),
+                            DriverOEMInfName = dismDriverPackageItem.ProviderName,
+                            DriverDate = new DateTime(dismDriverPackageItem.Date.Year, dismDriverPackageItem.Date.Month, dismDriverPackageItem.Date.Day, dismDriverPackageItem.Date.Hour, dismDriverPackageItem.Date.Minute, dismDriverPackageItem.Date.Second, dismDriverPackageItem.Date.Milliseconds),
+                            DriverVersion = new Version(Convert.ToInt32(dismDriverPackageItem.MajorVersion), Convert.ToInt32(dismDriverPackageItem.MinorVersion), Convert.ToInt32(dismDriverPackageItem.Build), Convert.ToInt32(dismDriverPackageItem.Revision)),
+                        };
                     }
                 }
                 catch (Exception e)

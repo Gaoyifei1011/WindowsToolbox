@@ -8,7 +8,6 @@
     xmlns:window="using:WindowsTools.Views.Windows"
     Title="{x:Bind root:ResourceService.DialogResource.GetString('ClosingWindowTitle')}"
     BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
-    Canvas.ZIndex="9999"
     CloseButtonText="{x:Bind root:ResourceService.DialogResource.GetString('Cancel')}"
     Content="{x:Bind root:ResourceService.DialogResource.GetString('ClosingWindowContent')}"
     FlowDirection="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).FlowDirection, Mode=OneWay}"
