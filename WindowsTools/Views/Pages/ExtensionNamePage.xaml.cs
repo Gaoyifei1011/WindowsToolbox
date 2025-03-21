@@ -13,7 +13,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.UI.Dialogs;
@@ -518,7 +517,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
-            await ContentDialogHelper.ShowAsync(new OperationFailedDialog(OperationFailedCollection), this);
+            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog(OperationFailedCollection));
         }
 
         #endregion 第二部分：扩展名称页面——挂载的事件

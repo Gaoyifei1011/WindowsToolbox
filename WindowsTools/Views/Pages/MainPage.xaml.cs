@@ -11,7 +11,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
@@ -383,7 +382,7 @@ namespace WindowsTools.Views.Pages
                 // 如果导航到更新页面，而且是非管理员模式，显示提示对话框
                 if ((currentPageType.Equals(typeof(UpdateManagerPage)) || currentPageType.Equals(typeof(DriverManagerPage))) && !RuntimeHelper.IsElevated)
                 {
-                    await ContentDialogHelper.ShowAsync(new NeedElevatedDialog(), this);
+                    await MainWindow.Current.ShowDialogAsync(new NeedElevatedDialog());
                     NavigationFrom();
                 }
             }

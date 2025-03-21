@@ -13,9 +13,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Controls.Download;
@@ -57,6 +57,7 @@ namespace WindowsTools.Views.Windows
         private readonly bool isDarkTheme = false;
         private bool trackingMouse = false;
         private int nativeTopBorderHeight = 1;
+        private bool isDialogOpening = false;
 
         private DesktopWindowXamlSource desktopWindowXamlSource = new();
 
@@ -269,7 +270,7 @@ namespace WindowsTools.Views.Windows
                     Show();
 
                     // 关闭窗口提示对话框是否已经处于打开状态，如果是，不再弹出
-                    ContentDialogResult result = await ContentDialogHelper.ShowAsync(new ClosingWindowDialog(), Content as FrameworkElement);
+                    ContentDialogResult result = await ShowDialogAsync(new ClosingWindowDialog());
 
                     if (result is ContentDialogResult.Primary)
                     {
@@ -376,18 +377,18 @@ namespace WindowsTools.Views.Windows
 
             if (Content is not null && Content.XamlRoot is not null)
             {
-                foreach (Popup popupRoot in VisualTreeHelper.GetOpenPopupsForXamlRoot(Content.XamlRoot))
+                foreach (Popup popup in VisualTreeHelper.GetOpenPopupsForXamlRoot(Content.XamlRoot))
                 {
                     // 关闭内容对话框
-                    if (popupRoot.Child as ContentDialog is not null)
+                    if (popup.Child as ContentDialog is not null)
                     {
-                        (popupRoot.Child as ContentDialog).Hide();
+                        (popup.Child as ContentDialog).Hide();
                     }
 
                     // 关闭浮出控件
-                    if (popupRoot.Child as FlyoutPresenter is not null)
+                    if (popup.Child is FlyoutPresenter || popup.Child is MenuFlyoutPresenter)
                     {
-                        popupRoot.IsOpen = false;
+                        popup.IsOpen = false;
                     }
                 }
             }
@@ -1370,6 +1371,30 @@ namespace WindowsTools.Views.Windows
         #endregion 第四部分：窗口属性设置
 
         #region 第五部分：显示对话框和应用通知
+
+        /// <summary>
+        /// 显示内容对话框
+        /// </summary>
+        public async Task<ContentDialogResult> ShowDialogAsync(ContentDialog contentDialog)
+        {
+            ContentDialogResult dialogResult = ContentDialogResult.None;
+            if (!isDialogOpening && contentDialog is not null && Content is not null)
+            {
+                isDialogOpening = true;
+
+                try
+                {
+                    contentDialog.XamlRoot = Content.XamlRoot;
+                    dialogResult = await contentDialog.ShowAsync();
+                }
+                catch (Exception)
+                { }
+
+                isDialogOpening = false;
+            }
+
+            return dialogResult;
+        }
 
         /// <summary>
         /// 使用教学提示显示应用内通知

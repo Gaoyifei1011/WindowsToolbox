@@ -18,7 +18,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Root;
 using WindowsTools.UI.Dialogs;
@@ -230,7 +229,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnShowLicenseClicked(object sender, RoutedEventArgs args)
         {
-            await ContentDialogHelper.ShowAsync(new LicenseDialog(), this);
+            await MainWindow.Current.ShowDialogAsync(new LicenseDialog());
         }
 
         /// <summary>
@@ -398,7 +397,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnAppInformationClicked(Hyperlink sender, HyperlinkClickEventArgs args)
         {
-            await ContentDialogHelper.ShowAsync(new AppInformationDialog(), this);
+            await MainWindow.Current.ShowDialogAsync(new AppInformationDialog());
         }
 
         /// <summary>

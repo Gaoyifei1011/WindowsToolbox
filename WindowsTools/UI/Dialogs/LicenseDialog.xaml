@@ -3,14 +3,15 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helper="using:WindowsTools.Helpers.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:root="using:WindowsTools.Services.Root"
-    xmlns:service="using:WindowsTools.Services.Controls.Settings"
+    xmlns:window="using:WindowsTools.Views.Windows"
     Title="{x:Bind root:ResourceService.DialogResource.GetString('License')}"
     BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
+    Canvas.ZIndex="9999"
     CloseButtonText="{x:Bind root:ResourceService.DialogResource.GetString('CloseDialog')}"
-    FlowDirection="{x:Bind helper:ContentDialogHelper.GetControlDirection(service:LanguageService.RightToLeft)}"
+    FlowDirection="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).FlowDirection, Mode=OneWay}"
+    RequestedTheme="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).RequestedTheme, Mode=OneWay}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 

@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
@@ -19,7 +18,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Controls.Download;
 using WindowsTools.Services.Controls.Settings;
@@ -727,7 +725,7 @@ namespace WindowsTools.Views.Pages
             {
                 synchronizationContext.Post(async (_) =>
                 {
-                    await ContentDialogHelper.ShowAsync(new FileCheckDialog(DownloadLinkText, filePath), MainWindow.Current.Content as FrameworkElement);
+                    await MainWindow.Current.ShowDialogAsync(new FileCheckDialog(DownloadLinkText, filePath));
                 }, null);
             }
             else

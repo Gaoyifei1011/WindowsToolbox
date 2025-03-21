@@ -18,7 +18,6 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
@@ -385,7 +384,7 @@ namespace WindowsTools.Views.Pages
 
                 if (IsSwitchThemeNotificationEnabled)
                 {
-                    await ContentDialogHelper.ShowAsync(new OpenStartupTaskFailedDialog(), this);
+                    await MainWindow.Current.ShowDialogAsync(new OpenStartupTaskFailedDialog());
                 }
             }
             else

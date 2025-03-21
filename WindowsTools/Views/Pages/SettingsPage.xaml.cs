@@ -12,7 +12,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using WindowsTools.Extensions.DataType.Enums;
-using WindowsTools.Helpers.Controls;
 using WindowsTools.Models;
 using WindowsTools.Services.Controls.Settings;
 using WindowsTools.Services.Root;
@@ -251,7 +250,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnRestartAppsClicked(object sender, RoutedEventArgs args)
         {
-            await ContentDialogHelper.ShowAsync(new RestartAppsDialog(), this);
+            await MainWindow.Current.ShowDialogAsync(new RestartAppsDialog());
         }
 
         /// <summary>
