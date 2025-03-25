@@ -416,7 +416,10 @@
                                 </TextBlock>
 
                                 <TextBlock>
-                                    <Hyperlink Click="{x:Bind OnTroubleShootClicked}" UnderlineStyle="None">
+                                    <Hyperlink
+                                        Click="{x:Bind OnTroubleShootClicked}"
+                                        NavigateUri="ms-settings:troubleshoot"
+                                        UnderlineStyle="None">
                                         <Run Text="{x:Bind root:ResourceService.AboutResource.GetString('TroubleShoot')}" />
                                     </Hyperlink>
                                 </TextBlock>
