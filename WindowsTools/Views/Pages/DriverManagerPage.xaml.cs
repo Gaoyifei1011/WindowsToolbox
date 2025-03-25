@@ -8,6 +8,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -487,16 +488,17 @@ namespace WindowsTools.Views.Pages
                                     object driverDate = GetDevNodeProperty("DEVPKEY_Device_DriverDate", devInst);
                                     object driverVersion = GetDevNodeProperty("DEVPKEY_Device_DriverVersion", devInst);
 
-                                    systemDriverInformationList.Add(new SystemDriverInformation()
+                                    if (deviceGuid is not null && deviceDesc is not null && driverInfPath is not null && driverDate is not null && driverVersion is not null)
                                     {
-                                        DeviceGuid = deviceGuid is null ? Guid.NewGuid() : Guid.TryParse(Convert.ToString(deviceGuid), out Guid guid) ? guid : Guid.NewGuid(),
-                                        Description = Convert.ToString(deviceDesc),
-                                        InfPath = Convert.ToString(driverInfPath),
-                                        Date = (DateTime)driverDate,
-                                        //                    Version = new Version((int)((driverVersion >> 48) & 0xFFFF), (int)((driverVersion >> 32) & 0xFFFF),
-                                        //(int)((driverVersion >> 16) & 0xFFFF),
-                                        //(int)((driverVersion >> 0) & 0xFFFF));
-                                    });
+                                        systemDriverInformationList.Add(new SystemDriverInformation()
+                                        {
+                                            DeviceGuid = deviceGuid is null ? Guid.NewGuid() : Guid.TryParse(Convert.ToString(deviceGuid), out Guid guid) ? guid : Guid.NewGuid(),
+                                            Description = Convert.ToString(deviceDesc),
+                                            InfPath = Convert.ToString(driverInfPath),
+                                            Date = (DateTime)driverDate,
+                                            Version = new Version(Convert.ToString(driverVersion))
+                                        });
+                                    }
                                 }
                             }
                         }
@@ -508,10 +510,26 @@ namespace WindowsTools.Views.Pages
                         DriverModel driverItem = new()
                         {
                             DriverInfName = Path.GetFileName(dismDriverPackageItem.OriginalFileName),
-                            DriverOEMInfName = dismDriverPackageItem.ProviderName,
-                            DriverDate = new DateTime(dismDriverPackageItem.Date.Year, dismDriverPackageItem.Date.Month, dismDriverPackageItem.Date.Day, dismDriverPackageItem.Date.Hour, dismDriverPackageItem.Date.Minute, dismDriverPackageItem.Date.Second, dismDriverPackageItem.Date.Milliseconds),
+                            DriverOEMInfName = dismDriverPackageItem.PublishedName,
+                            DriverManufacturer = dismDriverPackageItem.ProviderName,
+                            DriverLocation = Path.GetDirectoryName(dismDriverPackageItem.OriginalFileName),
+                            DriverDate = new DateTime(dismDriverPackageItem.Date.Year, dismDriverPackageItem.Date.Month, dismDriverPackageItem.Date.Day).Date,
                             DriverVersion = new Version(Convert.ToInt32(dismDriverPackageItem.MajorVersion), Convert.ToInt32(dismDriverPackageItem.MinorVersion), Convert.ToInt32(dismDriverPackageItem.Build), Convert.ToInt32(dismDriverPackageItem.Revision)),
+                            DriverSize = FileSizeHelper.ConvertFileSizeToString(GetFolderSize(Path.GetDirectoryName(dismDriverPackageItem.OriginalFileName))),
                         };
+
+                        Guid dismDriverPackageItemGuid = new(dismDriverPackageItem.ClassGuid);
+
+                        foreach (SystemDriverInformation systemDriverInformation in systemDriverInformationList)
+                        {
+                            if (dismDriverPackageItemGuid.Equals(systemDriverInformation.DeviceGuid) && driverItem.DriverOEMInfName.Equals(systemDriverInformation.InfPath, StringComparison.OrdinalIgnoreCase) && driverItem.DriverDate.Equals(systemDriverInformation.Date) && driverItem.DriverVersion.Equals(systemDriverInformation.Version))
+                            {
+                                driverItem.DeviceName = systemDriverInformation.Description;
+                                break;
+                            }
+                        }
+
+                        driverList.Add(driverItem);
                     }
                 }
                 catch (Exception e)
@@ -644,13 +662,13 @@ namespace WindowsTools.Views.Pages
                                         byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
                                     }
 
-                                    value = DateTime.FromOADate(BitConverter.ToDouble(byteBuffer, 0));
+                                    value = DateTime.FromOADate(BitConverter.ToDouble(byteBuffer, 0)).Date;
                                     break;
                                 }
                             case DEVPROP_TYPE.DEVPROP_TYPE_FILETIME:
                                 {
                                     long fileTime = Marshal.ReadInt64(propertyBufferPtr);
-                                    value = DateTime.FromFileTime(fileTime);
+                                    value = DateTime.FromFileTime(fileTime).Date;
                                     break;
                                 }
                             case DEVPROP_TYPE.DEVPROP_TYPE_BOOLEAN:
@@ -749,6 +767,81 @@ namespace WindowsTools.Views.Pages
             }
 
             return value;
+        }
+
+        /// <summary>
+        /// 获取文件夹大小
+        /// </summary>
+        public static long GetFolderSize(string directoryPath)
+        {
+            long totalSize = 0;
+
+            if (Directory.Exists(directoryPath))
+            {
+                try
+                {
+                    DirectoryInfo directoryInfo = new(directoryPath);
+                    long fileAllSize = 0;
+
+                    // 获取当前目录所有文件大小
+                    try
+                    {
+                        FileInfo[] filesArray = directoryInfo.GetFiles();
+
+                        Parallel.ForEach(filesArray, file =>
+                        {
+                            try
+                            {
+                                long fileSize = file.Length;
+                                Interlocked.Add(ref fileAllSize, fileSize);
+                            }
+                            catch (Exception)
+                            {
+                                return;
+                            }
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, string.Format("Get directory all file size {0} failed", directoryPath), e);
+                    }
+
+                    totalSize += fileAllSize;
+
+                    // 获取当前文件夹包含的所有子目录大小
+                    long folderAllSize = 0;
+
+                    try
+                    {
+                        DirectoryInfo[] directoryArray = directoryInfo.GetDirectories();
+
+                        Parallel.ForEach(directoryArray, directory =>
+                        {
+                            try
+                            {
+                                long folderSize = GetFolderSize(directory.FullName);
+                                Interlocked.Add(ref folderAllSize, folderSize);
+                            }
+                            catch (Exception)
+                            {
+                                return;
+                            }
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, string.Format("Get directory all sub directory size {0} failed", directoryPath), e);
+                    }
+
+                    totalSize += folderAllSize;
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, string.Format("Get directory information {0} failed", directoryPath), e);
+                }
+            }
+
+            return totalSize;
         }
     }
 }
