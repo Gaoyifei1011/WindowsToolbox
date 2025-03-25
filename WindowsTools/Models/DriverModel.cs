@@ -65,6 +65,11 @@ namespace WindowsTools.Models
         public string DriverSize { get; set; }
 
         /// <summary>
+        /// 驱动路径
+        /// </summary>
+        public string DriverLocation { get; set; }
+
+        /// <summary>
         /// 签名
         /// </summary>
         public string SignatureName { get; set; }
