@@ -5,6 +5,9 @@
 
 namespace WindowsTools.WindowsAPI.PInvoke.Rstrtmgr
 {
+    /// <summary>
+    /// Rstrtmgr.dll 函数库
+    /// </summary>
     public static class RstrtmgrLibrary
     {
         private const string Rstrtmgr = "rstrtmgr.dll";
