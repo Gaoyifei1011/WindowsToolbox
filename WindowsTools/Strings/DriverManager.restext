@@ -30,4 +30,6 @@ SortIncrease=Increase
 SortRule=Sort rule
 SortWay=Sort way
 Title=Driver manager
+Unknown=Unknown
+UnknownDeviceName=Unknown device name
 UnSelectedToolTip=Unselected

@@ -30,4 +30,6 @@ SortIncrease=升序
 SortRule=排序规则
 SortWay=排序方式
 Title=驱动管理
+Unknown=未知
+UnknownDeviceName=未知设备名称
 UnSelectedToolTip=未选择
