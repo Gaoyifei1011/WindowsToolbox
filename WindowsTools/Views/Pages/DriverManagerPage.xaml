@@ -425,8 +425,9 @@
                                             CornerRadius="{StaticResource ControlCornerRadius}"
                                             ToolTipService.ToolTip="{x:Bind root:ResourceService.DriverManagerResource.GetString('DeleteDriverToolTip')}">
 
+                                            <!--  TODO Î´Íê³É  -->
                                             <Button.Content>
-                                                <FontIcon FontSize="14" Glyph="&#xE74D;" />
+                                                <FontIcon FontSize="14" Glyph="&#xE712;" />
                                             </Button.Content>
                                         </Button>
                                     </Grid>

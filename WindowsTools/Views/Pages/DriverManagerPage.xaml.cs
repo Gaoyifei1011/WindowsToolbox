@@ -10,6 +10,7 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -19,10 +20,10 @@ using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
 using WindowsTools.WindowsAPI.PInvoke.CfgMgr32;
-using WindowsTools.WindowsAPI.PInvoke.Dismapi;
+using WindowsTools.WindowsAPI.PInvoke.Setupapi;
 
-// 抑制 CA1806，IDE0060 警告
-#pragma warning disable CA1806,IDE0060
+// 抑制 CA1806，CA1822，IDE0060 警告
+#pragma warning disable CA1806,CA1822,IDE0060
 
 namespace WindowsTools.Views.Pages
 {
@@ -212,9 +213,14 @@ namespace WindowsTools.Views.Pages
             { "DEVPKEY_DeviceContainer_InstallInProgress", new DEVPROPKEY() { fmtid = new ("83DA6326-97A6-4088-9453-A1923F573B29"), pid = 9 }}
         };
 
+        private readonly object driverListObject = new();
+        private readonly List<DriverModel> driverList = [];
+        private readonly string Unknown = ResourceService.DriverManagerResource.GetString("Unknown");
+        private readonly string UnknownDeviceName = ResourceService.DriverManagerResource.GetString("UnknownDeviceName");
+
         private bool isLoaded;
 
-        private bool _isLoadCompleted = true;
+        private bool _isLoadCompleted;
 
         public bool IsLoadCompleted
         {
@@ -326,6 +332,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDeleteDriverExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
+            // TODO 未完成
         }
 
         #endregion 第一部分：XamlUICommand 命令调用时挂载的事件
@@ -354,11 +361,33 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 加载完成后初始化内容
         /// </summary>
-        private void OnLoaded(object sender, RoutedEventArgs args)
+        private async void OnLoaded(object sender, RoutedEventArgs args)
         {
-            if (!isLoaded && RuntimeHelper.IsElevated)
+            if (!isLoaded)
             {
                 isLoaded = true;
+
+                await Task.Run(() =>
+                {
+                    List<DriverModel> driverInformationList = GetDriverInformationList();
+
+                    lock (driverListObject)
+                    {
+                        driverList.Clear();
+                        driverList.AddRange(driverInformationList);
+                    }
+                });
+
+                DriverCollection.Clear();
+                foreach (DriverModel driverItem in driverList)
+                {
+                    // TODO 未完成：添加排序过滤规则
+                    DriverCollection.Add(driverItem);
+                }
+
+                IsDriverEmpty = driverList.Count is 0;
+                IsSearchEmpty = DriverCollection.Count is 0;
+                IsLoadCompleted = true;
             }
         }
 
@@ -367,6 +396,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSearchDriverNameQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
+            // TODO 未完成
         }
 
         /// <summary>
@@ -409,6 +439,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSortWayClicked(object sender, RoutedEventArgs args)
         {
+            // TODO 未完成
         }
 
         /// <summary>
@@ -416,13 +447,37 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSortRuleClicked(object sender, RoutedEventArgs args)
         {
+            // TODO 未完成
         }
 
         /// <summary>
         /// 刷新
         /// </summary>
-        private void OnRefreshClicked(object sender, RoutedEventArgs args)
+        private async void OnRefreshClicked(object sender, RoutedEventArgs args)
         {
+            IsLoadCompleted = false;
+
+            await Task.Run(() =>
+            {
+                List<DriverModel> driverInformationList = GetDriverInformationList();
+
+                lock (driverListObject)
+                {
+                    driverList.Clear();
+                    driverList.AddRange(driverInformationList);
+                }
+            });
+
+            DriverCollection.Clear();
+            foreach (DriverModel driverItem in driverList)
+            {
+                // TODO 未完成：添加排序过滤规则
+                DriverCollection.Add(driverItem);
+            }
+
+            IsDriverEmpty = driverList.Count is 0;
+            IsSearchEmpty = DriverCollection.Count is 0;
+            IsLoadCompleted = true;
         }
 
         /// <summary>
@@ -430,6 +485,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnAddInstallDriverClicked(object sender, RoutedEventArgs args)
         {
+            // TODO 未完成
         }
 
         /// <summary>
@@ -437,6 +493,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnDeleteDriverClicked(object sender, RoutedEventArgs args)
         {
+            // TODO 未完成
         }
 
         /// <summary>
@@ -444,6 +501,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSelectOldDriverClicked(object sender, RoutedEventArgs args)
         {
+            // TODO 未完成
         }
 
         #endregion 第二部分：驱动管理页面——挂载的事件
@@ -451,102 +509,169 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 获取设备上所有的驱动信息
         /// </summary>
-        public static void GetDriverInformation()
+        public List<DriverModel> GetDriverInformationList()
         {
-            if (RuntimeHelper.IsElevated)
+            List<DriverModel> driverList = [];
+
+            try
             {
-                DismapiLibrary.DismInitialize(DismLogLevel.DismLogErrorsWarningsInfo, null, null);
-
-                try
+                ProcessStartInfo startInfo = new()
                 {
-                    DismapiLibrary.DismOpenSession(DismapiLibrary.DISM_ONLINE_IMAGE, null, null, out IntPtr session);
-                    DismapiLibrary.DismGetDrivers(session, false, out IntPtr driverPackage, out uint count);
+                    FileName = "pnputil.exe",
+                    Arguments = @"/enum-drivers /format ""xml""",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true,
+                    StandardOutputEncoding = Encoding.UTF8,
+                    StandardErrorEncoding = Encoding.UTF8
+                };
 
-                    DismDriverPackage[] dismDriverPackageArray = new DismDriverPackage[count];
-                    for (int index = 0; index < count; index++)
+                Process process = Process.Start(startInfo);
+                StreamReader streamReader = process.StandardOutput;
+                string driverString = streamReader.ReadToEnd();
+                process.WaitForExit();
+                process.Dispose();
+
+                XDocument xDocument = XDocument.Parse(driverString);
+                List<PnpDriverInformation> pnpDriverInformationList = [];
+
+                if (xDocument is not null)
+                {
+                    List<XElement> driverNodeList = [.. xDocument.Descendants("Driver")];
+
+                    foreach (XElement driverNode in driverNodeList)
                     {
-                        IntPtr driverPackageOffsetPtr = IntPtr.Add(driverPackage, index * Marshal.SizeOf<DismDriverPackage>());
-                        dismDriverPackageArray[index] = Marshal.PtrToStructure<DismDriverPackage>(driverPackageOffsetPtr);
-                    }
+                        PnpDriverInformation pnpDriverInformation = new();
 
-                    List<SystemDriverInformation> systemDriverInformationList = [];
-                    if (CfgMgr32Library.CM_Get_Device_ID_List_Size(out int deviceListSize, null, CM_GETIDLIST_FILTER.CM_GETIDLIST_FILTER_NONE) is CR.CR_SUCCESS)
-                    {
-                        byte[] deviceBuffer = new byte[deviceListSize * sizeof(char) + 2];
-
-                        if (CfgMgr32Library.CM_Get_Device_ID_List(null, deviceBuffer, deviceListSize, CM_GETIDLIST_FILTER.CM_GETIDLIST_FILTER_NONE) is CR.CR_SUCCESS)
+                        if (driverNode.Attribute("DriverName") is XAttribute driverNameAttribute)
                         {
-                            string[] deviceIdArray = Encoding.Unicode.GetString(deviceBuffer).Split(['\0'], StringSplitOptions.RemoveEmptyEntries);
+                            pnpDriverInformation.DriverName = driverNameAttribute.Value;
+                        }
 
-                            foreach (string deviceId in deviceIdArray)
+                        if (driverNode.Element("OriginalName") is XElement driverNameElement)
+                        {
+                            pnpDriverInformation.OriginalName = driverNameElement.Value;
+                        }
+
+                        if (driverNode.Element("ProviderName") is XElement providerNameElement)
+                        {
+                            pnpDriverInformation.ProviderName = providerNameElement.Value;
+                        }
+
+                        if (driverNode.Element("ClassName") is XElement classNameElement)
+                        {
+                            pnpDriverInformation.ClassName = classNameElement.Value;
+                        }
+
+                        if (driverNode.Element("ClassGuid") is XElement classGuidElement)
+                        {
+                            pnpDriverInformation.ClassGuid = classGuidElement.Value;
+                        }
+
+                        if (driverNode.Element("DriverVersion") is XElement driverVersionElement)
+                        {
+                            string[] driverVersionArray = driverVersionElement.Value.Split(' ');
+
+                            if (driverVersionArray.Length is 2)
                             {
-                                if (CfgMgr32Library.CM_Locate_DevNode(out uint devInst, deviceId, CM_LOCATE_DEVNODE_FLAGS.CM_LOCATE_DEVNODE_PHANTOM) is CR.CR_SUCCESS)
-                                {
-                                    object deviceGuid = GetDevNodeProperty("DEVPKEY_Device_ClassGuid", devInst);
-                                    object deviceDesc = GetDevNodeProperty("DEVPKEY_Device_DeviceDesc", devInst);
-                                    object driverInfPath = GetDevNodeProperty("DEVPKEY_Device_DriverInfPath", devInst);
-                                    object driverDate = GetDevNodeProperty("DEVPKEY_Device_DriverDate", devInst);
-                                    object driverVersion = GetDevNodeProperty("DEVPKEY_Device_DriverVersion", devInst);
+                                pnpDriverInformation.DriverDate = driverVersionArray[0];
+                                pnpDriverInformation.DriverVersion = driverVersionArray[1];
+                            }
+                        }
 
-                                    if (deviceGuid is not null && deviceDesc is not null && driverInfPath is not null && driverDate is not null && driverVersion is not null)
+                        if (driverNode.Element("SignerName") is XElement signerNameElement)
+                        {
+                            pnpDriverInformation.SignerName = signerNameElement.Value;
+                        }
+
+                        pnpDriverInformationList.Add(pnpDriverInformation);
+                    }
+                }
+
+                List<SystemDriverInformation> systemDriverInformationList = [];
+                if (CfgMgr32Library.CM_Get_Device_ID_List_Size(out int deviceListSize, null, CM_GETIDLIST_FILTER.CM_GETIDLIST_FILTER_NONE) is CR.CR_SUCCESS)
+                {
+                    byte[] deviceBuffer = new byte[deviceListSize * sizeof(char) + 2];
+
+                    if (CfgMgr32Library.CM_Get_Device_ID_List(null, deviceBuffer, deviceListSize, CM_GETIDLIST_FILTER.CM_GETIDLIST_FILTER_NONE) is CR.CR_SUCCESS)
+                    {
+                        string[] deviceIdArray = Encoding.Unicode.GetString(deviceBuffer).Split(['\0'], StringSplitOptions.RemoveEmptyEntries);
+
+                        foreach (string deviceId in deviceIdArray)
+                        {
+                            if (CfgMgr32Library.CM_Locate_DevNode(out uint devInst, deviceId, CM_LOCATE_DEVNODE_FLAGS.CM_LOCATE_DEVNODE_PHANTOM) is CR.CR_SUCCESS)
+                            {
+                                object deviceGuid = GetDevNodeProperty("DEVPKEY_Device_ClassGuid", devInst);
+                                object deviceDesc = GetDevNodeProperty("DEVPKEY_Device_DeviceDesc", devInst);
+                                object driverInfPath = GetDevNodeProperty("DEVPKEY_Device_DriverInfPath", devInst);
+                                object driverDate = GetDevNodeProperty("DEVPKEY_Device_DriverDate", devInst);
+                                object driverVersion = GetDevNodeProperty("DEVPKEY_Device_DriverVersion", devInst);
+
+                                if (deviceGuid is not null && deviceDesc is not null && driverInfPath is not null && driverDate is not null && driverVersion is not null)
+                                {
+                                    systemDriverInformationList.Add(new SystemDriverInformation()
                                     {
-                                        systemDriverInformationList.Add(new SystemDriverInformation()
-                                        {
-                                            DeviceGuid = deviceGuid is null ? Guid.NewGuid() : Guid.TryParse(Convert.ToString(deviceGuid), out Guid guid) ? guid : Guid.NewGuid(),
-                                            Description = Convert.ToString(deviceDesc),
-                                            InfPath = Convert.ToString(driverInfPath),
-                                            Date = (DateTime)driverDate,
-                                            Version = new Version(Convert.ToString(driverVersion))
-                                        });
-                                    }
+                                        DeviceGuid = deviceGuid is null ? Guid.NewGuid() : Guid.TryParse(Convert.ToString(deviceGuid), out Guid guid) ? guid : Guid.NewGuid(),
+                                        Description = Convert.ToString(deviceDesc),
+                                        InfPath = Convert.ToString(driverInfPath),
+                                        Date = (DateTime)driverDate,
+                                        Version = new Version(Convert.ToString(driverVersion))
+                                    });
                                 }
                             }
                         }
                     }
+                }
 
-                    List<DriverModel> driverList = [];
-                    foreach (DismDriverPackage dismDriverPackageItem in dismDriverPackageArray)
+                foreach (PnpDriverInformation pnpDriverInformationItem in pnpDriverInformationList)
+                {
+                    string driverLocation = GetDriverStoreLocation(pnpDriverInformationItem.DriverName);
+
+                    DriverModel driverItem = new()
                     {
-                        DriverModel driverItem = new()
-                        {
-                            DriverInfName = Path.GetFileName(dismDriverPackageItem.OriginalFileName),
-                            DriverOEMInfName = dismDriverPackageItem.PublishedName,
-                            DriverManufacturer = dismDriverPackageItem.ProviderName,
-                            DriverLocation = Path.GetDirectoryName(dismDriverPackageItem.OriginalFileName),
-                            DriverDate = new DateTime(dismDriverPackageItem.Date.Year, dismDriverPackageItem.Date.Month, dismDriverPackageItem.Date.Day).Date,
-                            DriverVersion = new Version(Convert.ToInt32(dismDriverPackageItem.MajorVersion), Convert.ToInt32(dismDriverPackageItem.MinorVersion), Convert.ToInt32(dismDriverPackageItem.Build), Convert.ToInt32(dismDriverPackageItem.Revision)),
-                            DriverSize = FileSizeHelper.ConvertFileSizeToString(GetFolderSize(Path.GetDirectoryName(dismDriverPackageItem.OriginalFileName))),
-                        };
+                        DriverInfName = pnpDriverInformationItem.OriginalName,
+                        DriverOEMInfName = pnpDriverInformationItem.DriverName,
+                        DriverManufacturer = pnpDriverInformationItem.ProviderName,
+                        DriverDate = DateTime.Parse(pnpDriverInformationItem.DriverDate),
+                        DriverVersion = new Version(pnpDriverInformationItem.DriverVersion),
+                        DriverSize = FileSizeHelper.ConvertFileSizeToString(GetFolderSize(Path.GetDirectoryName(driverLocation))),
+                        DriverLocation = driverLocation,
+                        DriverType = pnpDriverInformationItem.ClassName,
+                        SignatureName = string.IsNullOrEmpty(pnpDriverInformationItem.SignerName) ? Unknown : pnpDriverInformationItem.SignerName,
+                    };
 
-                        Guid dismDriverPackageItemGuid = new(dismDriverPackageItem.ClassGuid);
+                    Guid dismDriverPackageItemGuid = new(pnpDriverInformationItem.ClassGuid);
 
-                        foreach (SystemDriverInformation systemDriverInformation in systemDriverInformationList)
+                    foreach (SystemDriverInformation systemDriverInformation in systemDriverInformationList)
+                    {
+                        if (dismDriverPackageItemGuid.Equals(systemDriverInformation.DeviceGuid) && driverItem.DriverOEMInfName.Equals(systemDriverInformation.InfPath, StringComparison.OrdinalIgnoreCase) && driverItem.DriverDate.Equals(systemDriverInformation.Date) && driverItem.DriverVersion.Equals(systemDriverInformation.Version))
                         {
-                            if (dismDriverPackageItemGuid.Equals(systemDriverInformation.DeviceGuid) && driverItem.DriverOEMInfName.Equals(systemDriverInformation.InfPath, StringComparison.OrdinalIgnoreCase) && driverItem.DriverDate.Equals(systemDriverInformation.Date) && driverItem.DriverVersion.Equals(systemDriverInformation.Version))
-                            {
-                                driverItem.DeviceName = systemDriverInformation.Description;
-                                break;
-                            }
+                            driverItem.DeviceName = string.IsNullOrEmpty(systemDriverInformation.Description) ? UnknownDeviceName : systemDriverInformation.Description;
+                            break;
                         }
-
-                        driverList.Add(driverItem);
                     }
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(EventLevel.Error, "Get Device information failed", e);
-                }
-                finally
-                {
-                    DismapiLibrary.DismShutdown();
+
+                    if (string.IsNullOrEmpty(driverItem.DeviceName))
+                    {
+                        driverItem.DeviceName = UnknownDeviceName;
+                    }
+
+                    driverList.Add(driverItem);
                 }
             }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, "Get Device information failed", e);
+            }
+
+            return driverList;
         }
 
         /// <summary>
         /// 检索设备实例属性
         /// </summary>
-        private static object GetDevNodeProperty(string devPropKey, uint devInst)
+        private object GetDevNodeProperty(string devPropKey, uint devInst)
         {
             object value = null;
 
@@ -772,7 +897,7 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 获取文件夹大小
         /// </summary>
-        public static long GetFolderSize(string directoryPath)
+        public long GetFolderSize(string directoryPath)
         {
             long totalSize = 0;
 
@@ -842,6 +967,22 @@ namespace WindowsTools.Views.Pages
             }
 
             return totalSize;
+        }
+
+        /// <summary>
+        /// 获取驱动存放的实际路径
+        /// </summary>
+        public static string GetDriverStoreLocation(string oemInfName)
+        {
+            SetupapiLibrary.SetupGetInfDriverStoreLocation(oemInfName, IntPtr.Zero, IntPtr.Zero, null, 0, out int requiredSize);
+
+            StringBuilder stringBuilder = new(requiredSize);
+            if (!SetupapiLibrary.SetupGetInfDriverStoreLocation(oemInfName, IntPtr.Zero, IntPtr.Zero, stringBuilder, stringBuilder.Capacity, out _))
+            {
+                return string.Empty;
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }
