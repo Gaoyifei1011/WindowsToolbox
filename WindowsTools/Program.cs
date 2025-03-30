@@ -28,7 +28,7 @@ namespace WindowsTools
     {
         private static readonly Guid CLSID_ApplicationActivationManager = new("45BA127D-10A8-46EA-8AB7-56EA9078943C");
         private static readonly NameValueCollection configurationCollection = ConfigurationManager.GetSection("System.Windows.Forms.ApplicationConfigurationSection") as NameValueCollection;
-        private static IApplicationActivationManager applicationActivationManager;
+        private static readonly IApplicationActivationManager applicationActivationManager = (IApplicationActivationManager)Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_ApplicationActivationManager));
 
         /// <summary>
         /// 应用程序的主入口点
@@ -36,8 +36,6 @@ namespace WindowsTools
         [STAThread]
         public static void Main(string[] args)
         {
-            applicationActivationManager = (IApplicationActivationManager)Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_ApplicationActivationManager));
-
             if (!RuntimeHelper.IsMSIX)
             {
                 try
