@@ -380,7 +380,7 @@ namespace WindowsTools.Views.Pages
                 }
 
                 // 如果导航到更新页面，而且是非管理员模式，显示提示对话框
-                if ((currentPageType.Equals(typeof(UpdateManagerPage)) || currentPageType.Equals(typeof(DriverManagerPage))) && !RuntimeHelper.IsElevated)
+                if ((currentPageType.Equals(typeof(UpdateManagerPage))) && !RuntimeHelper.IsElevated)
                 {
                     await MainWindow.Current.ShowDialogAsync(new NeedElevatedDialog());
                     NavigationFrom();
