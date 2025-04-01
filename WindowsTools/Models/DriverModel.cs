@@ -24,6 +24,22 @@ namespace WindowsTools.Models
             }
         }
 
+        private bool _isOperating;
+
+        public bool IsOperating
+        {
+            get { return _isOperating; }
+
+            set
+            {
+                if (!Equals(_isOperating, value))
+                {
+                    _isOperating = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsOperating)));
+                }
+            }
+        }
+
         /// <summary>
         /// 驱动名称
         /// </summary>

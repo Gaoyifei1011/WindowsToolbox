@@ -1,15 +1,18 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -19,7 +22,10 @@ using WindowsTools.Extensions.DataType.Enums;
 using WindowsTools.Helpers.Root;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
-using WindowsTools.WindowsAPI.PInvoke.CfgMgr32;
+using WindowsTools.UI.Dialogs;
+using WindowsTools.UI.TeachingTips;
+using WindowsTools.Views.Windows;
+using WindowsTools.WindowsAPI.PInvoke.NewDev;
 using WindowsTools.WindowsAPI.PInvoke.Setupapi;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
@@ -316,7 +322,25 @@ namespace WindowsTools.Views.Pages
             }
         }
 
+        private bool _isOperating = false;
+
+        public bool IsOperating
+        {
+            get { return _isOperating; }
+
+            set
+            {
+                if (!Equals(_isOperating, value))
+                {
+                    _isOperating = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsOperating)));
+                }
+            }
+        }
+
         private ObservableCollection<DriverModel> DriverCollection { get; } = [];
+
+        private ObservableCollection<string> DriverOperationCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -328,16 +352,194 @@ namespace WindowsTools.Views.Pages
         #region 第一部分：XamlUICommand 命令调用时挂载的事件
 
         /// <summary>
+        /// 打开文件夹
+        /// </summary>
+        private void OnOpenFolderExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        {
+            if (args.Parameter is string driverLocation)
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        Process.Start(File.Exists(driverLocation) ? Path.GetDirectoryName(driverLocation) : Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Open driver location failed", e);
+                    }
+                });
+            }
+        }
+
+        /// <summary>
         /// 删除驱动
         /// </summary>
-        private void OnDeleteDriverExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnDeleteDriverExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            // TODO 未完成
+            if (RuntimeHelper.IsElevated && args.Parameter is DriverModel driverItem && File.Exists(driverItem.DriverLocation))
+            {
+                IsOperating = true;
+
+                foreach (DriverModel item in DriverCollection)
+                {
+                    item.IsOperating = true;
+                }
+
+                // TODO:添加到任务管理
+
+                // 删除驱动
+                bool deleteResult = await Task.Run(() =>
+                {
+                    return SetupapiLibrary.SetupUninstallOEMInf(driverItem.DriverLocation, SUOI_Flags.SUOI_NONE, IntPtr.Zero);
+                });
+
+                // TODO:更新任务管理
+
+                IsOperating = false;
+
+                if (deleteResult)
+                {
+                    IsLoadCompleted = false;
+
+                    MainWindow.Current.BeginInvoke(async () =>
+                    {
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.DeleteDriverSuccessfully));
+                    });
+
+                    await Task.Run(() =>
+                    {
+                        List<DriverModel> driverInformationList = GetDriverInformationList();
+                        driverInformationList.Sort((item1, item2) => item1.DriverOEMInfName.CompareTo(item2.DriverOEMInfName));
+
+                        lock (driverListObject)
+                        {
+                            driverList.Clear();
+                            driverList.AddRange(driverInformationList);
+                        }
+                    });
+
+                    InitializeData();
+                }
+                else
+                {
+                    foreach (DriverModel item in DriverCollection)
+                    {
+                        item.IsOperating = false;
+                    }
+
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.DeleteDriverFailed));
+                }
+            }
+        }
+
+        /// <summary>
+        /// 强制删除驱动
+        /// </summary>
+        private async void OnForceDeleteDriverExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        {
+            if (RuntimeHelper.IsElevated && args.Parameter is DriverModel driverItem && File.Exists(driverItem.DriverLocation))
+            {
+                IsOperating = true;
+
+                foreach (DriverModel item in DriverCollection)
+                {
+                    item.IsOperating = true;
+                }
+
+                // TODO:添加到任务管理
+
+                // 强制删除驱动
+                bool needReboot = false;
+                bool deleteResult = await Task.Run(() =>
+                {
+                    return NewDevLibrary.DiUninstallDriver(IntPtr.Zero, driverItem.DriverLocation, DIURFLAG.NO_REMOVE_INF, out needReboot) && SetupapiLibrary.SetupUninstallOEMInf(driverItem.DriverLocation, SUOI_Flags.SUOI_FORCEDELETE, IntPtr.Zero);
+                });
+
+                // TODO:更新任务管理
+
+                IsOperating = false;
+
+                if (deleteResult)
+                {
+                    IsLoadCompleted = false;
+
+                    MainWindow.Current.BeginInvoke(async () =>
+                    {
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ForceDeleteDriverSuccessfully));
+                    });
+
+                    if (needReboot)
+                    {
+                        MainWindow.Current.BeginInvoke(async () =>
+                        {
+                            ContentDialogResult contentDialogResult = await MainWindow.Current.ShowDialogAsync(new RebootDialog(DriverInstallKind.UnInstallDriver));
+
+                            await Task.Run(() =>
+                            {
+                                if (contentDialogResult is ContentDialogResult.Primary)
+                                {
+                                    ShutdownHelper.Restart(ResourceService.DriverManagerResource.GetString("RestartPC"), TimeSpan.FromSeconds(120));
+                                }
+                            });
+                        });
+                    }
+
+                    await Task.Run(() =>
+                    {
+                        List<DriverModel> driverInformationList = GetDriverInformationList();
+                        driverInformationList.Sort((item1, item2) => item1.DriverOEMInfName.CompareTo(item2.DriverOEMInfName));
+
+                        lock (driverListObject)
+                        {
+                            driverList.Clear();
+                            driverList.AddRange(driverInformationList);
+                        }
+                    });
+
+                    InitializeData();
+                }
+                else
+                {
+                    foreach (DriverModel item in DriverCollection)
+                    {
+                        item.IsOperating = false;
+                    }
+
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ForceDeleteDriverFailed));
+                }
+            }
         }
 
         #endregion 第一部分：XamlUICommand 命令调用时挂载的事件
 
         #region 第二部分：驱动管理页面——挂载的事件
+
+        /// <summary>
+        /// 加载完成后初始化内容
+        /// </summary>
+        private async void OnLoaded(object sender, RoutedEventArgs args)
+        {
+            if (!isLoaded)
+            {
+                isLoaded = true;
+                IsLoadCompleted = false;
+
+                await Task.Run(() =>
+                {
+                    List<DriverModel> driverInformationList = GetDriverInformationList();
+                    driverInformationList.Sort((item1, item2) => item1.DriverOEMInfName.CompareTo(item2.DriverOEMInfName));
+
+                    lock (driverListObject)
+                    {
+                        driverList.Clear();
+                        driverList.AddRange(driverInformationList);
+                    }
+                });
+
+                InitializeData();
+            }
+        }
 
         /// <summary>
         /// 打开设备管理器
@@ -359,35 +561,22 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 加载完成后初始化内容
+        /// 清空驱动操作任务（只允许清理未正进行的驱动）
         /// </summary>
-        private async void OnLoaded(object sender, RoutedEventArgs args)
+
+        private void OnClearTaskClicked(object sender, RoutedEventArgs args)
         {
-            if (!isLoaded)
+            // TODO : 未完成
+        }
+
+        /// <summary>
+        /// 关闭浮出控件
+        /// </summary>
+        private void OnCloseClicked(object sender, RoutedEventArgs args)
+        {
+            if (TaskManagerFlyout.IsOpen)
             {
-                isLoaded = true;
-
-                await Task.Run(() =>
-                {
-                    List<DriverModel> driverInformationList = GetDriverInformationList();
-
-                    lock (driverListObject)
-                    {
-                        driverList.Clear();
-                        driverList.AddRange(driverInformationList);
-                    }
-                });
-
-                DriverCollection.Clear();
-                foreach (DriverModel driverItem in driverList)
-                {
-                    // TODO 未完成：添加排序过滤规则
-                    DriverCollection.Add(driverItem);
-                }
-
-                IsDriverEmpty = driverList.Count is 0;
-                IsSearchEmpty = DriverCollection.Count is 0;
-                IsLoadCompleted = true;
+                TaskManagerFlyout.Hide();
             }
         }
 
@@ -396,7 +585,11 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSearchDriverNameQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            // TODO 未完成
+            if (!string.IsNullOrEmpty(SearchDriverNameText))
+            {
+                IsLoadCompleted = false;
+                InitializeData();
+            }
         }
 
         /// <summary>
@@ -404,11 +597,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSerachDriverNameTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (!string.IsNullOrEmpty(SearchDriverNameText))
-            {
-                DriverCollection.Clear();
+            SearchDriverNameText = sender.Text;
 
-                IsSearchEmpty = DriverCollection.Count is 0;
+            if (string.IsNullOrEmpty(SearchDriverNameText))
+            {
+                IsLoadCompleted = false;
+                InitializeData();
             }
         }
 
@@ -439,7 +633,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSortWayClicked(object sender, RoutedEventArgs args)
         {
-            // TODO 未完成
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
+            {
+                IsIncrease = Convert.ToBoolean(radioMenuFlyoutItem.Tag);
+                IsLoadCompleted = false;
+                InitializeData();
+            }
         }
 
         /// <summary>
@@ -447,7 +646,12 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnSortRuleClicked(object sender, RoutedEventArgs args)
         {
-            // TODO 未完成
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
+            {
+                SelectedRule = (DriverSortRuleKind)radioMenuFlyoutItem.Tag;
+                IsLoadCompleted = false;
+                InitializeData();
+            }
         }
 
         /// <summary>
@@ -460,6 +664,7 @@ namespace WindowsTools.Views.Pages
             await Task.Run(() =>
             {
                 List<DriverModel> driverInformationList = GetDriverInformationList();
+                driverInformationList.Sort((item1, item2) => item1.DriverOEMInfName.CompareTo(item2.DriverOEMInfName));
 
                 lock (driverListObject)
                 {
@@ -468,32 +673,405 @@ namespace WindowsTools.Views.Pages
                 }
             });
 
-            DriverCollection.Clear();
-            foreach (DriverModel driverItem in driverList)
-            {
-                // TODO 未完成：添加排序过滤规则
-                DriverCollection.Add(driverItem);
-            }
+            InitializeData();
+        }
 
-            IsDriverEmpty = driverList.Count is 0;
-            IsSearchEmpty = DriverCollection.Count is 0;
-            IsLoadCompleted = true;
+        /// <summary>
+        /// 添加驱动
+        /// </summary>
+        private async void OnAddDriverClicked(object sender, RoutedEventArgs args)
+        {
+            if (RuntimeHelper.IsElevated)
+            {
+                IsLoadCompleted = false;
+
+                OpenFileDialog dialog = new()
+                {
+                    Multiselect = true,
+                    Title = ResourceService.DriverManagerResource.GetString("SelectFile"),
+                    Filter = ResourceService.DriverManagerResource.GetString("DriverFilterCondition"),
+                };
+
+                if (dialog.ShowDialog() is DialogResult.OK)
+                {
+                    IsOperating = true;
+
+                    foreach (DriverModel driverItem in DriverCollection)
+                    {
+                        driverItem.IsOperating = true;
+                    }
+
+                    // TODO:添加到任务管理
+
+                    Dictionary<string, Tuple<bool, string>> installResultDict = await Task.Run(() =>
+                    {
+                        Dictionary<string, Tuple<bool, string>> installResultDict = [];
+
+                        foreach (string fileItem in dialog.FileNames)
+                        {
+                            StringBuilder stringBuilder = new(260);
+                            uint bufferSize = 0;
+                            bool result = SetupapiLibrary.SetupCopyOEMInf(fileItem, null, SPOST.SPOST_PATH, SP_COPY.SP_COPY_NONE, stringBuilder, (uint)stringBuilder.Capacity, ref bufferSize, IntPtr.Zero);
+
+                            if (!installResultDict.ContainsKey(fileItem))
+                            {
+                                installResultDict.Add(fileItem, Tuple.Create(result, ""));
+                            }
+                        }
+
+                        return installResultDict;
+                    });
+
+                    // TODO:更新任务管理
+
+                    IsOperating = false;
+
+                    if (installResultDict.Values.Any(item => item.Item1))
+                    {
+                        IsLoadCompleted = false;
+
+                        if (installResultDict.Values.All(item => item.Item1))
+                        {
+                            MainWindow.Current.BeginInvoke(async () =>
+                            {
+                                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.AddDriverAllSuccessfully));
+                            });
+                        }
+                        else
+                        {
+                            MainWindow.Current.BeginInvoke(async () =>
+                            {
+                                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.AddDriverPartialSuccessfully));
+                            });
+                        }
+
+                        await Task.Run(() =>
+                        {
+                            List<DriverModel> driverInformationList = GetDriverInformationList();
+                            driverInformationList.Sort((item1, item2) => item1.DriverOEMInfName.CompareTo(item2.DriverOEMInfName));
+
+                            lock (driverListObject)
+                            {
+                                driverList.Clear();
+                                driverList.AddRange(driverInformationList);
+                            }
+                        });
+
+                        InitializeData();
+                    }
+                    else
+                    {
+                        foreach (DriverModel driverItem in DriverCollection)
+                        {
+                            driverItem.IsOperating = false;
+                        }
+
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.AddDriverFailed));
+                    }
+                }
+            }
         }
 
         /// <summary>
         /// 添加并安装驱动
         /// </summary>
-        private void OnAddInstallDriverClicked(object sender, RoutedEventArgs args)
+        private async void OnAddInstallDriverClicked(object sender, RoutedEventArgs args)
         {
-            // TODO 未完成
+            if (RuntimeHelper.IsElevated)
+            {
+                IsLoadCompleted = false;
+
+                OpenFileDialog dialog = new()
+                {
+                    Multiselect = true,
+                    Title = ResourceService.DriverManagerResource.GetString("SelectFile"),
+                    Filter = ResourceService.DriverManagerResource.GetString("DriverFilterCondition"),
+                };
+
+                if (dialog.ShowDialog() is DialogResult.OK)
+                {
+                    bool needReboot = false;
+                    IsOperating = true;
+
+                    foreach (DriverModel driverItem in DriverCollection)
+                    {
+                        driverItem.IsOperating = true;
+                    }
+
+                    // TODO:添加到任务管理
+
+                    Dictionary<string, Tuple<bool, string>> installResultDict = await Task.Run(() =>
+                    {
+                        Dictionary<string, Tuple<bool, string>> installResultDict = [];
+
+                        foreach (string fileItem in dialog.FileNames)
+                        {
+                            StringBuilder stringBuilder = new(260);
+                            uint bufferSize = 0;
+
+                            bool result = NewDevLibrary.DiInstallDriver(IntPtr.Zero, fileItem, 0, out bool NeedReboot) && SetupapiLibrary.SetupCopyOEMInf(fileItem, null, SPOST.SPOST_PATH, SP_COPY.SP_COPY_NONE, stringBuilder, (uint)stringBuilder.Capacity, ref bufferSize, IntPtr.Zero);
+
+                            if (NeedReboot)
+                            {
+                                needReboot = NeedReboot;
+                            }
+
+                            if (!installResultDict.ContainsKey(fileItem))
+                            {
+                                installResultDict.Add(fileItem, Tuple.Create(result, ""));
+                            }
+                        }
+
+                        return installResultDict;
+                    });
+
+                    // TODO:更新任务管理
+                    IsOperating = false;
+
+                    if (installResultDict.Values.Any(item => item.Item1))
+                    {
+                        IsLoadCompleted = false;
+
+                        if (installResultDict.Values.All(item => item.Item1))
+                        {
+                            MainWindow.Current.BeginInvoke(async () =>
+                            {
+                                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.AddInstallDriverAllSuccessfully));
+                            });
+                        }
+                        else
+                        {
+                            MainWindow.Current.BeginInvoke(async () =>
+                            {
+                                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.AddInstallDriverPartialSuccessfully));
+                            });
+                        }
+
+                        if (needReboot)
+                        {
+                            MainWindow.Current.BeginInvoke(async () =>
+                            {
+                                ContentDialogResult contentDialogResult = await MainWindow.Current.ShowDialogAsync(new RebootDialog(DriverInstallKind.InstallDriver));
+
+                                await Task.Run(() =>
+                                {
+                                    if (contentDialogResult is ContentDialogResult.Primary)
+                                    {
+                                        ShutdownHelper.Restart(ResourceService.DriverManagerResource.GetString("RestartPC"), TimeSpan.FromSeconds(120));
+                                    }
+                                });
+                            });
+                        }
+
+                        await Task.Run(() =>
+                        {
+                            List<DriverModel> driverInformationList = GetDriverInformationList();
+                            driverInformationList.Sort((item1, item2) => item1.DriverOEMInfName.CompareTo(item2.DriverOEMInfName));
+
+                            lock (driverListObject)
+                            {
+                                driverList.Clear();
+                                driverList.AddRange(driverInformationList);
+                            }
+                        });
+
+                        InitializeData();
+                    }
+                    else
+                    {
+                        foreach (DriverModel driverItem in DriverCollection)
+                        {
+                            driverItem.IsOperating = false;
+                        }
+
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.AddInstallDriverFailed));
+                    }
+                }
+            }
         }
 
         /// <summary>
         /// 删除驱动
         /// </summary>
-        private void OnDeleteDriverClicked(object sender, RoutedEventArgs args)
+        private async void OnDeleteDriverClicked(object sender, RoutedEventArgs args)
         {
-            // TODO 未完成
+            if (RuntimeHelper.IsElevated)
+            {
+                List<DriverModel> selectedDriverList = [.. DriverCollection.Where(item => item.IsSelected)];
+                IsOperating = true;
+
+                foreach (DriverModel driverItem in DriverCollection)
+                {
+                    driverItem.IsOperating = true;
+                }
+
+                Dictionary<string, Tuple<bool, string>> deleteResultDict = await Task.Run(() =>
+                {
+                    Dictionary<string, Tuple<bool, string>> deleteResultDict = [];
+
+                    foreach (DriverModel driverItem in selectedDriverList)
+                    {
+                        bool result = SetupapiLibrary.SetupUninstallOEMInf(driverItem.DriverLocation, SUOI_Flags.SUOI_NONE, IntPtr.Zero);
+
+                        if (!deleteResultDict.ContainsKey(driverItem.DriverLocation))
+                        {
+                            // TODO 未完成
+                            deleteResultDict.Add(driverItem.DriverLocation, Tuple.Create(result, ""));
+                        }
+                    }
+
+                    return deleteResultDict;
+                });
+
+                IsOperating = false;
+
+                if (deleteResultDict.Values.Any(item => item.Item1))
+                {
+                    IsLoadCompleted = false;
+
+                    if (deleteResultDict.Values.All(item => item.Item1))
+                    {
+                        MainWindow.Current.BeginInvoke(async () =>
+                        {
+                            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.DeleteDriverAllSuccessfully));
+                        });
+                    }
+                    else
+                    {
+                        MainWindow.Current.BeginInvoke(async () =>
+                        {
+                            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.DeleteDriverPartialSuccessfully));
+                        });
+                    }
+
+                    await Task.Run(() =>
+                    {
+                        List<DriverModel> driverInformationList = GetDriverInformationList();
+                        driverInformationList.Sort((item1, item2) => item1.DriverOEMInfName.CompareTo(item2.DriverOEMInfName));
+
+                        lock (driverListObject)
+                        {
+                            driverList.Clear();
+                            driverList.AddRange(driverInformationList);
+                        }
+                    });
+
+                    InitializeData();
+                }
+                else
+                {
+                    foreach (DriverModel driverItem in DriverCollection)
+                    {
+                        driverItem.IsOperating = false;
+                    }
+
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.DeleteDriverFailed));
+                }
+            }
+        }
+
+        /// <summary>
+        /// 强制删除驱动
+        /// </summary>
+        private async void OnForceDeleteDriverClicked(object sender, RoutedEventArgs args)
+        {
+            if (RuntimeHelper.IsElevated)
+            {
+                List<DriverModel> selectedDriverList = [.. DriverCollection.Where(item => item.IsSelected)];
+
+                bool needReboot = false;
+                IsOperating = true;
+
+                foreach (DriverModel driverItem in DriverCollection)
+                {
+                    driverItem.IsOperating = true;
+                }
+
+                Dictionary<string, Tuple<bool, string>> deleteResultDict = await Task.Run(() =>
+                {
+                    Dictionary<string, Tuple<bool, string>> deleteResultDict = [];
+
+                    foreach (DriverModel driverItem in selectedDriverList)
+                    {
+                        bool result = NewDevLibrary.DiUninstallDriver(IntPtr.Zero, driverItem.DriverLocation, DIURFLAG.NO_REMOVE_INF, out bool NeedReboot) && SetupapiLibrary.SetupUninstallOEMInf(driverItem.DriverLocation, SUOI_Flags.SUOI_FORCEDELETE, IntPtr.Zero);
+
+                        if (NeedReboot)
+                        {
+                            needReboot = NeedReboot;
+                        }
+
+                        if (!deleteResultDict.ContainsKey(driverItem.DriverLocation))
+                        {
+                            // TODO
+                            deleteResultDict.Add(driverItem.DriverLocation, Tuple.Create(result, ""));
+                        }
+                    }
+
+                    return deleteResultDict;
+                });
+
+                IsOperating = false;
+
+                if (deleteResultDict.Values.Any(item => item.Item1))
+                {
+                    IsLoadCompleted = false;
+
+                    if (deleteResultDict.Values.All(item => item.Item1))
+                    {
+                        MainWindow.Current.BeginInvoke(async () =>
+                        {
+                            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ForceDeleteDriverAllSuccessfully));
+                        });
+                    }
+                    else
+                    {
+                        MainWindow.Current.BeginInvoke(async () =>
+                        {
+                            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ForceDeleteDriverPartialSuccessfully));
+                        });
+                    }
+
+                    // 添加重启提示
+                    if (needReboot)
+                    {
+                        MainWindow.Current.BeginInvoke(async () =>
+                        {
+                            ContentDialogResult contentDialogResult = await MainWindow.Current.ShowDialogAsync(new RebootDialog(DriverInstallKind.UnInstallDriver));
+
+                            await Task.Run(() =>
+                            {
+                                if (contentDialogResult is ContentDialogResult.Primary)
+                                {
+                                    ShutdownHelper.Restart(ResourceService.DriverManagerResource.GetString("RestartPC"), TimeSpan.FromSeconds(120));
+                                }
+                            });
+                        });
+                    }
+
+                    await Task.Run(() =>
+                    {
+                        List<DriverModel> driverInformationList = GetDriverInformationList();
+                        driverInformationList.Sort((item1, item2) => item1.DriverOEMInfName.CompareTo(item2.DriverOEMInfName));
+
+                        lock (driverListObject)
+                        {
+                            driverList.Clear();
+                            driverList.AddRange(driverInformationList);
+                        }
+                    });
+
+                    InitializeData();
+                }
+                else
+                {
+                    foreach (DriverModel driverItem in DriverCollection)
+                    {
+                        driverItem.IsOperating = false;
+                    }
+
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ForceDeleteDriverFailed));
+                }
+            }
         }
 
         /// <summary>
@@ -507,9 +1085,106 @@ namespace WindowsTools.Views.Pages
         #endregion 第二部分：驱动管理页面——挂载的事件
 
         /// <summary>
+        /// 初始化数据
+        /// </summary>
+        private void InitializeData()
+        {
+            DriverCollection.Clear();
+
+            if (SelectedRule.Equals(DriverSortRuleKind.DeviceName))
+            {
+                foreach (DriverModel driverItem in IsIncrease ? driverList.OrderBy(item => item.DeviceName) : driverList.OrderByDescending(item => item.DeviceName))
+                {
+                    driverItem.IsSelected = false;
+
+                    if (driverItem.DeviceName.Contains(SearchDriverNameText) || driverItem.DriverInfName.Contains(SearchDriverNameText) || driverItem.DriverOEMInfName.Contains(SearchDriverNameText) || driverItem.DriverManufacturer.Contains(SearchDriverNameText))
+                    {
+                        DriverCollection.Add(driverItem);
+                    }
+                }
+            }
+            else if (SelectedRule.Equals(DriverSortRuleKind.InfName))
+            {
+                foreach (DriverModel driverItem in IsIncrease ? driverList.OrderBy(item => item.DriverInfName) : driverList.OrderByDescending(item => item.DriverInfName))
+                {
+                    driverItem.IsSelected = false;
+
+                    if (driverItem.DeviceName.Contains(SearchDriverNameText) || driverItem.DriverInfName.Contains(SearchDriverNameText) || driverItem.DriverOEMInfName.Contains(SearchDriverNameText) || driverItem.DriverManufacturer.Contains(SearchDriverNameText))
+                    {
+                        DriverCollection.Add(driverItem);
+                    }
+                }
+            }
+            else if (SelectedRule.Equals(DriverSortRuleKind.OEMInfName))
+            {
+                foreach (DriverModel driverItem in IsIncrease ? driverList.OrderBy(item => item.DriverOEMInfName) : driverList.OrderByDescending(item => item.DriverOEMInfName))
+                {
+                    driverItem.IsSelected = false;
+
+                    if (driverItem.DeviceName.Contains(SearchDriverNameText) || driverItem.DriverInfName.Contains(SearchDriverNameText) || driverItem.DriverOEMInfName.Contains(SearchDriverNameText) || driverItem.DriverManufacturer.Contains(SearchDriverNameText))
+                    {
+                        DriverCollection.Add(driverItem);
+                    }
+                }
+            }
+            else if (SelectedRule.Equals(DriverSortRuleKind.DeviceType))
+            {
+                foreach (DriverModel driverItem in IsIncrease ? driverList.OrderBy(item => item.DriverType) : driverList.OrderByDescending(item => item.DriverType))
+                {
+                    driverItem.IsSelected = false;
+
+                    if (driverItem.DeviceName.Contains(SearchDriverNameText) || driverItem.DriverInfName.Contains(SearchDriverNameText) || driverItem.DriverOEMInfName.Contains(SearchDriverNameText) || driverItem.DriverManufacturer.Contains(SearchDriverNameText))
+                    {
+                        DriverCollection.Add(driverItem);
+                    }
+                }
+            }
+            else if (SelectedRule.Equals(DriverSortRuleKind.Manufacturer))
+            {
+                foreach (DriverModel driverItem in IsIncrease ? driverList.OrderBy(item => item.DriverManufacturer) : driverList.OrderByDescending(item => item.DriverManufacturer))
+                {
+                    driverItem.IsSelected = false;
+
+                    if (driverItem.DeviceName.Contains(SearchDriverNameText) || driverItem.DriverInfName.Contains(SearchDriverNameText) || driverItem.DriverOEMInfName.Contains(SearchDriverNameText) || driverItem.DriverManufacturer.Contains(SearchDriverNameText))
+                    {
+                        DriverCollection.Add(driverItem);
+                    }
+                }
+            }
+            else if (SelectedRule.Equals(DriverSortRuleKind.Manufacturer))
+            {
+                foreach (DriverModel driverItem in IsIncrease ? driverList.OrderBy(item => item.DriverVersion) : driverList.OrderByDescending(item => item.DriverVersion))
+                {
+                    driverItem.IsSelected = false;
+
+                    if (driverItem.DeviceName.Contains(SearchDriverNameText) || driverItem.DriverInfName.Contains(SearchDriverNameText) || driverItem.DriverOEMInfName.Contains(SearchDriverNameText) || driverItem.DriverManufacturer.Contains(SearchDriverNameText))
+                    {
+                        DriverCollection.Add(driverItem);
+                    }
+                }
+            }
+            else if (SelectedRule.Equals(DriverSortRuleKind.Date))
+            {
+                foreach (DriverModel driverItem in IsIncrease ? driverList.OrderBy(item => item.DriverDate) : driverList.OrderByDescending(item => item.DriverDate))
+                {
+                    driverItem.IsSelected = false;
+
+                    if (driverItem.DeviceName.Contains(SearchDriverNameText) || driverItem.DriverInfName.Contains(SearchDriverNameText) || driverItem.DriverOEMInfName.Contains(SearchDriverNameText) || driverItem.DriverManufacturer.Contains(SearchDriverNameText))
+                    {
+                        DriverCollection.Add(driverItem);
+                    }
+                }
+            }
+
+            IsDriverEmpty = driverList.Count is 0;
+            IsSearchEmpty = DriverCollection.Count is 0;
+            IsLoadCompleted = true;
+        }
+
+        /// <summary>
         /// 获取设备上所有的驱动信息
         /// </summary>
-        public List<DriverModel> GetDriverInformationList()
+        private List<DriverModel> GetDriverInformationList()
         {
             List<DriverModel> driverList = [];
 
@@ -590,38 +1265,38 @@ namespace WindowsTools.Views.Pages
                 }
 
                 List<SystemDriverInformation> systemDriverInformationList = [];
-                if (CfgMgr32Library.CM_Get_Device_ID_List_Size(out int deviceListSize, null, CM_GETIDLIST_FILTER.CM_GETIDLIST_FILTER_NONE) is CR.CR_SUCCESS)
+                IntPtr deviceInfoSet = SetupapiLibrary.SetupDiGetClassDevs(Guid.Empty, null, IntPtr.Zero, DIGCF.DIGCF_ALLCLASSES);
+
+                if (deviceInfoSet != IntPtr.Zero)
                 {
-                    byte[] deviceBuffer = new byte[deviceListSize * sizeof(char) + 2];
-
-                    if (CfgMgr32Library.CM_Get_Device_ID_List(null, deviceBuffer, deviceListSize, CM_GETIDLIST_FILTER.CM_GETIDLIST_FILTER_NONE) is CR.CR_SUCCESS)
+                    SP_DEVINFO_DATA deviceInfoData = new()
                     {
-                        string[] deviceIdArray = Encoding.Unicode.GetString(deviceBuffer).Split(['\0'], StringSplitOptions.RemoveEmptyEntries);
+                        cbSize = Marshal.SizeOf<SP_DEVINFO_DATA>(),
+                    };
 
-                        foreach (string deviceId in deviceIdArray)
+                    // 枚举所有设备
+                    for (int index = 0; SetupapiLibrary.SetupDiEnumDeviceInfo(deviceInfoSet, index, ref deviceInfoData); index++)
+                    {
+                        object deviceGuid = GetDevNodeProperty("DEVPKEY_Device_ClassGuid", deviceInfoData, deviceInfoSet);
+                        object deviceDesc = GetDevNodeProperty("DEVPKEY_Device_DeviceDesc", deviceInfoData, deviceInfoSet);
+                        object driverInfPath = GetDevNodeProperty("DEVPKEY_Device_DriverInfPath", deviceInfoData, deviceInfoSet);
+                        object driverDate = GetDevNodeProperty("DEVPKEY_Device_DriverDate", deviceInfoData, deviceInfoSet);
+                        object driverVersion = GetDevNodeProperty("DEVPKEY_Device_DriverVersion", deviceInfoData, deviceInfoSet);
+
+                        if (deviceGuid is not null && deviceDesc is not null && driverInfPath is not null && driverDate is not null && driverVersion is not null)
                         {
-                            if (CfgMgr32Library.CM_Locate_DevNode(out uint devInst, deviceId, CM_LOCATE_DEVNODE_FLAGS.CM_LOCATE_DEVNODE_PHANTOM) is CR.CR_SUCCESS)
+                            systemDriverInformationList.Add(new SystemDriverInformation()
                             {
-                                object deviceGuid = GetDevNodeProperty("DEVPKEY_Device_ClassGuid", devInst);
-                                object deviceDesc = GetDevNodeProperty("DEVPKEY_Device_DeviceDesc", devInst);
-                                object driverInfPath = GetDevNodeProperty("DEVPKEY_Device_DriverInfPath", devInst);
-                                object driverDate = GetDevNodeProperty("DEVPKEY_Device_DriverDate", devInst);
-                                object driverVersion = GetDevNodeProperty("DEVPKEY_Device_DriverVersion", devInst);
-
-                                if (deviceGuid is not null && deviceDesc is not null && driverInfPath is not null && driverDate is not null && driverVersion is not null)
-                                {
-                                    systemDriverInformationList.Add(new SystemDriverInformation()
-                                    {
-                                        DeviceGuid = deviceGuid is null ? Guid.NewGuid() : Guid.TryParse(Convert.ToString(deviceGuid), out Guid guid) ? guid : Guid.NewGuid(),
-                                        Description = Convert.ToString(deviceDesc),
-                                        InfPath = Convert.ToString(driverInfPath),
-                                        Date = (DateTime)driverDate,
-                                        Version = new Version(Convert.ToString(driverVersion))
-                                    });
-                                }
-                            }
+                                DeviceGuid = deviceGuid is null ? Guid.NewGuid() : Guid.TryParse(Convert.ToString(deviceGuid), out Guid guid) ? guid : Guid.NewGuid(),
+                                Description = Convert.ToString(deviceDesc),
+                                InfPath = Convert.ToString(driverInfPath),
+                                Date = (DateTime)driverDate,
+                                Version = new Version(Convert.ToString(driverVersion))
+                            });
                         }
                     }
+
+                    SetupapiLibrary.SetupDiDestroyDeviceInfoList(deviceInfoSet);
                 }
 
                 foreach (PnpDriverInformation pnpDriverInformationItem in pnpDriverInformationList)
@@ -635,7 +1310,7 @@ namespace WindowsTools.Views.Pages
                         DriverManufacturer = pnpDriverInformationItem.ProviderName,
                         DriverDate = DateTime.Parse(pnpDriverInformationItem.DriverDate),
                         DriverVersion = new Version(pnpDriverInformationItem.DriverVersion),
-                        DriverSize = FileSizeHelper.ConvertFileSizeToString(GetFolderSize(Path.GetDirectoryName(driverLocation))),
+                        DriverSize = string.IsNullOrEmpty(driverLocation) ? "0B" : FileSizeHelper.ConvertFileSizeToString(GetFolderSize(Path.GetDirectoryName(driverLocation))),
                         DriverLocation = driverLocation,
                         DriverType = pnpDriverInformationItem.ClassName,
                         SignatureName = string.IsNullOrEmpty(pnpDriverInformationItem.SignerName) ? Unknown : pnpDriverInformationItem.SignerName,
@@ -671,224 +1346,220 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 检索设备实例属性
         /// </summary>
-        private object GetDevNodeProperty(string devPropKey, uint devInst)
+        private object GetDevNodeProperty(string devPropKey, SP_DEVINFO_DATA deviceInfoData, IntPtr deviceInfoSet)
         {
             object value = null;
 
             if (DevPropKeyDict.TryGetValue(devPropKey, out DEVPROPKEY devPropKeyItem))
             {
-                int bufferSize = 0;
+                SetupapiLibrary.SetupDiGetDeviceProperty(deviceInfoSet, ref deviceInfoData, ref devPropKeyItem, out _, IntPtr.Zero, 0, out int bufferSize, 0);
+                IntPtr propertyBufferPtr = Marshal.AllocHGlobal(bufferSize);
 
-                if (CfgMgr32Library.CM_Get_DevNode_Property(devInst, ref devPropKeyItem, out _, IntPtr.Zero, ref bufferSize, 0) > 0)
+                if (SetupapiLibrary.SetupDiGetDeviceProperty(deviceInfoSet, ref deviceInfoData, ref devPropKeyItem, out DEVPROP_TYPE devPropertyType, propertyBufferPtr, bufferSize, out bufferSize, 0))
                 {
-                    IntPtr propertyBufferPtr = Marshal.AllocHGlobal(bufferSize);
-
-                    if (CfgMgr32Library.CM_Get_DevNode_Property(devInst, ref devPropKeyItem, out DEVPROP_TYPE devPropertyType, propertyBufferPtr, ref bufferSize, 0) is CR.CR_SUCCESS)
+                    // 空值
+                    switch (devPropertyType)
                     {
-                        // 空值
-                        switch (devPropertyType)
-                        {
-                            case DEVPROP_TYPE.DEVPROP_TYPE_EMPTY: break;
-                            case DEVPROP_TYPE.DEVPROP_TYPE_NULL: break;
-                            case DEVPROP_TYPE.DEVPROP_TYPE_SBYTE:
+                        case DEVPROP_TYPE.DEVPROP_TYPE_EMPTY: break;
+                        case DEVPROP_TYPE.DEVPROP_TYPE_NULL: break;
+                        case DEVPROP_TYPE.DEVPROP_TYPE_SBYTE:
+                            {
+                                value = Convert.ToSByte(Marshal.ReadByte(propertyBufferPtr));
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_BYTE:
+                            {
+                                value = Marshal.ReadByte(propertyBufferPtr);
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_INT16:
+                            {
+                                value = Marshal.ReadInt16(propertyBufferPtr);
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_UINT16:
+                            {
+                                value = Convert.ToUInt16(Marshal.ReadInt16(propertyBufferPtr));
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_INT32:
+                            {
+                                value = Marshal.ReadInt32(propertyBufferPtr);
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_UINT32:
+                            {
+                                value = Convert.ToUInt32(Marshal.ReadInt32(propertyBufferPtr));
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_INT64:
+                            {
+                                value = Marshal.ReadInt64(propertyBufferPtr);
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_UINT64:
+                            {
+                                value = Convert.ToUInt64(Marshal.ReadInt64(propertyBufferPtr));
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_FLOAT:
+                            {
+                                byte[] byteBuffer = new byte[sizeof(float)];
+                                for (int index = 0; index < byteBuffer.Length; index++)
                                 {
-                                    value = Convert.ToSByte(Marshal.ReadByte(propertyBufferPtr));
-                                    break;
+                                    byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
                                 }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_BYTE:
-                                {
-                                    value = Marshal.ReadByte(propertyBufferPtr);
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_INT16:
-                                {
-                                    value = Marshal.ReadInt16(propertyBufferPtr);
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_UINT16:
-                                {
-                                    value = Convert.ToUInt16(Marshal.ReadInt16(propertyBufferPtr));
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_INT32:
-                                {
-                                    value = Marshal.ReadInt32(propertyBufferPtr);
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_UINT32:
-                                {
-                                    value = Convert.ToUInt32(Marshal.ReadInt32(propertyBufferPtr));
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_INT64:
-                                {
-                                    value = Marshal.ReadInt64(propertyBufferPtr);
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_UINT64:
-                                {
-                                    value = Convert.ToUInt64(Marshal.ReadInt64(propertyBufferPtr));
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_FLOAT:
-                                {
-                                    byte[] byteBuffer = new byte[sizeof(float)];
-                                    for (int index = 0; index < byteBuffer.Length; index++)
-                                    {
-                                        byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
-                                    }
 
-                                    value = BitConverter.ToSingle(byteBuffer, 0);
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_DOUBLE:
+                                value = BitConverter.ToSingle(byteBuffer, 0);
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_DOUBLE:
+                            {
+                                byte[] byteBuffer = new byte[sizeof(double)];
+                                for (int index = 0; index < byteBuffer.Length; index++)
                                 {
-                                    byte[] byteBuffer = new byte[sizeof(double)];
-                                    for (int index = 0; index < byteBuffer.Length; index++)
-                                    {
-                                        byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
-                                    }
+                                    byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
+                                }
 
-                                    value = BitConverter.ToDouble(byteBuffer, 0);
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_DECIMAL:
+                                value = BitConverter.ToDouble(byteBuffer, 0);
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_DECIMAL:
+                            {
+                                byte[] byteBuffer = new byte[sizeof(decimal)];
+                                for (int index = 0; index < byteBuffer.Length; index++)
                                 {
-                                    byte[] byteBuffer = new byte[sizeof(decimal)];
-                                    for (int index = 0; index < byteBuffer.Length; index++)
-                                    {
-                                        byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
-                                    }
+                                    byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
+                                }
 
-                                    value = Convert.ToDecimal(BitConverter.ToDouble(byteBuffer, 0));
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_GUID:
+                                value = Convert.ToDecimal(BitConverter.ToDouble(byteBuffer, 0));
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_GUID:
+                            {
+                                byte[] byteBuffer = new byte[Marshal.SizeOf<Guid>()];
+                                for (int index = 0; index < byteBuffer.Length; index++)
                                 {
-                                    byte[] byteBuffer = new byte[Marshal.SizeOf<Guid>()];
-                                    for (int index = 0; index < byteBuffer.Length; index++)
-                                    {
-                                        byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
-                                    }
+                                    byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
+                                }
 
-                                    value = new Guid(byteBuffer);
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_CURRENCY:
+                                value = new Guid(byteBuffer);
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_CURRENCY:
+                            {
+                                value = Marshal.ReadInt64(propertyBufferPtr);
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_DATE:
+                            {
+                                byte[] byteBuffer = new byte[Marshal.SizeOf<System.Runtime.InteropServices.ComTypes.FILETIME>()];
+                                for (int index = 0; index < byteBuffer.Length; index++)
                                 {
-                                    value = Marshal.ReadInt64(propertyBufferPtr);
-                                    break;
+                                    byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
                                 }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_DATE:
-                                {
-                                    byte[] byteBuffer = new byte[Marshal.SizeOf<System.Runtime.InteropServices.ComTypes.FILETIME>()];
-                                    for (int index = 0; index < byteBuffer.Length; index++)
-                                    {
-                                        byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
-                                    }
 
-                                    value = DateTime.FromOADate(BitConverter.ToDouble(byteBuffer, 0)).Date;
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_FILETIME:
+                                value = DateTime.FromOADate(BitConverter.ToDouble(byteBuffer, 0)).Date;
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_FILETIME:
+                            {
+                                long fileTime = Marshal.ReadInt64(propertyBufferPtr);
+                                value = DateTime.FromFileTime(fileTime).Date;
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_BOOLEAN:
+                            {
+                                value = Marshal.ReadByte(propertyBufferPtr) is not 0;
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_STRING:
+                            {
+                                value = devPropertyType.HasFlag(DEVPROP_TYPE.DEVPROP_TYPEMOD_LIST) ? Marshal.PtrToStringUni(propertyBufferPtr, bufferSize / 2).Split(['\0'], StringSplitOptions.RemoveEmptyEntries) : Marshal.PtrToStringUni(propertyBufferPtr);
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_SECURITY_DESCRIPTOR:
+                            {
+                                byte[] byteBuffer = new byte[Marshal.SizeOf<System.Runtime.InteropServices.ComTypes.FILETIME>()];
+                                for (int index = 0; index < byteBuffer.Length; index++)
                                 {
-                                    long fileTime = Marshal.ReadInt64(propertyBufferPtr);
-                                    value = DateTime.FromFileTime(fileTime).Date;
-                                    break;
+                                    byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
                                 }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_BOOLEAN:
-                                {
-                                    value = Marshal.ReadByte(propertyBufferPtr) is not 0;
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_STRING:
-                                {
-                                    value = devPropertyType.HasFlag(DEVPROP_TYPE.DEVPROP_TYPEMOD_LIST) ? Marshal.PtrToStringUni(propertyBufferPtr, bufferSize / 2).Split(['\0'], StringSplitOptions.RemoveEmptyEntries) : Marshal.PtrToStringUni(propertyBufferPtr);
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_SECURITY_DESCRIPTOR:
-                                {
-                                    byte[] byteBuffer = new byte[Marshal.SizeOf<System.Runtime.InteropServices.ComTypes.FILETIME>()];
-                                    for (int index = 0; index < byteBuffer.Length; index++)
-                                    {
-                                        byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
-                                    }
 
-                                    value = new RawSecurityDescriptor(byteBuffer, 0);
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_SECURITY_DESCRIPTOR_STRING:
-                                {
-                                    value = devPropertyType.HasFlag(DEVPROP_TYPE.DEVPROP_TYPEMOD_LIST) ? Marshal.PtrToStringUni(propertyBufferPtr, bufferSize / 2).Split(['\0'], StringSplitOptions.RemoveEmptyEntries) : Marshal.PtrToStringUni(propertyBufferPtr);
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_DEVPROPKEY:
-                                {
-                                    DEVPROPKEY key = new();
+                                value = new RawSecurityDescriptor(byteBuffer, 0);
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_SECURITY_DESCRIPTOR_STRING:
+                            {
+                                value = devPropertyType.HasFlag(DEVPROP_TYPE.DEVPROP_TYPEMOD_LIST) ? Marshal.PtrToStringUni(propertyBufferPtr, bufferSize / 2).Split(['\0'], StringSplitOptions.RemoveEmptyEntries) : Marshal.PtrToStringUni(propertyBufferPtr);
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_DEVPROPKEY:
+                            {
+                                DEVPROPKEY key = new();
 
-                                    byte[] byteBuffer = new byte[Marshal.SizeOf<Guid>()];
-                                    for (int index = 0; index < byteBuffer.Length; index++)
-                                    {
-                                        byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
-                                    }
+                                byte[] byteBuffer = new byte[Marshal.SizeOf<Guid>()];
+                                for (int index = 0; index < byteBuffer.Length; index++)
+                                {
+                                    byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
+                                }
 
-                                    key.fmtid = new Guid(byteBuffer);
-                                    key.pid = Convert.ToUInt32(Marshal.ReadInt32(propertyBufferPtr, 16));
-                                    value = key;
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_DEVPROPTYPE:
+                                key.fmtid = new Guid(byteBuffer);
+                                key.pid = Convert.ToUInt32(Marshal.ReadInt32(propertyBufferPtr, 16));
+                                value = key;
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_DEVPROPTYPE:
+                            {
+                                value = (DEVPROP_TYPE)Marshal.ReadInt32(propertyBufferPtr);
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_ERROR:
+                            {
+                                value = Marshal.GetExceptionForHR(Marshal.ReadInt32(propertyBufferPtr));
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_NTSTATUS:
+                            {
+                                value = Marshal.ReadInt32(propertyBufferPtr);
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_STRING_INDIRECT:
+                            {
+                                value = devPropertyType.HasFlag(DEVPROP_TYPE.DEVPROP_TYPEMOD_LIST) ? Marshal.PtrToStringUni(propertyBufferPtr, bufferSize / 2).Split(['\0'], StringSplitOptions.RemoveEmptyEntries) : Marshal.PtrToStringUni(propertyBufferPtr);
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPEMOD_ARRAY:
+                            {
+                                byte[] byteBuffer = new byte[bufferSize];
+                                for (int index = 0; index < byteBuffer.Length; index++)
                                 {
-                                    value = (DEVPROP_TYPE)Marshal.ReadInt32(propertyBufferPtr);
-                                    break;
+                                    byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
                                 }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_ERROR:
-                                {
-                                    value = Marshal.GetExceptionForHR(Marshal.ReadInt32(propertyBufferPtr));
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_NTSTATUS:
-                                {
-                                    value = Marshal.ReadInt32(propertyBufferPtr);
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_STRING_INDIRECT:
-                                {
-                                    value = devPropertyType.HasFlag(DEVPROP_TYPE.DEVPROP_TYPEMOD_LIST) ? Marshal.PtrToStringUni(propertyBufferPtr, bufferSize / 2).Split(['\0'], StringSplitOptions.RemoveEmptyEntries) : Marshal.PtrToStringUni(propertyBufferPtr);
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPEMOD_ARRAY:
-                                {
-                                    byte[] byteBuffer = new byte[bufferSize];
-                                    for (int index = 0; index < byteBuffer.Length; index++)
-                                    {
-                                        byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
-                                    }
 
-                                    value = byteBuffer;
-                                    break;
-                                }
-                            case DEVPROP_TYPE.DEVPROP_TYPE_BINARY:
+                                value = byteBuffer;
+                                break;
+                            }
+                        case DEVPROP_TYPE.DEVPROP_TYPE_BINARY:
+                            {
+                                value = Marshal.ReadByte(propertyBufferPtr);
+                                break;
+                            }
+                        default:
+                            {
+                                byte[] byteBuffer = new byte[bufferSize];
+                                for (int index = 0; index < byteBuffer.Length; index++)
                                 {
-                                    value = Marshal.ReadByte(propertyBufferPtr);
-                                    break;
+                                    byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
                                 }
-                            default:
-                                {
-                                    byte[] byteBuffer = new byte[bufferSize];
-                                    for (int index = 0; index < byteBuffer.Length; index++)
-                                    {
-                                        byteBuffer[index] = Marshal.ReadByte(propertyBufferPtr + index);
-                                    }
 
-                                    value = byteBuffer;
-                                    break;
-                                }
-                        }
+                                value = byteBuffer;
+                                break;
+                            }
                     }
-
-                    Marshal.FreeHGlobal(propertyBufferPtr);
                 }
+
+                Marshal.FreeHGlobal(propertyBufferPtr);
             }
 
             return value;

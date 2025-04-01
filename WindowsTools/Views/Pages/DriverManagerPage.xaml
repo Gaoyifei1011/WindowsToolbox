@@ -5,16 +5,20 @@
     xmlns:converter="using:WindowsTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enum="using:WindowsTools.Extensions.DataType.Enums"
+    xmlns:helper="using:WindowsTools.Helpers.Root"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:root="using:WindowsTools.Services.Root"
+    xmlns:sys="using:System"
     Loaded="{x:Bind OnLoaded}"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Page.Resources>
         <XamlUICommand x:Name="DeleteDriverCommand" ExecuteRequested="{x:Bind OnDeleteDriverExecuteRequested}" />
+        <XamlUICommand x:Name="ForceDeleteDriverCommand" ExecuteRequested="{x:Bind OnForceDeleteDriverExecuteRequested}" />
+        <XamlUICommand x:Name="OpenFolderCommand" ExecuteRequested="{x:Bind OnOpenFolderExecuteRequested}" />
     </Page.Resources>
 
     <Grid Padding="0">
@@ -37,216 +41,456 @@
                 FontSize="22"
                 Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('Title')}" />
 
-            <Button
-                Grid.Column="1"
-                VerticalAlignment="Center"
-                Click="{x:Bind OnOpenDeviceManagementClicked}"
-                Content="{x:Bind root:ResourceService.DriverManagerResource.GetString('DeviceManagement')}" />
+            <Button Grid.Column="1" VerticalAlignment="Center">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('TaskManager')}" />
+                        <muxc:InfoBadge
+                            Margin="5,0,0,0"
+                            Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(DriverOperationCollection.Count), Mode=OneWay}"
+                            Value="{x:Bind DriverOperationCollection.Count, Mode=OneWay}" />
+                    </StackPanel>
+                </Button.Content>
+
+                <Button.Flyout>
+                    <Flyout
+                        x:Name="TaskManagerFlyout"
+                        Placement="Bottom"
+                        ShouldConstrainToRootBounds="False">
+
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid
+                                Grid.Row="0"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="0,0,0,1">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <FontIcon
+                                    Grid.Column="0"
+                                    Margin="16,0,6,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="16"
+                                    Glyph="&#xE71D;" />
+
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('TaskManager')}" />
+
+                                <Button
+                                    Grid.Column="2"
+                                    Margin="-5,0,0,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Click="{x:Bind OnClearTaskClicked}"
+                                    IsEnabled="{x:Bind sys:Convert.ToBoolean(DriverOperationCollection.Count), Mode=OneWay}"
+                                    Style="{StaticResource AlternateCloseButtonStyle}"
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.DriverManagerResource.GetString('ClearTask')}">
+
+                                    <Button.Content>
+                                        <FontIcon
+                                            Margin="4"
+                                            FontSize="16"
+                                            Glyph="&#xE74D;" />
+                                    </Button.Content>
+                                </Button>
+
+                                <Button
+                                    Grid.Column="3"
+                                    Margin="-5,0,0,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Click="{x:Bind OnCloseClicked}"
+                                    Style="{StaticResource AlternateCloseButtonStyle}"
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.DriverManagerResource.GetString('Close')}">
+
+                                    <Button.Content>
+                                        <FontIcon
+                                            Margin="4"
+                                            FontSize="16"
+                                            Glyph="&#xE711;" />
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+
+                            <Grid
+                                Grid.Row="1"
+                                Width="300"
+                                Height="100"
+                                Padding="20"
+                                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(DriverOperationCollection.Count), Mode=OneWay}">
+
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('DriverOperationTaskEmpty')}"
+                                    TextAlignment="Center"
+                                    TextWrapping="WrapWholeWords" />
+                            </Grid>
+
+                            <ListView
+                                Grid.Row="1"
+                                Width="450"
+                                Height="200"
+                                ItemsSource="{x:Bind DriverOperationCollection, Mode=OneWay}"
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                ScrollViewer.HorizontalScrollMode="Disabled"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.VerticalScrollMode="Enabled"
+                                SelectionMode="None"
+                                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(DriverOperationCollection.Count), Mode=OneWay}">
+
+                                <ListView.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="MinHeight" Value="0" />
+                                        <Setter Property="Padding" Value="0" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+
+                                <!--<ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="model:InstallDependencyModel">
+                                        <Grid
+                                            Height="60"
+                                            Margin="2,0,2,2"
+                                            Padding="16,0,6,0"
+                                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid
+                                                Grid.Column="0"
+                                                VerticalAlignment="Center"
+                                                RowSpacing="2">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <TextBlock
+                                                    x:Name="DependencyNameText"
+                                                    Grid.Row="0"
+                                                    MinWidth="50"
+                                                    Margin="0,0,5,0"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="14"
+                                                    Text="{x:Bind DependencyName}"
+                                                    TextAlignment="Left"
+                                                    TextTrimming="CharacterEllipsis">
+
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip
+                                                            MaxWidth="9999"
+                                                            Content="{x:Bind DependencyName}"
+                                                            Visibility="{Binding ElementName=DependencyNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                    </ToolTipService.ToolTip>
+                                                </TextBlock>
+
+                                                <TextBlock
+                                                    x:Name="DependencyInfoText"
+                                                    Grid.Row="1"
+                                                    MinWidth="50"
+                                                    Margin="0,0,5,0"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="14"
+                                                    TextAlignment="Left"
+                                                    TextTrimming="CharacterEllipsis">
+
+                                                    <Run Text="{x:Bind DependencyVersion}" />
+                                                    <Run Text=" | " />
+                                                    <Run Text="{x:Bind DependencyPublisher}" />
+
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip MaxWidth="9999" Visibility="{Binding ElementName=DependencyInfoText, Path=IsTextTrimmed, Mode=OneWay}">
+                                                            <TextBlock>
+                                                                <Run Text="{x:Bind DependencyVersion}" />
+                                                                <Run Text=" | " />
+                                                                <Run Text="{x:Bind DependencyPublisher}" />
+                                                            </TextBlock>
+                                                        </ToolTip>
+                                                    </ToolTipService.ToolTip>
+                                                </TextBlock>
+                                            </Grid>
+
+                                            <Button
+                                                Grid.Column="1"
+                                                Width="Auto"
+                                                Height="Auto"
+                                                Margin="10,0,0,0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Command="{StaticResource DeleteDependencyPackageCommand}"
+                                                CommandParameter="{x:Bind DependencyFullName}"
+                                                Style="{StaticResource AlternateCloseButtonStyle}"
+                                                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Installer/DeleteDependencyPackage')}">
+
+                                                <Button.Content>
+                                                    <FontIcon
+                                                        Margin="4"
+                                                        FontSize="16"
+                                                        Glyph="&#xE711;" />
+                                                </Button.Content>
+                                            </Button>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>-->
+                            </ListView>
+                        </Grid>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
         </Grid>
 
-        <Grid
+        <ContentControl
             Grid.Row="1"
-            Height="61"
-            Margin="30,0,30,3"
-            Padding="12,0,10,0"
-            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-            BorderThickness="1"
-            CornerRadius="{StaticResource ControlCornerRadius}">
+            HorizontalContentAlignment="Stretch"
+            IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+            <Grid
+                Height="61"
+                Margin="30,0,30,3"
+                Padding="12,0,8,0"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource ControlCornerRadius}">
 
-            <AutoSuggestBox
-                Grid.Column="0"
-                Margin="0,0,2,0"
-                VerticalAlignment="Center"
-                IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                PlaceholderText="{x:Bind root:ResourceService.DriverManagerResource.GetString('SearchDriverNamePHText')}"
-                QuerySubmitted="{x:Bind OnSearchDriverNameQuerySubmitted}"
-                Text="{x:Bind SearchDriverNameText, Mode=OneWay}"
-                TextChanged="{x:Bind OnSerachDriverNameTextChanged}" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <CommandBar
-                Grid.Column="1"
-                VerticalAlignment="Center"
-                DefaultLabelPosition="Right"
-                IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}">
+                <AutoSuggestBox
+                    Grid.Column="0"
+                    Margin="0,0,2,0"
+                    VerticalAlignment="Center"
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsOperating), Mode=OneWay}"
+                    PlaceholderText="{x:Bind root:ResourceService.DriverManagerResource.GetString('SearchDriverNamePHText')}"
+                    QuerySubmitted="{x:Bind OnSearchDriverNameQuerySubmitted}"
+                    Text="{x:Bind SearchDriverNameText, Mode=OneWay}"
+                    TextChanged="{x:Bind OnSerachDriverNameTextChanged}" />
 
-                <CommandBar.Resources>
-                    <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
-                    <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
-                </CommandBar.Resources>
+                <CommandBar
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    DefaultLabelPosition="Right"
+                    IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsOperating), Mode=OneWay}">
 
-                <CommandBar.PrimaryCommands>
-                    <AppBarButton
-                        Click="{x:Bind OnSelectAllClicked}"
-                        IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                        Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('SelectAll')}">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE8B3;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
+                    <CommandBar.Resources>
+                        <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
+                        <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
+                    </CommandBar.Resources>
 
-                    <AppBarButton
-                        Click="{x:Bind OnSelectNoneClicked}"
-                        IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                        Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('SelectNone')}">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE8E6;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
+                    <CommandBar.PrimaryCommands>
+                        <AppBarButton Click="{x:Bind OnSelectAllClicked}" Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('SelectAll')}">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE8B3;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
 
-                    <AppBarButton IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}" Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('Sort')}">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE8CB;" />
-                        </AppBarButton.Icon>
+                        <AppBarButton Click="{x:Bind OnSelectNoneClicked}" Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('SelectNone')}">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE8E6;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
 
-                        <AppBarButton.Flyout>
-                            <MenuFlyout Placement="Bottom">
-                                <MenuFlyoutSubItem
-                                    Height="32"
-                                    Padding="11,0,11,0"
-                                    Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortWay')}">
+                        <AppBarButton Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('Sort')}">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE8CB;" />
+                            </AppBarButton.Icon>
 
-                                    <muxc:RadioMenuFlyoutItem
+                            <AppBarButton.Flyout>
+                                <MenuFlyout Placement="Bottom">
+                                    <MenuFlyoutSubItem
                                         Height="32"
-                                        Padding="11,0"
-                                        Click="{x:Bind OnSortWayClicked}"
-                                        GroupName="SortWayRadioGroup"
-                                        IsChecked="{x:Bind IsIncrease, Mode=OneWay}"
-                                        Tag="True"
-                                        Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortIncrease')}" />
+                                        Padding="11,0,11,0"
+                                        Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortWay')}">
 
-                                    <muxc:RadioMenuFlyoutItem
+                                        <muxc:RadioMenuFlyoutItem
+                                            Height="32"
+                                            Padding="11,0"
+                                            Click="{x:Bind OnSortWayClicked}"
+                                            GroupName="SortWayRadioGroup"
+                                            IsChecked="{x:Bind IsIncrease, Mode=OneWay}"
+                                            Tag="True"
+                                            Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortIncrease')}" />
+
+                                        <muxc:RadioMenuFlyoutItem
+                                            Height="32"
+                                            Padding="11,0"
+                                            Click="{x:Bind OnSortWayClicked}"
+                                            GroupName="SortWayRadioGroup"
+                                            IsChecked="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsIncrease), Mode=OneWay}"
+                                            Tag="False"
+                                            Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortDecrease')}" />
+                                    </MenuFlyoutSubItem>
+
+                                    <MenuFlyoutSubItem
                                         Height="32"
-                                        Padding="11,0"
-                                        Click="{x:Bind OnSortWayClicked}"
-                                        GroupName="SortWayRadioGroup"
-                                        IsChecked="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsIncrease), Mode=OneWay}"
-                                        Tag="False"
-                                        Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortDecrease')}" />
-                                </MenuFlyoutSubItem>
+                                        Padding="11,0,11,0"
+                                        Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortRule')}">
 
-                                <MenuFlyoutSubItem
-                                    Height="32"
-                                    Padding="11,0,11,0"
-                                    Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortRule')}">
+                                        <muxc:RadioMenuFlyoutItem
+                                            Height="32"
+                                            Padding="11,0"
+                                            Click="{x:Bind OnSortRuleClicked}"
+                                            GroupName="SortRuleRadioGroup"
+                                            IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.DeviceName), Mode=OneWay}"
+                                            Tag="{x:Bind enum:DriverSortRuleKind.DeviceName}"
+                                            Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortByDeviceName')}" />
 
-                                    <muxc:RadioMenuFlyoutItem
-                                        Height="32"
-                                        Padding="11,0"
-                                        Click="{x:Bind OnSortRuleClicked}"
-                                        GroupName="SortRuleRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.DeviceName), Mode=OneWay}"
-                                        Tag="{x:Bind enum:DriverSortRuleKind.DeviceName}"
-                                        Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortByDeviceName')}" />
+                                        <muxc:RadioMenuFlyoutItem
+                                            Height="32"
+                                            Padding="11,0"
+                                            Click="{x:Bind OnSortRuleClicked}"
+                                            GroupName="SortRuleRadioGroup"
+                                            IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.InfName), Mode=OneWay}"
+                                            Tag="{x:Bind enum:DriverSortRuleKind.InfName}"
+                                            Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortByInfName')}" />
 
-                                    <muxc:RadioMenuFlyoutItem
-                                        Height="32"
-                                        Padding="11,0"
-                                        Click="{x:Bind OnSortRuleClicked}"
-                                        GroupName="SortRuleRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.InfName), Mode=OneWay}"
-                                        Tag="{x:Bind enum:DriverSortRuleKind.InfName}"
-                                        Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortByInfName')}" />
+                                        <muxc:RadioMenuFlyoutItem
+                                            Height="32"
+                                            Padding="11,0"
+                                            Click="{x:Bind OnSortRuleClicked}"
+                                            GroupName="SortRuleRadioGroup"
+                                            IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.OEMInfName), Mode=OneWay}"
+                                            Tag="{x:Bind enum:DriverSortRuleKind.OEMInfName}"
+                                            Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortByOEMInfName')}" />
 
-                                    <muxc:RadioMenuFlyoutItem
-                                        Height="32"
-                                        Padding="11,0"
-                                        Click="{x:Bind OnSortRuleClicked}"
-                                        GroupName="SortRuleRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.OEMInfName), Mode=OneWay}"
-                                        Tag="{x:Bind enum:DriverSortRuleKind.OEMInfName}"
-                                        Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortByOEMInfName')}" />
+                                        <muxc:RadioMenuFlyoutItem
+                                            Height="32"
+                                            Padding="11,0"
+                                            Click="{x:Bind OnSortRuleClicked}"
+                                            GroupName="SortRuleRadioGroup"
+                                            IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.DeviceType), Mode=OneWay}"
+                                            Tag="{x:Bind enum:DriverSortRuleKind.DeviceType}"
+                                            Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortByDeviceType')}" />
 
-                                    <muxc:RadioMenuFlyoutItem
-                                        Height="32"
-                                        Padding="11,0"
-                                        Click="{x:Bind OnSortRuleClicked}"
-                                        GroupName="SortRuleRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.DeviceType), Mode=OneWay}"
-                                        Tag="{x:Bind enum:DriverSortRuleKind.DeviceType}"
-                                        Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortByDeviceType')}" />
+                                        <muxc:RadioMenuFlyoutItem
+                                            Height="32"
+                                            Padding="11,0"
+                                            Click="{x:Bind OnSortRuleClicked}"
+                                            GroupName="SortRuleRadioGroup"
+                                            IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.Manufacturer), Mode=OneWay}"
+                                            Tag="{x:Bind enum:DriverSortRuleKind.Manufacturer}"
+                                            Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortByManufacturer')}" />
 
-                                    <muxc:RadioMenuFlyoutItem
-                                        Height="32"
-                                        Padding="11,0"
-                                        Click="{x:Bind OnSortRuleClicked}"
-                                        GroupName="SortRuleRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.Manufacturer), Mode=OneWay}"
-                                        Tag="{x:Bind enum:DriverSortRuleKind.Manufacturer}"
-                                        Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortByManufacturer')}" />
+                                        <muxc:RadioMenuFlyoutItem
+                                            Height="32"
+                                            Padding="11,0"
+                                            Click="{x:Bind OnSortRuleClicked}"
+                                            GroupName="SortRuleRadioGroup"
+                                            IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.Version), Mode=OneWay}"
+                                            Tag="{x:Bind enum:DriverSortRuleKind.Version}"
+                                            Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortByVersion')}" />
 
-                                    <muxc:RadioMenuFlyoutItem
-                                        Height="32"
-                                        Padding="11,0"
-                                        Click="{x:Bind OnSortRuleClicked}"
-                                        GroupName="SortRuleRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.Version), Mode=OneWay}"
-                                        Tag="{x:Bind enum:DriverSortRuleKind.Version}"
-                                        Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortByVersion')}" />
+                                        <muxc:RadioMenuFlyoutItem
+                                            Height="32"
+                                            Padding="11,0"
+                                            Click="{x:Bind OnSortRuleClicked}"
+                                            GroupName="SortRuleRadioGroup"
+                                            IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.Date), Mode=OneWay}"
+                                            Tag="{x:Bind enum:DriverSortRuleKind.Date}"
+                                            Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortByDate')}" />
+                                    </MenuFlyoutSubItem>
+                                </MenuFlyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
 
-                                    <muxc:RadioMenuFlyoutItem
-                                        Height="32"
-                                        Padding="11,0"
-                                        Click="{x:Bind OnSortRuleClicked}"
-                                        GroupName="SortRuleRadioGroup"
-                                        IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.Date), Mode=OneWay}"
-                                        Tag="{x:Bind enum:DriverSortRuleKind.Date}"
-                                        Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('SortByDate')}" />
-                                </MenuFlyoutSubItem>
-                            </MenuFlyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
+                        <AppBarButton Click="{x:Bind OnRefreshClicked}" Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('Refresh')}">
 
-                    <AppBarButton
-                        Click="{x:Bind OnRefreshClicked}"
-                        IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                        Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('Refresh')}">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE72C;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                    </CommandBar.PrimaryCommands>
 
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE72C;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-                </CommandBar.PrimaryCommands>
+                    <CommandBar.SecondaryCommands>
+                        <AppBarButton
+                            Click="{x:Bind OnAddDriverClicked}"
+                            IsEnabled="{x:Bind helper:RuntimeHelper.IsElevated}"
+                            Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('AddDriver')}">
 
-                <CommandBar.SecondaryCommands>
-                    <AppBarButton
-                        Click="{x:Bind OnAddInstallDriverClicked}"
-                        IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                        Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('AddInstallDriver')}">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE710;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
 
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE710;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
+                        <AppBarButton
+                            Click="{x:Bind OnAddInstallDriverClicked}"
+                            IsEnabled="{x:Bind helper:RuntimeHelper.IsElevated}"
+                            Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('AddInstallDriver')}">
 
-                    <AppBarButton
-                        Click="{x:Bind OnDeleteDriverClicked}"
-                        IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                        Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('DeleteDriver')}">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE710;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
 
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE711;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
+                        <AppBarButton
+                            Click="{x:Bind OnDeleteDriverClicked}"
+                            IsEnabled="{x:Bind helper:RuntimeHelper.IsElevated}"
+                            Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('DeleteDriver')}">
 
-                    <AppBarSeparator />
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE711;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
 
-                    <AppBarButton
-                        Click="{x:Bind OnSelectOldDriverClicked}"
-                        IsEnabled="{x:Bind IsLoadCompleted, Mode=OneWay}"
-                        Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('SelectOldDriver')}">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE74D;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-                </CommandBar.SecondaryCommands>
-            </CommandBar>
-        </Grid>
+                        <AppBarButton
+                            Click="{x:Bind OnForceDeleteDriverClicked}"
+                            IsEnabled="{x:Bind helper:RuntimeHelper.IsElevated}"
+                            Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('ForceDeleteDriver')}">
+
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE711;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+
+                        <AppBarSeparator />
+
+                        <AppBarButton Click="{x:Bind OnSelectOldDriverClicked}" Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('SelectOldDriver')}">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE74D;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+
+                        <AppBarSeparator />
+
+                        <AppBarButton Click="{x:Bind OnOpenDeviceManagementClicked}" Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('DeviceManagement')}">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE7F8;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                    </CommandBar.SecondaryCommands>
+                </CommandBar>
+            </Grid>
+        </ContentControl>
 
         <Grid
             x:Name="LoadingGrid"
@@ -358,13 +602,15 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
                                         <CheckBox
                                             Grid.Column="0"
                                             MinWidth="0"
                                             Margin="0,0,12,0"
-                                            IsChecked="{x:Bind IsSelected, Mode=TwoWay}">
+                                            IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
+                                            IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsOperating), Mode=OneWay}">
 
                                             <ToolTipService.ToolTip>
                                                 <ToolTip MaxWidth="9999">
@@ -414,22 +660,61 @@
                                             </TextBlock>
                                         </StackPanel>
 
-                                        <Button
+                                        <muxc:ProgressRing
                                             Grid.Column="2"
-                                            Width="32"
-                                            Height="32"
-                                            Margin="5,0,0,0"
-                                            Padding="0"
-                                            Command="{StaticResource DeleteDriverCommand}"
-                                            CommandParameter="{x:Bind DriverOEMInfName}"
-                                            CornerRadius="{StaticResource ControlCornerRadius}"
-                                            ToolTipService.ToolTip="{x:Bind root:ResourceService.DriverManagerResource.GetString('DeleteDriverToolTip')}">
+                                            Width="26"
+                                            Height="26"
+                                            Margin="0,0,8,0"
+                                            IsActive="{x:Bind IsOperating, Mode=OneWay}"
+                                            Visibility="{x:Bind IsOperating, Mode=OneWay}" />
 
-                                            <!--  TODO Î´Íê³É  -->
-                                            <Button.Content>
-                                                <FontIcon FontSize="14" Glyph="&#xE712;" />
-                                            </Button.Content>
-                                        </Button>
+                                        <CommandBar
+                                            Grid.Column="3"
+                                            VerticalAlignment="Center"
+                                            DefaultLabelPosition="Right"
+                                            IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsOperating), Mode=OneWay}">
+
+                                            <CommandBar.Resources>
+                                                <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
+                                                <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
+                                            </CommandBar.Resources>
+
+                                            <CommandBar.SecondaryCommands>
+                                                <AppBarButton
+                                                    Command="{StaticResource OpenFolderCommand}"
+                                                    CommandParameter="{x:Bind DriverLocation}"
+                                                    Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('OpenFolder')}">
+
+                                                    <AppBarButton.Icon>
+                                                        <FontIcon FontSize="14" Glyph="&#xE8B7;" />
+                                                    </AppBarButton.Icon>
+                                                </AppBarButton>
+
+                                                <AppBarSeparator />
+
+                                                <AppBarButton
+                                                    Command="{StaticResource DeleteDriverCommand}"
+                                                    CommandParameter="{x:Bind}"
+                                                    IsEnabled="{x:Bind helper:RuntimeHelper.IsElevated}"
+                                                    Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('DeleteDriver')}">
+
+                                                    <AppBarButton.Icon>
+                                                        <FontIcon FontSize="14" Glyph="&#xE711;" />
+                                                    </AppBarButton.Icon>
+                                                </AppBarButton>
+
+                                                <AppBarButton
+                                                    Command="{StaticResource ForceDeleteDriverCommand}"
+                                                    CommandParameter="{x:Bind}"
+                                                    IsEnabled="{x:Bind helper:RuntimeHelper.IsElevated}"
+                                                    Label="{x:Bind root:ResourceService.DriverManagerResource.GetString('ForceDeleteDriver')}">
+
+                                                    <AppBarButton.Icon>
+                                                        <FontIcon FontSize="14" Glyph="&#xE711;" />
+                                                    </AppBarButton.Icon>
+                                                </AppBarButton>
+                                            </CommandBar.SecondaryCommands>
+                                        </CommandBar>
                                     </Grid>
                                 </muxc:Expander.Header>
 
