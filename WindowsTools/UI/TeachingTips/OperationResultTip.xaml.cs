@@ -140,6 +140,90 @@ namespace WindowsTools.UI.TeachingTips
                 OperationResultFailed.Visibility = Visibility.Collapsed;
                 OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("InsiderPreviewSuccessfully");
             }
+            else if (operationKind is OperationKind.AddDriverAllSuccessfully)
+            {
+                OperationResultSuccess.Visibility = Visibility.Visible;
+                OperationResultFailed.Visibility = Visibility.Collapsed;
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("AddDriverAllSuccessfully");
+            }
+            else if (operationKind is OperationKind.AddDriverPartialSuccessfully)
+            {
+                OperationResultSuccess.Visibility = Visibility.Visible;
+                OperationResultFailed.Visibility = Visibility.Collapsed;
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("AddDriverPartialSuccessfully");
+            }
+            else if (operationKind is OperationKind.AddDriverFailed)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("AddDriverFailed");
+            }
+            else if (operationKind is OperationKind.AddInstallDriverAllSuccessfully)
+            {
+                OperationResultSuccess.Visibility = Visibility.Visible;
+                OperationResultFailed.Visibility = Visibility.Collapsed;
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("AddInstallDriverAllSuccessfully");
+            }
+            else if (operationKind is OperationKind.AddInstallDriverPartialSuccessfully)
+            {
+                OperationResultSuccess.Visibility = Visibility.Visible;
+                OperationResultFailed.Visibility = Visibility.Collapsed;
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("AddInstallDriverPartialSuccessfully");
+            }
+            else if (operationKind is OperationKind.AddInstallDriverFailed)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("AddInstallDriverFailed");
+            }
+            else if (operationKind is OperationKind.DeleteDriverAllSuccessfully)
+            {
+                OperationResultSuccess.Visibility = Visibility.Visible;
+                OperationResultFailed.Visibility = Visibility.Collapsed;
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("DeleteDriverAllSuccessfully");
+            }
+            else if (operationKind is OperationKind.DeleteDriverPartialSuccessfully)
+            {
+                OperationResultSuccess.Visibility = Visibility.Visible;
+                OperationResultFailed.Visibility = Visibility.Collapsed;
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("DeleteDriverPartialSuccessfully");
+            }
+            else if (operationKind is OperationKind.DeleteDriverSuccessfully)
+            {
+                OperationResultSuccess.Visibility = Visibility.Visible;
+                OperationResultFailed.Visibility = Visibility.Collapsed;
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("DeleteDriverSuccessfully");
+            }
+            else if (operationKind is OperationKind.DeleteDriverFailed)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("DeleteDriverFailed");
+            }
+            else if (operationKind is OperationKind.ForceDeleteDriverAllSuccessfully)
+            {
+                OperationResultSuccess.Visibility = Visibility.Visible;
+                OperationResultFailed.Visibility = Visibility.Collapsed;
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("ForceDeleteDriverAllSuccessfully");
+            }
+            else if (operationKind is OperationKind.ForceDeleteDriverPartialSuccessfully)
+            {
+                OperationResultSuccess.Visibility = Visibility.Visible;
+                OperationResultFailed.Visibility = Visibility.Collapsed;
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("ForceDeleteDriverPartialSuccessfully");
+            }
+            else if (operationKind is OperationKind.ForceDeleteDriverSuccessfully)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("ForceDeleteDriverSuccessfully");
+            }
+            else if (operationKind is OperationKind.ForceDeleteDriverFailed)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("ForceDeleteDriverFailed");
+            }
         }
 
         public OperationResultTip(OperationKind operationKind, bool operationResult)

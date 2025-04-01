@@ -29,6 +29,20 @@
         MenuMatchRuleEmpty = 24,
         ShellMenuNeedToRefreshData = 25,
         ContextMenuUpdate = 26,
-        InsiderPreviewSettings = 27
+        InsiderPreviewSettings = 27,
+        AddDriverAllSuccessfully = 28,
+        AddDriverPartialSuccessfully = 29,
+        AddDriverFailed = 30,
+        AddInstallDriverAllSuccessfully = 31,
+        AddInstallDriverPartialSuccessfully = 32,
+        AddInstallDriverFailed = 33,
+        DeleteDriverAllSuccessfully = 34,
+        DeleteDriverPartialSuccessfully = 35,
+        DeleteDriverSuccessfully = 26,
+        DeleteDriverFailed = 37,
+        ForceDeleteDriverAllSuccessfully = 38,
+        ForceDeleteDriverPartialSuccessfully = 39,
+        ForceDeleteDriverSuccessfully = 40,
+        ForceDeleteDriverFailed = 41,
     }
 }
