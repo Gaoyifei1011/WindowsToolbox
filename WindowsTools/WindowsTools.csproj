@@ -269,11 +269,8 @@
     <None Update="UI\Dialogs\NeedElevatedDialog.xaml" />
     <None Remove="UI\Dialogs\OpenStartupTaskFailedDialog.xaml" />
     <None Remove="UI\Dialogs\OperationFailedDialog.xaml" />
+    <None Update="UI\Dialogs\RebootDialog.xaml" />
     <None Update="UI\Dialogs\RestartAppsDialog.xaml" />
-    <None Remove="UI\TeachingTips\AppInformationDialog.xaml" />
-    <None Remove="UI\TeachingTips\FileCheckDialog.xaml" />
-    <None Remove="UI\TeachingTips\LicenseDialog.xaml" />
-    <None Remove="UI\TeachingTips\OperationFailedDialog.xaml" />
     <None Remove="UI\TeachingTips\DataCopyTip.xaml" />
     <None Remove="UI\TeachingTips\OperationResultTip.xaml" />
     <None Remove="UI\TeachingTips\QuickOperationTip.xaml" />
@@ -317,6 +314,7 @@
     <Page Include="UI\Dialogs\NeedElevatedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\OpenStartupTaskFailedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\OperationFailedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="UI\Dialogs\RebootDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\Dialogs\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\TeachingTips\DataCopyTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="UI\TeachingTips\OperationResultTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
