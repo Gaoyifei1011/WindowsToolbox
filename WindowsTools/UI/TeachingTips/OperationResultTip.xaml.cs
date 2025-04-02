@@ -214,8 +214,8 @@ namespace WindowsTools.UI.TeachingTips
             }
             else if (operationKind is OperationKind.ForceDeleteDriverSuccessfully)
             {
-                OperationResultSuccess.Visibility = Visibility.Collapsed;
-                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultSuccess.Visibility = Visibility.Visible;
+                OperationResultFailed.Visibility = Visibility.Collapsed;
                 OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("ForceDeleteDriverSuccessfully");
             }
             else if (operationKind is OperationKind.ForceDeleteDriverFailed)

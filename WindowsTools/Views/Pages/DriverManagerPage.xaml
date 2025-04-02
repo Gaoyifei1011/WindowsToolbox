@@ -19,6 +19,7 @@
         <XamlUICommand x:Name="DeleteDriverCommand" ExecuteRequested="{x:Bind OnDeleteDriverExecuteRequested}" />
         <XamlUICommand x:Name="ForceDeleteDriverCommand" ExecuteRequested="{x:Bind OnForceDeleteDriverExecuteRequested}" />
         <XamlUICommand x:Name="OpenFolderCommand" ExecuteRequested="{x:Bind OnOpenFolderExecuteRequested}" />
+        <XamlUICommand x:Name="DeleteDriverOperationTaskCommand" ExecuteRequested="{x:Bind OnDeleteDriverOperationTaskExecuteRequested}" />
     </Page.Resources>
 
     <Grid Padding="0">
@@ -101,10 +102,10 @@
                                     Margin="-5,0,0,0"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Click="{x:Bind OnClearTaskClicked}"
+                                    Click="{x:Bind OnClearDriverOperationTaskClicked}"
                                     IsEnabled="{x:Bind sys:Convert.ToBoolean(DriverOperationCollection.Count), Mode=OneWay}"
                                     Style="{StaticResource AlternateCloseButtonStyle}"
-                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.DriverManagerResource.GetString('ClearTask')}">
+                                    ToolTipService.ToolTip="{x:Bind root:ResourceService.DriverManagerResource.GetString('ClearDriverOperationTask')}">
 
                                     <Button.Content>
                                         <FontIcon
@@ -168,8 +169,8 @@
                                     </Style>
                                 </ListView.ItemContainerStyle>
 
-                                <!--<ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="model:InstallDependencyModel">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="model:DriverOperationModel">
                                         <Grid
                                             Height="60"
                                             Margin="2,0,2,2"
@@ -194,49 +195,51 @@
                                                 </Grid.RowDefinitions>
 
                                                 <TextBlock
-                                                    x:Name="DependencyNameText"
+                                                    x:Name="DriverInfNameText"
                                                     Grid.Row="0"
                                                     MinWidth="50"
                                                     Margin="0,0,5,0"
                                                     VerticalAlignment="Center"
                                                     FontSize="14"
-                                                    Text="{x:Bind DependencyName}"
+                                                    Text="{x:Bind DriverInfName}"
                                                     TextAlignment="Left"
                                                     TextTrimming="CharacterEllipsis">
 
                                                     <ToolTipService.ToolTip>
                                                         <ToolTip
                                                             MaxWidth="9999"
-                                                            Content="{x:Bind DependencyName}"
-                                                            Visibility="{Binding ElementName=DependencyNameText, Path=IsTextTrimmed, Mode=OneWay}" />
+                                                            Content="{x:Bind DriverInfName}"
+                                                            Visibility="{Binding ElementName=DriverInfNameText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                     </ToolTipService.ToolTip>
                                                 </TextBlock>
 
                                                 <TextBlock
-                                                    x:Name="DependencyInfoText"
+                                                    x:Name="DriverOperationText"
                                                     Grid.Row="1"
                                                     MinWidth="50"
                                                     Margin="0,0,5,0"
                                                     VerticalAlignment="Center"
                                                     FontSize="14"
+                                                    Text="{x:Bind DriverOperation}"
                                                     TextAlignment="Left"
                                                     TextTrimming="CharacterEllipsis">
 
-                                                    <Run Text="{x:Bind DependencyVersion}" />
-                                                    <Run Text=" | " />
-                                                    <Run Text="{x:Bind DependencyPublisher}" />
-
                                                     <ToolTipService.ToolTip>
-                                                        <ToolTip MaxWidth="9999" Visibility="{Binding ElementName=DependencyInfoText, Path=IsTextTrimmed, Mode=OneWay}">
-                                                            <TextBlock>
-                                                                <Run Text="{x:Bind DependencyVersion}" />
-                                                                <Run Text=" | " />
-                                                                <Run Text="{x:Bind DependencyPublisher}" />
-                                                            </TextBlock>
-                                                        </ToolTip>
+                                                        <ToolTip
+                                                            MaxWidth="9999"
+                                                            Content="{x:Bind DriverOperation}"
+                                                            Visibility="{Binding ElementName=DriverOperationText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                     </ToolTipService.ToolTip>
                                                 </TextBlock>
                                             </Grid>
+
+                                            <muxc:ProgressRing
+                                                Grid.Column="1"
+                                                Width="20"
+                                                Height="20"
+                                                Margin="10,0,8,0"
+                                                IsActive="True"
+                                                Visibility="{x:Bind IsOperating, Mode=OneWay}" />
 
                                             <Button
                                                 Grid.Column="1"
@@ -245,10 +248,11 @@
                                                 Margin="10,0,0,0"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Command="{StaticResource DeleteDependencyPackageCommand}"
-                                                CommandParameter="{x:Bind DependencyFullName}"
+                                                Command="{StaticResource DeleteDriverOperationTaskCommand}"
+                                                CommandParameter="{x:Bind DriverOperationGuid}"
                                                 Style="{StaticResource AlternateCloseButtonStyle}"
-                                                ToolTipService.ToolTip="{x:Bind root:ResourceService.GetLocalized('Installer/DeleteDependencyPackage')}">
+                                                ToolTipService.ToolTip="{x:Bind root:ResourceService.DriverManagerResource.GetString('DeleteDriverOperationTask')}"
+                                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsOperating), Mode=OneWay}">
 
                                                 <Button.Content>
                                                     <FontIcon
@@ -259,7 +263,7 @@
                                             </Button>
                                         </Grid>
                                     </DataTemplate>
-                                </ListView.ItemTemplate>-->
+                                </ListView.ItemTemplate>
                             </ListView>
                         </Grid>
                     </Flyout>
@@ -665,8 +669,8 @@
                                             Width="26"
                                             Height="26"
                                             Margin="0,0,8,0"
-                                            IsActive="{x:Bind IsOperating, Mode=OneWay}"
-                                            Visibility="{x:Bind IsOperating, Mode=OneWay}" />
+                                            IsActive="{x:Bind IsProcessing, Mode=OneWay}"
+                                            Visibility="{x:Bind IsProcessing, Mode=OneWay}" />
 
                                         <CommandBar
                                             Grid.Column="3"
