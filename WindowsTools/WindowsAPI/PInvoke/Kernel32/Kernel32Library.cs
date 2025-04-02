@@ -80,6 +80,16 @@ namespace WindowsTools.WindowsAPI.PInvoke.Kernel32
         public static extern IntPtr GetCurrentProcess();
 
         /// <summary>
+        /// 检索调用线程的最后错误代码值。 最后一个错误代码按线程进行维护。 多个线程不会覆盖彼此的最后一个错误代码。
+        /// </summary>
+        /// <returns>
+        /// 返回值是调用线程的最后错误代码。
+        /// 设置最后错误代码的每个函数的文档的返回值部分记录了函数设置最后错误代码的条件。 设置线程最后错误代码的大多数函数在失败时设置它。 但是，某些函数还会在成功时设置最后一个错误代码。 如果未记录函数以设置最后一个错误代码，则此函数返回的值只是要设置的最新最后一个错误代码;某些函数在成功时将最后一个错误代码设置为 0，而其他函数则不这样做。
+        /// </returns>
+        [DllImport(Kernel32, CharSet = CharSet.Unicode, EntryPoint = "GetLastError", PreserveSig = true, SetLastError = false)]
+        public static extern int GetLastError();
+
+        /// <summary>
         /// 获取指定包的路径。
         /// </summary>
         /// <param name="packageFullName">包的全名。</param>
