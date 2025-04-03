@@ -1,5 +1,5 @@
-### <p align="center">工具原型</p>
-### <p align="center">Tool prototype</p>
+### <p align="center">部分功能工具原型</p>
+### <p align="center">Part feature tool prototype</p>
 
 ------
 <div align=center>
