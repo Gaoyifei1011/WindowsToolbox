@@ -224,6 +224,12 @@ namespace WindowsTools.UI.TeachingTips
                 OperationResultFailed.Visibility = Visibility.Visible;
                 OperationResultFailed.Text = ResourceService.NotificationResource.GetString("ForceDeleteDriverFailed");
             }
+            else if (operationKind is OperationKind.SelectDriverEmpty)
+            {
+                OperationResultSuccess.Visibility = Visibility.Collapsed;
+                OperationResultFailed.Visibility = Visibility.Visible;
+                OperationResultFailed.Text = ResourceService.NotificationResource.GetString("SelectDriverEmpty");
+            }
         }
 
         public OperationResultTip(OperationKind operationKind, bool operationResult)
