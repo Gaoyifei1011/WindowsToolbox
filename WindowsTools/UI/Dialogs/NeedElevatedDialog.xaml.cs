@@ -22,7 +22,7 @@ namespace WindowsTools.UI.Dialogs
         /// <summary>
         /// 提权运行该应用
         /// </summary>
-        private void OnElevatedOpenClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void OnRunAsAdministratorClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             Task.Run(() =>
             {

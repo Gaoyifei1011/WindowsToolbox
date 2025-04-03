@@ -10,7 +10,7 @@
     BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
     CloseButtonText="{x:Bind root:ResourceService.DialogResource.GetString('Cancel')}"
     FlowDirection="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).FlowDirection, Mode=OneWay}"
-    PrimaryButtonClick="{x:Bind OnElevatedOpenClicked}"
+    PrimaryButtonClick="{x:Bind OnRunAsAdministratorClicked}"
     PrimaryButtonStyle="{ThemeResource AccentButtonStyle}"
     PrimaryButtonText="{x:Bind root:ResourceService.DialogResource.GetString('RunAsAdministrator')}"
     RequestedTheme="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).RequestedTheme, Mode=OneWay}"
