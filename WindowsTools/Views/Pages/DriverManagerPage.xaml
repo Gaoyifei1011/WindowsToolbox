@@ -16,6 +16,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <XamlUICommand x:Name="CheckBoxClickCommand" ExecuteRequested="{x:Bind OnCheckBoxExecuteRequested}" />
         <XamlUICommand x:Name="DeleteDriverCommand" ExecuteRequested="{x:Bind OnDeleteDriverExecuteRequested}" />
         <XamlUICommand x:Name="ForceDeleteDriverCommand" ExecuteRequested="{x:Bind OnForceDeleteDriverExecuteRequested}" />
         <XamlUICommand x:Name="OpenFolderCommand" ExecuteRequested="{x:Bind OnOpenFolderExecuteRequested}" />
@@ -35,14 +36,77 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock
-                Grid.Row="0"
-                FontSize="22"
-                Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('Title')}" />
+            <StackPanel
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="5">
 
-            <Button Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock FontSize="22" Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('Title')}" />
+                <TextBlock VerticalAlignment="Bottom" Text="{x:Bind DriverDescription, Mode=OneWay}" />
+            </StackPanel>
+
+            <Button
+                Grid.Column="1"
+                Margin="0,0,5,0"
+                VerticalAlignment="Center"
+                Content="{x:Bind root:ResourceService.DriverManagerResource.GetString('DriverDescription')}">
+
+                <Button.Flyout>
+                    <Flyout Placement="Bottom" ShouldConstrainToRootBounds="False">
+
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="MaxWidth" Value="9999" />
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+
+                        <StackPanel
+                            Width="350"
+                            Padding="14"
+                            Spacing="5">
+
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon
+                                    Grid.Column="0"
+                                    Margin="0,0,12,0"
+                                    FontSize="16"
+                                    Glyph="&#xE8C9;" />
+
+                                <TextBlock FontWeight="SemiBold" Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('DriverDescription')}" />
+                            </StackPanel>
+
+                            <MenuFlyoutSeparator Margin="3,0,6,0" Background="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
+
+                            <TextBlock
+                                Margin="0,0,2,0"
+                                Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('DriverDescriptionContent1')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,0,2,0"
+                                Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('DriverDescriptionContent2')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <StackPanel
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal"
+                                Spacing="5">
+
+                                <Button Click="{x:Bind OnLearnPnpDriverClicked}" Content="{x:Bind root:ResourceService.DriverManagerResource.GetString('LearnPnpDriver')}" />
+                                <Button Click="{x:Bind OnRunAsAdministratorClicked}" Content="{x:Bind root:ResourceService.DriverManagerResource.GetString('RunAsAdministrator')}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+
+            <Button Grid.Column="2" VerticalAlignment="Center">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{x:Bind root:ResourceService.DriverManagerResource.GetString('TaskManager')}" />
@@ -220,14 +284,14 @@
                                                     Margin="0,0,5,0"
                                                     VerticalAlignment="Center"
                                                     FontSize="14"
-                                                    Text="{x:Bind DriverOperation}"
+                                                    Text="{x:Bind DriverOperation, Mode=OneWay}"
                                                     TextAlignment="Left"
                                                     TextTrimming="CharacterEllipsis">
 
                                                     <ToolTipService.ToolTip>
                                                         <ToolTip
                                                             MaxWidth="9999"
-                                                            Content="{x:Bind DriverOperation}"
+                                                            Content="{x:Bind DriverOperation, Mode=OneWay}"
                                                             Visibility="{Binding ElementName=DriverOperationText, Path=IsTextTrimmed, Mode=OneWay}" />
                                                     </ToolTipService.ToolTip>
                                                 </TextBlock>
@@ -613,6 +677,7 @@
                                             Grid.Column="0"
                                             MinWidth="0"
                                             Margin="0,0,12,0"
+                                            Command="{StaticResource CheckBoxClickCommand}"
                                             IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
                                             IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsOperating), Mode=OneWay}">
 

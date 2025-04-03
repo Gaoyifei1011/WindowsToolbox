@@ -32,6 +32,8 @@ using WindowsTools.WindowsAPI.PInvoke.Setupapi;
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
 
+// TODO ：测试添加并安装驱动
+
 namespace WindowsTools.Views.Pages
 {
     /// <summary>
@@ -222,10 +224,27 @@ namespace WindowsTools.Views.Pages
 
         private readonly object driverListObject = new();
         private readonly List<DriverModel> driverList = [];
+        private readonly string DriverInformation = ResourceService.DriverManagerResource.GetString("DriverInformation");
         private readonly string Unknown = ResourceService.DriverManagerResource.GetString("Unknown");
         private readonly string UnknownDeviceName = ResourceService.DriverManagerResource.GetString("UnknownDeviceName");
 
         private bool isLoaded;
+
+        private string _driverDescription = string.Empty;
+
+        public string DriverDescription
+        {
+            get { return _driverDescription; }
+
+            set
+            {
+                if (!Equals(_driverDescription, value))
+                {
+                    _driverDescription = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DriverDescription)));
+                }
+            }
+        }
 
         private bool _isLoadCompleted;
 
@@ -351,6 +370,14 @@ namespace WindowsTools.Views.Pages
         }
 
         #region 第一部分：XamlUICommand 命令调用时挂载的事件
+
+        /// <summary>
+        /// 点击选中驱动项
+        /// </summary>
+        private void OnCheckBoxExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        {
+            DriverDescription = string.Format(DriverInformation, DriverCollection.Count, DriverCollection.Count(item => item.IsSelected));
+        }
 
         /// <summary>
         /// 打开文件夹
@@ -593,6 +620,7 @@ namespace WindowsTools.Views.Pages
             {
                 isLoaded = true;
                 IsLoadCompleted = false;
+                DriverDescription = string.Format(DriverInformation, DriverCollection.Count, DriverCollection.Count(item => item.IsSelected));
 
                 await Task.Run(() =>
                 {
@@ -608,6 +636,51 @@ namespace WindowsTools.Views.Pages
 
                 InitializeData();
             }
+        }
+
+        /// <summary>
+        /// 了解即插即用设备
+        /// </summary>
+        private void OnLearnPnpDriverClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start("https://learn.microsoft.com/windows-hardware/drivers/kernel/introduction-to-plug-and-play");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open learn pnp driver failed", e);
+                }
+            });
+        }
+
+        /// <summary>
+        /// 以管理员身份运行
+        /// </summary>
+
+        private void OnRunAsAdministratorClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    ProcessStartInfo startInfo = new()
+                    {
+                        UseShellExecute = true,
+                        WorkingDirectory = Environment.CurrentDirectory,
+                        Arguments = "--elevated",
+                        FileName = System.Windows.Forms.Application.ExecutablePath,
+                        Verb = "runas"
+                    };
+                    Process.Start(startInfo);
+                }
+                catch
+                {
+                    return;
+                }
+            });
         }
 
         /// <summary>
@@ -690,6 +763,8 @@ namespace WindowsTools.Views.Pages
             {
                 driverItem.IsSelected = true;
             }
+
+            DriverDescription = string.Format(DriverInformation, DriverCollection.Count, DriverCollection.Count(item => item.IsSelected));
         }
 
         /// <summary>
@@ -701,6 +776,8 @@ namespace WindowsTools.Views.Pages
             {
                 driverItem.IsSelected = false;
             }
+
+            DriverDescription = string.Format(DriverInformation, DriverCollection.Count, DriverCollection.Count(item => item.IsSelected));
         }
 
         /// <summary>
@@ -784,7 +861,7 @@ namespace WindowsTools.Views.Pages
 
                         DriverOperationCollection.Add(new DriverOperationModel
                         {
-                            DriverInfName = fileName,
+                            DriverInfName = Path.GetFileName(fileName),
                             DriverOperation = ResourceService.DriverManagerResource.GetString("AddingDriver"),
                             DriverOperationGuid = driverOperationGuid,
                             IsOperating = true
@@ -797,6 +874,7 @@ namespace WindowsTools.Views.Pages
                             bool result = SetupapiLibrary.SetupCopyOEMInf(fileName, null, SPOST.SPOST_PATH, SP_COPY.SP_COPY_NONE, stringBuilder, (uint)stringBuilder.Capacity, ref bufferSize, IntPtr.Zero);
                             Win32Exception win32Exception = new(Kernel32Library.GetLastError());
                             string driverOperation = result ? ResourceService.DriverManagerResource.GetString("AddingDriverSuccessfully") : string.Format(ResourceService.DriverManagerResource.GetString("AddingDriverFailed"), win32Exception.NativeErrorCode, win32Exception.HResult, win32Exception.Message);
+                            System.IO.File.AppendAllText("D:\\01.txt", driverOperation + Environment.NewLine);
                             lock (addDriverResultDictObject)
                             {
                                 addDriverResultDict.Add(driverOperationGuid, Tuple.Create(fileName, result, driverOperation));
@@ -900,7 +978,7 @@ namespace WindowsTools.Views.Pages
 
                         DriverOperationCollection.Add(new DriverOperationModel
                         {
-                            DriverInfName = fileName,
+                            DriverInfName = Path.GetFileName(fileName),
                             DriverOperation = ResourceService.DriverManagerResource.GetString("AddInstallingDriver"),
                             DriverOperationGuid = driverOperationGuid,
                             IsOperating = true
@@ -1006,11 +1084,19 @@ namespace WindowsTools.Views.Pages
             if (RuntimeHelper.IsElevated)
             {
                 List<DriverModel> selectedDriverList = [.. DriverCollection.Where(item => item.IsSelected)];
+
+                if (selectedDriverList.Count is 0)
+                {
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.SelectDriverEmpty));
+                    return;
+                }
+
                 IsOperating = true;
 
                 foreach (DriverModel driverItem in DriverCollection)
                 {
                     driverItem.IsOperating = true;
+                    driverItem.IsSelected = false;
                     foreach (DriverModel selectedDriverItem in selectedDriverList)
                     {
                         if (driverItem.DriverOEMInfName.Equals(selectedDriverItem.DriverOEMInfName))
@@ -1021,6 +1107,7 @@ namespace WindowsTools.Views.Pages
                     }
                 }
 
+                DriverDescription = string.Format(DriverInformation, DriverCollection.Count, DriverCollection.Count(item => item.IsSelected));
                 List<Task> deleteDriverTaskList = [];
                 Dictionary<Guid, Tuple<string, bool, string>> deleteDriverResultDict = [];
                 object deleteDriverResultDictLock = new();
@@ -1127,12 +1214,19 @@ namespace WindowsTools.Views.Pages
             {
                 List<DriverModel> selectedDriverList = [.. DriverCollection.Where(item => item.IsSelected)];
 
+                if (selectedDriverList.Count is 0)
+                {
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.SelectDriverEmpty));
+                    return;
+                }
+
                 bool needReboot = false;
                 IsOperating = true;
 
                 foreach (DriverModel driverItem in DriverCollection)
                 {
                     driverItem.IsOperating = true;
+                    driverItem.IsSelected = false;
                     foreach (DriverModel selectedDriverItem in selectedDriverList)
                     {
                         if (driverItem.DriverOEMInfName.Equals(selectedDriverItem.DriverOEMInfName))
@@ -1143,6 +1237,7 @@ namespace WindowsTools.Views.Pages
                     }
                 }
 
+                DriverDescription = string.Format(DriverInformation, DriverCollection.Count, DriverCollection.Count(item => item.IsSelected));
                 List<Task> forceDeleteDriverTaskList = [];
                 Dictionary<Guid, Tuple<string, bool, string>> forceDeleteDriverResultDict = [];
                 object forceDeleteDriverResultDictLock = new();
@@ -1286,6 +1381,8 @@ namespace WindowsTools.Views.Pages
                     }
                 }
             }
+
+            DriverDescription = string.Format(DriverInformation, DriverCollection.Count, DriverCollection.Count(item => item.IsSelected));
         }
 
         #endregion 第二部分：驱动管理页面——挂载的事件
@@ -1384,6 +1481,7 @@ namespace WindowsTools.Views.Pages
 
             IsDriverEmpty = driverList.Count is 0;
             IsSearchEmpty = DriverCollection.Count is 0;
+            DriverDescription = string.Format(DriverInformation, DriverCollection.Count, DriverCollection.Count(item => item.IsSelected));
             IsLoadCompleted = true;
         }
 
