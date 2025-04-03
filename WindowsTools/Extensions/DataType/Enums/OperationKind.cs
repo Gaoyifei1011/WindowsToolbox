@@ -38,11 +38,12 @@
         AddInstallDriverFailed = 33,
         DeleteDriverAllSuccessfully = 34,
         DeleteDriverPartialSuccessfully = 35,
-        DeleteDriverSuccessfully = 26,
+        DeleteDriverSuccessfully = 36,
         DeleteDriverFailed = 37,
         ForceDeleteDriverAllSuccessfully = 38,
         ForceDeleteDriverPartialSuccessfully = 39,
         ForceDeleteDriverSuccessfully = 40,
         ForceDeleteDriverFailed = 41,
+        SelectDriverEmpty = 42
     }
 }

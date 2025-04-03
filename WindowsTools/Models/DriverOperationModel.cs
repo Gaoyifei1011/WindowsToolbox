@@ -25,14 +25,28 @@ namespace WindowsTools.Models
         }
 
         /// <summary>
+        /// 驱动操作信息
+        /// </summary>
+        private string _driverOperation;
+
+        public string DriverOperation
+        {
+            get { return _driverOperation; }
+
+            set
+            {
+                if (!Equals(_driverOperation, value))
+                {
+                    _driverOperation = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DriverOperation)));
+                }
+            }
+        }
+
+        /// <summary>
         /// 驱动 INF 名称
         /// </summary>
         public string DriverInfName { get; set; }
-
-        /// <summary>
-        /// 驱动操作信息
-        /// </summary>
-        public string DriverOperation { get; set; }
 
         /// <summary>
         /// 驱动操作唯一 ID
