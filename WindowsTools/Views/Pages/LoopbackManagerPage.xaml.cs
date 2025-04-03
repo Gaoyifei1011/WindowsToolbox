@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
@@ -30,7 +31,24 @@ namespace WindowsTools.Views.Pages
     public sealed partial class LoopbackManagerPage : Page, INotifyPropertyChanged
     {
         private bool isInitialized;
+        private readonly string LoopbackInformation = ResourceService.LoopbackManagerResource.GetString("LoopbackInformation");
         private readonly List<LoopbackModel> loopbackList = [];
+
+        private string _loopbackDescription = string.Empty;
+
+        public string LoopbackDescription
+        {
+            get { return _loopbackDescription; }
+
+            set
+            {
+                if (!Equals(_loopbackDescription, value))
+                {
+                    _loopbackDescription = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LoopbackDescription)));
+                }
+            }
+        }
 
         private bool _isLoadCompleted;
 
@@ -132,6 +150,8 @@ namespace WindowsTools.Views.Pages
             {
                 IsSaved = true;
             }
+
+            LoopbackDescription = string.Format(LoopbackInformation, LoopbackCollection.Count, LoopbackCollection.Count(item => item.IsSelected));
         }
 
         /// <summary>
@@ -163,6 +183,7 @@ namespace WindowsTools.Views.Pages
 
                 IsLoadCompleted = false;
                 IsSaved = false;
+                LoopbackDescription = string.Format(LoopbackInformation, LoopbackCollection.Count, LoopbackCollection.Count(item => item.IsSelected));
                 await GetLoopbackDataAsync();
             }
         }
@@ -243,6 +264,7 @@ namespace WindowsTools.Views.Pages
             }
 
             IsSearchEmpty = LoopbackCollection.Count is 0;
+            LoopbackDescription = string.Format(LoopbackInformation, LoopbackCollection.Count, LoopbackCollection.Count(item => item.IsSelected));
         }
 
         /// <summary>
@@ -262,6 +284,7 @@ namespace WindowsTools.Views.Pages
                 }
 
                 IsSearchEmpty = false;
+                LoopbackDescription = string.Format(LoopbackInformation, LoopbackCollection.Count, LoopbackCollection.Count(item => item.IsSelected));
             }
         }
 
@@ -275,6 +298,8 @@ namespace WindowsTools.Views.Pages
             {
                 loopbackItem.IsSelected = true;
             }
+
+            LoopbackDescription = string.Format(LoopbackInformation, LoopbackCollection.Count, LoopbackCollection.Count(item => item.IsSelected));
         }
 
         /// <summary>
@@ -287,6 +312,8 @@ namespace WindowsTools.Views.Pages
             {
                 loopbackItem.IsSelected = false;
             }
+
+            LoopbackDescription = string.Format(LoopbackInformation, LoopbackCollection.Count, LoopbackCollection.Count(item => item.IsSelected));
         }
 
         /// <summary>
@@ -302,6 +329,8 @@ namespace WindowsTools.Views.Pages
             {
                 loopbackItem.IsSelected = loopbackItem.IsOldChecked;
             }
+
+            LoopbackDescription = string.Format(LoopbackInformation, LoopbackCollection.Count, LoopbackCollection.Count(item => item.IsSelected));
         }
 
         /// <summary>
@@ -312,6 +341,7 @@ namespace WindowsTools.Views.Pages
             IsLoadCompleted = false;
             IsSaved = false;
             LoopbackCollection.Clear();
+            LoopbackDescription = string.Format(LoopbackInformation, LoopbackCollection.Count, LoopbackCollection.Count(item => item.IsSelected));
             await GetLoopbackDataAsync();
         }
 
@@ -331,6 +361,7 @@ namespace WindowsTools.Views.Pages
                 }
             }
 
+            LoopbackDescription = string.Format(LoopbackInformation, LoopbackCollection.Count, LoopbackCollection.Count(item => item.IsSelected));
             await SetLoopbackStateAsync(selectedLoopbackList);
         }
 
@@ -486,6 +517,7 @@ namespace WindowsTools.Views.Pages
                 }
             }
 
+            LoopbackDescription = string.Format(LoopbackInformation, LoopbackCollection.Count, LoopbackCollection.Count(item => item.IsSelected));
             IsAppEmpty = loopbackList.Count is 0;
             IsLoadCompleted = true;
         }

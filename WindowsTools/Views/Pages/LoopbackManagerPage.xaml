@@ -32,10 +32,15 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock
+            <StackPanel
                 Grid.Column="0"
-                FontSize="22"
-                Text="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('Title')}" />
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="5">
+
+                <TextBlock FontSize="22" Text="{x:Bind root:ResourceService.LoopbackManagerResource.GetString('Title')}" />
+                <TextBlock VerticalAlignment="Bottom" Text="{x:Bind LoopbackDescription, Mode=OneWay}" />
+            </StackPanel>
 
             <Button
                 Grid.Column="1"
