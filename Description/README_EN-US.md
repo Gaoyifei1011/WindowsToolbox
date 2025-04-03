@@ -75,7 +75,7 @@ A toolbox that integrates multiple gadgets.
 | Customize the right-click menu                            | Finished                                                             |
 | Right-click menu items manager                            | Finished                                                             |
 | System information                                        | Unfinished                                                           |
-| Driver manager                                            | Unfinished                                                           |
+| Driver manager                                            | Finished                                                             |
 | Update manager                                            | Finished                                                             |
 | Loopback manager                                          | Finished                                                             |
 | Windows system assessment tool                            | Finished                                                             |
