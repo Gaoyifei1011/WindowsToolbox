@@ -6,6 +6,7 @@ Description=Description
 EmptyDescription=The device has no applications
 LearnLoopback=Learn loopback
 LoadingLoopback=Loading network loopback information, please wait...
+LoopbackInformation=There are {0} apps and {1} selected
 OpenWorkingDirectoryToolTip=Open working directory
 Refresh=Refresh
 Reset=Reset

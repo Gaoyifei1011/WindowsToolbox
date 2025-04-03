@@ -42,6 +42,7 @@ OperationFailedCopy=该条错误信息已经成功复制到剪贴板
 OperationFailedSelectedCopy={0}条错误信息已经成功复制到剪贴板
 ParsePhotoFailed=图片解析失败
 ReadClipboardImageFailed=没有从剪贴板中读取到图片
+SelectDriverEmpty=没有选择任何驱动
 StartScreenFailed=应用固定到“开始”屏幕失败，请手动固定
 StartScreenSuccessfully=已成功将应用固定到“开始”屏幕
 StringCopy=该条字符串信息已成功复制到剪贴板

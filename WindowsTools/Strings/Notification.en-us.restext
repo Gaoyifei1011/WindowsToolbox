@@ -41,6 +41,7 @@ NotNewestVersion=The app is not the latest version, click on the project home pa
 OperationFailedCopy=This error message was successfully copied to the clipboard
 OperationFailedSelectedCopy=The {0} error message was successfully copied to the clipboard
 ParsePhotoFailed=Image parsing failed
+SelectDriverEmpty=No driver is selected
 ReadClipboardImageFailed=No image was read from the clipboard
 StartScreenFailed=App pinning to Start screen failed, please pin it manually
 StartScreenSuccessfully=You successfully pinned the app to the Start screen

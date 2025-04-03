@@ -6,6 +6,7 @@ Description=描述信息
 EmptyDescription=该设备没有任何应用
 LearnLoopback=了解网络回环
 LoadingLoopback=正在加载网络回环信息中，请稍候...
+LoopbackInformation=共有 {0} 个应用，已选择 {1} 个
 OpenWorkingDirectoryToolTip=打开工作目录
 Refresh=刷新
 Reset=重置
