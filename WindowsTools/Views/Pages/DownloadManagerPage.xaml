@@ -10,6 +10,7 @@
     xmlns:model="using:WindowsTools.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:root="using:WindowsTools.Services.Root"
+    xmlns:sys="using:System"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -228,19 +229,30 @@
                         </AppBarButton.Icon>
                     </AppBarButton>
 
-                    <AppBarButton Click="{x:Bind OnStartDownloadClicked}" Label="{x:Bind root:ResourceService.DownloadManagerResource.GetString('StartDownload')}">
+                    <AppBarButton
+                        Click="{x:Bind OnStartDownloadClicked}"
+                        IsEnabled="{x:Bind sys:Convert.ToBoolean(DownloadCollection.Count), Mode=OneWay}"
+                        Label="{x:Bind root:ResourceService.DownloadManagerResource.GetString('StartDownload')}">
+
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xE768;" />
                         </AppBarButton.Icon>
                     </AppBarButton>
 
-                    <AppBarButton Click="{x:Bind OnPauseDownloadClicked}" Label="{x:Bind root:ResourceService.DownloadManagerResource.GetString('PauseDownload')}">
+                    <AppBarButton
+                        Click="{x:Bind OnPauseDownloadClicked}"
+                        IsEnabled="{x:Bind sys:Convert.ToBoolean(DownloadCollection.Count), Mode=OneWay}"
+                        Label="{x:Bind root:ResourceService.DownloadManagerResource.GetString('PauseDownload')}">
+
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xE769;" />
                         </AppBarButton.Icon>
                     </AppBarButton>
 
-                    <AppBarButton Click="{x:Bind OnDeleteDownloadClicked}" Label="{x:Bind root:ResourceService.DownloadManagerResource.GetString('DeleteDownload')}">
+                    <AppBarButton
+                        Click="{x:Bind OnDeleteDownloadClicked}"
+                        IsEnabled="{x:Bind sys:Convert.ToBoolean(DownloadCollection.Count), Mode=OneWay}"
+                        Label="{x:Bind root:ResourceService.DownloadManagerResource.GetString('DeleteDownload')}">
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xE74D;" />
                         </AppBarButton.Icon>
