@@ -8,6 +8,7 @@ using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.ServiceProcess;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -235,6 +236,22 @@ namespace WindowsTools.Views.Pages
                 {
                     _isExcludeDrivers = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExcludeDrivers)));
+                }
+            }
+        }
+
+        private bool _isCleaning;
+
+        public bool IsCleaning
+        {
+            get { return _isCleaning; }
+
+            set
+            {
+                if (!Equals(_isCleaning, value))
+                {
+                    _isCleaning = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsCleaning)));
                 }
             }
         }
@@ -2218,17 +2235,61 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 清除历史更新记录
         /// </summary>
-        private void OnCleanUpdateHistoryClicked(object sender, RoutedEventArgs args)
+        private async void OnCleanUpdateHistoryClicked(object sender, RoutedEventArgs args)
         {
-            Task.Run(() =>
+            IsCleaning = true;
+
+            bool result = await Task.Run(() =>
             {
-                ProcessStartInfo processStartInfo = new()
+                try
                 {
-                    FileName = "PowerShell.exe",
-                    Arguments = string.Format(@"-windowstyle hidden -command ""Start-Process cmd -ArgumentList '/s,/c,net stop usosvc & net stop wuauserv & del %SystemRoot%\SoftwareDistribution\DataStore\Logs\edb.log & del /f /q %ALLUSERSPROFILE%\USOPrivate\UpdateStore\* & net start usosvc & net start wuauserv & UsoClient.exe RefreshSettings' -Verb runAs""")
-                };
-                Process.Start(processStartInfo);
+                    StopService("wuauserv");
+                    StopService("usosvc");
+                    string logFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), @"SoftwareDistribution\DataStore\Logs\edb.log");
+                    string databaseDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"USOPrivate\UpdateStore");
+
+                    if (File.Exists(logFileName))
+                    {
+                        File.Delete(logFileName);
+                    }
+
+                    if (Directory.Exists(databaseDirectory))
+                    {
+                        foreach (string databaseFile in Directory.GetFiles(databaseDirectory))
+                        {
+                            File.Delete(databaseFile);
+                        }
+                    }
+
+                    StartService("wuauserv");
+                    StartService("usosvc");
+                    Process.Start("UsoClient.exe", "RefreshSettings");
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Clean update history failed", e);
+                    return false;
+                }
             });
+
+            IsCleaning = false;
+            MainWindow.Current.BeginInvoke(async () =>
+            {
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.CleanUpdateHistory, result));
+            });
+
+            if (true)
+            {
+                // 获取历史更新记录
+                List<UpdateModel> updateHistoryList = await Task.Run(GetUpdateHistoryList);
+
+                UpdateHistoryCollection.Clear();
+                foreach (UpdateModel updateHistoryItem in updateHistoryList)
+                {
+                    UpdateHistoryCollection.Add(updateHistoryItem);
+                }
+            }
         }
 
         /// <summary>
@@ -2852,6 +2913,48 @@ namespace WindowsTools.Views.Pages
             });
 
             return default;
+        }
+
+        /// <summary>
+        /// 暂停服务
+        /// </summary>
+        private void StopService(string serviceName)
+        {
+            try
+            {
+                ServiceController serviceController = new(serviceName);
+                if (serviceController.Status is not ServiceControllerStatus.Stopped && serviceController.Status is not ServiceControllerStatus.StopPending)
+                {
+                    serviceController.Stop();
+                    serviceController.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));
+                }
+                serviceController.Dispose();
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, string.Format("Stop service {0} failed", serviceName), e);
+            }
+        }
+
+        /// <summary>
+        /// 开启服务
+        /// </summary>
+        private void StartService(string serviceName)
+        {
+            try
+            {
+                ServiceController serviceController = new(serviceName);
+                if (serviceController.Status is not ServiceControllerStatus.Running && serviceController.Status is not ServiceControllerStatus.StartPending)
+                {
+                    serviceController.Start();
+                    serviceController.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(30));
+                }
+                serviceController.Dispose();
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, string.Format("Stop service {0} failed", serviceName), e);
+            }
         }
     }
 }

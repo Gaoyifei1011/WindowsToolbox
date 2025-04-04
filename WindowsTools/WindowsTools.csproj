@@ -355,6 +355,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.ServiceProcess" />
   </ItemGroup>
 
   <Target Name="SignExeFile" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">

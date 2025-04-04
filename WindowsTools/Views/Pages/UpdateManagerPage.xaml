@@ -3594,7 +3594,15 @@
                                             Grid.Column="1"
                                             MinWidth="0"
                                             Click="{x:Bind OnCleanUpdateHistoryClicked}"
-                                            Content="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Clean')}" />
+                                            IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsCleaning), Mode=OneWay}">
+
+                                            <Button.Content>
+                                                <Grid>
+                                                    <TextBlock Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Clean')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsCleaning), Mode=OneWay}" />
+                                                    <TextBlock Text="{x:Bind root:ResourceService.UpdateManagerResource.GetString('Cleaning')}" Visibility="{x:Bind IsCleaning, Mode=OneWay}" />
+                                                </Grid>
+                                            </Button.Content>
+                                        </Button>
                                     </Grid>
 
                                     <MenuFlyoutSeparator />

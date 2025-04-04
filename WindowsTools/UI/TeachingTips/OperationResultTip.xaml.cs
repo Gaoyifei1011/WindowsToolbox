@@ -311,6 +311,21 @@ namespace WindowsTools.UI.TeachingTips
                     OperationResultFailed.Visibility = Visibility.Visible;
                 }
             }
+            else if (operationKind is OperationKind.CleanUpdateHistory)
+            {
+                if (operationResult)
+                {
+                    OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("CleanUpdateHistorySuccessfully");
+                    OperationResultSuccess.Visibility = Visibility.Visible;
+                    OperationResultFailed.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    OperationResultFailed.Text = ResourceService.NotificationResource.GetString("CleanUpdateHistoryFailed");
+                    OperationResultSuccess.Visibility = Visibility.Collapsed;
+                    OperationResultFailed.Visibility = Visibility.Visible;
+                }
+            }
         }
 
         public OperationResultTip(OperationKind operationKind, int successItems, int failedItems)
