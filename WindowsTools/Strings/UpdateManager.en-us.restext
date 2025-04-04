@@ -7,6 +7,7 @@ CancelUninstallCurrentUpdate=Cancel uninstall current update
 ChcekUpdate=Chcek update
 CheckingUpdate=Checking updates...
 Clean=Clean
+Cleaning=Cleaning...
 CleanUpdateHistory=Clean update history
 CopyInformation=Copy update information
 CurrentChannel=Current channel: 
