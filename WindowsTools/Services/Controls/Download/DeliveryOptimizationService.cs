@@ -23,7 +23,7 @@ namespace WindowsTools.Services.Controls.Download
         private static readonly object deliveryOptimizationLock = new();
         private static Guid CLSID_DeliveryOptimization = new("5B99FA76-721C-423C-ADAC-56D03C8A8007");
 
-        private static Dictionary<Guid, Tuple<IDODownload, DODownloadStatusCallback>> DeliveryOptimizationDict { get; } = [];
+        private static Dictionary<Guid, (IDODownload doDownload, DODownloadStatusCallback doDownloadStatusCallback)> DeliveryOptimizationDict { get; } = [];
 
         public static event Action<Guid, string, string, string, double> DownloadCreated;
 
@@ -90,7 +90,7 @@ namespace WindowsTools.Services.Controls.Download
                     {
                         if (!DeliveryOptimizationDict.ContainsKey(doDownloadStatusCallback.DownloadID))
                         {
-                            DeliveryOptimizationDict.Add(doDownloadStatusCallback.DownloadID, Tuple.Create(doDownload, doDownloadStatusCallback));
+                            DeliveryOptimizationDict.Add(doDownloadStatusCallback.DownloadID, ValueTuple.Create(doDownload, doDownloadStatusCallback));
                         }
                     }
 
@@ -114,9 +114,9 @@ namespace WindowsTools.Services.Controls.Download
                 {
                     lock (deliveryOptimizationLock)
                     {
-                        if (DeliveryOptimizationDict.TryGetValue(downloadID, out Tuple<IDODownload, DODownloadStatusCallback> downloadValue))
+                        if (DeliveryOptimizationDict.TryGetValue(downloadID, out (IDODownload doDownload, DODownloadStatusCallback doDownloadStatusCallback) downloadValue))
                         {
-                            int continueResult = downloadValue.Item1.Start(IntPtr.Zero);
+                            int continueResult = downloadValue.doDownload.Start(IntPtr.Zero);
 
                             if (continueResult is 0)
                             {
@@ -143,9 +143,9 @@ namespace WindowsTools.Services.Controls.Download
                 {
                     lock (deliveryOptimizationLock)
                     {
-                        if (DeliveryOptimizationDict.TryGetValue(downloadID, out Tuple<IDODownload, DODownloadStatusCallback> downloadValue))
+                        if (DeliveryOptimizationDict.TryGetValue(downloadID, out (IDODownload doDownload, DODownloadStatusCallback doDownloadStatusCallback) downloadValue))
                         {
-                            int pauseResult = downloadValue.Item1.Pause();
+                            int pauseResult = downloadValue.doDownload.Pause();
 
                             if (pauseResult is 0)
                             {
@@ -172,13 +172,13 @@ namespace WindowsTools.Services.Controls.Download
                 {
                     lock (deliveryOptimizationLock)
                     {
-                        if (DeliveryOptimizationDict.TryGetValue(downloadID, out Tuple<IDODownload, DODownloadStatusCallback> downloadValue))
+                        if (DeliveryOptimizationDict.TryGetValue(downloadID, out (IDODownload doDownload, DODownloadStatusCallback doDownloadStatusCallback) downloadValue))
                         {
-                            int deleteResult = downloadValue.Item1.Abort();
+                            int deleteResult = downloadValue.doDownload.Abort();
 
                             if (deleteResult is 0)
                             {
-                                downloadValue.Item2.StatusChanged -= OnStatusChanged;
+                                downloadValue.doDownloadStatusCallback.StatusChanged -= OnStatusChanged;
                                 DownloadDeleted?.Invoke(downloadID);
                                 DeliveryOptimizationDict.Remove(downloadID);
                             }
@@ -205,9 +205,9 @@ namespace WindowsTools.Services.Controls.Download
                     {
                         try
                         {
-                            foreach (KeyValuePair<Guid, Tuple<IDODownload, DODownloadStatusCallback>> deliveryOptimizationKeyValue in DeliveryOptimizationDict)
+                            foreach (KeyValuePair<Guid, (IDODownload doDownload, DODownloadStatusCallback doDownloadStatusCallback)> deliveryOptimizationKeyValue in DeliveryOptimizationDict)
                             {
-                                deliveryOptimizationKeyValue.Value.Item1.Abort();
+                                deliveryOptimizationKeyValue.Value.doDownload.Abort();
                             }
                         }
                         catch (Exception e)

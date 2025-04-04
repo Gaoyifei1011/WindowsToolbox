@@ -141,7 +141,7 @@ namespace WindowsTools.Views.Pages
         {
             if (args.Parameter is ContextMenuItemModel contextMenuItem)
             {
-                Tuple<BlockedClsidType, bool> result = await Task.Run(() =>
+                (BlockedClsidType blockedClsidType, bool operationResult) result = await Task.Run(() =>
                 {
                     RegistryKey registryKey = null;
                     BlockedClsidType blockedClsidType = BlockedClsidType.Unknown;
@@ -184,14 +184,14 @@ namespace WindowsTools.Views.Pages
                                     registryKey.Close();
                                     registryKey.Dispose();
                                 }
-                                return Tuple.Create(blockedClsidType, true);
+                                return ValueTuple.Create(blockedClsidType, true);
                             }
                             else
                             {
                                 registryKey.DeleteValue(name);
                                 registryKey.Close();
                                 registryKey.Dispose();
-                                return Tuple.Create(blockedClsidType, true);
+                                return ValueTuple.Create(blockedClsidType, true);
                             }
                         }
                         catch (Exception e)
@@ -199,18 +199,18 @@ namespace WindowsTools.Views.Pages
                             LogService.WriteLog(EventLevel.Error, "Update block result failed", e);
                             registryKey.Close();
                             registryKey.Dispose();
-                            return Tuple.Create(blockedClsidType, false); ;
+                            return ValueTuple.Create(blockedClsidType, false);
                         }
                     }
                     else
                     {
                         registryKey.Close();
                         registryKey.Dispose();
-                        return Tuple.Create(blockedClsidType, true);
+                        return ValueTuple.Create(blockedClsidType, true);
                     }
                 });
 
-                if (result.Item2)
+                if (result.operationResult)
                 {
                     foreach (ContextMenuModel item in ContextMenuCollection)
                     {
@@ -219,13 +219,13 @@ namespace WindowsTools.Views.Pages
                         {
                             if (subItem.Clsid.Equals(contextMenuItem.Clsid))
                             {
-                                if (result.Item2)
+                                if (result.operationResult)
                                 {
-                                    subItem.BlockedClsidType = IsEnabled ? BlockedClsidType.Unknown : result.Item1;
+                                    subItem.BlockedClsidType = IsEnabled ? BlockedClsidType.Unknown : result.blockedClsidType;
                                 }
 
                                 subItem.IsEnabled = !subItem.IsEnabled;
-                                if (!result.Item2)
+                                if (!result.operationResult)
                                 {
                                     subItem.IsEnabled = !subItem.IsEnabled;
                                 }
@@ -242,7 +242,7 @@ namespace WindowsTools.Views.Pages
                     }
                 }
 
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ContextMenuUpdate, result.Item2));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ContextMenuUpdate, result.operationResult));
             }
         }
 
@@ -629,9 +629,9 @@ namespace WindowsTools.Views.Pages
                                 packagePath = packagePathBuilder.ToString();
                             }
 
-                            Tuple<string, string, List<Guid>> appInfo = GetAppInfo(packagePath);
+                            (string displayName, string logoFullPath, List<Guid> clsidList) appInfo = GetAppInfo(packagePath);
 
-                            if (appInfo.Item3.Count > 0)
+                            if (appInfo.clsidList.Count > 0)
                             {
                                 StringBuilder displayNameBuilder = new(1024);
                                 foreach (INET_FIREWALL_APP_CONTAINER inetContainerItem in inetLoopbackList)
@@ -644,9 +644,9 @@ namespace WindowsTools.Views.Pages
 
                                 ContextMenuModel contextMenuItem = new()
                                 {
-                                    PackageDisplayName = string.IsNullOrEmpty(displayNameBuilder.ToString()) ? appInfo.Item1 : displayNameBuilder.ToString(),
+                                    PackageDisplayName = string.IsNullOrEmpty(displayNameBuilder.ToString()) ? appInfo.displayName : displayNameBuilder.ToString(),
                                     PackageFullName = packageFullName,
-                                    PackageIconUri = Uri.TryCreate(appInfo.Item2, UriKind.Absolute, out Uri uri) ? uri : null,
+                                    PackageIconUri = Uri.TryCreate(appInfo.logoFullPath, UriKind.Absolute, out Uri uri) ? uri : null,
                                     PackagePath = packagePath,
                                     ContextMenuItemCollection = [.. contextMenuItemList]
                                 };
@@ -739,13 +739,13 @@ namespace WindowsTools.Views.Pages
         /// 参数 2：返回应用的显示图片位置
         /// 参数 3：返回应用的菜单 clsid 项列表
         /// </returns>
-        private static Tuple<string, string, List<Guid>> GetAppInfo(string packageInstalledLocation)
+        private static (string displayName, string logoFullPath, List<Guid> clsidList) GetAppInfo(string packageInstalledLocation)
         {
             try
             {
                 if (string.IsNullOrEmpty(packageInstalledLocation))
                 {
-                    return Tuple.Create(string.Empty, string.Empty, new List<Guid>());
+                    return ValueTuple.Create(string.Empty, string.Empty, new List<Guid>());
                 }
 
                 string manifestFilePath = Path.Combine(packageInstalledLocation, "AppxManifest.xml");
@@ -793,7 +793,7 @@ namespace WindowsTools.Views.Pages
                             }
                         }
 
-                        clsidList = clsidList.Distinct().ToList();
+                        clsidList = [.. clsidList.Distinct()];
                     }
 
                     // 获取应用的显示图片
@@ -830,15 +830,15 @@ namespace WindowsTools.Views.Pages
                         }
                     }
 
-                    return Tuple.Create(displayName, logoFullPath, clsidList);
+                    return ValueTuple.Create(displayName, logoFullPath, clsidList);
                 }
 
-                return Tuple.Create(string.Empty, string.Empty, new List<Guid>());
+                return ValueTuple.Create(string.Empty, string.Empty, new List<Guid>());
             }
             catch (Exception e)
             {
                 LogService.WriteLog(EventLevel.Error, string.Format("Get specified app info failed,location in {0}", packageInstalledLocation), e);
-                return Tuple.Create(string.Empty, string.Empty, new List<Guid>());
+                return ValueTuple.Create(string.Empty, string.Empty, new List<Guid>());
             }
         }
 

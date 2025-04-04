@@ -21,7 +21,7 @@ namespace WindowsTools.Services.Controls.Download
 
         private static IBackgroundCopyManager backgroundCopyManager;
 
-        private static Dictionary<Guid, Tuple<IBackgroundCopyJob, BackgroundCopyCallback>> BitsDict { get; } = [];
+        private static Dictionary<Guid, (IBackgroundCopyJob backgroundCopyJob, BackgroundCopyCallback backgroundCopyCallback)> BitsDict { get; } = [];
 
         public static event Action<Guid, string, string, string, double> DownloadCreated;
 
@@ -84,9 +84,9 @@ namespace WindowsTools.Services.Controls.Download
                         {
                             try
                             {
-                                foreach (KeyValuePair<Guid, Tuple<IBackgroundCopyJob, BackgroundCopyCallback>> bitsKeyValue in BitsDict)
+                                foreach (KeyValuePair<Guid, (IBackgroundCopyJob backgroundCopyJob, BackgroundCopyCallback backgroundCopyCallback)> bitsKeyValue in BitsDict)
                                 {
-                                    bitsKeyValue.Value.Item1.Cancel();
+                                    bitsKeyValue.Value.backgroundCopyJob.Cancel();
                                 }
                             }
                             catch (Exception e)
@@ -131,7 +131,7 @@ namespace WindowsTools.Services.Controls.Download
                         {
                             if (!BitsDict.ContainsKey(downloadID))
                             {
-                                BitsDict.Add(downloadID, Tuple.Create(downloadJob, backgroundCopyCallback));
+                                BitsDict.Add(downloadID, ValueTuple.Create(downloadJob, backgroundCopyCallback));
                             }
                         }
 
@@ -156,9 +156,9 @@ namespace WindowsTools.Services.Controls.Download
                 {
                     lock (bitsLock)
                     {
-                        if (BitsDict.TryGetValue(downloadID, out Tuple<IBackgroundCopyJob, BackgroundCopyCallback> downloadValue))
+                        if (BitsDict.TryGetValue(downloadID, out (IBackgroundCopyJob backgroundCopyJob, BackgroundCopyCallback backgroundCopyCallback) downloadValue))
                         {
-                            int continueResult = downloadValue.Item1.Resume();
+                            int continueResult = downloadValue.backgroundCopyJob.Resume();
 
                             if (continueResult is 0)
                             {
@@ -185,9 +185,9 @@ namespace WindowsTools.Services.Controls.Download
                 {
                     lock (bitsLock)
                     {
-                        if (BitsDict.TryGetValue(downloadID, out Tuple<IBackgroundCopyJob, BackgroundCopyCallback> downloadValue))
+                        if (BitsDict.TryGetValue(downloadID, out (IBackgroundCopyJob backgroundCopyJob, BackgroundCopyCallback backgroundCopyCallback) downloadValue))
                         {
-                            int pauseResult = downloadValue.Item1.Suspend();
+                            int pauseResult = downloadValue.backgroundCopyJob.Suspend();
 
                             if (pauseResult is 0)
                             {
@@ -214,13 +214,13 @@ namespace WindowsTools.Services.Controls.Download
                 {
                     lock (bitsLock)
                     {
-                        if (BitsDict.TryGetValue(downloadID, out Tuple<IBackgroundCopyJob, BackgroundCopyCallback> downloadValue))
+                        if (BitsDict.TryGetValue(downloadID, out (IBackgroundCopyJob backgroundCopyJob, BackgroundCopyCallback backgroundCopyCallback) downloadValue))
                         {
-                            int deleteResult = downloadValue.Item1.Cancel();
+                            int deleteResult = downloadValue.backgroundCopyJob.Cancel();
 
                             if (deleteResult is 0)
                             {
-                                downloadValue.Item2.StatusChanged -= OnStatusChanged;
+                                downloadValue.backgroundCopyCallback.StatusChanged -= OnStatusChanged;
                                 DownloadDeleted?.Invoke(downloadID);
                                 BitsDict.Remove(downloadID);
                             }

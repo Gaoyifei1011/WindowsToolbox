@@ -967,9 +967,9 @@ namespace WindowsTools.Views.Pages
 
                                 foreach (CandidateSet candidateSet in resourceMapSection.CandidateSetsDict.Values)
                                 {
-                                    if (sectionArray[candidateSet.ResourceMapSectionAndIndex.Item1] is HierarchicalSchemaSection hierarchicalSchemaSection)
+                                    if (sectionArray[candidateSet.ResourceMapSectionAndIndex.SchemaSectionIndex] is HierarchicalSchemaSection hierarchicalSchemaSection)
                                     {
-                                        ResourceMapScopeAndItem resourceMapScopeAndItem = hierarchicalSchemaSection.ItemsList[candidateSet.ResourceMapSectionAndIndex.Item2];
+                                        ResourceMapScopeAndItem resourceMapScopeAndItem = hierarchicalSchemaSection.ItemsList[candidateSet.ResourceMapSectionAndIndex.ResourceMapItemIndex];
 
                                         string key = string.Empty;
 
@@ -995,10 +995,10 @@ namespace WindowsTools.Views.Pages
                                             {
                                                 ByteSpan byteSpan = null;
 
-                                                if (candidate.DataItemSectionAndIndex is not null)
+                                                if (candidate.DataItemSectionAndIndex != default)
                                                 {
-                                                    DataItemSection dataItemSection = sectionArray[candidate.DataItemSectionAndIndex.Item1] as DataItemSection;
-                                                    byteSpan = dataItemSection is not null ? dataItemSection.DataItemsList[candidate.DataItemSectionAndIndex.Item2] : candidate.Data;
+                                                    DataItemSection dataItemSection = sectionArray[candidate.DataItemSectionAndIndex.DataItemSection] as DataItemSection;
+                                                    byteSpan = dataItemSection is not null ? dataItemSection.DataItemsList[candidate.DataItemSectionAndIndex.DataItemIndex] : candidate.Data;
                                                 }
 
                                                 if (byteSpan is not null)

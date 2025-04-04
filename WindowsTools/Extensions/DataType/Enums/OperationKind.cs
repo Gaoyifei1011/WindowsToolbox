@@ -44,6 +44,7 @@
         ForceDeleteDriverPartialSuccessfully = 39,
         ForceDeleteDriverSuccessfully = 40,
         ForceDeleteDriverFailed = 41,
-        SelectDriverEmpty = 42
+        SelectDriverEmpty = 42,
+        CleanUpdateHistory = 43,
     }
 }

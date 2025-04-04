@@ -295,7 +295,7 @@ namespace WindowsTools.Views.Pages
             {
                 IsChecking = true;
 
-                (bool, bool) result = await Task.Run(async () =>
+                bool? isNewest = await Task.Run<bool?>(async () =>
                 {
                     bool isNewest = false;
 
@@ -342,32 +342,32 @@ namespace WindowsTools.Views.Pages
                             responseMessage.Dispose();
                         }
 
-                        return (true, isNewest);
+                        return isNewest;
                     }
                     // 捕捉因为网络失去链接获取信息时引发的异常
                     catch (COMException e)
                     {
                         LogService.WriteLog(EventLevel.Informational, "Check update request failed", e);
-                        return (false, isNewest);
+                        return null;
                     }
 
                     // 捕捉因访问超时引发的异常
                     catch (TaskCanceledException e)
                     {
                         LogService.WriteLog(EventLevel.Informational, "Check update request timeout", e);
-                        return (false, isNewest);
+                        return null;
                     }
 
                     // 其他异常
                     catch (Exception e)
                     {
                         LogService.WriteLog(EventLevel.Warning, "Check update request unknown exception", e);
-                        return (false, isNewest);
+                        return null;
                     }
                 });
 
                 IsChecking = false;
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.CheckUpdate, result.Item2));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.CheckUpdate, isNewest.Value));
             }
         }
 

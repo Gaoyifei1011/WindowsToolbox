@@ -8,6 +8,7 @@ using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
@@ -429,10 +430,10 @@ namespace WindowsTools.Views.Pages
                 });
 
                 // 删除驱动
-                Tuple<bool, Win32Exception> deleteResult = await Task.Run(() =>
+                (bool operationResult, Win32Exception win32Exception) deleteResult = await Task.Run(() =>
                 {
                     bool result = SetupapiLibrary.SetupUninstallOEMInf(driverItem.DriverOEMInfName, SUOI_Flags.SUOI_NONE, IntPtr.Zero);
-                    return result ? Tuple.Create<bool, Win32Exception>(result, null) : Tuple.Create(result, new Win32Exception(Kernel32Library.GetLastError()));
+                    return result ? ValueTuple.Create<bool, Win32Exception>(result, null) : ValueTuple.Create(result, new Win32Exception(Kernel32Library.GetLastError()));
                 });
 
                 foreach (DriverOperationModel driverOperationItem in DriverOperationCollection)
@@ -440,14 +441,14 @@ namespace WindowsTools.Views.Pages
                     if (driverOperationItem.DriverOperationGuid.Equals(driverOperationGuid))
                     {
                         driverOperationItem.IsOperating = false;
-                        driverOperationItem.DriverOperation = deleteResult.Item1 ? ResourceService.DriverManagerResource.GetString("DeletingDriverSuccessfully") : string.Format(ResourceService.DriverManagerResource.GetString("DeletingDriverFailed"), deleteResult.Item2.NativeErrorCode, deleteResult.Item2.HResult, deleteResult.Item2.Message);
+                        driverOperationItem.DriverOperation = deleteResult.operationResult ? ResourceService.DriverManagerResource.GetString("DeletingDriverSuccessfully") : string.Format(ResourceService.DriverManagerResource.GetString("DeletingDriverFailed"), deleteResult.win32Exception.NativeErrorCode, deleteResult.win32Exception.HResult, deleteResult.win32Exception.Message);
                         break;
                     }
                 }
 
                 IsOperating = false;
 
-                if (deleteResult.Item1)
+                if (deleteResult.operationResult)
                 {
                     IsLoadCompleted = false;
 
@@ -516,10 +517,10 @@ namespace WindowsTools.Views.Pages
 
                 // 强制删除驱动
                 bool needReboot = false;
-                Tuple<bool, Win32Exception> deleteResult = await Task.Run(() =>
+                (bool operationResult, Win32Exception win32Exception) deleteResult = await Task.Run(() =>
                 {
                     bool result = NewDevLibrary.DiUninstallDriver(IntPtr.Zero, driverItem.DriverLocation, DIURFLAG.NO_REMOVE_INF, out needReboot) && SetupapiLibrary.SetupUninstallOEMInf(driverItem.DriverOEMInfName, SUOI_Flags.SUOI_FORCEDELETE, IntPtr.Zero);
-                    return result ? Tuple.Create<bool, Win32Exception>(result, null) : Tuple.Create(result, new Win32Exception(Kernel32Library.GetLastError()));
+                    return result ? ValueTuple.Create<bool, Win32Exception>(result, null) : ValueTuple.Create(result, new Win32Exception(Kernel32Library.GetLastError()));
                 });
 
                 foreach (DriverOperationModel driverOperationItem in DriverOperationCollection)
@@ -527,14 +528,14 @@ namespace WindowsTools.Views.Pages
                     if (driverOperationItem.DriverOperationGuid.Equals(driverOperationGuid))
                     {
                         driverOperationItem.IsOperating = false;
-                        driverOperationItem.DriverOperation = deleteResult.Item1 ? ResourceService.DriverManagerResource.GetString("ForceDeletingDriverSuccessfully") : string.Format(ResourceService.DriverManagerResource.GetString("ForceDeletingDriverFailed"), deleteResult.Item2.NativeErrorCode, deleteResult.Item2.HResult, deleteResult.Item2.Message);
+                        driverOperationItem.DriverOperation = deleteResult.operationResult ? ResourceService.DriverManagerResource.GetString("ForceDeletingDriverSuccessfully") : string.Format(ResourceService.DriverManagerResource.GetString("ForceDeletingDriverFailed"), deleteResult.win32Exception.NativeErrorCode, deleteResult.win32Exception.HResult, deleteResult.win32Exception.Message);
                         break;
                     }
                 }
 
                 IsOperating = false;
 
-                if (deleteResult.Item1)
+                if (deleteResult.operationResult)
                 {
                     IsLoadCompleted = false;
 
@@ -852,7 +853,7 @@ namespace WindowsTools.Views.Pages
                     }
 
                     List<Task> addDriverTaskList = [];
-                    Dictionary<Guid, Tuple<string, bool, string>> addDriverResultDict = [];
+                    Dictionary<Guid, (string fileName, bool result, string driverOperation)> addDriverResultDict = [];
                     object addDriverResultDictObject = new();
 
                     foreach (string fileName in dialog.FileNames)
@@ -874,10 +875,10 @@ namespace WindowsTools.Views.Pages
                             bool result = SetupapiLibrary.SetupCopyOEMInf(fileName, null, SPOST.SPOST_PATH, SP_COPY.SP_COPY_NONE, stringBuilder, (uint)stringBuilder.Capacity, ref bufferSize, IntPtr.Zero);
                             Win32Exception win32Exception = new(Kernel32Library.GetLastError());
                             string driverOperation = result ? ResourceService.DriverManagerResource.GetString("AddingDriverSuccessfully") : string.Format(ResourceService.DriverManagerResource.GetString("AddingDriverFailed"), win32Exception.NativeErrorCode, win32Exception.HResult, win32Exception.Message);
-                            System.IO.File.AppendAllText("D:\\01.txt", driverOperation + Environment.NewLine);
+
                             lock (addDriverResultDictObject)
                             {
-                                addDriverResultDict.Add(driverOperationGuid, Tuple.Create(fileName, result, driverOperation));
+                                addDriverResultDict.Add(driverOperationGuid, ValueTuple.Create(fileName, result, driverOperation));
                             }
 
                             MainWindow.Current.BeginInvoke(() =>
@@ -898,11 +899,11 @@ namespace WindowsTools.Views.Pages
                     await Task.WhenAll([.. addDriverTaskList]);
                     IsOperating = false;
 
-                    if (addDriverResultDict.Values.Any(item => item.Item2))
+                    if (addDriverResultDict.Values.Any(item => item.result))
                     {
                         IsLoadCompleted = false;
 
-                        if (addDriverResultDict.Values.All(item => item.Item2))
+                        if (addDriverResultDict.Values.All(item => item.result))
                         {
                             MainWindow.Current.BeginInvoke(async () =>
                             {
@@ -969,7 +970,7 @@ namespace WindowsTools.Views.Pages
                     }
 
                     List<Task> addInstallDriverTaskList = [];
-                    Dictionary<Guid, Tuple<string, bool, string>> addInstallDriverResultDict = [];
+                    Dictionary<Guid, (string fileName, bool result, string driverOperation)> addInstallDriverResultDict = [];
                     object addInstallDriverResultDictObject = new();
 
                     foreach (string fileName in dialog.FileNames)
@@ -993,7 +994,7 @@ namespace WindowsTools.Views.Pages
                             string driverOperation = result ? ResourceService.DriverManagerResource.GetString("AddInstallingDriverSuccessfully") : string.Format(ResourceService.DriverManagerResource.GetString("AddInstallingDriverFailed"), win32Exception.NativeErrorCode, win32Exception.HResult, win32Exception.Message);
                             lock (addInstallDriverResultDictObject)
                             {
-                                addInstallDriverResultDict.Add(driverOperationGuid, Tuple.Create(fileName, result, driverOperation));
+                                addInstallDriverResultDict.Add(driverOperationGuid, ValueTuple.Create(fileName, result, driverOperation));
                             }
 
                             MainWindow.Current.BeginInvoke(() =>
@@ -1014,11 +1015,11 @@ namespace WindowsTools.Views.Pages
                     await Task.WhenAll([.. addInstallDriverTaskList]);
                     IsOperating = false;
 
-                    if (addInstallDriverResultDict.Values.Any(item => item.Item2))
+                    if (addInstallDriverResultDict.Values.Any(item => item.result))
                     {
                         IsLoadCompleted = false;
 
-                        if (addInstallDriverResultDict.Values.All(item => item.Item2))
+                        if (addInstallDriverResultDict.Values.All(item => item.result))
                         {
                             MainWindow.Current.BeginInvoke(async () =>
                             {
@@ -1109,7 +1110,7 @@ namespace WindowsTools.Views.Pages
 
                 DriverDescription = string.Format(DriverInformation, DriverCollection.Count, DriverCollection.Count(item => item.IsSelected));
                 List<Task> deleteDriverTaskList = [];
-                Dictionary<Guid, Tuple<string, bool, string>> deleteDriverResultDict = [];
+                Dictionary<Guid, (string driverInfName, bool result, string driverOperation)> deleteDriverResultDict = [];
                 object deleteDriverResultDictLock = new();
 
                 foreach (DriverModel driverItem in selectedDriverList)
@@ -1131,7 +1132,7 @@ namespace WindowsTools.Views.Pages
                         string driverOperation = result ? ResourceService.DriverManagerResource.GetString("DeletingDriverSuccessfully") : string.Format(ResourceService.DriverManagerResource.GetString("DeletingDriverFailed"), win32Exception.NativeErrorCode, win32Exception.HResult, win32Exception.Message);
                         lock (deleteDriverResultDictLock)
                         {
-                            deleteDriverResultDict.Add(driverOperationGuid, Tuple.Create(driverItem.DriverInfName, result, driverOperation));
+                            deleteDriverResultDict.Add(driverOperationGuid, ValueTuple.Create(driverItem.DriverInfName, result, driverOperation));
                         }
 
                         MainWindow.Current.BeginInvoke(() =>
@@ -1152,11 +1153,11 @@ namespace WindowsTools.Views.Pages
                 await Task.WhenAll([.. deleteDriverTaskList]);
                 IsOperating = false;
 
-                if (deleteDriverResultDict.Values.Any(item => item.Item2))
+                if (deleteDriverResultDict.Values.Any(item => item.result))
                 {
                     IsLoadCompleted = false;
 
-                    if (deleteDriverResultDict.Values.All(item => item.Item2))
+                    if (deleteDriverResultDict.Values.All(item => item.result))
                     {
                         MainWindow.Current.BeginInvoke(async () =>
                         {
@@ -1239,7 +1240,7 @@ namespace WindowsTools.Views.Pages
 
                 DriverDescription = string.Format(DriverInformation, DriverCollection.Count, DriverCollection.Count(item => item.IsSelected));
                 List<Task> forceDeleteDriverTaskList = [];
-                Dictionary<Guid, Tuple<string, bool, string>> forceDeleteDriverResultDict = [];
+                Dictionary<Guid, (string driverInfName, bool result, string driverOperation)> forceDeleteDriverResultDict = [];
                 object forceDeleteDriverResultDictLock = new();
 
                 foreach (DriverModel driverItem in selectedDriverList)
@@ -1261,7 +1262,7 @@ namespace WindowsTools.Views.Pages
                         string driverOperation = result ? ResourceService.DriverManagerResource.GetString("ForceDeletingDriverSuccessfully") : string.Format(ResourceService.DriverManagerResource.GetString("ForceDeletingDriverFailed"), win32Exception.NativeErrorCode, win32Exception.HResult, win32Exception.Message);
                         lock (forceDeleteDriverResultDictLock)
                         {
-                            forceDeleteDriverResultDict.Add(driverOperationGuid, Tuple.Create(driverItem.DriverInfName, result, driverOperation));
+                            forceDeleteDriverResultDict.Add(driverOperationGuid, ValueTuple.Create(driverItem.DriverInfName, result, driverOperation));
                         }
 
                         if (NeedReboot)
@@ -1287,11 +1288,11 @@ namespace WindowsTools.Views.Pages
                 await Task.WhenAll([.. forceDeleteDriverTaskList]);
                 IsOperating = false;
 
-                if (forceDeleteDriverResultDict.Values.Any(item => item.Item2))
+                if (forceDeleteDriverResultDict.Values.Any(item => item.result))
                 {
                     IsLoadCompleted = false;
 
-                    if (forceDeleteDriverResultDict.Values.All(item => item.Item2))
+                    if (forceDeleteDriverResultDict.Values.All(item => item.result))
                     {
                         MainWindow.Current.BeginInvoke(async () =>
                         {
