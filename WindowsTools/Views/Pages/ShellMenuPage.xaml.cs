@@ -610,14 +610,9 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnItemClicked(object sender, BreadcrumbBarItemClickedEventArgs args)
         {
-            KeyValuePair<string, string> breadItem = (KeyValuePair<string, string>)args.Item;
-
-            if (BreadCollection.Count is 2)
+            if (args.Item is DictionaryEntry breadItem && BreadCollection.Count is 2 && breadItem.Key.Equals(BreadCollection[0].Key))
             {
-                if (breadItem.Key.Equals(BreadCollection[0].Key))
-                {
-                    BreadCollection.RemoveAt(1);
-                }
+                BreadCollection.RemoveAt(1);
             }
         }
 

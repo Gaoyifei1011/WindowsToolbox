@@ -128,9 +128,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnContinueExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            Guid downloadID = (Guid)args.Parameter;
-
-            if (downloadID != Guid.Empty)
+            if (args.Parameter is Guid downloadID && downloadID != Guid.Empty)
             {
                 foreach (DownloadModel downloadItem in DownloadCollection)
                 {
@@ -150,9 +148,7 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private void OnPauseExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            Guid downloadID = (Guid)args.Parameter;
-
-            if (downloadID != Guid.Empty)
+            if (args.Parameter is Guid downloadID && downloadID != Guid.Empty)
             {
                 foreach (DownloadModel downloadItem in DownloadCollection)
                 {
