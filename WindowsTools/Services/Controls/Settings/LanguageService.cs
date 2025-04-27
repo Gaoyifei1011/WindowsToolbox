@@ -50,7 +50,7 @@ namespace WindowsTools.Services.Controls.Settings
         {
             try
             {
-                if (ShlwapiLibrary.SHCreateStreamOnFileEx(Path.Combine(AppContext.BaseDirectory, "AppxManifest.xml"), STGM.STGM_SHARE_DENY_READ | STGM.STGM_SHARE_EXCLUSIVE, 0, false, null, out IStream stream) is 0)
+                if (ShlwapiLibrary.SHCreateStreamOnFileEx(Path.Combine(AppContext.BaseDirectory, "AppxManifest.xml"), STGM.STGM_READ, 0, false, null, out IStream stream) is 0)
                 {
                     appxFactory.CreateManifestReader(stream, out IAppxManifestReader2 appxManifestReader);
 
