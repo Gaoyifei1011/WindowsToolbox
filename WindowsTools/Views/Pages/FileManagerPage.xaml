@@ -9,6 +9,12 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <SuppressNavigationTransitionInfo x:Name="SuppressNavigationTransitionInfo" />
+        <SlideNavigationTransitionInfo x:Name="LeftSlideNavigationTransitionInfo" Effect="FromLeft" />
+        <SlideNavigationTransitionInfo x:Name="RightSlideNavigationTransitionInfo" Effect="FromRight" />
+    </Page.Resources>
+
     <muxc:NavigationView
         x:Name="FileManagerNavigationView"
         Margin="14,0,0,0"
@@ -93,14 +99,9 @@
         </muxc:NavigationView.MenuItems>
 
         <Frame
+            x:Name="FileManagerFrame"
             Margin="16,0,30,0"
             Navigated="{x:Bind OnNavigated}"
-            NavigationFailed="{x:Bind OnNavigationFailed}">
-            <Frame.ContentTransitions>
-                <TransitionCollection>
-                    <NavigationThemeTransition />
-                </TransitionCollection>
-            </Frame.ContentTransitions>
-        </Frame>
+            NavigationFailed="{x:Bind OnNavigationFailed}" />
     </muxc:NavigationView>
 </Page>

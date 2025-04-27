@@ -20,7 +20,6 @@ namespace WindowsTools.Views.Pages
     public sealed partial class FileManagerPage : Page, INotifyPropertyChanged
     {
         private bool isLoaded;
-        private readonly SlideNavigationTransitionInfo slideNavigationTransitionInfo = new() { Effect = SlideNavigationTransitionEffect.FromRight };
 
         private Microsoft.UI.Xaml.Controls.NavigationViewItem _selectedItem;
 
@@ -53,6 +52,23 @@ namespace WindowsTools.Views.Pages
         public FileManagerPage()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// 远离该页面时要完成的操作
+        /// </summary>
+        protected override void OnNavigatedFrom(NavigationEventArgs args)
+        {
+            base.OnNavigatedFrom(args);
+
+            FileManagerFrame.ContentTransitions.Clear();
+            FileManagerFrame.ContentTransitions = (
+            [
+                new NavigationThemeTransition()
+                {
+                    DefaultNavigationTransitionInfo = SuppressNavigationTransitionInfo
+                }
+            ]);
         }
 
         /// <summary>
@@ -97,7 +113,9 @@ namespace WindowsTools.Views.Pages
 
                 if (navigationItem.NavigationPage is not null && SelectedItem != navigationItem.NavigationItem)
                 {
-                    NavigateTo(navigationItem.NavigationPage);
+                    int selectedIndex = sender.MenuItems.IndexOf(SelectedItem);
+                    int invokedIndex = sender.MenuItems.IndexOf(navigationItem.NavigationItem);
+                    NavigateTo(navigationItem.NavigationPage, null, invokedIndex > selectedIndex);
                 }
             }
         }
@@ -137,14 +155,26 @@ namespace WindowsTools.Views.Pages
         /// <summary>
         /// 页面向前导航
         /// </summary>
-        private void NavigateTo(Type navigationPageType, object parameter = null)
+        private void NavigateTo(Type navigationPageType, object parameter = null, bool? slideDirection = null)
         {
             try
             {
                 if (NavigationItemList.Find(item => item.NavigationPage == navigationPageType) is NavigationModel navigationItem)
                 {
+                    if (slideDirection.HasValue)
+                    {
+                        FileManagerFrame.ContentTransitions.Clear();
+                        FileManagerFrame.ContentTransitions = (
+                        [
+                            new NavigationThemeTransition()
+                            {
+                                DefaultNavigationTransitionInfo = slideDirection.Value ? RightSlideNavigationTransitionInfo : LeftSlideNavigationTransitionInfo,
+                            }
+                        ]);
+                    }
+
                     // 导航到该项目对应的页面
-                    (FileManagerNavigationView.Content as Frame).Navigate(navigationItem.NavigationPage, parameter, slideNavigationTransitionInfo);
+                    (FileManagerNavigationView.Content as Frame).Navigate(navigationItem.NavigationPage, parameter);
                 }
             }
             catch (Exception e)
