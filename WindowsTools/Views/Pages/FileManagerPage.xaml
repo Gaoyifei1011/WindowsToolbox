@@ -10,9 +10,29 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <SuppressNavigationTransitionInfo x:Name="SuppressNavigationTransitionInfo" />
-        <SlideNavigationTransitionInfo x:Name="LeftSlideNavigationTransitionInfo" Effect="FromLeft" />
-        <SlideNavigationTransitionInfo x:Name="RightSlideNavigationTransitionInfo" Effect="FromRight" />
+        <TransitionCollection x:Name="SuppressNavigationTransitionCollection">
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <SuppressNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+
+        <TransitionCollection x:Name="LeftSlideNavigationTransitionCollection">
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <SlideNavigationTransitionInfo Effect="FromLeft" />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+
+        <TransitionCollection x:Name="RightSlideNavigationTransitionCollection">
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <SlideNavigationTransitionInfo Effect="FromRight" />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
     </Page.Resources>
 
     <muxc:NavigationView

@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using WindowsTools.Models;
 using WindowsTools.Services.Root;
@@ -55,20 +54,12 @@ namespace WindowsTools.Views.Pages
         }
 
         /// <summary>
-        /// 远离该页面时要完成的操作
+        /// 导航到该页面时发生的事件
         /// </summary>
-        protected override void OnNavigatedFrom(NavigationEventArgs args)
+        protected override void OnNavigatedTo(NavigationEventArgs args)
         {
-            base.OnNavigatedFrom(args);
-
-            FileManagerFrame.ContentTransitions.Clear();
-            FileManagerFrame.ContentTransitions = (
-            [
-                new NavigationThemeTransition()
-                {
-                    DefaultNavigationTransitionInfo = SuppressNavigationTransitionInfo
-                }
-            ]);
+            base.OnNavigatedTo(args);
+            FileManagerFrame.ContentTransitions = SuppressNavigationTransitionCollection;
         }
 
         /// <summary>
@@ -149,7 +140,22 @@ namespace WindowsTools.Views.Pages
         {
             args.Handled = true;
             LogService.WriteLog(EventLevel.Warning, string.Format(ResourceService.WindowResource.GetString("NavigationFailed"), args.SourcePageType.FullName), args.Exception);
-            (Application.Current as XamlIslandsApp).Dispose();
+
+            try
+            {
+                Type currentPageType = GetCurrentPageType();
+                foreach (NavigationModel navigationItem in NavigationItemList)
+                {
+                    if (navigationItem.NavigationPage is not null && navigationItem.NavigationPage.Equals(currentPageType))
+                    {
+                        SelectedItem = navigationItem.NavigationItem;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, string.Format(ResourceService.WindowResource.GetString("NavigationFailed"), args.SourcePageType.FullName), e);
+            }
         }
 
         /// <summary>
@@ -163,14 +169,7 @@ namespace WindowsTools.Views.Pages
                 {
                     if (slideDirection.HasValue)
                     {
-                        FileManagerFrame.ContentTransitions.Clear();
-                        FileManagerFrame.ContentTransitions = (
-                        [
-                            new NavigationThemeTransition()
-                            {
-                                DefaultNavigationTransitionInfo = slideDirection.Value ? RightSlideNavigationTransitionInfo : LeftSlideNavigationTransitionInfo,
-                            }
-                        ]);
+                        FileManagerFrame.ContentTransitions = slideDirection.Value ? RightSlideNavigationTransitionCollection : LeftSlideNavigationTransitionCollection;
                     }
 
                     // 导航到该项目对应的页面
