@@ -70,7 +70,6 @@ A toolbox that integrates multiple gadgets.
 | Download manager (Delivery optimization)                  | Finished                                                             |
 | Extract file icons                                        | Finished                                                             |
 | Extract the package resource index(.pri) file conten      | Finished                                                             |
-| Color picker                                              | Unfinished                                                           |
 | Switch theme                                              | Finished                                                             |
 | Customize the right-click menu                            | Finished                                                             |
 | Right-click menu items manager                            | Finished                                                             |
