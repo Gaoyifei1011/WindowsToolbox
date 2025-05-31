@@ -8,11 +8,13 @@ using System.Diagnostics.Tracing;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Shell;
 using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -24,7 +26,6 @@ using WindowsTools.UI.Dialogs;
 using WindowsTools.UI.TeachingTips;
 using WindowsTools.Views.Windows;
 using WindowsTools.WindowsAPI.PInvoke.Kernel32;
-using WindowsTools.WindowsAPI.PInvoke.PinToTaskbar;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
@@ -152,57 +153,30 @@ namespace WindowsTools.Views.Pages
         /// </summary>
         private async void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
         {
-            IntPtr handle = MainWindow.Current.Handle;
-            bool isPinnedExceptionOccured = false;
+            bool isPinnedSuccessfully = false;
 
-            await Task.Run(() =>
+            try
             {
-                try
+                if (Marshal.QueryInterface(Marshal.GetIUnknownForObject(WindowsRuntimeMarshal.GetActivationFactory(typeof(TaskbarManager))), ref IID_ITaskbarManagerDesktopAppSupportStatics, out _) is 0)
                 {
-                    string linkPath = Path.Combine(Path.GetTempPath(), string.Format(@"{0}.lnk", ResourceService.AboutResource.GetString("AppName")));
+                    string featureId = "com.microsoft.windows.taskbar.pin";
+                    string token = FeatureAccessHelper.GenerateTokenFromFeatureId(featureId);
+                    string attestation = FeatureAccessHelper.GenerateAttestation(featureId);
+                    LimitedAccessFeatureRequestResult accessResult = LimitedAccessFeatures.TryUnlockFeature(featureId, token, attestation);
 
-                    if (System.IO.File.Exists(linkPath))
+                    if (accessResult.Status is LimitedAccessFeatureStatus.Available)
                     {
-                        System.IO.File.Delete(linkPath);
-                    }
-
-                    // 保存新快捷方式
-                    WshShell shell = new();
-                    WshShortcut appShortcut = (WshShortcut)shell.CreateShortcut(linkPath);
-                    uint aumidLength = 260;
-                    StringBuilder aumidBuilder = new((int)aumidLength);
-                    Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
-                    appShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", aumidBuilder.ToString());
-                    appShortcut.Save();
-
-                    // 获取资源管理器线程 ID 并开始注入
-                    int explorerThreadId = GetExplorerThreadId();
-                    PinToTaskbarLibrary.StartHook((uint)explorerThreadId);
-                    IntPtr hMapFile = Kernel32Library.CreateFileMapping(new IntPtr(-1), IntPtr.Zero, PAGE_PROTECTION.PAGE_READWRITE, 0, 1024, "PinSharedMemory");
-
-                    if (hMapFile != IntPtr.Zero)
-                    {
-                        IntPtr pSharedData = Kernel32Library.MapViewOfFile(hMapFile, FileMapAccess.FILE_MAP_ALL_ACCESS, 0, 0, 0);
-
-                        if (pSharedData != IntPtr.Zero)
-                        {
-                            string fileName = linkPath + "\0";
-                            byte[] bytes = Encoding.Unicode.GetBytes(fileName);
-                            Marshal.Copy(bytes, 0, pSharedData, bytes.Length);
-                            User32Library.PostThreadMessage((uint)explorerThreadId, WindowMessage.WM_PINMESSAGE, UIntPtr.Zero, handle);
-                        }
+                        isPinnedSuccessfully = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
                     }
                 }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(EventLevel.Error, "Pin app to taskbar failed.", e);
-                    isPinnedExceptionOccured = true;
-                }
-            });
-
-            if (isPinnedExceptionOccured)
+            }
+            catch (Exception e)
             {
-                await MainWindow.Current.ShowNotificationAsync(new QuickOperationTip(QuickOperationKind.Taskbar, false));
+                LogService.WriteLog(EventLevel.Error, "Pin app to taskbar failed.", e);
+            }
+            finally
+            {
+                await MainWindow.Current.ShowNotificationAsync(new QuickOperationTip(QuickOperationKind.Taskbar, isPinnedSuccessfully));
             }
         }
 

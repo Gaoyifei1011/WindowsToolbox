@@ -28,7 +28,6 @@ using WindowsTools.WindowsAPI.ComTypes;
 using WindowsTools.WindowsAPI.PInvoke.Comctl32;
 using WindowsTools.WindowsAPI.PInvoke.Dwmapi;
 using WindowsTools.WindowsAPI.PInvoke.Gdi32;
-using WindowsTools.WindowsAPI.PInvoke.PinToTaskbar;
 using WindowsTools.WindowsAPI.PInvoke.Shell32;
 using WindowsTools.WindowsAPI.PInvoke.User32;
 using WindowsTools.WindowsAPI.PInvoke.Uxtheme;
@@ -284,7 +283,6 @@ namespace WindowsTools.Views.Windows
                         ThemeService.PropertyChanged -= OnServicePropertyChanged;
                         BackdropService.PropertyChanged -= OnServicePropertyChanged;
                         TopMostService.PropertyChanged -= OnServicePropertyChanged;
-                        PinToTaskbarLibrary.StopHook();
 
                         Current = null;
                         desktopWindowXamlSource.Dispose();
@@ -312,7 +310,6 @@ namespace WindowsTools.Views.Windows
                     ThemeService.PropertyChanged -= OnServicePropertyChanged;
                     BackdropService.PropertyChanged -= OnServicePropertyChanged;
                     TopMostService.PropertyChanged -= OnServicePropertyChanged;
-                    PinToTaskbarLibrary.StopHook();
 
                     Current = null;
                     desktopWindowXamlSource.Dispose();
@@ -613,15 +610,14 @@ namespace WindowsTools.Views.Windows
                                 {
                                     Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft,
                                     ShowMode = FlyoutShowMode.Standard,
+                                    Position = RightToLeft is RightToLeft.Yes
+                                        ? InfoHelper.SystemVersion.Build >= 22000
+                                            ? new global::Windows.Foundation.Point((ClientSize.Width - clientPoint.X) / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96))
+                                            : new global::Windows.Foundation.Point(ClientSize.Width - clientPoint.X, clientPoint.Y)
+                                        : InfoHelper.SystemVersion.Build >= 22000
+                                            ? new global::Windows.Foundation.Point(clientPoint.X / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96))
+                                            : new global::Windows.Foundation.Point(clientPoint.X, clientPoint.Y)
                                 };
-
-                                options.Position = RightToLeft is RightToLeft.Yes
-                                    ? InfoHelper.SystemVersion.Build >= 22000
-                                        ? new global::Windows.Foundation.Point((ClientSize.Width - clientPoint.X) / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96))
-                                        : new global::Windows.Foundation.Point(ClientSize.Width - clientPoint.X, clientPoint.Y)
-                                    : InfoHelper.SystemVersion.Build >= 22000
-                                        ? new global::Windows.Foundation.Point(clientPoint.X / ((double)DeviceDpi / 96), clientPoint.Y / ((double)DeviceDpi / 96))
-                                        : new global::Windows.Foundation.Point(clientPoint.X, clientPoint.Y);
 
                                 (Content as MainPage).TitlebarMenuFlyout.ShowAt(null, options);
                             }
