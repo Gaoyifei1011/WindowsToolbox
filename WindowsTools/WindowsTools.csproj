@@ -30,7 +30,7 @@
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <TargetFramework>net481</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
-    <TargetPlatformVersion>10.0.22621.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.26100.0</TargetPlatformVersion>
     <TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
@@ -301,7 +301,7 @@
     <None Remove="XamlIslandsApp.xaml" />
 
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" GeneratePathProperty="true" IncludeAssets="none" />
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1742" />
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.4188" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
     
     <Page Include="Styles\XamlIslands\Button.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

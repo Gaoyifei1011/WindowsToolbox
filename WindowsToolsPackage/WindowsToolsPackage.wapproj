@@ -75,8 +75,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-    <ProjectReference Include="..\PinToTaskbar\PinToTaskbar.vcxproj" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4188" />
     <ProjectReference Include="..\WindowsTools\WindowsTools.csproj" />
     <ProjectReference Include="..\WindowsToolsShellExtension\WindowsToolsShellExtension.csproj" />
     <ProjectReference Include="..\WindowsToolsSystemTray\WindowsToolsSystemTray.csproj" />
