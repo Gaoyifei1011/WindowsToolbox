@@ -13,7 +13,7 @@ namespace PowerToolsShellExtension
     [GeneratedComClass]
     public partial class ShellMenuClassFactory : IClassFactory
     {
-        private readonly IExplorerCommand rootExplorerCommand = new ExplorerCommand(ShellMenuService.RootShellMenuItem);
+        private readonly IExplorerCommand explorerCommand = new ExplorerCommand(ShellMenuService.RootShellMenuItem);
 
         public unsafe int CreateInstance(IntPtr pUnkOuter, in Guid riid, out IntPtr ppvObject)
         {
@@ -23,7 +23,7 @@ namespace PowerToolsShellExtension
                 return unchecked((int)0x80040110);
             }
 
-            ppvObject = Program.StrategyBasedComWrappers.GetOrCreateComInterfaceForObject(rootExplorerCommand, CreateComInterfaceFlags.None);
+            ppvObject = Program.StrategyBasedComWrappers.GetOrCreateComInterfaceForObject(explorerCommand, CreateComInterfaceFlags.None);
             return 0;
         }
 
