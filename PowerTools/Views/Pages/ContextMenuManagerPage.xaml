@@ -13,6 +13,9 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
+        <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
+
         <XamlUICommand x:Name="CheckBoxClickCommand" ExecuteRequested="{x:Bind OnCheckBoxClickExecuteRequested}" />
         <XamlUICommand x:Name="OpenPackagePathCommand" ExecuteRequested="{x:Bind OnOpenPackagePathExecuteRequested}" />
     </Page.Resources>
@@ -63,11 +66,6 @@
                 VerticalAlignment="Center"
                 DefaultLabelPosition="Right"
                 IsEnabled="{x:Bind GetIsLoading(ContextMenuResultKind), Mode=OneWay}">
-
-                <CommandBar.Resources>
-                    <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
-                    <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
-                </CommandBar.Resources>
 
                 <CommandBar.PrimaryCommands>
                     <AppBarButton Click="{x:Bind OnRefreshClicked}" Label="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('Refresh')}">
