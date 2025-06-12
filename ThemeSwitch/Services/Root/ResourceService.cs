@@ -16,6 +16,6 @@ namespace ThemeSwitch.Services.Root
 
         public static List<string> ThemeList { get; } = [];
 
-        public static ResourceManager SystemTrayResource { get; } = new("PowerTools.Strings.SystemTray", CurrentAssembly);
+        public static ResourceManager ThemeSwitchResource { get; } = new("PowerTools.Strings.ThemeSwitch", CurrentAssembly);
     }
 }

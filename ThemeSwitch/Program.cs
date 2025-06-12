@@ -53,7 +53,7 @@ namespace ThemeSwitch
             if (!isExisted)
             {
                 InitializeProgramResources();
-                ThemeSwitchString = ResourceService.SystemTrayResource.GetString("ThemeSwitch");
+                ThemeSwitchString = ResourceService.ThemeSwitchResource.GetString("ThemeSwitch");
                 configurationCollection["DpiAwareness"] = "PerMonitorV2";
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -64,8 +64,8 @@ namespace ThemeSwitch
                 if (AutoThemeSwitchService.AutoThemeSwitchEnableValue)
                 {
                     SystemTrayService.InitializeSystemTray(ThemeSwitchString, Application.ExecutablePath);
-                    new SystemTrayApp();
-                    Application.Run(new SystemTrayWindow());
+                    new ThemeSwitchApp();
+                    Application.Run(new ThemeSwitchWindow());
                 }
                 else
                 {

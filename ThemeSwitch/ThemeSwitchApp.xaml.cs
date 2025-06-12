@@ -12,17 +12,17 @@ namespace ThemeSwitch
     /// <summary>
     /// 主题切换
     /// </summary>
-    public partial class SystemTrayApp : Application, IDisposable
+    public partial class ThemeSwitchApp : Application, IDisposable
     {
         private bool isDisposed;
         private WindowsXamlManager windowXamlManager;
 
-        public SystemTrayApp()
+        public ThemeSwitchApp()
         {
             windowXamlManager = WindowsXamlManager.InitializeForCurrentThread();
             (Window.Current as object as IXamlSourceTransparency).SetIsBackgroundTransparent(true);
             InitializeComponent();
-            LoadComponent(this, new Uri("ms-appx:///SystemTrayApp.xaml"), ComponentResourceLocation.Application);
+            LoadComponent(this, new Uri("ms-appx:///ThemeSwitchApp.xaml"), ComponentResourceLocation.Application);
             UnhandledException += OnUnhandledException;
         }
 
@@ -43,7 +43,7 @@ namespace ThemeSwitch
             GC.SuppressFinalize(this);
         }
 
-        ~SystemTrayApp()
+        ~ThemeSwitchApp()
         {
             Dispose(false);
         }
@@ -58,9 +58,9 @@ namespace ThemeSwitch
                 isDisposed = true;
                 if (disposing)
                 {
-                    if (SystemTrayWindow.Current is not null && !SystemTrayWindow.Current.IsDisposed)
+                    if (ThemeSwitchWindow.Current is not null && !ThemeSwitchWindow.Current.IsDisposed)
                     {
-                        SystemTrayWindow.Current?.Close();
+                        ThemeSwitchWindow.Current?.Close();
                     }
 
                     SystemTrayService.CloseSystemTray();

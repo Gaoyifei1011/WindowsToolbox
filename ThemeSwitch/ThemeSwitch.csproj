@@ -56,9 +56,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ApplicationDefinition Include="SystemTrayApp.xaml" />
-    <None Remove="SystemTrayApp.xaml" />
-
+    <ApplicationDefinition Include="ThemeSwitchApp.xaml" />
+    <None Remove="ThemeSwitchApp.xaml" />
+    <None Remove="ThemeSwitchPage.xaml" />
+    
     <None Update="Assets\ThemeSwitch.ico" CopyToOutputDirectory="Never" />
 
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" GeneratePathProperty="true" IncludeAssets="none" />
@@ -66,17 +67,11 @@
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.4188" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
 
-    <Page Include="Views\Pages\SystemTrayPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\ThemeSwitchPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
 
     <ProjectCapability Include="Uwp" />
 
     <Reference Include="Microsoft.UI.Xaml" HintPath="$(PkgMicrosoft_UI_Xaml)\lib\uap10.0\Microsoft.UI.Xaml.winmd" IsWinMDFile="true" />
     <Reference Include="System.Configuration" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Views\Windows\SystemTrayWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
 </Project>

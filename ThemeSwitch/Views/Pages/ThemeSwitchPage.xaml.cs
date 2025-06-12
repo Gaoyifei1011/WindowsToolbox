@@ -19,9 +19,9 @@ using ThemeSwitch.WindowsAPI.PInvoke.User32;
 namespace ThemeSwitch.Views.Pages
 {
     /// <summary>
-    /// 系统托盘页面
+    /// 主题切换页面
     /// </summary>
-    public sealed partial class SystemTrayPage : Page, INotifyPropertyChanged
+    public sealed partial class ThemeSwitchPage : Page, INotifyPropertyChanged
     {
         private ElementTheme _windowTheme;
 
@@ -41,7 +41,7 @@ namespace ThemeSwitch.Views.Pages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public SystemTrayPage()
+        public ThemeSwitchPage()
         {
             InitializeComponent();
         }
@@ -106,7 +106,7 @@ namespace ThemeSwitch.Views.Pages
         /// </summary>
         private void OnExitClicked(object sender, RoutedEventArgs args)
         {
-            SystemTrayWindow.Current?.Close();
+            ThemeSwitchWindow.Current?.Close();
         }
 
         #endregion 第一部分：系统托盘页面——挂载的事件

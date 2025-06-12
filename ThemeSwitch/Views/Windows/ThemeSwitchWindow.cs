@@ -24,13 +24,13 @@ namespace ThemeSwitch.Views.Windows
     /// <summary>
     /// 托盘程序辅助窗口
     /// </summary>
-    public class SystemTrayWindow : Form
+    public class ThemeSwitchWindow : Form
     {
-        private readonly string AppThemeString = ResourceService.SystemTrayResource.GetString("AppTheme");
-        private readonly string DarkString = ResourceService.SystemTrayResource.GetString("Dark");
-        private readonly string LightString = ResourceService.SystemTrayResource.GetString("Light");
-        private readonly string SystemThemeString = ResourceService.SystemTrayResource.GetString("SystemTheme");
-        private readonly string ThemeSwitchString = ResourceService.SystemTrayResource.GetString("ThemeSwitch");
+        private readonly string AppThemeString = ResourceService.ThemeSwitchResource.GetString("AppTheme");
+        private readonly string DarkString = ResourceService.ThemeSwitchResource.GetString("Dark");
+        private readonly string LightString = ResourceService.ThemeSwitchResource.GetString("Light");
+        private readonly string SystemThemeString = ResourceService.ThemeSwitchResource.GetString("SystemTheme");
+        private readonly string ThemeSwitchString = ResourceService.ThemeSwitchResource.GetString("ThemeSwitch");
 
         private readonly Container container = new();
         private readonly DesktopWindowXamlSource desktopWindowXamlSource = new();
@@ -43,7 +43,7 @@ namespace ThemeSwitch.Views.Windows
 
         public UIElement Content { get; set; }
 
-        public static SystemTrayWindow Current { get; private set; }
+        public static ThemeSwitchWindow Current { get; private set; }
 
         protected override CreateParams CreateParams
         {
@@ -56,12 +56,12 @@ namespace ThemeSwitch.Views.Windows
             }
         }
 
-        public SystemTrayWindow()
+        public ThemeSwitchWindow()
         {
             AllowDrop = false;
             AutoScaleMode = AutoScaleMode.Font;
             Current = this;
-            Content = new SystemTrayPage();
+            Content = new ThemeSwitchPage();
 
             desktopWindowXamlSource.Content = Content;
             IDesktopWindowXamlSourceNative2 desktopWindowXamlSourceNative = desktopWindowXamlSource as IDesktopWindowXamlSourceNative2;
@@ -115,9 +115,9 @@ namespace ThemeSwitch.Views.Windows
         {
             base.OnDeactivate(args);
 
-            if ((Content as SystemTrayPage).SystemTrayFlyout.IsOpen)
+            if ((Content as ThemeSwitchPage).ThemeSwitchFlyout.IsOpen)
             {
-                (Content as SystemTrayPage).SystemTrayFlyout.Hide();
+                (Content as ThemeSwitchPage).ThemeSwitchFlyout.Hide();
             }
         }
 
@@ -140,7 +140,7 @@ namespace ThemeSwitch.Views.Windows
             }
 
             Current = null;
-            (global::Windows.UI.Xaml.Application.Current as SystemTrayApp).Dispose();
+            (global::Windows.UI.Xaml.Application.Current as ThemeSwitchApp).Dispose();
         }
 
         #endregion 第一部分：窗口类内置需要重载的事件
@@ -175,7 +175,7 @@ namespace ThemeSwitch.Views.Windows
             };
 
             Activate();
-            (Content as SystemTrayPage).SystemTrayFlyout.ShowAt(Content, options);
+            (Content as ThemeSwitchPage).ThemeSwitchFlyout.ShowAt(Content, options);
         }
 
         /// <summary>
@@ -394,7 +394,7 @@ namespace ThemeSwitch.Views.Windows
                     {
                         BeginInvoke(async () =>
                         {
-                            await (Content as SystemTrayPage).UpdateSystemTrayThemeAsync();
+                            await (Content as ThemeSwitchPage).UpdateSystemTrayThemeAsync();
                         });
                         break;
                     }
