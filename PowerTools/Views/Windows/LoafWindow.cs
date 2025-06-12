@@ -34,7 +34,7 @@ namespace PowerTools.Views.Windows
 
         public static LoafWindow Current { get; private set; }
 
-        public LoafWindow(UpdatingKind updatingKind, TimeSpan duration, bool blockAllKeys, bool lockScreenAutomaticly)
+        public LoafWindow(UpdateKind updatingKind, TimeSpan duration, bool blockAllKeys, bool lockScreenAutomaticly)
         {
             AllowDrop = false;
             AutoScaleMode = AutoScaleMode.Font;

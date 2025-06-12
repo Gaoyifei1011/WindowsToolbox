@@ -1,6 +1,6 @@
 ﻿namespace PowerTools.Extensions.DataType.Enums
 {
-    public enum UpdatingKind
+    public enum UpdateKind
     {
         Windows11 = 0,
         Windows10 = 1
