@@ -24,6 +24,10 @@ namespace PowerTools.Views.Pages
     /// </summary>
     public sealed partial class WinSATPage : Page, INotifyPropertyChanged
     {
+        private readonly string ErrorMessageString = ResourceService.WinSATResource.GetString("ErrorMessage");
+        private readonly string SuccessMessageString = ResourceService.WinSATResource.GetString("SuccessMessage");
+        private readonly string WEIContentString = ResourceService.WinSATResource.GetString("WEITipContent");
+        private readonly string WEIString = ResourceService.WinSATResource.GetString("WEI");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly CInitiateWinSAT cInitiateWinSAT = new();
         private readonly Guid CLSID_ProgressDialog = new("F8383852-FCD3-11d1-A6B9-006097DF5BD4");
@@ -241,8 +245,8 @@ namespace PowerTools.Views.Pages
 
                 if (progressDialog is not null)
                 {
-                    progressDialog.SetTitle(ResourceService.WinSATResource.GetString("WEI"));
-                    progressDialog.SetLine(2, ResourceService.WinSATResource.GetString("WEITipContent"), false, IntPtr.Zero);
+                    progressDialog.SetTitle(WEIString);
+                    progressDialog.SetLine(2, WEIContentString, false, IntPtr.Zero);
                     progressDialog.StartProgressDialog(MainWindow.Current.Handle, null, PROGDLG.PROGDLG_MODAL | PROGDLG.PROGDLG_NOMINIMIZE, IntPtr.Zero);
                 }
             }
@@ -410,7 +414,7 @@ namespace PowerTools.Views.Pages
             GraphicsSubScore = graphicsSubScore is 0.0 ? "N/A" : graphicsSubScore.ToString("F1");
             GamingGraphicsSubScore = gamingGraphicsSubScore is 0.0 ? "N/A" : gamingGraphicsSubScore.ToString("F1");
             PrimaryDiskSubScore = primaryDiskSubScore is 0.0 ? "N/A" : primaryDiskSubScore.ToString("F1");
-            ResultMessage = basicScore is 0.0 ? ResourceService.WinSATResource.GetString("ErrorMessage") : string.Format(ResourceService.WinSATResource.GetString("SuccessMessage"), assessmentDate is null ? string.Empty : assessmentDate);
+            ResultMessage = basicScore is 0.0 ? ErrorMessageString : string.Format(SuccessMessageString, assessmentDate is null ? string.Empty : assessmentDate);
             ResultServerity = basicScore is 0.0 ? InfoBarSeverity.Warning : InfoBarSeverity.Success;
         }
     }
