@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerTools", "PowerTools\Po
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerToolsShellExtension", "PowerToolsShellExtension\PowerToolsShellExtension.csproj", "{BC46384E-2DAF-42B6-9DE5-EB416A244A39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchTheme", "SwitchTheme\SwitchTheme.csproj", "{303B319F-92E4-45D9-8F69-8B5C0DF84569}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeSwitch", "ThemeSwitch\ThemeSwitch.csproj", "{5D1F9F7F-41C8-4886-9528-C4CF02A10657}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,18 +43,18 @@ Global
 		{BC46384E-2DAF-42B6-9DE5-EB416A244A39}.Release|x64.Build.0 = Release|x64
 		{BC46384E-2DAF-42B6-9DE5-EB416A244A39}.Release|x86.ActiveCfg = Release|x86
 		{BC46384E-2DAF-42B6-9DE5-EB416A244A39}.Release|x86.Build.0 = Release|x86
-		{303B319F-92E4-45D9-8F69-8B5C0DF84569}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{303B319F-92E4-45D9-8F69-8B5C0DF84569}.Debug|ARM64.Build.0 = Debug|ARM64
-		{303B319F-92E4-45D9-8F69-8B5C0DF84569}.Debug|x64.ActiveCfg = Debug|x64
-		{303B319F-92E4-45D9-8F69-8B5C0DF84569}.Debug|x64.Build.0 = Debug|x64
-		{303B319F-92E4-45D9-8F69-8B5C0DF84569}.Debug|x86.ActiveCfg = Debug|x86
-		{303B319F-92E4-45D9-8F69-8B5C0DF84569}.Debug|x86.Build.0 = Debug|x86
-		{303B319F-92E4-45D9-8F69-8B5C0DF84569}.Release|ARM64.ActiveCfg = Release|ARM64
-		{303B319F-92E4-45D9-8F69-8B5C0DF84569}.Release|ARM64.Build.0 = Release|ARM64
-		{303B319F-92E4-45D9-8F69-8B5C0DF84569}.Release|x64.ActiveCfg = Release|x64
-		{303B319F-92E4-45D9-8F69-8B5C0DF84569}.Release|x64.Build.0 = Release|x64
-		{303B319F-92E4-45D9-8F69-8B5C0DF84569}.Release|x86.ActiveCfg = Release|x86
-		{303B319F-92E4-45D9-8F69-8B5C0DF84569}.Release|x86.Build.0 = Release|x86
+		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Debug|ARM64.Build.0 = Debug|ARM64
+		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Debug|x64.ActiveCfg = Debug|x64
+		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Debug|x64.Build.0 = Debug|x64
+		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Debug|x86.ActiveCfg = Debug|x86
+		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Debug|x86.Build.0 = Debug|x86
+		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Release|ARM64.ActiveCfg = Release|ARM64
+		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Release|ARM64.Build.0 = Release|ARM64
+		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Release|x64.ActiveCfg = Release|x64
+		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Release|x64.Build.0 = Release|x64
+		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Release|x86.ActiveCfg = Release|x86
+		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
