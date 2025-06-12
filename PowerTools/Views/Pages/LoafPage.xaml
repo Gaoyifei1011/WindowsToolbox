@@ -8,9 +8,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:root="using:PowerTools.Services.Root"
     xmlns:sys="using:System"
-    Loaded="{x:Bind OnLoaded}"
     NavigationCacheMode="Enabled"
-    Unloaded="{x:Bind OnUnLoaded}"
     mc:Ignorable="d">
 
     <Grid Padding="0">
@@ -172,18 +170,18 @@
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateStyleClicked}"
                                                 GroupName="UpdateStyleRadioGroup"
-                                                IsChecked="{x:Bind x:Object.Equals(SelectedUpdateStyle.Key, UpdateStyleList[0].Key), Mode=OneWay}"
+                                                IsChecked="{x:Bind x:Object.Equals(SelectedUpdateStyle.Key, UpdateList[0].Key), Mode=OneWay}"
                                                 Tag="0"
-                                                Text="{x:Bind sys:Convert.ToString(UpdateStyleList[0].Value)}" />
+                                                Text="{x:Bind sys:Convert.ToString(UpdateList[0].Value)}" />
 
                                             <muxc:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateStyleClicked}"
                                                 GroupName="UpdateStyleRadioGroup"
-                                                IsChecked="{x:Bind x:Object.Equals(SelectedUpdateStyle.Key, UpdateStyleList[1].Key), Mode=OneWay}"
+                                                IsChecked="{x:Bind x:Object.Equals(SelectedUpdateStyle.Key, UpdateList[1].Key), Mode=OneWay}"
                                                 Tag="1"
-                                                Text="{x:Bind sys:Convert.ToString(UpdateStyleList[1].Value)}" />
+                                                Text="{x:Bind sys:Convert.ToString(UpdateList[1].Value)}" />
                                         </MenuFlyout>
                                     </muxc:DropDownButton.Flyout>
                                 </muxc:DropDownButton>
@@ -258,7 +256,7 @@
                                     Style="{StaticResource TimePickerStyle}"
                                     Time="{x:Bind DurationTime, Mode=OneWay}"
                                     TimeChanged="{x:Bind OnTimeChanged}"
-                                    ToolTipService.ToolTip="{x:Bind x:String.Format(LoafTimeToolTip, DurationTime.Hours, DurationTime.Minutes), Mode=OneWay}" />
+                                    ToolTipService.ToolTip="{x:Bind x:String.Format(LoafTimeString, DurationTime.Hours, DurationTime.Minutes), Mode=OneWay}" />
                             </Grid>
 
                             <MenuFlyoutSeparator />
