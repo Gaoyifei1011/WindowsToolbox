@@ -294,7 +294,7 @@
                                     Command="{StaticResource OpenPackagePathCommand}"
                                     CommandParameter="{x:Bind PackagePath}"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('OpenPackagePathToolTip')}">
+                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('OpenPackagePath')}">
 
                                     <Button.Content>
                                         <FontIcon FontSize="14" Glyph="&#xE8B7;" />
@@ -340,8 +340,8 @@
                                                 <ToolTipService.ToolTip>
                                                     <ToolTip MaxWidth="9999">
                                                         <Grid>
-                                                            <TextBlock Text="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('SelectedToolTip')}" Visibility="{x:Bind IsEnabled, Mode=OneWay}" />
-                                                            <TextBlock Text="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('UnSelectedToolTip')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsEnabled), Mode=OneWay}" />
+                                                            <TextBlock Text="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('Selected')}" Visibility="{x:Bind IsEnabled, Mode=OneWay}" />
+                                                            <TextBlock Text="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('UnSelected')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsEnabled), Mode=OneWay}" />
                                                         </Grid>
                                                     </ToolTip>
                                                 </ToolTipService.ToolTip>
