@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Resources;
-using Windows.UI.Xaml;
 
 namespace ThemeSwitch.Services.Root
 {
@@ -13,8 +10,6 @@ namespace ThemeSwitch.Services.Root
     public static class ResourceService
     {
         private static Assembly CurrentAssembly { get; } = Assembly.LoadFrom(Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "PowerTools.exe"));
-
-        public static List<string> ThemeList { get; } = [];
 
         public static ResourceManager ThemeSwitchResource { get; } = new("PowerTools.Strings.ThemeSwitch", CurrentAssembly);
     }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Windows.UI.Xaml;
 using ThemeSwitch.Extensions.DataType.Constant;
 using ThemeSwitch.Services.Root;
+using Windows.UI.Xaml;
 
 namespace ThemeSwitch.Services.Controls.Settings
 {

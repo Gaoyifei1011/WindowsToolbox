@@ -5,13 +5,13 @@ using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using ThemeSwitch.Helpers.Root;
 using ThemeSwitch.Services.Controls.Settings;
 using ThemeSwitch.Services.Root;
 using ThemeSwitch.Views.Windows;
 using ThemeSwitch.WindowsAPI.PInvoke.User32;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060

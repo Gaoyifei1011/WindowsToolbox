@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Diagnostics;
@@ -11,7 +11,7 @@ using ThemeSwitch.Services.Controls.Settings;
 using ThemeSwitch.Services.Root;
 using ThemeSwitch.Views.Windows;
 
-// ÒÖÖÆ CA1806 ¾¯¸æ
+// æŠ‘åˆ¶ CA1806 è­¦å‘Š
 #pragma warning disable CA1806
 
 namespace ThemeSwitch
@@ -22,7 +22,7 @@ namespace ThemeSwitch
         private static string ThemeSwitchString;
 
         /// <summary>
-        /// PowerTools ÍĞÅÌ³ÌĞò
+        /// PowerTools æ‰˜ç›˜ç¨‹åº
         /// </summary>
         [STAThread]
         public static void Main()
@@ -79,7 +79,7 @@ namespace ThemeSwitch
         }
 
         /// <summary>
-        /// ´¦Àí Windows ´°Ìå UI Ïß³ÌÒì³£
+        /// å¤„ç† Windows çª—ä½“ UI çº¿ç¨‹å¼‚å¸¸
         /// </summary>
         private static void OnThreadException(object sender, ThreadExceptionEventArgs args)
         {
@@ -87,7 +87,7 @@ namespace ThemeSwitch
         }
 
         /// <summary>
-        /// ´¦Àí Windows ´°Ìå·Ç UI Ïß³ÌÒì³£
+        /// å¤„ç† Windows çª—ä½“é UI çº¿ç¨‹å¼‚å¸¸
         /// </summary>
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
@@ -95,7 +95,7 @@ namespace ThemeSwitch
         }
 
         /// <summary>
-        /// ¼ÓÔØÓ¦ÓÃ³ÌĞòËùĞèµÄ×ÊÔ´
+        /// åŠ è½½åº”ç”¨ç¨‹åºæ‰€éœ€çš„èµ„æº
         /// </summary>
         private static void InitializeProgramResources()
         {

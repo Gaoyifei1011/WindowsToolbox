@@ -5,11 +5,11 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms;
-using Windows.Globalization;
 using ThemeSwitch.Extensions.DataType.Constant;
 using ThemeSwitch.Services.Root;
 using ThemeSwitch.WindowsAPI.ComTypes;
 using ThemeSwitch.WindowsAPI.PInvoke.Shlwapi;
+using Windows.Globalization;
 
 namespace ThemeSwitch.Services.Controls.Settings
 {

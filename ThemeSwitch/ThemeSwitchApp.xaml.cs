@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics.Tracing;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Hosting;
 using ThemeSwitch.Services.Root;
 using ThemeSwitch.Views.Windows;
 using ThemeSwitch.WindowsAPI.ComTypes;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Hosting;
 
 namespace ThemeSwitch
 {

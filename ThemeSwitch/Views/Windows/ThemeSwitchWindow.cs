@@ -1,4 +1,4 @@
-using Microsoft.Win32;
+ï»¿using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -6,23 +6,23 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Hosting;
 using ThemeSwitch.Helpers.Root;
 using ThemeSwitch.Services.Controls.Settings;
 using ThemeSwitch.Services.Root;
 using ThemeSwitch.Views.Pages;
 using ThemeSwitch.WindowsAPI.ComTypes;
 using ThemeSwitch.WindowsAPI.PInvoke.User32;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Hosting;
 
-// ÒÖÖÆ CA1806£¬CA1822 ¾¯¸æ
+// æŠ‘åˆ¶ CA1806ï¼ŒCA1822 è­¦å‘Š
 #pragma warning disable CA1806,CA1822
 
 namespace ThemeSwitch.Views.Windows
 {
     /// <summary>
-    /// ÍĞÅÌ³ÌĞò¸¨Öú´°¿Ú
+    /// æ‰˜ç›˜ç¨‹åºè¾…åŠ©çª—å£
     /// </summary>
     public class ThemeSwitchWindow : Form
     {
@@ -94,10 +94,10 @@ namespace ThemeSwitch.Views.Windows
             });
         }
 
-        #region µÚÒ»²¿·Ö£º´°¿ÚÀàÄÚÖÃĞèÒªÖØÔØµÄÊÂ¼ş
+        #region ç¬¬ä¸€éƒ¨åˆ†ï¼šçª—å£ç±»å†…ç½®éœ€è¦é‡è½½çš„äº‹ä»¶
 
         /// <summary>
-        /// ´¦ÖÃÓÉÖ÷´°ÌåÕ¼ÓÃµÄ×ÊÔ´
+        /// å¤„ç½®ç”±ä¸»çª—ä½“å ç”¨çš„èµ„æº
         /// </summary>
         protected override void Dispose(bool disposing)
         {
@@ -109,7 +109,7 @@ namespace ThemeSwitch.Views.Windows
         }
 
         /// <summary>
-        /// ´°¿Ú²»´¦ÓÚ½¹µã×´Ì¬Ê±´¥·¢µÄÊÂ¼ş
+        /// çª—å£ä¸å¤„äºç„¦ç‚¹çŠ¶æ€æ—¶è§¦å‘çš„äº‹ä»¶
         /// </summary>
         protected override void OnDeactivate(EventArgs args)
         {
@@ -122,7 +122,7 @@ namespace ThemeSwitch.Views.Windows
         }
 
         /// <summary>
-        /// ¹Ø±Õ´°¿ÚºóÊÍ·Å×ÊÔ´
+        /// å…³é—­çª—å£åé‡Šæ”¾èµ„æº
         /// </summary>
         protected override void OnFormClosed(FormClosedEventArgs args)
         {
@@ -143,12 +143,12 @@ namespace ThemeSwitch.Views.Windows
             (global::Windows.UI.Xaml.Application.Current as ThemeSwitchApp).Dispose();
         }
 
-        #endregion µÚÒ»²¿·Ö£º´°¿ÚÀàÄÚÖÃĞèÒªÖØÔØµÄÊÂ¼ş
+        #endregion ç¬¬ä¸€éƒ¨åˆ†ï¼šçª—å£ç±»å†…ç½®éœ€è¦é‡è½½çš„äº‹ä»¶
 
-        #region µÚ¶ş²¿·Ö£º×Ô¶¨ÒåÊÂ¼ş
+        #region ç¬¬äºŒéƒ¨åˆ†ï¼šè‡ªå®šä¹‰äº‹ä»¶
 
         /// <summary>
-        /// µ±Ö÷»ú×ÀÃæÓ¦ÓÃ³ÌĞòÊÕµ½´Ó DesktopWindowXamlSource ¶ÔÏó (»ñÈ¡½¹µãµÄÇëÇóÊ±·¢Éú£¬ÓÃ»§Î»ÓÚ DesktopWindowXamlSource ÖĞµÄ×îºóÒ»¸ö¿É¾Û½¹ÔªËØÉÏ£¬È»ºó°´ Tab) ¡£
+        /// å½“ä¸»æœºæ¡Œé¢åº”ç”¨ç¨‹åºæ”¶åˆ°ä» DesktopWindowXamlSource å¯¹è±¡ (è·å–ç„¦ç‚¹çš„è¯·æ±‚æ—¶å‘ç”Ÿï¼Œç”¨æˆ·ä½äº DesktopWindowXamlSource ä¸­çš„æœ€åä¸€ä¸ªå¯èšç„¦å…ƒç´ ä¸Šï¼Œç„¶åæŒ‰ Tab) ã€‚
         /// </summary>
         private void OnTakeFocusRequested(DesktopWindowXamlSource sender, DesktopWindowXamlSourceTakeFocusRequestedEventArgs args)
         {
@@ -161,7 +161,7 @@ namespace ThemeSwitch.Views.Windows
         }
 
         /// <summary>
-        /// ´¦ÀíÍĞÅÌÊó±êÓÒ¼üµ¥»÷ÊÂ¼ş
+        /// å¤„ç†æ‰˜ç›˜é¼ æ ‡å³é”®å•å‡»äº‹ä»¶
         /// </summary>
         private void OnRightClick(object sender, MouseEventArgs args)
         {
@@ -179,22 +179,22 @@ namespace ThemeSwitch.Views.Windows
         }
 
         /// <summary>
-        /// Ê±¼äÁ÷ÊÅ´¥·¢µÄÊÂ¼ş
+        /// æ—¶é—´æµé€è§¦å‘çš„äº‹ä»¶
         /// </summary>
         private void OnElapsed(object sender, ElapsedEventArgs args)
         {
             TimeSpan currentTime = new(DateTime.Now.Hour, DateTime.Now.Minute, 0);
 
-            // ÒÑÆôÓÃ×Ô¶¯ÇĞ»»Ö÷Ìâ
+            // å·²å¯ç”¨è‡ªåŠ¨åˆ‡æ¢ä¸»é¢˜
             if (AutoThemeSwitchService.AutoThemeSwitchEnableValue)
             {
-                // ×Ô¶¯ÇĞ»»ÏµÍ³Ö÷Ìâ
+                // è‡ªåŠ¨åˆ‡æ¢ç³»ç»Ÿä¸»é¢˜
                 if (AutoThemeSwitchService.AutoSwitchSystemThemeValue)
                 {
-                    // °×ÌìÊ±¼äĞ¡ÓÚÒ¹¼äÊ±¼ä
+                    // ç™½å¤©æ—¶é—´å°äºå¤œé—´æ—¶é—´
                     if (AutoThemeSwitchService.SystemThemeLightTime < AutoThemeSwitchService.SystemThemeDarkTime)
                     {
-                        // ½éÓÚ°×ÌìÊ±¼äºÍÒ¹¼äÊ±¼ä£¬ÇĞ»»Ç³É«Ö÷Ìâ
+                        // ä»‹äºç™½å¤©æ—¶é—´å’Œå¤œé—´æ—¶é—´ï¼Œåˆ‡æ¢æµ…è‰²ä¸»é¢˜
                         if (currentTime > AutoThemeSwitchService.SystemThemeLightTime && currentTime < AutoThemeSwitchService.SystemThemeDarkTime)
                         {
                             bool isModified = false;
@@ -216,7 +216,7 @@ namespace ThemeSwitch.Views.Windows
                                 User32Library.SendMessageTimeout(new IntPtr(0xffff), WindowMessage.WM_SETTINGCHANGE, UIntPtr.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
                             }
                         }
-                        // ÇĞ»»ÉîÉ«Ö÷Ìâ
+                        // åˆ‡æ¢æ·±è‰²ä¸»é¢˜
                         else
                         {
                             bool isModified = false;
@@ -239,10 +239,10 @@ namespace ThemeSwitch.Views.Windows
                             }
                         }
                     }
-                    // °×ÌìÊ±¼ä´óÓÚÒ¹¼äÊ±¼ä
+                    // ç™½å¤©æ—¶é—´å¤§äºå¤œé—´æ—¶é—´
                     else
                     {
-                        // ½éÓÚ°×ÌìÊ±¼äºÍÒ¹¼äÊ±¼ä£¬ÇĞ»»ÉîÉ«Ö÷Ìâ
+                        // ä»‹äºç™½å¤©æ—¶é—´å’Œå¤œé—´æ—¶é—´ï¼Œåˆ‡æ¢æ·±è‰²ä¸»é¢˜
                         if (currentTime > AutoThemeSwitchService.SystemThemeDarkTime && currentTime < AutoThemeSwitchService.SystemThemeLightTime)
                         {
                             bool isModified = false;
@@ -264,7 +264,7 @@ namespace ThemeSwitch.Views.Windows
                                 User32Library.SendMessageTimeout(new IntPtr(0xffff), WindowMessage.WM_SETTINGCHANGE, UIntPtr.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
                             }
                         }
-                        // ÇĞ»»Ç³É«Ö÷Ìâ
+                        // åˆ‡æ¢æµ…è‰²ä¸»é¢˜
                         else
                         {
                             bool isModified = false;
@@ -289,13 +289,13 @@ namespace ThemeSwitch.Views.Windows
                     }
                 }
 
-                // ×Ô¶¯ÇĞ»»Ó¦ÓÃÖ÷Ìâ
+                // è‡ªåŠ¨åˆ‡æ¢åº”ç”¨ä¸»é¢˜
                 if (AutoThemeSwitchService.AutoSwitchAppThemeValue)
                 {
-                    // °×ÌìÊ±¼äĞ¡ÓÚÒ¹¼äÊ±¼ä
+                    // ç™½å¤©æ—¶é—´å°äºå¤œé—´æ—¶é—´
                     if (AutoThemeSwitchService.AppThemeLightTime < AutoThemeSwitchService.AppThemeDarkTime)
                     {
-                        // ½éÓÚ°×ÌìÊ±¼äºÍÒ¹¼äÊ±¼ä£¬ÇĞ»»Ç³É«Ö÷Ìâ
+                        // ä»‹äºç™½å¤©æ—¶é—´å’Œå¤œé—´æ—¶é—´ï¼Œåˆ‡æ¢æµ…è‰²ä¸»é¢˜
                         if (currentTime > AutoThemeSwitchService.AppThemeLightTime && currentTime < AutoThemeSwitchService.AppThemeDarkTime)
                         {
                             bool isModified = false;
@@ -311,7 +311,7 @@ namespace ThemeSwitch.Views.Windows
                                 User32Library.SendMessageTimeout(new IntPtr(0xffff), WindowMessage.WM_SETTINGCHANGE, UIntPtr.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
                             }
                         }
-                        // ÇĞ»»ÉîÉ«Ö÷Ìâ
+                        // åˆ‡æ¢æ·±è‰²ä¸»é¢˜
                         else
                         {
                             bool isModified = false;
@@ -328,10 +328,10 @@ namespace ThemeSwitch.Views.Windows
                             }
                         }
                     }
-                    // °×ÌìÊ±¼ä´óÓÚÒ¹¼äÊ±¼ä
+                    // ç™½å¤©æ—¶é—´å¤§äºå¤œé—´æ—¶é—´
                     else
                     {
-                        // ½éÓÚ°×ÌìÊ±¼äºÍÒ¹¼äÊ±¼ä£¬ÇĞ»»ÉîÉ«Ö÷Ìâ
+                        // ä»‹äºç™½å¤©æ—¶é—´å’Œå¤œé—´æ—¶é—´ï¼Œåˆ‡æ¢æ·±è‰²ä¸»é¢˜
                         if (currentTime > AutoThemeSwitchService.AppThemeDarkTime && currentTime < AutoThemeSwitchService.AppThemeLightTime)
                         {
                             bool isModified = false;
@@ -347,7 +347,7 @@ namespace ThemeSwitch.Views.Windows
                                 User32Library.SendMessageTimeout(new IntPtr(0xffff), WindowMessage.WM_SETTINGCHANGE, UIntPtr.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
                             }
                         }
-                        // ÇĞ»»Ç³É«Ö÷Ìâ
+                        // åˆ‡æ¢æµ…è‰²ä¸»é¢˜
                         else
                         {
                             bool isModified = false;
@@ -378,10 +378,10 @@ namespace ThemeSwitch.Views.Windows
             SystemTrayService.UpdateTitle(notifyIconTitle);
         }
 
-        #endregion µÚ¶ş²¿·Ö£º×Ô¶¨ÒåÊÂ¼ş
+        #endregion ç¬¬äºŒéƒ¨åˆ†ï¼šè‡ªå®šä¹‰äº‹ä»¶
 
         /// <summary>
-        /// Ó¦ÓÃÖ÷´°¿ÚÏûÏ¢´¦Àí
+        /// åº”ç”¨ä¸»çª—å£æ¶ˆæ¯å¤„ç†
         /// </summary>
         protected override void WndProc(ref Message m)
         {
@@ -389,7 +389,7 @@ namespace ThemeSwitch.Views.Windows
 
             switch (m.Msg)
             {
-                // Ó¦ÓÃÖ÷ÌâÉèÖÃ¸úËæÏµÍ³·¢Éú±ä»¯Ê±£¬µ±ÏµÍ³Ö÷ÌâÉèÖÃ·¢Éú±ä»¯Ê±ĞŞ¸ÄĞŞ¸ÄÓ¦ÓÃ±³¾°É«
+                // åº”ç”¨ä¸»é¢˜è®¾ç½®è·Ÿéšç³»ç»Ÿå‘ç”Ÿå˜åŒ–æ—¶ï¼Œå½“ç³»ç»Ÿä¸»é¢˜è®¾ç½®å‘ç”Ÿå˜åŒ–æ—¶ä¿®æ”¹ä¿®æ”¹åº”ç”¨èƒŒæ™¯è‰²
                 case (int)WindowMessage.WM_SETTINGCHANGE:
                     {
                         BeginInvoke(async () =>
@@ -398,7 +398,7 @@ namespace ThemeSwitch.Views.Windows
                         });
                         break;
                     }
-                // ´ÓÆäËûÓ¦ÓÃ³ÌĞò½ÓÊÕµ½µÄÏûÏ¢
+                // ä»å…¶ä»–åº”ç”¨ç¨‹åºæ¥æ”¶åˆ°çš„æ¶ˆæ¯
                 case (int)WindowMessage.WM_COPYDATA:
                     {
                         COPYDATASTRUCT copyDataStruct = Marshal.PtrToStructure<COPYDATASTRUCT>(m.LParam);
@@ -414,7 +414,7 @@ namespace ThemeSwitch.Views.Windows
         }
 
         /// <summary>
-        /// »ñÈ¡ÏµÍ³Ö÷ÌâÑùÊ½
+        /// è·å–ç³»ç»Ÿä¸»é¢˜æ ·å¼
         /// </summary>
         private ElementTheme GetSystemTheme()
         {
@@ -422,7 +422,7 @@ namespace ThemeSwitch.Views.Windows
         }
 
         /// <summary>
-        /// »ñÈ¡Ó¦ÓÃÖ÷ÌâÑùÊ½
+        /// è·å–åº”ç”¨ä¸»é¢˜æ ·å¼
         /// </summary>
         private ElementTheme GetAppTheme()
         {
