@@ -527,7 +527,7 @@ namespace PowerToolsShellExtension.Commands
                 {
                     return EXPCMDSTATE.ECS_HIDDEN;
                 }
-                else if (shellMenuItem.MenuFileMatchRule.Equals(ShellMenuService.FileMatchRuleList[1]))
+                else if (string.Equals(shellMenuItem.MenuFileMatchRule, ShellMenuService.FileMatchRuleList[1]))
                 {
                     string[] fileMatchFormatArray = shellMenuItem.MenuFileMatchFormatText.Split('|');
 

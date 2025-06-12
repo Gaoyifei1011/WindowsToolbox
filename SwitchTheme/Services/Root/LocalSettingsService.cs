@@ -8,7 +8,7 @@ namespace SwitchTheme.Services.Root
     /// </summary>
     public static class LocalSettingsService
     {
-        private static readonly string settingsKey = @"Software\WindowsTools\Settings";
+        private static readonly string settingsKey = @"Software\PowerTools\Settings";
 
         /// <summary>
         /// 读取设置选项存储信息

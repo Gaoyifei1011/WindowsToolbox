@@ -8,7 +8,7 @@ using WinRT;
 namespace PowerToolsShellExtension
 {
     /// <summary>
-    /// Windows 工具箱 右键菜单扩展
+    /// PowerTools 右键菜单扩展
     /// </summary>
     public class Program
     {

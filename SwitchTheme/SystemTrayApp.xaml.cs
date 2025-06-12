@@ -10,7 +10,7 @@ using SwitchTheme.WindowsAPI.ComTypes;
 namespace SwitchTheme
 {
     /// <summary>
-    /// Windows 工具箱应用程序
+    /// 切换主题
     /// </summary>
     public partial class SystemTrayApp : Application, IDisposable
     {

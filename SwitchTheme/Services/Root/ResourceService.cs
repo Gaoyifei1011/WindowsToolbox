@@ -12,10 +12,10 @@ namespace SwitchTheme.Services.Root
     /// </summary>
     public static class ResourceService
     {
-        private static Assembly CurrentAssembly { get; } = Assembly.LoadFrom(Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "WindowsTools.exe"));
+        private static Assembly CurrentAssembly { get; } = Assembly.LoadFrom(Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "PowerTools.exe"));
 
         public static List<string> ThemeList { get; } = [];
 
-        public static ResourceManager SystemTrayResource { get; } = new("WindowsTools.Strings.SystemTray", CurrentAssembly);
+        public static ResourceManager SystemTrayResource { get; } = new("PowerTools.Strings.SystemTray", CurrentAssembly);
     }
 }

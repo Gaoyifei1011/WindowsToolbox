@@ -1,0 +1,12 @@
+ClearList=清空列表
+Description=该工具可以帮助您一键删除无法签名文件的数字签名
+DragOverContent=添加到“文件证书”页面中
+EmptyList=没有任何内容
+FileName=文件名称
+Modify=修改
+ModifyingNow=正在修改中，请稍候...
+SelectFile=选择文件
+SelectFolder=选择文件夹
+Title=文件证书
+Total=总计：{0}
+ViewErrorInformation=查看错误信息

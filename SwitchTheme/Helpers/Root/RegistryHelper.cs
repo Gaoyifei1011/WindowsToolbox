@@ -18,7 +18,7 @@ namespace SwitchTheme.Helpers.Root
             T value = default;
             try
             {
-                if ((rootRegistryKey.Equals(Registry.ClassesRoot) || rootRegistryKey.Equals(Registry.CurrentConfig) || rootRegistryKey.Equals(Registry.CurrentUser) || rootRegistryKey.Equals(Registry.LocalMachine) || rootRegistryKey.Equals(Registry.PerformanceData) || rootRegistryKey.Equals(Registry.Users)) && rootRegistryKey.OpenSubKey(rootKey, false) is RegistryKey registryKey && registryKey.GetValue(key) is object getValue)
+                if ((Equals(rootRegistryKey, Registry.ClassesRoot) || Equals(rootRegistryKey, Registry.CurrentConfig) || Equals(rootRegistryKey, Registry.CurrentUser) || Equals(rootRegistryKey, Registry.LocalMachine) || Equals(rootRegistryKey, Registry.PerformanceData) || Equals(rootRegistryKey, Registry.Users)) && rootRegistryKey.OpenSubKey(rootKey, false) is RegistryKey registryKey && registryKey.GetValue(key) is object getValue)
                 {
                     // 读取布尔值
                     if (typeof(T) == typeof(bool) || typeof(T) == typeof(bool?))
@@ -68,7 +68,7 @@ namespace SwitchTheme.Helpers.Root
         {
             try
             {
-                if ((rootRegistryKey.Equals(Registry.ClassesRoot) || rootRegistryKey.Equals(Registry.CurrentConfig) || rootRegistryKey.Equals(Registry.CurrentUser) || rootRegistryKey.Equals(Registry.LocalMachine) || rootRegistryKey.Equals(Registry.PerformanceData) || rootRegistryKey.Equals(Registry.Users)) && rootRegistryKey.CreateSubKey(rootKey, true) is RegistryKey registryKey)
+                if ((Equals(rootRegistryKey, Registry.ClassesRoot) || Equals(rootRegistryKey, Registry.CurrentConfig) || Equals(rootRegistryKey, Registry.CurrentUser) || Equals(rootRegistryKey, Registry.LocalMachine) || Equals(rootRegistryKey, Registry.PerformanceData) || Equals(rootRegistryKey, Registry.Users)) && rootRegistryKey.CreateSubKey(rootKey, true) is RegistryKey registryKey)
                 {
                     // 存储 32 位整数类型或者布尔值
                     if (typeof(T) == typeof(bool) || typeof(T) == typeof(int) || typeof(T) == typeof(uint))
@@ -121,7 +121,7 @@ namespace SwitchTheme.Helpers.Root
         {
             try
             {
-                if ((rootRegistryKey.Equals(Registry.ClassesRoot) || rootRegistryKey.Equals(Registry.CurrentConfig) || rootRegistryKey.Equals(Registry.CurrentUser) || rootRegistryKey.Equals(Registry.LocalMachine) || rootRegistryKey.Equals(Registry.PerformanceData) || rootRegistryKey.Equals(Registry.Users)) && rootRegistryKey.CreateSubKey(rootKey, true) is RegistryKey registryKey)
+                if ((Equals(rootRegistryKey, Registry.ClassesRoot) || Equals(rootRegistryKey, Registry.CurrentConfig) || Equals(rootRegistryKey, Registry.CurrentUser) || Equals(rootRegistryKey, Registry.LocalMachine) || Equals(rootRegistryKey, Registry.PerformanceData) || Equals(rootRegistryKey, Registry.Users)) && rootRegistryKey.CreateSubKey(rootKey, true) is RegistryKey registryKey)
                 {
                     // 删除整项
                     if (key is null)

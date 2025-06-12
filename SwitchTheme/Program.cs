@@ -21,7 +21,7 @@ namespace SwitchTheme
         private static readonly NameValueCollection configurationCollection = ConfigurationManager.GetSection("System.Windows.Forms.ApplicationConfigurationSection") as NameValueCollection;
 
         /// <summary>
-        /// Windows π§æﬂœ‰ Õ–≈Ã≥Ã–Ú
+        /// PowerTools Õ–≈Ã≥Ã–Ú
         /// </summary>
         [STAThread]
         public static void Main()
@@ -30,7 +30,7 @@ namespace SwitchTheme
             {
                 try
                 {
-                    Process.Start("windowstools:");
+                    Process.Start("powertools:");
                 }
                 catch (Exception)
                 { }
