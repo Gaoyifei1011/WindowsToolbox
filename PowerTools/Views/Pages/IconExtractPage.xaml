@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:PowerTools.Models"
     xmlns:rootservice="using:PowerTools.Services.Root"
-    xmlns:sys="using:System"
+    xmlns:system="using:System"
     AllowDrop="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -170,7 +170,7 @@
                                         GroupName="IconFormatRadioGroup"
                                         IsChecked="{x:Bind SelectedIconFormat.Key.Equals(IconFormatList[0].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconFormatList[0]}"
-                                        Text="{x:Bind sys:Convert.ToString(IconFormatList[0].Value)}" />
+                                        Text="{x:Bind system:Convert.ToString(IconFormatList[0].Value)}" />
 
                                     <controls:RadioMenuFlyoutItem
                                         Height="32"
@@ -179,7 +179,7 @@
                                         GroupName="IconFormatRadioGroup"
                                         IsChecked="{x:Bind SelectedIconFormat.Key.Equals(IconFormatList[1].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconFormatList[1]}"
-                                        Text="{x:Bind sys:Convert.ToString(IconFormatList[1].Value)}" />
+                                        Text="{x:Bind system:Convert.ToString(IconFormatList[1].Value)}" />
                                 </MenuFlyout>
                             </controls:DropDownButton.Flyout>
                         </controls:DropDownButton>
@@ -205,7 +205,7 @@
                                         GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[0].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[0]}"
-                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[0].Value)}" />
+                                        Text="{x:Bind system:Convert.ToString(IconSizeList[0].Value)}" />
 
                                     <controls:RadioMenuFlyoutItem
                                         Height="32"
@@ -214,7 +214,7 @@
                                         GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[1].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[1]}"
-                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[1].Value)}" />
+                                        Text="{x:Bind system:Convert.ToString(IconSizeList[1].Value)}" />
 
                                     <controls:RadioMenuFlyoutItem
                                         Height="32"
@@ -223,7 +223,7 @@
                                         GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[2].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[2]}"
-                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[2].Value)}" />
+                                        Text="{x:Bind system:Convert.ToString(IconSizeList[2].Value)}" />
 
                                     <controls:RadioMenuFlyoutItem
                                         Height="32"
@@ -232,7 +232,7 @@
                                         GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[3].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[3]}"
-                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[3].Value)}" />
+                                        Text="{x:Bind system:Convert.ToString(IconSizeList[3].Value)}" />
 
                                     <controls:RadioMenuFlyoutItem
                                         Height="32"
@@ -241,7 +241,7 @@
                                         GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[4].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[4]}"
-                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[4].Value)}" />
+                                        Text="{x:Bind system:Convert.ToString(IconSizeList[4].Value)}" />
 
                                     <controls:RadioMenuFlyoutItem
                                         Height="32"
@@ -250,7 +250,7 @@
                                         GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[5].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[5]}"
-                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[5].Value)}" />
+                                        Text="{x:Bind system:Convert.ToString(IconSizeList[5].Value)}" />
 
                                     <controls:RadioMenuFlyoutItem
                                         Height="32"
@@ -259,7 +259,7 @@
                                         GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[6].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[6]}"
-                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[6].Value)}" />
+                                        Text="{x:Bind system:Convert.ToString(IconSizeList[6].Value)}" />
 
                                     <controls:RadioMenuFlyoutItem
                                         Height="32"
@@ -268,7 +268,7 @@
                                         GroupName="IconSizeRadioGroup"
                                         IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[7].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[7]}"
-                                        Text="{x:Bind sys:Convert.ToString(IconSizeList[7].Value)}" />
+                                        Text="{x:Bind system:Convert.ToString(IconSizeList[7].Value)}" />
                                 </MenuFlyout>
                             </controls:DropDownButton.Flyout>
                         </controls:DropDownButton>
@@ -327,7 +327,7 @@
                     HorizontalAlignment="Stretch"
                     Click="{x:Bind OnExportAllIconsClicked}"
                     Content="{x:Bind rootservice:ResourceService.IconExtractResource.GetString('ExportAllIcons')}"
-                    IsEnabled="{x:Bind sys:Convert.ToBoolean(IconCollection.Count), Mode=OneWay}" />
+                    IsEnabled="{x:Bind system:Convert.ToBoolean(IconCollection.Count), Mode=OneWay}" />
 
                 <StackPanel
                     Grid.Row="7"
