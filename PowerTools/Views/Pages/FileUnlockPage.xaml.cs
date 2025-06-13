@@ -1,0 +1,504 @@
+using Microsoft.UI.Xaml.Controls;
+using PowerTools.Extensions.DataType.Enums;
+using PowerTools.Models;
+using PowerTools.Services.Root;
+using PowerTools.UI.TeachingTips;
+using PowerTools.Views.Windows;
+using PowerTools.WindowsAPI.PInvoke.Rstrtmgr;
+using PowerTools.WindowsAPI.PInvoke.Shell32;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.Tracing;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Management;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Imaging;
+
+// 抑制 CA1806，CA1822，IDE0060 警告
+#pragma warning disable CA1806,CA1822,IDE0060
+
+namespace PowerTools.Views.Pages
+{
+    /// <summary>
+    /// 文件解锁页面
+    /// </summary>
+    public sealed partial class FileUnlockPage : Page, INotifyPropertyChanged
+    {
+        private readonly string DragOverContentString = ResourceService.FileUnlockResource.GetString("DragOverContent");
+        private readonly string FileNotUseString = ResourceService.FileUnlockResource.GetString("FileNotUse");
+        private readonly string NoMultiFileString = ResourceService.FileUnlockResource.GetString("NoMultiFile");
+        private readonly string ParseFileFailedString = ResourceService.FileUnlockResource.GetString("ParseFileFailed");
+        private readonly string ParseFileSuccessfullyString = ResourceService.FileUnlockResource.GetString("ParseFileSuccessfully");
+        private readonly string ParsingFileString = ResourceService.FileUnlockResource.GetString("ParsingFile");
+        private readonly string SelectFileString = ResourceService.FileUnlockResource.GetString("SelectFile");
+        private readonly string WelcomeString = ResourceService.FileUnlockResource.GetString("Welcome");
+
+        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+
+        private InfoBarSeverity _resultSeverity = InfoBarSeverity.Informational;
+
+        public InfoBarSeverity ResultSeverity
+        {
+            get { return _resultSeverity; }
+
+            set
+            {
+                if (!Equals(_resultSeverity, value))
+                {
+                    _resultSeverity = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ResultSeverity)));
+                }
+            }
+        }
+
+        private string _stateInfoText;
+
+        public string StateInfoText
+        {
+            get { return _stateInfoText; }
+
+            set
+            {
+                if (!Equals(_stateInfoText, value))
+                {
+                    _stateInfoText = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StateInfoText)));
+                }
+            }
+        }
+
+        private bool _isRingActive = false;
+
+        public bool IsRingActive
+        {
+            get { return _isRingActive; }
+
+            set
+            {
+                if (!Equals(_isRingActive, value))
+                {
+                    _isRingActive = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsRingActive)));
+                }
+            }
+        }
+
+        private bool _resultCotnrolVisable = false;
+
+        public bool ResultControlVisable
+        {
+            get { return _resultCotnrolVisable; }
+
+            set
+            {
+                if (!Equals(_resultCotnrolVisable, value))
+                {
+                    _resultCotnrolVisable = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ResultControlVisable)));
+                }
+            }
+        }
+
+        private string _fileName = string.Empty;
+
+        public string FileName
+        {
+            get { return _fileName; }
+
+            set
+            {
+                if (!Equals(_fileName, value))
+                {
+                    _fileName = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileName)));
+                }
+            }
+        }
+
+        private ObservableCollection<ProcessInfoModel> ProcessInfoCollection { get; } = [];
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public FileUnlockPage()
+        {
+            InitializeComponent();
+            StateInfoText = WelcomeString;
+        }
+
+        #region 第一部分：第一部分：重写父类事件
+
+        /// <summary>
+        /// 设置拖动的数据的可视表示形式
+        /// </summary>
+        protected override async void OnDragOver(global::Windows.UI.Xaml.DragEventArgs args)
+        {
+            base.OnDragOver(args);
+            DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+
+            try
+            {
+                IReadOnlyList<IStorageItem> dragItemsList = await args.DataView.GetStorageItemsAsync();
+
+                if (dragItemsList.Count is 1)
+                {
+                    args.AcceptedOperation = DataPackageOperation.Copy;
+                    args.DragUIOverride.IsCaptionVisible = true;
+                    args.DragUIOverride.IsContentVisible = false;
+                    args.DragUIOverride.IsGlyphVisible = true;
+                    args.DragUIOverride.Caption = DragOverContentString;
+                }
+                else
+                {
+                    args.AcceptedOperation = DataPackageOperation.None;
+                    args.DragUIOverride.IsCaptionVisible = true;
+                    args.DragUIOverride.IsContentVisible = false;
+                    args.DragUIOverride.IsGlyphVisible = true;
+                    args.DragUIOverride.Caption = NoMultiFileString;
+                }
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            finally
+            {
+                args.Handled = true;
+                dragOperationDeferral.Complete();
+            }
+        }
+
+        /// <summary>
+        /// 拖动文件完成后获取文件信息
+        /// </summary>
+        protected override async void OnDrop(global::Windows.UI.Xaml.DragEventArgs args)
+        {
+            base.OnDrop(args);
+            DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+
+            try
+            {
+                DataPackageView view = args.DataView;
+
+                IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
+                {
+                    try
+                    {
+                        if (view.Contains(StandardDataFormats.StorageItems))
+                        {
+                            return await view.GetStorageItemsAsync();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Warning, "Drop file in icon extract page failed", e);
+                    }
+
+                    return null;
+                });
+
+                if (filesList is not null && filesList.Count is 1)
+                {
+                    ParseFile(filesList[0].Path);
+                }
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            finally
+            {
+                dragOperationDeferral.Complete();
+            }
+        }
+
+        #endregion 第一部分：第一部分：重写父类事件
+
+        #region 第二部分：XamlUICommand 命令调用时挂载的事件
+
+        /// <summary>
+        /// 终止进程
+        /// </summary>
+        private async void OnTerminateProcessExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        {
+            if (args.Parameter is int processid && processid is not 0)
+            {
+                bool result = await Task.Run(() =>
+                {
+                    try
+                    {
+                        Process process = Process.GetProcessById(processid);
+                        process?.Kill();
+                        return true;
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, string.Format("Terminate process id {0} failed", processid), e);
+                        return false;
+                    }
+                });
+
+                if (result)
+                {
+                    foreach (ProcessInfoModel processItem in ProcessInfoCollection)
+                    {
+                        if (processItem.ProcessId.Equals(processid))
+                        {
+                            ProcessInfoCollection.Remove(processItem);
+                            break;
+                        }
+                    }
+                }
+
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.TerminateProcess, result));
+            }
+        }
+
+        /// <summary>
+        /// 打开本地目录
+        /// </summary>
+
+        private void OnOpenProcessPathExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        {
+            if (args.Parameter is string filePath && !string.IsNullOrEmpty(filePath))
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        if (!string.IsNullOrEmpty(filePath))
+                        {
+                            if (File.Exists(filePath))
+                            {
+                                IntPtr pidlList = Shell32Library.ILCreateFromPath(filePath);
+                                if (pidlList != IntPtr.Zero)
+                                {
+                                    Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, IntPtr.Zero, 0);
+                                    Shell32Library.ILFree(pidlList);
+                                }
+                            }
+                            else
+                            {
+                                string directoryPath = Path.GetDirectoryName(filePath);
+
+                                if (Directory.Exists(directoryPath))
+                                {
+                                    Process.Start(directoryPath);
+                                }
+                                else
+                                {
+                                    Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Open terminate process path failed", e);
+                    }
+                });
+            }
+        }
+
+        #endregion 第二部分：XamlUICommand 命令调用时挂载的事件
+
+        #region 第三部分：文件解锁页面——挂载的事件
+
+        /// <summary>
+        /// 打开任务管理器
+        /// </summary>
+        private void OnOpenTaskManagerClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start("taskmgr.exe");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open task manager failed", e);
+                }
+            });
+        }
+
+        /// <summary>
+        /// 打开本地文件
+        /// </summary>
+        private void OnOpenLocalFileClicked(object sender, RoutedEventArgs args)
+        {
+            OpenFileDialog dialog = new()
+            {
+                Multiselect = false,
+                Title = SelectFileString
+            };
+            if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
+            {
+                ParseFile(dialog.FileName);
+            }
+            dialog.Dispose();
+        }
+
+        #endregion 第三部分：文件解锁页面——挂载的事件
+
+        /// <summary>
+        /// 解析文件
+        /// </summary>
+        public async Task ParseFile(string filePath)
+        {
+            FileName = Path.GetFileName(filePath);
+            ResultSeverity = InfoBarSeverity.Informational;
+            IsRingActive = true;
+            ResultControlVisable = false;
+            StateInfoText = string.Format(ParsingFileString, FileName);
+            ProcessInfoCollection.Clear();
+
+            (bool parseSuccessfully, List<(string userName, Process process)> processList) = await Task.Run(() =>
+            {
+                bool parseSuccessfully = false;
+                List<(string userName, Process process)> processList = [];
+                uint handle = 0;
+
+                try
+                {
+                    Guid keyGuid = Guid.NewGuid();
+                    int result = RstrtmgrLibrary.RmStartSession(out handle, 0, keyGuid.ToString());
+
+                    if (result is 0)
+                    {
+                        uint pnProcInfo = 0;
+                        string[] resources = [filePath];
+
+                        result = RstrtmgrLibrary.RmRegisterResources(handle, (uint)resources.Length, resources, 0, null, 0, null);
+
+                        if (result is 0)
+                        {
+                            result = RstrtmgrLibrary.RmGetList(handle, out uint pnProcInfoNeeded, ref pnProcInfo, null, out uint lpdwRebootReasons);
+
+                            if (result is 234)
+                            {
+                                RM_PROCESS_INFO[] processInfo = new RM_PROCESS_INFO[pnProcInfoNeeded];
+                                pnProcInfo = pnProcInfoNeeded;
+                                result = RstrtmgrLibrary.RmGetList(handle, out pnProcInfoNeeded, ref pnProcInfo, processInfo, out lpdwRebootReasons);
+
+                                if (result is 0)
+                                {
+                                    parseSuccessfully = true;
+                                    for (int index = 0; index < 0; index++)
+                                    {
+                                        try
+                                        {
+                                            Process process = Process.GetProcessById(processInfo[index].Process.dwProcessId);
+                                            processList.Add(ValueTuple.Create(GetProcessUserName(process.Id), process));
+                                        }
+                                        catch (Exception)
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    // TODO:未完成
+                }
+                finally
+                {
+                    RstrtmgrLibrary.RmEndSession(handle);
+                }
+
+                return ValueTuple.Create(parseSuccessfully, processList);
+            });
+
+            IsRingActive = false;
+            if (parseSuccessfully)
+            {
+                ResultControlVisable = true;
+                ResultSeverity = InfoBarSeverity.Success;
+                StateInfoText = string.Format(ParseFileSuccessfullyString, FileName);
+
+                if (processList.Count > 0)
+                {
+                    for (int index = 0; index < processList.Count; index++)
+                    {
+                        try
+                        {
+                            Process process = processList[index].process;
+                            Icon icon = Icon.ExtractAssociatedIcon(Path.Combine(process.MainModule.FileName));
+                            MemoryStream memoryStream = new();
+                            icon.ToBitmap().Save(memoryStream, ImageFormat.Png);
+                            memoryStream.Seek(0, SeekOrigin.Begin);
+                            BitmapImage bitmapImage = new();
+                            bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
+
+                            ProcessInfoCollection.Add(new ProcessInfoModel()
+                            {
+                                ProcessName = Path.GetFileName(process.MainModule.FileVersionInfo.FileName),
+                                ProcessId = process.Id,
+                                ProcessUser = processList[index].userName,
+                                ProcessPath = process.MainModule.FileName,
+                                ProcessIcon = bitmapImage
+                            });
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                ResultControlVisable = false;
+                ResultSeverity = InfoBarSeverity.Error;
+                StateInfoText = string.Format(ParseFileFailedString, FileName);
+            }
+        }
+
+        /// <summary>
+        /// 通过进程Id来获取进程的用户名
+        /// </summary>
+        private static string GetProcessUserName(int processId)
+        {
+            string name = string.Empty;
+
+            SelectQuery query = new("select * from Win32_Process where processID=" + processId);
+            ManagementObjectSearcher searcher = new(query);
+            try
+            {
+                foreach (ManagementObject manageObject in searcher.Get().Cast<ManagementObject>())
+                {
+                    ManagementBaseObject inPar = null;
+                    ManagementBaseObject outPar = null;
+
+                    inPar = manageObject.GetMethodParameters("GetOwner");
+                    outPar = manageObject.InvokeMethod("GetOwner", inPar, null);
+
+                    name = Convert.ToString(outPar["User"]);
+                    break;
+                }
+            }
+            catch
+            {
+                name = "SYSTEM";
+            }
+
+            return name;
+        }
+    }
+}
