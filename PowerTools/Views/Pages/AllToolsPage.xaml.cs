@@ -151,7 +151,7 @@ namespace PowerTools.Views.Pages
         {
             if (args.ClickedItem is ControlItemModel controlItem && (MainWindow.Current.Content as MainPage).NavigationItemList.Find(item => string.Equals(item.NavigationTag, controlItem.Tag, StringComparison.OrdinalIgnoreCase)) is NavigationModel navigationItem)
             {
-                if (navigationItem.NavigationPage == typeof(ShellMenuPage))
+                if (Equals(navigationItem.NavigationPage, typeof(ShellMenuPage)))
                 {
                     (MainWindow.Current.Content as MainPage).NavigateTo(navigationItem.NavigationPage, "ShellMenu");
                 }

@@ -30,6 +30,7 @@ namespace PowerTools.Views.Pages
     /// </summary>
     public sealed partial class UpperAndLowerCasePage : Page, INotifyPropertyChanged
     {
+        private readonly string DragOverContentString = ResourceService.UpperAndLowerCaseResource.GetString("DragOverContent");
         private readonly string SelectFileString = ResourceService.UpperAndLowerCaseResource.GetString("SelectFile");
         private readonly string SelectFolderString = ResourceService.UpperAndLowerCaseResource.GetString("SelectFolder");
         private readonly string TotalString = ResourceService.UpperAndLowerCaseResource.GetString("Total");
@@ -90,7 +91,7 @@ namespace PowerTools.Views.Pages
             args.DragUIOverride.IsCaptionVisible = true;
             args.DragUIOverride.IsContentVisible = false;
             args.DragUIOverride.IsGlyphVisible = true;
-            args.DragUIOverride.Caption = ResourceService.UpperAndLowerCaseResource.GetString("DragOverContent");
+            args.DragUIOverride.Caption = DragOverContentString;
             args.Handled = true;
         }
 

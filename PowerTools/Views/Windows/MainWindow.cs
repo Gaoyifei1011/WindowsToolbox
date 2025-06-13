@@ -503,7 +503,7 @@ namespace PowerTools.Views.Windows
                         if (Environment.Version.Build < 22621)
                         {
                             IntPtr hdc = User32Library.BeginPaint(Handle, out PAINTSTRUCT ps);
-                            if (hdc == IntPtr.Zero)
+                            if (hdc.Equals(IntPtr.Zero))
                             {
                                 return IntPtr.Zero;
                             }

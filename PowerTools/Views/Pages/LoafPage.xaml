@@ -2,12 +2,12 @@
     x:Class="PowerTools.Views.Pages.LoafPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:converter="using:PowerTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:root="using:PowerTools.Services.Root"
-    xmlns:sys="using:System"
+    xmlns:rootservice="using:PowerTools.Services.Root"
+    xmlns:system="using:System"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -21,7 +21,7 @@
             Grid.Row="0"
             Margin="30,15,30,6"
             FontSize="22"
-            Text="{x:Bind root:ResourceService.LoafResource.GetString('Title')}" />
+            Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('Title')}" />
 
         <ScrollViewer
             Grid.Row="1"
@@ -68,13 +68,13 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Spacing="10">
-                            <muxc:ProgressRing
+                            <controls:ProgressRing
                                 Width="60"
                                 Height="60"
                                 IsActive="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(LoadImageCompleted), Mode=OneWay}"
                                 IsIndeterminate="True" />
 
-                            <TextBlock FontSize="23" Text="{x:Bind root:ResourceService.LoafResource.GetString('LoadingBingWallpaper')}" />
+                            <TextBlock FontSize="23" Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('LoadingBingWallpaper')}" />
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -104,17 +104,17 @@
                     <TextBlock
                         Grid.Column="1"
                         VerticalAlignment="Center"
-                        Text="{x:Bind root:ResourceService.LoafResource.GetString('Operation')}" />
+                        Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('Operation')}" />
 
                     <Button
                         Grid.Column="2"
                         Click="{x:Bind OnStartLoafClicked}"
-                        Content="{x:Bind root:ResourceService.LoafResource.GetString('StartLoaf')}"
+                        Content="{x:Bind rootservice:ResourceService.LoafResource.GetString('StartLoaf')}"
                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsLoafing), Mode=OneWay}"
                         Style="{StaticResource AccentButtonStyle}" />
                 </Grid>
 
-                <muxc:Expander
+                <controls:Expander
                     Grid.Row="2"
                     Margin="30,0,30,3"
                     Padding="0"
@@ -123,7 +123,7 @@
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     IsExpanded="True">
 
-                    <muxc:Expander.Header>
+                    <controls:Expander.Header>
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -139,11 +139,11 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind root:ResourceService.LoafResource.GetString('ConfigOptions')}" />
+                                Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('ConfigOptions')}" />
                         </Grid>
-                    </muxc:Expander.Header>
+                    </controls:Expander.Header>
 
-                    <muxc:Expander.Content>
+                    <controls:Expander.Content>
                         <StackPanel Padding="0">
                             <Grid
                                 Height="52"
@@ -159,32 +159,32 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind root:ResourceService.LoafResource.GetString('UpdateStyle')}" />
+                                    Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('UpdateStyle')}" />
 
-                                <muxc:DropDownButton Grid.Column="1" Content="{x:Bind SelectedUpdateStyle.Value, Mode=OneWay}">
+                                <controls:DropDownButton Grid.Column="1" Content="{x:Bind SelectedUpdateStyle.Value, Mode=OneWay}">
 
-                                    <muxc:DropDownButton.Flyout>
+                                    <controls:DropDownButton.Flyout>
                                         <MenuFlyout Placement="Bottom">
-                                            <muxc:RadioMenuFlyoutItem
+                                            <controls:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateStyleClicked}"
                                                 GroupName="UpdateStyleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedUpdateStyle.Key, UpdateList[0].Key), Mode=OneWay}"
                                                 Tag="0"
-                                                Text="{x:Bind sys:Convert.ToString(UpdateList[0].Value)}" />
+                                                Text="{x:Bind system:Convert.ToString(UpdateList[0].Value)}" />
 
-                                            <muxc:RadioMenuFlyoutItem
+                                            <controls:RadioMenuFlyoutItem
                                                 Height="32"
                                                 Padding="11,0"
                                                 Click="{x:Bind OnUpdateStyleClicked}"
                                                 GroupName="UpdateStyleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedUpdateStyle.Key, UpdateList[1].Key), Mode=OneWay}"
                                                 Tag="1"
-                                                Text="{x:Bind sys:Convert.ToString(UpdateList[1].Value)}" />
+                                                Text="{x:Bind system:Convert.ToString(UpdateList[1].Value)}" />
                                         </MenuFlyout>
-                                    </muxc:DropDownButton.Flyout>
-                                </muxc:DropDownButton>
+                                    </controls:DropDownButton.Flyout>
+                                </controls:DropDownButton>
                             </Grid>
 
                             <MenuFlyoutSeparator />
@@ -203,7 +203,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind root:ResourceService.LoafResource.GetString('BlockAllKeys')}" />
+                                    Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('BlockAllKeys')}" />
 
                                 <StackPanel
                                     Grid.Column="1"
@@ -213,13 +213,13 @@
                                     <TextBlock
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind root:ResourceService.LoafResource.GetString('BlockAllKeysOffContent')}"
+                                        Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('BlockAllKeysOffContent')}"
                                         Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(BlockAllKeys), Mode=OneWay}" />
 
                                     <TextBlock
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind root:ResourceService.LoafResource.GetString('BlockAllKeysOnContent')}"
+                                        Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('BlockAllKeysOnContent')}"
                                         Visibility="{x:Bind BlockAllKeys, Mode=OneWay}" />
 
                                     <ToggleSwitch
@@ -248,7 +248,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind root:ResourceService.LoafResource.GetString('DurationTime')}" />
+                                    Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('DurationTime')}" />
 
                                 <TimePicker
                                     Grid.Column="1"
@@ -275,7 +275,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind root:ResourceService.LoafResource.GetString('LockScreenAutomaticly')}" />
+                                    Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('LockScreenAutomaticly')}" />
 
                                 <StackPanel
                                     Grid.Column="1"
@@ -285,13 +285,13 @@
                                     <TextBlock
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind root:ResourceService.LoafResource.GetString('LockScreenAutomaticlyOffContent')}"
+                                        Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('LockScreenAutomaticlyOffContent')}"
                                         Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(LockScreenAutomaticly), Mode=OneWay}" />
 
                                     <TextBlock
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind root:ResourceService.LoafResource.GetString('LockScreenAutomaticlyOnContent')}"
+                                        Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('LockScreenAutomaticlyOnContent')}"
                                         Visibility="{x:Bind LockScreenAutomaticly, Mode=OneWay}" />
 
                                     <ToggleSwitch
@@ -304,10 +304,10 @@
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
-                    </muxc:Expander.Content>
-                </muxc:Expander>
+                    </controls:Expander.Content>
+                </controls:Expander>
 
-                <muxc:Expander
+                <controls:Expander
                     Grid.Row="3"
                     Margin="30,0,30,3"
                     Padding="0"
@@ -316,7 +316,7 @@
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     IsExpanded="True">
 
-                    <muxc:Expander.Header>
+                    <controls:Expander.Header>
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -332,29 +332,29 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind root:ResourceService.LoafResource.GetString('Tips')}" />
+                                Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('Tips')}" />
                         </Grid>
-                    </muxc:Expander.Header>
+                    </controls:Expander.Header>
 
-                    <muxc:Expander.Content>
+                    <controls:Expander.Content>
                         <StackPanel Margin="0">
                             <TextBlock
                                 Margin="44,10,16,5"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind root:ResourceService.LoafResource.GetString('TipContent1')}"
+                                Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('TipContent1')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                             <TextBlock
                                 Margin="44,0,16,10"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind root:ResourceService.LoafResource.GetString('TipContent2')}"
+                                Text="{x:Bind rootservice:ResourceService.LoafResource.GetString('TipContent2')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                         </StackPanel>
-                    </muxc:Expander.Content>
-                </muxc:Expander>
+                    </controls:Expander.Content>
+                </controls:Expander>
             </Grid>
         </ScrollViewer>
     </Grid>

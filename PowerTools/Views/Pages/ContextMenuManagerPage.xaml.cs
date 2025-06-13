@@ -712,7 +712,7 @@ namespace PowerTools.Views.Pages
 
                     if (appNodesList is not null && appNodesList.Count > 0)
                     {
-                        foreach (XmlNode appNode in appNodesList.OfType<XmlNode>().OrderBy(c => c.Attributes?["AppListEntry"]?.Value == "none" ? 1 : 0))
+                        foreach (XmlNode appNode in appNodesList.OfType<XmlNode>().OrderBy(c => string.Equals(c.Attributes?["AppListEntry"]?.Value, "none") ? 1 : 0))
                         {
                             displayName = appNode.Attributes?["DisplayName"]?.Value ?? string.Empty;
                         }

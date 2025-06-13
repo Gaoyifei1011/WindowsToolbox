@@ -117,14 +117,14 @@ namespace PowerTools.Views.Windows
             try
             {
                 // 安装键盘钩子
-                if (hHook == IntPtr.Zero)
+                if (hHook.Equals(IntPtr.Zero))
                 {
                     keyBoardHookProc = new HOOKPROC(OnKeyboardHookProc);
 
                     hHook = User32Library.SetWindowsHookEx(HOOKTYPE.WH_KEYBOARD_LL, keyBoardHookProc, Process.GetCurrentProcess().MainModule.BaseAddress, 0);
 
                     //如果设置钩子失败.
-                    if (hHook == IntPtr.Zero)
+                    if (hHook.Equals(IntPtr.Zero))
                     {
                         StopHook();
                     }
