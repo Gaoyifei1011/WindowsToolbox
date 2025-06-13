@@ -777,35 +777,35 @@ namespace PowerTools.Views.Pages
                             if (tempFileName.Contains("<#>"))
                             {
                                 string formattedIndex = string.Empty;
-                                if (SelectedNumberFormat.Equals(NumberFormatList[0]))
+                                if (Equals(SelectedNumberFormat, NumberFormatList[0]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(numberLength, '0');
                                 }
-                                else if (SelectedNumberFormat.Equals(NumberFormatList[1]))
+                                else if (Equals(SelectedNumberFormat, NumberFormatList[1]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(1, '0');
                                 }
-                                else if (SelectedNumberFormat.Equals(NumberFormatList[2]))
+                                else if (Equals(SelectedNumberFormat, NumberFormatList[2]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(2, '0');
                                 }
-                                else if (SelectedNumberFormat.Equals(NumberFormatList[3]))
+                                else if (Equals(SelectedNumberFormat, NumberFormatList[3]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(3, '0');
                                 }
-                                else if (SelectedNumberFormat.Equals(NumberFormatList[4]))
+                                else if (Equals(SelectedNumberFormat, NumberFormatList[4]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(4, '0');
                                 }
-                                else if (SelectedNumberFormat.Equals(NumberFormatList[5]))
+                                else if (Equals(SelectedNumberFormat, NumberFormatList[5]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(5, '0');
                                 }
-                                else if (SelectedNumberFormat.Equals(NumberFormatList[6]))
+                                else if (Equals(SelectedNumberFormat, NumberFormatList[6]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(6, '0');
                                 }
-                                else if (SelectedNumberFormat.Equals(NumberFormatList[7]))
+                                else if (Equals(SelectedNumberFormat, NumberFormatList[7]))
                                 {
                                     formattedIndex = startIndex.ToString().PadLeft(7, '0');
                                 }

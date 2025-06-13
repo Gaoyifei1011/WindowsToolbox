@@ -211,7 +211,7 @@ namespace PowerTools.Views.Pages
 
                 if (filesList is not null && filesList.Count is 1)
                 {
-                    ParseFile(filesList[0].Path);
+                    await ParseFileAsync(filesList[0].Path);
                 }
             }
             catch (Exception)
@@ -337,7 +337,7 @@ namespace PowerTools.Views.Pages
         /// <summary>
         /// 打开本地文件
         /// </summary>
-        private void OnOpenLocalFileClicked(object sender, RoutedEventArgs args)
+        private async void OnOpenLocalFileClicked(object sender, RoutedEventArgs args)
         {
             OpenFileDialog dialog = new()
             {
@@ -346,7 +346,7 @@ namespace PowerTools.Views.Pages
             };
             if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
-                ParseFile(dialog.FileName);
+                await ParseFileAsync(dialog.FileName);
             }
             dialog.Dispose();
         }
@@ -356,7 +356,7 @@ namespace PowerTools.Views.Pages
         /// <summary>
         /// 解析文件
         /// </summary>
-        public async Task ParseFile(string filePath)
+        public async Task ParseFileAsync(string filePath)
         {
             FileName = Path.GetFileName(filePath);
             ResultSeverity = InfoBarSeverity.Informational;

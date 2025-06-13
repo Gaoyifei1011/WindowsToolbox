@@ -76,7 +76,7 @@ namespace PowerTools.Views.Pages
                     {
                         if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem && navigationViewItem.Tag is not null)
                         {
-                            int tagIndex = PageList.FindIndex(item => item.Key.Equals(navigationViewItem.Tag));
+                            int tagIndex = PageList.FindIndex(item => Equals(item.Key, navigationViewItem.Tag));
 
                             NavigationItemList.Add(new NavigationModel()
                             {
@@ -100,7 +100,7 @@ namespace PowerTools.Views.Pages
         {
             if (args.InvokedItemContainer is Microsoft.UI.Xaml.Controls.NavigationViewItemBase navigationViewItem && navigationViewItem.Tag is not null)
             {
-                NavigationModel navigationItem = NavigationItemList.Find(item => item.NavigationTag.Equals(navigationViewItem.Tag.ToString(), StringComparison.OrdinalIgnoreCase));
+                NavigationModel navigationItem = NavigationItemList.Find(item => string.Equals(item.NavigationTag, navigationViewItem.Tag.ToString(), StringComparison.OrdinalIgnoreCase));
 
                 if (navigationItem.NavigationPage is not null && SelectedItem != navigationItem.NavigationItem)
                 {
@@ -121,7 +121,7 @@ namespace PowerTools.Views.Pages
                 Type currentPageType = GetCurrentPageType();
                 foreach (NavigationModel navigationItem in NavigationItemList)
                 {
-                    if (navigationItem.NavigationPage is not null && navigationItem.NavigationPage.Equals(currentPageType))
+                    if (navigationItem.NavigationPage is not null && Equals(navigationItem.NavigationPage, currentPageType))
                     {
                         SelectedItem = navigationItem.NavigationItem;
                     }
@@ -146,7 +146,7 @@ namespace PowerTools.Views.Pages
                 Type currentPageType = GetCurrentPageType();
                 foreach (NavigationModel navigationItem in NavigationItemList)
                 {
-                    if (navigationItem.NavigationPage is not null && navigationItem.NavigationPage.Equals(currentPageType))
+                    if (navigationItem.NavigationPage is not null && Equals(navigationItem.NavigationPage, currentPageType))
                     {
                         SelectedItem = navigationItem.NavigationItem;
                     }
@@ -178,7 +178,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Remove string", navigationPageType.FullName), e);
+                LogService.WriteLog(EventLevel.Error, "Remove string", e);
             }
         }
 
