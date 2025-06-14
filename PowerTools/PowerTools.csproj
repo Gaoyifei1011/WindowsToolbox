@@ -344,6 +344,6 @@
   </ItemGroup>
 
   <Target Name="SignExeFile" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">
-    <!--<Exec Command="$(SolutionDir)signtool.exe sign /f $(SolutionDir)PowerToolsPackage\PowerToolsPackage_SignKey.pfx /t http://timestamp.digicert.com /fd SHA256 $(ProjectDir)$(BaseOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).exe" />-->
+    <Exec Command="$(SolutionDir)signtool.exe sign /f $(SolutionDir)PowerToolsPackage\PowerToolsPackage_SignKey.pfx /t http://timestamp.digicert.com /fd SHA256 $(ProjectDir)$(BaseOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).exe" />
   </Target>
 </Project>

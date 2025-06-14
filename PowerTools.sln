@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 		Configuration\UAPXamlFrameworkCompiler.targets = Configuration\UAPXamlFrameworkCompiler.targets
 	EndProjectSection
 EndProject
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "PowerToolsPackage", "PowerToolsPackage\PowerToolsPackage.wapproj", "{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64
@@ -61,6 +63,24 @@ Global
 		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Release|x64.Build.0 = Release|x64
 		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Release|x86.ActiveCfg = Release|x86
 		{5D1F9F7F-41C8-4886-9528-C4CF02A10657}.Release|x86.Build.0 = Release|x86
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Debug|ARM64.Build.0 = Debug|ARM64
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Debug|x64.ActiveCfg = Debug|x64
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Debug|x64.Build.0 = Debug|x64
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Debug|x64.Deploy.0 = Debug|x64
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Debug|x86.ActiveCfg = Debug|x86
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Debug|x86.Build.0 = Debug|x86
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Debug|x86.Deploy.0 = Debug|x86
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Release|ARM64.ActiveCfg = Release|ARM64
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Release|ARM64.Build.0 = Release|ARM64
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Release|ARM64.Deploy.0 = Release|ARM64
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Release|x64.ActiveCfg = Release|x64
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Release|x64.Build.0 = Release|x64
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Release|x64.Deploy.0 = Release|x64
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Release|x86.ActiveCfg = Release|x86
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Release|x86.Build.0 = Release|x86
+		{A4522B32-3911-4C8C-BCF7-9ECBCD0196FA}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
