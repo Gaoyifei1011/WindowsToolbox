@@ -16,8 +16,8 @@ using Windows.UI.Xaml.Input;
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Models;
 using PowerTools.Services.Root;
-using PowerTools.UI.Dialogs;
-using PowerTools.UI.TeachingTips;
+using PowerTools.Views.Dialogs;
+using PowerTools.Views.TeachingTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.ComTypes;
 

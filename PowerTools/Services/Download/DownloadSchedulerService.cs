@@ -1,4 +1,4 @@
-﻿using PowerTools.Extensions.DataType.Classes;
+﻿using PowerTools.Extensions.DataType.Class;
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Models;
 using PowerTools.Services.Settings;

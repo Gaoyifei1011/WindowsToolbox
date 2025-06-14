@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Hosting;
 namespace PowerTools
 {
     /// <summary>
-    /// Windows 工具箱应用程序
+    /// PowerTools应用程序
     /// </summary>
     public partial class XamlIslandsApp : Application, IDisposable
     {

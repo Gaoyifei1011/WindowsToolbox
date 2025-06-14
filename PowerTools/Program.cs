@@ -8,11 +8,9 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using PowerTools.Helpers.Root;
-using PowerTools.Services.Controls.Download;
-using PowerTools.Services.Controls.Settings;
 using PowerTools.Services.Download;
-using PowerTools.Services.Root;
 using PowerTools.Services.Settings;
+using PowerTools.Services.Root;
 using PowerTools.Services.Shell;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.ComTypes;
@@ -24,7 +22,7 @@ using PowerTools.WindowsAPI.PInvoke.Kernel32;
 namespace PowerTools
 {
     /// <summary>
-    /// Windows 工具箱 桌面程序
+    /// PowerTools 桌面程序
     /// </summary>
     public class Program
     {

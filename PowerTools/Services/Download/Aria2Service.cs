@@ -1,4 +1,4 @@
-﻿using PowerTools.Extensions.DataType.Classes;
+﻿using PowerTools.Extensions.DataType.Class;
 using PowerTools.Extensions.DataType.Enums;
 using System;
 using System.Collections.Generic;
@@ -42,18 +42,18 @@ namespace PowerTools.Services.Download
                 // 原配置文件存在且新的配置文件不存在，拷贝到指定目录
                 if (!File.Exists(Aria2ConfPath))
                 {
-                    byte[] mileAria2 = Strings.Resources.Aria2Conf;
-                    FileStream fileStream = new(Aria2ConfPath, FileMode.Create);
-                    fileStream.Write(mileAria2, 0, mileAria2.Length);
-                    fileStream.Flush();
-                    fileStream.Close();
+                    //byte[] mileAria2 = Strings.Resources.Aria2Conf;
+                    //FileStream fileStream = new(Aria2ConfPath, FileMode.Create);
+                    //fileStream.Write(mileAria2, 0, mileAria2.Length);
+                    //fileStream.Flush();
+                    //fileStream.Close();
                 }
 
                 // 使用自定义的配置文件目录
                 aria2Arguments = string.Format("--conf-path=\"{0}\" --stop-with-process={1} -D", Aria2ConfPath, Process.GetCurrentProcess().Id);
             }
             //  发生异常时，使用默认的参数
-            catch (Exception e)
+            catch (Exception)
             {
                 //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(InitializeAria2Conf), 1, e);
                 aria2Arguments = string.Format(defaultAria2Arguments, Process.GetCurrentProcess().Id);
@@ -133,7 +133,7 @@ namespace PowerTools.Services.Download
                 HttpResponseMessage response = await httpClient.PostAsync(new Uri(rpcServerLink), stringContent);
                 return response.IsSuccessStatusCode;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(IsAria2ExistedAsync), 1, e);
                 return false;
@@ -214,7 +214,7 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(CreateDownload), 1, e);
                 }
@@ -288,7 +288,7 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(ContinueDownload), 1, e);
                 }
@@ -349,7 +349,7 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(PauseDownload), 1, e);
                 }
@@ -426,7 +426,7 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(DeleteDownload), 1, e);
                 }
@@ -511,7 +511,7 @@ namespace PowerTools.Services.Download
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(TellStatusAsync), 1, e);
             }
@@ -600,7 +600,7 @@ namespace PowerTools.Services.Download
                         await httpClient.PostAsync(new Uri(rpcServerLink), stringContent);
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(RemoveResultAsync), 1, e);
                 }

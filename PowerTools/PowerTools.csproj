@@ -58,12 +58,6 @@
   <ItemGroup>
     <ApplicationDefinition Include="XamlIslandsApp.xaml" />
 
-    <Compile Update="Strings\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-
     <COMReference Include="IWshRuntimeLibrary">
       <WrapperTool>tlbimp</WrapperTool>
       <VersionMinor>0</VersionMinor>
@@ -93,8 +87,7 @@
       <Isolated>false</Isolated>
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
-
-    <Content Include="Assets\ControlIcon\About.png" CopyToOutputDirectory="Always" />
+    
     <Content Include="Assets\ControlIcon\AllTools.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\SwitchTheme.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ContextMenuManager.png" CopyToOutputDirectory="Always" />
@@ -114,9 +107,10 @@
     <Content Include="Assets\ControlIcon\Settings.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ShellMenu.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\System.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\SystemInfo.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\UpdateManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\WinSAT.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Images\LoafDarkWallpaper.jpg" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Images\LoafLightWallpaper.jpg" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-125.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\LargeTile.scale-150.png" CopyToOutputDirectory="Always" />
@@ -132,11 +126,6 @@
     <Content Include="Assets\SplashScreen.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\SplashScreen.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\SplashScreen.scale-400.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Square150x150Logo.scale-100.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Square150x150Logo.scale-125.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Square150x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Square150x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" CopyToOutputDirectory="Always" />
@@ -157,13 +146,16 @@
     <Content Include="Assets\Square44x44Logo.targetsize-256.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Square44x44Logo.targetsize-32.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Square44x44Logo.targetsize-48.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square150x150Logo.scale-125.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square150x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\StoreLogo.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\StoreLogo.scale-125.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\StoreLogo.scale-150.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\StoreLogo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\StoreLogo.scale-400.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Images\LoafDarkWallpaper.jpg" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\Images\LoafLightWallpaper.jpg" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" CopyToOutputDirectory="Always" />
@@ -176,9 +168,6 @@
     <EmbeddedResource Include="Strings\AllTools.en-us.restext" />
     <EmbeddedResource Include="Strings\AllTools.restext" />
     <EmbeddedResource Include="Strings\AllTools.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\ColorPicker.en-us.restext" />
-    <EmbeddedResource Include="Strings\ColorPicker.restext" />
-    <EmbeddedResource Include="Strings\ColorPicker.zh-hans.restext" />
     <EmbeddedResource Include="Strings\ContextMenuManager.en-us.restext" />
     <EmbeddedResource Include="Strings\ContextMenuManager.restext" />
     <EmbeddedResource Include="Strings\ContextMenuManager.zh-hans.restext" />
@@ -194,12 +183,6 @@
     <EmbeddedResource Include="Strings\ExtensionName.en-us.restext" />
     <EmbeddedResource Include="Strings\ExtensionName.restext" />
     <EmbeddedResource Include="Strings\ExtensionName.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\FileUnlock.en-us.restext" />
-    <EmbeddedResource Include="Strings\FileUnlock.restext" />
-    <EmbeddedResource Include="Strings\FileUnlock.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\IconExtract.en-us.restext" />
-    <EmbeddedResource Include="Strings\IconExtract.restext" />
-    <EmbeddedResource Include="Strings\IconExtract.zh-hans.restext" />
     <EmbeddedResource Include="Strings\FileCertificate.en-us.restext" />
     <EmbeddedResource Include="Strings\FileCertificate.restext" />
     <EmbeddedResource Include="Strings\FileCertificate.zh-hans.restext" />
@@ -212,6 +195,12 @@
     <EmbeddedResource Include="Strings\FileProperties.en-us.restext" />
     <EmbeddedResource Include="Strings\FileProperties.restext" />
     <EmbeddedResource Include="Strings\FileProperties.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\FileUnlock.en-us.restext" />
+    <EmbeddedResource Include="Strings\FileUnlock.restext" />
+    <EmbeddedResource Include="Strings\FileUnlock.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\IconExtract.en-us.restext" />
+    <EmbeddedResource Include="Strings\IconExtract.restext" />
+    <EmbeddedResource Include="Strings\IconExtract.zh-hans.restext" />
     <EmbeddedResource Include="Strings\Loaf.en-us.restext" />
     <EmbeddedResource Include="Strings\Loaf.restext" />
     <EmbeddedResource Include="Strings\Loaf.zh-hans.restext" />
@@ -224,7 +213,7 @@
     <EmbeddedResource Include="Strings\PriExtract.en-us.restext" />
     <EmbeddedResource Include="Strings\PriExtract.restext" />
     <EmbeddedResource Include="Strings\PriExtract.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\Resources.resx" />
+    <EmbeddedResource Update="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
     <EmbeddedResource Include="Strings\Settings.en-us.restext" />
     <EmbeddedResource Include="Strings\Settings.restext" />
     <EmbeddedResource Include="Strings\Settings.zh-hans.restext" />
@@ -237,12 +226,9 @@
     <EmbeddedResource Include="Strings\SwitchTheme.en-us.restext" />
     <EmbeddedResource Include="Strings\SwitchTheme.restext" />
     <EmbeddedResource Include="Strings\SwitchTheme.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\SystemInfo.en-us.restext" />
-    <EmbeddedResource Include="Strings\SystemInfo.restext" />
-    <EmbeddedResource Include="Strings\SystemInfo.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\SystemTray.en-us.restext" />
-    <EmbeddedResource Include="Strings\SystemTray.restext" />
-    <EmbeddedResource Include="Strings\SystemTray.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\ThemeSwitch.en-us.restext" />
+    <EmbeddedResource Include="Strings\ThemeSwitch.restext" />
+    <EmbeddedResource Include="Strings\ThemeSwitch.zh-hans.restext" />
     <EmbeddedResource Include="Strings\UpdateManager.en-us.restext" />
     <EmbeddedResource Include="Strings\UpdateManager.restext" />
     <EmbeddedResource Include="Strings\UpdateManager.zh-hans.restext" />
@@ -255,33 +241,29 @@
     <EmbeddedResource Include="Strings\WinSAT.en-us.restext" />
     <EmbeddedResource Include="Strings\WinSAT.restext" />
     <EmbeddedResource Include="Strings\WinSAT.zh-hans.restext" />
-    <EmbeddedResource Update="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
 
-    <None Update="Assets\PowerTools.ico" CopyToOutputDirectory="Never" />
+    <None Remove="Assets\PowerTools.ico" CopyToOutputDirectory="Never" />
     <None Remove="Styles\XamlIslands\Button.xaml" />
     <None Remove="Styles\XamlIslands\DateTimePicker.xaml" />
     <None Remove="Styles\XamlIslands\NavigationView.xaml" />
     <None Remove="Styles\XamlIslands\TimePicker.xaml" />
-    <None Update="UI\Dialogs\AppInformationDialog.xaml" />
-    <None Remove="UI\Dialogs\ClosingWindowDialog.xaml" />
-    <None Remove="UI\Dialogs\FileCheckDialog.xaml" />
-    <None Remove="UI\Dialogs\LicenseDialog.xaml" />
-    <None Update="UI\Dialogs\NeedElevatedDialog.xaml" />
-    <None Remove="UI\Dialogs\OpenStartupTaskFailedDialog.xaml" />
-    <None Remove="UI\Dialogs\OperationFailedDialog.xaml" />
-    <None Update="UI\Dialogs\RebootDialog.xaml" />
-    <None Update="UI\Dialogs\RestartAppsDialog.xaml" />
-    <None Remove="UI\TeachingTips\DataCopyTip.xaml" />
-    <None Remove="UI\TeachingTips\OperationResultTip.xaml" />
-    <None Remove="UI\TeachingTips\QuickOperationTip.xaml" />
+    <None Remove="Views\Dialogs\AppInformationDialog.xaml" />
+    <None Remove="Views\Dialogs\ClosingWindowDialog.xaml" />
+    <None Remove="Views\Dialogs\FileCheckDialog.xaml" />
+    <None Remove="Views\Dialogs\LicenseDialog.xaml" />
+    <None Remove="Views\Dialogs\NeedElevatedDialog.xaml" />
+    <None Remove="Views\Dialogs\OpenStartupTaskFailedDialog.xaml" />
+    <None Remove="Views\Dialogs\OperationFailedDialog.xaml" />
+    <None Remove="Views\Dialogs\RebootDialog.xaml" />
+    <None Remove="Views\Dialogs\RestartAppsDialog.xaml" />
     <None Remove="Views\Pages\AboutPage.xaml" />
     <None Remove="Views\Pages\AllToolsPage.xaml" />
-    <None Remove="Views\Pages\ColorPickerPage.xaml" />
     <None Remove="Views\Pages\ContextMenuManagerPage.xaml" />
     <None Remove="Views\Pages\DownloadManagerPage.xaml" />
     <None Remove="Views\Pages\DriverManagerPage.xaml" />
-    <None Remove="Views\Pages\ExtensionNamePage.xaml" />
+    <None Remove="Views\Pages\ExtensionNamePage.xaml"  />
     <None Remove="Views\Pages\FileCertificatePage.xaml" />
+    <None Remove="Views\Pages\FileManagerPage.xaml" />
     <None Remove="Views\Pages\FileNamePage.xaml" />
     <None Remove="Views\Pages\FilePropertiesPage.xaml" />
     <None Remove="Views\Pages\FileUnlockPage.xaml" />
@@ -294,10 +276,12 @@
     <None Remove="Views\Pages\ShellMenuPage.xaml" />
     <None Remove="Views\Pages\SimulateUpdatePage.xaml" />
     <None Remove="Views\Pages\SwitchThemePage.xaml" />
-    <None Remove="Views\Pages\SystemInfoPage.xaml" />
     <None Remove="Views\Pages\UpdateManagerPage.xaml" />
     <None Remove="Views\Pages\UpperAndLowerCasePage.xaml" />
     <None Remove="Views\Pages\WinSATPage.xaml" />
+    <None Remove="Views\TeachingTips\DataCopyTip.xaml" />
+    <None Remove="Views\TeachingTips\OperationResultTip.xaml" />
+    <None Remove="Views\TeachingTips\QuickOperationTip.xaml" />
     <None Remove="XamlIslandsApp.xaml" />
 
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" GeneratePathProperty="true" IncludeAssets="none" />
@@ -310,21 +294,20 @@
     <Page Include="Styles\XamlIslands\DateTimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\TimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="UI\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="UI\Dialogs\ClosingWindowDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="UI\Dialogs\FileCheckDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="UI\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="UI\Dialogs\NeedElevatedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="UI\Dialogs\OpenStartupTaskFailedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="UI\Dialogs\OperationFailedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="UI\Dialogs\RebootDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="UI\Dialogs\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="UI\TeachingTips\DataCopyTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="UI\TeachingTips\OperationResultTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="UI\TeachingTips\QuickOperationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Dialogs\ClosingWindowDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Dialogs\FileCheckDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Dialogs\LicenseDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Dialogs\NeedElevatedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Dialogs\OpenStartupTaskFailedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Dialogs\OperationFailedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Dialogs\RebootDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Dialogs\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\TeachingTips\DataCopyTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\TeachingTips\OperationResultTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\TeachingTips\QuickOperationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AboutPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AllToolsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Pages\ColorPickerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\ContextMenuManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\DownloadManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\DriverManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -343,7 +326,6 @@
     <Page Include="Views\Pages\ShellMenuPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SimulateUpdatePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SwitchThemePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Pages\SystemInfoPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\UpdateManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\UpperAndLowerCasePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\WinSATPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -362,6 +344,6 @@
   </ItemGroup>
 
   <Target Name="SignExeFile" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">
-    <Exec Command="$(SolutionDir)signtool.exe sign /f $(SolutionDir)PowerToolsPackage\PowerToolsPackage_SignKey.pfx /t http://timestamp.digicert.com /fd SHA256 $(ProjectDir)$(BaseOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).exe" />
+    <!--<Exec Command="$(SolutionDir)signtool.exe sign /f $(SolutionDir)PowerToolsPackage\PowerToolsPackage_SignKey.pfx /t http://timestamp.digicert.com /fd SHA256 $(ProjectDir)$(BaseOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).exe" />-->
   </Target>
 </Project>

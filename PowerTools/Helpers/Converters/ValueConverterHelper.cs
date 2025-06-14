@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using Windows.UI.Xaml;
 
 namespace PowerTools.Helpers.Converters
 {
@@ -7,6 +8,14 @@ namespace PowerTools.Helpers.Converters
     /// </summary>
     public static class ValueConverterHelper
     {
+        /// <summary>
+        /// 计算当前文件的下载进度
+        /// </summary>
+        public static double DownloadProgress(double finishedSize, double totalSize)
+        {
+            return totalSize.Equals(default) ? 0 : Math.Round(finishedSize / totalSize * 100, 2);
+        }
+
         /// <summary>
         /// 布尔值取反
         /// </summary>

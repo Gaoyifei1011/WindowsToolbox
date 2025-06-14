@@ -193,7 +193,7 @@
             <TextBlock
                 Grid.Column="3"
                 VerticalAlignment="Center"
-                Text="{x:Bind x:String.Format(Total, FileCertificateCollection.Count), Mode=OneWay}"
+                Text="{x:Bind x:String.Format(TotalString, FileCertificateCollection.Count), Mode=OneWay}"
                 TextAlignment="Center" />
 
             <HyperlinkButton

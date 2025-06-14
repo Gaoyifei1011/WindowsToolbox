@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerToolsShellExtension", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeSwitch", "ThemeSwitch\ThemeSwitch.csproj", "{5D1F9F7F-41C8-4886-9528-C4CF02A10657}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{32110B9F-B910-416A-8E03-AEAE448E73F5}"
+	ProjectSection(SolutionItems) = preProject
+		Configuration\Microsoft.WinUI.NET.Markup.Compiler.targets = Configuration\Microsoft.WinUI.NET.Markup.Compiler.targets
+		Configuration\UAPXamlFrameworkCompiler.targets = Configuration\UAPXamlFrameworkCompiler.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64

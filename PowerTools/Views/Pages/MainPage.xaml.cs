@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Navigation;
 using PowerTools.Helpers.Root;
 using PowerTools.Models;
 using PowerTools.Services.Root;
-using PowerTools.UI.Dialogs;
+using PowerTools.Views.Dialogs;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.PInvoke.User32;
 
@@ -149,7 +149,6 @@ namespace PowerTools.Views.Pages
             new KeyValuePair<string, Type>("ShellMenu",typeof(ShellMenuPage)),
             new KeyValuePair<string, Type>("ContextMenuManager",typeof(ContextMenuManagerPage)),
             new KeyValuePair<string, Type>("System",null),
-            new KeyValuePair<string, Type>("SystemInfo",typeof(SystemInfoPage)),
             new KeyValuePair<string, Type>("LoopbackManager",typeof(LoopbackManagerPage)),
             new KeyValuePair<string, Type>("DriverManager",typeof(DriverManagerPage)),
             new KeyValuePair<string, Type>("UpdateManager",typeof(UpdateManagerPage)),
@@ -270,9 +269,9 @@ namespace PowerTools.Views.Pages
                         {
                             foreach (object subItem in navigationViewItem.MenuItems)
                             {
-                                if (subItem is Microsoft.UI.Xaml.Controls.NavigationViewItem subNavigationViewItem && subNavigationViewItem.Tag is string tag)
+                                if (subItem is Microsoft.UI.Xaml.Controls.NavigationViewItem subNavigationViewItem && subNavigationViewItem.Tag is string subtag)
                                 {
-                                    int subTagIndex = PageList.FindIndex(item => string.Equals(item.Key, tag));
+                                    int subTagIndex = PageList.FindIndex(item => string.Equals(item.Key, subtag));
 
                                     NavigationItemList.Add(new NavigationModel()
                                     {
@@ -668,7 +667,7 @@ namespace PowerTools.Views.Pages
                 FileUnlockPage fileUnlockPage = (MainNavigationView.Content as Frame).Content as FileUnlockPage;
                 if (filesList.Count is 1)
                 {
-                    fileUnlockPage.ParseFile(filesList[0]);
+                    await fileUnlockPage.ParseFileAsync(filesList[0]);
                 }
             }
         }

@@ -1,6 +1,6 @@
 ﻿using PowerTools.Extensions.DataType.Enums;
 
-namespace PowerTools.Extensions.DataType.Classes
+namespace PowerTools.Extensions.DataType.Class
 {
     /// <summary>
     /// 下载进度

@@ -1,4 +1,4 @@
-﻿using PowerTools.Extensions.DataType.Classes;
+﻿using PowerTools.Extensions.DataType.Class;
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Services.Root;
 using PowerTools.WindowsAPI.ComTypes;
@@ -251,7 +251,7 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(DeliveryOptimizationService), nameof(OnStatusChanged), 1, e);
                 }
@@ -283,7 +283,7 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(DeliveryOptimizationService), nameof(OnStatusChanged), 2, e);
                 }

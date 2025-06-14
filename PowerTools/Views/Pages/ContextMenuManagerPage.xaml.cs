@@ -2,6 +2,7 @@
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Models;
 using PowerTools.Services.Root;
+using PowerTools.Views.TeachingTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.PInvoke.FirewallAPI;
 using PowerTools.WindowsAPI.PInvoke.Kernel32;
@@ -467,9 +468,9 @@ namespace PowerTools.Views.Pages
                                     packagePath = packagePathBuilder.ToString();
                                 }
 
-                                (string displayName, string logoFullPath, List<Guid> clsidList) appInfo = GetAppInfo(packagePath);
+                                (string displayName, string logoFullPath, List<Guid> clsidList) = GetAppInfo(packagePath);
 
-                                if (appInfo.clsidList.Count > 0)
+                                if (clsidList.Count > 0)
                                 {
                                     StringBuilder displayNameBuilder = new(1024);
                                     foreach (INET_FIREWALL_APP_CONTAINER inetContainerItem in inetLoopbackList)
@@ -482,9 +483,9 @@ namespace PowerTools.Views.Pages
 
                                     ContextMenuModel contextMenuItem = new()
                                     {
-                                        PackageDisplayName = string.IsNullOrEmpty(displayNameBuilder.ToString()) ? appInfo.displayName : displayNameBuilder.ToString(),
+                                        PackageDisplayName = string.IsNullOrEmpty(displayNameBuilder.ToString()) ? displayName : displayNameBuilder.ToString(),
                                         PackageFullName = packageFullName,
-                                        PackageIconUri = Uri.TryCreate(appInfo.logoFullPath, UriKind.Absolute, out Uri uri) ? uri : null,
+                                        PackageIconUri = Uri.TryCreate(logoFullPath, UriKind.Absolute, out Uri uri) ? uri : null,
                                         PackagePath = packagePath,
                                         ContextMenuItemCollection = [.. contextMenuItemList]
                                     };

@@ -20,9 +20,9 @@ using PowerTools.Models;
 using PowerTools.Services.Download;
 using PowerTools.Services.Settings;
 using PowerTools.Services.Root;
-using PowerTools.UI.Backdrop;
-using PowerTools.UI.Dialogs;
-using PowerTools.UI.TeachingTips;
+using PowerTools.Views.Backdrop;
+using PowerTools.Views.Dialogs;
+using PowerTools.Views.TeachingTips;
 using PowerTools.Views.Pages;
 using PowerTools.WindowsAPI.ComTypes;
 using PowerTools.WindowsAPI.PInvoke.Comctl32;
@@ -251,7 +251,7 @@ namespace PowerTools.Views.Windows
                 DownloadSchedulerService.DownloadSchedulerSemaphoreSlim?.Wait();
                 try
                 {
-                    downloadSchedulerList = DownloadSchedulerService.GetDownloadSchedulerList();
+                    //downloadSchedulerList = DownloadSchedulerService.GetDownloadSchedulerList();
                 }
                 catch (Exception e)
                 {
@@ -1158,7 +1158,7 @@ namespace PowerTools.Views.Windows
         /// </summary>
         public void SetWindowTheme()
         {
-            if (Enum.TryParse(ThemeService.AppTheme.Key, out ElementTheme theme))
+            if (Enum.TryParse(ThemeService.AppTheme, out ElementTheme theme))
             {
                 (Content as MainPage).WindowTheme = theme;
             }

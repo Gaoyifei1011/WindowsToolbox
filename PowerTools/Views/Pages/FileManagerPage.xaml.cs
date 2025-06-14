@@ -127,9 +127,9 @@ namespace PowerTools.Views.Pages
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                LogService.WriteLog(EventLevel.Error, "Remove string"), e);
+                return;
             }
         }
 

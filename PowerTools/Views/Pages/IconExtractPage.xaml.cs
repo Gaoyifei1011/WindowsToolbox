@@ -2,7 +2,7 @@ using Microsoft.UI.Xaml.Controls;
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Models;
 using PowerTools.Services.Root;
-using PowerTools.UI.TeachingTips;
+using PowerTools.Views.TeachingTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.ComTypes;
 using PowerTools.WindowsAPI.PInvoke.User32;

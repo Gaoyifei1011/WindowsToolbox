@@ -15,8 +15,8 @@ using Windows.UI.Xaml.Input;
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Models;
 using PowerTools.Services.Root;
-using PowerTools.UI.Dialogs;
-using PowerTools.UI.TeachingTips;
+using PowerTools.Views.Dialogs;
+using PowerTools.Views.TeachingTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.ComTypes;
 
@@ -602,7 +602,7 @@ namespace PowerTools.Views.Pages
         private async Task ChangeFileNameAsync()
         {
             IsModifyingNow = true;
-            List<OperationFailedModel> operationFailedList = await Task.Run(async () =>
+            List<OperationFailedModel> operationFailedList = await Task.Run(() =>
             {
                 List<OperationFailedModel> operationFailedList = [];
 

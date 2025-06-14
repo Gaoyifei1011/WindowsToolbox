@@ -1,7 +1,6 @@
-﻿using System;
+﻿using PowerTools.Extensions.DataType.Enums;
 using System.ComponentModel;
-using Windows.UI.Xaml;
-using PowerTools.Extensions.DataType.Enums;
+using Windows.UI.Xaml.Media.Imaging;
 
 // 抑制 CA1822 警告
 #pragma warning disable CA1822
@@ -26,20 +25,31 @@ namespace PowerTools.Models
             }
         }
 
+        private BitmapImage _iconImage;
+
+        public BitmapImage IconImage
+        {
+            get { return _iconImage; }
+
+            set
+            {
+                if (!Equals(_iconImage, value))
+                {
+                    _iconImage = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IconImage)));
+                }
+            }
+        }
+
         /// <summary>
         /// 任务在下载状态时，获取的GID码。该值唯一
         /// </summary>
-        public Guid DownloadID { get; set; }
+        public string DownloadID { get; set; }
 
         /// <summary>
         /// 下载文件名称
         /// </summary>
         public string FileName { get; set; }
-
-        /// <summary>
-        /// 文件下载链接
-        /// </summary>
-        public string FileLink { get; set; }
 
         /// <summary>
         /// 文件下载保存的路径
@@ -49,18 +59,37 @@ namespace PowerTools.Models
         /// <summary>
         /// 文件下载状态
         /// </summary>
-        private DownloadStatus _downloadStatus;
+        private DownloadProgressState _downloadProgressState;
 
-        public DownloadStatus DownloadStatus
+        public DownloadProgressState DownloadProgressState
         {
-            get { return _downloadStatus; }
+            get { return _downloadProgressState; }
 
             set
             {
-                if (!Equals(_downloadStatus, value))
+                if (!Equals(_downloadProgressState, value))
                 {
-                    _downloadStatus = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DownloadStatus)));
+                    _downloadProgressState = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DownloadProgressState)));
+                }
+            }
+        }
+
+        /// <summary>
+        /// 下载文件已完成的进度
+        /// </summary>
+        private double _completedSize;
+
+        public double CompletedSize
+        {
+            get { return _completedSize; }
+
+            set
+            {
+                if (!Equals(_completedSize, value))
+                {
+                    _completedSize = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CompletedSize)));
                 }
             }
         }
@@ -85,83 +114,24 @@ namespace PowerTools.Models
         }
 
         /// <summary>
-        /// 下载文件已完成的进度
-        /// </summary>
-        private double _finishedSize;
-
-        public double FinishedSize
-        {
-            get { return _finishedSize; }
-
-            set
-            {
-                if (!Equals(_finishedSize, value))
-                {
-                    _finishedSize = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FinishedSize)));
-                }
-            }
-        }
-
-        /// <summary>
         /// 文件下载速度
         /// </summary>
-        private double _currentSpeed;
+        private double _downloadSpeed;
 
-        public double CurrentSpeed
+        public double DownloadSpeed
         {
-            get { return _currentSpeed; }
+            get { return _downloadSpeed; }
 
             set
             {
-                if (!Equals(_currentSpeed, value))
+                if (!Equals(_downloadSpeed, value))
                 {
-                    _currentSpeed = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSpeed)));
+                    _downloadSpeed = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DownloadSpeed)));
                 }
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// 计算当前文件的下载进度
-        /// </summary>
-        public double DownloadProgress(double finishedSize, double totalSize)
-        {
-            return totalSize == default ? 0 : Math.Round(finishedSize / totalSize * 100, 2);
-        }
-
-        /// <summary>
-        /// 检查任务是否处于下载中
-        /// </summary>
-        public Visibility IsDownloading(DownloadStatus downloadStatus)
-        {
-            return downloadStatus is DownloadStatus.Downloading ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        /// <summary>
-        /// 检查任务是否处于暂停中
-        /// </summary>
-        public Visibility IsPaused(DownloadStatus downloadStatus)
-        {
-            return downloadStatus is DownloadStatus.Pause ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        /// <summary>
-        /// 检查任务是否下载完成
-        /// </summary>
-        public Visibility IsCompleted(DownloadStatus downloadStatus)
-        {
-            return downloadStatus is DownloadStatus.Completed ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        /// <summary>
-        /// 检查任务是否未下载完成
-        /// </summary>
-        public Visibility IsNotCompleted(DownloadStatus downloadedStatus)
-        {
-            return downloadedStatus is DownloadStatus.Completed ? Visibility.Collapsed : Visibility.Visible;
-        }
     }
 }

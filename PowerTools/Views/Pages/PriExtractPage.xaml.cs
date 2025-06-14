@@ -5,7 +5,7 @@ using PowerTools.Extensions.PriExtract;
 using PowerTools.Helpers.Root;
 using PowerTools.Models;
 using PowerTools.Services.Root;
-using PowerTools.UI.TeachingTips;
+using PowerTools.Views.TeachingTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.ComTypes;
 using PowerTools.WindowsAPI.PInvoke.Shell32;
@@ -50,7 +50,6 @@ namespace PowerTools.Views.Pages
         private readonly string SelectFileString = ResourceService.PriExtractResource.GetString("SelectFile");
         private readonly string SelectFolderString = ResourceService.PriExtractResource.GetString("SelectFolder");
         private readonly string StringString = ResourceService.PriExtractResource.GetString("String");
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private bool isStringAllSelect = false;
         private bool isFilePathAllSelect = false;
         private bool isEmbeddedDataAllSelect = false;
@@ -311,7 +310,7 @@ namespace PowerTools.Views.Pages
 
             try
             {
-                DataPackageView view = args.DataView;
+                DataPackageView view = default;
 
                 IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
                 {
@@ -707,7 +706,7 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnExportSelectedEmbeddedDataClicked(object sender, RoutedEventArgs args)
         {
-            List<EmbeddedDataModel> selectedEmbeddedDataList = EmbeddedDataCollection.Where(item => item.IsSelected).ToList();
+            List<EmbeddedDataModel> selectedEmbeddedDataList = [.. EmbeddedDataCollection.Where(item => item.IsSelected)];
             if (selectedEmbeddedDataList.Count > 0)
             {
                 IsProcessing = true;
@@ -986,7 +985,7 @@ namespace PowerTools.Views.Pages
                     }
 
                     // 根据分段列表获取相应的内容
-                    List<PriDescriptorSection> priDescriptorSectionList = sectionArray.OfType<PriDescriptorSection>().ToList();
+                    List<PriDescriptorSection> priDescriptorSectionList = [.. sectionArray.OfType<PriDescriptorSection>()];
 
                     foreach (PriDescriptorSection priDescriptorSection in priDescriptorSectionList)
                     {
