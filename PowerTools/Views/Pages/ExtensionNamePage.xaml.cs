@@ -77,7 +77,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_changeToText, value))
+                if (!string.Equals(_changeToText, value))
                 {
                     _changeToText = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ChangeToText)));
@@ -93,7 +93,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_searchText, value))
+                if (!string.Equals(_searchText, value))
                 {
                     _searchText = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchText)));
@@ -109,7 +109,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_replaceText, value))
+                if (!string.Equals(_replaceText, value))
                 {
                     _replaceText = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReplaceText)));

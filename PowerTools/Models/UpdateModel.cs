@@ -256,7 +256,7 @@ namespace PowerTools.Models
 
             set
             {
-                if (!Equals(_updateProgress, value))
+                if (!string.Equals(_updateProgress, value))
                 {
                     _updateProgress = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UpdateProgress)));

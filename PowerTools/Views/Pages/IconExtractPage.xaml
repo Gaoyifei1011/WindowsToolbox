@@ -168,7 +168,7 @@
                                         Padding="11,0"
                                         Click="{x:Bind OnIconFormatClicked}"
                                         GroupName="IconFormatRadioGroup"
-                                        IsChecked="{x:Bind SelectedIconFormat.Key.Equals(IconFormatList[0].Key), Mode=OneWay}"
+                                        IsChecked="{x:Bind x:String.Equals(SelectedIconFormat.Key, IconFormatList[0].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconFormatList[0]}"
                                         Text="{x:Bind system:Convert.ToString(IconFormatList[0].Value)}" />
 
@@ -177,7 +177,7 @@
                                         Padding="11,0"
                                         Click="{x:Bind OnIconFormatClicked}"
                                         GroupName="IconFormatRadioGroup"
-                                        IsChecked="{x:Bind SelectedIconFormat.Key.Equals(IconFormatList[1].Key), Mode=OneWay}"
+                                        IsChecked="{x:Bind x:String.Equals(SelectedIconFormat.Key, IconFormatList[1].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconFormatList[1]}"
                                         Text="{x:Bind system:Convert.ToString(IconFormatList[1].Value)}" />
                                 </MenuFlyout>
@@ -203,7 +203,7 @@
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
                                         GroupName="IconSizeRadioGroup"
-                                        IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[0].Key), Mode=OneWay}"
+                                        IsChecked="{x:Bind x:String.Equals(SelectedIconSize.Key, IconSizeList[0].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[0]}"
                                         Text="{x:Bind system:Convert.ToString(IconSizeList[0].Value)}" />
 
@@ -212,7 +212,7 @@
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
                                         GroupName="IconSizeRadioGroup"
-                                        IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[1].Key), Mode=OneWay}"
+                                        IsChecked="{x:Bind x:String.Equals(SelectedIconSize.Key, IconSizeList[1].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[1]}"
                                         Text="{x:Bind system:Convert.ToString(IconSizeList[1].Value)}" />
 
@@ -221,7 +221,7 @@
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
                                         GroupName="IconSizeRadioGroup"
-                                        IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[2].Key), Mode=OneWay}"
+                                        IsChecked="{x:Bind x:String.Equals(SelectedIconSize.Key, IconSizeList[2].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[2]}"
                                         Text="{x:Bind system:Convert.ToString(IconSizeList[2].Value)}" />
 
@@ -230,7 +230,7 @@
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
                                         GroupName="IconSizeRadioGroup"
-                                        IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[3].Key), Mode=OneWay}"
+                                        IsChecked="{x:Bind x:String.Equals(SelectedIconSize.Key, IconSizeList[3].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[3]}"
                                         Text="{x:Bind system:Convert.ToString(IconSizeList[3].Value)}" />
 
@@ -239,7 +239,7 @@
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
                                         GroupName="IconSizeRadioGroup"
-                                        IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[4].Key), Mode=OneWay}"
+                                        IsChecked="{x:Bind x:String.Equals(SelectedIconSize.Key, IconSizeList[4].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[4]}"
                                         Text="{x:Bind system:Convert.ToString(IconSizeList[4].Value)}" />
 
@@ -248,7 +248,7 @@
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
                                         GroupName="IconSizeRadioGroup"
-                                        IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[5].Key), Mode=OneWay}"
+                                        IsChecked="{x:Bind x:String.Equals(SelectedIconSize.Key, IconSizeList[5].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[5]}"
                                         Text="{x:Bind system:Convert.ToString(IconSizeList[5].Value)}" />
 
@@ -257,7 +257,7 @@
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
                                         GroupName="IconSizeRadioGroup"
-                                        IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[6].Key), Mode=OneWay}"
+                                        IsChecked="{x:Bind x:String.Equals(SelectedIconSize.Key, IconSizeList[6].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[6]}"
                                         Text="{x:Bind system:Convert.ToString(IconSizeList[6].Value)}" />
 
@@ -266,7 +266,7 @@
                                         Padding="11,0"
                                         Click="{x:Bind OnIconSizeClicked}"
                                         GroupName="IconSizeRadioGroup"
-                                        IsChecked="{x:Bind SelectedIconSize.Key.Equals(IconSizeList[7].Key), Mode=OneWay}"
+                                        IsChecked="{x:Bind x:String.Equals(SelectedIconSize.Key, IconSizeList[7].Key), Mode=OneWay}"
                                         Tag="{x:Bind IconSizeList[7]}"
                                         Text="{x:Bind system:Convert.ToString(IconSizeList[7].Value)}" />
                                 </MenuFlyout>

@@ -24,7 +24,7 @@ namespace ThemeSwitch.Services.Controls.Settings
 
             private set
             {
-                if (!Equals(_appTheme, value))
+                if (!string.Equals(_appTheme, value))
                 {
                     _appTheme = value;
                     PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(AppTheme)));
@@ -62,7 +62,7 @@ namespace ThemeSwitch.Services.Controls.Settings
                 return defaultAppTheme;
             }
 
-            string selectedTheme = ThemeList.Find(item => item.Equals(theme));
+            string selectedTheme = ThemeList.Find(item => string.Equals(item, theme));
             return string.IsNullOrEmpty(selectedTheme) ? defaultAppTheme : ThemeList.Find(item => string.Equals(item, theme, StringComparison.OrdinalIgnoreCase));
         }
     }

@@ -22,7 +22,7 @@ namespace PowerTools.Models
 
             set
             {
-                if (!Equals(_menuTitleText, value))
+                if (!string.Equals(_menuTitleText, value))
                 {
                     _menuTitleText = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MenuTitleText)));

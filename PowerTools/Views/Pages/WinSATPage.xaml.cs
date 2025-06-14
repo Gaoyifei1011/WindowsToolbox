@@ -45,7 +45,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_processorSubScore, value))
+                if (!string.Equals(_processorSubScore, value))
                 {
                     _processorSubScore = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ProcessorSubScore)));
@@ -61,7 +61,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_memorySubScore, value))
+                if (!string.Equals(_memorySubScore, value))
                 {
                     _memorySubScore = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MemorySubScore)));
@@ -77,7 +77,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_graphicsSubScore, value))
+                if (!string.Equals(_graphicsSubScore, value))
                 {
                     _graphicsSubScore = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(GraphicsSubScore)));
@@ -93,7 +93,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_gamingGraphicsSubScore, value))
+                if (!string.Equals(_gamingGraphicsSubScore, value))
                 {
                     _gamingGraphicsSubScore = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(GamingGraphicsSubScore)));
@@ -109,7 +109,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_primaryDiskSubScore, value))
+                if (!string.Equals(_primaryDiskSubScore, value))
                 {
                     _primaryDiskSubScore = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PrimaryDiskSubScore)));
@@ -125,7 +125,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_basicScore, value))
+                if (!string.Equals(_basicScore, value))
                 {
                     _basicScore = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BasicScore)));
@@ -189,7 +189,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_resultMessage, value))
+                if (!string.Equals(_resultMessage, value))
                 {
                     _resultMessage = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ResultMessage)));

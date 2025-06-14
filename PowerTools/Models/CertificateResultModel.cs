@@ -18,7 +18,7 @@ namespace PowerTools.Models
 
             set
             {
-                if (!Equals(_fileName, value))
+                if (!string.Equals(_fileName, value))
                 {
                     _fileName = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileName)));
@@ -37,7 +37,7 @@ namespace PowerTools.Models
 
             set
             {
-                if (!Equals(_filePath, value))
+                if (!string.Equals(_filePath, value))
                 {
                     _filePath = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FilePath)));

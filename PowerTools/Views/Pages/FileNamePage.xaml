@@ -121,7 +121,7 @@
                                     Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
-                                    IsChecked="{x:Bind SelectedNumberFormat.Key.Equals(NumberFormatList[0].Key), Mode=OneWay}"
+                                    IsChecked="{x:Bind x:String.Equals(SelectedNumberFormat.Key, NumberFormatList[0].Key), Mode=OneWay}"
                                     Tag="{x:Bind NumberFormatList[0]}"
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[0].Value)}" />
 
@@ -130,7 +130,7 @@
                                     Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
-                                    IsChecked="{x:Bind SelectedNumberFormat.Key.Equals(NumberFormatList[1].Key), Mode=OneWay}"
+                                    IsChecked="{x:Bind x:String.Equals(SelectedNumberFormat.Key, NumberFormatList[1].Key), Mode=OneWay}"
                                     Tag="{x:Bind NumberFormatList[1]}"
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[1].Value)}" />
 
@@ -139,7 +139,7 @@
                                     Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
-                                    IsChecked="{x:Bind SelectedNumberFormat.Key.Equals(NumberFormatList[2].Key), Mode=OneWay}"
+                                    IsChecked="{x:Bind x:String.Equals(SelectedNumberFormat.Key, NumberFormatList[2].Key), Mode=OneWay}"
                                     Tag="{x:Bind NumberFormatList[2]}"
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[2].Value)}" />
 
@@ -148,7 +148,7 @@
                                     Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
-                                    IsChecked="{x:Bind SelectedNumberFormat.Key.Equals(NumberFormatList[3].Key), Mode=OneWay}"
+                                    IsChecked="{x:Bind x:String.Equals(SelectedNumberFormat.Key, NumberFormatList[3].Key), Mode=OneWay}"
                                     Tag="{x:Bind NumberFormatList[3]}"
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[3].Value)}" />
 
@@ -157,7 +157,7 @@
                                     Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
-                                    IsChecked="{x:Bind SelectedNumberFormat.Key.Equals(NumberFormatList[4].Key), Mode=OneWay}"
+                                    IsChecked="{x:Bind x:String.Equals(SelectedNumberFormat.Key, NumberFormatList[4].Key), Mode=OneWay}"
                                     Tag="{x:Bind NumberFormatList[4]}"
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[4].Value)}" />
 
@@ -166,7 +166,7 @@
                                     Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
-                                    IsChecked="{x:Bind SelectedNumberFormat.Key.Equals(NumberFormatList[5].Key), Mode=OneWay}"
+                                    IsChecked="{x:Bind x:String.Equals(SelectedNumberFormat.Key, NumberFormatList[5].Key), Mode=OneWay}"
                                     Tag="{x:Bind NumberFormatList[5]}"
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[5].Value)}" />
 
@@ -175,7 +175,7 @@
                                     Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
-                                    IsChecked="{x:Bind SelectedNumberFormat.Key.Equals(NumberFormatList[6].Key), Mode=OneWay}"
+                                    IsChecked="{x:Bind x:String.Equals(SelectedNumberFormat.Key, NumberFormatList[6].Key), Mode=OneWay}"
                                     Tag="{x:Bind NumberFormatList[6]}"
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[6].Value)}" />
 
@@ -184,7 +184,7 @@
                                     Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
-                                    IsChecked="{x:Bind SelectedNumberFormat.Key.Equals(NumberFormatList[7].Key), Mode=OneWay}"
+                                    IsChecked="{x:Bind x:String.Equals(SelectedNumberFormat.Key, NumberFormatList[7].Key), Mode=OneWay}"
                                     Tag="{x:Bind NumberFormatList[7]}"
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[7].Value)}" />
                             </MenuFlyout>

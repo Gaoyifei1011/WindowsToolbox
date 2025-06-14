@@ -828,7 +828,7 @@
                                     Padding="11,0"
                                     Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
                                     GroupName="ResourceCandidateKindRadioGroup"
-                                    IsChecked="{x:Bind SelectedResourceCandidateKind.Key.Equals(ResourceCandidateKindList[0].Key), Mode=OneWay}"
+                                    IsChecked="{x:Bind x:String.Equals(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[0].Key), Mode=OneWay}"
                                     Tag="{x:Bind ResourceCandidateKindList[0]}"
                                     Text="{x:Bind system:Convert.ToString(ResourceCandidateKindList[0].Value)}" />
 
@@ -837,7 +837,7 @@
                                     Padding="11,0"
                                     Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
                                     GroupName="ResourceCandidateKindRadioGroup"
-                                    IsChecked="{x:Bind SelectedResourceCandidateKind.Key.Equals(ResourceCandidateKindList[1].Key), Mode=OneWay}"
+                                    IsChecked="{x:Bind x:String.Equals(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[1].Key), Mode=OneWay}"
                                     Tag="{x:Bind ResourceCandidateKindList[1]}"
                                     Text="{x:Bind system:Convert.ToString(ResourceCandidateKindList[1].Value)}" />
 
@@ -846,7 +846,7 @@
                                     Padding="11,0"
                                     Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
                                     GroupName="ResourceCandidateKindRadioGroup"
-                                    IsChecked="{x:Bind SelectedResourceCandidateKind.Key.Equals(ResourceCandidateKindList[2].Key), Mode=OneWay}"
+                                    IsChecked="{x:Bind x:String.Equals(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[2].Key), Mode=OneWay}"
                                     Tag="{x:Bind ResourceCandidateKindList[2]}"
                                     Text="{x:Bind system:Convert.ToString(ResourceCandidateKindList[2].Value)}" />
                             </MenuFlyout>

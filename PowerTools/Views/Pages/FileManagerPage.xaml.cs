@@ -74,9 +74,9 @@ namespace PowerTools.Views.Pages
                 {
                     foreach (object item in navigationView.MenuItems)
                     {
-                        if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem && navigationViewItem.Tag is not null)
+                        if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem && navigationViewItem.Tag is string tag)
                         {
-                            int tagIndex = PageList.FindIndex(item => Equals(item.Key, navigationViewItem.Tag));
+                            int tagIndex = PageList.FindIndex(item => string.Equals(item.Key, tag));
 
                             NavigationItemList.Add(new NavigationModel()
                             {
@@ -98,9 +98,9 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            if (args.InvokedItemContainer is Microsoft.UI.Xaml.Controls.NavigationViewItemBase navigationViewItem && navigationViewItem.Tag is not null)
+            if (args.InvokedItemContainer is Microsoft.UI.Xaml.Controls.NavigationViewItemBase navigationViewItem && navigationViewItem.Tag is string tag)
             {
-                NavigationModel navigationItem = NavigationItemList.Find(item => string.Equals(item.NavigationTag, navigationViewItem.Tag.ToString(), StringComparison.OrdinalIgnoreCase));
+                NavigationModel navigationItem = NavigationItemList.Find(item => string.Equals(item.NavigationTag, tag, StringComparison.OrdinalIgnoreCase));
 
                 if (navigationItem.NavigationPage is not null && SelectedItem != navigationItem.NavigationItem)
                 {

@@ -17,8 +17,8 @@ using Windows.UI.Xaml.Media;
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Helpers.Root;
 using PowerTools.Models;
-using PowerTools.Services.Controls.Download;
-using PowerTools.Services.Controls.Settings;
+using PowerTools.Services.Download;
+using PowerTools.Services.Settings;
 using PowerTools.Services.Root;
 using PowerTools.UI.Backdrop;
 using PowerTools.UI.Dialogs;
@@ -291,7 +291,7 @@ namespace PowerTools.Views.Windows
                     }
                     else if (result is ContentDialogResult.Secondary)
                     {
-                        if (!(Content as MainPage).GetCurrentPageType().Equals(typeof(DownloadManagerPage)))
+                        if (!Equals((Content as MainPage).GetCurrentPageType(), typeof(DownloadManagerPage)))
                         {
                             (Content as MainPage).NavigateTo(typeof(DownloadManagerPage));
                         }
@@ -432,20 +432,20 @@ namespace PowerTools.Views.Windows
         {
             BeginInvoke(() =>
             {
-                if (args.PropertyName.Equals(nameof(AlwaysShowBackdropService.AlwaysShowBackdropValue)))
+                if (string.Equals(args.PropertyName, nameof(AlwaysShowBackdropService.AlwaysShowBackdropValue)))
                 {
                     SetWindowBackdrop();
                 }
-                if (args.PropertyName.Equals(nameof(ThemeService.AppTheme)))
+                if (string.Equals(args.PropertyName, nameof(ThemeService.AppTheme)))
                 {
                     SetWindowTheme();
                     SetClassicMenuTheme();
                 }
-                if (args.PropertyName.Equals(nameof(BackdropService.AppBackdrop)))
+                if (string.Equals(args.PropertyName, nameof(BackdropService.AppBackdrop)))
                 {
                     SetWindowBackdrop();
                 }
-                if (args.PropertyName.Equals(nameof(TopMostService.TopMostValue)))
+                if (string.Equals(args.PropertyName, nameof(TopMostService.TopMostValue)))
                 {
                     TopMost = TopMostService.TopMostValue;
                 }
@@ -575,7 +575,7 @@ namespace PowerTools.Views.Windows
                         SetWindowTheme();
                         SetClassicMenuTheme();
 
-                        if ((Content as MainPage).GetCurrentPageType().Equals(typeof(SwitchThemePage)))
+                        if (Equals((Content as MainPage).GetCurrentPageType(), typeof(SwitchThemePage)))
                         {
                             SwitchThemePage switchThemePage = ((Content as MainPage).MainNavigationView.Content as Frame).Content as SwitchThemePage;
                             BeginInvoke(async () =>
@@ -1169,28 +1169,28 @@ namespace PowerTools.Views.Windows
         /// </summary>
         public void SetWindowBackdrop()
         {
-            if (BackdropService.AppBackdrop.Equals(BackdropService.BackdropList[0]))
+            if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[0]))
             {
                 VisualStateManager.GoToState(Content as MainPage, "BackgroundDefault", false);
                 (Content as MainPage).Background = null;
             }
-            else if (BackdropService.AppBackdrop.Equals(BackdropService.BackdropList[1]))
+            else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[1]))
             {
                 (Content as MainPage).Background = new MicaBrush(MicaKind.Base, Content as FrameworkElement, this, AlwaysShowBackdropService.AlwaysShowBackdropValue);
             }
-            else if (BackdropService.AppBackdrop.Equals(BackdropService.BackdropList[2]))
+            else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[2]))
             {
                 (Content as MainPage).Background = new MicaBrush(MicaKind.BaseAlt, Content as FrameworkElement, this, AlwaysShowBackdropService.AlwaysShowBackdropValue);
             }
-            else if (BackdropService.AppBackdrop.Equals(BackdropService.BackdropList[3]))
+            else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[3]))
             {
                 (Content as MainPage).Background = new DesktopAcrylicBrush(DesktopAcrylicKind.Default, Content as FrameworkElement, this, AlwaysShowBackdropService.AlwaysShowBackdropValue, true);
             }
-            else if (BackdropService.AppBackdrop.Equals(BackdropService.BackdropList[4]))
+            else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[4]))
             {
                 (Content as MainPage).Background = new DesktopAcrylicBrush(DesktopAcrylicKind.Base, Content as FrameworkElement, this, AlwaysShowBackdropService.AlwaysShowBackdropValue, true);
             }
-            else if (BackdropService.AppBackdrop.Equals(BackdropService.BackdropList[5]))
+            else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[5]))
             {
                 (Content as MainPage).Background = new DesktopAcrylicBrush(DesktopAcrylicKind.Thin, Content as FrameworkElement, this, AlwaysShowBackdropService.AlwaysShowBackdropValue, true);
             }
@@ -1201,7 +1201,7 @@ namespace PowerTools.Views.Windows
         /// </summary>
         private static void SetClassicMenuTheme()
         {
-            if (ThemeService.AppTheme.Equals(ThemeService.ThemeList[0]))
+            if (string.Equals(ThemeService.AppTheme, ThemeService.ThemeList[0]))
             {
                 if (global::Windows.UI.Xaml.Application.Current.RequestedTheme is ApplicationTheme.Light)
                 {
@@ -1214,12 +1214,12 @@ namespace PowerTools.Views.Windows
                     UxthemeLibrary.FlushMenuThemes();
                 }
             }
-            else if (ThemeService.AppTheme.Equals(ThemeService.ThemeList[1]))
+            else if (string.Equals(ThemeService.AppTheme, ThemeService.ThemeList[1]))
             {
                 UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceLight);
                 UxthemeLibrary.FlushMenuThemes();
             }
-            else if (ThemeService.AppTheme.Equals(ThemeService.ThemeList[2]))
+            else if (string.Equals(ThemeService.AppTheme, ThemeService.ThemeList[2]))
             {
                 UxthemeLibrary.SetPreferredAppMode(PreferredAppMode.ForceDark);
                 UxthemeLibrary.FlushMenuThemes();

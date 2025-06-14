@@ -35,7 +35,7 @@ namespace PowerTools.Models
 
             set
             {
-                if (!Equals(_driverOperation, value))
+                if (!string.Equals(_driverOperation, value))
                 {
                     _driverOperation = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DriverOperation)));

@@ -49,7 +49,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_searchText, value))
+                if (!string.Equals(_searchText, value))
                 {
                     _searchText = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchText)));
@@ -81,7 +81,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_contextMenuFailedContent, value))
+                if (!string.Equals(_contextMenuFailedContent, value))
                 {
                     _contextMenuFailedContent = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ContextMenuFailedContent)));

@@ -118,7 +118,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_renameRule, value))
+                if (!string.Equals(_renameRule, value))
                 {
                     _renameRule = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RenameRule)));
@@ -134,7 +134,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_startNumber, value))
+                if (!string.Equals(_startNumber, value))
                 {
                     _startNumber = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StartNumber)));
@@ -150,7 +150,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_extensionName, value))
+                if (!string.Equals(_extensionName, value))
                 {
                     _extensionName = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExtensionName)));
@@ -166,7 +166,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_lookUpString, value))
+                if (!string.Equals(_lookUpString, value))
                 {
                     _lookUpString = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LookUpString)));
@@ -182,7 +182,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_replaceString, value))
+                if (!string.Equals(_replaceString, value))
                 {
                     _replaceString = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReplaceString)));

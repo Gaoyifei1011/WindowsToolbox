@@ -72,7 +72,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_stateInfoText, value))
+                if (!string.Equals(_stateInfoText, value))
                 {
                     _stateInfoText = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StateInfoText)));
@@ -120,7 +120,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_fileName, value))
+                if (!string.Equals(_fileName, value))
                 {
                     _fileName = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileName)));

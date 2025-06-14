@@ -23,7 +23,7 @@ namespace PowerTools.Services.Settings
 
             private set
             {
-                if (!Equals(_appBackdrop, value))
+                if (!string.Equals(_appBackdrop, value))
                 {
                     _appBackdrop = value;
                     PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(AppBackdrop)));

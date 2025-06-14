@@ -104,7 +104,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_getResults, value))
+                if (!string.Equals(_getResults, value))
                 {
                     _getResults = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(GetResults)));
@@ -120,7 +120,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_noResources, value))
+                if (!string.Equals(_noResources, value))
                 {
                     _noResources = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NoResources)));

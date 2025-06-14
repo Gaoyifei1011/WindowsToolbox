@@ -162,7 +162,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_getResults, value))
+                if (!string.Equals(_getResults, value))
                 {
                     _getResults = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(GetResults)));
@@ -178,7 +178,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_selectedSaveFolder, value))
+                if (!string.Equals(_selectedSaveFolder, value))
                 {
                     _selectedSaveFolder = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSaveFolder)));
@@ -194,7 +194,7 @@ namespace PowerTools.Views.Pages
 
             set
             {
-                if (!Equals(_searchText, value))
+                if (!string.Equals(_searchText, value))
                 {
                     _searchText = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SearchText)));
@@ -264,7 +264,7 @@ namespace PowerTools.Views.Pages
                 {
                     string extensionName = Path.GetExtension(dragItemsList[0].Name);
 
-                    if (extensionName.Equals(".pri", StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(extensionName, ".pri", StringComparison.OrdinalIgnoreCase))
                     {
                         args.AcceptedOperation = DataPackageOperation.Copy;
                         args.DragUIOverride.IsCaptionVisible = true;
@@ -377,7 +377,7 @@ namespace PowerTools.Views.Pages
 
                 StringCollection.Clear();
 
-                if (SelectedLanguage.Equals(LanguageCollection[0]))
+                if (Equals(SelectedLanguage, LanguageCollection[0]))
                 {
                     foreach (StringModel stringItem in stringList)
                     {
@@ -388,7 +388,7 @@ namespace PowerTools.Views.Pages
                 {
                     List<StringModel> coincidentStringList = await Task.Run(() =>
                     {
-                        return stringList.Where(item => item.Language.Equals(SelectedLanguage.Key, StringComparison.OrdinalIgnoreCase)).ToList();
+                        return stringList.Where(item => string.Equals(item.Language, SelectedLanguage.Key, StringComparison.OrdinalIgnoreCase)).ToList();
                     });
 
                     foreach (StringModel stringItem in coincidentStringList)
