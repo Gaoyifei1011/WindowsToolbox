@@ -5,12 +5,12 @@
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:converter="using:PowerTools.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helper="using:PowerTools.Helpers.Root"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:root="using:PowerTools.Services.Root"
-    xmlns:service="using:PowerTools.Services.Settings"
+    xmlns:roothelper="using:PowerTools.Helpers.Root"
+    xmlns:rootservice="using:PowerTools.Services.Root"
+    xmlns:settingsservice="using:PowerTools.Services.Settings"
     x:Name="MainContent"
-    FlowDirection="{x:Bind GetControlDirection(service:LanguageService.RightToLeft)}"
+    FlowDirection="{x:Bind GetControlDirection(settingsservice:LanguageService.RightToLeft)}"
     RequestedTheme="{x:Bind WindowTheme, Mode=OneWay}"
     mc:Ignorable="d">
 
@@ -34,7 +34,7 @@
                         Click="{x:Bind OnRestoreClicked}"
                         FontSize="12"
                         IsEnabled="{x:Bind GetWindowMaximizeState(IsWindowMaximized, IsWindowMaximizeEnabled, x:String.Empty), Mode=OneWay}"
-                        Text="{x:Bind root:ResourceService.WindowResource.GetString('Restore')}">
+                        Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Restore')}">
 
                         <MenuFlyoutItem.Icon>
                             <FontIcon Margin="6" Glyph="&#xE923;" />
@@ -48,7 +48,7 @@
                         FontSize="12"
                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsWindowMaximized), Mode=OneWay}"
                         Tag="{x:Bind TitlebarMenuFlyout}"
-                        Text="{x:Bind root:ResourceService.WindowResource.GetString('Move')}" />
+                        Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Move')}" />
 
                     <MenuFlyoutItem
                         Height="28"
@@ -57,14 +57,14 @@
                         FontSize="12"
                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsWindowMaximized), Mode=OneWay}"
                         Tag="{x:Bind TitlebarMenuFlyout}"
-                        Text="{x:Bind root:ResourceService.WindowResource.GetString('Size')}" />
+                        Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Size')}" />
 
                     <MenuFlyoutItem
                         Height="28"
                         Padding="11,0"
                         Click="{x:Bind OnMinimizeClicked}"
                         FontSize="12"
-                        Text="{x:Bind root:ResourceService.WindowResource.GetString('Minimize')}">
+                        Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Minimize')}">
 
                         <MenuFlyoutItem.Icon>
                             <FontIcon Margin="6" Glyph="&#xE921;" />
@@ -77,7 +77,7 @@
                         Click="{x:Bind OnMaximizeClicked}"
                         FontSize="12"
                         IsEnabled="{x:Bind GetWindowMaximizeState(IsWindowMaximized, IsWindowMaximizeEnabled, 'isReverse'), Mode=OneWay}"
-                        Text="{x:Bind root:ResourceService.WindowResource.GetString('Maximize')}">
+                        Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Maximize')}">
 
                         <MenuFlyoutItem.Icon>
                             <FontIcon Margin="6" Glyph="&#xE922;" />
@@ -91,7 +91,7 @@
                         Padding="11,0"
                         Click="{x:Bind OnCloseClicked}"
                         FontSize="12"
-                        Text="{x:Bind root:ResourceService.WindowResource.GetString('Close')}">
+                        Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Close')}">
 
                         <MenuFlyoutItem.Icon>
                             <FontIcon Margin="6" Glyph="&#xE8BB;" />
@@ -129,7 +129,7 @@
                     Margin="12,2,0,0"
                     VerticalAlignment="Center"
                     FontSize="12"
-                    Text="{x:Bind root:ResourceService.WindowResource.GetString('WindowTitle')}"
+                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('WindowTitle')}"
                     TextWrapping="NoWrap" />
 
                 <TextBlock
@@ -138,9 +138,9 @@
                     Margin="0,2,0,0"
                     VerticalAlignment="Center"
                     FontSize="12"
-                    Text="{x:Bind root:ResourceService.WindowResource.GetString('RunningAdministrator')}"
+                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('RunningAdministrator')}"
                     TextWrapping="NoWrap"
-                    Visibility="{x:Bind helper:RuntimeHelper.IsElevated}" />
+                    Visibility="{x:Bind roothelper:RuntimeHelper.IsElevated}" />
             </Grid>
 
             <StackPanel
@@ -283,7 +283,7 @@
                     <controls:NavigationViewItem.Content>
                         <TextBlock
                             x:Name="WindowAllToolsText"
-                            Text="{x:Bind root:ResourceService.WindowResource.GetString('AllTools')}"
+                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('AllTools')}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
                     </controls:NavigationViewItem.Content>
@@ -291,7 +291,7 @@
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind root:ResourceService.WindowResource.GetString('AllTools')}"
+                            Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('AllTools')}"
                             Visibility="{x:Bind WindowAllToolsText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </controls:NavigationViewItem>
@@ -308,7 +308,7 @@
                     <controls:NavigationViewItem.Content>
                         <TextBlock
                             x:Name="WindowRelaxationText"
-                            Text="{x:Bind root:ResourceService.WindowResource.GetString('Relaxation')}"
+                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Relaxation')}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
                     </controls:NavigationViewItem.Content>
@@ -316,7 +316,7 @@
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind root:ResourceService.WindowResource.GetString('Relaxation')}"
+                            Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('Relaxation')}"
                             Visibility="{x:Bind WindowRelaxationText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
 
@@ -326,7 +326,7 @@
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
                                     x:Name="WindowLoafText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('Loaf')}"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Loaf')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -338,7 +338,7 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('Loaf')}"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('Loaf')}"
                                     Visibility="{x:Bind WindowLoafText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
@@ -355,7 +355,7 @@
                     <controls:NavigationViewItem.Content>
                         <TextBlock
                             x:Name="WindowFileText"
-                            Text="{x:Bind root:ResourceService.WindowResource.GetString('File')}"
+                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('File')}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
                     </controls:NavigationViewItem.Content>
@@ -363,7 +363,7 @@
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind root:ResourceService.WindowResource.GetString('File')}"
+                            Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('File')}"
                             Visibility="{x:Bind WindowFileText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
 
@@ -377,7 +377,7 @@
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
                                     x:Name="WindowFileManagerText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('FileManager')}"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('FileManager')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -385,7 +385,7 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('FileManager')}"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('FileManager')}"
                                     Visibility="{x:Bind WindowFileManagerText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
@@ -399,7 +399,7 @@
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
                                     x:Name="WindowFileCertificateText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('FileCertificate')}"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('FileCertificate')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -407,7 +407,7 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('FileCertificate')}"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('FileCertificate')}"
                                     Visibility="{x:Bind WindowFileCertificateText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
@@ -421,7 +421,7 @@
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
                                     x:Name="WindowFileUnlockText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('FileUnlock')}"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('FileUnlock')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -429,7 +429,7 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('FileUnlock')}"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('FileUnlock')}"
                                     Visibility="{x:Bind WindowFileUnlockText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
@@ -446,7 +446,7 @@
                     <controls:NavigationViewItem.Content>
                         <TextBlock
                             x:Name="WindowResourceText"
-                            Text="{x:Bind root:ResourceService.WindowResource.GetString('Resource')}"
+                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Resource')}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
                     </controls:NavigationViewItem.Content>
@@ -454,7 +454,7 @@
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind root:ResourceService.WindowResource.GetString('Resource')}"
+                            Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('Resource')}"
                             Visibility="{x:Bind WindowResourceText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
 
@@ -468,7 +468,7 @@
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
                                     x:Name="WindowDownloadManagerText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('DownloadManager')}"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('DownloadManager')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -476,7 +476,7 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('DownloadManager')}"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('DownloadManager')}"
                                     Visibility="{x:Bind WindowDownloadManagerText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
@@ -490,7 +490,7 @@
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
                                     x:Name="WindowIconExtractText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('IconExtract')}"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('IconExtract')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -498,7 +498,7 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('IconExtract')}"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('IconExtract')}"
                                     Visibility="{x:Bind WindowIconExtractText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
@@ -512,7 +512,7 @@
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
                                     x:Name="WindowPriExtractText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('PriExtract')}"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('PriExtract')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -520,7 +520,7 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('PriExtract')}"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('PriExtract')}"
                                     Visibility="{x:Bind WindowPriExtractText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
@@ -537,7 +537,7 @@
                     <controls:NavigationViewItem.Content>
                         <TextBlock
                             x:Name="WindowPersonalizeText"
-                            Text="{x:Bind root:ResourceService.WindowResource.GetString('Personalize')}"
+                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Personalize')}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
                     </controls:NavigationViewItem.Content>
@@ -545,7 +545,7 @@
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind root:ResourceService.WindowResource.GetString('Personalize')}"
+                            Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('Personalize')}"
                             Visibility="{x:Bind WindowPersonalizeText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
 
@@ -559,7 +559,7 @@
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
                                     x:Name="SwitchThemeText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('SwitchTheme')}"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('SwitchTheme')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -567,7 +567,7 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('SwitchTheme')}"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('SwitchTheme')}"
                                     Visibility="{x:Bind SwitchThemeText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
@@ -581,7 +581,7 @@
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
                                     x:Name="WindowShellMenuText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('ShellMenu')}"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('ShellMenu')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -589,7 +589,7 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('ShellMenu')}"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('ShellMenu')}"
                                     Visibility="{x:Bind WindowShellMenuText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
@@ -603,7 +603,7 @@
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
                                     x:Name="WindowContextMenuManagerText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('ContextMenuManager')}"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('ContextMenuManager')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -611,7 +611,7 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('ContextMenuManager')}"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('ContextMenuManager')}"
                                     Visibility="{x:Bind WindowContextMenuManagerText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
@@ -628,7 +628,7 @@
                     <controls:NavigationViewItem.Content>
                         <TextBlock
                             x:Name="WindowSystemText"
-                            Text="{x:Bind root:ResourceService.WindowResource.GetString('System')}"
+                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('System')}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
                     </controls:NavigationViewItem.Content>
@@ -636,7 +636,7 @@
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind root:ResourceService.WindowResource.GetString('System')}"
+                            Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('System')}"
                             Visibility="{x:Bind WindowSystemText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
 
@@ -650,7 +650,7 @@
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
                                     x:Name="WindowLoopbackManagerText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('LoopbackManager')}"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('LoopbackManager')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -658,7 +658,7 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('LoopbackManager')}"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('LoopbackManager')}"
                                     Visibility="{x:Bind WindowLoopbackManagerText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
@@ -672,7 +672,7 @@
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
                                     x:Name="WindowDriverManagerText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('DriverManager')}"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('DriverManager')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -680,7 +680,7 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('DriverManager')}"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('DriverManager')}"
                                     Visibility="{x:Bind WindowDriverManagerText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
@@ -694,7 +694,7 @@
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
                                     x:Name="WindowUpdateManagerText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('UpdateManager')}"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('UpdateManager')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -702,7 +702,7 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('UpdateManager')}"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('UpdateManager')}"
                                     Visibility="{x:Bind WindowUpdateManagerText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
@@ -716,7 +716,7 @@
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
                                     x:Name="WindowWinSATText"
-                                    Text="{x:Bind root:ResourceService.WindowResource.GetString('WinSAT')}"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('WinSAT')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -724,7 +724,7 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind root:ResourceService.WindowResource.GetString('WinSAT')}"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('WinSAT')}"
                                     Visibility="{x:Bind WindowWinSATText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
@@ -742,7 +742,7 @@
                     <controls:NavigationViewItem.Content>
                         <TextBlock
                             x:Name="WindowSettingsText"
-                            Text="{x:Bind root:ResourceService.WindowResource.GetString('Settings')}"
+                            Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Settings')}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
                     </controls:NavigationViewItem.Content>
@@ -750,7 +750,7 @@
                     <ToolTipService.ToolTip>
                         <ToolTip
                             MaxWidth="9999"
-                            Content="{x:Bind root:ResourceService.WindowResource.GetString('Settings')}"
+                            Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('Settings')}"
                             Visibility="{x:Bind WindowSettingsText.IsTextTrimmed, Mode=OneWay}" />
                     </ToolTipService.ToolTip>
                 </controls:NavigationViewItem>

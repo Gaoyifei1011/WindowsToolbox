@@ -33,7 +33,7 @@ namespace PowerTools.Views.Dialogs
         /// <summary>
         /// 删除本地文件并下载文件
         /// </summary>
-        private async void OnPrimaryButtonClicked(object sender, ContentDialogButtonClickEventArgs args)
+        private async void OnPrimaryButtonClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             bool result = await Task.Run(() =>
             {
@@ -58,7 +58,7 @@ namespace PowerTools.Views.Dialogs
         /// <summary>
         /// 打开本地目录
         /// </summary>
-        private void OnSecondaryButtonClicked(object sender, ContentDialogButtonClickEventArgs args)
+        private void OnSecondaryButtonClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             Task.Run(() =>
             {

@@ -193,24 +193,16 @@ namespace PowerTools.Views.Pages
         /// <summary>
         /// 文件共享
         /// </summary>
-        private void OnShareFileExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnShareFileExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is string filePath && !string.IsNullOrEmpty(filePath) && File.Exists(filePath))
             {
                 try
                 {
+                    List<StorageFile> fileList = [await StorageFile.GetFileFromPathAsync(filePath)];
                     IDataTransferManagerInterop dataTransferManagerInterop = (IDataTransferManagerInterop)WindowsRuntimeMarshal.GetActivationFactory(typeof(DataTransferManager));
-
                     dataTransferManagerInterop.GetForWindow(MainWindow.Current.Handle, new("A5CAEE9B-8708-49D1-8D36-67D25A8DA00C"), out DataTransferManager dataTransferManager);
-                    dataTransferManager.DataRequested += async (sender, args) =>
-                    {
-                        DataRequestDeferral deferral = args.Request.GetDeferral();
-
-                        args.Request.Data.Properties.Title = string.Format(ResourceService.DownloadManagerResource.GetString("ShareFileTitle"));
-                        args.Request.Data.SetStorageItems(new List<StorageFile>() { await StorageFile.GetFileFromPathAsync(filePath) });
-                        deferral.Complete();
-                    };
-
+                    dataTransferManager.DataRequested += (sender, args) => OnDataRequested(sender, args, fileList);
                     dataTransferManagerInterop.ShowShareUIForWindow(MainWindow.Current.Handle);
                 }
                 catch (Exception e)
@@ -343,7 +335,29 @@ namespace PowerTools.Views.Pages
 
         #endregion 第二部分：下载管理页面——挂载的事件
 
-        #region 第二部分：自定义事件
+        #region 第三部分：下载管理页面——自定义事件
+
+        /// <summary>
+        /// 在共享操作启动时发生的事件
+        /// </summary>
+        private void OnDataRequested(DataTransferManager sender, DataRequestedEventArgs args, List<StorageFile> fileList)
+        {
+            DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
+
+            try
+            {
+                args.Request.Data.Properties.Title = string.Format(ResourceService.DownloadManagerResource.GetString("ShareFileTitle"));
+                args.Request.Data.SetStorageItems(fileList);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            finally
+            {
+                dataRequestDeferral.Complete();
+            }
+        }
 
         /// <summary>
         /// 下载任务已创建
@@ -542,6 +556,6 @@ namespace PowerTools.Views.Pages
             AddDownloadTaskFlyout.Hide();
         }
 
-        #endregion 第二部分：自定义事件
+        #endregion 第三部分：下载管理页面——自定义事件
     }
 }

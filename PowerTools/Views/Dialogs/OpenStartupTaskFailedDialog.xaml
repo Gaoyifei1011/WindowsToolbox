@@ -4,32 +4,32 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:root="using:PowerTools.Services.Root"
+    xmlns:rootservice="using:PowerTools.Services.Root"
     xmlns:window="using:PowerTools.Views.Windows"
-    Title="{x:Bind root:ResourceService.DialogResource.GetString('OpenStartupTaskFailedTitle')}"
+    Title="{x:Bind rootservice:ResourceService.DialogResource.GetString('OpenStartupTaskFailedTitle')}"
     BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
-    CloseButtonText="{x:Bind root:ResourceService.DialogResource.GetString('Cancel')}"
+    CloseButtonText="{x:Bind rootservice:ResourceService.DialogResource.GetString('Cancel')}"
     FlowDirection="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).FlowDirection, Mode=OneWay}"
     PrimaryButtonClick="{x:Bind OnOpenTaskManagerClicked}"
     PrimaryButtonStyle="{ThemeResource AccentButtonStyle}"
-    PrimaryButtonText="{x:Bind root:ResourceService.DialogResource.GetString('OpenTaskManager')}"
+    PrimaryButtonText="{x:Bind rootservice:ResourceService.DialogResource.GetString('OpenTaskManager')}"
     RequestedTheme="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).RequestedTheme, Mode=OneWay}"
     SecondaryButtonClick="{x:Bind OnOpenGroupPolicyClicked}"
     SecondaryButtonStyle="{ThemeResource AccentButtonStyle}"
-    SecondaryButtonText="{x:Bind root:ResourceService.DialogResource.GetString('OpenGroupPolicy')}"
+    SecondaryButtonText="{x:Bind rootservice:ResourceService.DialogResource.GetString('OpenGroupPolicy')}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <StackPanel>
         <TextBlock
             Margin="0,0,0,5"
-            Text="{x:Bind root:ResourceService.DialogResource.GetString('OpenStartupTaskFailedContent1')}"
+            Text="{x:Bind rootservice:ResourceService.DialogResource.GetString('OpenStartupTaskFailedContent1')}"
             TextAlignment="Justify"
             TextWrapping="Wrap" />
 
         <TextBlock
             Margin="0,0,0,5"
-            Text="{x:Bind root:ResourceService.DialogResource.GetString('OpenStartupTaskFailedContent2')}"
+            Text="{x:Bind rootservice:ResourceService.DialogResource.GetString('OpenStartupTaskFailedContent2')}"
             TextAlignment="Justify"
             TextWrapping="Wrap" />
     </StackPanel>

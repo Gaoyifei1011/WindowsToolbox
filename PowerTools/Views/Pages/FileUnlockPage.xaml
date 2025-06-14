@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:PowerTools.Models"
-    xmlns:root="using:PowerTools.Services.Root"
+    xmlns:rootservice="using:PowerTools.Services.Root"
     AllowDrop="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -37,13 +37,13 @@
                 <TextBlock
                     Grid.Column="0"
                     FontSize="22"
-                    Text="{x:Bind root:ResourceService.FileUnlockResource.GetString('Title')}" />
+                    Text="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('Title')}" />
 
                 <Button
                     Grid.Column="1"
                     VerticalAlignment="Center"
                     Click="{x:Bind OnOpenTaskManagerClicked}"
-                    Content="{x:Bind root:ResourceService.FileUnlockResource.GetString('OpenTaskManager')}" />
+                    Content="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('OpenTaskManager')}" />
             </Grid>
 
             <Grid
@@ -66,17 +66,17 @@
                     <TextBlock
                         HorizontalAlignment="Center"
                         FontSize="16"
-                        Text="{x:Bind root:ResourceService.FileUnlockResource.GetString('DragAndDrop')}" />
+                        Text="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('DragAndDrop')}" />
 
                     <TextBlock
                         HorizontalAlignment="Center"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Text="{x:Bind root:ResourceService.FileUnlockResource.GetString('DragAndDropDescription')}" />
+                        Text="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('DragAndDropDescription')}" />
 
                     <Button
                         HorizontalAlignment="Center"
                         Click="{x:Bind OnOpenLocalFileClicked}"
-                        Content="{x:Bind root:ResourceService.FileUnlockResource.GetString('OpenLocalFile')}" />
+                        Content="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('OpenLocalFile')}" />
                 </StackPanel>
             </Grid>
 
@@ -194,7 +194,7 @@
                                             <ToolTip MaxWidth="9999">
 
                                                 <TextBlock>
-                                                    <Run Text="{x:Bind root:ResourceService.FileUnlockResource.GetString('ProcessName')}" />
+                                                    <Run Text="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('ProcessName')}" />
                                                     <Run Text="{x:Bind ProcessName}" />
                                                 </TextBlock>
                                             </ToolTip>
@@ -218,10 +218,10 @@
                                             <ToolTip MaxWidth="9999">
                                                 <StackPanel>
                                                     <TextBlock>
-                                                        <Run Text="{x:Bind root:ResourceService.FileUnlockResource.GetString('ProcessPath')}" />
+                                                        <Run Text="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('ProcessPath')}" />
                                                         <Run Text="{x:Bind ProcessPath}" />
                                                     </TextBlock>
-                                                    <TextBlock Text="{x:Bind root:ResourceService.FileUnlockResource.GetString('OpenLocalFolder')}" />
+                                                    <TextBlock Text="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('OpenLocalFolder')}" />
                                                 </StackPanel>
                                             </ToolTip>
                                         </ToolTipService.ToolTip>
@@ -241,7 +241,7 @@
                                     <ToolTipService.ToolTip>
                                         <ToolTip MaxWidth="9999">
                                             <TextBlock>
-                                                <Run Text="{x:Bind root:ResourceService.FileUnlockResource.GetString('ProcessId')}" />
+                                                <Run Text="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('ProcessId')}" />
                                                 <Run Text="{x:Bind ProcessId}" />
                                             </TextBlock>
                                         </ToolTip>
@@ -261,7 +261,7 @@
                                     <ToolTipService.ToolTip>
                                         <ToolTip MaxWidth="9999">
                                             <TextBlock>
-                                                <Run Text="{x:Bind root:ResourceService.FileUnlockResource.GetString('ProcessUser')}" />
+                                                <Run Text="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('ProcessUser')}" />
                                                 <Run Text="{x:Bind ProcessUser}" />
                                             </TextBlock>
                                         </ToolTip>
@@ -285,7 +285,7 @@
                                                 FontSize="16"
                                                 Glyph="&#xE711;" />
 
-                                            <TextBlock Grid.Column="1" Text="{x:Bind root:ResourceService.FileUnlockResource.GetString('TerminateProcess')}" />
+                                            <TextBlock Grid.Column="1" Text="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('TerminateProcess')}" />
                                         </Grid>
                                     </Button.Content>
                                 </Button>

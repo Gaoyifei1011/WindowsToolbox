@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:PowerTools.Models"
     xmlns:rootservice="using:PowerTools.Services.Root"
-    xmlns:sys="using:System"
+    xmlns:system="using:System"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
@@ -227,7 +227,7 @@
                                     HorizontalAlignment="Stretch"
                                     Click="{x:Bind OnClearMenuClicked}"
                                     Content="{x:Bind rootservice:ResourceService.ShellMenuResource.GetString('ClearMenu')}"
-                                    IsEnabled="{x:Bind sys:Convert.ToBoolean(ShellMenuItemCollection.Count), Mode=OneWay}"
+                                    IsEnabled="{x:Bind system:Convert.ToBoolean(ShellMenuItemCollection.Count), Mode=OneWay}"
                                     ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.ShellMenuResource.GetString('ClearMenuToolTip')}" />
 
                                 <Button
@@ -973,7 +973,7 @@
                                                 GroupName="FileMatchRuleRadioGroup"
                                                 IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[0].Key), Mode=OneWay}"
                                                 Tag="0"
-                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[0].Value)}" />
+                                                Text="{x:Bind system:Convert.ToString(FileMatchRuleList[0].Value)}" />
 
                                             <controls:RadioMenuFlyoutItem
                                                 Height="32"
@@ -982,7 +982,7 @@
                                                 GroupName="FileMatchRuleRadioGroup"
                                                 IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[1].Key), Mode=OneWay}"
                                                 Tag="1"
-                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[1].Value)}" />
+                                                Text="{x:Bind system:Convert.ToString(FileMatchRuleList[1].Value)}" />
 
                                             <controls:RadioMenuFlyoutItem
                                                 Height="32"
@@ -991,7 +991,7 @@
                                                 GroupName="FileMatchRuleRadioGroup"
                                                 IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[2].Key), Mode=OneWay}"
                                                 Tag="2"
-                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[2].Value)}" />
+                                                Text="{x:Bind system:Convert.ToString(FileMatchRuleList[2].Value)}" />
 
                                             <controls:RadioMenuFlyoutItem
                                                 Height="32"
@@ -1000,7 +1000,7 @@
                                                 GroupName="FileMatchRuleRadioGroup"
                                                 IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[3].Key), Mode=OneWay}"
                                                 Tag="3"
-                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[3].Value)}" />
+                                                Text="{x:Bind system:Convert.ToString(FileMatchRuleList[3].Value)}" />
 
                                             <controls:RadioMenuFlyoutItem
                                                 Height="32"
@@ -1009,7 +1009,7 @@
                                                 GroupName="FileMatchRuleRadioGroup"
                                                 IsChecked="{x:Bind SelectedFileMatchRule.Key.Equals(FileMatchRuleList[4].Key), Mode=OneWay}"
                                                 Tag="4"
-                                                Text="{x:Bind sys:Convert.ToString(FileMatchRuleList[4].Value)}" />
+                                                Text="{x:Bind system:Convert.ToString(FileMatchRuleList[4].Value)}" />
                                         </MenuFlyout>
                                     </controls:DropDownButton.Flyout>
                                 </controls:DropDownButton>
