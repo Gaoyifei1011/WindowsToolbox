@@ -1,9 +1,9 @@
-﻿using System;
+﻿using PowerTools.Extensions.DataType.Constant;
+using PowerTools.Services.Root;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Windows.UI.Xaml;
-using PowerTools.Extensions.DataType.Constant;
-using PowerTools.Services.Root;
 
 namespace PowerTools.Services.Settings
 {

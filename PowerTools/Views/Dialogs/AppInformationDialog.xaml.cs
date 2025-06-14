@@ -1,3 +1,9 @@
+using PowerTools.Extensions.DataType.Enums;
+using PowerTools.Helpers.Root;
+using PowerTools.Services.Root;
+using PowerTools.Views.TeachingTips;
+using PowerTools.Views.Windows;
+using PowerTools.WindowsAPI.PInvoke.KernelAppCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,12 +15,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using PowerTools.Extensions.DataType.Enums;
-using PowerTools.Helpers.Root;
-using PowerTools.Services.Root;
-using PowerTools.Views.TeachingTips;
-using PowerTools.Views.Windows;
-using PowerTools.WindowsAPI.PInvoke.KernelAppCore;
 
 // 抑制 CA1806，IDE0060 警告
 #pragma warning disable CA1806,IDE0060

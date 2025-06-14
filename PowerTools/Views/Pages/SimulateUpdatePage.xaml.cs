@@ -1,3 +1,6 @@
+using PowerTools.Extensions.DataType.Enums;
+using PowerTools.Services.Root;
+using PowerTools.Views.Windows;
 using System;
 using System.ComponentModel;
 using System.Diagnostics.Tracing;
@@ -5,9 +8,6 @@ using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
 using Windows.UI.Xaml.Controls;
-using PowerTools.Extensions.DataType.Enums;
-using PowerTools.Services.Root;
-using PowerTools.Views.Windows;
 
 // 抑制 CA1822 警告
 #pragma warning disable CA1822

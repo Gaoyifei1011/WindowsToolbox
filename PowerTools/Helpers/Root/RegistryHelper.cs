@@ -1,11 +1,11 @@
 ﻿using Microsoft.Win32;
+using PowerTools.Extensions.Registry;
+using PowerTools.Services.Root;
+using PowerTools.WindowsAPI.PInvoke.Advapi32;
 using System;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Threading;
-using PowerTools.Extensions.Registry;
-using PowerTools.Services.Root;
-using PowerTools.WindowsAPI.PInvoke.Advapi32;
 
 namespace PowerTools.Helpers.Root
 {

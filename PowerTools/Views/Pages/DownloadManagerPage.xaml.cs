@@ -1,3 +1,11 @@
+using PowerTools.Models;
+using PowerTools.Services.Download;
+using PowerTools.Services.Root;
+using PowerTools.Services.Settings;
+using PowerTools.Views.Dialogs;
+using PowerTools.Views.Windows;
+using PowerTools.WindowsAPI.ComTypes;
+using PowerTools.WindowsAPI.PInvoke.Shell32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,15 +25,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using PowerTools.Extensions.DataType.Enums;
-using PowerTools.Models;
-using PowerTools.Services.Download;
-using PowerTools.Services.Settings;
-using PowerTools.Services.Root;
-using PowerTools.Views.Dialogs;
-using PowerTools.Views.Windows;
-using PowerTools.WindowsAPI.ComTypes;
-using PowerTools.WindowsAPI.PInvoke.Shell32;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060

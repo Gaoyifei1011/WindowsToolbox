@@ -1,5 +1,13 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Win32;
+using PowerTools.Extensions.DataType.Enums;
+using PowerTools.Extensions.ShellMenu;
+using PowerTools.Helpers.Root;
+using PowerTools.Models;
+using PowerTools.Services.Root;
+using PowerTools.Services.Shell;
+using PowerTools.Views.TeachingTips;
+using PowerTools.Views.Windows;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,14 +25,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using PowerTools.Extensions.DataType.Enums;
-using PowerTools.Extensions.ShellMenu;
-using PowerTools.Helpers.Root;
-using PowerTools.Models;
-using PowerTools.Services.Root;
-using PowerTools.Services.Shell;
-using PowerTools.Views.TeachingTips;
-using PowerTools.Views.Windows;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060

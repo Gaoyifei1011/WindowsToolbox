@@ -1,9 +1,9 @@
-﻿using System;
+﻿using PowerTools.Helpers.Backdrop;
+using PowerTools.WindowsAPI.ComTypes;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Windows.Graphics.Effects;
-using PowerTools.Helpers.Backdrop;
-using PowerTools.WindowsAPI.ComTypes;
 
 namespace PowerTools.Views.Backdrop
 {

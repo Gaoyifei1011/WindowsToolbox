@@ -1,8 +1,8 @@
-﻿using System;
+﻿using PowerTools.WindowsAPI.PInvoke.Kernel32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PowerTools.WindowsAPI.PInvoke.Kernel32;
 
 // 抑制 CA1806 警告
 #pragma warning disable CA1806

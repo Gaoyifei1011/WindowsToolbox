@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using PowerTools.Extensions.DataType.Methods;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using PowerTools.Extensions.DataType.Methods;
 
 namespace PowerTools.Extensions.PriExtract
 {

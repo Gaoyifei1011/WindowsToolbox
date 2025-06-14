@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using PowerTools.Extensions.DataType.Class;
+using System.Collections.Generic;
 using System.ComponentModel;
-using PowerTools.Extensions.DataType.Class;
 
 namespace PowerTools.Models
 {

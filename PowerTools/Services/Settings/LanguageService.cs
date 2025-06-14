@@ -1,4 +1,8 @@
-﻿using System;
+﻿using PowerTools.Extensions.DataType.Constant;
+using PowerTools.Services.Root;
+using PowerTools.WindowsAPI.ComTypes;
+using PowerTools.WindowsAPI.PInvoke.Shlwapi;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -6,10 +10,6 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms;
 using Windows.Globalization;
-using PowerTools.Extensions.DataType.Constant;
-using PowerTools.Services.Root;
-using PowerTools.WindowsAPI.ComTypes;
-using PowerTools.WindowsAPI.PInvoke.Shlwapi;
 
 namespace PowerTools.Services.Settings
 {

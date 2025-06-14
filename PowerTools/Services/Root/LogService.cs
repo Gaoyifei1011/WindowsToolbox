@@ -1,11 +1,11 @@
-﻿using System;
+﻿using PowerTools.WindowsAPI.PInvoke.Shell32;
+using System;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using PowerTools.WindowsAPI.PInvoke.Shell32;
 
 // 抑制 CA1806 警告
 #pragma warning disable CA1806

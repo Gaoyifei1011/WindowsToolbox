@@ -1,13 +1,13 @@
-﻿using System.Collections.ObjectModel;
-using System.Text;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using PowerTools.Extensions.DataType.Enums;
+﻿using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Helpers.Root;
 using PowerTools.Models;
 using PowerTools.Services.Root;
 using PowerTools.Views.TeachingTips;
 using PowerTools.Views.Windows;
+using System.Collections.ObjectModel;
+using System.Text;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 // 抑制 CA1822，IDE0060 警告
 #pragma warning disable CA1822,IDE0060

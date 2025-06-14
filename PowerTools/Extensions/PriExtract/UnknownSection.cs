@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using PowerTools.Extensions.DataType.Methods;
+using System.IO;
 using System.Text;
-using PowerTools.Extensions.DataType.Methods;
 
 namespace PowerTools.Extensions.PriExtract
 {

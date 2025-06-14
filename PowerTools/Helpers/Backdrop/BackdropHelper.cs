@@ -1,6 +1,6 @@
-﻿using System.Runtime.InteropServices.WindowsRuntime;
+﻿using PowerTools.WindowsAPI.ComTypes;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
-using PowerTools.WindowsAPI.ComTypes;
 
 // 抑制 CA1806 警告
 #pragma warning disable CA1806

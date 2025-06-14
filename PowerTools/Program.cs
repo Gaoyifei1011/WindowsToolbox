@@ -1,4 +1,12 @@
-﻿using System;
+﻿using PowerTools.Helpers.Root;
+using PowerTools.Services.Download;
+using PowerTools.Services.Root;
+using PowerTools.Services.Settings;
+using PowerTools.Services.Shell;
+using PowerTools.Views.Windows;
+using PowerTools.WindowsAPI.ComTypes;
+using PowerTools.WindowsAPI.PInvoke.Kernel32;
+using System;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Diagnostics;
@@ -7,14 +15,6 @@ using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using PowerTools.Helpers.Root;
-using PowerTools.Services.Download;
-using PowerTools.Services.Settings;
-using PowerTools.Services.Root;
-using PowerTools.Services.Shell;
-using PowerTools.Views.Windows;
-using PowerTools.WindowsAPI.ComTypes;
-using PowerTools.WindowsAPI.PInvoke.Kernel32;
 
 // 抑制 CA1806 警告
 #pragma warning disable CA1806

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using PowerTools.WindowsAPI.PInvoke.User32;
+using System;
 using System.Runtime.InteropServices;
-using PowerTools.WindowsAPI.PInvoke.User32;
 
 namespace PowerTools.WindowsAPI.PInvoke.Comctl32
 {

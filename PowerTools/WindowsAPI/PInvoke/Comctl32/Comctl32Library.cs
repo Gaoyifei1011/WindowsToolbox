@@ -1,6 +1,6 @@
-﻿using System;
+﻿using PowerTools.WindowsAPI.PInvoke.User32;
+using System;
 using System.Runtime.InteropServices;
-using PowerTools.WindowsAPI.PInvoke.User32;
 
 // 抑制 CA1401 警告
 #pragma warning disable CA1401

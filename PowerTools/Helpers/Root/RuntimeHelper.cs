@@ -1,5 +1,5 @@
-﻿using System.Security.Principal;
-using PowerTools.WindowsAPI.PInvoke.Kernel32;
+﻿using PowerTools.WindowsAPI.PInvoke.Kernel32;
+using System.Security.Principal;
 
 namespace PowerTools.Helpers.Root
 {

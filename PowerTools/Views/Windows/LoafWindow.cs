@@ -1,4 +1,11 @@
-﻿using System;
+﻿using PowerTools.Extensions.DataType.Enums;
+using PowerTools.Helpers.Root;
+using PowerTools.Services.Root;
+using PowerTools.Services.Settings;
+using PowerTools.Views.Pages;
+using PowerTools.WindowsAPI.ComTypes;
+using PowerTools.WindowsAPI.PInvoke.User32;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
@@ -6,13 +13,6 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
-using PowerTools.Extensions.DataType.Enums;
-using PowerTools.Helpers.Root;
-using PowerTools.Services.Settings;
-using PowerTools.Services.Root;
-using PowerTools.Views.Pages;
-using PowerTools.WindowsAPI.ComTypes;
-using PowerTools.WindowsAPI.PInvoke.User32;
 
 namespace PowerTools.Views.Windows
 {

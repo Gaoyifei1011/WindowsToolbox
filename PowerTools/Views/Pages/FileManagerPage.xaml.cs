@@ -1,12 +1,12 @@
-﻿using System;
+﻿using PowerTools.Models;
+using PowerTools.Services.Root;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using PowerTools.Models;
-using PowerTools.Services.Root;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060

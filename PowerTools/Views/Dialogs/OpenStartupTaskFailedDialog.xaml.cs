@@ -1,9 +1,9 @@
-﻿using System.Diagnostics;
+﻿using PowerTools.Services.Root;
 using System;
+using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
-using PowerTools.Services.Root;
-using System.Diagnostics.Tracing;
 
 // 抑制 CA1822 警告
 #pragma warning disable CA1822

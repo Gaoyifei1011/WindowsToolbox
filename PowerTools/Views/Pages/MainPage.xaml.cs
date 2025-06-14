@@ -1,4 +1,10 @@
-﻿using System;
+﻿using PowerTools.Helpers.Root;
+using PowerTools.Models;
+using PowerTools.Services.Root;
+using PowerTools.Views.Dialogs;
+using PowerTools.Views.Windows;
+using PowerTools.WindowsAPI.PInvoke.User32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Tracing;
@@ -11,12 +17,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using PowerTools.Helpers.Root;
-using PowerTools.Models;
-using PowerTools.Services.Root;
-using PowerTools.Views.Dialogs;
-using PowerTools.Views.Windows;
-using PowerTools.WindowsAPI.PInvoke.User32;
 
 // 抑制 CA1822，IDE0060 警告
 #pragma warning disable CA1822,IDE0060

@@ -1,4 +1,7 @@
 using Microsoft.UI.Xaml.Controls;
+using PowerTools.Services.Root;
+using PowerTools.Views.Windows;
+using PowerTools.WindowsAPI.ComTypes;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -8,11 +11,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using PowerTools.Services.Root;
-using PowerTools.Views.Windows;
-using PowerTools.WindowsAPI.ComTypes;
-using WINSATLib;
 using Windows.UI.Xaml.Navigation;
+using WINSATLib;
 
 // 抑制 IDE0060 警告
 #pragma warning disable IDE0060

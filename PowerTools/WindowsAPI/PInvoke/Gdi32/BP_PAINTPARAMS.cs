@@ -1,5 +1,5 @@
-﻿using System;
-using PowerTools.WindowsAPI.PInvoke.Uxtheme;
+﻿using PowerTools.WindowsAPI.PInvoke.Uxtheme;
+using System;
 
 namespace PowerTools.WindowsAPI.PInvoke.Gdi32
 {

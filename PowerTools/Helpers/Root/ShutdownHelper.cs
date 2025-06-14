@@ -1,6 +1,6 @@
-﻿using System;
-using PowerTools.WindowsAPI.PInvoke.Advapi32;
+﻿using PowerTools.WindowsAPI.PInvoke.Advapi32;
 using PowerTools.WindowsAPI.PInvoke.Kernel32;
+using System;
 
 namespace PowerTools.Helpers.Root
 {

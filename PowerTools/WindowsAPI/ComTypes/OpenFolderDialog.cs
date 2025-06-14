@@ -1,10 +1,10 @@
-﻿using System;
+﻿using PowerTools.Services.Root;
+using PowerTools.WindowsAPI.PInvoke.Shell32;
+using System;
 using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using PowerTools.Services.Root;
-using PowerTools.WindowsAPI.PInvoke.Shell32;
 
 // 抑制 CA1806 警告
 #pragma warning disable CA1806

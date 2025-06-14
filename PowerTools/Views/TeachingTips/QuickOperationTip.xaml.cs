@@ -1,7 +1,7 @@
 using Microsoft.UI.Xaml.Controls;
-using Windows.UI.Xaml;
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Services.Root;
+using Windows.UI.Xaml;
 
 namespace PowerTools.Views.TeachingTips
 {

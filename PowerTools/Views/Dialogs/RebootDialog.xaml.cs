@@ -1,6 +1,6 @@
-using Windows.UI.Xaml.Controls;
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Services.Root;
+using Windows.UI.Xaml.Controls;
 
 namespace PowerTools.Views.Dialogs
 {

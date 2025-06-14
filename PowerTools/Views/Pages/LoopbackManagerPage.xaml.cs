@@ -1,3 +1,10 @@
+using PowerTools.Extensions.DataType.Enums;
+using PowerTools.Models;
+using PowerTools.Services.Root;
+using PowerTools.Views.TeachingTips;
+using PowerTools.Views.Windows;
+using PowerTools.WindowsAPI.PInvoke.FirewallAPI;
+using PowerTools.WindowsAPI.PInvoke.Shlwapi;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,13 +19,6 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using PowerTools.Extensions.DataType.Enums;
-using PowerTools.Models;
-using PowerTools.Services.Root;
-using PowerTools.Views.TeachingTips;
-using PowerTools.Views.Windows;
-using PowerTools.WindowsAPI.PInvoke.FirewallAPI;
-using PowerTools.WindowsAPI.PInvoke.Shlwapi;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060

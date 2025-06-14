@@ -1,9 +1,8 @@
-﻿using System;
+﻿using PowerTools.WindowsAPI.ComTypes;
+using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using PowerTools.WindowsAPI.ComTypes;
 
 // 抑制 CA1401 警告
 #pragma warning disable CA1401

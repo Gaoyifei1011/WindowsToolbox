@@ -256,12 +256,11 @@
     <None Remove="Views\Dialogs\OperationFailedDialog.xaml" />
     <None Remove="Views\Dialogs\RebootDialog.xaml" />
     <None Remove="Views\Dialogs\RestartAppsDialog.xaml" />
-    <None Remove="Views\Pages\AboutPage.xaml" />
     <None Remove="Views\Pages\AllToolsPage.xaml" />
     <None Remove="Views\Pages\ContextMenuManagerPage.xaml" />
     <None Remove="Views\Pages\DownloadManagerPage.xaml" />
     <None Remove="Views\Pages\DriverManagerPage.xaml" />
-    <None Remove="Views\Pages\ExtensionNamePage.xaml"  />
+    <None Remove="Views\Pages\ExtensionNamePage.xaml" />
     <None Remove="Views\Pages\FileCertificatePage.xaml" />
     <None Remove="Views\Pages\FileManagerPage.xaml" />
     <None Remove="Views\Pages\FileNamePage.xaml" />
@@ -272,6 +271,7 @@
     <None Remove="Views\Pages\LoopbackManagerPage.xaml" />
     <None Remove="Views\Pages\MainPage.xaml" />
     <None Remove="Views\Pages\PriExtractPage.xaml" />
+    <None Remove="Views\Pages\SettingsAboutPage.xaml" />
     <None Remove="Views\Pages\SettingsPage.xaml" />
     <None Remove="Views\Pages\ShellMenuPage.xaml" />
     <None Remove="Views\Pages\SimulateUpdatePage.xaml" />
@@ -306,7 +306,6 @@
     <Page Include="Views\TeachingTips\DataCopyTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\TeachingTips\OperationResultTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\TeachingTips\QuickOperationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Pages\AboutPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AllToolsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\ContextMenuManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\DownloadManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -322,6 +321,7 @@
     <Page Include="Views\Pages\LoopbackManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\MainPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\PriExtractPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\SettingsAboutPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\ShellMenuPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SimulateUpdatePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

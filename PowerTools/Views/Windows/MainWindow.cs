@@ -1,4 +1,21 @@
 ﻿using Microsoft.UI.Xaml.Controls;
+using PowerTools.Extensions.DataType.Enums;
+using PowerTools.Helpers.Root;
+using PowerTools.Models;
+using PowerTools.Services.Download;
+using PowerTools.Services.Root;
+using PowerTools.Services.Settings;
+using PowerTools.Views.Backdrop;
+using PowerTools.Views.Dialogs;
+using PowerTools.Views.Pages;
+using PowerTools.Views.TeachingTips;
+using PowerTools.WindowsAPI.ComTypes;
+using PowerTools.WindowsAPI.PInvoke.Comctl32;
+using PowerTools.WindowsAPI.PInvoke.Dwmapi;
+using PowerTools.WindowsAPI.PInvoke.Gdi32;
+using PowerTools.WindowsAPI.PInvoke.Shell32;
+using PowerTools.WindowsAPI.PInvoke.User32;
+using PowerTools.WindowsAPI.PInvoke.Uxtheme;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,23 +31,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
-using PowerTools.Extensions.DataType.Enums;
-using PowerTools.Helpers.Root;
-using PowerTools.Models;
-using PowerTools.Services.Download;
-using PowerTools.Services.Settings;
-using PowerTools.Services.Root;
-using PowerTools.Views.Backdrop;
-using PowerTools.Views.Dialogs;
-using PowerTools.Views.TeachingTips;
-using PowerTools.Views.Pages;
-using PowerTools.WindowsAPI.ComTypes;
-using PowerTools.WindowsAPI.PInvoke.Comctl32;
-using PowerTools.WindowsAPI.PInvoke.Dwmapi;
-using PowerTools.WindowsAPI.PInvoke.Gdi32;
-using PowerTools.WindowsAPI.PInvoke.Shell32;
-using PowerTools.WindowsAPI.PInvoke.User32;
-using PowerTools.WindowsAPI.PInvoke.Uxtheme;
 
 // 抑制 CA1806，CA1822 警告
 #pragma warning disable CA1806,CA1822

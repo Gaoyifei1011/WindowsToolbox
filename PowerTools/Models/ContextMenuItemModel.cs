@@ -1,7 +1,7 @@
-﻿using System;
+﻿using PowerTools.Extensions.DataType.Enums;
+using System;
 using System.ComponentModel;
 using System.Threading;
-using PowerTools.Extensions.DataType.Enums;
 
 namespace PowerTools.Models
 {

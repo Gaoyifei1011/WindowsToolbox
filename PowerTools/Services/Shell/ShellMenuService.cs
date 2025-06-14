@@ -1,13 +1,13 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.Diagnostics.Tracing;
-using System.IO;
-using System.Threading.Tasks;
 using PowerTools.Extensions.Registry;
 using PowerTools.Extensions.ShellMenu;
 using PowerTools.Helpers.Root;
 using PowerTools.Services.Root;
 using PowerTools.WindowsAPI.PInvoke.Shell32;
+using System;
+using System.Diagnostics.Tracing;
+using System.IO;
+using System.Threading.Tasks;
 
 // 抑制 CA1806 警告
 #pragma warning disable CA1806

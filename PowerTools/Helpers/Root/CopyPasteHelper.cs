@@ -1,10 +1,10 @@
-﻿using System;
+﻿using PowerTools.Services.Root;
+using System;
 using System.Collections.Specialized;
 using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using PowerTools.Services.Root;
 
 namespace PowerTools.Helpers.Root
 {

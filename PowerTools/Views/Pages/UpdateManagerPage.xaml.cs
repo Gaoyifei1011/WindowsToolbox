@@ -1,4 +1,12 @@
 using Microsoft.Win32;
+using PowerTools.Extensions.DataType.Class;
+using PowerTools.Extensions.DataType.Enums;
+using PowerTools.Helpers.Root;
+using PowerTools.Models;
+using PowerTools.Services.Root;
+using PowerTools.Views.TeachingTips;
+using PowerTools.Views.Windows;
+using PowerTools.WindowsAPI.ComTypes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,14 +25,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using PowerTools.Extensions.DataType.Class;
-using PowerTools.Extensions.DataType.Enums;
-using PowerTools.Helpers.Root;
-using PowerTools.Models;
-using PowerTools.Services.Root;
-using PowerTools.Views.TeachingTips;
-using PowerTools.Views.Windows;
-using PowerTools.WindowsAPI.ComTypes;
 using WUApiLib;
 
 // 抑制 CA1822，IDE0060 警告

@@ -1,4 +1,8 @@
 ﻿using Microsoft.Win32;
+using PowerTools.Helpers.Root;
+using PowerTools.WindowsAPI.PInvoke.Comctl32;
+using PowerTools.WindowsAPI.PInvoke.Kernel32;
+using PowerTools.WindowsAPI.PInvoke.User32;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -7,10 +11,6 @@ using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using PowerTools.Helpers.Root;
-using PowerTools.WindowsAPI.PInvoke.Comctl32;
-using PowerTools.WindowsAPI.PInvoke.Kernel32;
-using PowerTools.WindowsAPI.PInvoke.User32;
 
 // 抑制 CA1822，IDE0060 警告
 #pragma warning disable CA1822,IDE0060
