@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Windows 工具箱": {
-      "commandName": "Project",
-      "nativeDebugging": true
-    }
-  }
-}
