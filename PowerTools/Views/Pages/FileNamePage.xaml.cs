@@ -31,32 +31,8 @@ namespace PowerTools.Views.Pages
     /// </summary>
     public sealed partial class FileNamePage : Page, INotifyPropertyChanged
     {
-        private readonly string ChangeRuleString = ResourceService.FileNameResource.GetString("ChangeRule");
+        private readonly string AutoString = ResourceService.FileNameResource.GetString("Auto");
         private readonly string DragOverContentString = ResourceService.FileNameResource.GetString("DragOverContent");
-        private readonly string NameChangeRule1String = ResourceService.FileNameResource.GetString("NameChangeRule1");
-        private readonly string NameChangeRule2String = ResourceService.FileNameResource.GetString("NameChangeRule2");
-        private readonly string NameChangeRule3String = ResourceService.FileNameResource.GetString("NameChangeRule3");
-        private readonly string NameChangeRule4String = ResourceService.FileNameResource.GetString("NameChangeRule4");
-        private readonly string NameChangeOriginalName1String = ResourceService.FileNameResource.GetString("NameChangeOriginalName1");
-        private readonly string NameChangeOriginalName2String = ResourceService.FileNameResource.GetString("NameChangeOriginalName2");
-        private readonly string NameChangeOriginalName3String = ResourceService.FileNameResource.GetString("NameChangeOriginalName3");
-        private readonly string NameChangeOriginalName4String = ResourceService.FileNameResource.GetString("NameChangeOriginalName4");
-        private readonly string NameChangeList1ChangedName1String = ResourceService.FileNameResource.GetString("NameChangeList1ChangedName1");
-        private readonly string NameChangeList1ChangedName2String = ResourceService.FileNameResource.GetString("NameChangeList1ChangedName2");
-        private readonly string NameChangeList1ChangedName3String = ResourceService.FileNameResource.GetString("NameChangeList1ChangedName3");
-        private readonly string NameChangeList1ChangedName4String = ResourceService.FileNameResource.GetString("NameChangeList1ChangedName4");
-        private readonly string NameChangeList2ChangedName1String = ResourceService.FileNameResource.GetString("NameChangeList2ChangedName1");
-        private readonly string NameChangeList2ChangedName2String = ResourceService.FileNameResource.GetString("NameChangeList2ChangedName2");
-        private readonly string NameChangeList2ChangedName3String = ResourceService.FileNameResource.GetString("NameChangeList2ChangedName3");
-        private readonly string NameChangeList2ChangedName4String = ResourceService.FileNameResource.GetString("NameChangeList2ChangedName4");
-        private readonly string NameChangeList3ChangedName1String = ResourceService.FileNameResource.GetString("NameChangeList3ChangedName1");
-        private readonly string NameChangeList3ChangedName2String = ResourceService.FileNameResource.GetString("NameChangeList3ChangedName2");
-        private readonly string NameChangeList3ChangedName3String = ResourceService.FileNameResource.GetString("NameChangeList3ChangedName3");
-        private readonly string NameChangeList3ChangedName4String = ResourceService.FileNameResource.GetString("NameChangeList3ChangedName4");
-        private readonly string NameChangeList4ChangedName1String = ResourceService.FileNameResource.GetString("NameChangeList4ChangedName1");
-        private readonly string NameChangeList4ChangedName2String = ResourceService.FileNameResource.GetString("NameChangeList4ChangedName2");
-        private readonly string NameChangeList4ChangedName3String = ResourceService.FileNameResource.GetString("NameChangeList4ChangedName3");
-        private readonly string NameChangeList4ChangedName4String = ResourceService.FileNameResource.GetString("NameChangeList4ChangedName4");
         private readonly string SelectFileString = ResourceService.FileNameResource.GetString("SelectFile");
         private readonly string SelectFolderString = ResourceService.FileNameResource.GetString("SelectFolder");
         private readonly string TotalString = ResourceService.FileNameResource.GetString("Total");
@@ -90,22 +66,6 @@ namespace PowerTools.Views.Pages
                 {
                     _isModifyingNow = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsModifyingNow)));
-                }
-            }
-        }
-
-        private int _currentIndex = 0;
-
-        public int CurrentIndex
-        {
-            get { return _currentIndex; }
-
-            set
-            {
-                if (!Equals(_currentIndex, value))
-                {
-                    _currentIndex = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentIndex)));
                 }
             }
         }
@@ -206,79 +166,42 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private List<string> NameChangeRuleList { get; } = [];
+        private bool _isOperationFailed;
 
-        private readonly List<KeyValuePair<string, string>> NumberFormatList =
-        [
-            new KeyValuePair<string,string>( "Auto", ResourceService.FileNameResource.GetString("Auto")),
-            new KeyValuePair<string,string>( "0", "0"),
-            new KeyValuePair<string,string>( "00", "00"),
-            new KeyValuePair<string,string>( "000", "000"),
-            new KeyValuePair<string,string>( "0000", "0000"),
-            new KeyValuePair<string,string>( "00000", "00000"),
-            new KeyValuePair<string,string>( "000000", "000000"),
-            new KeyValuePair<string,string>( "0000000", "0000000"),
-        ];
+        public bool IsOperationFailed
+        {
+            get { return _isOperationFailed; }
 
-        private readonly List<OldAndNewNameModel> NameChangeList =
-        [
-            new(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
-            new(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
-            new(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
-            new(){ OriginalFileName = string.Empty, NewFileName = string.Empty },
-        ];
+            set
+            {
+                if (!Equals(_isOperationFailed, value))
+                {
+                    _isOperationFailed = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsOperationFailed)));
+                }
+            }
+        }
 
-        private readonly Dictionary<int, List<OldAndNewNameModel>> NameChangeDict = [];
+        private List<KeyValuePair<string, string>> NumberFormatList { get; } = [];
+
+        private List<OperationFailedModel> OperationFailedList { get; } = [];
 
         private ObservableCollection<OldAndNewNameModel> FileNameCollection { get; } = [];
-
-        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public FileNamePage()
         {
             InitializeComponent();
-            NameChangeRuleList.Add(NameChangeRule1String);
-            NameChangeRuleList.Add(NameChangeRule2String);
-            NameChangeRuleList.Add(NameChangeRule3String);
-            NameChangeRuleList.Add(NameChangeRule4String);
-            NameChangeDict.Add(0,
-            [
-                new(){ OriginalFileName = NameChangeOriginalName1String, NewFileName = NameChangeList1ChangedName1String },
-                new(){ OriginalFileName = NameChangeOriginalName2String, NewFileName = NameChangeList1ChangedName2String },
-                new(){ OriginalFileName = NameChangeOriginalName3String, NewFileName = NameChangeList1ChangedName3String },
-                new(){ OriginalFileName = NameChangeOriginalName4String, NewFileName = NameChangeList1ChangedName4String },
-            ]);
-            NameChangeDict.Add(1,
-            [
-                new(){ OriginalFileName = NameChangeOriginalName1String, NewFileName = NameChangeList2ChangedName1String },
-                new(){ OriginalFileName = NameChangeOriginalName2String, NewFileName = NameChangeList2ChangedName2String },
-                new(){ OriginalFileName = NameChangeOriginalName3String, NewFileName = NameChangeList2ChangedName3String },
-                new(){ OriginalFileName = NameChangeOriginalName4String, NewFileName = NameChangeList2ChangedName4String },
-            ]);
-            NameChangeDict.Add(2,
-            [
-                new(){ OriginalFileName = NameChangeOriginalName1String, NewFileName = NameChangeList3ChangedName1String },
-                new(){ OriginalFileName = NameChangeOriginalName2String, NewFileName = NameChangeList3ChangedName2String },
-                new(){ OriginalFileName = NameChangeOriginalName3String, NewFileName = NameChangeList3ChangedName3String },
-                new(){ OriginalFileName = NameChangeOriginalName4String, NewFileName = NameChangeList3ChangedName4String },
-            ]);
-            NameChangeDict.Add(3,
-            [
-                new(){ OriginalFileName = NameChangeOriginalName1String, NewFileName = NameChangeList4ChangedName1String },
-                new(){ OriginalFileName = NameChangeOriginalName2String, NewFileName = NameChangeList4ChangedName2String },
-                new(){ OriginalFileName = NameChangeOriginalName3String, NewFileName = NameChangeList4ChangedName3String },
-                new(){ OriginalFileName = NameChangeOriginalName4String, NewFileName = NameChangeList4ChangedName4String },
-            ]);
+            NumberFormatList.Add(new KeyValuePair<string, string>("Auto", AutoString));
+            NumberFormatList.Add(new KeyValuePair<string, string>("0", "0"));
+            NumberFormatList.Add(new KeyValuePair<string, string>("00", "00"));
+            NumberFormatList.Add(new KeyValuePair<string, string>("000", "000"));
+            NumberFormatList.Add(new KeyValuePair<string, string>("0000", "0000"));
+            NumberFormatList.Add(new KeyValuePair<string, string>("00000", "00000"));
+            NumberFormatList.Add(new KeyValuePair<string, string>("000000", "000000"));
+            NumberFormatList.Add(new KeyValuePair<string, string>("0000000", "0000000"));
             SelectedNumberFormat = NumberFormatList[0];
-            CurrentIndex = 0;
-
-            for (int index = 0; index < NameChangeList.Count; index++)
-            {
-                NameChangeList[index].OriginalFileName = NameChangeDict[CurrentIndex][index].OriginalFileName;
-                NameChangeList[index].NewFileName = NameChangeDict[CurrentIndex][index].NewFileName;
-            }
         }
 
         #region 第一部分：重写父类事件
@@ -306,13 +229,13 @@ namespace PowerTools.Views.Pages
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
             try
             {
-                DataPackageView view = args.DataView;
-                if (view.Contains(StandardDataFormats.StorageItems))
+                DataPackageView dataPackageView = args.DataView;
+                if (dataPackageView.Contains(StandardDataFormats.StorageItems))
                 {
                     List<OldAndNewNameModel> fileNameList = await Task.Run(async () =>
                     {
                         List<OldAndNewNameModel> fileNameList = [];
-                        IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
+                        IReadOnlyList<IStorageItem> storageItemList = await dataPackageView.GetStorageItemsAsync();
 
                         foreach (IStorageItem storageItem in storageItemList)
                         {
@@ -350,7 +273,8 @@ namespace PowerTools.Views.Pages
             finally
             {
                 dragOperationDeferral.Complete();
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
             }
         }
 
@@ -367,7 +291,8 @@ namespace PowerTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedCollection.Clear();
+                    IsOperationFailed = false;
+                    OperationFailedList.Clear();
                     int count = 0;
 
                     lock (fileNameLock)
@@ -395,7 +320,8 @@ namespace PowerTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedCollection.Clear();
+                    IsOperationFailed = false;
+                    OperationFailedList.Clear();
                     int count = 0;
 
                     lock (fileNameLock)
@@ -462,46 +388,8 @@ namespace PowerTools.Views.Pages
             lock (fileNameLock)
             {
                 FileNameCollection.Clear();
-                OperationFailedCollection.Clear();
-            }
-        }
-
-        /// <summary>
-        /// 关闭改名示例提示
-        /// </summary>
-        private void OnCloseClicked(object sender, RoutedEventArgs args)
-        {
-            if (NameChangeFlyout.IsOpen)
-            {
-                NameChangeFlyout.Hide();
-            }
-        }
-
-        /// <summary>
-        /// 向前导航
-        /// </summary>
-        private void OnForwardNavigateClicked(object sender, RoutedEventArgs args)
-        {
-            CurrentIndex = CurrentIndex is 0 ? 3 : CurrentIndex - 1;
-
-            for (int index = 0; index < NameChangeList.Count; index++)
-            {
-                NameChangeList[index].OriginalFileName = NameChangeDict[CurrentIndex][index].OriginalFileName;
-                NameChangeList[index].NewFileName = NameChangeDict[CurrentIndex][index].NewFileName;
-            }
-        }
-
-        /// <summary>
-        /// 向后导航
-        /// </summary>
-        private void OnNextNavigateClicked(object sender, RoutedEventArgs args)
-        {
-            CurrentIndex = CurrentIndex is 3 ? 0 : CurrentIndex + 1;
-
-            for (int index = 0; index < NameChangeList.Count; index++)
-            {
-                NameChangeList[index].OriginalFileName = NameChangeDict[CurrentIndex][index].OriginalFileName;
-                NameChangeList[index].NewFileName = NameChangeDict[CurrentIndex][index].NewFileName;
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
             }
         }
 
@@ -517,6 +405,17 @@ namespace PowerTools.Views.Pages
         }
 
         /// <summary>
+        /// 查看改名规则
+        /// </summary>
+        private void OnViewNameChangeExampleClicked(object sender, RoutedEventArgs args)
+        {
+            if (MainWindow.Current.Content is MainPage mainPage && mainPage.GetFrameContent() is FileManagerPage fileManagerPage)
+            {
+                fileManagerPage.ShowUseInstruction();
+            }
+        }
+
+        /// <summary>
         /// 预览修改的内容
         /// </summary>
         private async void OnPreviewClicked(object sender, RoutedEventArgs args)
@@ -524,7 +423,8 @@ namespace PowerTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
                 int count = 0;
 
                 lock (fileNameLock)
@@ -555,7 +455,8 @@ namespace PowerTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
                 int count = 0;
 
                 lock (fileNameLock)
@@ -624,7 +525,10 @@ namespace PowerTools.Views.Pages
                 dialog.Dispose();
                 AddToFileNamePage(fileNameList);
             }
-            dialog.Dispose();
+            else
+            {
+                dialog.Dispose();
+            }
         }
 
         /// <summary>
@@ -639,7 +543,8 @@ namespace PowerTools.Views.Pages
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
                     List<OldAndNewNameModel> directoryNameList = [];
@@ -717,7 +622,8 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
-            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog(OperationFailedCollection));
+            // TODO：未完成
+            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog([]));
         }
 
         #endregion 第二部分：文件名称页面——挂载的事件
@@ -734,11 +640,6 @@ namespace PowerTools.Views.Pages
                     FileNameCollection.Add(oldAndNewNameItem);
                 }
             }
-        }
-
-        private string GetChangeRule(int index)
-        {
-            return string.Format(ChangeRuleString, NameChangeRuleList[index]);
         }
 
         /// <summary>
@@ -932,9 +833,10 @@ namespace PowerTools.Views.Pages
             IsModifyingNow = false;
             foreach (OperationFailedModel operationFailedItem in operationFailedList)
             {
-                OperationFailedCollection.Add(operationFailedItem);
+                OperationFailedList.Add(operationFailedItem);
             }
 
+            IsOperationFailed = true;
             int count = FileNameCollection.Count;
 
             lock (fileNameLock)
@@ -942,7 +844,7 @@ namespace PowerTools.Views.Pages
                 FileNameCollection.Clear();
             }
 
-            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.File, count - OperationFailedList.Count, OperationFailedList.Count));
         }
     }
 }

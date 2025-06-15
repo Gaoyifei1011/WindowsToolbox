@@ -43,13 +43,14 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Padding="0">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!--  文件名称顶部控制栏  -->
         <Grid Grid.Row="0" Margin="0,0,0,3">
 
             <Grid.ColumnDefinitions>
@@ -248,300 +249,14 @@
                         TextChanged="{x:Bind OnTextChanged}" />
                 </Grid>
 
-                <Button HorizontalAlignment="Stretch" Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ViewNameChangeExample')}">
-                    <Button.Flyout>
-                        <Flyout
-                            x:Name="NameChangeFlyout"
-                            Placement="RightEdgeAlignedTop"
-                            ShouldConstrainToRootBounds="False">
-
-                            <Flyout.FlyoutPresenterStyle>
-                                <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                                    <Setter Property="Padding" Value="0" />
-                                    <Setter Property="MaxWidth" Value="9999" />
-                                </Style>
-                            </Flyout.FlyoutPresenterStyle>
-
-                            <StackPanel Padding="24,14,24,24">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        Margin="0,0,0,5"
-                                        FontSize="20"
-                                        FontWeight="SemiBold"
-                                        Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('NameChangeTitle')}"
-                                        TextAlignment="Justify"
-                                        TextWrapping="Wrap" />
-
-                                    <Button
-                                        Grid.Column="1"
-                                        Width="32"
-                                        Height="32"
-                                        Padding="0"
-                                        Click="{x:Bind OnCloseClicked}"
-                                        CornerRadius="{StaticResource ControlCornerRadius}"
-                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileNameResource.GetString('Close')}">
-
-                                        <Button.Content>
-                                            <FontIcon FontSize="16" Glyph="&#xE711;" />
-                                        </Button.Content>
-                                    </Button>
-                                </Grid>
-
-                                <TextBlock
-                                    Margin="0,0,0,5"
-                                    Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('PlaceHolderDescription')}"
-                                    TextAlignment="Justify"
-                                    TextWrapping="Wrap" />
-
-                                <Grid ColumnSpacing="3">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        Margin="0,0,0,5"
-                                        Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('NumberPlaceHolder')}"
-                                        TextAlignment="Justify"
-                                        TextWrapping="Wrap" />
-
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Grid.Column="1"
-                                        Margin="0,0,0,5"
-                                        Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('TodayDatePlaceHolder')}"
-                                        TextAlignment="Justify"
-                                        TextWrapping="Wrap" />
-
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Grid.Column="2"
-                                        Margin="0,0,0,5"
-                                        Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('OriginalNameChangeFileName')}"
-                                        TextAlignment="Justify"
-                                        TextWrapping="Wrap" />
-
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        Margin="0,0,0,5"
-                                        Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ModifyDatePlaceHolder')}"
-                                        TextAlignment="Justify"
-                                        TextWrapping="Wrap" />
-
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Margin="0,0,0,5"
-                                        Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('BuildDatePlaceHolder')}"
-                                        TextAlignment="Justify"
-                                        TextWrapping="Wrap" />
-                                </Grid>
-
-                                <MenuFlyoutSeparator Margin="4,2,4,2" Background="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
-
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <StackPanel Grid.Column="0">
-                                        <TextBlock
-                                            Margin="0,0,0,5"
-                                            Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ReferenceSample')}"
-                                            TextAlignment="Justify"
-                                            TextWrapping="Wrap" />
-
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock
-                                                Margin="0,0,0,5"
-                                                Text="{x:Bind GetChangeRule(CurrentIndex), Mode=OneWay}"
-                                                TextAlignment="Justify"
-                                                TextWrapping="Wrap" />
-                                        </StackPanel>
-                                    </StackPanel>
-
-                                    <StackPanel
-                                        Grid.Column="1"
-                                        Orientation="Horizontal"
-                                        Spacing="5">
-                                        <Button
-                                            Width="32"
-                                            Height="32"
-                                            Margin="5,0,0,0"
-                                            Padding="0"
-                                            Click="{x:Bind OnForwardNavigateClicked}"
-                                            CornerRadius="{StaticResource ControlCornerRadius}"
-                                            ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ForwardNavigate')}">
-
-                                            <Button.Content>
-                                                <FontIcon FontSize="16" Glyph="&#xE76B;" />
-                                            </Button.Content>
-                                        </Button>
-
-                                        <Button
-                                            Width="32"
-                                            Height="32"
-                                            Margin="5,0,0,0"
-                                            Padding="0"
-                                            Click="{x:Bind OnNextNavigateClicked}"
-                                            CornerRadius="{StaticResource ControlCornerRadius}"
-                                            ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileNameResource.GetString('NextNavigate')}">
-
-                                            <Button.Content>
-                                                <FontIcon FontSize="16" Glyph="&#xE76C;" />
-                                            </Button.Content>
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-
-                                <ListView
-                                    Margin="0,0,0,5"
-                                    ItemsSource="{x:Bind NameChangeList}"
-                                    SelectionMode="None">
-
-                                    <ListView.Resources>
-                                        <CornerRadius x:Key="ListViewItemCornerRadius">0</CornerRadius>
-                                    </ListView.Resources>
-
-                                    <ListView.ItemContainerStyle>
-                                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                                            <Setter Property="Background" Value="Transparent" />
-                                            <Setter Property="Margin" Value="0" />
-                                            <Setter Property="MinHeight" Value="0" />
-                                            <Setter Property="Padding" Value="0" />
-                                        </Style>
-                                    </ListView.ItemContainerStyle>
-
-                                    <ItemsControl.ItemContainerTransitions>
-                                        <TransitionCollection />
-                                    </ItemsControl.ItemContainerTransitions>
-
-                                    <ListView.Header>
-                                        <Grid
-                                            Height="35"
-                                            Padding="6,0,0,0"
-                                            BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
-                                            BorderThickness="1">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-
-                                            <TextBlock
-                                                x:Name="OriginalNameHeaderText"
-                                                Grid.Column="0"
-                                                Margin="10,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('OriginalName')}"
-                                                TextTrimming="CharacterEllipsis"
-                                                TextWrapping="NoWrap">
-
-                                                <ToolTipService.ToolTip>
-                                                    <ToolTip
-                                                        MaxWidth="9999"
-                                                        Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('OriginalName')}"
-                                                        Visibility="{Binding ElementName=OriginalNameHeaderText, Path=IsTextTrimmed, Mode=OneWay}" />
-                                                </ToolTipService.ToolTip>
-                                            </TextBlock>
-
-                                            <TextBlock
-                                                x:Name="ChangedNameHeaderText"
-                                                Grid.Column="1"
-                                                Margin="10,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ChangedName')}"
-                                                TextTrimming="CharacterEllipsis"
-                                                TextWrapping="NoWrap">
-
-                                                <ToolTipService.ToolTip>
-                                                    <ToolTip
-                                                        MaxWidth="9999"
-                                                        Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ChangedName')}"
-                                                        Visibility="{Binding ElementName=ChangedNameHeaderText, Path=IsTextTrimmed, Mode=OneWay}" />
-                                                </ToolTipService.ToolTip>
-                                            </TextBlock>
-                                        </Grid>
-                                    </ListView.Header>
-
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate x:DataType="model:OldAndNewNameModel">
-                                            <Grid
-                                                Height="35"
-                                                Padding="6,0,0,0"
-                                                BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
-                                                BorderThickness="1,0,1,1">
-
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-
-                                                <TextBlock
-                                                    x:Name="OriginalFileNameText"
-                                                    Grid.Column="0"
-                                                    MinWidth="50"
-                                                    Margin="10,0,0,0"
-                                                    VerticalAlignment="Center"
-                                                    FontSize="14"
-                                                    Text="{x:Bind OriginalFileName, Mode=OneWay}"
-                                                    TextAlignment="Left"
-                                                    TextTrimming="CharacterEllipsis"
-                                                    TextWrapping="NoWrap">
-
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip
-                                                            MaxWidth="9999"
-                                                            Content="{x:Bind OriginalFileName}"
-                                                            Visibility="{Binding ElementName=OriginalFileNameText, Path=IsTextTrimmed, Mode=OneWay}" />
-                                                    </ToolTipService.ToolTip>
-                                                </TextBlock>
-
-                                                <TextBlock
-                                                    x:Name="NewFileNameText"
-                                                    Grid.Column="1"
-                                                    MinWidth="50"
-                                                    Margin="10,0,0,0"
-                                                    VerticalAlignment="Center"
-                                                    FontSize="14"
-                                                    Text="{x:Bind NewFileName, Mode=OneWay}"
-                                                    TextAlignment="Left"
-                                                    TextTrimming="CharacterEllipsis"
-                                                    TextWrapping="NoWrap">
-
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip
-                                                            MaxWidth="9999"
-                                                            Content="{x:Bind OriginalFileName}"
-                                                            Visibility="{Binding ElementName=NewFileNameText, Path=IsTextTrimmed, Mode=OneWay}" />
-                                                    </ToolTipService.ToolTip>
-                                                </TextBlock>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-                            </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
+                <Button
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnViewNameChangeExampleClicked}"
+                    Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ViewNameChangeExample')}" />
             </StackPanel>
         </Grid>
 
+        <!--  文件名称结果列表控件  -->
         <Grid
             Grid.Row="1"
             Margin="0,0,0,3"
@@ -688,6 +403,7 @@
                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FileNameCollection.Count), Mode=OneWay}" />
         </Grid>
 
+        <!--  文件名称底部控制栏  -->
         <Grid
             Grid.Row="2"
             Margin="0,0,0,3"
@@ -730,7 +446,7 @@
                 Margin="0,0,10,0"
                 Click="{x:Bind OnViewErrorInformationClicked}"
                 Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ViewErrorInformation')}"
-                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedCollection.Count), Mode=OneWay}" />
+                Visibility="{x:Bind IsOperationFailed, Mode=OneWay}" />
 
             <controls:ProgressRing
                 Grid.Column="5"
