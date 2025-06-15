@@ -447,6 +447,7 @@ namespace PowerTools.Views.Pages
                                                 {
                                                     BlockedClsidType = index >= 0 && index < blockedList.Count ? Enum.TryParse(blockedList[index].Value, out BlockedClsidType blockedClsidType) ? blockedClsidType : BlockedClsidType.Unknown : BlockedClsidType.Unknown,
                                                     Clsid = clsid,
+                                                    ClsidString = clsid.ToString().ToUpperInvariant(),
                                                     DllPath = dllPath,
                                                     IsEnabled = index is -1,
                                                     ThreadingMode = threading switch

@@ -47,7 +47,7 @@
                 <Grid
                     Grid.Row="1"
                     Height="60"
-                    Margin="30,0,30,3"
+                    Margin="30,5,30,3"
                     Padding="12,0,10,0"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -188,11 +188,14 @@
                                         <StackPanel
                                             Grid.Column="1"
                                             Margin="0,10"
+                                            HorizontalAlignment="Left"
                                             VerticalAlignment="Center"
                                             Orientation="Vertical">
 
                                             <TextBlock
                                                 x:Name="PackageDisplayNameText"
+                                                HorizontalAlignment="Left"
+                                                IsTextSelectionEnabled="True"
                                                 Style="{StaticResource BodyTextBlockStyle}"
                                                 Text="{x:Bind PackageDisplayName}"
                                                 TextTrimming="CharacterEllipsis"
@@ -208,7 +211,9 @@
 
                                             <TextBlock
                                                 x:Name="PackageFullNameText"
+                                                HorizontalAlignment="Left"
                                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                IsTextSelectionEnabled="True"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
                                                 Text="{x:Bind PackageFullName}"
                                                 TextTrimming="CharacterEllipsis"
@@ -287,8 +292,10 @@
 
                                                     <TextBlock
                                                         Grid.Column="1"
+                                                        HorizontalAlignment="Left"
                                                         VerticalAlignment="Center"
-                                                        Text="{x:Bind Clsid.ToString()}" />
+                                                        IsTextSelectionEnabled="True"
+                                                        Text="{x:Bind ClsidString}" />
                                                 </Grid>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
@@ -325,7 +332,7 @@
 
                     <FontIcon
                         Grid.Column="0"
-                        Margin="16,0,6,0"
+                        Margin="16,2,6,0"
                         VerticalAlignment="Center"
                         FontSize="16"
                         Glyph="&#xE946;" />
@@ -439,13 +446,13 @@
                             Margin="16,0,16,5"
                             Spacing="5">
 
-                            <TextBlock>
+                            <TextBlock HorizontalAlignment="Left">
                                 <Hyperlink NavigateUri="https://blogs.windows.com/windowsdeveloper/2021/07/19/extending-the-context-menu-and-share-dialog-in-windows-11" UnderlineStyle="None">
                                     <Run Text="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('LearnCustomRightClickMenu')}" />
                                 </Hyperlink>
                             </TextBlock>
 
-                            <TextBlock>
+                            <TextBlock HorizontalAlignment="Left">
                                 <Hyperlink Click="{x:Bind OnOpenSettingsClicked}" UnderlineStyle="None">
                                     <Run Text="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('OpenSettings')}" />
                                 </Hyperlink>
