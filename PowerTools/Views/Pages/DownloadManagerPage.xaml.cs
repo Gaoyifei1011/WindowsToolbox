@@ -622,42 +622,41 @@ namespace PowerTools.Views.Pages
         }
 
         /// <summary>
-        /// 疑难解答
+        /// 了解更多
         /// </summary>
-        private void OnTroubleShootClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        private void OnLearnMoreClicked(object sender, RoutedEventArgs args)
         {
-            if (RuntimeHelper.IsElevated)
-            {
-                Task.Run(() =>
-                {
-                    try
-                    {
-                        Process.Start("ms-settings:troubleshoot");
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLevel.Error, "Open trouble shoot failed", e);
-                    }
-                });
-            }
+            //TODO：未完成
         }
 
         /// <summary>
-        /// 打开传递优化设置
+        /// 打开网络和 Internet 设置
         /// </summary>
-        private void OnOpenDeliveryOptimizationSettingsClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        private void OnNetworkInternetClicked(object sender, RoutedEventArgs args)
         {
             Task.Run(() =>
             {
                 try
                 {
-                    Process.Start("ms-settings:delivery-optimization");
+                    if (RuntimeHelper.IsElevated)
+                    {
+                        Process.Start("ms-settings:network-status");
+                    }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open delivery optimization settings failed", e);
+                    // TODO：未完成
                 }
             });
+        }
+
+        /// <summary>
+        /// 打开应用“下载设置”
+        /// </summary>
+        private async void OnOpenSettingsClicked(object sender, RoutedEventArgs args)
+        {
+            DownloadSplitView.IsPaneOpen = false;
+            await Task.Delay(300);
         }
 
         #endregion 第二部分：下载管理页面——挂载的事件

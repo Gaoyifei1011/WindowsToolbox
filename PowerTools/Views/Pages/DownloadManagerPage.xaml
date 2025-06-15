@@ -772,7 +772,7 @@
 
                     <FontIcon
                         Grid.Column="0"
-                        Margin="16,0,6,0"
+                        Margin="16,2,6,0"
                         VerticalAlignment="Center"
                         FontSize="16"
                         Glyph="&#xE946;" />
@@ -847,30 +847,24 @@
                             Margin="16,0,16,5"
                             Spacing="5">
 
-                            <TextBlock>
-                                <Hyperlink NavigateUri="https://learn.microsoft.com/windows/deployment/do/waas-delivery-optimization" UnderlineStyle="None">
-                                    <Run Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('LearnDeliveryOptimization')}" />
+                            <TextBlock HorizontalAlignment="Left">
+                                <Hyperlink Click="{x:Bind OnLearnMoreClicked}" UnderlineStyle="None">
+                                    <Run Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('LearnMore')}" />
                                 </Hyperlink>
                             </TextBlock>
 
-                            <TextBlock>
-                                <Hyperlink NavigateUri="https://learn.microsoft.com/windows/win32/bits/background-intelligent-transfer-service-portal" UnderlineStyle="None">
-                                    <Run Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('LearnBits')}" />
-                                </Hyperlink>
-                            </TextBlock>
-
-                            <TextBlock>
+                            <TextBlock HorizontalAlignment="Left">
                                 <Hyperlink
-                                    Click="{x:Bind OnTroubleShootClicked}"
-                                    NavigateUri="ms-settings:troubleshoot"
+                                    Click="{x:Bind OnNetworkInternetClicked}"
+                                    NavigateUri="ms-settings:network-status"
                                     UnderlineStyle="None">
-                                    <Run Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('TroubleShoot')}" />
+                                    <Run Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('NetworkAndInternet')}" />
                                 </Hyperlink>
                             </TextBlock>
 
-                            <TextBlock>
-                                <Hyperlink Click="{x:Bind OnOpenDeliveryOptimizationSettingsClicked}">
-                                    <Run Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('OpenDeliveryOptimizationSettings')}" />
+                            <TextBlock HorizontalAlignment="Left">
+                                <Hyperlink Click="{x:Bind OnOpenSettingsClicked}" UnderlineStyle="None">
+                                    <Run Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('OpenSettings')}" />
                                 </Hyperlink>
                             </TextBlock>
                         </StackPanel>
