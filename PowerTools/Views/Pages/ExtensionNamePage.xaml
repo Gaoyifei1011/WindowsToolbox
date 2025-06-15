@@ -16,7 +16,6 @@
     <Page.Resources>
         <ResourceDictionary>
             <CornerRadius x:Key="ListViewItemCornerRadius">0</CornerRadius>
-
             <SolidColorBrush x:Key="HyperlinkButtonForegroundPointerOver" Color="{ThemeResource SystemFillColorCriticalBrush}" />
             <SolidColorBrush x:Key="HyperlinkButtonForegroundPressed" Color="Transparent" />
             <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="Transparent" />
