@@ -168,13 +168,13 @@ namespace PowerTools.Views.Pages
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
             try
             {
-                DataPackageView view = args.DataView;
-                if (view.Contains(StandardDataFormats.StorageItems))
+                DataPackageView dataPackageView = args.DataView;
+                if (dataPackageView.Contains(StandardDataFormats.StorageItems))
                 {
                     List<OldAndNewNameModel> extensionNameList = await Task.Run(async () =>
                     {
                         List<OldAndNewNameModel> extensionNameList = [];
-                        IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
+                        IReadOnlyList<IStorageItem> storageItemList = await dataPackageView.GetStorageItemsAsync();
 
                         foreach (IStorageItem storageItem in storageItemList)
                         {
@@ -408,18 +408,18 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new()
+            OpenFileDialog openFileDialog = new()
             {
                 Multiselect = true,
                 Title = SelectFileString
             };
-            if (dialog.ShowDialog() is DialogResult.OK)
+            if (openFileDialog.ShowDialog() is DialogResult.OK)
             {
                 List<OldAndNewNameModel> extensionNameList = await Task.Run(() =>
                 {
                     List<OldAndNewNameModel> extensionNameList = [];
 
-                    foreach (string fileName in dialog.FileNames)
+                    foreach (string fileName in openFileDialog.FileNames)
                     {
                         try
                         {
@@ -448,12 +448,12 @@ namespace PowerTools.Views.Pages
                     return extensionNameList;
                 });
 
-                dialog.Dispose();
+                openFileDialog.Dispose();
                 AddToExtensionNamePage(extensionNameList);
             }
             else
             {
-                dialog.Dispose();
+                openFileDialog.Dispose();
             }
         }
 
@@ -462,23 +462,23 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            OpenFolderDialog dialog = new()
+            OpenFolderDialog openFolderDialog = new()
             {
                 Description = SelectFolderString,
                 RootFolder = Environment.SpecialFolder.Desktop
             };
-            DialogResult result = dialog.ShowDialog();
-            if (result is DialogResult.OK || result is DialogResult.Yes)
+            DialogResult dialogResult = openFolderDialog.ShowDialog();
+            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
             {
                 IsOperationFailed = false;
                 OperationFailedList.Clear();
-                if (!string.IsNullOrEmpty(dialog.SelectedPath))
+                if (!string.IsNullOrEmpty(openFolderDialog.SelectedPath))
                 {
                     List<OldAndNewNameModel> fileNameList = [];
 
                     await Task.Run(() =>
                     {
-                        DirectoryInfo currentFolder = new(dialog.SelectedPath);
+                        DirectoryInfo currentFolder = new(openFolderDialog.SelectedPath);
 
                         try
                         {
@@ -498,18 +498,17 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} information failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} information failed", openFolderDialog.SelectedPath), e);
                         }
-
-                        dialog.Dispose();
                     });
 
+                    openFolderDialog.Dispose();
                     AddToExtensionNamePage(fileNameList);
                 }
             }
             else
             {
-                dialog.Dispose();
+                openFolderDialog.Dispose();
             }
         }
 
@@ -661,6 +660,7 @@ namespace PowerTools.Views.Pages
                 OperationFailedList.Add(operationFailedItem);
             }
 
+            IsOperationFailed = false;
             int count = ExtensionNameCollection.Count;
 
             lock (extensionNameLock)

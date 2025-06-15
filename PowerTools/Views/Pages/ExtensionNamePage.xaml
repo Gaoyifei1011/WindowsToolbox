@@ -53,6 +53,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!--  扩展文件名称顶部控制栏  -->
         <Grid
             Grid.Row="0"
             Margin="0,0,0,3"
@@ -143,6 +144,7 @@
             </Grid>
         </Grid>
 
+        <!--  扩展文件名称结果列表控件  -->
         <Grid
             Grid.Row="1"
             Margin="0,0,0,3"
@@ -289,6 +291,7 @@
                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(ExtensionNameCollection.Count), Mode=OneWay}" />
         </Grid>
 
+        <!--  扩展文件名称底部控制栏  -->
         <Grid
             Grid.Row="2"
             Margin="0,0,0,3"
