@@ -1,3 +1,4 @@
+using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Models;
 using PowerTools.Services.Download;
 using PowerTools.Services.Root;
@@ -25,6 +26,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
@@ -36,7 +38,11 @@ namespace PowerTools.Views.Pages
     /// </summary>
     public sealed partial class DownloadManagerPage : Page, INotifyPropertyChanged
     {
+        private readonly string DownloadingCountInfoString = ResourceService.DownloadManagerResource.GetString("DownloadingCountInfo");
+        private readonly string FileShareString = ResourceService.DownloadManagerResource.GetString("FileShare");
+        private readonly string SelectFolderString = ResourceService.DownloadManagerResource.GetString("SelectFolder");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
+        private bool isInitialized = false;
         private bool isAllowClosed = false;
 
         private bool _isPrimaryButtonEnabled;
@@ -87,7 +93,7 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private string _downloadFolderText;
+        private string _downloadFolderText = DownloadOptionsService.DownloadFolder;
 
         public string DownloadFolderText
         {
@@ -110,9 +116,31 @@ namespace PowerTools.Views.Pages
         public DownloadManagerPage()
         {
             InitializeComponent();
-            DownloadFolderText = DownloadOptionsService.DownloadFolder;
             IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
         }
+
+        #region 第一部分：重载父类事件
+
+        /// <summary>
+        /// 导航到该页面触发的事件
+        /// </summary>
+        protected override async void OnNavigatedTo(NavigationEventArgs args)
+        {
+            base.OnNavigatedTo(args);
+
+            if (!isInitialized)
+            {
+                isInitialized = true;
+
+                await Task.Run(() =>
+                {
+                    // TODO：添加全局卸载事件
+                    DownloadSchedulerService.DownloadProgress += OnDownloadProgress;
+                });
+            }
+        }
+
+        #endregion 第一部分：重载父类事件
 
         #region 第一部分：XamlUICommand 命令调用时挂载的事件
 
@@ -121,6 +149,11 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnContinueExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
+            if (args.Parameter is DownloadModel download && !string.IsNullOrEmpty(download.DownloadID))
+            {
+                download.IsOperating = true;
+                DownloadSchedulerService.ContinueDownload(download.DownloadID);
+            }
         }
 
         /// <summary>
@@ -128,6 +161,11 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnPauseExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
+            if (args.Parameter is DownloadModel download && !string.IsNullOrEmpty(download.DownloadID))
+            {
+                download.IsOperating = true;
+                DownloadSchedulerService.PauseDownload(download.DownloadID);
+            }
         }
 
         /// <summary>
@@ -180,13 +218,66 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnDeleteExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
+            if (args.Parameter is DownloadModel download && !string.IsNullOrEmpty(download.DownloadID))
+            {
+                if (download.DownloadProgressState is DownloadProgressState.Queued || download.DownloadProgressState is DownloadProgressState.Downloading || download.DownloadProgressState is DownloadProgressState.Paused)
+                {
+                    DownloadSchedulerService.DeleteDownload(download.DownloadID);
+                }
+                else
+                {
+                    DownloadCollection.Remove(download);
+                }
+            }
         }
 
         /// <summary>
         /// 删除下载（包括文件）
         /// </summary>
-        private void OnDeleteWithFileExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnDeleteWithFileExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
+            if (args.Parameter is DownloadModel download && !string.IsNullOrEmpty(download.DownloadID))
+            {
+                if (download.DownloadProgressState is DownloadProgressState.Queued || download.DownloadProgressState is DownloadProgressState.Downloading || download.DownloadProgressState is DownloadProgressState.Paused)
+                {
+                    DownloadSchedulerService.DeleteDownload(download.DownloadID);
+                }
+                else if (download.DownloadProgressState is DownloadProgressState.Finished)
+                {
+                    download.IsOperating = true;
+                    (bool result, Exception exception) = await Task.Run(() =>
+                    {
+                        // 删除文件
+                        try
+                        {
+                            if (File.Exists(download.FilePath))
+                            {
+                                File.Delete(download.FilePath);
+                            }
+
+                            return ValueTuple.Create<bool, Exception>(true, null);
+                        }
+                        catch (Exception e)
+                        {
+                            return ValueTuple.Create(false, e);
+                        }
+                    });
+
+                    if (result)
+                    {
+                        DownloadCollection.Remove(download);
+                    }
+                    else
+                    {
+                        download.IsOperating = false;
+                        // TODO：显示删除失败通知
+                    }
+                }
+                else
+                {
+                    DownloadCollection.Remove(download);
+                }
+            }
         }
 
         /// <summary>
@@ -194,20 +285,28 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnShareFileExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is string filePath && !string.IsNullOrEmpty(filePath) && File.Exists(filePath))
+            if (args.Parameter is string filePath && File.Exists(filePath))
             {
-                try
+                if (DataTransferManager.IsSupported())
                 {
-                    List<StorageFile> fileList = [await StorageFile.GetFileFromPathAsync(filePath)];
-                    IDataTransferManagerInterop dataTransferManagerInterop = (IDataTransferManagerInterop)WindowsRuntimeMarshal.GetActivationFactory(typeof(DataTransferManager));
-                    dataTransferManagerInterop.GetForWindow(MainWindow.Current.Handle, new("A5CAEE9B-8708-49D1-8D36-67D25A8DA00C"), out DataTransferManager dataTransferManager);
-                    dataTransferManager.DataRequested += (sender, args) => OnDataRequested(sender, args, fileList);
-                    dataTransferManagerInterop.ShowShareUIForWindow(MainWindow.Current.Handle);
+                    try
+                    {
+                        List<StorageFile> fileList = [await StorageFile.GetFileFromPathAsync(filePath)];
+                        IDataTransferManagerInterop dataTransferManagerInterop = (IDataTransferManagerInterop)WindowsRuntimeMarshal.GetActivationFactory(typeof(DataTransferManager));
+                        dataTransferManagerInterop.GetForWindow(MainWindow.Current.Handle, new("A5CAEE9B-8708-49D1-8D36-67D25A8DA00C"), out DataTransferManager dataTransferManager);
+                        dataTransferManager.DataRequested += (sender, args) => OnDataRequested(sender, args, fileList);
+                        dataTransferManagerInterop.ShowShareUIForWindow(MainWindow.Current.Handle);
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Warning, "Share file failed.", e);
+                    }
                 }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(EventLevel.Warning, "Share file failed.", e);
-                }
+            }
+            else
+            {
+                // TODO：显示文件失踪通知
+                //await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.FileLost));
             }
         }
 
@@ -216,18 +315,21 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnFileInformationExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is string filePath && !string.IsNullOrEmpty(filePath) && File.Exists(filePath))
+            if (args.Parameter is string filePath && File.Exists(filePath))
             {
-                SHELLEXECUTEINFO info = new()
+                Task.Run(() =>
                 {
-                    cbSize = Marshal.SizeOf<SHELLEXECUTEINFO>(),
-                    lpVerb = "properties",
-                    lpFile = filePath,
-                    nShow = 5,
-                    fMask = ShellExecuteMaskFlags.SEE_MASK_INVOKEIDLIST,
-                    hwnd = IntPtr.Zero
-                };
-                Shell32Library.ShellExecuteEx(ref info);
+                    SHELLEXECUTEINFO info = new()
+                    {
+                        cbSize = Marshal.SizeOf<SHELLEXECUTEINFO>(),
+                        lpVerb = "properties",
+                        lpFile = filePath,
+                        nShow = 5,
+                        fMask = ShellExecuteMaskFlags.SEE_MASK_INVOKEIDLIST,
+                        hwnd = IntPtr.Zero
+                    };
+                    Shell32Library.ShellExecuteEx(ref info);
+                });
             }
         }
 
@@ -240,19 +342,26 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnAddTaskClicked(object sender, RoutedEventArgs args)
         {
-            FlyoutShowOptions flyoutShowOptions = new()
+            AddDownloadTaskFlyout.ShowAt(MainWindow.Current.Content, new()
             {
                 Placement = FlyoutPlacementMode.Full,
                 ShowMode = FlyoutShowMode.Standard,
-            };
-            AddDownloadTaskFlyout.ShowAt(MainWindow.Current.Content, flyoutShowOptions);
+            });
         }
 
         /// <summary>
-        /// 开始下载全部任务
+        /// 继续下载全部任务
         /// </summary>
-        private void OnStartDownloadClicked(object sender, RoutedEventArgs args)
+        private void OnContinueAllClicked(object sender, RoutedEventArgs args)
         {
+            foreach (DownloadModel downloadItem in DownloadCollection)
+            {
+                if (downloadItem.DownloadProgressState is DownloadProgressState.Paused)
+                {
+                    downloadItem.IsOperating = true;
+                    DownloadSchedulerService.ContinueDownload(downloadItem.DownloadID);
+                }
+            }
         }
 
         /// <summary>
@@ -260,6 +369,14 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnPauseDownloadClicked(object sender, RoutedEventArgs args)
         {
+            foreach (DownloadModel downloadItem in DownloadCollection)
+            {
+                if (downloadItem.DownloadProgressState is DownloadProgressState.Queued || downloadItem.DownloadProgressState is DownloadProgressState.Downloading)
+                {
+                    downloadItem.IsOperating = true;
+                    DownloadSchedulerService.PauseDownload(downloadItem.DownloadID);
+                }
+            }
         }
 
         /// <summary>
@@ -267,12 +384,26 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnDeleteDownloadClicked(object sender, RoutedEventArgs args)
         {
+            for (int index = DownloadCollection.Count - 1; index >= 0; index--)
+            {
+                DownloadModel downloadItem = DownloadCollection[index];
+                downloadItem.IsOperating = true;
+
+                if (downloadItem.DownloadProgressState is DownloadProgressState.Queued || downloadItem.DownloadProgressState is DownloadProgressState.Downloading || downloadItem.DownloadProgressState is DownloadProgressState.Paused)
+                {
+                    DownloadSchedulerService.DeleteDownload(downloadItem.DownloadID);
+                }
+                else
+                {
+                    DownloadCollection.RemoveAt(index);
+                }
+            }
         }
 
         /// <summary>
-        /// 打开默认下载目录
+        /// 打开默认保存的文件夹
         /// </summary>
-        private void OnOpenDefaultDownloadFolderClicked(object sender, RoutedEventArgs args)
+        private void OnOpenFolderClicked(object sender, RoutedEventArgs args)
         {
             Task.Run(() =>
             {
@@ -284,24 +415,6 @@ namespace PowerTools.Views.Pages
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Error, "Open default download folder failed", e);
-                }
-            });
-        }
-
-        /// <summary>
-        /// 了解传递优化
-        /// </summary>
-        private void OnLearnDeliveryOptimizationClicked(object sender, RoutedEventArgs args)
-        {
-            Task.Run(() =>
-            {
-                try
-                {
-                    Process.Start("https://learn.microsoft.com/windows/deployment/do/waas-delivery-optimization");
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(EventLevel.Error, "Open learn delivery optimization url failed", e);
                 }
             });
         }
@@ -332,74 +445,6 @@ namespace PowerTools.Views.Pages
             (MainWindow.Current.Content as MainPage).NavigateTo(typeof(SettingsPage));
         }
 
-        #endregion 第二部分：下载管理页面——挂载的事件
-
-        #region 第三部分：下载管理页面——自定义事件
-
-        /// <summary>
-        /// 在共享操作启动时发生的事件
-        /// </summary>
-        private void OnDataRequested(DataTransferManager sender, DataRequestedEventArgs args, List<StorageFile> fileList)
-        {
-            DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
-
-            try
-            {
-                args.Request.Data.Properties.Title = string.Format(ResourceService.DownloadManagerResource.GetString("ShareFileTitle"));
-                args.Request.Data.SetStorageItems(fileList);
-            }
-            catch (Exception)
-            {
-                return;
-            }
-            finally
-            {
-                dataRequestDeferral.Complete();
-            }
-        }
-
-        /// <summary>
-        /// 下载任务已创建
-        /// </summary>
-        private void OnDownloadCreated(Guid downloadID, DownloadSchedulerModel downloadSchedulerItem)
-        {
-        }
-
-        /// <summary>
-        /// 下载任务已继续下载
-        /// </summary>
-        private void OnDownloadContinued(Guid downloadID)
-        {
-        }
-
-        /// <summary>
-        /// 下载任务已暂停下载
-        /// </summary>
-        private void OnDownloadPaused(Guid downloadID)
-        {
-        }
-
-        /// <summary>
-        /// 下载任务已删除
-        /// </summary>
-        private void OnDownloadDeleted(Guid downloadID)
-        {
-        }
-
-        /// <summary>
-        /// 下载任务正在进行中
-        /// </summary>
-        private void OnDownloadProgressing(Guid downloadID, DownloadSchedulerModel downloadSchedulerItem)
-        {
-        }
-
-        /// <summary>
-        /// 下载任务已完成
-        /// </summary>
-        private void OnDownloadCompleted(Guid downloadID, DownloadSchedulerModel downloadSchedulerItem)
-        {
-        }
-
         /// <summary>
         /// 浮出控件打开时触发的事件
         /// </summary>
@@ -426,6 +471,9 @@ namespace PowerTools.Views.Pages
             }
         }
 
+        /// <summary>
+        /// 浮出控件接受屏幕按键触发的事件
+        /// </summary>
         private void OnFlyoutKeyDown(object sender, KeyRoutedEventArgs args)
         {
             if (args.Key is VirtualKey.Escape)
@@ -440,43 +488,46 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnDownloadLinkTextChanged(object sender, TextChangedEventArgs args)
         {
-            DownloadLinkText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
-
-            if (!string.IsNullOrEmpty(DownloadLinkText))
+            if (sender is global::Windows.UI.Xaml.Controls.TextBox textBox)
             {
-                string createFileName = await Task.Run(() =>
+                DownloadLinkText = textBox.Text;
+
+                if (!string.IsNullOrEmpty(DownloadLinkText))
                 {
-                    try
+                    string createFileName = await Task.Run(() =>
                     {
-                        bool createSucceeded = Uri.TryCreate(DownloadLinkText, UriKind.Absolute, out Uri uri);
-                        if (createSucceeded && uri.Segments.Length >= 1)
+                        try
                         {
-                            string fileName = uri.Segments[uri.Segments.Length - 1];
-                            if (fileName is not "/")
+                            bool createSucceeded = Uri.TryCreate(DownloadLinkText, UriKind.Absolute, out Uri uri);
+                            if (createSucceeded && uri.Segments.Length >= 1)
                             {
-                                return fileName;
+                                string fileName = uri.Segments[uri.Segments.Length - 1];
+                                if (fileName is not "/")
+                                {
+                                    return fileName;
+                                }
                             }
+
+                            return string.Empty;
                         }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Warning, "Parse download link file name failed", e);
+                            return string.Empty;
+                        }
+                    });
 
-                        return string.Empty;
-                    }
-                    catch (Exception e)
+                    if (!string.IsNullOrEmpty(createFileName))
                     {
-                        LogService.WriteLog(EventLevel.Warning, "Parse download link file name failed", e);
-                        return string.Empty;
+                        DownloadFileNameText = createFileName;
+                        IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
                     }
-                });
-
-                if (!string.IsNullOrEmpty(createFileName))
+                }
+                else
                 {
-                    DownloadFileNameText = createFileName;
+                    DownloadFileNameText = string.Empty;
                     IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
                 }
-            }
-            else
-            {
-                DownloadFileNameText = string.Empty;
-                IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFolderText);
             }
         }
 
@@ -485,9 +536,12 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnDownloadFileNameTextChanged(object sender, TextChangedEventArgs args)
         {
-            DownloadFileNameText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
-
-            IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFileNameText) && !string.IsNullOrEmpty(DownloadFolderText);
+            if (sender is global::Windows.UI.Xaml.Controls.TextBox textBox)
+            {
+                DownloadLinkText = textBox.Text;
+                DownloadFileNameText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
+                IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFileNameText) && !string.IsNullOrEmpty(DownloadFolderText);
+            }
         }
 
         /// <summary>
@@ -495,7 +549,10 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnDownloadFolderTextChanged(object sender, TextChangedEventArgs args)
         {
-            DownloadFolderText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
+            if (sender is global::Windows.UI.Xaml.Controls.TextBox textBox)
+            {
+                DownloadLinkText = textBox.Text;
+            }
         }
 
         /// <summary>
@@ -503,17 +560,17 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            OpenFolderDialog dialog = new()
+            OpenFolderDialog openFolderDialog = new()
             {
-                Description = ResourceService.DownloadManagerResource.GetString("SelectFolder"),
+                Description = SelectFolderString,
                 RootFolder = Environment.SpecialFolder.Desktop
             };
-            DialogResult result = dialog.ShowDialog();
-            if (result is DialogResult.OK || result is DialogResult.Yes)
+            DialogResult dialogResult = openFolderDialog.ShowDialog();
+            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
             {
-                DownloadFolderText = dialog.SelectedPath;
+                DownloadFolderText = openFolderDialog.SelectedPath;
             }
-            dialog.Dispose();
+            openFolderDialog.Dispose();
         }
 
         /// <summary>
@@ -521,6 +578,9 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnDownloadClicked(object sender, RoutedEventArgs args)
         {
+            isAllowClosed = true;
+            AddDownloadTaskFlyout.Hide();
+
             // 检查文件路径
             if (DownloadFileNameText.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 || DownloadFolderText.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
             {
@@ -541,9 +601,6 @@ namespace PowerTools.Views.Pages
             {
                 DownloadSchedulerService.CreateDownload(DownloadLinkText, Path.Combine(DownloadFolderText, DownloadFileNameText));
             }
-
-            isAllowClosed = true;
-            AddDownloadTaskFlyout.Hide();
         }
 
         /// <summary>
@@ -553,6 +610,139 @@ namespace PowerTools.Views.Pages
         {
             isAllowClosed = true;
             AddDownloadTaskFlyout.Hide();
+        }
+
+        #endregion 第二部分：下载管理页面——挂载的事件
+
+        #region 第三部分：下载管理页面——自定义事件
+
+        /// <summary>
+        /// 下载状态发生改变时触发的事件
+        /// </summary>
+        private void OnDownloadProgress(DownloadSchedulerModel downloadScheduler)
+        {
+            // 处于等待中（新添加下载任务或者已经恢复下载）
+            if (downloadScheduler.DownloadProgressState is DownloadProgressState.Queued)
+            {
+                synchronizationContext.Post((_) =>
+                {
+                    // 下载任务已经存在，更新下载状态
+                    foreach (DownloadModel downloadItem in DownloadCollection)
+                    {
+                        if (string.Equals(downloadItem.DownloadID, downloadScheduler.DownloadID))
+                        {
+                            downloadItem.IsOperating = false;
+                            downloadItem.DownloadProgressState = downloadScheduler.DownloadProgressState;
+                            return;
+                        }
+                    }
+
+                    // 不存在则添加任务
+                    DownloadModel download = new()
+                    {
+                        IsOperating = false,
+                        DownloadID = downloadScheduler.DownloadID,
+                        FileName = downloadScheduler.FileName,
+                        FilePath = downloadScheduler.FilePath,
+                        DownloadProgressState = downloadScheduler.DownloadProgressState,
+                        CompletedSize = downloadScheduler.CompletedSize,
+                        TotalSize = downloadScheduler.TotalSize,
+                        DownloadSpeed = downloadScheduler.DownloadSpeed
+                    };
+
+                    DownloadCollection.Add(download);
+                }, null);
+            }
+            // 下载任务正在下载中
+            else if (downloadScheduler.DownloadProgressState is DownloadProgressState.Downloading)
+            {
+                synchronizationContext.Post((_) =>
+                {
+                    foreach (DownloadModel downloadItem in DownloadCollection)
+                    {
+                        if (string.Equals(downloadItem.DownloadID, downloadScheduler.DownloadID))
+                        {
+                            downloadItem.DownloadProgressState = downloadScheduler.DownloadProgressState;
+                            downloadItem.DownloadSpeed = downloadScheduler.DownloadSpeed;
+                            downloadItem.CompletedSize = downloadScheduler.CompletedSize;
+                            downloadItem.TotalSize = downloadScheduler.TotalSize;
+                            return;
+                        }
+                    }
+                }, null);
+            }
+            // 下载任务已暂停或已失败
+            else if (downloadScheduler.DownloadProgressState is DownloadProgressState.Paused || downloadScheduler.DownloadProgressState is DownloadProgressState.Failed)
+            {
+                synchronizationContext.Post((_) =>
+                {
+                    foreach (DownloadModel downloadItem in DownloadCollection)
+                    {
+                        if (string.Equals(downloadItem.DownloadID, downloadScheduler.DownloadID))
+                        {
+                            downloadItem.IsOperating = false;
+                            downloadItem.DownloadProgressState = downloadScheduler.DownloadProgressState;
+                            return;
+                        }
+                    }
+                }, null);
+            }
+            // 下载任务已完成
+            else if (downloadScheduler.DownloadProgressState is DownloadProgressState.Finished)
+            {
+                synchronizationContext.Post((_) =>
+                {
+                    foreach (DownloadModel downloadItem in DownloadCollection)
+                    {
+                        if (string.Equals(downloadItem.DownloadID, downloadScheduler.DownloadID))
+                        {
+                            downloadItem.DownloadProgressState = downloadScheduler.DownloadProgressState;
+                            downloadItem.DownloadSpeed = downloadScheduler.DownloadSpeed;
+                            downloadItem.CompletedSize = downloadScheduler.CompletedSize;
+                            downloadItem.TotalSize = downloadScheduler.TotalSize;
+                            downloadItem.DownloadProgressState = downloadScheduler.DownloadProgressState;
+                            return;
+                        }
+                    }
+                }, null);
+            }
+            // 下载任务已删除
+            else if (downloadScheduler.DownloadProgressState is DownloadProgressState.Deleted)
+            {
+                synchronizationContext.Post((_) =>
+                {
+                    foreach (DownloadModel downloadItem in DownloadCollection)
+                    {
+                        if (string.Equals(downloadItem.DownloadID, downloadScheduler.DownloadID))
+                        {
+                            DownloadCollection.Remove(downloadItem);
+                            return;
+                        }
+                    }
+                }, null);
+            }
+        }
+
+        /// <summary>
+        /// 在共享操作启动时发生的事件
+        /// </summary>
+        private void OnDataRequested(DataTransferManager sender, DataRequestedEventArgs args, List<StorageFile> fileList)
+        {
+            DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
+
+            try
+            {
+                args.Request.Data.Properties.Title = FileShareString;
+                args.Request.Data.SetStorageItems(fileList);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            finally
+            {
+                dataRequestDeferral.Complete();
+            }
         }
 
         #endregion 第三部分：下载管理页面——自定义事件
