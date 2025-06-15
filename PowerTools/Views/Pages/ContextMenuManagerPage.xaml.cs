@@ -367,6 +367,17 @@ namespace PowerTools.Views.Pages
             await GetContextMenuAsync();
         }
 
+        /// <summary>
+        /// 打开使用说明
+        /// </summary>
+        private void OnUseInstructionClicked(object sender, RoutedEventArgs args)
+        {
+            if (!ContextMenuSplitView.IsPaneOpen)
+            {
+                ContextMenuSplitView.IsPaneOpen = true;
+            }
+        }
+
         #endregion 第三部分：右键菜单管理页面——挂载的事件
 
         /// <summary>

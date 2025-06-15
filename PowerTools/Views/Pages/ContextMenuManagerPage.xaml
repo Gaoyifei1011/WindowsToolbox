@@ -28,7 +28,7 @@
         PanePlacement="Right">
 
         <SplitView.Content>
-            <Grid Padding="0">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -90,9 +90,9 @@
                         </CommandBar.PrimaryCommands>
 
                         <CommandBar.SecondaryCommands>
-                            <AppBarButton Label="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('LearnContextMenuManager')}">
+                            <AppBarButton Click="{x:Bind OnUseInstructionClicked}" Label="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('UseInstruction')}">
                                 <AppBarButton.Icon>
-                                    <FontIcon Glyph="&#xEDE3;" />
+                                    <FontIcon Glyph="&#xE946;" />
                                 </AppBarButton.Icon>
                             </AppBarButton>
                         </CommandBar.SecondaryCommands>
@@ -367,6 +367,9 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <TextBlock
@@ -432,7 +435,7 @@
                             TextWrapping="Wrap" />
 
                         <StackPanel
-                            Grid.Row="4"
+                            Grid.Row="7"
                             Margin="16,0,16,5"
                             Spacing="5">
 
