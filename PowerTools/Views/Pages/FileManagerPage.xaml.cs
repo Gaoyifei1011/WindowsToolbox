@@ -18,7 +18,7 @@ namespace PowerTools.Views.Pages
     /// </summary>
     public sealed partial class FileManagerPage : Page, INotifyPropertyChanged
     {
-        private bool isLoaded;
+        private bool isInitialized;
 
         private Microsoft.UI.Xaml.Controls.NavigationViewItem _selectedItem;
 
@@ -53,6 +53,8 @@ namespace PowerTools.Views.Pages
             InitializeComponent();
         }
 
+        #region 第一部分：重写父类事件
+
         /// <summary>
         /// 导航到该页面时发生的事件
         /// </summary>
@@ -62,14 +64,18 @@ namespace PowerTools.Views.Pages
             FileManagerFrame.ContentTransitions = SuppressNavigationTransitionCollection;
         }
 
+        #endregion 第一部分：重写父类事件
+
+        #region 第二部分：文件管理页面——挂载的事件
+
         /// <summary>
         /// 导航控件加载完成后初始化内容
         /// </summary>
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
-            if (!isLoaded)
+            if (!isInitialized)
             {
-                isLoaded = true;
+                isInitialized = true;
                 if (sender is Microsoft.UI.Xaml.Controls.NavigationView navigationView)
                 {
                     foreach (object item in navigationView.MenuItems)
@@ -157,6 +163,8 @@ namespace PowerTools.Views.Pages
                 LogService.WriteLog(EventLevel.Error, "Remove string", e);
             }
         }
+
+        #endregion 第二部分：文件管理页面——挂载的事件
 
         /// <summary>
         /// 页面向前导航
