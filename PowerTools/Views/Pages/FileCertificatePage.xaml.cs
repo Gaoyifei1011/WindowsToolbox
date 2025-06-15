@@ -54,9 +54,25 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private ObservableCollection<CertificateResultModel> FileCertificateCollection { get; } = [];
+        private bool _isOperationFailed;
 
-        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = [];
+        public bool IsOperationFailed
+        {
+            get { return _isOperationFailed; }
+
+            set
+            {
+                if (!Equals(_isOperationFailed, value))
+                {
+                    _isOperationFailed = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsOperationFailed)));
+                }
+            }
+        }
+
+        private List<OperationFailedModel> OperationFailedList { get; } = [];
+
+        private ObservableCollection<CertificateResultModel> FileCertificateCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -90,13 +106,13 @@ namespace PowerTools.Views.Pages
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
             try
             {
-                DataPackageView view = args.DataView;
-                if (view.Contains(StandardDataFormats.StorageItems))
+                DataPackageView dataPackageView = args.DataView;
+                if (dataPackageView.Contains(StandardDataFormats.StorageItems))
                 {
                     List<CertificateResultModel> fileCertificateList = await Task.Run(async () =>
                     {
                         List<CertificateResultModel> fileCertificateList = [];
-                        IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
+                        IReadOnlyList<IStorageItem> storageItemList = await dataPackageView.GetStorageItemsAsync();
 
                         foreach (IStorageItem storageItem in storageItemList)
                         {
@@ -133,7 +149,8 @@ namespace PowerTools.Views.Pages
             finally
             {
                 dragOperationDeferral.Complete();
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
             }
         }
 
@@ -147,7 +164,8 @@ namespace PowerTools.Views.Pages
             if (args.Key is VirtualKey.Enter)
             {
                 args.Handled = true;
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
                 int count = 0;
 
                 lock (fileCertificateLock)
@@ -177,8 +195,9 @@ namespace PowerTools.Views.Pages
         {
             lock (fileCertificateLock)
             {
+                IsOperationFailed = false;
                 FileCertificateCollection.Clear();
-                OperationFailedCollection.Clear();
+                OperationFailedList.Clear();
             }
         }
 
@@ -187,7 +206,8 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnModifyClicked(object sender, RoutedEventArgs args)
         {
-            OperationFailedCollection.Clear();
+            IsOperationFailed = false;
+            OperationFailedList.Clear();
             int count = 0;
 
             lock (fileCertificateLock)
@@ -210,18 +230,18 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new()
+            OpenFileDialog openFileDialog = new()
             {
                 Multiselect = true,
                 Title = SelectFileString
             };
-            if (dialog.ShowDialog() is DialogResult.OK)
+            if (openFileDialog.ShowDialog() is DialogResult.OK)
             {
                 List<CertificateResultModel> fileCertificateList = await Task.Run(() =>
                 {
                     List<CertificateResultModel> fileCertificateList = [];
 
-                    foreach (string fileName in dialog.FileNames)
+                    foreach (string fileName in openFileDialog.FileNames)
                     {
                         try
                         {
@@ -250,12 +270,12 @@ namespace PowerTools.Views.Pages
                     return fileCertificateList;
                 });
 
-                dialog.Dispose();
+                openFileDialog.Dispose();
                 AddToFileCertificatePage(fileCertificateList);
             }
             else
             {
-                dialog.Dispose();
+                openFileDialog.Dispose();
             }
         }
 
@@ -264,21 +284,22 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            OpenFolderDialog dialog = new()
+            OpenFolderDialog openFolderDialog = new()
             {
                 Description = SelectFolderString,
                 RootFolder = Environment.SpecialFolder.Desktop
             };
-            DialogResult result = dialog.ShowDialog();
+            DialogResult result = openFolderDialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
-                OperationFailedCollection.Clear();
-                if (!string.IsNullOrEmpty(dialog.SelectedPath))
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
+                if (!string.IsNullOrEmpty(openFolderDialog.SelectedPath))
                 {
                     List<CertificateResultModel> fileNameList = await Task.Run(() =>
                     {
                         List<CertificateResultModel> fileNameList = [];
-                        DirectoryInfo currentFolder = new(dialog.SelectedPath);
+                        DirectoryInfo currentFolder = new(openFolderDialog.SelectedPath);
 
                         try
                         {
@@ -298,19 +319,19 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} fileInfo information failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} fileInfo information failed", openFolderDialog.SelectedPath), e);
                         }
 
                         return fileNameList;
                     });
 
-                    dialog.Dispose();
+                    openFolderDialog.Dispose();
                     AddToFileCertificatePage(fileNameList);
                 }
             }
             else
             {
-                dialog.Dispose();
+                openFolderDialog.Dispose();
             }
         }
 
@@ -319,7 +340,8 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
-            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog(OperationFailedCollection));
+            // TODO：未完成
+            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog([]));
         }
 
         #endregion 第二部分：文件证书页面——挂载的事件
@@ -388,9 +410,10 @@ namespace PowerTools.Views.Pages
             IsModifyingNow = false;
             foreach (OperationFailedModel operationFailedItem in operationFailedList)
             {
-                OperationFailedCollection.Add(operationFailedItem);
+                OperationFailedList.Add(operationFailedItem);
             }
 
+            IsOperationFailed = true;
             int count = FileCertificateCollection.Count;
 
             lock (fileCertificateLock)
@@ -398,7 +421,7 @@ namespace PowerTools.Views.Pages
                 FileCertificateCollection.Clear();
             }
 
-            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.File, count - OperationFailedList.Count, OperationFailedList.Count));
         }
     }
 }
