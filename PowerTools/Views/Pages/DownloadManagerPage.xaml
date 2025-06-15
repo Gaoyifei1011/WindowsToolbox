@@ -297,9 +297,9 @@
                                 </AppBarButton.Icon>
                             </AppBarButton>
 
-                            <AppBarButton Click="{x:Bind OnOpenDeliveryOptimizationSettingsClicked}" Label="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('OpenDeliveryOptimizationSettings')}">
+                            <AppBarButton Click="{x:Bind OnUseInstructionClicked}" Label="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('UseInstruction')}">
                                 <AppBarButton.Icon>
-                                    <FontIcon Glyph="&#xE90F;" />
+                                    <FontIcon Glyph="&#xE946;" />
                                 </AppBarButton.Icon>
                             </AppBarButton>
 
@@ -865,6 +865,12 @@
                                     NavigateUri="ms-settings:troubleshoot"
                                     UnderlineStyle="None">
                                     <Run Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('TroubleShoot')}" />
+                                </Hyperlink>
+                            </TextBlock>
+
+                            <TextBlock>
+                                <Hyperlink Click="{x:Bind OnOpenDeliveryOptimizationSettingsClicked}">
+                                    <Run Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('OpenDeliveryOptimizationSettings')}" />
                                 </Hyperlink>
                             </TextBlock>
                         </StackPanel>

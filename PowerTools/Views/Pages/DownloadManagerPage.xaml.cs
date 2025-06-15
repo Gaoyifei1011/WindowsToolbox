@@ -425,21 +425,15 @@ namespace PowerTools.Views.Pages
         }
 
         /// <summary>
-        /// 打开传递优化设置
+        /// 打开使用说明
         /// </summary>
-        private void OnOpenDeliveryOptimizationSettingsClicked(object sender, RoutedEventArgs args)
+        private async void OnUseInstructionClicked(object sender, RoutedEventArgs args)
         {
-            Task.Run(() =>
+            await Task.Delay(300);
+            if (!DownloadSplitView.IsPaneOpen)
             {
-                try
-                {
-                    Process.Start("ms-settings:delivery-optimization");
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(EventLevel.Error, "Open delivery optimization settings failed", e);
-                }
-            });
+                DownloadSplitView.IsPaneOpen = true;
+            }
         }
 
         /// <summary>
@@ -646,6 +640,24 @@ namespace PowerTools.Views.Pages
                     }
                 });
             }
+        }
+
+        /// <summary>
+        /// 打开传递优化设置
+        /// </summary>
+        private void OnOpenDeliveryOptimizationSettingsClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start("ms-settings:delivery-optimization");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open delivery optimization settings failed", e);
+                }
+            });
         }
 
         #endregion 第二部分：下载管理页面——挂载的事件

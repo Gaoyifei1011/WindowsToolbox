@@ -370,8 +370,9 @@ namespace PowerTools.Views.Pages
         /// <summary>
         /// 打开使用说明
         /// </summary>
-        private void OnUseInstructionClicked(object sender, RoutedEventArgs args)
+        private async void OnUseInstructionClicked(object sender, RoutedEventArgs args)
         {
+            await Task.Delay(300);
             if (!ContextMenuSplitView.IsPaneOpen)
             {
                 ContextMenuSplitView.IsPaneOpen = true;
