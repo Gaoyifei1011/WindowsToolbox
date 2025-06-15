@@ -6,7 +6,6 @@ MenuInstructionContent3=3.右键菜单项显示状态黑名单保存在注册表
 MenuInstructionContent4=4.您可以手动定位到所对应的注册表项，添加对应右键菜单项的键值以更改菜单项的显示状态
 MenuInstructionContent5=5.如果您不清楚您更改的具体菜单项，您可以尝试恢复默认设置，或删除 Blocked 项
 MenuInstructionContent6=6.本应用的右键菜单显示状态选项在设置页面
-LearnContextMenuManager=了解右键菜单管理
 LearnCustomRightClickMenu=了解自定义右键菜单
 LoadingContextMenuInformation=正在加载右键菜单信息中，请稍候...
 MenuEmptyDescription=该设备没有任何新版的右键菜单项

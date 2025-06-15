@@ -6,7 +6,6 @@ MenuInstructionContent3=3.The right-click menu item display status blacklist is 
 MenuInstructionContent4=4.You can manually navigate to the corresponding registry key and add the key value of the right-click menu item to change the display status of the menu item
 MenuInstructionContent5=5.If you're not clear about the specific menu item you've changed, you can try reverting to the default settings, or removing the Blocked item
 MenuInstructionContent6=6.This app's right-click menu displays status options is in the settings page
-LearnContextMenuManager=Learn right-click menu management
 LearnCustomRightClickMenu=Learn to custom right-click menu
 LoadingContextMenuInformation=Loading right-click menu information, please wait...
 MenuEmptyDescription=The device does not have any new right-click menu items
