@@ -13,6 +13,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -26,6 +28,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
@@ -690,6 +693,24 @@ namespace PowerTools.Views.Pages
             // 下载任务已完成
             else if (downloadScheduler.DownloadProgressState is DownloadProgressState.Finished)
             {
+                MemoryStream memoryStream = null;
+                try
+                {
+                    Bitmap thumbnailBitmap = GetThumbnailBitmap(downloadScheduler.FilePath);
+
+                    if (thumbnailBitmap is not null)
+                    {
+                        memoryStream = new();
+                        thumbnailBitmap.Save(memoryStream, ImageFormat.Png);
+                        memoryStream.Seek(0, SeekOrigin.Begin);
+                        thumbnailBitmap.Dispose();
+                    }
+                }
+                catch (Exception)
+                {
+                    // TODO：未完成，添加异常处理
+                }
+
                 synchronizationContext.Post((_) =>
                 {
                     foreach (DownloadModel downloadItem in DownloadCollection)
@@ -701,6 +722,24 @@ namespace PowerTools.Views.Pages
                             downloadItem.CompletedSize = downloadScheduler.CompletedSize;
                             downloadItem.TotalSize = downloadScheduler.TotalSize;
                             downloadItem.DownloadProgressState = downloadScheduler.DownloadProgressState;
+
+                            if (memoryStream is not null)
+                            {
+                                try
+                                {
+                                    BitmapImage bitmapImage = new();
+                                    bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
+                                }
+                                catch (Exception)
+                                {
+                                    // TODO：未完成，添加异常处理
+                                }
+                                finally
+                                {
+                                    memoryStream?.Dispose();
+                                }
+                            }
+
                             return;
                         }
                     }
@@ -746,5 +785,84 @@ namespace PowerTools.Views.Pages
         }
 
         #endregion 第三部分：下载管理页面——自定义事件
+
+        /// <summary>
+        /// 获取文件缩略图
+        /// </summary>
+        private Bitmap GetThumbnailBitmap(string filePath)
+        {
+            try
+            {
+                int result = Shell32Library.SHCreateItemFromParsingName(filePath, null, typeof(IShellItem).GUID, out IShellItem shellItem);
+
+                if (result is 0)
+                {
+                    result = ((IShellItemImageFactory)shellItem).GetImage(new Size(256, 256), SIIGBF.SIIGBF_RESIZETOFIT, out IntPtr hBitmap);
+                    Marshal.ReleaseComObject(shellItem);
+
+                    if (result is 0)
+                    {
+                        Bitmap bitmap = System.Drawing.Image.FromHbitmap(hBitmap);
+
+                        if (System.Drawing.Image.GetPixelFormatSize(bitmap.PixelFormat) < 32)
+                        {
+                            return bitmap;
+                        }
+                        else
+                        {
+                            return CreateAlphaBitmap(bitmap, PixelFormat.Format32bppArgb);
+                        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 创建 Alpha 的 Bitmap
+        /// </summary>
+        private static Bitmap CreateAlphaBitmap(Bitmap srcBitmap, PixelFormat targetPixelFormat)
+        {
+            Bitmap bitmap = new(srcBitmap.Width, srcBitmap.Height, targetPixelFormat);
+            Rectangle bitmapBound = new(0, 0, srcBitmap.Width, srcBitmap.Height);
+            BitmapData srcData = srcBitmap.LockBits(bitmapBound, ImageLockMode.ReadOnly, srcBitmap.PixelFormat);
+            bool isAlplaBitmap = false;
+
+            try
+            {
+                for (int y = 0; y <= srcData.Height - 1; y++)
+                {
+                    for (int x = 0; x <= srcData.Width - 1; x++)
+                    {
+                        Color pixelColor = Color.FromArgb(
+                            Marshal.ReadInt32(srcData.Scan0, (srcData.Stride * y) + (4 * x)));
+
+                        if (pixelColor.A > 0 & pixelColor.A < 255)
+                        {
+                            isAlplaBitmap = true;
+                        }
+
+                        bitmap.SetPixel(x, y, pixelColor);
+                    }
+                }
+            }
+            finally
+            {
+                srcBitmap.UnlockBits(srcData);
+            }
+
+            return isAlplaBitmap ? bitmap : srcBitmap;
+        }
     }
 }
