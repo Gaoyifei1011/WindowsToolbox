@@ -28,6 +28,8 @@ namespace PowerTools.Models
 
         public Guid Clsid { get; set; }
 
+        public string ClsidString { get; set; }
+
         public string DllPath { get; set; }
 
         public ApartmentState ThreadingMode { get; set; }
