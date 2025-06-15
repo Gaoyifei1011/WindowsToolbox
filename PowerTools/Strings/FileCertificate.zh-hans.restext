@@ -7,6 +7,6 @@ Modify=修改
 ModifyingNow=正在修改中，请稍候...
 SelectFile=选择文件
 SelectFolder=选择文件夹
-Title=文件证书
+FileCertificate=文件证书
 Total=总计：{0}
 ViewErrorInformation=查看错误信息
