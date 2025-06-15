@@ -1,4 +1,5 @@
 using PowerTools.Extensions.DataType.Enums;
+using PowerTools.Helpers.Root;
 using PowerTools.Models;
 using PowerTools.Services.Download;
 using PowerTools.Services.Root;
@@ -27,6 +28,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
@@ -607,12 +609,43 @@ namespace PowerTools.Views.Pages
         }
 
         /// <summary>
-        /// 关闭对话框
+        /// 关闭对话框或使用说明
         /// </summary>
         private void OnCloseClicked(object sender, RoutedEventArgs args)
         {
-            isAllowClosed = true;
-            AddDownloadTaskFlyout.Hide();
+            if (sender is global::Windows.UI.Xaml.Controls.Button button)
+            {
+                if (button.Tag is Flyout flyout)
+                {
+                    isAllowClosed = true;
+                    flyout.Hide();
+                }
+                else if (button.Tag is SplitView splitView && splitView.IsPaneOpen)
+                {
+                    splitView.IsPaneOpen = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 疑难解答
+        /// </summary>
+        private void OnTroubleShootClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        {
+            if (RuntimeHelper.IsElevated)
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        Process.Start("ms-settings:troubleshoot");
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Open trouble shoot failed", e);
+                    }
+                });
+            }
         }
 
         #endregion 第二部分：下载管理页面——挂载的事件
