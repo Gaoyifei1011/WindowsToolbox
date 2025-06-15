@@ -9,18 +9,18 @@ namespace PowerTools.Models
 {
     public sealed class DownloadModel : INotifyPropertyChanged
     {
-        private bool _isNotOperated;
+        private bool _isOperating;
 
-        public bool IsNotOperated
+        public bool IsOperating
         {
-            get { return _isNotOperated; }
+            get { return _isOperating; }
 
             set
             {
-                if (!Equals(_isNotOperated, value))
+                if (!Equals(_isOperating, value))
                 {
-                    _isNotOperated = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsNotOperated)));
+                    _isOperating = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsOperating)));
                 }
             }
         }
