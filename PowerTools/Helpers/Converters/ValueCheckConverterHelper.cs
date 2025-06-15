@@ -24,9 +24,17 @@ namespace PowerTools.Helpers.Converters
         /// <summary>
         /// 检查下载任务状态
         /// </summary>
-        public static Visibility CheckDownloadProgressState(DownloadProgressState downloadProgressState, DownloadProgressState comparedDownloadProgressState)
+        public static Visibility CheckDownloadProgressState(DownloadProgressState downloadProgressState, DownloadProgressState comparedDownloadProgressState, bool needReverse)
         {
-            return Equals(downloadProgressState, comparedDownloadProgressState) ? Visibility.Visible : Visibility.Collapsed;
+            return needReverse ? Equals(downloadProgressState, comparedDownloadProgressState) ? Visibility.Collapsed : Visibility.Visible : Equals(downloadProgressState, comparedDownloadProgressState) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// 检查文件是否正在下载中
+        /// </summary>
+        public static Visibility CheckDownloadingState(DownloadProgressState downloadProgressState)
+        {
+            return downloadProgressState is DownloadProgressState.Queued || downloadProgressState is DownloadProgressState.Downloading ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }
