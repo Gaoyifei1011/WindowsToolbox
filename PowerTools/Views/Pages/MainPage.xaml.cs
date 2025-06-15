@@ -1,6 +1,8 @@
 ﻿using PowerTools.Helpers.Root;
 using PowerTools.Models;
 using PowerTools.Services.Root;
+using PowerTools.Services.Settings;
+using PowerTools.Views.Backdrop;
 using PowerTools.Views.Dialogs;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.PInvoke.User32;
@@ -16,6 +18,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // 抑制 CA1822，IDE0060 警告
@@ -248,7 +251,10 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
-            MainWindow.Current.SetWindowBackdrop();
+            // TODO：临时测试专用
+            VisualStateManager.GoToState(this, "BackgroundDefault", false);
+            Background = new SolidColorBrush(global::Windows.UI.Color.FromArgb(255, 240, 243, 249));
+            //MainWindow.Current.SetWindowBackdrop();
             if (sender is Microsoft.UI.Xaml.Controls.NavigationView navigationView)
             {
                 foreach (object menuItem in navigationView.MenuItems)
@@ -479,6 +485,14 @@ namespace PowerTools.Views.Pages
         public Type GetCurrentPageType()
         {
             return (MainNavigationView.Content as Frame).CurrentSourcePageType;
+        }
+
+        /// <summary>
+        /// 获取当前导航控件内容对应的页面
+        /// </summary>
+        public object GetFrameContent()
+        {
+            return (MainNavigationView.Content as Frame).Content;
         }
 
         /// <summary>
