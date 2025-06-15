@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
@@ -232,27 +233,20 @@ namespace PowerTools.Views.Pages
         #region 第三部分：右键菜单管理页面——挂载的事件
 
         /// <summary>
-        /// 了解自定义右键菜单
+        /// 点击关闭按钮关闭使用说明
         /// </summary>
-        private void OnLearnCustomRightClickMenuClicked(object sender, RoutedEventArgs args)
+        private void OnCloseClicked(object sender, RoutedEventArgs args)
         {
-            Task.Run(() =>
+            if (ContextMenuSplitView.IsPaneOpen)
             {
-                try
-                {
-                    Process.Start("https://blogs.windows.com/windowsdeveloper/2021/07/19/extending-the-context-menu-and-share-dialog-in-windows-11");
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(EventLevel.Error, "Open url failed", e);
-                }
-            });
+                ContextMenuSplitView.IsPaneOpen = false;
+            }
         }
 
         /// <summary>
         /// 打开设置
         /// </summary>
-        private void OnOpenSettingsClicked(object sender, RoutedEventArgs args)
+        private void OnOpenSettingsClicked(Hyperlink sender, HyperlinkClickEventArgs args)
         {
             (MainWindow.Current.Content as MainPage).NavigateTo(typeof(SettingsPage));
         }
