@@ -289,8 +289,8 @@ namespace PowerTools.Views.Pages
                 Description = SelectFolderString,
                 RootFolder = Environment.SpecialFolder.Desktop
             };
-            DialogResult result = openFolderDialog.ShowDialog();
-            if (result is DialogResult.OK || result is DialogResult.Yes)
+            DialogResult dialogResult = openFolderDialog.ShowDialog();
+            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
             {
                 IsOperationFailed = false;
                 OperationFailedList.Clear();
