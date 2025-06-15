@@ -147,7 +147,7 @@ namespace PowerTools.Views.Pages
         /// <summary>
         /// 点击条目时进入条目对应的页面
         /// </summary>
-        private void OnItemClicked(object sender, ItemClickEventArgs args)
+        private void OnItemClick(object sender, ItemClickEventArgs args)
         {
             if (args.ClickedItem is ControlItemModel controlItem && (MainWindow.Current.Content as MainPage).NavigationItemList.Find(item => string.Equals(item.NavigationTag, controlItem.Tag, StringComparison.OrdinalIgnoreCase)) is NavigationModel navigationItem)
             {

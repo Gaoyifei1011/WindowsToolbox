@@ -99,7 +99,7 @@
             Grid.Column="0"
             Margin="30,15,30,5"
             FontSize="22"
-            Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('Title')}" />
+            Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('AllTools')}" />
 
         <ScrollViewer
             Grid.Row="1"
@@ -118,12 +118,12 @@
                     VerticalAlignment="Center"
                     FontSize="18"
                     Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('Relaxation')}" />
+                    Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('RelaxTools')}" />
 
                 <GridView
                     IsItemClickEnabled="True"
                     IsSwipeEnabled="False"
-                    ItemClick="{x:Bind OnItemClicked}"
+                    ItemClick="{x:Bind OnItemClick}"
                     ItemTemplate="{StaticResource ControlItemTemplate}"
                     ItemsSource="{x:Bind RelaxToolsList}"
                     SelectionMode="None"
@@ -141,12 +141,12 @@
                     VerticalAlignment="Center"
                     FontSize="18"
                     Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('File')}" />
+                    Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('FileTools')}" />
 
                 <GridView
                     IsItemClickEnabled="True"
                     IsSwipeEnabled="False"
-                    ItemClick="{x:Bind OnItemClicked}"
+                    ItemClick="{x:Bind OnItemClick}"
                     ItemTemplate="{StaticResource ControlItemTemplate}"
                     ItemsSource="{x:Bind FileToolsList}"
                     SelectionMode="None"
@@ -164,12 +164,12 @@
                     VerticalAlignment="Center"
                     FontSize="18"
                     Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('Resource')}" />
+                    Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('ResourceTools')}" />
 
                 <GridView
                     IsItemClickEnabled="True"
                     IsSwipeEnabled="False"
-                    ItemClick="{x:Bind OnItemClicked}"
+                    ItemClick="{x:Bind OnItemClick}"
                     ItemTemplate="{StaticResource ControlItemTemplate}"
                     ItemsSource="{x:Bind ResourceToolsList}"
                     SelectionMode="None"
@@ -187,12 +187,12 @@
                     VerticalAlignment="Center"
                     FontSize="18"
                     Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('Personalize')}" />
+                    Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('PersonalizeTools')}" />
 
                 <GridView
                     IsItemClickEnabled="True"
                     IsSwipeEnabled="False"
-                    ItemClick="{x:Bind OnItemClicked}"
+                    ItemClick="{x:Bind OnItemClick}"
                     ItemTemplate="{StaticResource ControlItemTemplate}"
                     ItemsSource="{x:Bind PersonalizeToolsList}"
                     SelectionMode="None"
@@ -210,12 +210,12 @@
                     VerticalAlignment="Center"
                     FontSize="18"
                     Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('System')}" />
+                    Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('SystemTools')}" />
 
                 <GridView
                     IsItemClickEnabled="True"
                     IsSwipeEnabled="False"
-                    ItemClick="{x:Bind OnItemClicked}"
+                    ItemClick="{x:Bind OnItemClick}"
                     ItemTemplate="{StaticResource ControlItemTemplate}"
                     ItemsSource="{x:Bind SystemToolsList}"
                     SelectionMode="None"
