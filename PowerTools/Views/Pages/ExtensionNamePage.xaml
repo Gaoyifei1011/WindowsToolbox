@@ -75,7 +75,7 @@
                 Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind rootservice:ResourceService.ExtensionNameResource.GetString('SameExtensionName')}"
-                IsChecked="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsSameExtensionName), Mode=OneWay}"
+                IsChecked="{x:Bind x:Object.Equals(SelectedKind, enum:ExtensionNameSelectedKind.IsSameExtensionName), Mode=OneWay}"
                 Tag="{x:Bind enum:ExtensionNameSelectedKind.IsSameExtensionName}"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -92,7 +92,7 @@
                     Text="{x:Bind rootservice:ResourceService.ExtensionNameResource.GetString('ChangeTo')}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsSameExtensionName), Mode=OneWay}"
+                    IsEnabled="{x:Bind x:Object.Equals(SelectedKind, enum:ExtensionNameSelectedKind.IsSameExtensionName), Mode=OneWay}"
                     Tag="ChangeToText"
                     Text="{x:Bind ChangeToText, Mode=OneWay}"
                     TextChanged="{x:Bind OnTextChanged}" />
@@ -103,7 +103,7 @@
                 Grid.Column="0"
                 Checked="{x:Bind OnChecked}"
                 Content="{x:Bind rootservice:ResourceService.ExtensionNameResource.GetString('FindAndReplaceExtensionName')}"
-                IsChecked="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                IsChecked="{x:Bind x:Object.Equals(SelectedKind, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
                 Tag="{x:Bind enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName}"
                 Unchecked="{x:Bind OnUnchecked}" />
 
@@ -120,7 +120,7 @@
                     Text="{x:Bind rootservice:ResourceService.ExtensionNameResource.GetString('Search')}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                    IsEnabled="{x:Bind x:Object.Equals(SelectedKind, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
                     Tag="SearchText"
                     Text="{x:Bind SearchText, Mode=OneWay}"
                     TextChanged="{x:Bind OnTextChanged}" />
@@ -136,7 +136,7 @@
                 <TextBlock Grid.Column="0" Text="{x:Bind rootservice:ResourceService.ExtensionNameResource.GetString('Replace')}" />
                 <TextBox
                     Grid.Column="1"
-                    IsEnabled="{x:Bind x:Object.Equals(SelectedType, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
+                    IsEnabled="{x:Bind x:Object.Equals(SelectedKind, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
                     Tag="ReplaceText"
                     Text="{x:Bind ReplaceText, Mode=OneWay}"
                     TextChanged="{x:Bind OnTextChanged}" />
@@ -331,7 +331,7 @@
                 Margin="0,0,10,0"
                 Click="{x:Bind OnViewErrorInformationClicked}"
                 Content="{x:Bind rootservice:ResourceService.ExtensionNameResource.GetString('ViewErrorInformation')}"
-                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedCollection.Count), Mode=OneWay}" />
+                Visibility="{x:Bind IsOperationFailed, Mode=OneWay}" />
 
             <controls:ProgressRing
                 Grid.Column="5"

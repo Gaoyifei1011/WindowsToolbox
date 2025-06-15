@@ -34,7 +34,6 @@ namespace PowerTools.Views.Pages
         private readonly string SelectFileString = ResourceService.ExtensionNameResource.GetString("SelectFile");
         private readonly string SelectFolderString = ResourceService.ExtensionNameResource.GetString("SelectFolder");
         private readonly string TotalString = ResourceService.ExtensionNameResource.GetString("Total");
-
         private readonly object extensionNameLock = new();
 
         private bool _isModifyingNow = false;
@@ -53,18 +52,18 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private ExtensionNameSelectedKind _selectedType = ExtensionNameSelectedKind.None;
+        private ExtensionNameSelectedKind _selectedKind = ExtensionNameSelectedKind.None;
 
-        public ExtensionNameSelectedKind SelectedType
+        public ExtensionNameSelectedKind SelectedKind
         {
-            get { return _selectedType; }
+            get { return _selectedKind; }
 
             set
             {
-                if (!Equals(_selectedType, value))
+                if (!Equals(_selectedKind, value))
                 {
-                    _selectedType = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedType)));
+                    _selectedKind = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedKind)));
                 }
             }
         }
@@ -117,11 +116,27 @@ namespace PowerTools.Views.Pages
             }
         }
 
+        private bool _isOperationFailed;
+
+        public bool IsOperationFailed
+        {
+            get { return _isOperationFailed; }
+
+            set
+            {
+                if (!Equals(_isOperationFailed, value))
+                {
+                    _isOperationFailed = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsOperationFailed)));
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private ObservableCollection<OldAndNewNameModel> ExtensionNameCollection { get; } = [];
+        private List<OperationFailedModel> OperationFailedList { get; } = [];
 
-        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = [];
+        private ObservableCollection<OldAndNewNameModel> ExtensionNameCollection { get; } = [];
 
         public ExtensionNamePage()
         {
@@ -200,7 +215,8 @@ namespace PowerTools.Views.Pages
             finally
             {
                 dragOperationDeferral.Complete();
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
             }
         }
 
@@ -217,7 +233,8 @@ namespace PowerTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedCollection.Clear();
+                    IsOperationFailed = false;
+                    OperationFailedList.Clear();
                     int count = 0;
 
                     lock (extensionNameLock)
@@ -245,7 +262,8 @@ namespace PowerTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedCollection.Clear();
+                    IsOperationFailed = false;
+                    OperationFailedList.Clear();
                     int count = 0;
 
                     lock (extensionNameLock)
@@ -303,7 +321,7 @@ namespace PowerTools.Views.Pages
         {
             if (sender is global::Windows.UI.Xaml.Controls.CheckBox checkBox && checkBox.Tag is ExtensionNameSelectedKind extensionNameSelectedKind)
             {
-                SelectedType = extensionNameSelectedKind;
+                SelectedKind = extensionNameSelectedKind;
             }
         }
 
@@ -314,8 +332,9 @@ namespace PowerTools.Views.Pages
         {
             lock (extensionNameLock)
             {
+                IsOperationFailed = false;
                 ExtensionNameCollection.Clear();
-                OperationFailedCollection.Clear();
+                OperationFailedList.Clear();
             }
         }
 
@@ -327,7 +346,8 @@ namespace PowerTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
                 int count = 0;
 
                 lock (extensionNameLock)
@@ -358,7 +378,8 @@ namespace PowerTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
                 int count = 0;
 
                 lock (extensionNameLock)
@@ -449,7 +470,8 @@ namespace PowerTools.Views.Pages
             DialogResult result = dialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
                 if (!string.IsNullOrEmpty(dialog.SelectedPath))
                 {
                     List<OldAndNewNameModel> fileNameList = [];
@@ -498,9 +520,9 @@ namespace PowerTools.Views.Pages
         {
             if (sender is global::Windows.UI.Xaml.Controls.CheckBox checkBox && checkBox.Tag is ExtensionNameSelectedKind extensionNameSelectedKind)
             {
-                if (Equals(SelectedType, extensionNameSelectedKind))
+                if (Equals(SelectedKind, extensionNameSelectedKind))
                 {
-                    SelectedType = ExtensionNameSelectedKind.None;
+                    SelectedKind = ExtensionNameSelectedKind.None;
                 }
 
                 if (extensionNameSelectedKind is ExtensionNameSelectedKind.IsSameExtensionName)
@@ -520,7 +542,8 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
-            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog(OperationFailedCollection));
+            // TODO:未完成
+            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog([]));
         }
 
         #endregion 第二部分：扩展名称页面——挂载的事件
@@ -544,7 +567,7 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private bool CheckOperationState()
         {
-            return SelectedType is not ExtensionNameSelectedKind.None;
+            return SelectedKind is not ExtensionNameSelectedKind.None;
         }
 
         /// <summary>
@@ -552,7 +575,7 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void PreviewChangedFileName()
         {
-            switch (SelectedType)
+            switch (SelectedKind)
             {
                 case ExtensionNameSelectedKind.IsSameExtensionName:
                     {
@@ -635,7 +658,7 @@ namespace PowerTools.Views.Pages
             IsModifyingNow = false;
             foreach (OperationFailedModel operationFailedItem in operationFailedList)
             {
-                OperationFailedCollection.Add(operationFailedItem);
+                OperationFailedList.Add(operationFailedItem);
             }
 
             int count = ExtensionNameCollection.Count;
@@ -645,7 +668,7 @@ namespace PowerTools.Views.Pages
                 ExtensionNameCollection.Clear();
             }
 
-            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.File, count - OperationFailedList.Count, OperationFailedList.Count));
         }
     }
 }
