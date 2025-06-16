@@ -20,7 +20,7 @@
 
         <XamlUICommand x:Name="ContinueCommand" ExecuteRequested="{x:Bind OnContinueExecuteRequested}" />
         <XamlUICommand x:Name="PauseCommand" ExecuteRequested="{x:Bind OnPauseExecuteRequested}" />
-        <XamlUICommand x:Name="OpenFolder" ExecuteRequested="{x:Bind OnOpenFolderExecuteRequested}" />
+        <XamlUICommand x:Name="OpenFolderCommand" ExecuteRequested="{x:Bind OnOpenFolderExecuteRequested}" />
         <XamlUICommand x:Name="DeleteCommand" ExecuteRequested="{x:Bind OnDeleteExecuteRequested}" />
         <XamlUICommand x:Name="DeleteWithFileCommand" ExecuteRequested="{x:Bind OnDeleteWithFileExecuteRequested}" />
         <XamlUICommand x:Name="ShareFileCommand" ExecuteRequested="{x:Bind OnShareFileExecuteRequested}" />
@@ -373,7 +373,7 @@
 
                                 <FontIcon
                                     Grid.Column="0"
-                                    Margin="0,0,12,0"
+                                    Margin="6,0,18,0"
                                     FontSize="18"
                                     FontWeight="Thin"
                                     Glyph="&#xE958;"
@@ -381,7 +381,7 @@
 
                                 <FontIcon
                                     Grid.Column="0"
-                                    Margin="0,0,12,0"
+                                    Margin="6,0,18,0"
                                     FontSize="18"
                                     FontWeight="Thin"
                                     Glyph="&#xE896;"
@@ -389,7 +389,7 @@
 
                                 <FontIcon
                                     Grid.Column="0"
-                                    Margin="0,0,12,0"
+                                    Margin="6,0,18,0"
                                     FontSize="18"
                                     FontWeight="Thin"
                                     Glyph="&#xE769;"
@@ -397,7 +397,7 @@
 
                                 <FontIcon
                                     Grid.Column="0"
-                                    Margin="0,0,12,0"
+                                    Margin="6,0,18,0"
                                     FontSize="18"
                                     FontWeight="Thin"
                                     Glyph="&#xEA39;"
@@ -579,7 +579,7 @@
                                             Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('DownloadFinished')}"
                                             Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckDownloadProgressState(DownloadProgressState, enum:DownloadProgressState.Finished, x:False), Mode=OneWay}" />
 
-                                        <ProgressBar
+                                        <controls:ProgressBar
                                             Grid.Column="1"
                                             Margin="10,0,0,0"
                                             IsIndeterminate="{x:Bind x:Object.Equals(DownloadProgressState, enum:DownloadProgressState.Queued), Mode=OneWay}"
@@ -596,7 +596,7 @@
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal"
-                                    Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckDownloadProgressState(DownloadProgressState, enum:DownloadProgressState.Finished, x:False), Mode=OneWay}">
+                                    Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckDownloadProgressState(DownloadProgressState, enum:DownloadProgressState.Finished, x:True), Mode=OneWay}">
 
                                     <Button
                                         Width="32"
@@ -718,7 +718,7 @@
                                                     Height="32"
                                                     Padding="11,0"
                                                     Command="{StaticResource ShareFileCommand}"
-                                                    CommandParameter="{x:Bind}"
+                                                    CommandParameter="{x:Bind FilePath}"
                                                     Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('ShareFile')}">
 
                                                     <MenuFlyoutItem.Icon>
@@ -730,7 +730,7 @@
                                                     Height="32"
                                                     Padding="11,0"
                                                     Command="{StaticResource FileInformationCommand}"
-                                                    CommandParameter="{x:Bind}"
+                                                    CommandParameter="{x:Bind FilePath}"
                                                     Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('FileInformation')}">
 
                                                     <MenuFlyoutItem.Icon>

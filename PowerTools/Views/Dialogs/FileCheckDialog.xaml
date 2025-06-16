@@ -11,10 +11,8 @@
     CloseButtonText="{x:Bind rootservice:ResourceService.DialogResource.GetString('CancelDownload')}"
     Content="{x:Bind rootservice:ResourceService.DialogResource.GetString('FileCheckExistContent')}"
     FlowDirection="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).FlowDirection, Mode=OneWay}"
-    PrimaryButtonClick="{x:Bind OnPrimaryButtonClicked}"
     PrimaryButtonText="{x:Bind rootservice:ResourceService.DialogResource.GetString('DeleteAndRedownload')}"
     RequestedTheme="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).RequestedTheme, Mode=OneWay}"
-    SecondaryButtonClick="{x:Bind OnSecondaryButtonClicked}"
     SecondaryButtonText="{x:Bind rootservice:ResourceService.DialogResource.GetString('OpenFolder')}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d" />

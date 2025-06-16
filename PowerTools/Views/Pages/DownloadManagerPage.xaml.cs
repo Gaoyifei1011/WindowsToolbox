@@ -5,6 +5,7 @@ using PowerTools.Services.Download;
 using PowerTools.Services.Root;
 using PowerTools.Services.Settings;
 using PowerTools.Views.Dialogs;
+using PowerTools.Views.TeachingTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.ComTypes;
 using PowerTools.WindowsAPI.PInvoke.Shell32;
@@ -537,7 +538,6 @@ namespace PowerTools.Views.Pages
         {
             if (sender is global::Windows.UI.Xaml.Controls.TextBox textBox)
             {
-                DownloadLinkText = textBox.Text;
                 DownloadFileNameText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
                 IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFileNameText) && !string.IsNullOrEmpty(DownloadFolderText);
             }
@@ -575,7 +575,7 @@ namespace PowerTools.Views.Pages
         /// <summary>
         /// 下载文件
         /// </summary>
-        private void OnDownloadClicked(object sender, RoutedEventArgs args)
+        private async void OnDownloadClicked(object sender, RoutedEventArgs args)
         {
             isAllowClosed = true;
             AddDownloadTaskFlyout.Hide();
@@ -591,14 +591,49 @@ namespace PowerTools.Views.Pages
             // 检查本地文件是否存在
             if (File.Exists(filePath))
             {
-                synchronizationContext.Post(async (_) =>
+                ContentDialogResult contentDialogResult = await MainWindow.Current.ShowDialogAsync(new FileCheckDialog());
+
+                // 删除本地文件并下载文件
+                if (contentDialogResult is ContentDialogResult.Primary)
                 {
-                    await MainWindow.Current.ShowDialogAsync(new FileCheckDialog(DownloadLinkText, filePath));
-                }, null);
+                    bool result = await Task.Run(() =>
+                    {
+                        try
+                        {
+                            File.Delete(filePath);
+                            DownloadSchedulerService.CreateDownload(DownloadLinkText, filePath);
+                            return true;
+                        }
+                        catch (Exception)
+                        {
+                            return false;
+                        }
+                    });
+
+                    if (!result)
+                    {
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.DeleteFileFailed));
+                    }
+                }
+                // 打开本地目录
+                else if (contentDialogResult is ContentDialogResult.Secondary)
+                {
+                    await Task.Run(() =>
+                    {
+                        try
+                        {
+                            Process.Start(Path.GetDirectoryName(filePath));
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, "Open download file path failed", e);
+                        }
+                    });
+                }
             }
             else
             {
-                DownloadSchedulerService.CreateDownload(DownloadLinkText, Path.Combine(DownloadFolderText, DownloadFileNameText));
+                DownloadSchedulerService.CreateDownload(DownloadLinkText, filePath);
             }
         }
 
@@ -773,6 +808,7 @@ namespace PowerTools.Views.Pages
                                 {
                                     BitmapImage bitmapImage = new();
                                     bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
+                                    downloadItem.IconImage = bitmapImage;
                                 }
                                 catch (Exception)
                                 {
