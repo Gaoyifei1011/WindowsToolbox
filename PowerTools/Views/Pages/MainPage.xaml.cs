@@ -1,8 +1,6 @@
 ﻿using PowerTools.Helpers.Root;
 using PowerTools.Models;
 using PowerTools.Services.Root;
-using PowerTools.Services.Settings;
-using PowerTools.Views.Backdrop;
 using PowerTools.Views.Dialogs;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.PInvoke.User32;
