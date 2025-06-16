@@ -42,6 +42,7 @@ namespace PowerTools.Views.Pages
         private const string blockedKey = @"Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked";
         private readonly string MenuEmptyDescriptionString = ResourceService.ContextMenuManagerResource.GetString("MenuEmptyDescription");
         private readonly string MenuEmptyWithConditionDescriptionString = ResourceService.ContextMenuManagerResource.GetString("MenuEmptyWithConditionDescription");
+        private readonly BitmapImage emptyImage = new();
 
         private string _searchText = string.Empty;
 
@@ -259,7 +260,7 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (!string.IsNullOrEmpty(SearchText))
+            if (!string.IsNullOrEmpty(SearchText) && ContextMenuList.Count > 0)
             {
                 ContextMenuResultKind = ContextMenuResultKind.Loading;
                 ContextMenuCollection.Clear();
@@ -290,7 +291,7 @@ namespace PowerTools.Views.Pages
         private void OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             SearchText = sender.Text;
-            if (string.IsNullOrEmpty(SearchText))
+            if (string.IsNullOrEmpty(SearchText) && ContextMenuList.Count > 0)
             {
                 ContextMenuResultKind = ContextMenuResultKind.Loading;
                 ContextMenuCollection.Clear();
@@ -491,7 +492,7 @@ namespace PowerTools.Views.Pages
                                         }
                                     }
 
-                                    ContextMenuModel contextMenuItem = new()
+                                    ContextMenuModel contextMenu = new()
                                     {
                                         PackageDisplayName = string.IsNullOrEmpty(Convert.ToString(displayNameBuilder)) ? displayName : Convert.ToString(displayNameBuilder),
                                         PackageFullName = packageFullName,
@@ -500,7 +501,7 @@ namespace PowerTools.Views.Pages
                                         ContextMenuItemCollection = [.. contextMenuItemList]
                                     };
 
-                                    queryedContextMenuList.Add(contextMenuItem);
+                                    queryedContextMenuList.Add(contextMenu);
                                 }
 
                                 classKey.Close();
@@ -533,15 +534,16 @@ namespace PowerTools.Views.Pages
                 {
                     try
                     {
-                        BitmapImage bitmapImage = new()
+                        BitmapImage bitmapImage = new();
+                        if (contextMenuItem.PackageIconUri is not null)
                         {
-                            UriSource = contextMenuItem.PackageIconUri
-                        };
+                            bitmapImage.UriSource = contextMenuItem.PackageIconUri;
+                        }
                         contextMenuItem.PackageIcon = bitmapImage;
                     }
                     catch (Exception)
                     {
-                        contextMenuItem.PackageIcon = new BitmapImage();
+                        contextMenuItem.PackageIcon = emptyImage;
                     }
 
                     if (string.IsNullOrEmpty(SearchText))

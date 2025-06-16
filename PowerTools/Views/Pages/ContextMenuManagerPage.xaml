@@ -72,17 +72,24 @@
                     <CommandBar
                         Grid.Column="1"
                         VerticalAlignment="Center"
-                        DefaultLabelPosition="Right"
-                        IsEnabled="{x:Bind GetIsLoading(ContextMenuResultKind), Mode=OneWay}">
+                        DefaultLabelPosition="Right">
 
                         <CommandBar.PrimaryCommands>
-                            <AppBarButton Click="{x:Bind OnRefreshClicked}" Label="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('Refresh')}">
+                            <AppBarButton
+                                Click="{x:Bind OnRefreshClicked}"
+                                IsEnabled="{x:Bind GetIsLoading(ContextMenuResultKind), Mode=OneWay}"
+                                Label="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('Refresh')}">
+
                                 <AppBarButton.Icon>
                                     <FontIcon Glyph="&#xE72C;" />
                                 </AppBarButton.Icon>
                             </AppBarButton>
 
-                            <AppBarButton Click="{x:Bind OnRestoreDefaultClicked}" Label="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('RestoreDefault')}">
+                            <AppBarButton
+                                Click="{x:Bind OnRestoreDefaultClicked}"
+                                IsEnabled="{x:Bind GetIsLoading(ContextMenuResultKind), Mode=OneWay}"
+                                Label="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('RestoreDefault')}">
+
                                 <AppBarButton.Icon>
                                     <FontIcon Glyph="&#xE777;" />
                                 </AppBarButton.Icon>
@@ -247,13 +254,7 @@
                                 </controls:Expander.Header>
 
                                 <controls:Expander.Content>
-                                    <ListView
-                                        ItemsSource="{x:Bind ContextMenuItemCollection, Mode=OneWay}"
-                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                        ScrollViewer.HorizontalScrollMode="Disabled"
-                                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                        ScrollViewer.VerticalScrollMode="Disabled"
-                                        SelectionMode="None">
+                                    <ListView ItemsSource="{x:Bind ContextMenuItemCollection, Mode=OneWay}" SelectionMode="None">
 
                                         <ListView.ItemContainerStyle>
                                             <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
