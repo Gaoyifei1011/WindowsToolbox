@@ -37,12 +37,12 @@ namespace PowerTools.Views.Pages
     /// </summary>
     public sealed partial class ContextMenuManagerPage : Page, INotifyPropertyChanged
     {
-        private bool isInitialized;
         private const string packageComPackageKey = @"SOFTWARE\Classes\PackagedCom\Package";
         private const string blockedKey = @"Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked";
         private readonly string MenuEmptyDescriptionString = ResourceService.ContextMenuManagerResource.GetString("MenuEmptyDescription");
         private readonly string MenuEmptyWithConditionDescriptionString = ResourceService.ContextMenuManagerResource.GetString("MenuEmptyWithConditionDescription");
         private readonly BitmapImage emptyImage = new();
+        private bool isInitialized;
 
         private string _searchText = string.Empty;
 
@@ -149,13 +149,13 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnCheckBoxClickExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is ContextMenuItemModel contextMenuItem)
+            if (args.Parameter is ContextMenuItemModel contextMenu)
             {
                 (BlockedClsidType blockedClsidType, bool operationResult) result = await Task.Run(() =>
                 {
                     RegistryKey registryKey = null;
                     BlockedClsidType blockedClsidType = BlockedClsidType.Unknown;
-                    if (contextMenuItem.BlockedClsidType is BlockedClsidType.LocalMachine)
+                    if (contextMenu.BlockedClsidType is BlockedClsidType.LocalMachine)
                     {
                         try
                         {
@@ -182,8 +182,8 @@ namespace PowerTools.Views.Pages
                     {
                         try
                         {
-                            string name = contextMenuItem.Clsid.ToString("B").ToUpperInvariant();
-                            if (contextMenuItem.IsEnabled)
+                            string name = contextMenu.Clsid.ToString("B").ToUpperInvariant();
+                            if (contextMenu.IsEnabled)
                             {
                                 object oldValue = registryKey.GetValue(name);
                                 if (oldValue is null)
@@ -220,12 +220,12 @@ namespace PowerTools.Views.Pages
 
                 if (result.operationResult)
                 {
-                    contextMenuItem.IsEnabled = !contextMenuItem.IsEnabled;
-                    contextMenuItem.BlockedClsidType = IsEnabled ? BlockedClsidType.Unknown : result.blockedClsidType;
+                    contextMenu.IsEnabled = !contextMenu.IsEnabled;
+                    contextMenu.BlockedClsidType = IsEnabled ? BlockedClsidType.Unknown : result.blockedClsidType;
                 }
                 else
                 {
-                    contextMenuItem.IsEnabled = contextMenuItem.IsEnabled;
+                    contextMenu.IsEnabled = contextMenu.IsEnabled;
                 }
 
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ContextMenuUpdate, result.operationResult));
@@ -264,7 +264,6 @@ namespace PowerTools.Views.Pages
             {
                 ContextMenuResultKind = ContextMenuResultKind.Loading;
                 ContextMenuCollection.Clear();
-
                 foreach (ContextMenuModel contextMenuItem in ContextMenuList)
                 {
                     if (!string.IsNullOrEmpty(contextMenuItem.PackageDisplayName) && contextMenuItem.PackageDisplayName.Contains(SearchText))
@@ -323,13 +322,12 @@ namespace PowerTools.Views.Pages
 
             await Task.Run(() =>
             {
-                List<ContextMenuModel> contextMenuList = [.. ContextMenuCollection];
+                List<ContextMenuModel> contextMenuList = [.. ContextMenuList];
 
                 try
                 {
                     RegistryKey blockKey = Registry.LocalMachine.OpenSubKey(blockedKey, true);
                     string[] blcokedClsidArray = blockKey.GetValueNames();
-
                     foreach (string blockedClsid in blcokedClsidArray)
                     {
                         if (Convert.ToString(blockKey.GetValue(blockedClsid)) is "Blocked by PowerTools")
@@ -350,7 +348,6 @@ namespace PowerTools.Views.Pages
                 {
                     RegistryKey blockKey = Registry.CurrentUser.OpenSubKey(blockedKey, true);
                     string[] blcokedClsidArray = blockKey.GetValueNames();
-
                     foreach (string blockedClsid in blcokedClsidArray)
                     {
                         if (Convert.ToString(blockKey.GetValue(blockedClsid)) is "Blocked by PowerTools")
