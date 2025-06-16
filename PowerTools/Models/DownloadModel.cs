@@ -1,6 +1,6 @@
 ﻿using PowerTools.Extensions.DataType.Enums;
 using System.ComponentModel;
-using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Media;
 
 // 抑制 CA1822 警告
 #pragma warning disable CA1822
@@ -25,9 +25,9 @@ namespace PowerTools.Models
             }
         }
 
-        private BitmapImage _iconImage;
+        private ImageSource _iconImage;
 
-        public BitmapImage IconImage
+        public ImageSource IconImage
         {
             get { return _iconImage; }
 

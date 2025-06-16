@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace PowerTools.Models
@@ -90,9 +91,9 @@ namespace PowerTools.Models
         /// <summary>
         /// 菜单项图标
         /// </summary>
-        private BitmapImage _menuIcon = new();
+        private ImageSource _menuIcon;
 
-        public BitmapImage MenuIcon
+        public ImageSource MenuIcon
         {
             get { return _menuIcon; }
 

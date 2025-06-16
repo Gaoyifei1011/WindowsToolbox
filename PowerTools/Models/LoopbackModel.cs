@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Windows.UI.Xaml.Media;
 
 namespace PowerTools.Models
 {
@@ -24,12 +25,22 @@ namespace PowerTools.Models
             }
         }
 
+        /// <summary>
+        /// 应用图标
+        /// </summary>
+        public ImageSource AppIcon { get; set; }
+
+        /// <summary>
+        /// 应用图标路径
+        /// </summary>
+        public Uri PackageIconUri { get; set; }
+
         public bool IsOldChecked { get; set; }
 
         /// <summary>
         /// 应用程序运行的二进制路径
         /// </summary>
-        public string[] AppBinariesPath { get; set; }
+        public string AppBinariesPath { get; set; }
 
         /// <summary>
         /// 应用容器的全局唯一名称
