@@ -105,10 +105,6 @@
                 Margin="0,0,0,3"
                 IsItemClickEnabled="True"
                 ItemsSource="{x:Bind FileCertificateCollection, Mode=OneWay}"
-                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                ScrollViewer.HorizontalScrollMode="Disabled"
-                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                ScrollViewer.VerticalScrollMode="Enabled"
                 SelectionMode="None">
 
                 <ListView.ItemContainerStyle>
@@ -119,6 +115,10 @@
                         <Setter Property="Padding" Value="0" />
                     </Style>
                 </ListView.ItemContainerStyle>
+
+                <ItemsControl.ItemContainerTransitions>
+                    <TransitionCollection />
+                </ItemsControl.ItemContainerTransitions>
 
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:CertificateResultModel">

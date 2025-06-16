@@ -11,6 +11,8 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <CornerRadius x:Key="ListViewItemCornerRadius">0</CornerRadius>
+
         <TransitionCollection x:Name="SuppressNavigationTransitionCollection">
             <NavigationThemeTransition>
                 <NavigationThemeTransition.DefaultNavigationTransitionInfo>
@@ -287,10 +289,6 @@
                             Margin="16,0,16,5"
                             ItemsSource="{x:Bind NameChangeList}"
                             SelectionMode="None">
-
-                            <ListView.Resources>
-                                <CornerRadius x:Key="ListViewItemCornerRadius">0</CornerRadius>
-                            </ListView.Resources>
 
                             <ListView.ItemContainerStyle>
                                 <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">

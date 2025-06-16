@@ -1,4 +1,4 @@
-<Page
+﻿<Page
     x:Class="PowerTools.Views.Pages.IconExtractPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -50,6 +50,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
+            <!--  图标提取结果网格控件  -->
             <GridView
                 x:Name="IconsGridView"
                 Grid.Column="0"
@@ -124,6 +125,7 @@
 
             <AppBarSeparator Grid.Column="1" Margin="10,0" />
 
+            <!--  图标提取右侧控制栏  -->
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
