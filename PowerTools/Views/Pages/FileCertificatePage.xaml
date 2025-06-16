@@ -52,13 +52,13 @@
 
         <TextBlock
             Grid.Row="0"
-            Margin="30,15,30,6"
+            Margin="30,15,30,0"
             FontSize="22"
             Text="{x:Bind rootservice:ResourceService.FileCertificateResource.GetString('FileCertificate')}" />
 
         <TextBlock
             Grid.Row="1"
-            Margin="32,0,32,3"
+            Margin="32,3,32,3"
             FontSize="14"
             Text="{x:Bind rootservice:ResourceService.FileCertificateResource.GetString('Description')}" />
 
