@@ -64,6 +64,7 @@
                         <controls:NavigationViewItem.Content>
                             <TextBlock
                                 x:Name="FileNameText"
+                                FontSize="22"
                                 Text="{x:Bind rootservice:ResourceService.FileManagerResource.GetString('FileName')}"
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap" />
@@ -81,6 +82,7 @@
                         <controls:NavigationViewItem.Content>
                             <TextBlock
                                 x:Name="ExtensionNameText"
+                                FontSize="22"
                                 Text="{x:Bind rootservice:ResourceService.FileManagerResource.GetString('ExtensionName')}"
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap" />
@@ -98,6 +100,7 @@
                         <controls:NavigationViewItem.Content>
                             <TextBlock
                                 x:Name="UpperAndLowerCaseText"
+                                FontSize="22"
                                 Text="{x:Bind rootservice:ResourceService.FileManagerResource.GetString('UpperAndLowerCase')}"
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap" />
@@ -115,6 +118,7 @@
                         <controls:NavigationViewItem.Content>
                             <TextBlock
                                 x:Name="FilePropertiesText"
+                                FontSize="22"
                                 Text="{x:Bind rootservice:ResourceService.FileManagerResource.GetString('FileProperties')}"
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap" />
