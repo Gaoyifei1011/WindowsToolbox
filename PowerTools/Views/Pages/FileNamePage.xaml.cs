@@ -485,18 +485,18 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new()
+            OpenFileDialog openFileDialog = new()
             {
                 Multiselect = true,
                 Title = SelectFileString
             };
-            if (dialog.ShowDialog() is DialogResult.OK)
+            if (openFileDialog.ShowDialog() is DialogResult.OK)
             {
                 List<OldAndNewNameModel> fileNameList = await Task.Run(() =>
                 {
                     List<OldAndNewNameModel> fileNameList = [];
 
-                    foreach (string fileName in dialog.FileNames)
+                    foreach (string fileName in openFileDialog.FileNames)
                     {
                         try
                         {
@@ -522,12 +522,12 @@ namespace PowerTools.Views.Pages
                     return fileNameList;
                 });
 
-                dialog.Dispose();
+                openFileDialog.Dispose();
                 AddToFileNamePage(fileNameList);
             }
             else
             {
-                dialog.Dispose();
+                openFileDialog.Dispose();
             }
         }
 
@@ -536,23 +536,23 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            OpenFolderDialog dialog = new()
+            OpenFolderDialog openFolderDialog = new()
             {
                 Description = SelectFolderString,
             };
-            DialogResult result = dialog.ShowDialog();
-            if (result is DialogResult.OK || result is DialogResult.Yes)
+            DialogResult dialogResult = openFolderDialog.ShowDialog();
+            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
             {
                 IsOperationFailed = false;
                 OperationFailedList.Clear();
-                if (!string.IsNullOrEmpty(dialog.SelectedPath))
+                if (!string.IsNullOrEmpty(openFolderDialog.SelectedPath))
                 {
                     List<OldAndNewNameModel> directoryNameList = [];
                     List<OldAndNewNameModel> fileNameList = [];
 
                     await Task.Run(() =>
                     {
-                        DirectoryInfo currentFolder = new(dialog.SelectedPath);
+                        DirectoryInfo currentFolder = new(openFolderDialog.SelectedPath);
 
                         try
                         {
@@ -572,7 +572,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} directoryInfo information failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} directoryInfo information failed", openFolderDialog.SelectedPath), e);
                         }
 
                         try
@@ -593,19 +593,18 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} information failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} information failed", openFolderDialog.SelectedPath), e);
                         }
-
-                        dialog.Dispose();
                     });
 
+                    openFolderDialog.Dispose();
                     AddToFileNamePage(directoryNameList);
                     AddToFileNamePage(fileNameList);
                 }
             }
             else
             {
-                dialog.Dispose();
+                openFolderDialog.Dispose();
             }
         }
 
@@ -664,7 +663,7 @@ namespace PowerTools.Views.Pages
             lock (fileNameLock)
             {
                 int endIndex = FileNameCollection.Count + startIndex;
-                int numberLength = endIndex.ToString().Length;
+                int numberLength = Convert.ToString(endIndex).Length;
 
                 foreach (OldAndNewNameModel oldAndNewNameItem in FileNameCollection)
                 {
@@ -680,35 +679,35 @@ namespace PowerTools.Views.Pages
                                 string formattedIndex = string.Empty;
                                 if (Equals(SelectedNumberFormat, NumberFormatList[0]))
                                 {
-                                    formattedIndex = startIndex.ToString().PadLeft(numberLength, '0');
+                                    formattedIndex = Convert.ToString(startIndex).PadLeft(numberLength, '0');
                                 }
                                 else if (Equals(SelectedNumberFormat, NumberFormatList[1]))
                                 {
-                                    formattedIndex = startIndex.ToString().PadLeft(1, '0');
+                                    formattedIndex = Convert.ToString(startIndex).PadLeft(1, '0');
                                 }
                                 else if (Equals(SelectedNumberFormat, NumberFormatList[2]))
                                 {
-                                    formattedIndex = startIndex.ToString().PadLeft(2, '0');
+                                    formattedIndex = Convert.ToString(startIndex).PadLeft(2, '0');
                                 }
                                 else if (Equals(SelectedNumberFormat, NumberFormatList[3]))
                                 {
-                                    formattedIndex = startIndex.ToString().PadLeft(3, '0');
+                                    formattedIndex = Convert.ToString(startIndex).PadLeft(3, '0');
                                 }
                                 else if (Equals(SelectedNumberFormat, NumberFormatList[4]))
                                 {
-                                    formattedIndex = startIndex.ToString().PadLeft(4, '0');
+                                    formattedIndex = Convert.ToString(startIndex).PadLeft(4, '0');
                                 }
                                 else if (Equals(SelectedNumberFormat, NumberFormatList[5]))
                                 {
-                                    formattedIndex = startIndex.ToString().PadLeft(5, '0');
+                                    formattedIndex = Convert.ToString(startIndex).PadLeft(5, '0');
                                 }
                                 else if (Equals(SelectedNumberFormat, NumberFormatList[6]))
                                 {
-                                    formattedIndex = startIndex.ToString().PadLeft(6, '0');
+                                    formattedIndex = Convert.ToString(startIndex).PadLeft(6, '0');
                                 }
                                 else if (Equals(SelectedNumberFormat, NumberFormatList[7]))
                                 {
-                                    formattedIndex = startIndex.ToString().PadLeft(7, '0');
+                                    formattedIndex = Convert.ToString(startIndex).PadLeft(7, '0');
                                 }
 
                                 tempFileName = tempFileName.Replace("<#>", formattedIndex);
@@ -836,7 +835,7 @@ namespace PowerTools.Views.Pages
                 OperationFailedList.Add(operationFailedItem);
             }
 
-            IsOperationFailed = true;
+            IsOperationFailed = OperationFailedList.Count is not 0;
             int count = FileNameCollection.Count;
 
             lock (fileNameLock)
