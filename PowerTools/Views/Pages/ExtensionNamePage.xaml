@@ -133,7 +133,10 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="{x:Bind rootservice:ResourceService.ExtensionNameResource.GetString('Replace')}" />
+                <TextBlock
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind rootservice:ResourceService.ExtensionNameResource.GetString('Replace')}" />
                 <TextBox
                     Grid.Column="1"
                     IsEnabled="{x:Bind x:Object.Equals(SelectedKind, enum:ExtensionNameSelectedKind.IsFindAndReplaceExtensionName), Mode=OneWay}"
