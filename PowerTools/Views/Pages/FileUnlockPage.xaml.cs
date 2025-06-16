@@ -46,8 +46,6 @@ namespace PowerTools.Views.Pages
         private readonly string SelectFileString = ResourceService.FileUnlockResource.GetString("SelectFile");
         private readonly string WelcomeString = ResourceService.FileUnlockResource.GetString("Welcome");
 
-        private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
-
         private InfoBarSeverity _resultSeverity = InfoBarSeverity.Informational;
 
         public InfoBarSeverity ResultSeverity
@@ -190,15 +188,15 @@ namespace PowerTools.Views.Pages
 
             try
             {
-                DataPackageView view = args.DataView;
+                DataPackageView dataPackageView = args.DataView;
 
                 IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
                 {
                     try
                     {
-                        if (view.Contains(StandardDataFormats.StorageItems))
+                        if (dataPackageView.Contains(StandardDataFormats.StorageItems))
                         {
-                            return await view.GetStorageItemsAsync();
+                            return await dataPackageView.GetStorageItemsAsync();
                         }
                     }
                     catch (Exception e)
@@ -339,16 +337,16 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnOpenLocalFileClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new()
+            OpenFileDialog openFileDialog = new()
             {
                 Multiselect = false,
                 Title = SelectFileString
             };
-            if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
+            if (openFileDialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(openFileDialog.FileName))
             {
-                await ParseFileAsync(dialog.FileName);
+                await ParseFileAsync(openFileDialog.FileName);
             }
-            dialog.Dispose();
+            openFileDialog.Dispose();
         }
 
         #endregion 第三部分：文件解锁页面——挂载的事件
@@ -368,13 +366,14 @@ namespace PowerTools.Views.Pages
             (bool parseSuccessfully, List<(string userName, Process process)> processList) = await Task.Run(() =>
             {
                 bool parseSuccessfully = false;
+
                 List<(string userName, Process process)> processList = [];
                 uint handle = 0;
 
                 try
                 {
                     Guid keyGuid = Guid.NewGuid();
-                    int result = RstrtmgrLibrary.RmStartSession(out handle, 0, keyGuid.ToString());
+                    int result = RstrtmgrLibrary.RmStartSession(out handle, 0, Convert.ToString(keyGuid));
 
                     if (result is 0)
                     {
@@ -386,6 +385,7 @@ namespace PowerTools.Views.Pages
                         if (result is 0)
                         {
                             result = RstrtmgrLibrary.RmGetList(handle, out uint pnProcInfoNeeded, ref pnProcInfo, null, out uint lpdwRebootReasons);
+                            parseSuccessfully = true;
 
                             if (result is 234)
                             {
@@ -395,8 +395,7 @@ namespace PowerTools.Views.Pages
 
                                 if (result is 0)
                                 {
-                                    parseSuccessfully = true;
-                                    for (int index = 0; index < 0; index++)
+                                    for (int index = 0; index < pnProcInfo; index++)
                                     {
                                         try
                                         {

@@ -27,7 +27,7 @@
         VerticalScrollMode="Enabled">
 
         <StackPanel>
-            <Grid Grid.Row="0" Margin="30,15,30,6">
+            <Grid Grid.Row="0" Margin="30,15,30,0">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -37,17 +37,36 @@
                 <TextBlock
                     Grid.Column="0"
                     FontSize="22"
-                    Text="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('Title')}" />
+                    Text="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('FileUnlock')}" />
 
                 <Button
                     Grid.Column="1"
+                    Width="34"
+                    Height="34"
+                    Padding="0"
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    Click="{x:Bind OnOpenTaskManagerClicked}"
-                    Content="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('OpenTaskManager')}" />
+                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('ViewMore')}">
+
+                    <Button.Content>
+                        <FontIcon FontSize="16" Glyph="&#xE712;" />
+                    </Button.Content>
+
+                    <Button.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem Click="{x:Bind OnOpenTaskManagerClicked}" Text="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('OpenTaskManager')}">
+
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE9D9;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
             </Grid>
 
             <Grid
-                Margin="30,0,30,3"
+                Margin="30,5,30,3"
                 BorderBrush="{ThemeResource TextFillColorSecondaryBrush}"
                 BorderThickness="1"
                 CornerRadius="{StaticResource ControlCornerRadius}">
@@ -155,7 +174,7 @@
                         <DataTemplate x:DataType="model:ProcessInfoModel">
                             <Grid
                                 Height="66"
-                                Margin="0,0,0,3"
+                                Margin="0,0,0,2"
                                 Padding="16,0"
                                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -179,12 +198,15 @@
 
                                 <StackPanel
                                     Grid.Column="1"
-                                    Margin="0,12"
+                                    Margin="0,0,15,0"
+                                    HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     Orientation="Vertical">
 
                                     <TextBlock
                                         x:Name="ProcessNameText"
+                                        HorizontalAlignment="Left"
+                                        IsTextSelectionEnabled="True"
                                         Style="{StaticResource BodyTextBlockStyle}"
                                         Text="{x:Bind ProcessName}"
                                         TextTrimming="CharacterEllipsis"
@@ -192,7 +214,6 @@
 
                                         <ToolTipService.ToolTip>
                                             <ToolTip MaxWidth="9999">
-
                                                 <TextBlock>
                                                     <Run Text="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('ProcessName')}" />
                                                     <Run Text="{x:Bind ProcessName}" />
@@ -204,6 +225,7 @@
                                     <HyperlinkButton
                                         x:Name="ProcessPathText"
                                         Padding="0"
+                                        HorizontalAlignment="Left"
                                         Command="{StaticResource OpenProcessPathCommand}"
                                         CommandParameter="{x:Bind ProcessPath}">
 
