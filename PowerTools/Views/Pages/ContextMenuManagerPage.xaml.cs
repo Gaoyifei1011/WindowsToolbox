@@ -161,9 +161,8 @@ namespace PowerTools.Views.Pages
                             registryKey = Registry.LocalMachine.CreateSubKey(blockedKey, true);
                             blockedClsidType = BlockedClsidType.LocalMachine;
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Open block key {0} of value in local machine failed", contextMenuItem.Clsid.ToString()), e);
                         }
                     }
                     else
@@ -173,9 +172,8 @@ namespace PowerTools.Views.Pages
                             registryKey = Registry.CurrentUser.CreateSubKey(blockedKey, true);
                             blockedClsidType = BlockedClsidType.CurrentUser;
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Open block key {0} of value in current user failed", contextMenuItem.Clsid.ToString()), e);
                         }
                     }
 
@@ -333,7 +331,7 @@ namespace PowerTools.Views.Pages
 
                     foreach (string blockedClsid in blcokedClsidArray)
                     {
-                        if (blockKey.GetValue(blockedClsid).ToString() is "Blocked by PowerTools")
+                        if (Convert.ToString(blockKey.GetValue(blockedClsid)) is "Blocked by PowerTools")
                         {
                             blockKey.DeleteValue(blockedClsid);
                         }
@@ -354,7 +352,7 @@ namespace PowerTools.Views.Pages
 
                     foreach (string blockedClsid in blcokedClsidArray)
                     {
-                        if (blockKey.GetValue(blockedClsid).ToString() is "Blocked by PowerTools")
+                        if (Convert.ToString(blockKey.GetValue(blockedClsid)) is "Blocked by PowerTools")
                         {
                             blockKey.DeleteValue(blockedClsid);
                         }
@@ -415,7 +413,7 @@ namespace PowerTools.Views.Pages
                         {
                             StringBuilder packageFullNameBuilder = new(length + 1);
                             Kernel32Library.GetCurrentPackageFullName(ref length, packageFullNameBuilder);
-                            currentPackageFullName = packageFullNameBuilder.ToString();
+                            currentPackageFullName = Convert.ToString(packageFullNameBuilder);
                         }
 
                         foreach (string packageFullName in packageFullNameArray)
@@ -452,7 +450,7 @@ namespace PowerTools.Views.Pages
                                                 {
                                                     BlockedClsidType = index >= 0 && index < blockedList.Count ? Enum.TryParse(blockedList[index].Value, out BlockedClsidType blockedClsidType) ? blockedClsidType : BlockedClsidType.Unknown : BlockedClsidType.Unknown,
                                                     Clsid = clsid,
-                                                    ClsidString = clsid.ToString().ToUpperInvariant(),
+                                                    ClsidString = Convert.ToString(clsid).ToUpperInvariant(),
                                                     DllPath = dllPath,
                                                     IsEnabled = index is -1,
                                                     ThreadingMode = threading switch
@@ -477,7 +475,7 @@ namespace PowerTools.Views.Pages
                                 {
                                     StringBuilder packagePathBuilder = new(length + 1);
                                     int result = Kernel32Library.GetPackagePathByFullName(packageFullName, ref length, packagePathBuilder);
-                                    packagePath = packagePathBuilder.ToString();
+                                    packagePath = Convert.ToString(packagePathBuilder);
                                 }
 
                                 (string displayName, string logoFullPath, List<Guid> clsidList) = GetAppInfo(packagePath);
@@ -495,7 +493,7 @@ namespace PowerTools.Views.Pages
 
                                     ContextMenuModel contextMenuItem = new()
                                     {
-                                        PackageDisplayName = string.IsNullOrEmpty(displayNameBuilder.ToString()) ? displayName : displayNameBuilder.ToString(),
+                                        PackageDisplayName = string.IsNullOrEmpty(Convert.ToString(displayNameBuilder)) ? displayName : Convert.ToString(displayNameBuilder),
                                         PackageFullName = packageFullName,
                                         PackageIconUri = Uri.TryCreate(logoFullPath, UriKind.Absolute, out Uri uri) ? uri : null,
                                         PackagePath = packagePath,
@@ -591,7 +589,7 @@ namespace PowerTools.Views.Pages
                     {
                         if (Guid.TryParse(blockedClsid, out Guid clsid))
                         {
-                            blockClsidList.Add(new KeyValuePair<Guid, string>(clsid, Registry.LocalMachine.ToString()));
+                            blockClsidList.Add(new KeyValuePair<Guid, string>(clsid, Convert.ToString(Registry.LocalMachine)));
                         }
                     }
 
@@ -616,7 +614,7 @@ namespace PowerTools.Views.Pages
                     {
                         if (Guid.TryParse(blockedClsid, out Guid clsid))
                         {
-                            blockClsidList.Add(new KeyValuePair<Guid, string>(clsid, Registry.CurrentUser.ToString()));
+                            blockClsidList.Add(new KeyValuePair<Guid, string>(clsid, Convert.ToString(Registry.CurrentUser)));
                         }
                     }
 
