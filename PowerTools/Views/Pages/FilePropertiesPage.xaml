@@ -362,7 +362,7 @@
                 Margin="0,0,10,0"
                 Click="{x:Bind OnViewErrorInformationClicked}"
                 Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('ViewErrorInformation')}"
-                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedCollection.Count), Mode=OneWay}" />
+                Visibility="{x:Bind IsOperationFailed, Mode=OneWay}" />
 
             <controls:ProgressRing
                 Grid.Column="5"

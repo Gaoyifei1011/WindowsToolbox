@@ -219,9 +219,25 @@ namespace PowerTools.Views.Pages
             }
         }
 
+        private bool _isOperationFailed;
+
+        public bool IsOperationFailed
+        {
+            get { return _isOperationFailed; }
+
+            set
+            {
+                if (!Equals(_isOperationFailed, value))
+                {
+                    _isOperationFailed = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsOperationFailed)));
+                }
+            }
+        }
+
         private ObservableCollection<OldAndNewPropertiesModel> FilePropertiesCollection { get; } = [];
 
-        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = [];
+        private List<OperationFailedModel> OperationFailedList { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -255,13 +271,13 @@ namespace PowerTools.Views.Pages
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
             try
             {
-                DataPackageView view = args.DataView;
-                if (view.Contains(StandardDataFormats.StorageItems))
+                DataPackageView dataPackageView = args.DataView;
+                if (dataPackageView.Contains(StandardDataFormats.StorageItems))
                 {
                     List<OldAndNewPropertiesModel> filePropertiesList = await Task.Run(async () =>
                     {
                         List<OldAndNewPropertiesModel> filePropertiesList = [];
-                        IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
+                        IReadOnlyList<IStorageItem> storageItemList = await dataPackageView.GetStorageItemsAsync();
 
                         foreach (IStorageItem storageItem in storageItemList)
                         {
@@ -299,7 +315,8 @@ namespace PowerTools.Views.Pages
             finally
             {
                 dragOperationDeferral.Complete();
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
             }
         }
 
@@ -316,7 +333,8 @@ namespace PowerTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedCollection.Clear();
+                    IsOperationFailed = false;
+                    OperationFailedList.Clear();
                     int count = 0;
 
                     lock (filePropertiesLock)
@@ -344,7 +362,8 @@ namespace PowerTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedCollection.Clear();
+                    IsOperationFailed = false;
+                    OperationFailedList.Clear();
                     int count = 0;
 
                     lock (filePropertiesLock)
@@ -380,8 +399,9 @@ namespace PowerTools.Views.Pages
         {
             lock (filePropertiesLock)
             {
+                IsOperationFailed = false;
                 FilePropertiesCollection.Clear();
-                OperationFailedCollection.Clear();
+                OperationFailedList.Clear();
             }
         }
 
@@ -411,7 +431,8 @@ namespace PowerTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
                 int count = 0;
 
                 lock (filePropertiesLock)
@@ -442,7 +463,8 @@ namespace PowerTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
                 int count = 0;
 
                 lock (filePropertiesLock)
@@ -522,23 +544,24 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            OpenFolderDialog dialog = new()
+            OpenFolderDialog openFolderDialog = new()
             {
                 Description = SelectFolderString,
                 RootFolder = Environment.SpecialFolder.Desktop
             };
-            DialogResult result = dialog.ShowDialog();
-            if (result is DialogResult.OK || result is DialogResult.Yes)
+            DialogResult dialogResult = openFolderDialog.ShowDialog();
+            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
             {
-                OperationFailedCollection.Clear();
-                if (!string.IsNullOrEmpty(dialog.SelectedPath))
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
+                if (!string.IsNullOrEmpty(openFolderDialog.SelectedPath))
                 {
                     List<OldAndNewPropertiesModel> directoryNameList = [];
                     List<OldAndNewPropertiesModel> fileNameList = [];
 
                     await Task.Run(() =>
                     {
-                        DirectoryInfo currentFolder = new(dialog.SelectedPath);
+                        DirectoryInfo currentFolder = new(openFolderDialog.SelectedPath);
 
                         try
                         {
@@ -558,7 +581,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} directoryInfo information failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} directoryInfo information failed", openFolderDialog.SelectedPath), e);
                         }
 
                         try
@@ -579,18 +602,18 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} fileInfo information failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} fileInfo information failed", openFolderDialog.SelectedPath), e);
                         }
                     });
 
-                    dialog.Dispose();
+                    openFolderDialog.Dispose();
                     AddToFilePropertiesPage(directoryNameList);
                     AddToFilePropertiesPage(fileNameList);
                 }
             }
             else
             {
-                dialog.Dispose();
+                openFolderDialog.Dispose();
             }
         }
 
@@ -637,7 +660,8 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
-            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog(OperationFailedCollection));
+            // TODO：未完成
+            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog([]));
         }
 
         #endregion 第二部分：文件属性页面——挂载的事件
@@ -763,9 +787,10 @@ namespace PowerTools.Views.Pages
             IsModifyingNow = false;
             foreach (OperationFailedModel operationFailedItem in operationFailedList)
             {
-                OperationFailedCollection.Add(operationFailedItem);
+                OperationFailedList.Add(operationFailedItem);
             }
 
+            IsOperationFailed = OperationFailedList.Count is not 0;
             int count = FilePropertiesCollection.Count;
 
             lock (filePropertiesLock)
@@ -773,7 +798,7 @@ namespace PowerTools.Views.Pages
                 FilePropertiesCollection.Clear();
             }
 
-            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.File, count - OperationFailedList.Count, OperationFailedList.Count));
         }
     }
 }
