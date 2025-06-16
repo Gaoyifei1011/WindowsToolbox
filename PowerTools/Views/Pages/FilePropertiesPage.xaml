@@ -49,6 +49,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!--  文件属性顶部控制栏  -->
         <Grid Grid.Row="0" Margin="0,0,0,3">
 
             <Grid.ColumnDefinitions>
@@ -174,6 +175,7 @@
             </Grid>
         </Grid>
 
+        <!--  文件属性结果列表控件  -->
         <Grid
             Grid.Row="1"
             Margin="0,0,0,3"
@@ -239,10 +241,6 @@
                 Margin="0,0,0,3"
                 IsItemClickEnabled="True"
                 ItemsSource="{x:Bind FilePropertiesCollection, Mode=OneWay}"
-                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                ScrollViewer.HorizontalScrollMode="Disabled"
-                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                ScrollViewer.VerticalScrollMode="Enabled"
                 SelectionMode="None">
 
                 <ListView.ItemContainerStyle>
@@ -253,6 +251,10 @@
                         <Setter Property="Padding" Value="0" />
                     </Style>
                 </ListView.ItemContainerStyle>
+
+                <ItemsControl.ItemContainerTransitions>
+                    <TransitionCollection />
+                </ItemsControl.ItemContainerTransitions>
 
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:OldAndNewPropertiesModel">
@@ -320,6 +322,7 @@
                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FilePropertiesCollection.Count), Mode=OneWay}" />
         </Grid>
 
+        <!--  文件属性名称底部控制栏  -->
         <Grid
             Grid.Row="2"
             Margin="0,0,0,3"
