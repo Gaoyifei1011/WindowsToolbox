@@ -172,9 +172,9 @@ namespace PowerTools.Views.Pages
                 isInitialized = true;
                 if (sender is Microsoft.UI.Xaml.Controls.NavigationView navigationView)
                 {
-                    foreach (object item in navigationView.MenuItems)
+                    foreach (object menuItem in navigationView.MenuItems)
                     {
-                        if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem && navigationViewItem.Tag is string tag)
+                        if (menuItem is Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem && navigationViewItem.Tag is string tag)
                         {
                             int tagIndex = PageList.FindIndex(item => string.Equals(item.Key, tag));
 

@@ -530,38 +530,35 @@ namespace PowerTools.Views.Pages
                         {
                             for (int index = 0; index < IconCollection.Count; index++)
                             {
-                                if (IconCollection[index] is IconModel iconItem)
-                                {
-                                    IntPtr[] phicon = new IntPtr[1];
-                                    int[] piconid = new int[1];
-                                    int iconIndex = Convert.ToInt32(iconItem.DisplayIndex);
-                                    int nIcons = User32Library.PrivateExtractIcons(filePath, iconIndex, Convert.ToInt32(SelectedIconSize.Key), Convert.ToInt32(SelectedIconSize.Key), phicon, piconid, 1, 0);
+                                IntPtr[] phicon = new IntPtr[1];
+                                int[] piconid = new int[1];
+                                int iconIndex = Convert.ToInt32(IconCollection[index].DisplayIndex);
+                                int nIcons = User32Library.PrivateExtractIcons(filePath, iconIndex, Convert.ToInt32(SelectedIconSize.Key), Convert.ToInt32(SelectedIconSize.Key), phicon, piconid, 1, 0);
 
-                                    if (nIcons is not 0)
+                                if (nIcons is not 0)
+                                {
+                                    try
                                     {
-                                        try
+                                        if (Icon.FromHandle(phicon[0]) is Icon icon)
                                         {
-                                            if (Icon.FromHandle(phicon[0]) is Icon icon)
+                                            if (Equals(SelectedIconFormat, IconFormatList[0]))
                                             {
-                                                if (Equals(SelectedIconFormat, IconFormatList[0]))
+                                                bool result = SaveIcon(icon, Path.Combine(openFolderDialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))));
+                                                if (!result)
                                                 {
-                                                    bool result = SaveIcon(icon, Path.Combine(openFolderDialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))));
-                                                    if (!result)
-                                                    {
-                                                        saveFailedCount++;
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    icon.ToBitmap().Save(Path.Combine(openFolderDialog.SelectedPath, string.Format("{0} - {1} - {2}.png", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))), ImageFormat.Png);
+                                                    saveFailedCount++;
                                                 }
                                             }
+                                            else
+                                            {
+                                                icon.ToBitmap().Save(Path.Combine(openFolderDialog.SelectedPath, string.Format("{0} - {1} - {2}.png", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))), ImageFormat.Png);
+                                            }
                                         }
-                                        catch (Exception e)
-                                        {
-                                            saveFailedCount++;
-                                            LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(openFolderDialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key)))), e);
-                                        }
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        saveFailedCount++;
+                                        LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(openFolderDialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key)))), e);
                                     }
                                 }
                             }

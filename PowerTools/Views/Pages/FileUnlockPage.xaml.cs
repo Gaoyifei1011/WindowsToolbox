@@ -249,11 +249,11 @@ namespace PowerTools.Views.Pages
 
                 if (result)
                 {
-                    foreach (ProcessInfoModel processItem in ProcessInfoCollection)
+                    foreach (ProcessInfoModel processInfoItem in ProcessInfoCollection)
                     {
-                        if (processItem.ProcessId.Equals(processid))
+                        if (processInfoItem.ProcessId.Equals(processid))
                         {
-                            ProcessInfoCollection.Remove(processItem);
+                            ProcessInfoCollection.Remove(processInfoItem);
                             break;
                         }
                     }

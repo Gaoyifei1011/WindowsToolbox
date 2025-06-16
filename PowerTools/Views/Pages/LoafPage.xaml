@@ -175,7 +175,7 @@
                                                 Click="{x:Bind OnUpdateStyleClicked}"
                                                 GroupName="UpdateStyleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedUpdateStyle.Key, UpdateList[0].Key), Mode=OneWay}"
-                                                Tag="0"
+                                                Tag="{x:Bind UpdateList[0]}"
                                                 Text="{x:Bind system:Convert.ToString(UpdateList[0].Value)}" />
 
                                             <controls:RadioMenuFlyoutItem
@@ -184,7 +184,7 @@
                                                 Click="{x:Bind OnUpdateStyleClicked}"
                                                 GroupName="UpdateStyleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedUpdateStyle.Key, UpdateList[1].Key), Mode=OneWay}"
-                                                Tag="1"
+                                                Tag="{x:Bind UpdateList[1]}"
                                                 Text="{x:Bind system:Convert.ToString(UpdateList[1].Value)}" />
                                         </MenuFlyout>
                                     </controls:DropDownButton.Flyout>

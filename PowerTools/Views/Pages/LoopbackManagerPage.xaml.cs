@@ -34,11 +34,11 @@ namespace PowerTools.Views.Pages
     /// </summary>
     public sealed partial class LoopbackManagerPage : Page, INotifyPropertyChanged
     {
-        private bool isInitialized;
         private readonly string LoopbackInformationString = ResourceService.LoopbackManagerResource.GetString("LoopbackInformation");
         private readonly string LoopbackEmptyDescriptionString = ResourceService.LoopbackManagerResource.GetString("LoopbackEmptyDescription");
         private readonly string LoopbackEmptyWithConditionDescriptionString = ResourceService.LoopbackManagerResource.GetString("LoopbackEmptyWithConditionDescription");
         private readonly BitmapImage emptyImage = new();
+        private bool isInitialized;
 
         private string _loopbackDescription = string.Empty;
 
@@ -740,17 +740,17 @@ namespace PowerTools.Views.Pages
         /// <summary>
         /// 获取加载网络回环是否成功
         /// </summary>
-        private Visibility GetLoopbackSuccessfullyState(LoopbackResultKind loopbackMenuResultKind, bool isSuccessfully)
+        private Visibility GetLoopbackSuccessfullyState(LoopbackResultKind loopbackResultKind, bool isSuccessfully)
         {
-            return isSuccessfully ? loopbackMenuResultKind is LoopbackResultKind.Successfully ? Visibility.Visible : Visibility.Collapsed : loopbackMenuResultKind is LoopbackResultKind.Successfully ? Visibility.Collapsed : Visibility.Visible;
+            return isSuccessfully ? loopbackResultKind is LoopbackResultKind.Successfully ? Visibility.Visible : Visibility.Collapsed : loopbackResultKind is LoopbackResultKind.Successfully ? Visibility.Collapsed : Visibility.Visible;
         }
 
         /// <summary>
-        /// 检查搜索右键菜单是否成功
+        /// 检查搜索网络回环是否成功
         /// </summary>
-        private Visibility CheckLoopbackState(LoopbackResultKind loopbackMenuResultKind, LoopbackResultKind comparedLoopbackResultKind)
+        private Visibility CheckLoopbackState(LoopbackResultKind loopbackResultKind, LoopbackResultKind comparedLoopbackResultKind)
         {
-            return Equals(loopbackMenuResultKind, comparedLoopbackResultKind) ? Visibility.Visible : Visibility.Collapsed;
+            return Equals(loopbackResultKind, comparedLoopbackResultKind) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>
