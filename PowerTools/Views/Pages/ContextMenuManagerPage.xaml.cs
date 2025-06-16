@@ -221,7 +221,12 @@ namespace PowerTools.Views.Pages
 
                 if (result.operationResult)
                 {
+                    contextMenuItem.IsEnabled = !contextMenuItem.IsEnabled;
                     contextMenuItem.BlockedClsidType = IsEnabled ? BlockedClsidType.Unknown : result.blockedClsidType;
+                }
+                else
+                {
+                    contextMenuItem.IsEnabled = contextMenuItem.IsEnabled;
                 }
 
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ContextMenuUpdate, result.operationResult));
