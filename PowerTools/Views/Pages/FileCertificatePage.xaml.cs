@@ -413,7 +413,7 @@ namespace PowerTools.Views.Pages
                 OperationFailedList.Add(operationFailedItem);
             }
 
-            IsOperationFailed = true;
+            IsOperationFailed = OperationFailedList.Count is not 0;
             int count = FileCertificateCollection.Count;
 
             lock (fileCertificateLock)

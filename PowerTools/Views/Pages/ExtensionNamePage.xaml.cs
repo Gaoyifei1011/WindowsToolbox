@@ -660,7 +660,7 @@ namespace PowerTools.Views.Pages
                 OperationFailedList.Add(operationFailedItem);
             }
 
-            IsOperationFailed = false;
+            IsOperationFailed = OperationFailedList.Count is not 0;
             int count = ExtensionNameCollection.Count;
 
             lock (extensionNameLock)
