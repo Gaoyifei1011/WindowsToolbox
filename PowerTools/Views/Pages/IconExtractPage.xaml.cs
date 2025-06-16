@@ -274,15 +274,15 @@ namespace PowerTools.Views.Pages
 
             try
             {
-                DataPackageView view = args.DataView;
+                DataPackageView dataPackageView = args.DataView;
 
                 IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
                 {
                     try
                     {
-                        if (view.Contains(StandardDataFormats.StorageItems))
+                        if (dataPackageView.Contains(StandardDataFormats.StorageItems))
                         {
-                            return await view.GetStorageItemsAsync();
+                            return await dataPackageView.GetStorageItemsAsync();
                         }
                     }
                     catch (Exception e)
@@ -420,17 +420,17 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new()
+            OpenFileDialog openFileDialog = new()
             {
                 Multiselect = false,
                 Filter = FilterConditionString,
                 Title = SelectFileString
             };
-            if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
+            if (openFileDialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(openFileDialog.FileName))
             {
-                await ParseIconFileAsync(dialog.FileName);
+                await ParseIconFileAsync(openFileDialog.FileName);
             }
-            dialog.Dispose();
+            openFileDialog.Dispose();
         }
 
         /// <summary>
@@ -442,13 +442,13 @@ namespace PowerTools.Views.Pages
             {
                 IList<object> selectedItemsList = IconsGridView.SelectedItems;
 
-                OpenFolderDialog dialog = new()
+                OpenFolderDialog openFolderDialog = new()
                 {
                     Description = SelectFolderString,
                     RootFolder = Environment.SpecialFolder.Desktop
                 };
-                DialogResult result = dialog.ShowDialog();
-                if (result is DialogResult.OK || result is DialogResult.Yes)
+                DialogResult dialogResult = openFolderDialog.ShowDialog();
+                if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
                 {
                     IsSaving = false;
                     int saveFailedCount = 0;
@@ -473,7 +473,7 @@ namespace PowerTools.Views.Pages
                                         {
                                             if (Equals(SelectedIconFormat, IconFormatList[0]))
                                             {
-                                                bool result = SaveIcon(icon, Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))));
+                                                bool result = SaveIcon(icon, Path.Combine(openFolderDialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))));
                                                 if (!result)
                                                 {
                                                     saveFailedCount++;
@@ -481,27 +481,27 @@ namespace PowerTools.Views.Pages
                                             }
                                             else
                                             {
-                                                icon.ToBitmap().Save(Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.png", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))), ImageFormat.Png);
+                                                icon.ToBitmap().Save(Path.Combine(openFolderDialog.SelectedPath, string.Format("{0} - {1} - {2}.png", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))), ImageFormat.Png);
                                             }
                                         }
                                     }
                                     catch (Exception e)
                                     {
                                         saveFailedCount++;
-                                        LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key)))), e);
+                                        LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(openFolderDialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key)))), e);
                                     }
                                 }
                             }
                         }
                     });
 
-                    dialog.Dispose();
+                    openFolderDialog.Dispose();
                     IsSaving = false;
                     await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.IconExtract, selectedItemsList.Count - saveFailedCount, saveFailedCount));
                 }
                 else
                 {
-                    dialog.Dispose();
+                    openFolderDialog.Dispose();
                 }
             }
         }
@@ -513,13 +513,13 @@ namespace PowerTools.Views.Pages
         {
             if (!string.IsNullOrEmpty(filePath))
             {
-                OpenFolderDialog dialog = new()
+                OpenFolderDialog openFolderDialog = new()
                 {
                     Description = SelectFolderString,
                     RootFolder = Environment.SpecialFolder.Desktop
                 };
-                DialogResult result = dialog.ShowDialog();
-                if (result is DialogResult.OK || result is DialogResult.Yes)
+                DialogResult dialogResult = openFolderDialog.ShowDialog();
+                if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
                 {
                     IsSaving = false;
                     int saveFailedCount = 0;
@@ -545,7 +545,7 @@ namespace PowerTools.Views.Pages
                                             {
                                                 if (Equals(SelectedIconFormat, IconFormatList[0]))
                                                 {
-                                                    bool result = SaveIcon(icon, Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))));
+                                                    bool result = SaveIcon(icon, Path.Combine(openFolderDialog.SelectedPath, string.Format("{0} - {1} - {2}.ico", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))));
                                                     if (!result)
                                                     {
                                                         saveFailedCount++;
@@ -553,14 +553,14 @@ namespace PowerTools.Views.Pages
                                                 }
                                                 else
                                                 {
-                                                    icon.ToBitmap().Save(Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}.png", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))), ImageFormat.Png);
+                                                    icon.ToBitmap().Save(Path.Combine(openFolderDialog.SelectedPath, string.Format("{0} - {1} - {2}.png", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key))), ImageFormat.Png);
                                                 }
                                             }
                                         }
                                         catch (Exception e)
                                         {
                                             saveFailedCount++;
-                                            LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(dialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key)))), e);
+                                            LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(openFolderDialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key)))), e);
                                         }
                                     }
                                 }
@@ -568,13 +568,13 @@ namespace PowerTools.Views.Pages
                         }
                     });
 
-                    dialog.Dispose();
+                    openFolderDialog.Dispose();
                     IsSaving = false;
                     await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.IconExtract, IconCollection.Count - saveFailedCount, saveFailedCount));
                 }
                 else
                 {
-                    dialog.Dispose();
+                    openFolderDialog.Dispose();
                 }
             }
         }

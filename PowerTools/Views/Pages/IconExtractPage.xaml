@@ -22,14 +22,14 @@
 
         <TextBlock
             Grid.Row="0"
-            Margin="30,15,30,6"
+            Margin="30,15,30,0"
             FontSize="22"
-            Text="{x:Bind rootservice:ResourceService.IconExtractResource.GetString('Title')}" />
+            Text="{x:Bind rootservice:ResourceService.IconExtractResource.GetString('IconExtract')}" />
 
         <TextBlock
             x:Name="GetResultsText"
             Grid.Row="1"
-            Margin="32,0,32,3"
+            Margin="32,3,32,3"
             FontSize="14"
             Text="{x:Bind GetResults, Mode=OneWay}"
             TextTrimming="CharacterEllipsis"
@@ -337,6 +337,7 @@
                     Orientation="Horizontal"
                     Spacing="5"
                     Visibility="{x:Bind IsSaving, Mode=OneWay}">
+
                     <controls:ProgressRing
                         Width="20"
                         Height="20"
