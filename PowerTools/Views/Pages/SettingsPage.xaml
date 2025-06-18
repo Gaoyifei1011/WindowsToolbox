@@ -10,1057 +10,147 @@
     xmlns:model="using:PowerTools.Models"
     xmlns:rootservice="using:PowerTools.Services.Root"
     xmlns:system="using:System"
-    NavigationCacheMode="Required"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Page.Resources>
-        <XamlUICommand x:Name="LanguageCommand" ExecuteRequested="{x:Bind OnLanguageExecuteRequested}" />
+        <TransitionCollection x:Name="SuppressNavigationTransitionCollection">
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <SuppressNavigationTransitionInfo />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+
+        <TransitionCollection x:Name="LeftSlideNavigationTransitionCollection">
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <SlideNavigationTransitionInfo Effect="FromLeft" />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+
+        <TransitionCollection x:Name="RightSlideNavigationTransitionCollection">
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <SlideNavigationTransitionInfo Effect="FromRight" />
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
     </Page.Resources>
 
-    <Grid Padding="0">
-
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Margin="30,0,30,0"
+            FontSize="22"
+            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Title')}" />
 
-        <Grid Grid.Row="0" Margin="30,15,30,5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <TextBlock
-                Grid.Column="0"
-                FontSize="22"
-                Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Title')}" />
-
-            <Button
-                Grid.Column="1"
-                Margin="0,0,6,0"
-                Click="{x:Bind OnRestartAppsClicked}"
-                Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('RestartApp')}"
-                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.SettingsResource.GetString('RestartAppToolTip')}" />
-
-            <Button
-                Grid.Column="2"
-                Click="{x:Bind OnSettingsInstructionClicked}"
-                Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('SettingsInstruction')}" />
-        </Grid>
-
-        <ScrollViewer
+        <controls:NavigationView
             Grid.Row="1"
-            HorizontalScrollBarVisibility="Disabled"
-            HorizontalScrollMode="Disabled"
-            VerticalScrollBarVisibility="Auto"
-            VerticalScrollMode="Enabled">
+            Margin="14,0,0,0"
+            x:FieldModifier="public"
+            AlwaysShowHeader="False"
+            IsBackButtonVisible="Collapsed"
+            IsPaneToggleButtonVisible="False"
+            IsSettingsVisible="False"
+            ItemInvoked="{x:Bind OnItemInvoked}"
+            Loaded="{x:Bind OnLoaded}"
+            PaneDisplayMode="Top"
+            SelectedItem="{x:Bind SelectedItem, Mode=OneWay}">
 
-            <StackPanel
-                Margin="30,0"
-                Padding="0,0,0,30"
-                Spacing="3">
-
-                <StackPanel
-                    Margin="0,0,0,5"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal"
-                    Spacing="5">
-
-                    <FontIcon
-                        Margin="0,2,0,0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        FontWeight="Medium"
-                        Glyph="&#xE76C;" />
-
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Appearance')}" />
-                </StackPanel>
-
-                <!--  应用主题设置  -->
-                <Grid
-                    Height="61"
-                    Padding="16,12"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="{StaticResource ControlCornerRadius}">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <FontIcon
-                        Grid.Column="0"
-                        Margin="0,0,12,0"
-                        FontSize="16"
-                        Glyph="&#xE790;" />
-
-                    <StackPanel
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Orientation="Vertical">
-
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('ThemeMode')}" />
-
+            <controls:NavigationView.MenuItems>
+                <controls:NavigationViewItem Tag="General">
+                    <controls:NavigationViewItem.Content>
                         <TextBlock
-                            x:Name="ThemeModeDescription"
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('ThemeModeDescription')}"
+                            x:Name="GeneralText"
+                            FontSize="16"
+                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('General')}"
                             TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap">
+                            TextWrapping="NoWrap" />
+                    </controls:NavigationViewItem.Content>
 
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('ThemeModeDescription')}"
-                                    Visibility="{x:Bind ThemeModeDescription.IsTextTrimmed, Mode=OneWay}" />
-                            </ToolTipService.ToolTip>
-                        </TextBlock>
-                    </StackPanel>
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('General')}"
+                            Visibility="{x:Bind GeneralText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </controls:NavigationViewItem>
 
-                    <HyperlinkButton
-                        Grid.Column="2"
-                        Margin="0,0,6,0"
-                        Click="{x:Bind OnSystemThemeSettingsClicked}"
-                        Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('SystemThemeSettings')}" />
-
-                    <controls:DropDownButton
-                        Grid.Column="3"
-                        VerticalAlignment="Center"
-                        Content="{x:Bind Theme.Value, Mode=OneWay}">
-
-                        <controls:DropDownButton.Flyout>
-                            <MenuFlyout Placement="Bottom">
-                                <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
-                                    Click="{x:Bind OnThemeSelectClicked}"
-                                    GroupName="ThemeRadioGroup"
-                                    IsChecked="{x:Bind Theme.Key.Equals(ThemeList[0].Key), Mode=OneWay}"
-                                    Tag="0"
-                                    Text="{x:Bind system:Convert.ToString(ThemeList[0].Value)}" />
-
-                                <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
-                                    Click="{x:Bind OnThemeSelectClicked}"
-                                    GroupName="ThemeRadioGroup"
-                                    IsChecked="{x:Bind Theme.Key.Equals(ThemeList[1].Key), Mode=OneWay}"
-                                    Tag="1"
-                                    Text="{x:Bind system:Convert.ToString(ThemeList[1].Value)}" />
-
-                                <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
-                                    Click="{x:Bind OnThemeSelectClicked}"
-                                    GroupName="ThemeRadioGroup"
-                                    IsChecked="{x:Bind Theme.Key.Equals(ThemeList[2].Key), Mode=OneWay}"
-                                    Tag="2"
-                                    Text="{x:Bind system:Convert.ToString(ThemeList[2].Value)}" />
-                            </MenuFlyout>
-                        </controls:DropDownButton.Flyout>
-                    </controls:DropDownButton>
-                </Grid>
-
-                <!--  窗口背景材质设置  -->
-                <Grid
-                    Height="61"
-                    Padding="16,12"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="{StaticResource ControlCornerRadius}">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <FontIcon
-                        Grid.Column="0"
-                        Margin="0,0,12,0"
-                        FontSize="16"
-                        Glyph="&#xE771;" />
-
-                    <StackPanel
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Orientation="Vertical">
-
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Backdrop')}" />
-
+                <controls:NavigationViewItem Tag="Download">
+                    <controls:NavigationViewItem.Content>
                         <TextBlock
-                            x:Name="BackdropDescription"
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('BackdropDescription')}"
+                            x:Name="DownloadText"
+                            FontSize="16"
+                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Download')}"
                             TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap">
+                            TextWrapping="NoWrap" />
+                    </controls:NavigationViewItem.Content>
 
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('BackdropDescription')}"
-                                    Visibility="{x:Bind BackdropDescription.IsTextTrimmed, Mode=OneWay}" />
-                            </ToolTipService.ToolTip>
-                        </TextBlock>
-                    </StackPanel>
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Download')}"
+                            Visibility="{x:Bind DownloadText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </controls:NavigationViewItem>
 
-                    <HyperlinkButton
-                        Grid.Column="2"
-                        Margin="0,0,6,0"
-                        Click="{x:Bind OnSystemBackdropSettingsClicked}"
-                        Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('SystemBackdropSettings')}" />
-
-                    <controls:DropDownButton
-                        Grid.Column="3"
-                        VerticalAlignment="Center"
-                        Content="{x:Bind LocalizeDisplayNumber(Backdrop), Mode=OneWay}">
-
-                        <controls:DropDownButton.Flyout>
-                            <MenuFlyout Placement="Bottom">
-                                <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
-                                    Click="{x:Bind OnBackdropSelectClicked}"
-                                    GroupName="BackdropRadioGroup"
-                                    IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[0].Key), Mode=OneWay}"
-                                    Tag="0"
-                                    Text="{x:Bind system:Convert.ToString(BackdropList[0].Value)}" />
-
-                                <MenuFlyoutSubItem
-                                    x:Name="MicaFlyoutItem"
-                                    Height="32"
-                                    Padding="11,0"
-                                    x:Load="{x:Bind backdrop:MicaBrush.IsSupported}"
-                                    Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Mica')}">
-
-                                    <controls:RadioMenuFlyoutItem
-                                        Height="32"
-                                        Padding="11,0"
-                                        Click="{x:Bind OnBackdropSelectClicked}"
-                                        GroupName="BackdropRadioGroup"
-                                        IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[1].Key), Mode=OneWay}"
-                                        Tag="1"
-                                        Text="{x:Bind system:Convert.ToString(BackdropList[1].Value)}" />
-
-                                    <controls:RadioMenuFlyoutItem
-                                        Height="32"
-                                        Padding="11,0"
-                                        Click="{x:Bind OnBackdropSelectClicked}"
-                                        GroupName="BackdropRadioGroup"
-                                        IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[2].Key), Mode=OneWay}"
-                                        Tag="2"
-                                        Text="{x:Bind system:Convert.ToString(BackdropList[2].Value)}" />
-                                </MenuFlyoutSubItem>
-
-                                <MenuFlyoutSubItem
-                                    x:Name="DesktopAcrylicFlyoutItem"
-                                    Height="32"
-                                    Padding="11,0,11,0"
-                                    x:Load="{x:Bind backdrop:DesktopAcrylicBrush.IsSupported}"
-                                    Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('DesktopAcrylic')}">
-
-                                    <controls:RadioMenuFlyoutItem
-                                        Height="32"
-                                        Padding="11,0"
-                                        Click="{x:Bind OnBackdropSelectClicked}"
-                                        GroupName="BackdropRadioGroup"
-                                        IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[3].Key), Mode=OneWay}"
-                                        Tag="3"
-                                        Text="{x:Bind system:Convert.ToString(BackdropList[3].Value)}" />
-
-                                    <controls:RadioMenuFlyoutItem
-                                        Height="32"
-                                        Padding="11,0"
-                                        Click="{x:Bind OnBackdropSelectClicked}"
-                                        GroupName="BackdropRadioGroup"
-                                        IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[4].Key), Mode=OneWay}"
-                                        Tag="4"
-                                        Text="{x:Bind system:Convert.ToString(BackdropList[4].Value)}" />
-
-                                    <controls:RadioMenuFlyoutItem
-                                        Height="32"
-                                        Padding="11,0"
-                                        Click="{x:Bind OnBackdropSelectClicked}"
-                                        GroupName="BackdropRadioGroup"
-                                        IsChecked="{x:Bind Backdrop.Key.Equals(BackdropList[5].Key), Mode=OneWay}"
-                                        Tag="5"
-                                        Text="{x:Bind system:Convert.ToString(BackdropList[5].Value)}" />
-                                </MenuFlyoutSubItem>
-                            </MenuFlyout>
-                        </controls:DropDownButton.Flyout>
-                    </controls:DropDownButton>
-                </Grid>
-
-                <!--  始终显示背景色设置  -->
-                <Grid
-                    Height="61"
-                    Padding="16,12"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="{StaticResource ControlCornerRadius}">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <FontIcon
-                        Grid.Column="0"
-                        Margin="0,0,12,0"
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="16"
-                        Glyph="&#xE81E;" />
-
-                    <StackPanel
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Orientation="Vertical">
-
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('AlwaysShowBackdrop')}" />
-
+                <controls:NavigationViewItem Tag="Advanced">
+                    <controls:NavigationViewItem.Content>
                         <TextBlock
-                            x:Name="AlwaysShowBackdropDescription"
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('AlwaysShowBackdropDescription')}"
+                            x:Name="AdvancedText"
+                            FontSize="16"
+                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Advanced')}"
                             TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap">
+                            TextWrapping="NoWrap" />
+                    </controls:NavigationViewItem.Content>
 
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('AlwaysShowBackdropDescription')}"
-                                    Visibility="{x:Bind AlwaysShowBackdropDescription.IsTextTrimmed, Mode=OneWay}" />
-                            </ToolTipService.ToolTip>
-                        </TextBlock>
-                    </StackPanel>
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Advanced')}"
+                            Visibility="{x:Bind AdvancedText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </controls:NavigationViewItem>
 
-                    <StackPanel
-                        Grid.Column="2"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-
+                <controls:NavigationViewItem Tag="About">
+                    <controls:NavigationViewItem.Content>
                         <TextBlock
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('AlwaysShowBackdropOffContent')}"
-                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(AlwaysShowBackdropValue), Mode=OneWay}" />
-
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('AlwaysShowBackdropOnContent')}"
-                            Visibility="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}" />
-
-                        <ToggleSwitch
-                            MinWidth="0"
-                            Margin="10,-2,-10,0"
-                            IsEnabled="{x:Bind converter:ValueConverterHelper.ObjectCompareReverseConvert(Backdrop.Key, BackdropList[0].Key), Mode=OneWay}"
-                            IsEnabledChanged="{x:Bind OnIsEnabledChanged}"
-                            IsOn="{x:Bind AlwaysShowBackdropValue, Mode=OneWay}"
-                            OffContent=""
-                            OnContent=""
-                            Toggled="{x:Bind OnAlwaysShowBackdropToggled}" />
-                    </StackPanel>
-                </Grid>
-
-                <!--  界面语言设置  -->
-                <Grid
-                    Height="61"
-                    Padding="16,12"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="{StaticResource ControlCornerRadius}">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <FontIcon
-                        Grid.Column="0"
-                        Margin="0,0,12,0"
-                        FontSize="16"
-                        Glyph="&#xF2B7;" />
-
-                    <StackPanel
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Orientation="Vertical">
-
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Language')}" />
-
-                        <TextBlock
-                            x:Name="LanguageDescription"
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('LanguageDescription')}"
+                            x:Name="AboutText"
+                            FontSize="16"
+                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('About')}"
                             TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap">
-
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('LanguageDescription')}"
-                                    Visibility="{x:Bind LanguageDescription.IsTextTrimmed, Mode=OneWay}" />
-                            </ToolTipService.ToolTip>
-                        </TextBlock>
-                    </StackPanel>
-
-                    <HyperlinkButton
-                        Grid.Column="2"
-                        Margin="0,0,6,0"
-                        VerticalAlignment="Center"
-                        Click="{x:Bind OnSystemLanguageSettingsClicked}"
-                        Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('SystemLanguageSettings')}" />
-
-                    <controls:DropDownButton
-                        Grid.Column="3"
-                        VerticalAlignment="Center"
-                        Content="{x:Bind AppLanguage.Value, Mode=OneWay}">
-
-                        <controls:DropDownButton.Flyout>
-                            <Flyout
-                                x:Name="LanguageFlyout"
-                                Opened="{x:Bind OnOpened}"
-                                Placement="Bottom"
-                                ShouldConstrainToRootBounds="False">
-
-                                <Flyout.FlyoutPresenterStyle>
-                                    <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                                        <Setter Property="Padding" Value="0" />
-                                        <Setter Property="MinHeight" Value="0" />
-                                    </Style>
-                                </Flyout.FlyoutPresenterStyle>
-
-                                <ListView
-                                    x:Name="LanguageListView"
-                                    MaxHeight="300"
-                                    Background="Transparent"
-                                    ItemsSource="{x:Bind LanguageCollection, Mode=OneWay}"
-                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                    ScrollViewer.HorizontalScrollMode="Disabled"
-                                    ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                    ScrollViewer.VerticalScrollMode="Enabled"
-                                    SelectionMode="None">
-
-                                    <ListView.ItemContainerStyle>
-                                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                                            <Setter Property="Padding" Value="0" />
-                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                            <Setter Property="Margin" Value="0,1" />
-                                            <Setter Property="MinHeight" Value="0 " />
-                                        </Style>
-                                    </ListView.ItemContainerStyle>
-
-                                    <ItemsControl.ItemContainerTransitions>
-                                        <TransitionCollection />
-                                    </ItemsControl.ItemContainerTransitions>
-
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate x:DataType="model:LanguageModel">
-                                            <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
-                                                Command="{StaticResource LanguageCommand}"
-                                                CommandParameter="{x:Bind}"
-                                                GroupName="LanguageRadioGroup"
-                                                IsChecked="{x:Bind IsChecked, Mode=OneWay}"
-                                                Text="{x:Bind system:Convert.ToString(LangaugeInfo.Value)}" />
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-                            </Flyout>
-                        </controls:DropDownButton.Flyout>
-                    </controls:DropDownButton>
-                </Grid>
-
-                <!--  窗口置顶设置  -->
-                <Grid
-                    Height="61"
-                    Padding="16,12"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="{StaticResource ControlCornerRadius}">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <FontIcon
-                        Grid.Column="0"
-                        Margin="0,0,12,0"
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="16"
-                        Glyph="&#xE840;" />
-
-                    <StackPanel
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Orientation="Vertical">
-
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('TopMost')}" />
-
-                        <TextBlock
-                            x:Name="TopMostDescription"
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('TopMostDescription')}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap">
-
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('TopMostDescription')}"
-                                    Visibility="{x:Bind TopMostDescription.IsTextTrimmed, Mode=OneWay}" />
-                            </ToolTipService.ToolTip>
-                        </TextBlock>
-                    </StackPanel>
-
-                    <StackPanel
-                        Grid.Column="2"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('TopMostOffContent')}"
-                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(TopMostValue), Mode=OneWay}" />
-
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('TopMostOnContent')}"
-                            Visibility="{x:Bind TopMostValue, Mode=OneWay}" />
-
-                        <ToggleSwitch
-                            MinWidth="0"
-                            Margin="10,-2,-10,0"
-                            IsEnabled="{x:Bind converter:ValueConverterHelper.ObjectCompareReverseConvert(Backdrop.Key, BackdropList[0].Key), Mode=OneWay}"
-                            IsEnabledChanged="{x:Bind OnIsEnabledChanged}"
-                            IsOn="{x:Bind TopMostValue, Mode=OneWay}"
-                            OffContent=""
-                            OnContent=""
-                            Toggled="{x:Bind OnTopMostToggled}" />
-                    </StackPanel>
-                </Grid>
-
-                <StackPanel
-                    Margin="0,0,0,5"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal"
-                    Spacing="5">
-
-                    <FontIcon
-                        Margin="0,2,0,0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        FontWeight="Medium"
-                        Glyph="&#xE76C;" />
-
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('General')}" />
-                </StackPanel>
-
-                <!--  下载管理设置  -->
-                <controls:Expander
-                    Padding="0"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    IsExpanded="True">
-
-                    <controls:Expander.Header>
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <FontIcon
-                                Grid.Column="0"
-                                Margin="0,0,12,0"
-                                FontSize="16"
-                                Glyph="&#xE896;" />
-
-                            <StackPanel
-                                Grid.Column="1"
-                                Margin="0,12"
-                                VerticalAlignment="Center"
-                                Orientation="Vertical">
-
-                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('DownloadOptions')}" />
-
-                                <TextBlock
-                                    x:Name="DownloadOptionsDescription"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('DownloadOptionsDescription')}"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap">
-
-                                    <ToolTipService.ToolTip>
-                                        <ToolTip
-                                            MaxWidth="9999"
-                                            Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('DownloadOptionsDescription')}"
-                                            Visibility="{x:Bind DownloadOptionsDescription.IsTextTrimmed, Mode=OneWay}" />
-                                    </ToolTipService.ToolTip>
-                                </TextBlock>
-                            </StackPanel>
-                        </Grid>
-                    </controls:Expander.Header>
-
-                    <controls:Expander.Content>
-                        <StackPanel Padding="0" HorizontalAlignment="Stretch">
-                            <Grid
-                                Height="52"
-                                Padding="44,0,16,0"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Orientation="Vertical">
-
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('DownloadFolder')}" />
-
-                                    <TextBlock TextTrimming="CharacterEllipsis" TextWrapping="NoWrap">
-                                        <Hyperlink Click="{x:Bind OnOpenFolderClicked}" UnderlineStyle="None">
-                                            <Run Text="{x:Bind DownloadFolder, Mode=OneWay}" />
-                                        </Hyperlink>
-
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip MaxWidth="9999">
-                                                <StackPanel HorizontalAlignment="Stretch">
-                                                    <TextBlock Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('DownloadFolderDescription')}" />
-                                                    <TextBlock Text="{x:Bind DownloadFolder, Mode=OneWay}" />
-                                                    <MenuFlyoutSeparator Margin="4,3" />
-                                                    <TextBlock Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('OpenFolderToolTip')}" />
-                                                </StackPanel>
-                                            </ToolTip>
-                                        </ToolTipService.ToolTip>
-                                    </TextBlock>
-                                </StackPanel>
-
-                                <controls:DropDownButton
-                                    Grid.Column="2"
-                                    Margin="6,0,0,0"
-                                    Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('ChangeFolder')}">
-
-                                    <controls:DropDownButton.Flyout>
-                                        <MenuFlyout Placement="Bottom">
-                                            <MenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
-                                                Click="{x:Bind OnChangeFolderClicked}"
-                                                Tag="Download"
-                                                Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Download')}">
-
-                                                <MenuFlyoutItem.Icon>
-                                                    <FontIcon Glyph="&#xE896;" />
-                                                </MenuFlyoutItem.Icon>
-                                            </MenuFlyoutItem>
-
-                                            <MenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
-                                                Click="{x:Bind OnChangeFolderClicked}"
-                                                Tag="Desktop"
-                                                Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Desktop')}">
-
-                                                <MenuFlyoutItem.Icon>
-                                                    <FontIcon Glyph="&#xE7F4;" />
-                                                </MenuFlyoutItem.Icon>
-                                            </MenuFlyoutItem>
-
-                                            <MenuFlyoutSeparator />
-
-                                            <MenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
-                                                Click="{x:Bind OnChangeFolderClicked}"
-                                                Tag="Custom"
-                                                Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Custom')}">
-
-                                                <MenuFlyoutItem.Icon>
-                                                    <FontIcon Glyph="&#xE8B7;" />
-                                                </MenuFlyoutItem.Icon>
-                                            </MenuFlyoutItem>
-                                        </MenuFlyout>
-                                    </controls:DropDownButton.Flyout>
-                                </controls:DropDownButton>
-                            </Grid>
-
-                            <MenuFlyoutSeparator />
-
-                            <Grid
-                                Height="52"
-                                Padding="44,0,16,0"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Orientation="Vertical">
-
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('DoEngineMode')}" />
-
-                                    <TextBlock
-                                        x:Name="DoEngineModeDescription"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('DoEngineModeDescription')}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap">
-
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip
-                                                MaxWidth="9999"
-                                                Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('DoEngineModeDescription')}"
-                                                Visibility="{x:Bind DoEngineModeDescription.IsTextTrimmed, Mode=OneWay}" />
-                                        </ToolTipService.ToolTip>
-                                    </TextBlock>
-                                </StackPanel>
-
-                                <HyperlinkButton
-                                    Grid.Column="1"
-                                    Margin="0,0,6,0"
-                                    VerticalAlignment="Center"
-                                    Click="{x:Bind OnLearnDoEngineClicked}"
-                                    Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('LearnDoEngine')}" />
-
-                                <controls:DropDownButton
-                                    Grid.Column="2"
-                                    VerticalAlignment="Center"
-                                    Content="{x:Bind DoEngineMode.Value, Mode=OneWay}">
-
-                                    <controls:DropDownButton.Flyout>
-                                        <MenuFlyout Placement="Bottom">
-                                            <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
-                                                Click="{x:Bind OnDoEngineModeSelectClicked}"
-                                                GroupName="DoEngineModeRadioGroup"
-                                                IsChecked="{x:Bind DoEngineMode.Key.Equals(DoEngineModeList[0].Key), Mode=OneWay}"
-                                                Tag="0"
-                                                Text="{x:Bind system:Convert.ToString(DoEngineModeList[0].Value)}" />
-
-                                            <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
-                                                Click="{x:Bind OnDoEngineModeSelectClicked}"
-                                                GroupName="DoEngineModeRadioGroup"
-                                                IsChecked="{x:Bind DoEngineMode.Key.Equals(DoEngineModeList[1].Key), Mode=OneWay}"
-                                                Tag="1"
-                                                Text="{x:Bind system:Convert.ToString(DoEngineModeList[1].Value)}" />
-                                        </MenuFlyout>
-                                    </controls:DropDownButton.Flyout>
-                                </controls:DropDownButton>
-                            </Grid>
-                        </StackPanel>
-                    </controls:Expander.Content>
-                </controls:Expander>
-
-                <!--  文件右键菜单设置  -->
-                <Grid
-                    Height="61"
-                    Padding="16,12"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="{StaticResource ControlCornerRadius}">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <FontIcon
-                        Grid.Column="0"
-                        Margin="0,0,12,0"
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="16"
-                        Glyph="&#xE8FD;" />
-
-                    <StackPanel
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Orientation="Vertical">
-
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('FileShellMenu')}" />
-
-                        <TextBlock
-                            x:Name="FileShellMenuDescription"
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('FileShellMenuDescription')}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap">
-
-                            <ToolTipService.ToolTip>
-                                <ToolTip
-                                    MaxWidth="9999"
-                                    Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('FileShellMenuDescription')}"
-                                    Visibility="{x:Bind FileShellMenuDescription.IsTextTrimmed, Mode=OneWay}" />
-                            </ToolTipService.ToolTip>
-                        </TextBlock>
-                    </StackPanel>
-
-                    <HyperlinkButton
-                        Grid.Column="2"
-                        Margin="0,0,6,0"
-                        VerticalAlignment="Center"
-                        Click="{x:Bind OnRestartExplorerClicked}"
-                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsRestarting), Mode=OneWay}">
-
-                        <HyperlinkButton.Content>
-                            <Grid>
-                                <TextBlock Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('RestartExplorer')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsRestarting), Mode=OneWay}" />
-                                <TextBlock Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Restarting')}" Visibility="{x:Bind IsRestarting, Mode=OneWay}" />
-                            </Grid>
-                        </HyperlinkButton.Content>
-                    </HyperlinkButton>
-
-                    <StackPanel
-                        Grid.Column="3"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('FileShellMenuOffContent')}"
-                            Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(FileShellMenuValue), Mode=OneWay}" />
-
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('FileShellMenuOnContent')}"
-                            Visibility="{x:Bind FileShellMenuValue, Mode=OneWay}" />
-
-                        <ToggleSwitch
-                            MinWidth="0"
-                            Margin="10,-2,-10,0"
-                            IsEnabled="{x:Bind converter:ValueConverterHelper.ObjectCompareReverseConvert(Backdrop.Key, BackdropList[0].Key), Mode=OneWay}"
-                            IsEnabledChanged="{x:Bind OnIsEnabledChanged}"
-                            IsOn="{x:Bind FileShellMenuValue, Mode=OneWay}"
-                            OffContent=""
-                            OnContent=""
-                            Toggled="{x:Bind OnFileShellMenuToggled}" />
-                    </StackPanel>
-                </Grid>
-
-                <StackPanel
-                    Margin="0,0,0,5"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal"
-                    Spacing="5">
-
-                    <FontIcon
-                        Margin="0,2,0,0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        FontWeight="Medium"
-                        Glyph="&#xE76C;" />
-
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Advanced')}" />
-                </StackPanel>
-
-                <!--  日志记录设置  -->
-                <controls:Expander
-                    Padding="0"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    IsExpanded="True">
-
-                    <controls:Expander.Header>
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <FontIcon
-                                Grid.Column="0"
-                                Margin="0,0,12,0"
-                                FontSize="16"
-                                Glyph="&#xE70B;" />
-
-                            <StackPanel
-                                Grid.Column="1"
-                                Margin="0,12"
-                                VerticalAlignment="Center"
-                                Orientation="Vertical">
-
-                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('LogRecord')}" />
-
-                                <TextBlock
-                                    x:Name="LogRecordDescription"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('LogRecordDescription')}"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap">
-
-                                    <ToolTipService.ToolTip>
-                                        <ToolTip
-                                            MaxWidth="9999"
-                                            Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('LogRecordDescription')}"
-                                            Visibility="{x:Bind LogRecordDescription.IsTextTrimmed, Mode=OneWay}" />
-                                    </ToolTipService.ToolTip>
-                                </TextBlock>
-                            </StackPanel>
-                        </Grid>
-                    </controls:Expander.Header>
-
-                    <controls:Expander.Content>
-                        <StackPanel Padding="0" HorizontalAlignment="Stretch">
-                            <Grid
-                                Height="52"
-                                Padding="44,0,16,0"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Orientation="Vertical">
-
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('LogFolder')}" />
-
-                                    <TextBlock
-                                        x:Name="LogFolderDescription"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('LogFolderDescription')}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap">
-
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip
-                                                MaxWidth="9999"
-                                                Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('LogFolderDescription')}"
-                                                Visibility="{x:Bind LogFolderDescription.IsTextTrimmed, Mode=OneWay}" />
-                                        </ToolTipService.ToolTip>
-                                    </TextBlock>
-                                </StackPanel>
-
-                                <Button
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Click="{x:Bind OnOpenLogFolderClicked}"
-                                    Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('OpenLogFolder')}" />
-                            </Grid>
-
-                            <MenuFlyoutSeparator />
-
-                            <Grid
-                                Height="52"
-                                Padding="44,0,16,0"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Orientation="Vertical">
-
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('ClearLog')}" />
-
-                                    <TextBlock
-                                        x:Name="ClearLogDescription"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('ClearLogDescription')}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap">
-
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip
-                                                MaxWidth="9999"
-                                                Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('ClearLogDescription')}"
-                                                Visibility="{x:Bind ClearLogDescription.IsTextTrimmed, Mode=OneWay}" />
-                                        </ToolTipService.ToolTip>
-                                    </TextBlock>
-                                </StackPanel>
-
-                                <Button
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Click="{x:Bind OnClearClicked}"
-                                    Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Clear')}" />
-                            </Grid>
-                        </StackPanel>
-                    </controls:Expander.Content>
-                </controls:Expander>
-            </StackPanel>
-        </ScrollViewer>
+                            TextWrapping="NoWrap" />
+                    </controls:NavigationViewItem.Content>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('About')}"
+                            Visibility="{x:Bind AboutText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </controls:NavigationViewItem>
+            </controls:NavigationView.MenuItems>
+
+            <Grid Margin="-14,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <MenuFlyoutSeparator Grid.Row="0" Margin="32,0,34,3" />
+
+                <Frame
+                    x:Name="SettingsFrame"
+                    Grid.Row="1"
+                    Navigated="{x:Bind OnNavigated}"
+                    NavigationFailed="{x:Bind OnNavigationFailed}" />
+            </Grid>
+        </controls:NavigationView>
     </Grid>
 </Page>
