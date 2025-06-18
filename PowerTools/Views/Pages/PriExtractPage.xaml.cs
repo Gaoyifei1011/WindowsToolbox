@@ -306,18 +306,17 @@ namespace PowerTools.Views.Pages
         {
             base.OnDrop(args);
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
-
+            string filePath = string.Empty;
             try
             {
-                DataPackageView view = default;
-
+                DataPackageView dataPackageView = args.DataView;
                 IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
                 {
                     try
                     {
-                        if (view.Contains(StandardDataFormats.StorageItems))
+                        if (dataPackageView.Contains(StandardDataFormats.StorageItems))
                         {
-                            return await view.GetStorageItemsAsync();
+                            return await dataPackageView.GetStorageItemsAsync();
                         }
                     }
                     catch (Exception e)
@@ -330,7 +329,7 @@ namespace PowerTools.Views.Pages
 
                 if (filesList is not null && filesList.Count is 1)
                 {
-                    await ParseResourceFileAsync(filesList[0].Path);
+                    filePath = filesList[0].Path;
                 }
                 else
                 {
@@ -344,6 +343,11 @@ namespace PowerTools.Views.Pages
             finally
             {
                 dragOperationDeferral.Complete();
+            }
+
+            if (File.Exists(filePath))
+            {
+                await ParseResourceFileAsync(filePath);
             }
         }
 
@@ -601,17 +605,17 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnSelectSaveFolderClicked(object sender, RoutedEventArgs args)
         {
-            OpenFolderDialog dialog = new()
+            OpenFolderDialog openFolderDialog = new()
             {
                 Description = SelectFolderString,
                 RootFolder = Environment.SpecialFolder.Desktop
             };
-            DialogResult result = dialog.ShowDialog();
-            if (result is DialogResult.OK || result is DialogResult.Yes)
+            DialogResult dialogResult = openFolderDialog.ShowDialog();
+            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
             {
-                SelectedSaveFolder = dialog.SelectedPath;
+                SelectedSaveFolder = openFolderDialog.SelectedPath;
             }
-            dialog.Dispose();
+            openFolderDialog.Dispose();
         }
 
         /// <summary>
@@ -634,18 +638,18 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new()
+            OpenFileDialog openFileDialog = new()
             {
                 Multiselect = false,
                 Filter = FilterConditionString,
                 Title = SelectFileString
             };
 
-            if (dialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
+            if (openFileDialog.ShowDialog() is DialogResult.OK && !string.IsNullOrEmpty(openFileDialog.FileName))
             {
-                await ParseResourceFileAsync(dialog.FileName);
+                await ParseResourceFileAsync(openFileDialog.FileName);
             }
-            dialog.Dispose();
+            openFileDialog.Dispose();
         }
 
         /// <summary>
@@ -709,12 +713,12 @@ namespace PowerTools.Views.Pages
             if (selectedEmbeddedDataList.Count > 0)
             {
                 IsProcessing = true;
-                OpenFolderDialog dialog = new()
+                OpenFolderDialog openFolderDialog = new()
                 {
                     Description = SelectFolderString,
                     RootFolder = Environment.SpecialFolder.Desktop
                 };
-                DialogResult result = dialog.ShowDialog();
+                DialogResult result = openFolderDialog.ShowDialog();
                 if (result is DialogResult.OK || result is DialogResult.Yes)
                 {
                     await Task.Run(() =>
@@ -723,17 +727,17 @@ namespace PowerTools.Views.Pages
                         {
                             foreach (EmbeddedDataModel embeddedDataItem in selectedEmbeddedDataList)
                             {
-                                File.WriteAllBytes(Path.Combine(dialog.SelectedPath, Path.GetFileName(embeddedDataItem.Key)), embeddedDataItem.EmbeddedData);
+                                File.WriteAllBytes(Path.Combine(openFolderDialog.SelectedPath, Path.GetFileName(embeddedDataItem.Key)), embeddedDataItem.EmbeddedData);
                             }
 
-                            Process.Start(dialog.SelectedPath);
+                            Process.Start(openFolderDialog.SelectedPath);
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", openFolderDialog.SelectedPath), e);
                         }
 
-                        dialog.Dispose();
+                        openFolderDialog.Dispose();
                     });
 
                     IsProcessing = false;
@@ -741,7 +745,7 @@ namespace PowerTools.Views.Pages
                 else
                 {
                     IsProcessing = false;
-                    dialog.Dispose();
+                    openFolderDialog.Dispose();
                 }
             }
         }
@@ -799,13 +803,13 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnExportAllEmbeddedDataClicked(object sender, RoutedEventArgs args)
         {
-            OpenFolderDialog dialog = new()
+            OpenFolderDialog openFolderDialog = new()
             {
                 Description = SelectFolderString,
                 RootFolder = Environment.SpecialFolder.Desktop
             };
 
-            DialogResult result = dialog.ShowDialog();
+            DialogResult result = openFolderDialog.ShowDialog();
             if (result is DialogResult.OK || result is DialogResult.Yes)
             {
                 IsProcessing = true;
@@ -818,24 +822,24 @@ namespace PowerTools.Views.Pages
                         {
                             foreach (EmbeddedDataModel embeddedDataItem in exportAllEmbeddedDataList)
                             {
-                                File.WriteAllBytes(Path.Combine(dialog.SelectedPath, Path.GetFileName(embeddedDataItem.Key)), embeddedDataItem.EmbeddedData);
+                                File.WriteAllBytes(Path.Combine(openFolderDialog.SelectedPath, Path.GetFileName(embeddedDataItem.Key)), embeddedDataItem.EmbeddedData);
                             }
 
-                            Process.Start(dialog.SelectedPath);
+                            Process.Start(openFolderDialog.SelectedPath);
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", openFolderDialog.SelectedPath), e);
                         }
                     });
                 }
 
-                dialog.Dispose();
+                openFolderDialog.Dispose();
                 IsProcessing = false;
             }
             else
             {
-                dialog.Dispose();
+                openFolderDialog.Dispose();
             }
         }
 
@@ -856,8 +860,8 @@ namespace PowerTools.Views.Pages
 
             bool result = await Task.Run(() =>
             {
-                stringFileName = string.Format("{0} - {1}.txt", Path.GetFileName(filePath), "Strings.txt");
-                filePathFileName = string.Format("{0} - {1}.txt", Path.GetFileName(filePath), "FilePath.txt");
+                stringFileName = string.Format("{0} - {1}.txt", Path.GetFileName(filePath), "Strings");
+                filePathFileName = string.Format("{0} - {1}.txt", Path.GetFileName(filePath), "FilePath");
 
                 stringList.Clear();
                 filePathList.Clear();

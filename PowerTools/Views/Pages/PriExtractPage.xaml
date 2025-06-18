@@ -26,7 +26,7 @@
         <XamlUICommand x:Name="EmbeddedDataCommand" ExecuteRequested="{x:Bind OnEmbeddedDataExecuteRequested}" />
     </Page.Resources>
 
-    <Grid Padding="0">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -35,14 +35,14 @@
 
         <TextBlock
             Grid.Row="0"
-            Margin="30,15,30,6"
+            Margin="30,15,30,0"
             FontSize="22"
-            Text="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('Title')}" />
+            Text="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('PriExtract')}" />
 
         <TextBlock
             x:Name="GetResultsText"
             Grid.Row="1"
-            Margin="32,0,32,3"
+            Margin="32,3,32,3"
             FontSize="14"
             Text="{x:Bind GetResults, Mode=OneWay}"
             TextTrimming="CharacterEllipsis"
@@ -63,7 +63,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!--  字符串资源  -->
+            <!--  包资源索引列表控件  -->
             <Grid
                 Grid.Column="0"
                 Margin="0,0,0,5"
@@ -694,6 +694,7 @@
 
             <AppBarSeparator Grid.Column="1" Margin="10,0" />
 
+            <!--  包资源索引控制栏  -->
             <Grid Grid.Column="2" Width="260">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -901,7 +902,7 @@
 
                 <StackPanel
                     Grid.Row="1"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,5"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
                     Orientation="Horizontal"
