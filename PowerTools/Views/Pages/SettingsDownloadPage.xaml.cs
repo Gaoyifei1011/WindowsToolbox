@@ -72,9 +72,9 @@ namespace PowerTools.Views.Pages
         public SettingsDownloadPage()
         {
             InitializeComponent();
-            DoEngineModeList.Add(new KeyValuePair<string, string>(DownloadOptionsService.DoEngineModeList[0], DoEngineAria2String));
-            DoEngineModeList.Add(new KeyValuePair<string, string>(DownloadOptionsService.DoEngineModeList[1], DoEngineBitsString));
             DoEngineModeList.Add(new KeyValuePair<string, string>(DownloadOptionsService.DoEngineModeList[2], DoEngineDoString));
+            DoEngineModeList.Add(new KeyValuePair<string, string>(DownloadOptionsService.DoEngineModeList[1], DoEngineBitsString));
+            DoEngineModeList.Add(new KeyValuePair<string, string>(DownloadOptionsService.DoEngineModeList[0], DoEngineAria2String));
             DoEngineMode = DoEngineModeList.Find(item => string.Equals(item.Key, DownloadOptionsService.DoEngineMode, StringComparison.OrdinalIgnoreCase));
         }
 
@@ -176,9 +176,9 @@ namespace PowerTools.Views.Pages
 
         private void OnDoEngineModeSelectClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is string tag)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> doEngineMode)
             {
-                DoEngineMode = DoEngineModeList[Convert.ToInt32(tag)];
+                DoEngineMode = doEngineMode;
                 DownloadOptionsService.SetDoEngineMode(DoEngineMode.Key);
             }
         }
