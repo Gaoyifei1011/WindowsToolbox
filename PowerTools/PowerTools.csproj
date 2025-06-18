@@ -217,6 +217,12 @@
     <EmbeddedResource Include="Strings\Settings.en-us.restext" />
     <EmbeddedResource Include="Strings\Settings.restext" />
     <EmbeddedResource Include="Strings\Settings.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\SettingsDownload.en-us.restext" />
+    <EmbeddedResource Include="Strings\SettingsDownload.restext" />
+    <EmbeddedResource Include="Strings\SettingsDownload.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\SettingsGeneral.en-us.restext" />
+    <EmbeddedResource Include="Strings\SettingsGeneral.restext" />
+    <EmbeddedResource Include="Strings\SettingsGeneral.zh-hans.restext" />
     <EmbeddedResource Include="Strings\ShellMenu.en-us.restext" />
     <EmbeddedResource Include="Strings\ShellMenu.restext" />
     <EmbeddedResource Include="Strings\ShellMenu.zh-hans.restext" />
@@ -272,6 +278,8 @@
     <None Remove="Views\Pages\MainPage.xaml" />
     <None Remove="Views\Pages\PriExtractPage.xaml" />
     <None Remove="Views\Pages\SettingsAboutPage.xaml" />
+    <None Remove="Views\Pages\SettingsDownloadPage.xaml" />
+    <None Remove="Views\Pages\SettingsGeneralPage.xaml" />
     <None Remove="Views\Pages\SettingsPage.xaml" />
     <None Remove="Views\Pages\ShellMenuPage.xaml" />
     <None Remove="Views\Pages\SimulateUpdatePage.xaml" />
@@ -303,6 +311,8 @@
     <Page Include="Views\Dialogs\OperationFailedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\RebootDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\SettingsDownloadPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\SettingsGeneralPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\TeachingTips\DataCopyTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\TeachingTips\OperationResultTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\TeachingTips\QuickOperationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
