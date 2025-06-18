@@ -24,38 +24,6 @@ namespace PowerTools.Models
             }
         }
 
-        private bool _isOperating;
-
-        public bool IsOperating
-        {
-            get { return _isOperating; }
-
-            set
-            {
-                if (!Equals(_isOperating, value))
-                {
-                    _isOperating = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsOperating)));
-                }
-            }
-        }
-
-        private bool _isProcessing;
-
-        public bool IsProcessing
-        {
-            get { return _isProcessing; }
-
-            set
-            {
-                if (!Equals(_isProcessing, value))
-                {
-                    _isProcessing = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsProcessing)));
-                }
-            }
-        }
-
         /// <summary>
         /// 驱动名称
         /// </summary>
