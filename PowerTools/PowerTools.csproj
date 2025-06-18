@@ -217,6 +217,9 @@
     <EmbeddedResource Include="Strings\Settings.en-us.restext" />
     <EmbeddedResource Include="Strings\Settings.restext" />
     <EmbeddedResource Include="Strings\Settings.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\SettingsAdvanced.en-us.restext" />
+    <EmbeddedResource Include="Strings\SettingsAdvanced.restext" />
+    <EmbeddedResource Include="Strings\SettingsAdvanced.zh-hans.restext" />
     <EmbeddedResource Include="Strings\SettingsDownload.en-us.restext" />
     <EmbeddedResource Include="Strings\SettingsDownload.restext" />
     <EmbeddedResource Include="Strings\SettingsDownload.zh-hans.restext" />
@@ -278,6 +281,7 @@
     <None Remove="Views\Pages\MainPage.xaml" />
     <None Remove="Views\Pages\PriExtractPage.xaml" />
     <None Remove="Views\Pages\SettingsAboutPage.xaml" />
+    <None Remove="Views\Pages\SettingsAdvancedPage.xaml" />
     <None Remove="Views\Pages\SettingsDownloadPage.xaml" />
     <None Remove="Views\Pages\SettingsGeneralPage.xaml" />
     <None Remove="Views\Pages\SettingsPage.xaml" />
@@ -311,6 +315,7 @@
     <Page Include="Views\Dialogs\OperationFailedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\RebootDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\SettingsAdvancedPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsDownloadPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsGeneralPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\TeachingTips\DataCopyTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />

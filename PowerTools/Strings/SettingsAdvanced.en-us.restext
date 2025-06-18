@@ -1,0 +1,14 @@
+Clear=Clear
+ClearLog=Clear log record
+ClearLogDescription=Clear all log contents of the app
+FileShellMenu=File right-click menu
+FileShellMenuDescription=Whether to display the file right-click menu in the system
+FileShellMenuOffContent=Hide
+FileShellMenuOnContent=Show
+LogFolder=Log storage path
+LogFolderDescription=Manage the log content of the app
+LogRecord=Log record
+LogRecordDescription=Manage app log record
+OpenLogFolder=Open folder
+RestartExplorer=Restart explorer
+Restarting=Restarting now...
