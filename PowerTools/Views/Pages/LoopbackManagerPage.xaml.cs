@@ -37,6 +37,7 @@ namespace PowerTools.Views.Pages
         private readonly string LoopbackInformationString = ResourceService.LoopbackManagerResource.GetString("LoopbackInformation");
         private readonly string LoopbackEmptyDescriptionString = ResourceService.LoopbackManagerResource.GetString("LoopbackEmptyDescription");
         private readonly string LoopbackEmptyWithConditionDescriptionString = ResourceService.LoopbackManagerResource.GetString("LoopbackEmptyWithConditionDescription");
+        private readonly string UnknownString = ResourceService.LoopbackManagerResource.GetString("Unknown");
         private readonly BitmapImage emptyImage = new();
         private bool isInitialized;
 
@@ -440,16 +441,16 @@ namespace PowerTools.Views.Pages
 
                         LoopbackModel loopbackItem = new()
                         {
-                            AppContainerName = string.IsNullOrEmpty(inetContainerItem.appContainerName) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : inetContainerItem.appContainerName,
+                            AppContainerName = string.IsNullOrEmpty(inetContainerItem.appContainerName) ? UnknownString : inetContainerItem.appContainerName,
                             AppContainerSID = inetContainerItem.appContainerSid,
-                            AppContainerSIDName = string.IsNullOrEmpty(Convert.ToString(appContainerSid)) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : Convert.ToString(appContainerSid),
-                            DisplayName = string.IsNullOrEmpty(Convert.ToString(displayNameBuilder)) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : Convert.ToString(displayNameBuilder),
-                            Description = string.IsNullOrEmpty(Convert.ToString(descriptionBuilder)) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : Convert.ToString(descriptionBuilder),
-                            WorkingDirectory = string.IsNullOrEmpty(inetContainerItem.workingDirectory) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : inetContainerItem.workingDirectory,
-                            PackageFullName = string.IsNullOrEmpty(inetContainerItem.packageFullName) ? ResourceService.LoopbackManagerResource.GetString("Unknown") : inetContainerItem.packageFullName,
+                            AppContainerSIDName = string.IsNullOrEmpty(Convert.ToString(appContainerSid)) ? UnknownString : Convert.ToString(appContainerSid),
+                            DisplayName = string.IsNullOrEmpty(Convert.ToString(displayNameBuilder)) ? UnknownString : Convert.ToString(displayNameBuilder),
+                            Description = string.IsNullOrEmpty(Convert.ToString(descriptionBuilder)) ? UnknownString : Convert.ToString(descriptionBuilder),
+                            WorkingDirectory = string.IsNullOrEmpty(inetContainerItem.workingDirectory) ? UnknownString : inetContainerItem.workingDirectory,
+                            PackageFullName = string.IsNullOrEmpty(inetContainerItem.packageFullName) ? UnknownString : inetContainerItem.packageFullName,
                             PackageIconUri = Uri.TryCreate(logoFullPath, UriKind.Absolute, out Uri uri) ? uri : null,
-                            AppBinariesPath = stringBinaries is not null ? string.Concat(stringBinaries) : ResourceService.LoopbackManagerResource.GetString("Unknown"),
-                            AppContainerUserName = userAccountType is not null ? Convert.ToString(userAccountType) : ResourceService.LoopbackManagerResource.GetString("Unknown"),
+                            AppBinariesPath = stringBinaries is not null ? string.Concat(stringBinaries) : UnknownString,
+                            AppContainerUserName = userAccountType is not null ? Convert.ToString(userAccountType) : UnknownString,
                             IsSelected = isEnabled,
                             IsOldChecked = isEnabled
                         };
@@ -474,82 +475,79 @@ namespace PowerTools.Views.Pages
             }
             else
             {
-                if (string.IsNullOrEmpty(SearchText))
+                foreach (LoopbackModel loopbackItem in LoopbackList)
                 {
-                    foreach (LoopbackModel loopbackItem in LoopbackList)
+                    loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+
+                    try
                     {
-                        loopbackItem.IsSelected = loopbackItem.IsOldChecked;
-
-                        try
+                        BitmapImage bitmapImage = new();
+                        if (loopbackItem.PackageIconUri is not null)
                         {
-                            BitmapImage bitmapImage = new();
-                            if (loopbackItem.PackageIconUri is not null)
-                            {
-                                bitmapImage.UriSource = loopbackItem.PackageIconUri;
-                            }
-                            loopbackItem.AppIcon = bitmapImage;
+                            bitmapImage.UriSource = loopbackItem.PackageIconUri;
                         }
-                        catch (Exception)
-                        {
-                            loopbackItem.AppIcon = emptyImage;
-                        }
+                        loopbackItem.AppIcon = bitmapImage;
+                    }
+                    catch (Exception)
+                    {
+                        loopbackItem.AppIcon = emptyImage;
+                    }
 
-                        if (string.IsNullOrEmpty(SearchText))
+                    if (string.IsNullOrEmpty(SearchText))
+                    {
+                        LoopbackCollection.Add(loopbackItem);
+                        continue;
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(loopbackItem.AppContainerName) && loopbackItem.AppContainerName.Contains(SearchText))
                         {
+                            loopbackItem.IsSelected = loopbackItem.IsOldChecked;
                             LoopbackCollection.Add(loopbackItem);
                             continue;
                         }
-                        else
+
+                        if (!string.IsNullOrEmpty(loopbackItem.DisplayName) && loopbackItem.DisplayName.Contains(SearchText))
                         {
-                            if (!string.IsNullOrEmpty(loopbackItem.AppContainerName) && loopbackItem.AppContainerName.Contains(SearchText))
-                            {
-                                loopbackItem.IsSelected = loopbackItem.IsOldChecked;
-                                LoopbackCollection.Add(loopbackItem);
-                                continue;
-                            }
+                            loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+                            LoopbackCollection.Add(loopbackItem);
+                            continue;
+                        }
 
-                            if (!string.IsNullOrEmpty(loopbackItem.DisplayName) && loopbackItem.DisplayName.Contains(SearchText))
-                            {
-                                loopbackItem.IsSelected = loopbackItem.IsOldChecked;
-                                LoopbackCollection.Add(loopbackItem);
-                                continue;
-                            }
+                        if (!string.IsNullOrEmpty(loopbackItem.Description) && loopbackItem.Description.Contains(SearchText))
+                        {
+                            loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+                            LoopbackCollection.Add(loopbackItem);
+                            continue;
+                        }
 
-                            if (!string.IsNullOrEmpty(loopbackItem.Description) && loopbackItem.Description.Contains(SearchText))
-                            {
-                                loopbackItem.IsSelected = loopbackItem.IsOldChecked;
-                                LoopbackCollection.Add(loopbackItem);
-                                continue;
-                            }
+                        if (!string.IsNullOrEmpty(loopbackItem.PackageFullName) && loopbackItem.PackageFullName.Contains(SearchText))
+                        {
+                            loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+                            LoopbackCollection.Add(loopbackItem);
+                            continue;
+                        }
 
-                            if (!string.IsNullOrEmpty(loopbackItem.PackageFullName) && loopbackItem.PackageFullName.Contains(SearchText))
-                            {
-                                loopbackItem.IsSelected = loopbackItem.IsOldChecked;
-                                LoopbackCollection.Add(loopbackItem);
-                                continue;
-                            }
+                        if (!string.IsNullOrEmpty(loopbackItem.AppContainerUserName) && loopbackItem.AppContainerUserName.Contains(SearchText))
+                        {
+                            loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+                            LoopbackCollection.Add(loopbackItem);
+                            continue;
+                        }
 
-                            if (!string.IsNullOrEmpty(loopbackItem.AppContainerUserName) && loopbackItem.AppContainerUserName.Contains(SearchText))
-                            {
-                                loopbackItem.IsSelected = loopbackItem.IsOldChecked;
-                                LoopbackCollection.Add(loopbackItem);
-                                continue;
-                            }
-
-                            if (!string.IsNullOrEmpty(loopbackItem.AppContainerSIDName) && loopbackItem.AppContainerSIDName.Contains(SearchText))
-                            {
-                                loopbackItem.IsSelected = loopbackItem.IsOldChecked;
-                                LoopbackCollection.Add(loopbackItem);
-                                continue;
-                            }
+                        if (!string.IsNullOrEmpty(loopbackItem.AppContainerSIDName) && loopbackItem.AppContainerSIDName.Contains(SearchText))
+                        {
+                            loopbackItem.IsSelected = loopbackItem.IsOldChecked;
+                            LoopbackCollection.Add(loopbackItem);
+                            continue;
                         }
                     }
                 }
-            }
 
-            LoopbackResultKind = LoopbackCollection.Count is 0 ? LoopbackResultKind.Failed : LoopbackResultKind.Successfully;
-            LoopbackFailedContent = LoopbackCollection.Count is 0 ? LoopbackEmptyWithConditionDescriptionString : string.Empty;
-            LoopbackDescription = string.Format(LoopbackInformationString, LoopbackCollection.Count, LoopbackCollection.Count(item => item.IsSelected));
+                LoopbackResultKind = LoopbackCollection.Count is 0 ? LoopbackResultKind.Failed : LoopbackResultKind.Successfully;
+                LoopbackFailedContent = LoopbackCollection.Count is 0 ? LoopbackEmptyWithConditionDescriptionString : string.Empty;
+                LoopbackDescription = string.Format(LoopbackInformationString, LoopbackCollection.Count, LoopbackCollection.Count(item => item.IsSelected));
+            }
         }
 
         /// <summary>
