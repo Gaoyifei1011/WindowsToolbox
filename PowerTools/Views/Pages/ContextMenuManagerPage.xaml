@@ -122,7 +122,8 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Horizontal"
-                        Spacing="10">
+                        Spacing="10"
+                        Visibility="{x:Bind CheckContextMenuState(ContextMenuResultKind, enum:ContextMenuResultKind.Loading), Mode=OneWay}">
 
                         <controls:ProgressRing IsActive="True" IsEnabled="True" />
 

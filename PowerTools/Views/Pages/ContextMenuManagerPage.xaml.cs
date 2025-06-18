@@ -260,7 +260,7 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (!string.IsNullOrEmpty(SearchText) && ContextMenuList.Count > 0)
+            if (!string.IsNullOrEmpty(SearchText) && ContextMenuResultKind is not ContextMenuResultKind.Loading && ContextMenuList.Count > 0)
             {
                 ContextMenuResultKind = ContextMenuResultKind.Loading;
                 ContextMenuCollection.Clear();
@@ -290,7 +290,7 @@ namespace PowerTools.Views.Pages
         private void OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             SearchText = sender.Text;
-            if (string.IsNullOrEmpty(SearchText) && ContextMenuList.Count > 0)
+            if (string.IsNullOrEmpty(SearchText) && ContextMenuResultKind is not ContextMenuResultKind.Loading && ContextMenuList.Count > 0)
             {
                 ContextMenuResultKind = ContextMenuResultKind.Loading;
                 ContextMenuCollection.Clear();
