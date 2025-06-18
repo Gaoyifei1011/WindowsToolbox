@@ -104,54 +104,54 @@ namespace PowerTools.Views.Pages
         {
             base.OnDrop(args);
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+            List<IStorageItem> storageItemList = [];
             try
             {
                 DataPackageView dataPackageView = args.DataView;
                 if (dataPackageView.Contains(StandardDataFormats.StorageItems))
                 {
-                    List<CertificateResultModel> fileCertificateList = await Task.Run(async () =>
+                    storageItemList.AddRange(await Task.Run(async () =>
                     {
-                        List<CertificateResultModel> fileCertificateList = [];
-                        IReadOnlyList<IStorageItem> storageItemList = await dataPackageView.GetStorageItemsAsync();
-
-                        foreach (IStorageItem storageItem in storageItemList)
-                        {
-                            try
-                            {
-                                FileInfo fileInfo = new(storageItem.Path);
-                                if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
-                                {
-                                    continue;
-                                }
-
-                                if ((fileInfo.Attributes & System.IO.FileAttributes.Directory) is 0)
-                                {
-                                    fileCertificateList.Add(new CertificateResultModel()
-                                    {
-                                        FileName = storageItem.Name,
-                                        FilePath = storageItem.Path
-                                    });
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
-                                continue;
-                            }
-                        }
-
-                        return fileCertificateList;
-                    });
-
-                    AddToFileCertificatePage(fileCertificateList);
+                        return await dataPackageView.GetStorageItemsAsync();
+                    }));
                 }
             }
             finally
             {
                 dragOperationDeferral.Complete();
-                IsOperationFailed = false;
-                OperationFailedList.Clear();
             }
+
+            List<CertificateResultModel> fileCertificateList = [];
+
+            foreach (IStorageItem storageItem in storageItemList)
+            {
+                try
+                {
+                    FileInfo fileInfo = new(storageItem.Path);
+                    if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                    {
+                        continue;
+                    }
+
+                    if ((fileInfo.Attributes & System.IO.FileAttributes.Directory) is 0)
+                    {
+                        fileCertificateList.Add(new CertificateResultModel()
+                        {
+                            FileName = storageItem.Name,
+                            FilePath = storageItem.Path
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
+                    continue;
+                }
+            }
+
+            AddToFileCertificatePage(fileCertificateList);
+            IsOperationFailed = false;
+            OperationFailedList.Clear();
         }
 
         /// <summary>

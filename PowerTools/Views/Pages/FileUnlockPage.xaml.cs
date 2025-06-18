@@ -184,11 +184,10 @@ namespace PowerTools.Views.Pages
         {
             base.OnDrop(args);
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
-
+            string filePath = string.Empty;
             try
             {
                 DataPackageView dataPackageView = args.DataView;
-
                 IReadOnlyList<IStorageItem> filesList = await Task.Run(async () =>
                 {
                     try
@@ -208,7 +207,7 @@ namespace PowerTools.Views.Pages
 
                 if (filesList is not null && filesList.Count is 1)
                 {
-                    await ParseFileAsync(filesList[0].Path);
+                    filePath = filesList[0].Path;
                 }
             }
             catch (Exception)
@@ -218,6 +217,11 @@ namespace PowerTools.Views.Pages
             finally
             {
                 dragOperationDeferral.Complete();
+            }
+
+            if (File.Exists(filePath))
+            {
+                await ParseFileAsync(filePath);
             }
         }
 

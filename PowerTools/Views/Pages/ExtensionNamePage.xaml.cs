@@ -166,46 +166,16 @@ namespace PowerTools.Views.Pages
         {
             base.OnDrop(args);
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+            List<IStorageItem> storageItemList = [];
             try
             {
                 DataPackageView dataPackageView = args.DataView;
                 if (dataPackageView.Contains(StandardDataFormats.StorageItems))
                 {
-                    List<OldAndNewNameModel> extensionNameList = await Task.Run(async () =>
+                    storageItemList.AddRange(await Task.Run(async () =>
                     {
-                        List<OldAndNewNameModel> extensionNameList = [];
-                        IReadOnlyList<IStorageItem> storageItemList = await dataPackageView.GetStorageItemsAsync();
-
-                        foreach (IStorageItem storageItem in storageItemList)
-                        {
-                            try
-                            {
-                                FileInfo fileInfo = new(storageItem.Path);
-                                if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
-                                {
-                                    continue;
-                                }
-
-                                if ((fileInfo.Attributes & System.IO.FileAttributes.Directory) is 0)
-                                {
-                                    extensionNameList.Add(new()
-                                    {
-                                        OriginalFileName = storageItem.Name,
-                                        OriginalFilePath = storageItem.Path
-                                    });
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
-                                continue;
-                            }
-                        }
-
-                        return extensionNameList;
-                    });
-
-                    AddToExtensionNamePage(extensionNameList);
+                        return await dataPackageView.GetStorageItemsAsync();
+                    }));
                 }
             }
             catch (Exception e)
@@ -215,9 +185,39 @@ namespace PowerTools.Views.Pages
             finally
             {
                 dragOperationDeferral.Complete();
-                IsOperationFailed = false;
-                OperationFailedList.Clear();
             }
+
+            List<OldAndNewNameModel> extensionNameList = [];
+
+            foreach (IStorageItem storageItem in storageItemList)
+            {
+                try
+                {
+                    FileInfo fileInfo = new(storageItem.Path);
+                    if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                    {
+                        continue;
+                    }
+
+                    if ((fileInfo.Attributes & System.IO.FileAttributes.Directory) is 0)
+                    {
+                        extensionNameList.Add(new()
+                        {
+                            OriginalFileName = storageItem.Name,
+                            OriginalFilePath = storageItem.Path
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
+                    continue;
+                }
+            }
+
+            AddToExtensionNamePage(extensionNameList);
+            IsOperationFailed = false;
+            OperationFailedList.Clear();
         }
 
         /// <summary>
