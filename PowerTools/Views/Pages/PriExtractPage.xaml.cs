@@ -333,10 +333,6 @@ namespace PowerTools.Views.Pages
                 {
                     filePath = filesList[0].Path;
                 }
-                else
-                {
-                    IsProcessing = false;
-                }
             }
             catch (Exception)
             {
@@ -350,6 +346,10 @@ namespace PowerTools.Views.Pages
             if (File.Exists(filePath))
             {
                 await ParseResourceFileAsync(filePath);
+            }
+            else
+            {
+                IsProcessing = false;
             }
         }
 
@@ -439,22 +439,23 @@ namespace PowerTools.Views.Pages
         {
             if (args.Parameter is EmbeddedDataModel embeddedData)
             {
-                OpenFolderDialog dialog = new()
+                IsProcessing = true;
+                OpenFolderDialog openFolderDialog = new()
                 {
                     Description = SelectFolderString,
                     RootFolder = Environment.SpecialFolder.Desktop
                 };
 
-                DialogResult result = dialog.ShowDialog();
-                if (result is DialogResult.OK || result is DialogResult.Yes)
+                DialogResult dialogResult = openFolderDialog.ShowDialog();
+                if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
                 {
                     await Task.Run(() =>
                     {
                         try
                         {
-                            File.WriteAllBytes(Path.Combine(dialog.SelectedPath, Path.GetFileName(embeddedData.Key)), embeddedData.EmbeddedData);
+                            File.WriteAllBytes(Path.Combine(openFolderDialog.SelectedPath, Path.GetFileName(embeddedData.Key)), embeddedData.EmbeddedData);
 
-                            IntPtr pidlList = Shell32Library.ILCreateFromPath(Path.Combine(dialog.SelectedPath, Path.GetFileName(embeddedData.Key)));
+                            IntPtr pidlList = Shell32Library.ILCreateFromPath(Path.Combine(openFolderDialog.SelectedPath, Path.GetFileName(embeddedData.Key)));
                             if (pidlList != IntPtr.Zero)
                             {
                                 Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, IntPtr.Zero, 0);
@@ -463,17 +464,18 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", openFolderDialog.SelectedPath), e);
                         }
                     });
 
-                    dialog.Dispose();
-                    IsProcessing = false;
+                    openFolderDialog.Dispose();
                 }
                 else
                 {
-                    dialog.Dispose();
+                    openFolderDialog.Dispose();
                 }
+
+                IsProcessing = false;
             }
         }
 
@@ -680,10 +682,13 @@ namespace PowerTools.Views.Pages
                     copyStringBuilder.AppendLine(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
                 }
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyStringBuilder.ToString());
-
+                IsProcessing = false;
                 await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, selectedStringList.Count));
             }
-            IsProcessing = false;
+            else
+            {
+                IsProcessing = false;
+            }
         }
 
         /// <summary>
@@ -701,9 +706,13 @@ namespace PowerTools.Views.Pages
                     copyFilePathBuilder.AppendLine(string.Format("Key:{0}, AbsolutePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
                 }
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyFilePathBuilder.ToString());
-                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, selectedFilePathList.Count));
+                IsProcessing = false;
+                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.FilePath, copyResult, true, selectedFilePathList.Count));
             }
-            IsProcessing = false;
+            else
+            {
+                IsProcessing = false;
+            }
         }
 
         /// <summary>
@@ -720,8 +729,8 @@ namespace PowerTools.Views.Pages
                     Description = SelectFolderString,
                     RootFolder = Environment.SpecialFolder.Desktop
                 };
-                DialogResult result = openFolderDialog.ShowDialog();
-                if (result is DialogResult.OK || result is DialogResult.Yes)
+                DialogResult dialogResult = openFolderDialog.ShowDialog();
+                if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
                 {
                     await Task.Run(() =>
                     {
@@ -811,8 +820,8 @@ namespace PowerTools.Views.Pages
                 RootFolder = Environment.SpecialFolder.Desktop
             };
 
-            DialogResult result = openFolderDialog.ShowDialog();
-            if (result is DialogResult.OK || result is DialogResult.Yes)
+            DialogResult dialogResult = openFolderDialog.ShowDialog();
+            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
             {
                 IsProcessing = true;
                 List<EmbeddedDataModel> exportAllEmbeddedDataList = [.. EmbeddedDataCollection];
