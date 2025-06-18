@@ -47,7 +47,6 @@
 
         <SplitView.Content>
             <controls:NavigationView
-                x:Name="FileManagerNavigationView"
                 Margin="14,0,0,0"
                 x:FieldModifier="public"
                 AlwaysShowHeader="False"

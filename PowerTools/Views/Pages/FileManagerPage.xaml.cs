@@ -189,7 +189,7 @@ namespace PowerTools.Views.Pages
                 }
 
                 SelectedItem = NavigationItemList[0].NavigationItem;
-                NavigateTo(typeof(FileNamePage));
+                NavigateTo(PageList[0].Value);
             }
         }
 
@@ -212,7 +212,7 @@ namespace PowerTools.Views.Pages
         }
 
         /// <summary>
-        /// 导航完成后发生
+        /// 导航完成后发生的事件
         /// </summary>
         private void OnNavigated(object sender, NavigationEventArgs args)
         {
@@ -314,7 +314,7 @@ namespace PowerTools.Views.Pages
                     }
 
                     // 导航到该项目对应的页面
-                    (FileManagerNavigationView.Content as Frame).Navigate(navigationItem.NavigationPage, parameter);
+                    FileManagerFrame.Navigate(navigationItem.NavigationPage, parameter);
                 }
             }
             catch (Exception e)
@@ -328,7 +328,15 @@ namespace PowerTools.Views.Pages
         /// </summary>
         public Type GetCurrentPageType()
         {
-            return (FileManagerNavigationView.Content as Frame).CurrentSourcePageType;
+            return FileManagerFrame.CurrentSourcePageType;
+        }
+
+        /// <summary>
+        /// 获取当前导航控件内容对应的页面
+        /// </summary>
+        public object GetFrameContent()
+        {
+            return FileManagerFrame.Content;
         }
 
         /// <summary>
