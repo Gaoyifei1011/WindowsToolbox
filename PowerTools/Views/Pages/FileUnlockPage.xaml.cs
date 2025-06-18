@@ -469,14 +469,14 @@ namespace PowerTools.Views.Pages
         }
 
         /// <summary>
-        /// 通过进程Id来获取进程的用户名
+        /// 通过进程 Id 来获取进程的用户名
         /// </summary>
         private static string GetProcessUserName(int processId)
         {
             string name = string.Empty;
 
-            SelectQuery query = new("select * from Win32_Process where processID=" + processId);
-            ManagementObjectSearcher searcher = new(query);
+            SelectQuery selectQuery = new("select * from Win32_Process where processID=" + processId);
+            ManagementObjectSearcher searcher = new(selectQuery);
             try
             {
                 foreach (ManagementObject manageObject in searcher.Get().Cast<ManagementObject>())
