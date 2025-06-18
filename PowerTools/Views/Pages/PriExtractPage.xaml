@@ -230,8 +230,8 @@
                                     <ToolTipService.ToolTip>
                                         <ToolTip MaxWidth="9999">
                                             <Grid>
-                                                <TextBlock Text="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('SelectedToolTip')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
-                                                <TextBlock Text="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('UnSelectedToolTip')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('Selected')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('UnSelected')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
                                             </Grid>
                                         </ToolTip>
                                     </ToolTipService.ToolTip>
@@ -454,8 +454,8 @@
                                     <ToolTipService.ToolTip>
                                         <ToolTip MaxWidth="9999">
                                             <Grid>
-                                                <TextBlock Text="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('SelectedToolTip')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
-                                                <TextBlock Text="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('UnSelectedToolTip')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('Selected')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('UnSelected')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
                                             </Grid>
                                         </ToolTip>
                                     </ToolTipService.ToolTip>
@@ -640,8 +640,8 @@
                                     <ToolTipService.ToolTip>
                                         <ToolTip MaxWidth="9999">
                                             <Grid>
-                                                <TextBlock Text="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('SelectedToolTip')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
-                                                <TextBlock Text="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('UnSelectedToolTip')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('Selected')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                <TextBlock Text="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('UnSelected')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
                                             </Grid>
                                         </ToolTip>
                                     </ToolTipService.ToolTip>
