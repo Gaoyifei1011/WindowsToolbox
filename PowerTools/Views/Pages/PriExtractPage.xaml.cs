@@ -30,6 +30,8 @@ using Windows.UI.Xaml.Input;
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
 
+// TODO：添加一个搜索框
+
 namespace PowerTools.Views.Pages
 {
     /// <summary>
