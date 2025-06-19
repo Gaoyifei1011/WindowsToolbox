@@ -63,6 +63,10 @@ namespace PowerTools.Services.Root
 
         public static ResourceManager ShellMenuResource { get; } = new("PowerTools.Strings.ShellMenu", CurrentAssembly);
 
+        public static ResourceManager ShellMenuEditResource { get; } = new("PowerTools.Strings.ShellMenuEdit", CurrentAssembly);
+
+        public static ResourceManager ShellMenuListResource { get; } = new("PowerTools.Strings.ShellMenuList", CurrentAssembly);
+
         public static ResourceManager SimulateUpdateResource { get; } = new("PowerTools.Strings.SimulateUpdate", CurrentAssembly);
 
         public static ResourceManager ThemeSwitchResource { get; } = new("PowerTools.Strings.ThemeSwitch", CurrentAssembly);
