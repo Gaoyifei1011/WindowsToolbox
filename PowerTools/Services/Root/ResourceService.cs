@@ -21,10 +21,6 @@ namespace PowerTools.Services.Root
 
         public static ResourceManager AllToolsResource { get; } = new("PowerTools.Strings.AllTools", CurrentAssembly);
 
-        public static ResourceManager SwitchThemeResource { get; } = new("PowerTools.Strings.SwitchTheme", CurrentAssembly);
-
-        public static ResourceManager ColorPickerResource { get; } = new("PowerTools.Strings.ColorPicker", CurrentAssembly);
-
         public static ResourceManager ContextMenuManagerResource { get; } = new("PowerTools.Strings.ContextMenuManager", CurrentAssembly);
 
         public static ResourceManager DialogResource { get; } = new("PowerTools.Strings.Dialog", CurrentAssembly);
@@ -69,7 +65,7 @@ namespace PowerTools.Services.Root
 
         public static ResourceManager SimulateUpdateResource { get; } = new("PowerTools.Strings.SimulateUpdate", CurrentAssembly);
 
-        public static ResourceManager SystemInfoResource { get; } = new("PowerTools.Strings.SystemInfo", CurrentAssembly);
+        public static ResourceManager ThemeSwitchResource { get; } = new("PowerTools.Strings.ThemeSwitch", CurrentAssembly);
 
         public static ResourceManager UpdateManagerResource { get; } = new("PowerTools.Strings.UpdateManager", CurrentAssembly);
 

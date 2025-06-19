@@ -104,7 +104,7 @@ namespace PowerTools
 
             DownloadOptionsService.InitializeDownloadOptions();
             FileShellMenuService.InitializeFileShellMenu();
-            AutoSwitchThemeService.InitializeAutoSwitchTheme();
+            AutoThemeSwitchService.InitializeAutoThemeSwitch();
             ShellMenuService.InitializeShellMenu();
 
             DownloadSchedulerService.InitializeDownloadScheduler();

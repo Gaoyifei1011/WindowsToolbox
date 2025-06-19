@@ -15,7 +15,7 @@
 
         public const string AutoSwitchSystemThemeKey = "AutoSwitchSystemTheme";
 
-        public const string AutoSwitchThemeEnableKey = "AutoSwitchThemeEnable";
+        public const string AutoThemeSwitchEnableKey = "AutoThemeSwitchEnable";
 
         public const string BackdropKey = "AppBackdrop";
 
