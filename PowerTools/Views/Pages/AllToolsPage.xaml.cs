@@ -83,10 +83,10 @@ namespace PowerTools.Views.Pages
         [
             new ControlItemModel()
             {
-                Title = ResourceService.AllToolsResource.GetString("SwitchTheme"),
-                Description = ResourceService.AllToolsResource.GetString("SwitchThemeDescription"),
-                ImagePath = "ms-appx:///Assets/ControlIcon/SwitchTheme.png",
-                Tag = "SwitchTheme"
+                Title = ResourceService.AllToolsResource.GetString("ThemeSwitch"),
+                Description = ResourceService.AllToolsResource.GetString("ThemeSwitchDescription"),
+                ImagePath = "ms-appx:///Assets/ControlIcon/ThemeSwitch.png",
+                Tag = "ThemeSwitch"
             },
             new ControlItemModel()
             {

@@ -550,16 +550,16 @@
                     </ToolTipService.ToolTip>
 
                     <controls:NavigationViewItem.MenuItems>
-                        <controls:NavigationViewItem Tag="SwitchTheme">
+                        <controls:NavigationViewItem Tag="ThemeSwitch">
 
                             <controls:NavigationViewItem.Icon>
-                                <controls:ImageIcon Source="ms-appx:///Assets/ControlIcon/SwitchTheme.png" />
+                                <controls:ImageIcon Source="ms-appx:///Assets/ControlIcon/ThemeSwitch.png" />
                             </controls:NavigationViewItem.Icon>
 
                             <controls:NavigationViewItem.Content>
                                 <TextBlock
-                                    x:Name="SwitchThemeText"
-                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('SwitchTheme')}"
+                                    x:Name="ThemeSwitchText"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('ThemeSwitch')}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
                             </controls:NavigationViewItem.Content>
@@ -567,8 +567,8 @@
                             <ToolTipService.ToolTip>
                                 <ToolTip
                                     MaxWidth="9999"
-                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('SwitchTheme')}"
-                                    Visibility="{x:Bind SwitchThemeText.IsTextTrimmed, Mode=OneWay}" />
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('ThemeSwitch')}"
+                                    Visibility="{x:Bind ThemeSwitchText.IsTextTrimmed, Mode=OneWay}" />
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
 

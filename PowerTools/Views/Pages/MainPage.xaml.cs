@@ -16,7 +16,6 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // 抑制 CA1822，IDE0060 警告
@@ -146,7 +145,7 @@ namespace PowerTools.Views.Pages
             new KeyValuePair<string, Type>("IconExtract",typeof(IconExtractPage)),
             new KeyValuePair<string, Type>("PriExtract",typeof(PriExtractPage)),
             new KeyValuePair<string, Type>("Personalize",null),
-            new KeyValuePair<string, Type>("SwitchTheme",typeof(SwitchThemePage)),
+            new KeyValuePair<string, Type>("ThemeSwitch",typeof(ThemeSwitchPage)),
             new KeyValuePair<string, Type>("ShellMenu",typeof(ShellMenuPage)),
             new KeyValuePair<string, Type>("ContextMenuManager",typeof(ContextMenuManagerPage)),
             new KeyValuePair<string, Type>("System",null),
@@ -249,10 +248,7 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnLoaded(object sender, RoutedEventArgs args)
         {
-            // TODO：临时测试专用
-            VisualStateManager.GoToState(this, "BackgroundDefault", false);
-            Background = new SolidColorBrush(global::Windows.UI.Color.FromArgb(255, 240, 243, 249));
-            //MainWindow.Current.SetWindowBackdrop();
+            MainWindow.Current.SetWindowBackdrop();
             if (sender is Microsoft.UI.Xaml.Controls.NavigationView navigationView)
             {
                 foreach (object menuItem in navigationView.MenuItems)
@@ -516,7 +512,7 @@ namespace PowerTools.Views.Pages
 
                 if (Equals(currentFileManagerPageType, typeof(FileNamePage)))
                 {
-                    FileNamePage page = (fileManagerPage.FileManagerNavigationView.Content as Frame).Content as FileNamePage;
+                    FileNamePage page = fileManagerPage.GetFrameContent() as FileNamePage;
                     List<OldAndNewNameModel> fileNameList = [];
 
                     await Task.Run(() =>
@@ -541,7 +537,7 @@ namespace PowerTools.Views.Pages
                 }
                 else if (Equals(currentFileManagerPageType, typeof(ExtensionNamePage)))
                 {
-                    ExtensionNamePage page = (fileManagerPage.FileManagerNavigationView.Content as Frame).Content as ExtensionNamePage;
+                    ExtensionNamePage page = fileManagerPage.GetFrameContent() as ExtensionNamePage;
 
                     List<OldAndNewNameModel> extensionNameList = await Task.Run(() =>
                     {
@@ -572,7 +568,7 @@ namespace PowerTools.Views.Pages
                 }
                 else if (Equals(currentFileManagerPageType, typeof(UpperAndLowerCasePage)))
                 {
-                    UpperAndLowerCasePage page = (fileManagerPage.FileManagerNavigationView.Content as Frame).Content as UpperAndLowerCasePage;
+                    UpperAndLowerCasePage page = fileManagerPage.GetFrameContent() as UpperAndLowerCasePage;
 
                     List<OldAndNewNameModel> upperAndLowerCaseList = await Task.Run(() =>
                     {
@@ -600,7 +596,7 @@ namespace PowerTools.Views.Pages
                 }
                 else if (Equals(currentFileManagerPageType, typeof(FilePropertiesPage)))
                 {
-                    FilePropertiesPage page = (fileManagerPage.FileManagerNavigationView.Content as Frame).Content as FilePropertiesPage;
+                    FilePropertiesPage page = fileManagerPage.GetFrameContent() as FilePropertiesPage;
 
                     List<OldAndNewPropertiesModel> filePropertiesList = await Task.Run(() =>
                     {
