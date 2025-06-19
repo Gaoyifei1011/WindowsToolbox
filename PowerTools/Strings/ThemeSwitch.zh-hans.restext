@@ -33,7 +33,6 @@ SystemThemeDarkTime=系统深色主题时间
 SystemThemeLightTime=系统浅色主题时间
 SystemThemeSettings=系统主题设置
 SystemThemeStyle=系统主题样式
+ThemeSwitch=主题切换
 Tips=小提示
 TipContent1=在“开始菜单”和任务栏中显示主题色选项仅在系统深色模式下可用
-ThemeSwitch=主题切换
-

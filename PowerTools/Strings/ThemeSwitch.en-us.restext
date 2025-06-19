@@ -33,6 +33,6 @@ SystemThemeDarkTime=System dark theme time
 SystemThemeLightTime=System light theme time
 SystemThemeSettings=System theme settings
 SystemThemeStyle=System theme style
+ThemeSwitch=Theme switch
 Tips=Tips
 TipContent1=Displays the theme color in the Start Menu and taskbar options are only available in system dark mode
-ThemeSwitch=Theme switch
