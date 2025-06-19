@@ -1,5 +1,5 @@
 ComputerRestart=The computer may reboot several times
 Windows10UpdateText1=Update {0} in progress
-Windows10UpdateText2=Please keep the computer turned on.
+Windows10UpdateText2=Please keep the computer turned on
 Windows11UpdateText1=Update {0} completed
 Windows11UpdateText2=Please don't turn it off.
