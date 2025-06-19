@@ -121,33 +121,38 @@ namespace PowerTools.Views.Pages
                 dragOperationDeferral.Complete();
             }
 
-            List<CertificateResultModel> fileCertificateList = [];
-
-            foreach (IStorageItem storageItem in storageItemList)
+            List<CertificateResultModel> fileCertificateList = await Task.Run(() =>
             {
-                try
+                List<CertificateResultModel> fileCertificateList = [];
+
+                foreach (IStorageItem storageItem in storageItemList)
                 {
-                    FileInfo fileInfo = new(storageItem.Path);
-                    if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                    try
                     {
+                        FileInfo fileInfo = new(storageItem.Path);
+                        if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                        {
+                            continue;
+                        }
+
+                        if ((fileInfo.Attributes & System.IO.FileAttributes.Directory) is 0)
+                        {
+                            fileCertificateList.Add(new CertificateResultModel()
+                            {
+                                FileName = storageItem.Name,
+                                FilePath = storageItem.Path
+                            });
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
                         continue;
                     }
+                }
 
-                    if ((fileInfo.Attributes & System.IO.FileAttributes.Directory) is 0)
-                    {
-                        fileCertificateList.Add(new CertificateResultModel()
-                        {
-                            FileName = storageItem.Name,
-                            FilePath = storageItem.Path
-                        });
-                    }
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
-                    continue;
-                }
-            }
+                return fileCertificateList;
+            });
 
             AddToFileCertificatePage(fileCertificateList);
             IsOperationFailed = false;

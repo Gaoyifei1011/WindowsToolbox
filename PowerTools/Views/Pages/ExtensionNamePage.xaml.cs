@@ -187,33 +187,38 @@ namespace PowerTools.Views.Pages
                 dragOperationDeferral.Complete();
             }
 
-            List<OldAndNewNameModel> extensionNameList = [];
-
-            foreach (IStorageItem storageItem in storageItemList)
+            List<OldAndNewNameModel> extensionNameList = await Task.Run(() =>
             {
-                try
+                List<OldAndNewNameModel> extensionNameList = [];
+
+                foreach (IStorageItem storageItem in storageItemList)
                 {
-                    FileInfo fileInfo = new(storageItem.Path);
-                    if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                    try
                     {
+                        FileInfo fileInfo = new(storageItem.Path);
+                        if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                        {
+                            continue;
+                        }
+
+                        if ((fileInfo.Attributes & System.IO.FileAttributes.Directory) is 0)
+                        {
+                            extensionNameList.Add(new()
+                            {
+                                OriginalFileName = storageItem.Name,
+                                OriginalFilePath = storageItem.Path
+                            });
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
                         continue;
                     }
+                }
 
-                    if ((fileInfo.Attributes & System.IO.FileAttributes.Directory) is 0)
-                    {
-                        extensionNameList.Add(new()
-                        {
-                            OriginalFileName = storageItem.Name,
-                            OriginalFilePath = storageItem.Path
-                        });
-                    }
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
-                    continue;
-                }
-            }
+                return extensionNameList;
+            });
 
             AddToExtensionNamePage(extensionNameList);
             IsOperationFailed = false;

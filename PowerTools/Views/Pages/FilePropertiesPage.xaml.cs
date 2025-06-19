@@ -275,13 +275,10 @@ namespace PowerTools.Views.Pages
                 DataPackageView dataPackageView = args.DataView;
                 if (dataPackageView.Contains(StandardDataFormats.StorageItems))
                 {
-                    if (dataPackageView.Contains(StandardDataFormats.StorageItems))
+                    storageItemList.AddRange(await Task.Run(async () =>
                     {
-                        storageItemList.AddRange(await Task.Run(async () =>
-                        {
-                            return await dataPackageView.GetStorageItemsAsync();
-                        }));
-                    }
+                        return await dataPackageView.GetStorageItemsAsync();
+                    }));
                 }
             }
             catch (Exception e)
@@ -293,30 +290,35 @@ namespace PowerTools.Views.Pages
                 dragOperationDeferral.Complete();
             }
 
-            List<OldAndNewPropertiesModel> filePropertiesList = [];
-
-            foreach (IStorageItem storageItem in storageItemList)
+            List<OldAndNewPropertiesModel> filePropertiesList = await Task.Run(() =>
             {
-                try
+                List<OldAndNewPropertiesModel> filePropertiesList = [];
+
+                foreach (IStorageItem storageItem in storageItemList)
                 {
-                    FileInfo fileInfo = new(storageItem.Path);
-                    if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                    try
                     {
+                        FileInfo fileInfo = new(storageItem.Path);
+                        if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                        {
+                            continue;
+                        }
+
+                        filePropertiesList.Add(new OldAndNewPropertiesModel()
+                        {
+                            FileName = storageItem.Name,
+                            FilePath = storageItem.Path,
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
                         continue;
                     }
+                }
 
-                    filePropertiesList.Add(new OldAndNewPropertiesModel()
-                    {
-                        FileName = storageItem.Name,
-                        FilePath = storageItem.Path,
-                    });
-                }
-                catch (Exception e)
-                {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
-                    continue;
-                }
-            }
+                return filePropertiesList;
+            });
 
             AddToFilePropertiesPage(filePropertiesList);
             IsOperationFailed = false;
