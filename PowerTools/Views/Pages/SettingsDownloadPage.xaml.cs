@@ -32,6 +32,7 @@ namespace PowerTools.Views.Pages
         private readonly string DoEngineAria2String = ResourceService.SettingsDownloadResource.GetString("DoEngineAria2");
         private readonly string DoEngineBitsString = ResourceService.SettingsDownloadResource.GetString("DoEngineBits");
         private readonly string DoEngineDoString = ResourceService.SettingsDownloadResource.GetString("DoEngineDo");
+        private readonly string SelectFolderString = ResourceService.SettingsDownloadResource.GetString("SelectFolder");
 
         private string _downloadFolder = DownloadOptionsService.DownloadFolder;
 
@@ -124,7 +125,7 @@ namespace PowerTools.Views.Pages
                         {
                             OpenFolderDialog openFolderDialog = new()
                             {
-                                Description = ResourceService.SettingsResource.GetString("SelectFolder"),
+                                Description = SelectFolderString,
                                 RootFolder = Environment.SpecialFolder.Desktop
                             };
                             DialogResult dialogResult = openFolderDialog.ShowDialog();
