@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="PowerTools.Views.Pages.SwitchThemePage"
+    x:Class="PowerTools.Views.Pages.ThemeSwitchPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
@@ -9,7 +9,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rootservice="using:PowerTools.Services.Root"
     xmlns:system="using:System"
-    Loaded="{x:Bind OnLoaded}"
     mc:Ignorable="d">
 
     <Grid Padding="0">
@@ -18,25 +17,15 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="30,15,30,6">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <TextBlock
-                Grid.Column="0"
-                FontSize="22"
-                Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('Title')}" />
-
-            <Button
-                Grid.Column="1"
-                Click="{x:Bind OnOpenPersonalizeClicked}"
-                Content="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('Personalize')}" />
-        </Grid>
+        <TextBlock
+            Grid.Column="0"
+            Margin="30,15,30,0"
+            FontSize="22"
+            Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('ThemeSwitch')}" />
 
         <ScrollViewer
             Grid.Row="1"
+            Margin="0,5,0,0"
             HorizontalScrollBarVisibility="Disabled"
             HorizontalScrollMode="Disabled"
             VerticalScrollBarVisibility="Auto"
@@ -125,10 +114,10 @@
                     Grid.Row="1"
                     Height="50"
                     Margin="30,0,30,3"
-                    IsOpen="{x:Bind IsSwitchThemeNotificationEnabled, Mode=OneWay}"
-                    Message="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('StartupTaskNotEnabled')}"
+                    IsOpen="{x:Bind IsThemeSwitchNotificationEnabled, Mode=OneWay}"
+                    Message="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('StartupTaskNotEnabled')}"
                     Severity="Warning"
-                    Visibility="{x:Bind IsSwitchThemeNotificationEnabled, Mode=OneWay}">
+                    Visibility="{x:Bind IsThemeSwitchNotificationEnabled, Mode=OneWay}">
 
                     <controls:InfoBar.Resources>
                         <ResourceDictionary>
@@ -150,7 +139,7 @@
                         <Button
                             HorizontalAlignment="Right"
                             Click="{x:Bind OnEnableStartupTaskClicked}"
-                            Content="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('EnableStartupTask')}" />
+                            Content="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('EnableStartupTask')}" />
                     </controls:InfoBar.ActionButton>
                 </controls:InfoBar>
 
@@ -180,12 +169,23 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('SystemThemeSettings')}" />
+                                Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('SystemThemeSettings')}" />
 
-                            <Button
+                            <controls:SplitButton
                                 Grid.Column="2"
                                 Click="{x:Bind OnRefreshClicked}"
-                                Content="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('Refresh')}" />
+                                Content="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('Refresh')}">
+
+                                <controls:SplitButton.Flyout>
+                                    <MenuFlyout Placement="Bottom">
+                                        <MenuFlyoutItem Click="{x:Bind OnOpenPersonalizeClicked}" Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('Personalize')}">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xE771;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </controls:SplitButton.Flyout>
+                            </controls:SplitButton>
                         </Grid>
                     </controls:Expander.Header>
 
@@ -205,7 +205,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('SystemThemeStyle')}" />
+                                    Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('SystemThemeStyle')}" />
 
                                 <controls:DropDownButton Grid.Column="1" Content="{x:Bind SelectedSystemThemeStyle.Value, Mode=OneWay}">
 
@@ -249,7 +249,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('AppThemeStyle')}" />
+                                    Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('AppThemeStyle')}" />
 
                                 <controls:DropDownButton Grid.Column="1" Content="{x:Bind SelectedAppThemeStyle.Value, Mode=OneWay}">
 
@@ -293,7 +293,7 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('ShowThemeColorInStartAndTaskbar')}" />
+                                    Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('ShowThemeColorInStartAndTaskbar')}" />
 
                                 <StackPanel
                                     Grid.Column="1"
@@ -303,13 +303,13 @@
                                     <TextBlock
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('ShowThemeColorInStartAndTaskbarOffContent')}"
+                                        Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('ShowThemeColorInStartAndTaskbarOffContent')}"
                                         Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsShowThemeColorInStartAndTaskbar), Mode=OneWay}" />
 
                                     <TextBlock
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('ShowThemeColorInStartAndTaskbarOnContent')}"
+                                        Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('ShowThemeColorInStartAndTaskbarOnContent')}"
                                         Visibility="{x:Bind IsShowThemeColorInStartAndTaskbar, Mode=OneWay}" />
 
                                     <ToggleSwitch
@@ -352,62 +352,24 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('AutoSwitchThemeSettings')}" />
+                                Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('AutoThemeSwitchSettings')}" />
 
-                            <StackPanel
+                            <controls:SplitButton
                                 Grid.Column="2"
-                                Height="30"
-                                Margin="20,0,0,0"
-                                BorderBrush="{ThemeResource ButtonBorderBrush}"
-                                BorderThickness="{ThemeResource ButtonBorderThemeThickness}"
-                                CornerRadius="{ThemeResource ControlCornerRadius}"
-                                Orientation="Horizontal">
+                                Click="{x:Bind OnSaveClicked}"
+                                Content="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('Save')}"
+                                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('SaveToolTip')}">
 
-                                <Button
-                                    VerticalAlignment="Stretch"
-                                    VerticalContentAlignment="Center"
-                                    BorderThickness="0,0,1,0"
-                                    Click="{x:Bind OnSaveClicked}"
-                                    Content="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('Save')}"
-                                    CornerRadius="0"
-                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('SaveToolTip')}" />
-
-                                <Button
-                                    Width="35"
-                                    VerticalAlignment="Stretch"
-                                    BorderThickness="0"
-                                    CornerRadius="0"
-                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('ViewMoreOptions')}">
-
-                                    <Button.Content>
-                                        <controls:AnimatedIcon
-                                            Width="12"
-                                            Height="12"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Center"
-                                            AutomationProperties.AccessibilityView="Raw">
-                                            <animatedvisuals:AnimatedChevronDownSmallVisualSource />
-                                            <controls:AnimatedIcon.FallbackIconSource>
-                                                <controls:FontIconSource
-                                                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                                    FontSize="8"
-                                                    Glyph="&#xE96E;"
-                                                    IsTextScaleFactorEnabled="False" />
-                                            </controls:AnimatedIcon.FallbackIconSource>
-                                        </controls:AnimatedIcon>
-                                    </Button.Content>
-
-                                    <Button.Flyout>
-                                        <MenuFlyout Placement="Bottom">
-                                            <MenuFlyoutItem Click="{x:Bind OnRestoreDefaultClicked}" Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('RestoreDefault')}">
-                                                <MenuFlyoutItem.Icon>
-                                                    <FontIcon Glyph="&#xE777;" />
-                                                </MenuFlyoutItem.Icon>
-                                            </MenuFlyoutItem>
-                                        </MenuFlyout>
-                                    </Button.Flyout>
-                                </Button>
-                            </StackPanel>
+                                <controls:SplitButton.Flyout>
+                                    <MenuFlyout Placement="Bottom">
+                                        <MenuFlyoutItem Click="{x:Bind OnRestoreDefaultClicked}" Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('RestoreDefault')}">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xE777;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </controls:SplitButton.Flyout>
+                            </controls:SplitButton>
                         </Grid>
                     </controls:Expander.Header>
 
@@ -428,13 +390,14 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('AutoSwitchThemeEnable')}" />
+                                    Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('AutoThemeSwitchEnable')}" />
 
                                 <HyperlinkButton
                                     Grid.Column="1"
+                                    Margin="0,0,6,0"
                                     Click="{x:Bind OnOpenAutoSwitchProgramClicked}"
-                                    Content="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('OpenAutoSwitchProgram')}"
-                                    Visibility="{x:Bind IsAutoSwitchThemeEnableValue, Mode=OneWay}" />
+                                    Content="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('OpenAutoSwitchProgram')}"
+                                    Visibility="{x:Bind IsAutoThemeSwitchEnableValue, Mode=OneWay}" />
 
                                 <StackPanel
                                     Grid.Column="2"
@@ -444,26 +407,26 @@
                                     <TextBlock
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('AutoSwitchThemeEnableOffContent')}"
-                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsAutoSwitchThemeEnableValue), Mode=OneWay}" />
+                                        Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('AutoThemeSwitchEnableOffContent')}"
+                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsAutoThemeSwitchEnableValue), Mode=OneWay}" />
 
                                     <TextBlock
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('AutoSwitchThemeEnableOnContent')}"
-                                        Visibility="{x:Bind IsAutoSwitchThemeEnableValue, Mode=OneWay}" />
+                                        Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('AutoThemeSwitchEnableOnContent')}"
+                                        Visibility="{x:Bind IsAutoThemeSwitchEnableValue, Mode=OneWay}" />
 
                                     <ToggleSwitch
                                         MinWidth="0"
                                         Margin="10,-2,-10,0"
-                                        IsOn="{x:Bind IsAutoSwitchThemeEnableValue, Mode=OneWay}"
+                                        IsOn="{x:Bind IsAutoThemeSwitchEnableValue, Mode=OneWay}"
                                         OffContent=""
                                         OnContent=""
-                                        Toggled="{x:Bind OnAutoSwitchThemeEnableToggled}" />
+                                        Toggled="{x:Bind OnAutoThemeSwitchEnableToggled}" />
                                 </StackPanel>
                             </Grid>
 
-                            <StackPanel Visibility="{x:Bind IsAutoSwitchThemeEnableValue, Mode=OneWay}">
+                            <StackPanel Visibility="{x:Bind IsAutoThemeSwitchEnableValue, Mode=OneWay}">
 
                                 <MenuFlyoutSeparator />
 
@@ -482,16 +445,17 @@
                                     <TextBlock
                                         Grid.Column="0"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('AutoSwitchSystemTheme')}" />
+                                        Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('AutoSwitchSystemTheme')}" />
 
                                     <HyperlinkButton
                                         Grid.Column="1"
+                                        Margin="0,0,6,0"
                                         Click="{x:Bind OnShowSetTimeFlyoutClicked}"
                                         Visibility="{x:Bind IsAutoSwitchSystemThemeValue, Mode=OneWay}">
 
                                         <HyperlinkButton.Content>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('SetTime')}" />
+                                                <TextBlock Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('SetTime')}" />
 
                                                 <controls:AnimatedIcon
                                                     Width="12"
@@ -554,7 +518,7 @@
                                                             Grid.Column="1"
                                                             VerticalAlignment="Center"
                                                             FontSize="14"
-                                                            Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('SetTime')}" />
+                                                            Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('SetTime')}" />
 
                                                         <Button
                                                             Grid.Column="2"
@@ -564,7 +528,7 @@
                                                             Click="{x:Bind OnCloseFlyoutClicked}"
                                                             Style="{StaticResource AlternateCloseButtonStyle}"
                                                             Tag="SystemThemeSetTimeFlyout"
-                                                            ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('CloseFlyout')}">
+                                                            ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('CloseFlyout')}">
 
                                                             <Button.Content>
                                                                 <FontIcon
@@ -597,7 +561,7 @@
                                                         <TextBlock
                                                             Grid.Column="1"
                                                             VerticalAlignment="Center"
-                                                            Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('SystemThemeLightTime')}" />
+                                                            Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('SystemThemeLightTime')}" />
 
                                                         <TimePicker
                                                             Grid.Column="2"
@@ -628,7 +592,7 @@
                                                         <TextBlock
                                                             Grid.Column="1"
                                                             VerticalAlignment="Center"
-                                                            Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('SystemThemeDarkTime')}" />
+                                                            Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('SystemThemeDarkTime')}" />
 
                                                         <TimePicker
                                                             Grid.Column="2"
@@ -651,13 +615,13 @@
                                         <TextBlock
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
-                                            Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('AutoSwitchSystemThemeOffContent')}"
+                                            Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('AutoSwitchSystemThemeOffContent')}"
                                             Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsAutoSwitchSystemThemeValue), Mode=OneWay}" />
 
                                         <TextBlock
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
-                                            Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('AutoSwitchSystemThemeOnContent')}"
+                                            Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('AutoSwitchSystemThemeOnContent')}"
                                             Visibility="{x:Bind IsAutoSwitchSystemThemeValue, Mode=OneWay}" />
 
                                         <ToggleSwitch
@@ -687,16 +651,17 @@
                                     <TextBlock
                                         Grid.Column="0"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('AutoSwitchAppTheme')}" />
+                                        Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('AutoSwitchAppTheme')}" />
 
                                     <HyperlinkButton
                                         Grid.Column="1"
+                                        Margin="0,0,6,0"
                                         Click="{x:Bind OnShowSetTimeFlyoutClicked}"
                                         Visibility="{x:Bind IsAutoSwitchAppThemeValue, Mode=OneWay}">
 
                                         <HyperlinkButton.Content>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('SetTime')}" />
+                                                <TextBlock Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('SetTime')}" />
 
                                                 <controls:AnimatedIcon
                                                     Width="12"
@@ -759,7 +724,7 @@
                                                             Grid.Column="1"
                                                             VerticalAlignment="Center"
                                                             FontSize="14"
-                                                            Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('SetTime')}" />
+                                                            Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('SetTime')}" />
 
                                                         <Button
                                                             Grid.Column="2"
@@ -769,7 +734,7 @@
                                                             Click="{x:Bind OnCloseFlyoutClicked}"
                                                             Style="{StaticResource AlternateCloseButtonStyle}"
                                                             Tag="AppThemeSetTimeFlyout"
-                                                            ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('CloseFlyout')}">
+                                                            ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('CloseFlyout')}">
 
                                                             <Button.Content>
                                                                 <FontIcon
@@ -802,7 +767,7 @@
                                                         <TextBlock
                                                             Grid.Column="1"
                                                             VerticalAlignment="Center"
-                                                            Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('AppThemeLightTime')}" />
+                                                            Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('AppThemeLightTime')}" />
 
                                                         <TimePicker
                                                             Grid.Column="2"
@@ -833,7 +798,7 @@
                                                         <TextBlock
                                                             Grid.Column="1"
                                                             VerticalAlignment="Center"
-                                                            Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('AppThemeDarkTime')}" />
+                                                            Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('AppThemeDarkTime')}" />
 
                                                         <TimePicker
                                                             Grid.Column="2"
@@ -856,13 +821,13 @@
                                         <TextBlock
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
-                                            Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('AutoSwitchAppThemeOffContent')}"
+                                            Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('AutoSwitchAppThemeOffContent')}"
                                             Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsAutoSwitchAppThemeValue), Mode=OneWay}" />
 
                                         <TextBlock
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
-                                            Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('AutoSwitchAppThemeOnContent')}"
+                                            Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('AutoSwitchAppThemeOnContent')}"
                                             Visibility="{x:Bind IsAutoSwitchAppThemeValue, Mode=OneWay}" />
 
                                         <ToggleSwitch
@@ -891,7 +856,7 @@
                                     <TextBlock
                                         Grid.Column="0"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('ShowColorInDarkTheme')}" />
+                                        Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('ShowColorInDarkTheme')}" />
 
                                     <StackPanel
                                         Grid.Column="1"
@@ -901,13 +866,13 @@
                                         <TextBlock
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
-                                            Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('ShowColorInDarkThemeOffContent')}"
+                                            Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('ShowColorInDarkThemeOffContent')}"
                                             Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsShowColorInDarkThemeValue), Mode=OneWay}" />
 
                                         <TextBlock
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
-                                            Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('ShowColorInDarkThemeOnContent')}"
+                                            Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('ShowColorInDarkThemeOnContent')}"
                                             Visibility="{x:Bind IsShowColorInDarkThemeValue, Mode=OneWay}" />
 
                                         <ToggleSwitch
@@ -949,7 +914,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
-                                Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('Tips')}" />
+                                Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('Tips')}" />
                         </Grid>
                     </controls:Expander.Header>
 
@@ -959,7 +924,7 @@
                                 Margin="44,10,16,10"
                                 FontSize="14"
                                 FontWeight="Normal"
-                                Text="{x:Bind rootservice:ResourceService.SwitchThemeResource.GetString('TipContent1')}"
+                                Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('TipContent1')}"
                                 TextAlignment="Justify"
                                 TextWrapping="Wrap" />
                         </StackPanel>

@@ -26,6 +26,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
@@ -34,10 +35,12 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace PowerTools.Views.Pages
 {
     /// <summary>
-    /// 切换主题页面
+    /// 主题切换页面
     /// </summary>
-    public sealed partial class SwitchThemePage : Page, INotifyPropertyChanged
+    public sealed partial class ThemeSwitchPage : Page, INotifyPropertyChanged
     {
+        private readonly string DarkString = ResourceService.ThemeSwitchResource.GetString("Dark");
+        private readonly string LightString = ResourceService.ThemeSwitchResource.GetString("Light");
         private readonly Guid CLSID_DesktopWallpaper = new("C2CF3110-460E-4fC1-B9D0-8A1C0C9CC4BD");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private bool isInitialized;
@@ -75,9 +78,9 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private BitmapImage _systemAppImage = new();
+        private ImageSource _systemAppImage;
 
-        public BitmapImage SystemAppImage
+        public ImageSource SystemAppImage
         {
             get { return _systemAppImage; }
 
@@ -91,18 +94,18 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private bool _isSwitchThemeNotificationEnabled;
+        private bool _isThemeSwitchNotificationEnabled;
 
-        public bool IsSwitchThemeNotificationEnabled
+        public bool IsThemeSwitchNotificationEnabled
         {
-            get { return _isSwitchThemeNotificationEnabled; }
+            get { return _isThemeSwitchNotificationEnabled; }
 
             set
             {
-                if (!Equals(_isSwitchThemeNotificationEnabled, value))
+                if (!Equals(_isThemeSwitchNotificationEnabled, value))
                 {
-                    _isSwitchThemeNotificationEnabled = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSwitchThemeNotificationEnabled)));
+                    _isThemeSwitchNotificationEnabled = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsThemeSwitchNotificationEnabled)));
                 }
             }
         }
@@ -171,23 +174,23 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private bool _isAutoSwitchThemeEnableValue = AutoSwitchThemeService.AutoSwitchThemeEnableValue;
+        private bool _isAutoThemeSwitchEnableValue = AutoThemeSwitchService.AutoThemeSwitchEnableValue;
 
-        public bool IsAutoSwitchThemeEnableValue
+        public bool IsAutoThemeSwitchEnableValue
         {
-            get { return _isAutoSwitchThemeEnableValue; }
+            get { return _isAutoThemeSwitchEnableValue; }
 
             set
             {
-                if (!Equals(_isAutoSwitchThemeEnableValue, value))
+                if (!Equals(_isAutoThemeSwitchEnableValue, value))
                 {
-                    _isAutoSwitchThemeEnableValue = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAutoSwitchThemeEnableValue)));
+                    _isAutoThemeSwitchEnableValue = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAutoThemeSwitchEnableValue)));
                 }
             }
         }
 
-        private bool _isAutoSwitchSystemThemeValue = AutoSwitchThemeService.AutoSwitchSystemThemeValue;
+        private bool _isAutoSwitchSystemThemeValue = AutoThemeSwitchService.AutoSwitchSystemThemeValue;
 
         public bool IsAutoSwitchSystemThemeValue
         {
@@ -203,7 +206,7 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private bool _isAutoSwitchAppThemeValue = AutoSwitchThemeService.AutoSwitchAppThemeValue;
+        private bool _isAutoSwitchAppThemeValue = AutoThemeSwitchService.AutoSwitchAppThemeValue;
 
         public bool IsAutoSwitchAppThemeValue
         {
@@ -219,7 +222,7 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private bool _isShowColorInDarkThemeValue = AutoSwitchThemeService.IsShowColorInDarkThemeValue;
+        private bool _isShowColorInDarkThemeValue = AutoThemeSwitchService.IsShowColorInDarkThemeValue;
 
         public bool IsShowColorInDarkThemeValue
         {
@@ -235,7 +238,7 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private TimeSpan _systemThemeLightTime = AutoSwitchThemeService.SystemThemeLightTime;
+        private TimeSpan _systemThemeLightTime = AutoThemeSwitchService.SystemThemeLightTime;
 
         public TimeSpan SystemThemeLightTime
         {
@@ -251,7 +254,7 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private TimeSpan _systemThemeDarkTime = AutoSwitchThemeService.SystemThemeDarkTime;
+        private TimeSpan _systemThemeDarkTime = AutoThemeSwitchService.SystemThemeDarkTime;
 
         public TimeSpan SystemThemeDarkTime
         {
@@ -267,7 +270,7 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private TimeSpan _appThemeLightTime = AutoSwitchThemeService.AppThemeLightTime;
+        private TimeSpan _appThemeLightTime = AutoThemeSwitchService.AppThemeLightTime;
 
         public TimeSpan AppThemeLightTime
         {
@@ -283,7 +286,7 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private TimeSpan _appThemeDarkTime = AutoSwitchThemeService.AppThemeDarkTime;
+        private TimeSpan _appThemeDarkTime = AutoThemeSwitchService.AppThemeDarkTime;
 
         public TimeSpan AppThemeDarkTime
         {
@@ -299,23 +302,20 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private List<KeyValuePair<ElementTheme, string>> SystemThemeStyleList { get; } =
-        [
-            new KeyValuePair<ElementTheme,string>(ElementTheme.Light, ResourceService.SwitchThemeResource.GetString("Light")),
-            new KeyValuePair<ElementTheme,string>(ElementTheme.Dark, ResourceService.SwitchThemeResource.GetString("Dark")),
-        ];
+        private List<KeyValuePair<ElementTheme, string>> SystemThemeStyleList { get; } = [];
 
-        private List<KeyValuePair<ElementTheme, string>> AppThemeStyleList { get; } =
-        [
-            new KeyValuePair<ElementTheme,string>(ElementTheme.Light, ResourceService.SwitchThemeResource.GetString("Light")),
-            new KeyValuePair<ElementTheme,string>(ElementTheme.Dark, ResourceService.SwitchThemeResource.GetString("Dark")),
-        ];
+        private List<KeyValuePair<ElementTheme, string>> AppThemeStyleList { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public SwitchThemePage()
+        public ThemeSwitchPage()
         {
             InitializeComponent();
+
+            SystemThemeStyleList.Add(new KeyValuePair<ElementTheme, string>(ElementTheme.Light, ResourceService.ThemeSwitchResource.GetString("Light")));
+            SystemThemeStyleList.Add(new KeyValuePair<ElementTheme, string>(ElementTheme.Dark, ResourceService.ThemeSwitchResource.GetString("Dark")));
+            AppThemeStyleList.Add(new KeyValuePair<ElementTheme, string>(ElementTheme.Light, ResourceService.ThemeSwitchResource.GetString("Light")));
+            AppThemeStyleList.Add(new KeyValuePair<ElementTheme, string>(ElementTheme.Dark, ResourceService.ThemeSwitchResource.GetString("Dark")));
             SelectedSystemThemeStyle = SystemThemeStyleList[0];
             SelectedAppThemeStyle = AppThemeStyleList[0];
 
@@ -327,13 +327,14 @@ namespace PowerTools.Views.Pages
             RegistryHelper.NotifyKeyValueChanged += OnNotifyKeyValueChanged;
         }
 
-        #region 第一部分：修改主题页面——挂载的事件
+        #region 第一部分：重写父类事件
 
         /// <summary>
-        /// 修改主题页面加载完成后触发的事件
+        /// 导航到该页面触发的事件
         /// </summary>
-        private async void OnLoaded(object sender, RoutedEventArgs args)
+        protected override async void OnNavigatedTo(NavigationEventArgs args)
         {
+            base.OnNavigatedTo(args);
             await InitializeSystemThemeSettingsAsync();
 
             if (!isInitialized)
@@ -347,6 +348,10 @@ namespace PowerTools.Views.Pages
                 });
             }
         }
+
+        #endregion 第一部分：重写父类事件
+
+        #region 第二部分：修改主题页面——挂载的事件
 
         /// <summary>
         /// 打开系统个性化
@@ -373,30 +378,30 @@ namespace PowerTools.Views.Pages
         {
             bool isStartupTaskEnabled = await Task.Run(async () =>
             {
-                StartupTask startupTask = await StartupTask.GetAsync("PowerToolsSystemTray");
+                StartupTask startupTask = await StartupTask.GetAsync("ThemeSwitch");
                 StartupTaskState startupTaskState = await startupTask.RequestEnableAsync();
                 return startupTaskState is StartupTaskState.Enabled || startupTaskState is StartupTaskState.Disabled;
             });
 
-            if (AutoSwitchThemeService.AutoSwitchThemeEnableValue)
+            if (AutoThemeSwitchService.AutoThemeSwitchEnableValue)
             {
-                IsSwitchThemeNotificationEnabled = !isStartupTaskEnabled;
+                IsThemeSwitchNotificationEnabled = !isStartupTaskEnabled;
 
-                if (IsSwitchThemeNotificationEnabled)
+                if (IsThemeSwitchNotificationEnabled)
                 {
                     await MainWindow.Current.ShowDialogAsync(new OpenStartupTaskFailedDialog());
                 }
             }
             else
             {
-                IsSwitchThemeNotificationEnabled = false;
+                IsThemeSwitchNotificationEnabled = false;
             }
         }
 
         /// <summary>
         /// 刷新主题样式设置值
         /// </summary>
-        private async void OnRefreshClicked(object sender, RoutedEventArgs args)
+        private async void OnRefreshClicked(Microsoft.UI.Xaml.Controls.SplitButton sender, Microsoft.UI.Xaml.Controls.SplitButtonClickEventArgs args)
         {
             await InitializeSystemThemeSettingsAsync();
         }
@@ -411,13 +416,13 @@ namespace PowerTools.Views.Pages
                 SelectedSystemThemeStyle = SystemThemeStyleList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
                 int systemTheme = 0;
 
-                if (SelectedSystemThemeStyle.Equals(SystemThemeStyleList[0]))
+                if (Equals(SelectedSystemThemeStyle, SystemThemeStyleList[0]))
                 {
                     systemTheme = 1;
                     IsShowThemeColorInStartAndTaskbarEnabled = false;
                     IsShowThemeColorInStartAndTaskbar = false;
                 }
-                else if (SelectedSystemThemeStyle.Equals(SystemThemeStyleList[1]))
+                else if (Equals(SelectedSystemThemeStyle, SystemThemeStyleList[1]))
                 {
                     systemTheme = 0;
                     IsShowThemeColorInStartAndTaskbarEnabled = true;
@@ -442,11 +447,11 @@ namespace PowerTools.Views.Pages
                 SelectedAppThemeStyle = AppThemeStyleList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
                 int appTheme = 0;
 
-                if (SelectedAppThemeStyle.Equals(AppThemeStyleList[0]))
+                if (Equals(SelectedAppThemeStyle, AppThemeStyleList[0]))
                 {
                     appTheme = 1;
                 }
-                else if (SelectedSystemThemeStyle.Equals(SystemThemeStyleList[1]))
+                else if (Equals(SelectedSystemThemeStyle, SystemThemeStyleList[1]))
                 {
                     appTheme = 0;
                 }
@@ -479,14 +484,14 @@ namespace PowerTools.Views.Pages
         /// <summary>
         /// 保存自动修改主题设置值
         /// </summary>
-        private async void OnSaveClicked(object sender, RoutedEventArgs args)
+        private async void OnSaveClicked(Microsoft.UI.Xaml.Controls.SplitButton sender, Microsoft.UI.Xaml.Controls.SplitButtonClickEventArgs args)
         {
-            if (IsAutoSwitchSystemThemeValue && SystemThemeLightTime.Equals(SystemThemeDarkTime))
+            if (IsAutoSwitchSystemThemeValue && Equals(SystemThemeLightTime, SystemThemeDarkTime))
             {
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ThemeChangeSameTime));
                 return;
             }
-            else if (IsAutoSwitchAppThemeValue && AppThemeLightTime.Equals(AppThemeDarkTime))
+            else if (IsAutoSwitchAppThemeValue && Equals(AppThemeLightTime, AppThemeDarkTime))
             {
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ThemeChangeSameTime));
                 return;
@@ -494,21 +499,21 @@ namespace PowerTools.Views.Pages
 
             await Task.Run(() =>
             {
-                AutoSwitchThemeService.SetAutoSwitchThemeEnableValue(IsAutoSwitchThemeEnableValue);
-                AutoSwitchThemeService.SetAutoSwitchSystemThemeValue(IsAutoSwitchSystemThemeValue);
-                AutoSwitchThemeService.SetAutoSwitchAppThemeValue(IsAutoSwitchAppThemeValue);
-                AutoSwitchThemeService.SetIsShowColorInDarkThemeValue(IsShowColorInDarkThemeValue);
-                AutoSwitchThemeService.SetSystemThemeLightTime(SystemThemeLightTime);
-                AutoSwitchThemeService.SetSystemThemeDarkTime(SystemThemeDarkTime);
-                AutoSwitchThemeService.SetAppThemeLightTime(AppThemeLightTime);
-                AutoSwitchThemeService.SetAppThemeDarkTime(AppThemeDarkTime);
+                AutoThemeSwitchService.SetAutoThemeSwitchEnableValue(IsAutoThemeSwitchEnableValue);
+                AutoThemeSwitchService.SetAutoSwitchSystemThemeValue(IsAutoSwitchSystemThemeValue);
+                AutoThemeSwitchService.SetAutoSwitchAppThemeValue(IsAutoSwitchAppThemeValue);
+                AutoThemeSwitchService.SetIsShowColorInDarkThemeValue(IsShowColorInDarkThemeValue);
+                AutoThemeSwitchService.SetSystemThemeLightTime(SystemThemeLightTime);
+                AutoThemeSwitchService.SetSystemThemeDarkTime(SystemThemeDarkTime);
+                AutoThemeSwitchService.SetAppThemeLightTime(AppThemeLightTime);
+                AutoThemeSwitchService.SetAppThemeDarkTime(AppThemeDarkTime);
 
-                if (IsAutoSwitchThemeEnableValue)
+                if (IsAutoThemeSwitchEnableValue)
                 {
                     try
                     {
                         bool isExisted = false;
-                        Process[] processArray = Process.GetProcessesByName("PowerToolsSystemTray");
+                        Process[] processArray = Process.GetProcessesByName("ThemeSwitch");
 
                         foreach (Process process in processArray)
                         {
@@ -538,7 +543,7 @@ namespace PowerTools.Views.Pages
                             {
                                 UseShellExecute = true,
                                 WorkingDirectory = Environment.CurrentDirectory,
-                                FileName = Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "PowerToolsSystemTray.exe"),
+                                FileName = Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "ThemeSwitch.exe"),
                                 Verb = "open"
                             };
                             Process.Start(startInfo);
@@ -546,12 +551,12 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, "Open process name PowerToolsSystemTray.exe failed", e);
+                        LogService.WriteLog(EventLevel.Error, "Open process name ThemeSwitch.exe failed", e);
                     }
                 }
                 else
                 {
-                    Process[] processArray = Process.GetProcessesByName("PowerToolsSystemTray");
+                    Process[] processArray = Process.GetProcessesByName("ThemeSwitch");
 
                     foreach (Process process in processArray)
                     {
@@ -576,8 +581,8 @@ namespace PowerTools.Views.Pages
                 }
             });
 
-            IsSwitchThemeNotificationEnabled = AutoSwitchThemeService.AutoSwitchThemeEnableValue && !await Task.Run(GetStartupTaskEnabledAsync);
-            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.SwitchThemeSaveResult));
+            IsThemeSwitchNotificationEnabled = AutoThemeSwitchService.AutoThemeSwitchEnableValue && !await Task.Run(GetStartupTaskEnabledAsync);
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ThemeSwitchSaveResult));
         }
 
         /// <summary>
@@ -587,16 +592,16 @@ namespace PowerTools.Views.Pages
         {
             await Task.Run(() =>
             {
-                AutoSwitchThemeService.SetAutoSwitchThemeEnableValue(AutoSwitchThemeService.DefaultAutoSwitchThemeEnableValue);
-                AutoSwitchThemeService.SetAutoSwitchSystemThemeValue(AutoSwitchThemeService.DefaultAutoSwitchSystemThemeValue);
-                AutoSwitchThemeService.SetAutoSwitchAppThemeValue(AutoSwitchThemeService.DefaultAutoSwitchAppThemeValue);
-                AutoSwitchThemeService.SetIsShowColorInDarkThemeValue(AutoSwitchThemeService.DefaultIsShowColorInDarkThemeValue);
-                AutoSwitchThemeService.SetSystemThemeLightTime(AutoSwitchThemeService.DefaultSystemThemeLightTime);
-                AutoSwitchThemeService.SetSystemThemeDarkTime(AutoSwitchThemeService.DefaultSystemThemeDarkTime);
-                AutoSwitchThemeService.SetAppThemeLightTime(AutoSwitchThemeService.DefaultAppThemeLightTime);
-                AutoSwitchThemeService.SetAppThemeDarkTime(AutoSwitchThemeService.DefaultAppThemeDarkTime);
+                AutoThemeSwitchService.SetAutoThemeSwitchEnableValue(AutoThemeSwitchService.DefaultAutoThemeSwitchEnableValue);
+                AutoThemeSwitchService.SetAutoSwitchSystemThemeValue(AutoThemeSwitchService.DefaultAutoSwitchSystemThemeValue);
+                AutoThemeSwitchService.SetAutoSwitchAppThemeValue(AutoThemeSwitchService.DefaultAutoSwitchAppThemeValue);
+                AutoThemeSwitchService.SetIsShowColorInDarkThemeValue(AutoThemeSwitchService.DefaultIsShowColorInDarkThemeValue);
+                AutoThemeSwitchService.SetSystemThemeLightTime(AutoThemeSwitchService.DefaultSystemThemeLightTime);
+                AutoThemeSwitchService.SetSystemThemeDarkTime(AutoThemeSwitchService.DefaultSystemThemeDarkTime);
+                AutoThemeSwitchService.SetAppThemeLightTime(AutoThemeSwitchService.DefaultAppThemeLightTime);
+                AutoThemeSwitchService.SetAppThemeDarkTime(AutoThemeSwitchService.DefaultAppThemeDarkTime);
 
-                Process[] processArray = Process.GetProcessesByName("PowerToolsSystemTray");
+                Process[] processArray = Process.GetProcessesByName("ThemeSwitch");
 
                 foreach (Process process in processArray)
                 {
@@ -620,17 +625,16 @@ namespace PowerTools.Views.Pages
                 }
             });
 
-            IsAutoSwitchThemeEnableValue = AutoSwitchThemeService.DefaultAutoSwitchThemeEnableValue;
-            IsAutoSwitchSystemThemeValue = AutoSwitchThemeService.DefaultAutoSwitchSystemThemeValue;
-            IsAutoSwitchAppThemeValue = AutoSwitchThemeService.DefaultAutoSwitchAppThemeValue;
-            IsShowColorInDarkThemeValue = AutoSwitchThemeService.DefaultIsShowColorInDarkThemeValue;
-            SystemThemeLightTime = AutoSwitchThemeService.DefaultSystemThemeLightTime;
-            SystemThemeDarkTime = AutoSwitchThemeService.DefaultSystemThemeDarkTime;
-            AppThemeLightTime = AutoSwitchThemeService.DefaultAppThemeLightTime;
-            AppThemeDarkTime = AutoSwitchThemeService.DefaultAppThemeDarkTime;
-            IsSwitchThemeNotificationEnabled = AutoSwitchThemeService.AutoSwitchThemeEnableValue && !await Task.Run(GetStartupTaskEnabledAsync);
-
-            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.SwitchThemeRestoreResult));
+            IsAutoThemeSwitchEnableValue = AutoThemeSwitchService.DefaultAutoThemeSwitchEnableValue;
+            IsAutoSwitchSystemThemeValue = AutoThemeSwitchService.DefaultAutoSwitchSystemThemeValue;
+            IsAutoSwitchAppThemeValue = AutoThemeSwitchService.DefaultAutoSwitchAppThemeValue;
+            IsShowColorInDarkThemeValue = AutoThemeSwitchService.DefaultIsShowColorInDarkThemeValue;
+            SystemThemeLightTime = AutoThemeSwitchService.DefaultSystemThemeLightTime;
+            SystemThemeDarkTime = AutoThemeSwitchService.DefaultSystemThemeDarkTime;
+            AppThemeLightTime = AutoThemeSwitchService.DefaultAppThemeLightTime;
+            AppThemeDarkTime = AutoThemeSwitchService.DefaultAppThemeDarkTime;
+            IsThemeSwitchNotificationEnabled = AutoThemeSwitchService.AutoThemeSwitchEnableValue && !await Task.Run(GetStartupTaskEnabledAsync);
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ThemeSwitchRestoreResult));
         }
 
         /// <summary>
@@ -641,7 +645,7 @@ namespace PowerTools.Views.Pages
             try
             {
                 bool isExisted = false;
-                Process[] processArray = Process.GetProcessesByName("PowerToolsSystemTray");
+                Process[] processArray = Process.GetProcessesByName("ThemeSwitch");
 
                 foreach (Process process in processArray)
                 {
@@ -671,26 +675,26 @@ namespace PowerTools.Views.Pages
                     {
                         UseShellExecute = true,
                         WorkingDirectory = Environment.CurrentDirectory,
-                        FileName = Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "PowerToolsSystemTray.exe"),
-                        Verb = "open"
+                        FileName = Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "ThemeSwitch.exe"),
+                        Verb = "open",
                     };
                     Process.Start(startInfo);
                 }
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Open process name PowerToolsSystemTray.exe failed", e);
+                LogService.WriteLog(EventLevel.Error, "Open process name ThemeSwitch.exe failed", e);
             }
         }
 
         /// <summary>
         /// 是否启用自动切换主题
         /// </summary>
-        private void OnAutoSwitchThemeEnableToggled(object sender, RoutedEventArgs args)
+        private void OnAutoThemeSwitchEnableToggled(object sender, RoutedEventArgs args)
         {
             if (sender is ToggleSwitch toggleSwitch)
             {
-                IsAutoSwitchThemeEnableValue = toggleSwitch.IsOn;
+                IsAutoThemeSwitchEnableValue = toggleSwitch.IsOn;
             }
         }
 
@@ -740,15 +744,13 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnCloseFlyoutClicked(object sender, RoutedEventArgs args)
         {
-            string tag = Convert.ToString((sender as Button).Tag);
-
-            if (!string.IsNullOrEmpty(tag))
+            if (sender is Button button && button.Tag is string tag && !string.IsNullOrEmpty(tag))
             {
-                if (tag.Equals("SystemThemeSetTimeFlyout", StringComparison.OrdinalIgnoreCase) && SystemThemeSetTimeFlyout.IsOpen)
+                if (string.Equals(tag, "SystemThemeSetTimeFlyout", StringComparison.OrdinalIgnoreCase) && SystemThemeSetTimeFlyout.IsOpen)
                 {
                     SystemThemeSetTimeFlyout.Hide();
                 }
-                else if (tag.Equals("AppThemeSetTimeFlyout", StringComparison.OrdinalIgnoreCase) && AppThemeSetTimeFlyout.IsOpen)
+                else if (string.Equals(tag, "AppThemeSetTimeFlyout", StringComparison.OrdinalIgnoreCase) && AppThemeSetTimeFlyout.IsOpen)
                 {
                     AppThemeSetTimeFlyout.Hide();
                 }
@@ -799,7 +801,7 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        #endregion 第一部分：修改主题页面——挂载的事件
+        #endregion 第二部分：修改主题页面——挂载的事件
 
         #region 第二部分：自定义事件
 
@@ -808,7 +810,7 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnNotifyKeyValueChanged(object sender, string key)
         {
-            if (key.Equals(@"Control Panel\Desktop") || key.Equals(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Wallpapers") || key.Equals(@"Control Panel\Colors"))
+            if (string.Equals(key, @"Control Panel\Desktop") || string.Equals(key, @"Software\Microsoft\Windows\CurrentVersion\Explorer\Wallpapers") || string.Equals(key, @"Control Panel\Colors"))
             {
                 synchronizationContext.Post(async (_) =>
                 {
@@ -856,7 +858,7 @@ namespace PowerTools.Views.Pages
                 return wallpaperDict;
             });
 
-            string wallpaper = wallpaperDict["Wallpaper"].ToString();
+            string wallpaper = Convert.ToString(wallpaperDict["Wallpaper"]);
 
             if (!string.IsNullOrEmpty(wallpaper))
             {
@@ -880,16 +882,16 @@ namespace PowerTools.Views.Pages
             SystemAppBackground = new SolidColorBrush((Color)wallpaperDict["Color"]);
 
             ElementTheme systemTheme = await Task.Run(GetSystemTheme);
-            SelectedSystemThemeStyle = SystemThemeStyleList.Find(item => item.Key.Equals(systemTheme));
+            SelectedSystemThemeStyle = SystemThemeStyleList.Find(item => Equals(item.Key, systemTheme));
 
             ElementTheme appTheme = await Task.Run(GetAppTheme);
             SystemAppTheme = appTheme;
-            SelectedAppThemeStyle = AppThemeStyleList.Find(item => item.Key.Equals(appTheme));
+            SelectedAppThemeStyle = AppThemeStyleList.Find(item => Equals(item.Key, appTheme));
 
-            IsShowThemeColorInStartAndTaskbarEnabled = SelectedSystemThemeStyle.Equals(SystemThemeStyleList[1]);
+            IsShowThemeColorInStartAndTaskbarEnabled = Equals(SelectedSystemThemeStyle, SystemThemeStyleList[1]);
             bool showThemeColorInStartAndTaskbar = await Task.Run(GetShowThemeColorInStartAndTaskbar);
             IsShowThemeColorInStartAndTaskbar = showThemeColorInStartAndTaskbar;
-            IsSwitchThemeNotificationEnabled = AutoSwitchThemeService.AutoSwitchThemeEnableValue && !await Task.Run(GetStartupTaskEnabledAsync);
+            IsThemeSwitchNotificationEnabled = AutoThemeSwitchService.AutoThemeSwitchEnableValue && !await Task.Run(GetStartupTaskEnabledAsync);
         }
 
         /// <summary>
@@ -921,7 +923,7 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async Task<bool> GetStartupTaskEnabledAsync()
         {
-            StartupTask startupTask = await StartupTask.GetAsync("PowerToolsSystemTray");
+            StartupTask startupTask = await StartupTask.GetAsync("ThemeSwitch");
             return startupTask is not null ? startupTask.State is StartupTaskState.Enabled || startupTask.State is StartupTaskState.EnabledByPolicy : await Task.FromResult(true);
         }
     }
