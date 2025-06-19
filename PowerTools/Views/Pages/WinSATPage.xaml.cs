@@ -31,7 +31,6 @@ namespace PowerTools.Views.Pages
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly CInitiateWinSAT cInitiateWinSAT = new();
         private readonly Guid CLSID_ProgressDialog = new("F8383852-FCD3-11d1-A6B9-006097DF5BD4");
-
         private bool isInitialized;
         private _RemotableHandle _RemotableHandle = new();
         private CWinSATCallbacks cWinSATCallbacks;
