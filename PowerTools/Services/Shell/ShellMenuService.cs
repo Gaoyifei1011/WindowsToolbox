@@ -68,9 +68,9 @@ namespace PowerTools.Services.Shell
         {
             RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "MenuGuid", shellMenuItem.MenuGuid.ToString());
             RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "MenuTitleText", shellMenuItem.MenuTitleText);
-            RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "ShouldUseIcon", shellMenuItem.ShouldUseIcon);
-            RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "ShouldUseProgramIcon", shellMenuItem.ShouldUseProgramIcon);
-            RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "ShouldUseThemeIcon", shellMenuItem.ShouldUseThemeIcon);
+            RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "UseIcon", shellMenuItem.UseIcon);
+            RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "UseProgramIcon", shellMenuItem.UseProgramIcon);
+            RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "UseThemeIcon", shellMenuItem.UseThemeIcon);
             RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "DefaultIconPath", shellMenuItem.DefaultIconPath);
             RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "LightThemeIconPath", shellMenuItem.LightThemeIconPath);
             RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "DarkThemeIconPath", shellMenuItem.DarkThemeIconPath);
@@ -113,9 +113,9 @@ namespace PowerTools.Services.Shell
                 MenuKey = currentMenuItem.MenuKey,
                 MenuGuid = currentMenuItem.MenuGuid,
                 MenuTitleText = currentMenuItem.MenuTitleText,
-                ShouldUseIcon = currentMenuItem.ShouldUseIcon,
-                ShouldUseProgramIcon = currentMenuItem.ShouldUseProgramIcon,
-                ShouldUseThemeIcon = currentMenuItem.ShouldUseThemeIcon,
+                UseIcon = currentMenuItem.UseIcon,
+                UseProgramIcon = currentMenuItem.UseProgramIcon,
+                UseThemeIcon = currentMenuItem.UseThemeIcon,
                 DefaultIconPath = currentMenuItem.DefaultIconPath,
                 LightThemeIconPath = currentMenuItem.LightThemeIconPath,
                 DarkThemeIconPath = currentMenuItem.DarkThemeIconPath,
@@ -262,9 +262,9 @@ namespace PowerTools.Services.Shell
 
             string menuTitleText = RegistryHelper.ReadRegistryKey<string>(Registry.CurrentUser, menuKey, "MenuTitleText");
             string menuGuid = RegistryHelper.ReadRegistryKey<string>(Registry.CurrentUser, menuKey, "MenuGuid");
-            bool? shouldUseIcon = RegistryHelper.ReadRegistryKey<bool?>(Registry.CurrentUser, menuKey, "ShouldUseIcon");
-            bool? shouldUseProgramIcon = RegistryHelper.ReadRegistryKey<bool?>(Registry.CurrentUser, menuKey, "ShouldUseProgramIcon");
-            bool? ShouldUseThemeIcon = RegistryHelper.ReadRegistryKey<bool?>(Registry.CurrentUser, menuKey, "ShouldUseThemeIcon");
+            bool? useIcon = RegistryHelper.ReadRegistryKey<bool?>(Registry.CurrentUser, menuKey, "UseIcon");
+            bool? useProgramIcon = RegistryHelper.ReadRegistryKey<bool?>(Registry.CurrentUser, menuKey, "UseProgramIcon");
+            bool? useThemeIcon = RegistryHelper.ReadRegistryKey<bool?>(Registry.CurrentUser, menuKey, "UseThemeIcon");
             string defaultIconPath = RegistryHelper.ReadRegistryKey<string>(Registry.CurrentUser, menuKey, "DefaultIconPath");
             string lightThemeIconPath = RegistryHelper.ReadRegistryKey<string>(Registry.CurrentUser, menuKey, "LightThemeIconPath");
             string darkThemeIconPath = RegistryHelper.ReadRegistryKey<string>(Registry.CurrentUser, menuKey, "DarkThemeIconPath");
@@ -282,9 +282,9 @@ namespace PowerTools.Services.Shell
             shellMenuItem.MenuKey = menuKey;
             shellMenuItem.MenuGuid = string.IsNullOrEmpty(menuGuid) ? Guid.Empty : new Guid(menuGuid);
             shellMenuItem.MenuTitleText = menuTitleText;
-            shellMenuItem.ShouldUseIcon = shouldUseIcon.HasValue && shouldUseIcon.Value;
-            shellMenuItem.ShouldUseProgramIcon = shouldUseProgramIcon.HasValue && shouldUseProgramIcon.Value;
-            shellMenuItem.ShouldUseThemeIcon = ShouldUseThemeIcon.HasValue && ShouldUseThemeIcon.Value;
+            shellMenuItem.UseIcon = useIcon.HasValue && useIcon.Value;
+            shellMenuItem.UseProgramIcon = useProgramIcon.HasValue && useProgramIcon.Value;
+            shellMenuItem.UseThemeIcon = useThemeIcon.HasValue && useThemeIcon.Value;
             shellMenuItem.DefaultIconPath = defaultIconPath;
             shellMenuItem.LightThemeIconPath = lightThemeIconPath;
             shellMenuItem.DarkThemeIconPath = darkThemeIconPath;
