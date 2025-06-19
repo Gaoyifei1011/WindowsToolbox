@@ -575,12 +575,11 @@ namespace PowerTools.Views.Windows
                         SetWindowTheme();
                         SetClassicMenuTheme();
 
-                        if (Equals((Content as MainPage).GetCurrentPageType(), typeof(SwitchThemePage)))
+                        if ((Content as MainPage).GetFrameContent() is ThemeSwitchPage themeSwitchPage)
                         {
-                            SwitchThemePage switchThemePage = ((Content as MainPage).MainNavigationView.Content as Frame).Content as SwitchThemePage;
                             BeginInvoke(async () =>
                             {
-                                await switchThemePage.InitializeSystemThemeSettingsAsync();
+                                await themeSwitchPage.InitializeSystemThemeSettingsAsync();
                             });
                         }
                         break;
