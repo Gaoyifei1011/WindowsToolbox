@@ -441,9 +441,9 @@ namespace PowerTools.Views.Pages
         /// </summary>
         public void NavigationFrom()
         {
-            if ((MainNavigationView.Content as Frame).Content is ShellMenuPage shellMenuPage && shellMenuPage.BreadCollection is not null && shellMenuPage.BreadCollection.Count > 1)
+            if (GetFrameContent() is ShellMenuPage shellMenuPage && shellMenuPage.BreadCollection.Count is 2)
             {
-                shellMenuPage.BreadCollection.RemoveAt(shellMenuPage.BreadCollection.Count - 1);
+                shellMenuPage.NavigateTo(shellMenuPage.PageList[0], null, false);
                 return;
             }
 
@@ -507,12 +507,12 @@ namespace PowerTools.Views.Pages
             Type currentPageType = GetCurrentPageType();
             if (Equals(currentPageType, typeof(FileManagerPage)))
             {
-                FileManagerPage fileManagerPage = (MainNavigationView.Content as Frame).Content as FileManagerPage;
+                FileManagerPage fileManagerPage = GetFrameContent() as FileManagerPage;
                 Type currentFileManagerPageType = fileManagerPage.GetCurrentPageType();
 
                 if (Equals(currentFileManagerPageType, typeof(FileNamePage)))
                 {
-                    FileNamePage page = fileManagerPage.GetFrameContent() as FileNamePage;
+                    FileNamePage fileNamePage = fileManagerPage.GetFrameContent() as FileNamePage;
                     List<OldAndNewNameModel> fileNameList = [];
 
                     await Task.Run(() =>
@@ -533,11 +533,11 @@ namespace PowerTools.Views.Pages
                         }
                     });
 
-                    page.AddToFileNamePage(fileNameList);
+                    fileNamePage.AddToFileNamePage(fileNameList);
                 }
                 else if (Equals(currentFileManagerPageType, typeof(ExtensionNamePage)))
                 {
-                    ExtensionNamePage page = fileManagerPage.GetFrameContent() as ExtensionNamePage;
+                    ExtensionNamePage extensionNamePage = fileManagerPage.GetFrameContent() as ExtensionNamePage;
 
                     List<OldAndNewNameModel> extensionNameList = await Task.Run(() =>
                     {
@@ -564,11 +564,11 @@ namespace PowerTools.Views.Pages
                         return extensionNameList;
                     });
 
-                    page.AddToExtensionNamePage(extensionNameList);
+                    extensionNamePage.AddToExtensionNamePage(extensionNameList);
                 }
                 else if (Equals(currentFileManagerPageType, typeof(UpperAndLowerCasePage)))
                 {
-                    UpperAndLowerCasePage page = fileManagerPage.GetFrameContent() as UpperAndLowerCasePage;
+                    UpperAndLowerCasePage upperAndLowerCasePage = fileManagerPage.GetFrameContent() as UpperAndLowerCasePage;
 
                     List<OldAndNewNameModel> upperAndLowerCaseList = await Task.Run(() =>
                     {
@@ -592,11 +592,11 @@ namespace PowerTools.Views.Pages
                         return upperAndLowerCaseList;
                     });
 
-                    page.AddtoUpperAndLowerCasePage(upperAndLowerCaseList);
+                    upperAndLowerCasePage.AddtoUpperAndLowerCasePage(upperAndLowerCaseList);
                 }
                 else if (Equals(currentFileManagerPageType, typeof(FilePropertiesPage)))
                 {
-                    FilePropertiesPage page = fileManagerPage.GetFrameContent() as FilePropertiesPage;
+                    FilePropertiesPage filePropertiesPage = fileManagerPage.GetFrameContent() as FilePropertiesPage;
 
                     List<OldAndNewPropertiesModel> filePropertiesList = await Task.Run(() =>
                     {
@@ -620,12 +620,12 @@ namespace PowerTools.Views.Pages
                         return filePropertiesList;
                     });
 
-                    page.AddToFilePropertiesPage(filePropertiesList);
+                    filePropertiesPage.AddToFilePropertiesPage(filePropertiesList);
                 }
             }
             else if (Equals(currentPageType, typeof(FileCertificatePage)))
             {
-                FileCertificatePage fileCertificatePage = (MainNavigationView.Content as Frame).Content as FileCertificatePage;
+                FileCertificatePage fileCertificatePage = GetFrameContent() as FileCertificatePage;
 
                 List<CertificateResultModel> fileCertificateList = await Task.Run(() =>
                 {
@@ -656,7 +656,7 @@ namespace PowerTools.Views.Pages
             }
             else if (Equals(currentPageType, typeof(IconExtractPage)))
             {
-                IconExtractPage iconExtractPage = (MainNavigationView.Content as Frame).Content as IconExtractPage;
+                IconExtractPage iconExtractPage = GetFrameContent() as IconExtractPage;
                 if (filesList.Count is 1 && (string.Equals(Path.GetExtension(filesList[0]), ".exe") || string.Equals(Path.GetExtension(filesList[0]), ".dll")))
                 {
                     await iconExtractPage.ParseIconFileAsync(filesList[0]);
@@ -664,7 +664,7 @@ namespace PowerTools.Views.Pages
             }
             else if (Equals(currentPageType, typeof(PriExtractPage)))
             {
-                PriExtractPage priExtractPage = (MainNavigationView.Content as Frame).Content as PriExtractPage;
+                PriExtractPage priExtractPage = GetFrameContent() as PriExtractPage;
                 if (filesList.Count is 1 && string.Equals(Path.GetExtension(filesList[0]), ".pri"))
                 {
                     await priExtractPage.ParseResourceFileAsync(filesList[0]);
@@ -672,7 +672,7 @@ namespace PowerTools.Views.Pages
             }
             else if (Equals(currentPageType, typeof(FileUnlockPage)))
             {
-                FileUnlockPage fileUnlockPage = (MainNavigationView.Content as Frame).Content as FileUnlockPage;
+                FileUnlockPage fileUnlockPage = GetFrameContent() as FileUnlockPage;
                 if (filesList.Count is 1)
                 {
                     await fileUnlockPage.ParseFileAsync(filesList[0]);
