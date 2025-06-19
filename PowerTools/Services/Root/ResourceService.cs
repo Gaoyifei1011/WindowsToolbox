@@ -19,8 +19,6 @@ namespace PowerTools.Services.Root
 
         public static List<KeyValuePair<string, string>> DoEngineModeList { get; } = [];
 
-        public static ResourceManager AboutResource { get; } = new("PowerTools.Strings.About", CurrentAssembly);
-
         public static ResourceManager AllToolsResource { get; } = new("PowerTools.Strings.AllTools", CurrentAssembly);
 
         public static ResourceManager SwitchThemeResource { get; } = new("PowerTools.Strings.SwitchTheme", CurrentAssembly);
@@ -58,6 +56,14 @@ namespace PowerTools.Services.Root
         public static ResourceManager PriExtractResource { get; } = new("PowerTools.Strings.PriExtract", CurrentAssembly);
 
         public static ResourceManager SettingsResource { get; } = new("PowerTools.Strings.Settings", CurrentAssembly);
+
+        public static ResourceManager SettingsAboutResource { get; } = new("PowerTools.Strings.SettingsAbout", CurrentAssembly);
+
+        public static ResourceManager SettingsAdvancedResource { get; } = new("PowerTools.Strings.SettingsAdvanced", CurrentAssembly);
+
+        public static ResourceManager SettingsDownloadResource { get; } = new("PowerTools.Strings.SettingsDownload", CurrentAssembly);
+
+        public static ResourceManager SettingsGeneralResource { get; } = new("PowerTools.Strings.SettingsGeneral", CurrentAssembly);
 
         public static ResourceManager ShellMenuResource { get; } = new("PowerTools.Strings.ShellMenu", CurrentAssembly);
 
