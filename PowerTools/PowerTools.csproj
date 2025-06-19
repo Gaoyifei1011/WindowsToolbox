@@ -89,7 +89,6 @@
     </COMReference>
     
     <Content Include="Assets\ControlIcon\AllTools.png" CopyToOutputDirectory="Always" />
-    <Content Include="Assets\ControlIcon\SwitchTheme.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ContextMenuManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\DownloadManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\DriverManager.png" CopyToOutputDirectory="Always" />
@@ -107,6 +106,7 @@
     <Content Include="Assets\ControlIcon\Settings.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ShellMenu.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\System.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\ThemeSwitch.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\UpdateManager.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\WinSAT.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Images\LoafDarkWallpaper.jpg" CopyToOutputDirectory="Always" />
@@ -162,9 +162,6 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" CopyToOutputDirectory="Always" />
 
-    <EmbeddedResource Include="Strings\About.en-us.restext" />
-    <EmbeddedResource Include="Strings\About.restext" />
-    <EmbeddedResource Include="Strings\About.zh-hans.restext" />
     <EmbeddedResource Include="Strings\AllTools.en-us.restext" />
     <EmbeddedResource Include="Strings\AllTools.restext" />
     <EmbeddedResource Include="Strings\AllTools.zh-hans.restext" />
@@ -217,6 +214,9 @@
     <EmbeddedResource Include="Strings\Settings.en-us.restext" />
     <EmbeddedResource Include="Strings\Settings.restext" />
     <EmbeddedResource Include="Strings\Settings.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\SettingsAbout.en-us.restext" />
+    <EmbeddedResource Include="Strings\SettingsAbout.restext" />
+    <EmbeddedResource Include="Strings\SettingsAbout.zh-hans.restext" />
     <EmbeddedResource Include="Strings\SettingsAdvanced.en-us.restext" />
     <EmbeddedResource Include="Strings\SettingsAdvanced.restext" />
     <EmbeddedResource Include="Strings\SettingsAdvanced.zh-hans.restext" />
@@ -229,15 +229,21 @@
     <EmbeddedResource Include="Strings\ShellMenu.en-us.restext" />
     <EmbeddedResource Include="Strings\ShellMenu.restext" />
     <EmbeddedResource Include="Strings\ShellMenu.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\ShellMenuEdit.en-us.restext" />
+    <EmbeddedResource Include="Strings\ShellMenuEdit.restext" />
+    <EmbeddedResource Include="Strings\ShellMenuEdit.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\ShellMenuList.en-us.restext" />
+    <EmbeddedResource Include="Strings\ShellMenuList.restext" />
+    <EmbeddedResource Include="Strings\ShellMenuList.zh-hans.restext" />
     <EmbeddedResource Include="Strings\SimulateUpdate.en-us.restext" />
     <EmbeddedResource Include="Strings\SimulateUpdate.restext" />
     <EmbeddedResource Include="Strings\SimulateUpdate.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\SwitchTheme.en-us.restext" />
-    <EmbeddedResource Include="Strings\SwitchTheme.restext" />
-    <EmbeddedResource Include="Strings\SwitchTheme.zh-hans.restext" />
     <EmbeddedResource Include="Strings\ThemeSwitch.en-us.restext" />
     <EmbeddedResource Include="Strings\ThemeSwitch.restext" />
     <EmbeddedResource Include="Strings\ThemeSwitch.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\ThemeSwitchTray.en-us.restext" />
+    <EmbeddedResource Include="Strings\ThemeSwitchTray.restext" />
+    <EmbeddedResource Include="Strings\ThemeSwitchTray.zh-hans.restext" />
     <EmbeddedResource Include="Strings\UpdateManager.en-us.restext" />
     <EmbeddedResource Include="Strings\UpdateManager.restext" />
     <EmbeddedResource Include="Strings\UpdateManager.zh-hans.restext" />
@@ -285,9 +291,11 @@
     <None Remove="Views\Pages\SettingsDownloadPage.xaml" />
     <None Remove="Views\Pages\SettingsGeneralPage.xaml" />
     <None Remove="Views\Pages\SettingsPage.xaml" />
+    <None Remove="Views\Pages\ShellMenuEditPage.xaml" />
+    <None Remove="Views\Pages\ShellMenuListPage.xaml" />
     <None Remove="Views\Pages\ShellMenuPage.xaml" />
     <None Remove="Views\Pages\SimulateUpdatePage.xaml" />
-    <None Remove="Views\Pages\SwitchThemePage.xaml" />
+    <None Remove="Views\Pages\ThemeSwitch.xaml" />
     <None Remove="Views\Pages\UpdateManagerPage.xaml" />
     <None Remove="Views\Pages\UpperAndLowerCasePage.xaml" />
     <None Remove="Views\Pages\WinSATPage.xaml" />
@@ -318,6 +326,8 @@
     <Page Include="Views\Pages\SettingsAdvancedPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsDownloadPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsGeneralPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\ShellMenuEditPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\ShellMenuListPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\TeachingTips\DataCopyTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\TeachingTips\OperationResultTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\TeachingTips\QuickOperationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -340,7 +350,7 @@
     <Page Include="Views\Pages\SettingsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\ShellMenuPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SimulateUpdatePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\Pages\SwitchThemePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\ThemeSwitchPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\UpdateManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\UpperAndLowerCasePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\WinSATPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
