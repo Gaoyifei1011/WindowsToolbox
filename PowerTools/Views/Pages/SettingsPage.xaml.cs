@@ -1,11 +1,29 @@
-﻿using PowerTools.Models;
+﻿using IWshRuntimeLibrary;
+using PowerTools.Extensions.DataType.Enums;
+using PowerTools.Helpers.Root;
+using PowerTools.Models;
 using PowerTools.Services.Root;
+using PowerTools.Views.Dialogs;
+using PowerTools.Views.TeachingTips;
+using PowerTools.Views.Windows;
+using PowerTools.WindowsAPI.PInvoke.Kernel32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.Tracing;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Shell;
+using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Navigation;
 
 // 抑制 CA1806，IDE0060 警告
@@ -18,6 +36,8 @@ namespace PowerTools.Views.Pages
     /// </summary>
     public sealed partial class SettingsPage : Page, INotifyPropertyChanged
     {
+        private readonly string AppNameString = ResourceService.SettingsResource.GetString("AppName");
+        private Guid IID_ITaskbarManagerDesktopAppSupportStatics = new("CDFEFD63-E879-4134-B9A7-8283F05F9480");
         private bool isInitialized;
 
         private Microsoft.UI.Xaml.Controls.NavigationViewItem _selectedItem;
@@ -41,7 +61,7 @@ namespace PowerTools.Views.Pages
             new KeyValuePair<string, Type>("General",typeof(SettingsGeneralPage)),
             new KeyValuePair<string, Type>("Download", typeof(SettingsDownloadPage)),
             new KeyValuePair<string, Type>("Advanced", typeof(SettingsAdvancedPage)),
-            new KeyValuePair<string, Type>("About", typeof(AboutPage)),
+            new KeyValuePair<string, Type>("About", typeof(SettingsAboutPage)),
         ];
 
         private List<NavigationModel> NavigationItemList { get; } = [];
@@ -55,8 +75,6 @@ namespace PowerTools.Views.Pages
 
         #region 第一部分：重写父类事件
 
-        #region 第二部分：设置页面——挂载的事件
-
         /// <summary>
         /// 导航到该页面触发的事件
         /// </summary>
@@ -66,7 +84,9 @@ namespace PowerTools.Views.Pages
             SettingsFrame.ContentTransitions = SuppressNavigationTransitionCollection;
         }
 
-        #endregion 第二部分：设置页面——挂载的事件
+        #endregion 第一部分：重写父类事件
+
+        #region 第二部分：设置页面——挂载的事件
 
         /// <summary>
         /// 导航控件加载完成后初始化内容
@@ -165,6 +185,215 @@ namespace PowerTools.Views.Pages
         }
 
         /// <summary>
+        /// 关闭使用说明浮出栏
+        /// </summary>
+        private void OnCloseClicked(object sender, RoutedEventArgs args)
+        {
+            if (SettingsSplitView.IsPaneOpen)
+            {
+                SettingsSplitView.IsPaneOpen = false;
+            }
+        }
+
+        /// <summary>
+        /// 打开重启应用确认的窗口对话框
+        /// </summary>
+        private async void OnRestartAppsClicked(object sender, RoutedEventArgs args)
+        {
+            await MainWindow.Current.ShowDialogAsync(new RestartAppsDialog());
+        }
+
+        /// <summary>
+        /// 设置说明
+        /// </summary>
+        private void OnSettingsInstructionClicked(object sender, RoutedEventArgs args)
+        {
+            if (!SettingsSplitView.IsPaneOpen)
+            {
+                SettingsSplitView.IsPaneOpen = true;
+            }
+        }
+
+        /// <summary>
+        /// 以管理员身份运行
+        /// </summary>
+        private void OnRunAsAdministratorClicked(object sender, RoutedEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    ProcessStartInfo startInfo = new()
+                    {
+                        UseShellExecute = true,
+                        WorkingDirectory = Environment.CurrentDirectory,
+                        Arguments = "--elevated",
+                        FileName = System.Windows.Forms.Application.ExecutablePath,
+                        Verb = "runas"
+                    };
+                    Process.Start(startInfo);
+                }
+                catch
+                {
+                    return;
+                }
+            });
+        }
+
+        /// <summary>
+        /// 固定应用到桌面
+        /// </summary>
+        private async void OnPinToDesktopClicked(object sender, RoutedEventArgs args)
+        {
+            bool isCreatedSuccessfully = await Task.Run(() =>
+            {
+                try
+                {
+                    WshShell wshShell = new();
+                    WshShortcut wshShortcut = (WshShortcut)wshShell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), string.Format(@"{0}.lnk", AppNameString)));
+                    uint aumidLength = 260;
+                    StringBuilder aumidBuilder = new((int)aumidLength);
+                    Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
+                    wshShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", aumidBuilder.ToString());
+                    wshShortcut.Save();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Create desktop shortcut failed.", e);
+                    return false;
+                }
+            });
+
+            await MainWindow.Current.ShowNotificationAsync(new QuickOperationTip(QuickOperationKind.Desktop, isCreatedSuccessfully));
+        }
+
+        /// <summary>
+        /// 将应用固定到“开始”屏幕
+        /// </summary>
+        private async void OnPinToStartScreenClicked(object sender, RoutedEventArgs args)
+        {
+            bool isPinnedSuccessfully = false;
+
+            try
+            {
+                IReadOnlyList<AppListEntry> appEntriesList = await Package.Current.GetAppListEntriesAsync();
+
+                if (appEntriesList[0] is AppListEntry defaultEntry)
+                {
+                    StartScreenManager startScreenManager = StartScreenManager.GetDefault();
+
+                    bool containsEntry = await startScreenManager.ContainsAppListEntryAsync(defaultEntry);
+
+                    if (!containsEntry)
+                    {
+                        await startScreenManager.RequestAddAppListEntryAsync(defaultEntry);
+                    }
+
+                    isPinnedSuccessfully = true;
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, "Pin app to startscreen failed.", e);
+            }
+            finally
+            {
+                await MainWindow.Current.ShowNotificationAsync(new QuickOperationTip(QuickOperationKind.StartScreen, isPinnedSuccessfully));
+            }
+        }
+
+        /// <summary>
+        /// 将应用固定到任务栏
+        /// </summary>
+        private async void OnPinToTaskbarClicked(object sender, RoutedEventArgs args)
+        {
+            bool isPinnedSuccessfully = false;
+
+            try
+            {
+                if (Marshal.QueryInterface(Marshal.GetIUnknownForObject(WindowsRuntimeMarshal.GetActivationFactory(typeof(TaskbarManager))), ref IID_ITaskbarManagerDesktopAppSupportStatics, out _) is 0)
+                {
+                    string featureId = "com.microsoft.windows.taskbar.pin";
+                    string token = FeatureAccessHelper.GenerateTokenFromFeatureId(featureId);
+                    string attestation = FeatureAccessHelper.GenerateAttestation(featureId);
+                    LimitedAccessFeatureRequestResult accessResult = LimitedAccessFeatures.TryUnlockFeature(featureId, token, attestation);
+
+                    if (accessResult.Status is LimitedAccessFeatureStatus.Available)
+                    {
+                        isPinnedSuccessfully = await TaskbarManager.GetDefault().RequestPinCurrentAppAsync();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                LogService.WriteLog(EventLevel.Error, "Pin app to taskbar failed.", e);
+            }
+            finally
+            {
+                await MainWindow.Current.ShowNotificationAsync(new QuickOperationTip(QuickOperationKind.Taskbar, isPinnedSuccessfully));
+            }
+        }
+
+        /// <summary>
+        /// 应用设置
+        /// </summary>
+        private void OnAppSettingsClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        {
+            if (RuntimeHelper.IsElevated)
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        Process.Start("ms-settings:appsfeatures-app");
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Open app settings failed", e);
+                    }
+                });
+            }
+        }
+
+        /// <summary>
+        /// 了解传递优化
+        /// </summary>
+        private void OnLearnDeliveryOptimizationClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        {
+            SettingsSplitView.IsPaneOpen = false;
+        }
+
+        /// <summary>
+        /// 了解后台智能传输服务
+        /// </summary>
+        private void OnLearnBitsClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        {
+            SettingsSplitView.IsPaneOpen = false;
+        }
+
+        /// <summary>
+        /// 疑难解答
+        /// </summary>
+        private void OnTroubleShootClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        {
+            SettingsSplitView.IsPaneOpen = false;
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start("ms-settings:troubleshoot");
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+            });
+        }
+
+        #endregion 第二部分：设置页面——挂载的事件
+
+        /// <summary>
         /// 页面向前导航
         /// </summary>
         private void NavigateTo(Type navigationPageType, object parameter = null, bool? slideDirection = null)
@@ -191,11 +420,9 @@ namespace PowerTools.Views.Pages
         /// <summary>
         /// 获取当前导航到的页
         /// </summary>
-        public Type GetCurrentPageType()
+        private Type GetCurrentPageType()
         {
             return SettingsFrame.CurrentSourcePageType;
         }
-
-        #endregion 第一部分：重写父类事件
     }
 }
