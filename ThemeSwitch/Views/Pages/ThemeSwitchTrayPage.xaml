@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="ThemeSwitch.Views.Pages.ThemeSwitchPage"
+    x:Class="ThemeSwitch.Views.Pages.ThemeSwitchTrayPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -15,7 +15,7 @@
                 Height="32"
                 Padding="11,0"
                 Click="{x:Bind OnOpenMainProgramClicked}"
-                Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('OpenMainProgram')}">
+                Text="{x:Bind rootservice:ResourceService.ThemeSwitchTrayResource.GetString('OpenMainProgram')}">
 
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE80F;" />
@@ -26,7 +26,7 @@
                 Height="32"
                 Padding="11,0"
                 Click="{x:Bind OnSwitchSystemThemeClicked}"
-                Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('SwitchSystemTheme')}">
+                Text="{x:Bind rootservice:ResourceService.ThemeSwitchTrayResource.GetString('SwitchSystemTheme')}">
 
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE770;" />
@@ -37,7 +37,7 @@
                 Height="32"
                 Padding="11,0"
                 Click="{x:Bind OnSwitchAppThemeClicked}"
-                Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('SwitchAppTheme')}">
+                Text="{x:Bind rootservice:ResourceService.ThemeSwitchTrayResource.GetString('SwitchAppTheme')}">
 
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE71D;" />
@@ -50,7 +50,7 @@
                 Height="32"
                 Padding="11,0"
                 Click="{x:Bind OnExitClicked}"
-                Text="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('Exit')}">
+                Text="{x:Bind rootservice:ResourceService.ThemeSwitchTrayResource.GetString('Exit')}">
 
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE711;" />

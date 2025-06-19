@@ -58,7 +58,7 @@
   <ItemGroup>
     <ApplicationDefinition Include="ThemeSwitchApp.xaml" />
     <None Remove="ThemeSwitchApp.xaml" />
-    <None Remove="ThemeSwitchPage.xaml" />
+    <None Remove="ThemeSwitchTrayPage.xaml" />
     
     <None Update="Assets\ThemeSwitch.ico" CopyToOutputDirectory="Never" />
 
@@ -67,7 +67,7 @@
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.4188" />
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
 
-    <Page Include="Views\Pages\ThemeSwitchPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\ThemeSwitchTrayPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
 
     <ProjectCapability Include="Uwp" />
 

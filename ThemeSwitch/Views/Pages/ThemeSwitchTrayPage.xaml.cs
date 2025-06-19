@@ -19,9 +19,9 @@ using Windows.UI.Xaml.Controls;
 namespace ThemeSwitch.Views.Pages
 {
     /// <summary>
-    /// 主题切换页面
+    /// 主题切换托盘页面
     /// </summary>
-    public sealed partial class ThemeSwitchPage : Page, INotifyPropertyChanged
+    public sealed partial class ThemeSwitchTrayPage : Page, INotifyPropertyChanged
     {
         private ElementTheme _windowTheme;
 
@@ -41,7 +41,7 @@ namespace ThemeSwitch.Views.Pages
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ThemeSwitchPage()
+        public ThemeSwitchTrayPage()
         {
             InitializeComponent();
         }

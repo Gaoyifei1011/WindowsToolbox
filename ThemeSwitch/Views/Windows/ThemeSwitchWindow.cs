@@ -26,11 +26,11 @@ namespace ThemeSwitch.Views.Windows
     /// </summary>
     public class ThemeSwitchWindow : Form
     {
-        private readonly string AppThemeString = ResourceService.ThemeSwitchResource.GetString("AppTheme");
-        private readonly string DarkString = ResourceService.ThemeSwitchResource.GetString("Dark");
-        private readonly string LightString = ResourceService.ThemeSwitchResource.GetString("Light");
-        private readonly string SystemThemeString = ResourceService.ThemeSwitchResource.GetString("SystemTheme");
-        private readonly string ThemeSwitchString = ResourceService.ThemeSwitchResource.GetString("ThemeSwitch");
+        private readonly string AppThemeString = ResourceService.ThemeSwitchTrayResource.GetString("AppTheme");
+        private readonly string DarkString = ResourceService.ThemeSwitchTrayResource.GetString("Dark");
+        private readonly string LightString = ResourceService.ThemeSwitchTrayResource.GetString("Light");
+        private readonly string SystemThemeString = ResourceService.ThemeSwitchTrayResource.GetString("SystemTheme");
+        private readonly string ThemeSwitchString = ResourceService.ThemeSwitchTrayResource.GetString("ThemeSwitch");
 
         private readonly Container container = new();
         private readonly DesktopWindowXamlSource desktopWindowXamlSource = new();
@@ -61,7 +61,7 @@ namespace ThemeSwitch.Views.Windows
             AllowDrop = false;
             AutoScaleMode = AutoScaleMode.Font;
             Current = this;
-            Content = new ThemeSwitchPage();
+            Content = new ThemeSwitchTrayPage();
 
             desktopWindowXamlSource.Content = Content;
             IDesktopWindowXamlSourceNative2 desktopWindowXamlSourceNative = desktopWindowXamlSource as IDesktopWindowXamlSourceNative2;
@@ -115,9 +115,9 @@ namespace ThemeSwitch.Views.Windows
         {
             base.OnDeactivate(args);
 
-            if ((Content as ThemeSwitchPage).ThemeSwitchFlyout.IsOpen)
+            if ((Content as ThemeSwitchTrayPage).ThemeSwitchFlyout.IsOpen)
             {
-                (Content as ThemeSwitchPage).ThemeSwitchFlyout.Hide();
+                (Content as ThemeSwitchTrayPage).ThemeSwitchFlyout.Hide();
             }
         }
 
@@ -175,7 +175,7 @@ namespace ThemeSwitch.Views.Windows
             };
 
             Activate();
-            (Content as ThemeSwitchPage).ThemeSwitchFlyout.ShowAt(Content, options);
+            (Content as ThemeSwitchTrayPage).ThemeSwitchFlyout.ShowAt(Content, options);
         }
 
         /// <summary>
@@ -394,7 +394,7 @@ namespace ThemeSwitch.Views.Windows
                     {
                         BeginInvoke(async () =>
                         {
-                            await (Content as ThemeSwitchPage).UpdateSystemTrayThemeAsync();
+                            await (Content as ThemeSwitchTrayPage).UpdateSystemTrayThemeAsync();
                         });
                         break;
                     }
