@@ -68,9 +68,25 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        public ObservableCollection<OldAndNewNameModel> UpperAndLowerCaseCollection { get; } = [];
+        private bool _isOperationFailed;
 
-        private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = [];
+        public bool IsOperationFailed
+        {
+            get { return _isOperationFailed; }
+
+            set
+            {
+                if (!Equals(_isOperationFailed, value))
+                {
+                    _isOperationFailed = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsOperationFailed)));
+                }
+            }
+        }
+
+        private List<OperationFailedModel> OperationFailedList { get; } = [];
+
+        public ObservableCollection<OldAndNewNameModel> UpperAndLowerCaseCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -102,43 +118,16 @@ namespace PowerTools.Views.Pages
         {
             base.OnDrop(args);
             DragOperationDeferral dragOperationDeferral = args.GetDeferral();
+            List<IStorageItem> storageItemList = [];
             try
             {
-                DataPackageView view = args.DataView;
-                if (view.Contains(StandardDataFormats.StorageItems))
+                DataPackageView dataPackageView = args.DataView;
+                if (dataPackageView.Contains(StandardDataFormats.StorageItems))
                 {
-                    List<OldAndNewNameModel> upperAndLowerCaseList = await Task.Run(async () =>
+                    storageItemList.AddRange(await Task.Run(async () =>
                     {
-                        List<OldAndNewNameModel> upperAndLowerCaseList = [];
-                        IReadOnlyList<IStorageItem> storageItemList = await view.GetStorageItemsAsync();
-
-                        foreach (IStorageItem storageItem in storageItemList)
-                        {
-                            try
-                            {
-                                FileInfo fileInfo = new(storageItem.Path);
-                                if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
-                                {
-                                    continue;
-                                }
-
-                                upperAndLowerCaseList.Add(new()
-                                {
-                                    OriginalFileName = storageItem.Name,
-                                    OriginalFilePath = storageItem.Path,
-                                });
-                            }
-                            catch (Exception e)
-                            {
-                                LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
-                                continue;
-                            }
-                        }
-
-                        return upperAndLowerCaseList;
-                    });
-
-                    AddtoUpperAndLowerCasePage(upperAndLowerCaseList);
+                        return await dataPackageView.GetStorageItemsAsync();
+                    }));
                 }
             }
             catch (Exception e)
@@ -148,8 +137,41 @@ namespace PowerTools.Views.Pages
             finally
             {
                 dragOperationDeferral.Complete();
-                OperationFailedCollection.Clear();
             }
+
+            List<OldAndNewNameModel> upperAndLowerCaseList = await Task.Run(() =>
+            {
+                List<OldAndNewNameModel> upperAndLowerCaseList = [];
+
+                foreach (IStorageItem storageItem in storageItemList)
+                {
+                    try
+                    {
+                        FileInfo fileInfo = new(storageItem.Path);
+                        if ((fileInfo.Attributes & System.IO.FileAttributes.Hidden) is System.IO.FileAttributes.Hidden)
+                        {
+                            continue;
+                        }
+
+                        upperAndLowerCaseList.Add(new()
+                        {
+                            OriginalFileName = storageItem.Name,
+                            OriginalFilePath = storageItem.Path,
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
+                        continue;
+                    }
+                }
+
+                return upperAndLowerCaseList;
+            });
+
+            AddtoUpperAndLowerCasePage(upperAndLowerCaseList);
+            IsOperationFailed = false;
+            OperationFailedList.Clear();
         }
 
         /// <summary>
@@ -165,7 +187,8 @@ namespace PowerTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedCollection.Clear();
+                    IsOperationFailed = false;
+                    OperationFailedList.Clear();
                     int count = 0;
 
                     lock (upperAndLowerCaseLock)
@@ -193,7 +216,8 @@ namespace PowerTools.Views.Pages
                 bool checkResult = CheckOperationState();
                 if (checkResult)
                 {
-                    OperationFailedCollection.Clear();
+                    IsOperationFailed = false;
+                    OperationFailedList.Clear();
                     int count = 0;
 
                     lock (upperAndLowerCaseLock)
@@ -240,8 +264,9 @@ namespace PowerTools.Views.Pages
         {
             lock (upperAndLowerCaseLock)
             {
+                IsOperationFailed = false;
                 UpperAndLowerCaseCollection.Clear();
-                OperationFailedCollection.Clear();
+                OperationFailedList.Clear();
             }
         }
 
@@ -253,7 +278,8 @@ namespace PowerTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
                 int count = 0;
 
                 lock (upperAndLowerCaseLock)
@@ -284,7 +310,8 @@ namespace PowerTools.Views.Pages
             bool checkResult = CheckOperationState();
             if (checkResult)
             {
-                OperationFailedCollection.Clear();
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
                 int count = 0;
 
                 lock (upperAndLowerCaseLock)
@@ -364,23 +391,24 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnSelectFolderClicked(object sender, RoutedEventArgs args)
         {
-            OpenFolderDialog dialog = new()
+            OpenFolderDialog openFolderDialog = new()
             {
                 Description = SelectFolderString,
                 RootFolder = Environment.SpecialFolder.Desktop
             };
-            DialogResult result = dialog.ShowDialog();
-            if (result is DialogResult.OK || result is DialogResult.Yes)
+            DialogResult dialogResult = openFolderDialog.ShowDialog();
+            if (dialogResult is DialogResult.OK || dialogResult is DialogResult.Yes)
             {
-                OperationFailedCollection.Clear();
-                if (!string.IsNullOrEmpty(dialog.SelectedPath))
+                IsOperationFailed = false;
+                OperationFailedList.Clear();
+                if (!string.IsNullOrEmpty(openFolderDialog.SelectedPath))
                 {
                     List<OldAndNewNameModel> directoryNameList = [];
                     List<OldAndNewNameModel> fileNameList = [];
 
                     await Task.Run(() =>
                     {
-                        DirectoryInfo currentFolder = new(dialog.SelectedPath);
+                        DirectoryInfo currentFolder = new(openFolderDialog.SelectedPath);
 
                         try
                         {
@@ -400,7 +428,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} directoryInfo information failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} directoryInfo information failed", openFolderDialog.SelectedPath), e);
                         }
 
                         try
@@ -421,18 +449,18 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} fileInfo information failed", dialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} fileInfo information failed", openFolderDialog.SelectedPath), e);
                         }
                     });
 
-                    dialog.Dispose();
+                    openFolderDialog.Dispose();
                     AddtoUpperAndLowerCasePage(directoryNameList);
                     AddtoUpperAndLowerCasePage(fileNameList);
                 }
             }
             else
             {
-                dialog.Dispose();
+                openFolderDialog.Dispose();
             }
         }
 
@@ -455,7 +483,7 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
-            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog(OperationFailedCollection));
+            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog([]));
         }
 
         #endregion 第二部分：大写小写页面——挂载的事件
@@ -678,17 +706,18 @@ namespace PowerTools.Views.Pages
             IsModifyingNow = false;
             foreach (OperationFailedModel operationFailedItem in operationFailedList)
             {
-                OperationFailedCollection.Add(operationFailedItem);
+                OperationFailedList.Add(operationFailedItem);
             }
 
             int count = UpperAndLowerCaseCollection.Count;
+            IsOperationFailed = OperationFailedList.Count is not 0;
 
             lock (upperAndLowerCaseLock)
             {
                 UpperAndLowerCaseCollection.Clear();
             }
 
-            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.File, count - OperationFailedCollection.Count, OperationFailedCollection.Count));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.File, count - OperationFailedList.Count, OperationFailedList.Count));
         }
     }
 }

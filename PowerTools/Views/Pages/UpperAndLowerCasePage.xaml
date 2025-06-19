@@ -50,7 +50,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!--  文件大小写控制栏  -->
+        <!--  文件大小写顶部控制栏  -->
         <Grid
             Grid.Row="0"
             Margin="0,0,0,3"
@@ -289,6 +289,7 @@
                 Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(UpperAndLowerCaseCollection.Count), Mode=OneWay}" />
         </Grid>
 
+        <!--  文件大小写底部控制栏  -->
         <Grid
             Grid.Row="2"
             Margin="0,0,0,3"
@@ -331,7 +332,7 @@
                 Margin="0,0,10,0"
                 Click="{x:Bind OnViewErrorInformationClicked}"
                 Content="{x:Bind rootservice:ResourceService.UpperAndLowerCaseResource.GetString('ViewErrorInformation')}"
-                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(OperationFailedCollection.Count), Mode=OneWay}" />
+                Visibility="{x:Bind IsOperationFailed, Mode=OneWay}" />
 
             <controls:ProgressRing
                 Grid.Column="5"
