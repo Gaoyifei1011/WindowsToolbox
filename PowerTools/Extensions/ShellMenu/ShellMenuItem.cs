@@ -24,22 +24,22 @@ namespace PowerTools.Extensions.ShellMenu
         public string MenuTitleText { get; set; }
 
         /// <summary>
-        /// 是否使用图标
+        /// 使用图标
         /// </summary>
-        public bool ShouldUseIcon { get; set; }
+        public bool UseIcon { get; set; }
 
         /// <summary>
-        /// 是否使用应用程序图标
+        /// 使用应用程序图标
         /// </summary>
-        public bool ShouldUseProgramIcon { get; set; }
+        public bool UseProgramIcon { get; set; }
 
         /// <summary>
-        /// 是否使用主题图标
+        /// 使用主题图标
         /// </summary>
-        public bool ShouldUseThemeIcon { get; set; }
+        public bool UseThemeIcon { get; set; }
 
         /// <summary>
-        /// 默认的菜单项图标
+        /// 默认菜单项图标
         /// </summary>
         public string DefaultIconPath { get; set; }
 

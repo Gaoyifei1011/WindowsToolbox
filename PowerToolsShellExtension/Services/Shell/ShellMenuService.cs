@@ -73,9 +73,9 @@ namespace PowerToolsShellExtension.Services.Shell
                 MenuKey = currentMenuItem.MenuKey,
                 MenuGuid = currentMenuItem.MenuGuid,
                 MenuTitleText = currentMenuItem.MenuTitleText,
-                ShouldUseIcon = currentMenuItem.ShouldUseIcon,
-                ShouldUseProgramIcon = currentMenuItem.ShouldUseProgramIcon,
-                ShouldUseThemeIcon = currentMenuItem.ShouldUseThemeIcon,
+                UseIcon = currentMenuItem.UseIcon,
+                UseProgramIcon = currentMenuItem.UseProgramIcon,
+                UseThemeIcon = currentMenuItem.UseThemeIcon,
                 DefaultIconPath = currentMenuItem.DefaultIconPath,
                 LightThemeIconPath = currentMenuItem.LightThemeIconPath,
                 DarkThemeIconPath = currentMenuItem.DarkThemeIconPath,
@@ -115,9 +115,9 @@ namespace PowerToolsShellExtension.Services.Shell
 
             string menuTitleText = RegistryHelper.ReadRegistryKey<string>(menuKey, "MenuTitleText");
             string menuGuid = RegistryHelper.ReadRegistryKey<string>(menuKey, "MenuGuid");
-            bool? shouldUseIcon = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "ShouldUseIcon");
-            bool? shouldUseProgramIcon = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "ShouldUseProgramIcon");
-            bool? ShouldUseThemeIcon = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "ShouldUseThemeIcon");
+            bool? useIcon = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "UseIcon");
+            bool? useProgramIcon = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "UseProgramIcon");
+            bool? useThemeIcon = RegistryHelper.ReadRegistryKey<bool?>(menuKey, "UseThemeIcon");
             string defaultIconPath = RegistryHelper.ReadRegistryKey<string>(menuKey, "DefaultIconPath");
             string lightThemeIconPath = RegistryHelper.ReadRegistryKey<string>(menuKey, "LightThemeIconPath");
             string darkThemeIconPath = RegistryHelper.ReadRegistryKey<string>(menuKey, "DarkThemeIconPath");
@@ -135,9 +135,9 @@ namespace PowerToolsShellExtension.Services.Shell
             shellMenuItem.MenuKey = menuKey;
             shellMenuItem.MenuGuid = string.IsNullOrEmpty(menuGuid) ? Guid.Empty : new Guid(menuGuid);
             shellMenuItem.MenuTitleText = menuTitleText;
-            shellMenuItem.ShouldUseIcon = shouldUseIcon.HasValue && shouldUseIcon.Value;
-            shellMenuItem.ShouldUseProgramIcon = shouldUseProgramIcon.HasValue && shouldUseProgramIcon.Value;
-            shellMenuItem.ShouldUseThemeIcon = ShouldUseThemeIcon.HasValue && ShouldUseThemeIcon.Value;
+            shellMenuItem.UseIcon = useIcon.HasValue && useIcon.Value;
+            shellMenuItem.UseProgramIcon = useProgramIcon.HasValue && useProgramIcon.Value;
+            shellMenuItem.UseThemeIcon = useThemeIcon.HasValue && useThemeIcon.Value;
             shellMenuItem.DefaultIconPath = defaultIconPath;
             shellMenuItem.LightThemeIconPath = lightThemeIconPath;
             shellMenuItem.DarkThemeIconPath = darkThemeIconPath;

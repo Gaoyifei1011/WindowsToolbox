@@ -20,7 +20,7 @@ namespace PowerToolsShellExtension.Commands
     /// <summary>
     /// 菜单项
     /// </summary>
-    [GeneratedComClass, Guid("5A730150-DE8D-0C88-FD1A-99B7E954BDDB")]
+    [GeneratedComClass, Guid("C169E7D7-21E1-A102-602E-3F3936BEBB58")]
     public partial class ExplorerCommand(ShellMenuItem shellMenuItem) : IExplorerCommand, IObjectWithSite
     {
         private readonly Guid SID_SFolderView = new("CDE725B0-CCC9-4519-917E-325D72FAB4CE");
@@ -58,10 +58,10 @@ namespace PowerToolsShellExtension.Commands
             if (shellMenuItem is not null)
             {
                 // 是否使用图标
-                if (shellMenuItem.ShouldUseIcon)
+                if (shellMenuItem.UseIcon)
                 {
                     // 是否使用应用程序图标
-                    if (shellMenuItem.ShouldUseProgramIcon)
+                    if (shellMenuItem.UseProgramIcon)
                     {
                         if (File.Exists(shellMenuItem.MenuProgramPath))
                         {
@@ -77,7 +77,7 @@ namespace PowerToolsShellExtension.Commands
                     else
                     {
                         // 是否使用主题图标
-                        if (shellMenuItem.ShouldUseThemeIcon)
+                        if (shellMenuItem.UseThemeIcon)
                         {
                             // 浅色主题图标
                             if (ThemeHelper.AppsUseLightTheme)

@@ -31,58 +31,58 @@ namespace PowerTools.Models
         }
 
         /// <summary>
-        /// 是否使用图标
+        /// 使用图标
         /// </summary>
-        private bool _shouldUseIcon;
+        private bool _useIcon;
 
-        public bool ShouldUseIcon
+        public bool UseIcon
         {
-            get { return _shouldUseIcon; }
+            get { return _useIcon; }
 
             set
             {
-                if (!Equals(_shouldUseIcon, value))
+                if (!Equals(_useIcon, value))
                 {
-                    _shouldUseIcon = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShouldUseIcon)));
+                    _useIcon = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseIcon)));
                 }
             }
         }
 
         /// <summary>
-        /// 是否使用应用程序图标
+        /// 使用应用程序图标
         /// </summary>
-        private bool _shouldUseProgramIcon;
+        private bool _useProgramIcon;
 
-        public bool ShouldUseProgramIcon
+        public bool UseProgramIcon
         {
-            get { return _shouldUseProgramIcon; }
+            get { return _useProgramIcon; }
 
             set
             {
-                if (!Equals(_shouldUseProgramIcon, value))
+                if (!Equals(_useProgramIcon, value))
                 {
-                    _shouldUseProgramIcon = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShouldUseProgramIcon)));
+                    _useProgramIcon = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseProgramIcon)));
                 }
             }
         }
 
         /// <summary>
-        /// 是否使用主题图标
+        /// 使用主题图标
         /// </summary>
-        private bool _shouldUseThemeIcon;
+        private bool _useThemeIcon;
 
-        public bool ShouldUseThemeIcon
+        public bool UseThemeIcon
         {
-            get { return _shouldUseThemeIcon; }
+            get { return _useThemeIcon; }
 
             set
             {
-                if (!Equals(_shouldUseThemeIcon, value))
+                if (!Equals(_useThemeIcon, value))
                 {
-                    _shouldUseThemeIcon = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShouldUseThemeIcon)));
+                    _useThemeIcon = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UseThemeIcon)));
                 }
             }
         }
