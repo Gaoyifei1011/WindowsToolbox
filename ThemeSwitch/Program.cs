@@ -53,7 +53,7 @@ namespace ThemeSwitch
             if (!isExisted)
             {
                 InitializeProgramResources();
-                ThemeSwitchString = ResourceService.ThemeSwitchResource.GetString("ThemeSwitch");
+                ThemeSwitchString = ResourceService.ThemeSwitchTrayResource.GetString("ThemeSwitch");
                 configurationCollection["DpiAwareness"] = "PerMonitorV2";
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);

@@ -11,6 +11,6 @@ namespace ThemeSwitch.Services.Root
     {
         private static Assembly CurrentAssembly { get; } = Assembly.LoadFrom(Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "PowerTools.exe"));
 
-        public static ResourceManager ThemeSwitchResource { get; } = new("PowerTools.Strings.ThemeSwitch", CurrentAssembly);
+        public static ResourceManager ThemeSwitchTrayResource { get; } = new("PowerTools.Strings.ThemeSwitchTray", CurrentAssembly);
     }
 }
