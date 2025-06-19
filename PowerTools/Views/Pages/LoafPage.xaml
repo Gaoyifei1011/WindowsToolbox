@@ -86,7 +86,7 @@
                     Grid.Row="1"
                     Height="60"
                     Margin="30,0,30,3"
-                    Padding="16,12"
+                    Padding="16,0"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
