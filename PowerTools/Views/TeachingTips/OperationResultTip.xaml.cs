@@ -74,17 +74,17 @@ namespace PowerTools.Views.TeachingTips
                 OperationResultFailed.Visibility = Visibility.Visible;
                 OperationResultFailed.Text = ResourceService.NotificationResource.GetString("ThemeChangeSameTime");
             }
-            else if (operationKind is OperationKind.SwitchThemeSaveResult)
+            else if (operationKind is OperationKind.ThemeSwitchSaveResult)
             {
                 OperationResultSuccess.Visibility = Visibility.Visible;
                 OperationResultFailed.Visibility = Visibility.Collapsed;
-                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("SwitchThemeSaveResult");
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("ThemeSwitchSaveResult");
             }
-            else if (operationKind is OperationKind.SwitchThemeRestoreResult)
+            else if (operationKind is OperationKind.ThemeSwitchRestoreResult)
             {
                 OperationResultSuccess.Visibility = Visibility.Visible;
                 OperationResultFailed.Visibility = Visibility.Collapsed;
-                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("SwitchThemeRestoreResult");
+                OperationResultSuccess.Text = ResourceService.NotificationResource.GetString("ThemeSwitchRestoreResult");
             }
             else if (operationKind is OperationKind.MenuTitleEmpty)
             {
