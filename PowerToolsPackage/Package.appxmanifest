@@ -65,8 +65,8 @@
       <Extensions>
         <com:Extension Category="windows.comServer">
           <com:ComServer>
-            <com:SurrogateServer AppId="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" DisplayName="PowerToolsShellExtension">
-              <com:Class Id="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" Path="PowerToolsShellExtension.dll" ThreadingModel="Both" />
+            <com:SurrogateServer AppId="C169E7D7-21E1-A102-602E-3F3936BEBB58" DisplayName="PowerToolsShellExtension">
+              <com:Class Id="C169E7D7-21E1-A102-602E-3F3936BEBB58" Path="PowerToolsShellExtension.dll" ThreadingModel="Both" />
             </com:SurrogateServer>
           </com:ComServer>
         </com:Extension>
@@ -76,16 +76,16 @@
         <desktop4:Extension Category="windows.fileExplorerContextMenus">
           <desktop4:FileExplorerContextMenus>
             <desktop4:ItemType Type="*">
-              <desktop4:Verb Id="CPowerToolsCommand" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
+              <desktop4:Verb Id="CPowerToolsCommand" Clsid="C169E7D7-21E1-A102-602E-3F3936BEBB58" />
             </desktop4:ItemType>
             <desktop5:ItemType Type="Directory">
-              <desktop5:Verb Id="CPowerToolsCommand" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
+              <desktop5:Verb Id="CPowerToolsCommand" Clsid="C169E7D7-21E1-A102-602E-3F3936BEBB58" />
             </desktop5:ItemType>
             <desktop5:ItemType Type="Directory\Background">
-              <desktop5:Verb Id="CPowerToolsCommand" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
+              <desktop5:Verb Id="CPowerToolsCommand" Clsid="C169E7D7-21E1-A102-602E-3F3936BEBB58" />
             </desktop5:ItemType>
             <desktop10:ItemType Type="Drive">
-              <desktop10:Verb Id="CPowerToolsCommand" Clsid="5A730150-DE8D-0C88-FD1A-99B7E954BDDB" />
+              <desktop10:Verb Id="CPowerToolsCommand" Clsid="C169E7D7-21E1-A102-602E-3F3936BEBB58" />
             </desktop10:ItemType>
           </desktop4:FileExplorerContextMenus>
         </desktop4:Extension>
