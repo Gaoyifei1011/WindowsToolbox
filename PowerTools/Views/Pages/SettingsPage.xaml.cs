@@ -208,10 +208,7 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnSettingsInstructionClicked(object sender, RoutedEventArgs args)
         {
-            if (!SettingsSplitView.IsPaneOpen)
-            {
-                SettingsSplitView.IsPaneOpen = true;
-            }
+            ShowSettingsInstruction();
         }
 
         /// <summary>
@@ -423,6 +420,17 @@ namespace PowerTools.Views.Pages
         private Type GetCurrentPageType()
         {
             return SettingsFrame.CurrentSourcePageType;
+        }
+
+        /// <summary>
+        /// 显示设置说明
+        /// </summary>
+        public void ShowSettingsInstruction()
+        {
+            if (!SettingsSplitView.IsPaneOpen)
+            {
+                SettingsSplitView.IsPaneOpen = true;
+            }
         }
     }
 }

@@ -166,8 +166,7 @@ namespace PowerTools.Views.Pages
         {
             if (MainWindow.Current.Content is MainPage mainPage && mainPage.GetFrameContent() is SettingsPage settingsPage)
             {
-                // TODO：未完成
-                //settingsPage.ShowSettingsInstruction();
+                settingsPage.ShowSettingsInstruction();
             }
         }
 
