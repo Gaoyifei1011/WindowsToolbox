@@ -4,5 +4,5 @@
   "AppShortDisplayName": "PowerTools",
   "PackageDisplayName": "PowerTools",
   "ProtocolName": "PowerTools",
-  "SystemTrayDisplayName": "PowerTools system tray program"
+  "ThemeSwitchDisplayName": "Theme switch"
 }

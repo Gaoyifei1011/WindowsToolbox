@@ -71,7 +71,7 @@
           </com:ComServer>
         </com:Extension>
         <desktop:Extension Category="windows.startupTask" Executable="ThemeSwitch.exe" EntryPoint="Windows.FullTrustApplication">
-          <desktop:StartupTask TaskId="ThemeSwitch" Enabled="false" DisplayName="ms-resource:SystemTrayDisplayName" />
+          <desktop:StartupTask TaskId="ThemeSwitch" Enabled="false" DisplayName="ms-resource:ThemeSwitchDisplayName" />
         </desktop:Extension>
         <desktop4:Extension Category="windows.fileExplorerContextMenus">
           <desktop4:FileExplorerContextMenus>
