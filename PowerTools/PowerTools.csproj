@@ -87,6 +87,12 @@
       <Isolated>false</Isolated>
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
+
+    <Compile Update="Strings\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     
     <Content Include="Assets\ControlIcon\AllTools.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ContextMenuManager.png" CopyToOutputDirectory="Always" />
@@ -204,13 +210,13 @@
     <EmbeddedResource Include="Strings\LoopbackManager.en-us.restext" />
     <EmbeddedResource Include="Strings\LoopbackManager.restext" />
     <EmbeddedResource Include="Strings\LoopbackManager.zh-hans.restext" />
-    <EmbeddedResource Include="Strings\Notification.en-us.restext" />
-    <EmbeddedResource Include="Strings\Notification.restext" />
-    <EmbeddedResource Include="Strings\Notification.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\NotificationTip.en-us.restext" />
+    <EmbeddedResource Include="Strings\NotificationTip.restext" />
+    <EmbeddedResource Include="Strings\NotificationTip.zh-hans.restext" />
     <EmbeddedResource Include="Strings\PriExtract.en-us.restext" />
     <EmbeddedResource Include="Strings\PriExtract.restext" />
     <EmbeddedResource Include="Strings\PriExtract.zh-hans.restext" />
-    <EmbeddedResource Update="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
+    <EmbeddedResource Include="Strings\Resources.resx" Generator="PublicResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
     <EmbeddedResource Include="Strings\Settings.en-us.restext" />
     <EmbeddedResource Include="Strings\Settings.restext" />
     <EmbeddedResource Include="Strings\Settings.zh-hans.restext" />
@@ -271,6 +277,8 @@
     <None Remove="Views\Dialogs\OperationFailedDialog.xaml" />
     <None Remove="Views\Dialogs\RebootDialog.xaml" />
     <None Remove="Views\Dialogs\RestartAppsDialog.xaml" />
+    <None Remove="Views\NotificationTips\CopyPasteNotificationTip.xaml" />
+    <None Remove="Views\NotificationTips\OperationResultNotificationTip.xaml" />
     <None Remove="Views\Pages\AllToolsPage.xaml" />
     <None Remove="Views\Pages\ContextMenuManagerPage.xaml" />
     <None Remove="Views\Pages\DownloadManagerPage.xaml" />
@@ -299,9 +307,6 @@
     <None Remove="Views\Pages\UpdateManagerPage.xaml" />
     <None Remove="Views\Pages\UpperAndLowerCasePage.xaml" />
     <None Remove="Views\Pages\WinSATPage.xaml" />
-    <None Remove="Views\TeachingTips\DataCopyTip.xaml" />
-    <None Remove="Views\TeachingTips\OperationResultTip.xaml" />
-    <None Remove="Views\TeachingTips\QuickOperationTip.xaml" />
     <None Remove="XamlIslandsApp.xaml" />
 
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" GeneratePathProperty="true" IncludeAssets="none" />
@@ -323,14 +328,13 @@
     <Page Include="Views\Dialogs\OperationFailedDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\RebootDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\RestartAppsDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\NotificationTips\CopyPasteNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\NotificationTips\OperationResultNotificationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsAdvancedPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsDownloadPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\SettingsGeneralPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\ShellMenuEditPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\ShellMenuListPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\TeachingTips\DataCopyTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\TeachingTips\OperationResultTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
-    <Page Include="Views\TeachingTips\QuickOperationTip.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\AllToolsPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\ContextMenuManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\DownloadManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
@@ -367,7 +371,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.ServiceProcess" />
   </ItemGroup>
-
+  
   <Target Name="SignExeFile" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">
     <Exec Command="$(SolutionDir)signtool.exe sign /f $(SolutionDir)PowerToolsPackage\PowerToolsPackage_SignKey.pfx /t http://timestamp.digicert.com /fd SHA256 $(ProjectDir)$(BaseOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(AssemblyName).exe" />
   </Target>
