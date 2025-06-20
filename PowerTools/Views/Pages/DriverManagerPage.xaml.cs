@@ -443,7 +443,7 @@ namespace PowerTools.Views.Pages
 
                 foreach (DriverOperationModel driverOperationItem in DriverOperationCollection)
                 {
-                    if (driverOperationItem.DriverOperationGuid.Equals(driverOperationGuid))
+                    if (Equals(driverOperationItem.DriverOperationGuid, driverOperationGuid))
                     {
                         driverOperationItem.IsOperating = false;
                         driverOperationItem.DriverOperation = operationResult ? DeletingDriverSuccessfullyString : string.Format(DeletingDriverFailedString, win32Exception.NativeErrorCode, win32Exception.HResult, win32Exception.Message);
@@ -803,7 +803,7 @@ namespace PowerTools.Views.Pages
                             {
                                 foreach (DriverOperationModel driverOperationItem in DriverOperationCollection)
                                 {
-                                    if (driverOperationItem.DriverOperationGuid.Equals(driverOperationGuid))
+                                    if (Equals(driverOperationItem.DriverOperationGuid, driverOperationGuid))
                                     {
                                         driverOperationItem.DriverOperation = driverOperation;
                                         driverOperationItem.IsOperating = false;
@@ -895,7 +895,7 @@ namespace PowerTools.Views.Pages
                             {
                                 foreach (DriverOperationModel driverOperationItem in DriverOperationCollection)
                                 {
-                                    if (driverOperationItem.DriverOperationGuid.Equals(driverOperationGuid))
+                                    if (Equals(driverOperationItem.DriverOperationGuid, driverOperationGuid))
                                     {
                                         driverOperationItem.DriverOperation = driverOperation;
                                         driverOperationItem.IsOperating = false;
@@ -998,7 +998,7 @@ namespace PowerTools.Views.Pages
                         {
                             foreach (DriverOperationModel driverOperationItem in DriverOperationCollection)
                             {
-                                if (driverOperationItem.DriverOperationGuid.Equals(driverOperationGuid))
+                                if (Equals(driverOperationItem.DriverOperationGuid, driverOperationGuid))
                                 {
                                     driverOperationItem.DriverOperation = driverOperation;
                                     driverOperationItem.IsOperating = false;
@@ -1091,7 +1091,7 @@ namespace PowerTools.Views.Pages
                         {
                             foreach (DriverOperationModel driverOperationItem in DriverOperationCollection)
                             {
-                                if (driverOperationItem.DriverOperationGuid.Equals(driverOperationGuid))
+                                if (Equals(driverOperationItem.DriverOperationGuid, driverOperationGuid))
                                 {
                                     driverOperationItem.DriverOperation = driverOperation;
                                     driverOperationItem.IsOperating = false;
@@ -1963,7 +1963,6 @@ namespace PowerTools.Views.Pages
             if (bufferSize > 0)
             {
                 StringBuilder stringBuilder = new(bufferSize);
-                return SetupapiLibrary.SetupGetInfDriverStoreLocation(oemInfName, IntPtr.Zero, IntPtr.Zero, stringBuilder, stringBuilder.Capacity, out _) ? stringBuilder.ToString() : string.Empty;
                 return SetupapiLibrary.SetupGetInfDriverStoreLocation(oemInfName, IntPtr.Zero, IntPtr.Zero, stringBuilder, stringBuilder.Capacity, out _) ? Convert.ToString(stringBuilder) : string.Empty;
             }
             else

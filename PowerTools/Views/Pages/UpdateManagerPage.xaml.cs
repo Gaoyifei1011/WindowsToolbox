@@ -816,11 +816,11 @@ namespace PowerTools.Views.Pages
                     copyInformationBuilder.Append(MsrcSeverityString);
                     copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.MsrcSeverity) ? UnknownString : updateItem.UpdateInformation.MsrcSeverity);
                     copyInformationBuilder.Append(RecommendedCpuSpeedString);
-                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedCpuSpeed.Equals(0) ? UnknownString : string.Format("{0} MHz", updateItem.UpdateInformation.RecommendedCpuSpeed));
+                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedCpuSpeed is 0 ? UnknownString : string.Format("{0} MHz", updateItem.UpdateInformation.RecommendedCpuSpeed));
                     copyInformationBuilder.Append(RecommendedHardDiskSpaceString);
-                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedHardDiskSpace.Equals(0) ? UnknownString : string.Format("{0} MB", updateItem.UpdateInformation.RecommendedHardDiskSpace));
+                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedHardDiskSpace is 0 ? UnknownString : string.Format("{0} MB", updateItem.UpdateInformation.RecommendedHardDiskSpace));
                     copyInformationBuilder.Append(RecommendedMemoryString);
-                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedMemory.Equals(0) ? UnknownString : string.Format("{0} MB", updateItem.UpdateInformation.RecommendedMemory));
+                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedMemory is 0 ? UnknownString : string.Format("{0} MB", updateItem.UpdateInformation.RecommendedMemory));
                     copyInformationBuilder.Append(ReleaseNotesString);
                     copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.ReleaseNotes) ? UnknownString : updateItem.UpdateInformation.ReleaseNotes);
                     copyInformationBuilder.Append(SupportedUrlString);
@@ -848,7 +848,7 @@ namespace PowerTools.Views.Pages
                 });
 
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyString);
-                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.UpdateInformation, copyResult));
+                await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(copyResult));
             }
         }
 
