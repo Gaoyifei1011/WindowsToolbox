@@ -74,10 +74,6 @@
                         <controls:TreeView
                             ItemInvoked="{x:Bind OnItemInvoked}"
                             ItemsSource="{x:Bind ShellMenuItemCollection, Mode=OneWay}"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                            ScrollViewer.HorizontalScrollMode="Disabled"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto"
-                            ScrollViewer.VerticalScrollMode="Enabled"
                             SelectionMode="Single">
 
                             <controls:TreeView.ItemTemplate>

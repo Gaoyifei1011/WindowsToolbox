@@ -415,10 +415,6 @@
                                 MaxHeight="300"
                                 Background="Transparent"
                                 ItemsSource="{x:Bind LanguageCollection, Mode=OneWay}"
-                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                ScrollViewer.HorizontalScrollMode="Disabled"
-                                ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                ScrollViewer.VerticalScrollMode="Enabled"
                                 SelectionMode="None">
 
                                 <ListView.ItemContainerStyle>
