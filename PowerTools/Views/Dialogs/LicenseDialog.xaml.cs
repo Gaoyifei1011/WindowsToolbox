@@ -9,7 +9,7 @@ namespace PowerTools.Views.Dialogs
     /// </summary>
     public sealed partial class LicenseDialog : ContentDialog, INotifyPropertyChanged
     {
-        private string _licenseText;
+        private string _licenseText = Encoding.UTF8.GetString(Strings.Resources.LICENSE);
 
         public string LicenseText
         {
@@ -30,7 +30,6 @@ namespace PowerTools.Views.Dialogs
         public LicenseDialog()
         {
             InitializeComponent();
-            LicenseText = Encoding.UTF8.GetString(Strings.Resources.LICENSE);
         }
     }
 }

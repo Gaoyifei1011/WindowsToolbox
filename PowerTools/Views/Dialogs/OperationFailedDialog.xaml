@@ -9,8 +9,8 @@
     xmlns:system="using:System"
     xmlns:window="using:PowerTools.Views.Windows"
     Title="{x:Bind rootservice:ResourceService.DialogResource.GetString('OperationFailed')}"
-    BorderBrush="{ThemeResource ContentDialogBorderThemeBrush}"
-    CloseButtonText="{x:Bind rootservice:ResourceService.DialogResource.GetString('CloseDialog')}"
+    CloseButtonText="{x:Bind rootservice:ResourceService.DialogResource.GetString('Close')}"
+    DefaultButton="Primary"
     FlowDirection="{x:Bind ((FrameworkElement)window:MainWindow.Current.Content).FlowDirection, Mode=OneWay}"
     PrimaryButtonClick="{x:Bind OnCopyOperationFailedClicked}"
     PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
@@ -35,10 +35,6 @@
         Height="300"
         Margin="0"
         ItemsSource="{x:Bind OperationFailedCollection, Mode=OneWay}"
-        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-        ScrollViewer.HorizontalScrollMode="Disabled"
-        ScrollViewer.VerticalScrollBarVisibility="Auto"
-        ScrollViewer.VerticalScrollMode="Enabled"
         SelectionMode="None">
 
         <ListView.ItemContainerStyle>

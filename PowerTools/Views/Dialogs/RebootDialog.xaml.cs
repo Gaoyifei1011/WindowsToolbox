@@ -9,6 +9,9 @@ namespace PowerTools.Views.Dialogs
     /// </summary>
     public sealed partial class RebootDialog : ContentDialog
     {
+        private readonly string InstallDriverRebootString = ResourceService.DialogResource.GetString("InstallDriverReboot");
+        private readonly string UnInstallDriverRebootString = ResourceService.DialogResource.GetString("UnInstallDriverReboot");
+
         public RebootDialog(DriverInstallKind driverInstallKind)
         {
             InitializeComponent();
@@ -16,12 +19,12 @@ namespace PowerTools.Views.Dialogs
             {
                 case DriverInstallKind.InstallDriver:
                     {
-                        Content = ResourceService.DialogResource.GetString("InstallDriverReboot");
+                        Content = InstallDriverRebootString;
                         break;
                     }
                 case DriverInstallKind.UnInstallDriver:
                     {
-                        Content = ResourceService.DialogResource.GetString("UnInstallDriverReboot");
+                        Content = UnInstallDriverRebootString;
                         break;
                     }
             }

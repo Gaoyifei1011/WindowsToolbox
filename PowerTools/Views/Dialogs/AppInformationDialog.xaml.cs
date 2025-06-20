@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -24,9 +25,31 @@ namespace PowerTools.Views.Dialogs
     /// <summary>
     /// 应用信息对话框
     /// </summary>
-    public sealed partial class AppInformationDialog : ContentDialog
+    public sealed partial class AppInformationDialog : ContentDialog, INotifyPropertyChanged
     {
+        private readonly string WinUI2VersionString = ResourceService.DialogResource.GetString("WinUI2Version");
+        private readonly string WindowsUIVersionString = ResourceService.DialogResource.GetString("WindowsUIVersion");
+        private readonly string DoNetVersionString = ResourceService.DialogResource.GetString("DoNetVersion");
+
+        private bool _isLoadCompleted = false;
+
+        public bool IsLoadCompleted
+        {
+            get { return _isLoadCompleted; }
+
+            set
+            {
+                if (!Equals(_isLoadCompleted, value))
+                {
+                    _isLoadCompleted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsLoadCompleted)));
+                }
+            }
+        }
+
         private ObservableCollection<DictionaryEntry> AppInformationCollection { get; } = [];
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public AppInformationDialog()
         {
@@ -67,16 +90,16 @@ namespace PowerTools.Views.Dialogs
                         if (packageInfo.packageFullName.Contains("Microsoft.UI.Xaml"))
                         {
                             FileVersionInfo winUI2File = FileVersionInfo.GetVersionInfo(Path.Combine(packageInfo.path, "Microsoft.UI.Xaml.dll"));
-                            dependencyInformationList.Add(new KeyValuePair<string, Version>(ResourceService.DialogResource.GetString("WinUI2Version"), new Version(winUI2File.ProductMajorPart, winUI2File.ProductMinorPart, winUI2File.ProductBuildPart, winUI2File.ProductPrivatePart)));
+                            dependencyInformationList.Add(new KeyValuePair<string, Version>(WinUI2VersionString, new Version(winUI2File.ProductMajorPart, winUI2File.ProductMinorPart, winUI2File.ProductBuildPart, winUI2File.ProductPrivatePart)));
                         }
                     }
 
                     // Windows UI 版本信息
                     FileVersionInfo windowsUIFile = FileVersionInfo.GetVersionInfo(Path.Combine(Environment.SystemDirectory, "Windows.UI.Xaml.dll"));
-                    dependencyInformationList.Add(new KeyValuePair<string, Version>(ResourceService.DialogResource.GetString("WindowsUIVersion"), new Version(windowsUIFile.ProductMajorPart, windowsUIFile.ProductMinorPart, windowsUIFile.ProductBuildPart, windowsUIFile.ProductPrivatePart)));
+                    dependencyInformationList.Add(new KeyValuePair<string, Version>(WindowsUIVersionString, new Version(windowsUIFile.ProductMajorPart, windowsUIFile.ProductMinorPart, windowsUIFile.ProductBuildPart, windowsUIFile.ProductPrivatePart)));
 
                     // .NET 版本信息
-                    dependencyInformationList.Add(new KeyValuePair<string, Version>(ResourceService.DialogResource.GetString("DoNetVersion"), new Version(RuntimeInformation.FrameworkDescription.Remove(0, 15))));
+                    dependencyInformationList.Add(new KeyValuePair<string, Version>(DoNetVersionString, new Version(RuntimeInformation.FrameworkDescription.Remove(0, 15))));
                 }
             });
 
@@ -84,6 +107,8 @@ namespace PowerTools.Views.Dialogs
             {
                 AppInformationCollection.Add(new DictionaryEntry(dependencyInformation.Key, dependencyInformation.Value));
             }
+
+            IsLoadCompleted = true;
         }
 
         /// <summary>
@@ -91,22 +116,35 @@ namespace PowerTools.Views.Dialogs
         /// </summary>
         private async void OnCopyAppInformationClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            args.Cancel = true;
-            StringBuilder stringBuilder = new();
+            bool copyResult = false;
+            ContentDialogButtonClickDeferral contentDialogButtonClickDeferral = args.GetDeferral();
 
-            await Task.Run(() =>
+            try
             {
-                StringBuilder stringBuilder = new();
-                foreach (DictionaryEntry appInformationItem in AppInformationCollection)
+                StringBuilder stringBuilder = await Task.Run(() =>
                 {
-                    stringBuilder.Append(appInformationItem.Key);
-                    stringBuilder.Append(appInformationItem.Value);
-                    stringBuilder.Append(Environment.NewLine);
-                }
-            });
+                    StringBuilder stringBuilder = new();
+                    foreach (DictionaryEntry appInformationItem in AppInformationCollection)
+                    {
+                        stringBuilder.Append(appInformationItem.Key);
+                        stringBuilder.Append(appInformationItem.Value);
+                        stringBuilder.Append(Environment.NewLine);
+                    }
 
-            bool copyResult = CopyPasteHelper.CopyToClipboard(stringBuilder.ToString());
-            sender.Hide();
+                    return stringBuilder;
+                });
+
+                copyResult = CopyPasteHelper.CopyToClipboard(Convert.ToString(stringBuilder));
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            finally
+            {
+                contentDialogButtonClickDeferral.Complete();
+            }
+
             await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.AppInformation, copyResult));
         }
     }

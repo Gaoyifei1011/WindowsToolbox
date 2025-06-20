@@ -4,8 +4,11 @@ using PowerTools.Models;
 using PowerTools.Services.Root;
 using PowerTools.Views.TeachingTips;
 using PowerTools.Views.Windows;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
@@ -19,9 +22,14 @@ namespace PowerTools.Views.Dialogs
     /// </summary>
     public sealed partial class OperationFailedDialog : ContentDialog
     {
+        private readonly string ExceptionCodeString = ResourceService.DialogResource.GetString("ExceptionCode");
+        private readonly string ExceptionMessageString = ResourceService.DialogResource.GetString("ExceptionMessage");
+        private readonly string FileNameCopyString = ResourceService.DialogResource.GetString("FileNameCopy");
+        private readonly string FilePathCopyString = ResourceService.DialogResource.GetString("FilePathCopy");
+
         private ObservableCollection<OperationFailedModel> OperationFailedCollection { get; } = [];
 
-        public OperationFailedDialog(ObservableCollection<OperationFailedModel> operationFailedCollection)
+        public OperationFailedDialog(List<OperationFailedModel> operationFailedCollection)
         {
             InitializeComponent();
 
@@ -38,16 +46,21 @@ namespace PowerTools.Views.Dialogs
         {
             if (args.Parameter is OperationFailedModel operationFailedItem)
             {
-                StringBuilder builder = new();
-                builder.Append(ResourceService.DialogResource.GetString("FileNameCopy"));
-                builder.AppendLine(operationFailedItem.FileName);
-                builder.Append(ResourceService.DialogResource.GetString("FilePathCopy"));
-                builder.AppendLine(operationFailedItem.FilePath);
-                builder.Append(ResourceService.DialogResource.GetString("ExceptionMessage"));
-                builder.AppendLine(operationFailedItem.Exception.Message);
-                builder.Append(ResourceService.DialogResource.GetString("ExceptionCode"));
-                builder.AppendLine(operationFailedItem.Exception.HResult.ToString());
-                bool copyResult = CopyPasteHelper.CopyToClipboard(builder.ToString());
+                StringBuilder stringBuilder = await Task.Run(() =>
+                {
+                    StringBuilder stringBuilder = new();
+                    stringBuilder.Append(FileNameCopyString);
+                    stringBuilder.AppendLine(operationFailedItem.FileName);
+                    stringBuilder.Append(FilePathCopyString);
+                    stringBuilder.AppendLine(operationFailedItem.FilePath);
+                    stringBuilder.Append(ExceptionMessageString);
+                    stringBuilder.AppendLine(operationFailedItem.Exception.Message);
+                    stringBuilder.Append(ExceptionCodeString);
+                    stringBuilder.AppendLine(string.Format("0x{0:X8}", operationFailedItem.Exception.HResult));
+                    return stringBuilder;
+                });
+
+                bool copyResult = CopyPasteHelper.CopyToClipboard(Convert.ToString(stringBuilder));
                 await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, false));
             }
         }
@@ -57,23 +70,42 @@ namespace PowerTools.Views.Dialogs
         /// </summary>
         private async void OnCopyOperationFailedClicked(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            args.Cancel = true;
+            bool copyResult = false;
+            ContentDialogButtonClickDeferral contentDialogButtonClickDeferral = args.GetDeferral();
 
-            StringBuilder builder = new();
-            foreach (OperationFailedModel operationFailedItem in OperationFailedCollection)
+            try
             {
-                builder.Append(ResourceService.DialogResource.GetString("FileNameCopy"));
-                builder.AppendLine(operationFailedItem.FileName);
-                builder.Append(ResourceService.DialogResource.GetString("FilePathCopy"));
-                builder.AppendLine(operationFailedItem.FilePath);
-                builder.Append(ResourceService.DialogResource.GetString("ExceptionMessage"));
-                builder.AppendLine(operationFailedItem.Exception.Message);
-                builder.Append(ResourceService.DialogResource.GetString("ExceptionCode"));
-                builder.AppendLine(operationFailedItem.Exception.HResult.ToString());
-                builder.AppendLine();
+                StringBuilder stringBuilder = await Task.Run(() =>
+                {
+                    StringBuilder stringBuilder = new();
+
+                    foreach (OperationFailedModel operationFailedItem in OperationFailedCollection)
+                    {
+                        stringBuilder.Append(FileNameCopyString);
+                        stringBuilder.AppendLine(operationFailedItem.FileName);
+                        stringBuilder.Append(FilePathCopyString);
+                        stringBuilder.AppendLine(operationFailedItem.FilePath);
+                        stringBuilder.Append(ExceptionMessageString);
+                        stringBuilder.AppendLine(operationFailedItem.Exception.Message);
+                        stringBuilder.Append(ExceptionCodeString);
+                        stringBuilder.AppendLine(string.Format("0x{0:X8}", operationFailedItem.Exception.HResult));
+                        stringBuilder.AppendLine();
+                    }
+
+                    return stringBuilder;
+                });
+
+                copyResult = CopyPasteHelper.CopyToClipboard(stringBuilder.ToString());
             }
-            bool copyResult = CopyPasteHelper.CopyToClipboard(builder.ToString());
-            sender.Hide();
+            catch (Exception)
+            {
+                return;
+            }
+            finally
+            {
+                contentDialogButtonClickDeferral.Complete();
+            }
+
             await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, true, OperationFailedCollection.Count));
         }
     }
