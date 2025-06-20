@@ -116,15 +116,16 @@
             <!--  日志记录设置  -->
             <controls:Expander
                 Grid.Row="1"
-                Height="60"
-                Padding="1"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                 IsExpanded="True">
 
                 <controls:Expander.Header>
-                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <Grid
+                        Height="60"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
