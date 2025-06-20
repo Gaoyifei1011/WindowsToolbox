@@ -547,7 +547,7 @@ namespace PowerTools.Views.Pages
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
             // TODO:未完成
-            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog([]));
+            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog(OperationFailedList));
         }
 
         #endregion 第二部分：扩展名称页面——挂载的事件

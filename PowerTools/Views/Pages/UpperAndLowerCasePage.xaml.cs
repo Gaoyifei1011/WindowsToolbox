@@ -483,7 +483,7 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
-            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog([]));
+            await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog(OperationFailedList));
         }
 
         #endregion 第二部分：大写小写页面——挂载的事件
