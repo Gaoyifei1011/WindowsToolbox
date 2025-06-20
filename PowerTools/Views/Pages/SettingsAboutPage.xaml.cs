@@ -79,7 +79,7 @@ namespace PowerTools.Views.Pages
             {
                 try
                 {
-                    Process.Start("https://github.com/Gaoyifei1011/WindowsToolbox/releases");
+                    Process.Start("https://github.com/Gaoyifei1011/PowerTools/releases");
                 }
                 catch (Exception e)
                 {
@@ -131,7 +131,7 @@ namespace PowerTools.Views.Pages
             {
                 try
                 {
-                    Process.Start("https://github.com/Gaoyifei1011/WindowsToolbox/releases");
+                    Process.Start("https://github.com/Gaoyifei1011/PowerTools/releases");
                 }
                 catch (Exception e)
                 {
@@ -149,7 +149,7 @@ namespace PowerTools.Views.Pages
             {
                 try
                 {
-                    Process.Start("https://github.com/Gaoyifei1011/WindowsToolbox/releases");
+                    Process.Start("https://github.com/Gaoyifei1011/PowerTools/releases");
                 }
                 catch (Exception e)
                 {
@@ -167,7 +167,7 @@ namespace PowerTools.Views.Pages
             {
                 try
                 {
-                    Process.Start("https://github.com/Gaoyifei1011/WindowsToolbox/releases");
+                    Process.Start("https://github.com/Gaoyifei1011/PowerTools/releases");
                 }
                 catch (Exception e)
                 {
@@ -194,7 +194,7 @@ namespace PowerTools.Views.Pages
                         HttpClient httpClient = new();
                         httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36");
                         httpClient.Timeout = new TimeSpan(0, 0, 30);
-                        HttpResponseMessage responseMessage = await httpClient.GetAsync(new Uri("https://api.github.com/repos/Gaoyifei1011/WindowsToolbox/releases/latest"));
+                        HttpResponseMessage responseMessage = await httpClient.GetAsync(new Uri("https://api.github.com/repos/Gaoyifei1011/PowerTools/releases/latest"));
 
                         // 请求成功
                         if (responseMessage.IsSuccessStatusCode)
