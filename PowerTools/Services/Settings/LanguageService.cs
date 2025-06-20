@@ -37,9 +37,7 @@ namespace PowerTools.Services.Settings
         public static void InitializeLanguage()
         {
             InitializeLanguageList();
-
             defaultAppLanguage = LanguageList.Find(item => string.Equals(item.Key, "en-US", StringComparison.OrdinalIgnoreCase));
-
             AppLanguage = GetLanguage();
         }
 
