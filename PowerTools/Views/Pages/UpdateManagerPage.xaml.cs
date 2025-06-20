@@ -1227,7 +1227,7 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnWindowsUpdateInformationClicked(object sender, RoutedEventArgs args)
         {
-            FlyoutBase.ShowAttachedFlyout(OthersButton);
+            FlyoutBase.ShowAttachedFlyout(ViewMoreButton);
         }
 
         /// <summary>

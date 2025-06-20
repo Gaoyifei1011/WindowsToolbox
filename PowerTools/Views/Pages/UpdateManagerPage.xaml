@@ -67,9 +67,20 @@
                 </Button.Content>
             </Button>
 
-            <controls:DropDownButton x:Name="OthersButton" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Others')}">
+            <Button
+                x:Name="ViewMoreButton"
+                Width="34"
+                Height="34"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMore')}">
 
-                <controls:DropDownButton.Flyout>
+                <Button.Content>
+                    <FontIcon FontSize="16" Glyph="&#xE712;" />
+                </Button.Content>
+
+                <Button.Flyout>
                     <MenuFlyout Placement="Bottom">
                         <MenuFlyoutItem Click="{x:Bind OnWindowsUpdateClicked}" Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('WindowsUpdate')}">
 
@@ -102,7 +113,7 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
-                </controls:DropDownButton.Flyout>
+                </Button.Flyout>
 
                 <FlyoutBase.AttachedFlyout>
                     <Flyout Placement="Bottom" ShouldConstrainToRootBounds="False">
@@ -119,7 +130,7 @@
                         </StackPanel>
                     </Flyout>
                 </FlyoutBase.AttachedFlyout>
-            </controls:DropDownButton>
+            </Button>
         </StackPanel>
 
         <controls:NavigationView
@@ -375,8 +386,8 @@
                                                     <ToolTipService.ToolTip>
                                                         <ToolTip MaxWidth="9999">
                                                             <Grid>
-                                                                <TextBlock Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('SelectedToolTip')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
-                                                                <TextBlock Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('UnSelectedToolTip')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
+                                                                <TextBlock Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Selected')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                                <TextBlock Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('UnSelected')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
                                                             </Grid>
                                                         </ToolTip>
                                                     </ToolTipService.ToolTip>
@@ -472,7 +483,7 @@
                                                         VerticalAlignment="Stretch"
                                                         BorderThickness="0"
                                                         CornerRadius="0"
-                                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMoreOptions')}">
+                                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMore')}">
 
                                                         <Button.Content>
                                                             <controls:AnimatedIcon
@@ -1435,8 +1446,8 @@
                                                     <ToolTipService.ToolTip>
                                                         <ToolTip MaxWidth="9999">
                                                             <Grid>
-                                                                <TextBlock Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('SelectedToolTip')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
-                                                                <TextBlock Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('UnSelectedToolTip')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
+                                                                <TextBlock Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Selected')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                                <TextBlock Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('UnSelected')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
                                                             </Grid>
                                                         </ToolTip>
                                                     </ToolTipService.ToolTip>
@@ -2504,8 +2515,8 @@
                                                     <ToolTipService.ToolTip>
                                                         <ToolTip MaxWidth="9999">
                                                             <Grid>
-                                                                <TextBlock Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('SelectedToolTip')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
-                                                                <TextBlock Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('UnSelectedToolTip')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
+                                                                <TextBlock Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Selected')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                                <TextBlock Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('UnSelected')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
                                                             </Grid>
                                                         </ToolTip>
                                                     </ToolTipService.ToolTip>
