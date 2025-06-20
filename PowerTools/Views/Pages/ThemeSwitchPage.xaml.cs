@@ -318,12 +318,6 @@ namespace PowerTools.Views.Pages
             AppThemeStyleList.Add(new KeyValuePair<ElementTheme, string>(ElementTheme.Dark, DarkString));
             SelectedSystemThemeStyle = SystemThemeStyleList[0];
             SelectedAppThemeStyle = AppThemeStyleList[0];
-
-            Task.Run(() =>
-            {
-                desktopWallpaper = (IDesktopWallpaper)Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_DesktopWallpaper));
-            });
-
             RegistryHelper.NotifyKeyValueChanged += OnNotifyKeyValueChanged;
         }
 
@@ -335,18 +329,19 @@ namespace PowerTools.Views.Pages
         protected override async void OnNavigatedTo(NavigationEventArgs args)
         {
             base.OnNavigatedTo(args);
-            await InitializeSystemThemeSettingsAsync();
-
             if (!isInitialized)
             {
                 isInitialized = true;
                 await Task.Run(() =>
                 {
+                    desktopWallpaper = (IDesktopWallpaper)Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_DesktopWallpaper));
                     RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, @"Control Panel\Desktop");
                     RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\Explorer\Wallpapers");
                     RegistryHelper.MonitorRegistryValueChange(Registry.CurrentUser, @"Control Panel\Colors");
                 });
             }
+
+            await InitializeSystemThemeSettingsAsync();
         }
 
         #endregion 第一部分：重写父类事件
