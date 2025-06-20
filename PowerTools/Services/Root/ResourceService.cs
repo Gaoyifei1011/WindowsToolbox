@@ -13,12 +13,6 @@ namespace PowerTools.Services.Root
     {
         private static Assembly CurrentAssembly { get; } = Assembly.GetExecutingAssembly();
 
-        public static List<KeyValuePair<string, string>> ThemeList { get; } = [];
-
-        public static List<KeyValuePair<string, string>> BackdropList { get; } = [];
-
-        public static List<KeyValuePair<string, string>> DoEngineModeList { get; } = [];
-
         public static ResourceManager AllToolsResource { get; } = new("PowerTools.Strings.AllTools", CurrentAssembly);
 
         public static ResourceManager ContextMenuManagerResource { get; } = new("PowerTools.Strings.ContextMenuManager", CurrentAssembly);
@@ -78,47 +72,5 @@ namespace PowerTools.Services.Root
         public static ResourceManager WindowResource { get; } = new("PowerTools.Strings.Window", CurrentAssembly);
 
         public static ResourceManager WinSATResource { get; } = new("PowerTools.Strings.WinSAT", CurrentAssembly);
-
-        /// <summary>
-        /// 初始化应用本地化信息
-        /// </summary>
-        public static void LocalizeReosurce()
-        {
-            InitializeBackdropList();
-            InitializeThemeList();
-            InitializeDoEngineModeList();
-        }
-
-        /// <summary>
-        /// 初始化应用主题信息列表
-        /// </summary>
-        private static void InitializeThemeList()
-        {
-            ThemeList.Add(new KeyValuePair<string, string>(nameof(ElementTheme.Default), SettingsResource.GetString("ThemeDefault")));
-            ThemeList.Add(new KeyValuePair<string, string>(nameof(ElementTheme.Light), SettingsResource.GetString("ThemeLight")));
-            ThemeList.Add(new KeyValuePair<string, string>(nameof(ElementTheme.Dark), SettingsResource.GetString("ThemeDark")));
-        }
-
-        /// <summary>
-        /// 初始化应用背景色信息列表
-        /// </summary>
-        private static void InitializeBackdropList()
-        {
-            BackdropList.Add(new KeyValuePair<string, string>(nameof(ElementTheme.Default), SettingsResource.GetString("BackdropDefault")));
-            BackdropList.Add(new KeyValuePair<string, string>(nameof(MicaKind) + nameof(MicaKind.Base), SettingsResource.GetString("BackdropMica")));
-            BackdropList.Add(new KeyValuePair<string, string>(nameof(MicaKind) + nameof(MicaKind.BaseAlt), SettingsResource.GetString("BackdropMicaAlt")));
-            BackdropList.Add(new KeyValuePair<string, string>(nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Default), SettingsResource.GetString("BackdropAcrylic")));
-            BackdropList.Add(new KeyValuePair<string, string>(nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Base), SettingsResource.GetString("BackdropAcrylicBase")));
-            BackdropList.Add(new KeyValuePair<string, string>(nameof(DesktopAcrylicKind) + nameof(DesktopAcrylicKind.Thin), SettingsResource.GetString("BackdropAcrylicThin")));
-        }
-
-        /// <summary>
-        /// 初始化下载引擎方式信息列表
-        /// </summary>
-        private static void InitializeDoEngineModeList()
-        {
-            DoEngineModeList.Add(new KeyValuePair<string, string>("DeliveryOptimization", SettingsResource.GetString("DoEngineDo")));
-            DoEngineModeList.Add(new KeyValuePair<string, string>("BITS", SettingsResource.GetString("DoEngineBits")));
-        }
     }
 }

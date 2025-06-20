@@ -95,7 +95,6 @@ namespace PowerTools
             LogService.Initialize();
             LanguageService.InitializeLanguage();
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(LanguageService.AppLanguage.Key);
-            ResourceService.LocalizeReosurce();
 
             AlwaysShowBackdropService.InitializeAlwaysShowBackdrop();
             BackdropService.InitializeBackdrop();
