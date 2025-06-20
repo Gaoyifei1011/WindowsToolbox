@@ -61,6 +61,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
+                    <!--  菜单列表控件  -->
                     <Grid Grid.Column="0" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsLoading), Mode=OneWay}">
                         <TextBlock
                             HorizontalAlignment="Center"
@@ -124,6 +125,7 @@
                         </controls:TreeView>
                     </Grid>
 
+                    <!--  正在加载菜单显示  -->
                     <Grid
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -146,6 +148,7 @@
                             TextWrapping="Wrap" />
                     </Grid>
 
+                    <!--  菜单列表控制栏  -->
                     <ContentControl Grid.Column="1" IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsLoading), Mode=OneWay}">
 
                         <StackPanel
@@ -208,6 +211,7 @@
                 </Grid>
             </Grid>
 
+            <!--  注意事项  -->
             <controls:Expander
                 Margin="0,3,0,3"
                 Padding="0"
