@@ -116,6 +116,7 @@
             <!--  日志记录设置  -->
             <controls:Expander
                 Grid.Row="1"
+                Height="60"
                 Padding="1"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
@@ -137,7 +138,6 @@
 
                         <StackPanel
                             Grid.Column="1"
-                            Margin="0,12"
                             VerticalAlignment="Center"
                             Orientation="Vertical">
 

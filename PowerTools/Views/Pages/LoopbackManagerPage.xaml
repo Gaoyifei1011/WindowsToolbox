@@ -202,7 +202,11 @@
                         IsExpanded="False">
 
                         <controls:Expander.Header>
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Grid
+                                Height="60"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
