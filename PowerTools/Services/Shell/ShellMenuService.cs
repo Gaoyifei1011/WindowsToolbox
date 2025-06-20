@@ -66,7 +66,7 @@ namespace PowerTools.Services.Shell
         /// </summary>
         public static void SaveShellMenuItem(string menuKey, ShellMenuItem shellMenuItem)
         {
-            RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "MenuGuid", shellMenuItem.MenuGuid.ToString());
+            RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "MenuGuid", Convert.ToString(shellMenuItem.MenuGuid));
             RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "MenuTitleText", shellMenuItem.MenuTitleText);
             RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "UseIcon", shellMenuItem.UseIcon);
             RegistryHelper.SaveRegistryKey(Registry.CurrentUser, menuKey, "UseProgramIcon", shellMenuItem.UseProgramIcon);

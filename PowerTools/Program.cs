@@ -53,7 +53,7 @@ namespace PowerTools
                     uint aumidLength = 260;
                     StringBuilder aumidBuilder = new((int)aumidLength);
                     Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
-                    applicationActivationManager.ActivateApplication(aumidBuilder.ToString(), string.Empty, ACTIVATEOPTIONS.AO_NONE, out uint _);
+                    applicationActivationManager.ActivateApplication(Convert.ToString(aumidBuilder), string.Empty, ACTIVATEOPTIONS.AO_NONE, out uint _);
                     return;
                 }
             }

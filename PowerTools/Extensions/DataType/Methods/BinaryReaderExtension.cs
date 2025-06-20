@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 
 namespace PowerTools.Extensions.DataType.Methods
@@ -47,7 +48,7 @@ namespace PowerTools.Extensions.DataType.Methods
             {
                 result.Append(c);
             }
-            return result.ToString();
+            return Convert.ToString(result);
         }
     }
 }

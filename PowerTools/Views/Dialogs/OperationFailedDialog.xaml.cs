@@ -95,7 +95,7 @@ namespace PowerTools.Views.Dialogs
                     return stringBuilder;
                 });
 
-                copyResult = CopyPasteHelper.CopyToClipboard(stringBuilder.ToString());
+                copyResult = CopyPasteHelper.CopyToClipboard(Convert.ToString(stringBuilder));
             }
             catch (Exception)
             {

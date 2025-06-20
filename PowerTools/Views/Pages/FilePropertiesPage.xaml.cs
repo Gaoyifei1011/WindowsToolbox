@@ -734,7 +734,7 @@ namespace PowerTools.Views.Pages
             {
                 foreach (OldAndNewPropertiesModel oldAndNewPropertiesItem in FilePropertiesCollection)
                 {
-                    oldAndNewPropertiesItem.FileProperties = stringBuilder.ToString();
+                    oldAndNewPropertiesItem.FileProperties = Convert.ToString(stringBuilder);
                 }
             }
         }

@@ -48,7 +48,7 @@ namespace PowerTools.Helpers.Root
             {
                 StringBuilder packageFamilyNameBuilder = new(length + 1);
                 Kernel32Library.GetCurrentPackageFamilyName(ref length, packageFamilyNameBuilder);
-                packageFamilyName = packageFamilyNameBuilder.ToString();
+                packageFamilyName = Convert.ToString(packageFamilyNameBuilder);
             }
         }
 

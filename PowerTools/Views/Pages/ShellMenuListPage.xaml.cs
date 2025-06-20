@@ -433,7 +433,7 @@ namespace PowerTools.Views.Pages
                 {
                     try
                     {
-                        if (File.Exists(shellMenuItem.MenuProgramPathText) && Path.GetExtension(shellMenuItem.MenuProgramPathText).Equals(".exe"))
+                        if (File.Exists(shellMenuItem.MenuProgramPathText) && string.Equals(Path.GetExtension(shellMenuItem.MenuProgramPathText), ".exe"))
                         {
                             Icon icon = Icon.ExtractAssociatedIcon(shellMenuItem.MenuProgramPathText);
                             MemoryStream memoryStream = new();
@@ -543,7 +543,7 @@ namespace PowerTools.Views.Pages
             for (int index = 0; index < shellMenuItemCollection.Count; index++)
             {
                 // 删除遍历到的当前项
-                if (selectedItem is not null && selectedItem.MenuKey.Equals(shellMenuItemCollection[index].MenuKey))
+                if (selectedItem is not null && string.Equals(selectedItem.MenuKey, shellMenuItemCollection[index].MenuKey))
                 {
                     shellMenuItemCollection.RemoveAt(index);
                     isRemoved = true;
@@ -637,7 +637,7 @@ namespace PowerTools.Views.Pages
                             IsMoveDownEnabled = true;
                         }
                         // 最后一项，不可向下移动
-                        else if (shellMenuItem.MenuIndex.Equals(shellMenuItemCollection.Count - 1))
+                        else if (Equals(shellMenuItem.MenuIndex, shellMenuItemCollection.Count - 1))
                         {
                             IsMoveUpEnabled = true;
                             IsMoveDownEnabled = false;
@@ -728,7 +728,7 @@ namespace PowerTools.Views.Pages
             // 递归遍历列表，修改选中项顺序
             for (int index = 1; index < shellMenuItemCollection.Count; index++)
             {
-                if (selectedItem.MenuKey.Equals(shellMenuItemCollection[index].MenuKey))
+                if (string.Equals(selectedItem.MenuKey, shellMenuItemCollection[index].MenuKey))
                 {
                     shellMenuItemCollection[index].MenuIndex = index - 1;
                     shellMenuItemCollection[index - 1].MenuIndex = index;
@@ -814,7 +814,7 @@ namespace PowerTools.Views.Pages
             // 递归遍历列表，修改选中项顺序
             for (int index = shellMenuItemCollection.Count - 1; index >= 0; index--)
             {
-                if (selectedItem.MenuKey.Equals(shellMenuItemCollection[index].MenuKey))
+                if (string.Equals(selectedItem.MenuKey, shellMenuItemCollection[index].MenuKey))
                 {
                     shellMenuItemCollection[index].MenuIndex = index + 1;
                     shellMenuItemCollection[index + 1].MenuIndex = index;

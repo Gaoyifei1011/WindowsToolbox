@@ -844,7 +844,7 @@ namespace PowerTools.Views.Pages
                         copyInformationBuilder.AppendLine(updateItem.WindowsDriverInformation.DriverVerDate.ToString("yyyy/MM/dd"));
                     }
 
-                    return copyInformationBuilder.ToString();
+                    return Convert.ToString(copyInformationBuilder);
                 });
 
                 bool copyResult = CopyPasteHelper.CopyToClipboard(copyString);
@@ -2375,9 +2375,9 @@ namespace PowerTools.Views.Pages
                                 MaxDownloadSize = FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(updateInformation.Update.MaxDownloadSize)),
                                 MinDownloadSize = FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(updateInformation.Update.MinDownloadSize)),
                                 MsrcSeverity = string.IsNullOrEmpty(updateInformation.MsrcSeverity) ? UnknownString : updateInformation.MsrcSeverity,
-                                RecommendedCpuSpeed = updateInformation.RecommendedCpuSpeed.Equals(0) ? UnknownString : string.Format("{0} MHz", updateInformation.RecommendedCpuSpeed),
-                                RecommendedHardDiskSpace = updateInformation.RecommendedHardDiskSpace.Equals(0) ? UnknownString : string.Format("{0} MB", updateInformation.RecommendedHardDiskSpace),
-                                RecommendedMemory = updateInformation.RecommendedMemory.Equals(0) ? UnknownString : string.Format("{0} MB", updateInformation.RecommendedMemory),
+                                RecommendedCpuSpeed = updateInformation.RecommendedCpuSpeed is 0 ? UnknownString : string.Format("{0} MHz", updateInformation.RecommendedCpuSpeed),
+                                RecommendedHardDiskSpace = updateInformation.RecommendedHardDiskSpace is 0 ? UnknownString : string.Format("{0} MB", updateInformation.RecommendedHardDiskSpace),
+                                RecommendedMemory = updateInformation.RecommendedMemory is 0 ? UnknownString : string.Format("{0} MB", updateInformation.RecommendedMemory),
                                 ReleaseNotes = string.IsNullOrEmpty(updateInformation.ReleaseNotes) ? UnknownString : updateInformation.ReleaseNotes,
                                 SupportURL = updateInformation.SupportURL,
                                 Title = string.IsNullOrEmpty(updateInformation.Title) ? UnknownString : updateInformation.Title,

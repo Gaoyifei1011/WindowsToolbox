@@ -69,7 +69,7 @@ namespace ThemeSwitch.Services.Root
                         exceptionBuilder.Append("Message:");
                         exceptionBuilder.AppendLine(string.IsNullOrEmpty(exception.Message) ? unknown : exception.Message.Replace('\r', ' ').Replace('\n', ' '));
                         exceptionBuilder.Append("HResult:");
-                        exceptionBuilder.AppendLine(exception.HResult.ToString());
+                        exceptionBuilder.AppendLine(Convert.ToString(exception.HResult));
                         exceptionBuilder.Append("Source:");
                         exceptionBuilder.AppendLine(string.IsNullOrEmpty(exception.Source) ? unknown : exception.Source.Replace('\r', ' ').Replace('\n', ' '));
                         exceptionBuilder.Append("StackTrace:");
@@ -84,7 +84,7 @@ namespace ThemeSwitch.Services.Root
                                     "LogType",
                                     Convert.ToString(logLevel),
                                     Environment.NewLine,
-                                    exceptionBuilder.ToString(),
+                                    Convert.ToString(exceptionBuilder),
                                     Environment.NewLine)
                                 );
                         }

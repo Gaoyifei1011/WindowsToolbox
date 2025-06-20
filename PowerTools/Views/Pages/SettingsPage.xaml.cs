@@ -251,7 +251,7 @@ namespace PowerTools.Views.Pages
                     uint aumidLength = 260;
                     StringBuilder aumidBuilder = new((int)aumidLength);
                     Kernel32Library.GetCurrentApplicationUserModelId(ref aumidLength, aumidBuilder);
-                    wshShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", aumidBuilder.ToString());
+                    wshShortcut.TargetPath = string.Format(@"shell:AppsFolder\{0}", Convert.ToString(aumidBuilder));
                     wshShortcut.Save();
                     return true;
                 }

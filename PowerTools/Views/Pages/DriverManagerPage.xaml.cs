@@ -1633,7 +1633,7 @@ namespace PowerTools.Views.Pages
 
                     foreach (SystemDriverInformation systemDriverInformation in systemDriverInformationList)
                     {
-                        if (Equals(dismDriverPackageItemGuid, systemDriverInformation.DeviceGuid) && driverItem.DriverOEMInfName.Equals(systemDriverInformation.InfPath, StringComparison.OrdinalIgnoreCase) && driverItem.DriverDate.Equals(systemDriverInformation.Date) && driverItem.DriverVersion.Equals(systemDriverInformation.Version))
+                        if (Equals(dismDriverPackageItemGuid, systemDriverInformation.DeviceGuid) && string.Equals(driverItem.DriverOEMInfName, systemDriverInformation.InfPath, StringComparison.OrdinalIgnoreCase) && driverItem.DriverDate.Equals(systemDriverInformation.Date) && driverItem.DriverVersion.Equals(systemDriverInformation.Version))
                         {
                             driverItem.DeviceName = string.IsNullOrEmpty(systemDriverInformation.Description) ? UnknownDeviceNameString : systemDriverInformation.Description;
                             break;
@@ -1964,6 +1964,7 @@ namespace PowerTools.Views.Pages
             {
                 StringBuilder stringBuilder = new(bufferSize);
                 return SetupapiLibrary.SetupGetInfDriverStoreLocation(oemInfName, IntPtr.Zero, IntPtr.Zero, stringBuilder, stringBuilder.Capacity, out _) ? stringBuilder.ToString() : string.Empty;
+                return SetupapiLibrary.SetupGetInfDriverStoreLocation(oemInfName, IntPtr.Zero, IntPtr.Zero, stringBuilder, stringBuilder.Capacity, out _) ? Convert.ToString(stringBuilder) : string.Empty;
             }
             else
             {
