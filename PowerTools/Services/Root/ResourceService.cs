@@ -41,7 +41,7 @@ namespace PowerTools.Services.Root
 
         public static ResourceManager LoopbackManagerResource { get; } = new("PowerTools.Strings.LoopbackManager", CurrentAssembly);
 
-        public static ResourceManager NotificationResource { get; } = new("PowerTools.Strings.Notification", CurrentAssembly);
+        public static ResourceManager NotificationTipResource { get; } = new("PowerTools.Strings.NotificationTip", CurrentAssembly);
 
         public static ResourceManager PriExtractResource { get; } = new("PowerTools.Strings.PriExtract", CurrentAssembly);
 
