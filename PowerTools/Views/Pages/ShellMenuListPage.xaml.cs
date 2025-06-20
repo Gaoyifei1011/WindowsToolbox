@@ -19,8 +19,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
-// 抑制 IDE0060 警告
-#pragma warning disable IDE0060
+// 抑制 CA1822，IDE0060 警告
+#pragma warning disable CA1822,IDE0060
 
 namespace PowerTools.Views.Pages
 {
@@ -29,8 +29,7 @@ namespace PowerTools.Views.Pages
     /// </summary>
     public sealed partial class ShellMenuListPage : Page, INotifyPropertyChanged
     {
-        private bool needToRefreshData;
-        public bool isChanged;
+        private DateTime lastUpdateTime;
         private ShellMenuItemModel selectedItem;
 
         private bool _isLoading = false;
@@ -186,16 +185,16 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnAddMenuItemClicked(object sender, RoutedEventArgs args)
         {
-            // 菜单数据已发生更改，通知用户手动刷新
-            if (needToRefreshData)
+            Guid menuGuid = Guid.NewGuid();
+            string menuKey = string.Empty;
+            int menuIndex = -1;
+
+            // 数据已经过时，需要更新
+            if (lastUpdateTime < ShellMenuService.GetLastUpdateTime())
             {
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
-
-            Guid menuGuid = Guid.NewGuid();
-            string menuKey = string.Empty;
-            int menuIndex = -1;
 
             await Task.Run(() =>
             {
@@ -232,8 +231,8 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnRemoveMenuItemClicked(object sender, RoutedEventArgs args)
         {
-            // 菜单数据已发生更改，通知用户手动刷新
-            if (needToRefreshData)
+            // 数据已经过时，需要更新
+            if (lastUpdateTime < ShellMenuService.GetLastUpdateTime())
             {
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
@@ -268,6 +267,9 @@ namespace PowerTools.Views.Pages
                     IsEditMenuEnabled = true;
                     EnumModifySelectedItem(selectedItem, ShellMenuItemCollection);
                 }
+
+                ShellMenuService.UpdateLastUpdateTime();
+                lastUpdateTime = ShellMenuService.GetLastUpdateTime();
             }
         }
 
@@ -276,8 +278,8 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnClearMenuClicked(object sender, RoutedEventArgs args)
         {
-            // 菜单数据已发生更改，通知用户手动刷新
-            if (needToRefreshData)
+            // 数据已经过时，需要更新
+            if (lastUpdateTime < ShellMenuService.GetLastUpdateTime())
             {
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
@@ -301,6 +303,9 @@ namespace PowerTools.Views.Pages
                 IsMoveUpEnabled = false;
                 IsMoveDownEnabled = false;
             }
+
+            ShellMenuService.UpdateLastUpdateTime();
+            lastUpdateTime = ShellMenuService.GetLastUpdateTime();
         }
 
         /// <summary>
@@ -316,8 +321,8 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnEditMenuClicked(object sender, RoutedEventArgs args)
         {
-            // 菜单数据已发生更改，通知用户手动刷新
-            if (needToRefreshData)
+            // 数据已经过时，需要更新
+            if (lastUpdateTime < ShellMenuService.GetLastUpdateTime())
             {
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
@@ -338,14 +343,16 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnMoveUpClicked(object sender, RoutedEventArgs args)
         {
-            // 菜单数据已发生更改，通知用户手动刷新
-            if (needToRefreshData)
+            // 数据已经过时，需要更新
+            if (lastUpdateTime < ShellMenuService.GetLastUpdateTime())
             {
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 
             await EnumMoveUpShellMenuItemAsync(selectedItem, ShellMenuItemCollection);
+            ShellMenuService.UpdateLastUpdateTime();
+            lastUpdateTime = ShellMenuService.GetLastUpdateTime();
         }
 
         /// <summary>
@@ -353,14 +360,16 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnMoveDownClicked(object sender, RoutedEventArgs args)
         {
-            // 菜单数据已发生更改，通知用户手动刷新
-            if (needToRefreshData)
+            // 数据已经过时，需要更新
+            if (lastUpdateTime < ShellMenuService.GetLastUpdateTime())
             {
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 
             await EnumMoveDownShellMenuItemAsync(selectedItem, ShellMenuItemCollection);
+            ShellMenuService.UpdateLastUpdateTime();
+            lastUpdateTime = ShellMenuService.GetLastUpdateTime();
         }
 
         /// <summary>
@@ -577,8 +586,6 @@ namespace PowerTools.Views.Pages
                             MenuFileMatchFormatText = shellMenuItem.MenuFileMatchFormatText,
                         };
 
-                        isChanged = true;
-
                         // 保存菜单新顺序
                         ShellMenuService.SaveShellMenuItem(shellMenuItem.MenuKey, selectedMenuItem);
                     }
@@ -775,7 +782,6 @@ namespace PowerTools.Views.Pages
                             MenuFileMatchFormatText = shellMenuItemCollection[index].MenuFileMatchFormatText
                         };
 
-                        isChanged = true;
                         ShellMenuService.SaveShellMenuItem(shellMenuItemCollection[index - 1].MenuKey, swappedMenuItem);
                         ShellMenuService.SaveShellMenuItem(shellMenuItemCollection[index].MenuKey, selectedMenuItem);
                     });
@@ -861,7 +867,6 @@ namespace PowerTools.Views.Pages
                             MenuFileMatchFormatText = shellMenuItemCollection[index].MenuFileMatchFormatText,
                         };
 
-                        isChanged = true;
                         ShellMenuService.SaveShellMenuItem(shellMenuItemCollection[index + 1].MenuKey, swappedMenuItem);
                         ShellMenuService.SaveShellMenuItem(shellMenuItemCollection[index].MenuKey, selectedMenuItem);
                     });
@@ -894,6 +899,7 @@ namespace PowerTools.Views.Pages
         private async Task GetShellMenuItemAsync()
         {
             IsLoading = true;
+            lastUpdateTime = ShellMenuService.GetLastUpdateTime();
             ShellMenuItemCollection.Clear();
 
             // 获取所有菜单项信息

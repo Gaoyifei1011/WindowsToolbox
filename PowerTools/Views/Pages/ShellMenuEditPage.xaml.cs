@@ -1,7 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Extensions.ShellMenu;
-using PowerTools.Models;
 using PowerTools.Services.Root;
 using PowerTools.Services.Shell;
 using PowerTools.Views.TeachingTips;
@@ -44,13 +43,13 @@ namespace PowerTools.Views.Pages
         private readonly string SelectIconString = ResourceService.ShellMenuEditResource.GetString("SelectIcon");
         private readonly string SelectProgramString = ResourceService.ShellMenuEditResource.GetString("SelectProgram");
         private readonly InMemoryRandomAccessStream emptyStream = new();
+        private DateTime lastUpdateTime = ShellMenuService.GetLastUpdateTime();
         private string selectedDefaultIconPath = string.Empty;
         private string selectedLightThemeIconPath = string.Empty;
         private string selectedDarkThemeIconPath = string.Empty;
         private Guid editMenuGuid;
         private string editMenuKey;
         private int editMenuIndex;
-        private bool needToRefreshData;
 
         private string _menuTitleText;
 
@@ -412,6 +411,7 @@ namespace PowerTools.Views.Pages
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
             base.OnNavigatedTo(args);
+            lastUpdateTime = ShellMenuService.GetLastUpdateTime();
 
             if (args.Parameter is List<object> argsList && argsList.Count is 2 && argsList[1] is ShellMenuItem shellMenuItem)
             {
@@ -570,7 +570,7 @@ namespace PowerTools.Views.Pages
         private async void OnSaveClicked(object sender, RoutedEventArgs args)
         {
             // 菜单数据已发生更改，通知用户手动刷新
-            if (needToRefreshData)
+            if (lastUpdateTime < ShellMenuService.GetLastUpdateTime())
             {
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
@@ -711,6 +711,9 @@ namespace PowerTools.Views.Pages
             {
                 shellMenuPage.NavigateTo(shellMenuPage.PageList[0], null, false);
             }
+
+            ShellMenuService.UpdateLastUpdateTime();
+            lastUpdateTime = ShellMenuService.GetLastUpdateTime();
         }
 
         /// <summary>
