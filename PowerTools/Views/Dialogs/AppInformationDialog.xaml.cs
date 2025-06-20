@@ -1,7 +1,6 @@
-using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Helpers.Root;
 using PowerTools.Services.Root;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.PInvoke.KernelAppCore;
 using System;

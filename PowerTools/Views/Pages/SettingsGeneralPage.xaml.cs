@@ -5,7 +5,7 @@ using PowerTools.Helpers.Root;
 using PowerTools.Models;
 using PowerTools.Services.Root;
 using PowerTools.Services.Settings;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using System;
 using System.Collections.Generic;
@@ -231,7 +231,7 @@ namespace PowerTools.Views.Pages
                 }
 
                 LanguageService.SetLanguage(AppLanguage);
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.LanguageChange));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.LanguageChange));
             }
         }
 

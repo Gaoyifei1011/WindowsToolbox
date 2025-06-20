@@ -4,7 +4,7 @@ using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Helpers.Root;
 using PowerTools.Models;
 using PowerTools.Services.Root;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.ComTypes;
 using System;
@@ -2130,7 +2130,7 @@ namespace PowerTools.Views.Pages
             IsCleaning = false;
             MainWindow.Current.BeginInvoke(async () =>
             {
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.CleanUpdateHistory, result));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.CleanUpdateHistory, result));
             });
 
             if (true)
@@ -2161,7 +2161,7 @@ namespace PowerTools.Views.Pages
                 }
 
                 IsPreviewChannelChangedNeedRebootPrompt = true;
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.InsiderPreviewSettings));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.InsiderPreviewSettings));
             }
         }
 

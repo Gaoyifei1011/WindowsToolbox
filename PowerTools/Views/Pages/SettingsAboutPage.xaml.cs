@@ -2,7 +2,7 @@
 using PowerTools.Helpers.Root;
 using PowerTools.Services.Root;
 using PowerTools.Views.Dialogs;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using System;
 using System.Collections.Specialized;
@@ -246,7 +246,7 @@ namespace PowerTools.Views.Pages
                 });
 
                 IsChecking = false;
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.CheckUpdate, isNewest.Value));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.CheckUpdate, isNewest.Value));
             }
         }
 

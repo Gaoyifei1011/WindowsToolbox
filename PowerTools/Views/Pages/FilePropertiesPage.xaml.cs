@@ -2,7 +2,7 @@
 using PowerTools.Models;
 using PowerTools.Services.Root;
 using PowerTools.Views.Dialogs;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.ComTypes;
 using System;
@@ -349,7 +349,7 @@ namespace PowerTools.Views.Pages
 
                     if (count is 0)
                     {
-                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ListEmpty));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ListEmpty));
                     }
                     else
                     {
@@ -358,7 +358,7 @@ namespace PowerTools.Views.Pages
                 }
                 else
                 {
-                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.NoOperation));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.NoOperation));
                 }
             }
             else if (args.Key is VirtualKey.Control && args.Key is VirtualKey.Enter)
@@ -378,7 +378,7 @@ namespace PowerTools.Views.Pages
 
                     if (count is 0)
                     {
-                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ListEmpty));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ListEmpty));
                     }
                     else
                     {
@@ -388,7 +388,7 @@ namespace PowerTools.Views.Pages
                 }
                 else
                 {
-                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.NoOperation));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.NoOperation));
                 }
             }
         }
@@ -447,7 +447,7 @@ namespace PowerTools.Views.Pages
 
                 if (count is 0)
                 {
-                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ListEmpty));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ListEmpty));
                 }
                 else
                 {
@@ -456,7 +456,7 @@ namespace PowerTools.Views.Pages
             }
             else
             {
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.NoOperation));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.NoOperation));
             }
         }
 
@@ -479,7 +479,7 @@ namespace PowerTools.Views.Pages
 
                 if (count is 0)
                 {
-                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ListEmpty));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ListEmpty));
                 }
                 else
                 {
@@ -489,7 +489,7 @@ namespace PowerTools.Views.Pages
             }
             else
             {
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.NoOperation));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.NoOperation));
             }
         }
 
@@ -803,7 +803,7 @@ namespace PowerTools.Views.Pages
                 FilePropertiesCollection.Clear();
             }
 
-            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.File, count - OperationFailedList.Count, OperationFailedList.Count));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.File, count - OperationFailedList.Count, OperationFailedList.Count));
         }
     }
 }

@@ -2,7 +2,7 @@ using Microsoft.UI.Xaml.Controls;
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Models;
 using PowerTools.Services.Root;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.PInvoke.Rstrtmgr;
 using PowerTools.WindowsAPI.PInvoke.Shell32;
@@ -263,7 +263,7 @@ namespace PowerTools.Views.Pages
                     }
                 }
 
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.TerminateProcess, result));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.TerminateProcess, result));
             }
         }
 

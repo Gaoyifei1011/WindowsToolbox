@@ -5,7 +5,7 @@ using PowerTools.Extensions.PriExtract;
 using PowerTools.Helpers.Root;
 using PowerTools.Models;
 using PowerTools.Services.Root;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.ComTypes;
 using PowerTools.WindowsAPI.PInvoke.Shell32;

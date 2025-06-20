@@ -5,7 +5,7 @@ using PowerTools.Services.Download;
 using PowerTools.Services.Root;
 using PowerTools.Services.Settings;
 using PowerTools.Views.Dialogs;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.ComTypes;
 using PowerTools.WindowsAPI.PInvoke.Shell32;
@@ -311,7 +311,7 @@ namespace PowerTools.Views.Pages
             else
             {
                 // TODO：显示文件失踪通知
-                //await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.FileLost));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.FileLost));
             }
         }
 
@@ -611,7 +611,7 @@ namespace PowerTools.Views.Pages
 
                     if (!result)
                     {
-                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.DeleteFileFailed));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.DeleteFileFailed));
                     }
                 }
                 // 打开本地目录

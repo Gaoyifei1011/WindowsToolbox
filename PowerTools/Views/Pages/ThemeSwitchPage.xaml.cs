@@ -5,7 +5,7 @@ using PowerTools.Helpers.Root;
 using PowerTools.Services.Root;
 using PowerTools.Services.Settings;
 using PowerTools.Views.Dialogs;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.ComTypes;
 using PowerTools.WindowsAPI.PInvoke.User32;
@@ -483,12 +483,12 @@ namespace PowerTools.Views.Pages
         {
             if (IsAutoSwitchSystemThemeValue && Equals(SystemThemeLightTime, SystemThemeDarkTime))
             {
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ThemeChangeSameTime));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ThemeChangeSameTime));
                 return;
             }
             else if (IsAutoSwitchAppThemeValue && Equals(AppThemeLightTime, AppThemeDarkTime))
             {
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ThemeChangeSameTime));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ThemeChangeSameTime));
                 return;
             }
 
@@ -577,7 +577,7 @@ namespace PowerTools.Views.Pages
             });
 
             IsThemeSwitchNotificationEnabled = AutoThemeSwitchService.AutoThemeSwitchEnableValue && !await Task.Run(GetStartupTaskEnabledAsync);
-            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ThemeSwitchSaveResult));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ThemeSwitchSaveResult));
         }
 
         /// <summary>
@@ -629,7 +629,7 @@ namespace PowerTools.Views.Pages
             AppThemeLightTime = AutoThemeSwitchService.DefaultAppThemeLightTime;
             AppThemeDarkTime = AutoThemeSwitchService.DefaultAppThemeDarkTime;
             IsThemeSwitchNotificationEnabled = AutoThemeSwitchService.AutoThemeSwitchEnableValue && !await Task.Run(GetStartupTaskEnabledAsync);
-            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ThemeSwitchRestoreResult));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ThemeSwitchRestoreResult));
         }
 
         /// <summary>

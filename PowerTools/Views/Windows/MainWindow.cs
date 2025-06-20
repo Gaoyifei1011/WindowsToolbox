@@ -7,8 +7,8 @@ using PowerTools.Services.Root;
 using PowerTools.Services.Settings;
 using PowerTools.Views.Backdrop;
 using PowerTools.Views.Dialogs;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Pages;
-using PowerTools.Views.TeachingTips;
 using PowerTools.WindowsAPI.ComTypes;
 using PowerTools.WindowsAPI.PInvoke.Comctl32;
 using PowerTools.WindowsAPI.PInvoke.Dwmapi;
@@ -841,7 +841,7 @@ namespace PowerTools.Views.Windows
                         {
                             BeginInvoke(async () =>
                             {
-                                await ShowNotificationAsync(new QuickOperationTip(QuickOperationKind.Taskbar, true));
+                                await ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.Taskbar, true));
                             });
                         }
                         break;

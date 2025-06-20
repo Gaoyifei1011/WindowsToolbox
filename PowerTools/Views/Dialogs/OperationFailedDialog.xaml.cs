@@ -1,8 +1,7 @@
-﻿using PowerTools.Extensions.DataType.Enums;
-using PowerTools.Helpers.Root;
+﻿using PowerTools.Helpers.Root;
 using PowerTools.Models;
 using PowerTools.Services.Root;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using System;
 using System.Collections.Generic;

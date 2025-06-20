@@ -3,7 +3,7 @@ using PowerTools.Extensions.ShellMenu;
 using PowerTools.Models;
 using PowerTools.Services.Root;
 using PowerTools.Services.Shell;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using System;
 using System.Collections.Generic;
@@ -192,7 +192,7 @@ namespace PowerTools.Views.Pages
             // 数据已经过时，需要更新
             if (lastUpdateTime < ShellMenuService.GetLastUpdateTime())
             {
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 
@@ -234,7 +234,7 @@ namespace PowerTools.Views.Pages
             // 数据已经过时，需要更新
             if (lastUpdateTime < ShellMenuService.GetLastUpdateTime())
             {
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 
@@ -281,7 +281,7 @@ namespace PowerTools.Views.Pages
             // 数据已经过时，需要更新
             if (lastUpdateTime < ShellMenuService.GetLastUpdateTime())
             {
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 
@@ -324,7 +324,7 @@ namespace PowerTools.Views.Pages
             // 数据已经过时，需要更新
             if (lastUpdateTime < ShellMenuService.GetLastUpdateTime())
             {
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 
@@ -346,7 +346,7 @@ namespace PowerTools.Views.Pages
             // 数据已经过时，需要更新
             if (lastUpdateTime < ShellMenuService.GetLastUpdateTime())
             {
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 
@@ -363,7 +363,7 @@ namespace PowerTools.Views.Pages
             // 数据已经过时，需要更新
             if (lastUpdateTime < ShellMenuService.GetLastUpdateTime())
             {
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 

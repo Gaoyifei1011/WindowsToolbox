@@ -2,7 +2,7 @@
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Models;
 using PowerTools.Services.Root;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.PInvoke.FirewallAPI;
 using PowerTools.WindowsAPI.PInvoke.Kernel32;
@@ -228,7 +228,7 @@ namespace PowerTools.Views.Pages
                     contextMenu.IsEnabled = contextMenu.IsEnabled;
                 }
 
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ContextMenuUpdate, result.operationResult));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ContextMenuUpdate, result.operationResult));
             }
         }
 

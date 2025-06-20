@@ -5,7 +5,7 @@ using PowerTools.Helpers.Root;
 using PowerTools.Models;
 using PowerTools.Services.Root;
 using PowerTools.Views.Dialogs;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.PInvoke.Kernel32;
 using PowerTools.WindowsAPI.PInvoke.NewDev;
@@ -455,7 +455,7 @@ namespace PowerTools.Views.Pages
                 {
                     MainWindow.Current.BeginInvoke(async () =>
                     {
-                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.DeleteDriverSuccessfully));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.DeleteDriverSuccessfully));
                     });
 
                     await GetDriverAsync();
@@ -463,7 +463,7 @@ namespace PowerTools.Views.Pages
                 else
                 {
                     DriverResultKind = DriverResultKind.Successfully;
-                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.DeleteDriverFailed));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.DeleteDriverFailed));
                 }
             }
         }
@@ -507,7 +507,7 @@ namespace PowerTools.Views.Pages
                 {
                     MainWindow.Current.BeginInvoke(async () =>
                     {
-                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ForceDeleteDriverSuccessfully));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ForceDeleteDriverSuccessfully));
                     });
 
                     if (needReboot)
@@ -531,7 +531,7 @@ namespace PowerTools.Views.Pages
                 else
                 {
                     DriverResultKind = DriverResultKind.Successfully;
-                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ForceDeleteDriverFailed));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ForceDeleteDriverFailed));
                 }
             }
         }
@@ -822,14 +822,14 @@ namespace PowerTools.Views.Pages
                         {
                             MainWindow.Current.BeginInvoke(async () =>
                             {
-                                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.AddDriverAllSuccessfully));
+                                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.AddDriverAllSuccessfully));
                             });
                         }
                         else
                         {
                             MainWindow.Current.BeginInvoke(async () =>
                             {
-                                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.AddDriverPartialSuccessfully));
+                                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.AddDriverPartialSuccessfully));
                             });
                         }
 
@@ -838,7 +838,7 @@ namespace PowerTools.Views.Pages
                     else
                     {
                         DriverResultKind = oldDriverResultKind;
-                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.AddDriverFailed));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.AddDriverFailed));
                     }
                 }
             }
@@ -914,14 +914,14 @@ namespace PowerTools.Views.Pages
                         {
                             MainWindow.Current.BeginInvoke(async () =>
                             {
-                                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.AddInstallDriverAllSuccessfully));
+                                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.AddInstallDriverAllSuccessfully));
                             });
                         }
                         else
                         {
                             MainWindow.Current.BeginInvoke(async () =>
                             {
-                                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.AddInstallDriverPartialSuccessfully));
+                                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.AddInstallDriverPartialSuccessfully));
                             });
                         }
 
@@ -946,7 +946,7 @@ namespace PowerTools.Views.Pages
                     else
                     {
                         DriverResultKind = oldDriverResultKind;
-                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.AddInstallDriverFailed));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.AddInstallDriverFailed));
                     }
                 }
             }
@@ -963,7 +963,7 @@ namespace PowerTools.Views.Pages
 
                 if (selectedDriverList.Count is 0)
                 {
-                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.SelectDriverEmpty));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.SelectDriverEmpty));
                     return;
                 }
 
@@ -1017,14 +1017,14 @@ namespace PowerTools.Views.Pages
                     {
                         MainWindow.Current.BeginInvoke(async () =>
                         {
-                            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.DeleteDriverAllSuccessfully));
+                            await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.DeleteDriverAllSuccessfully));
                         });
                     }
                     else
                     {
                         MainWindow.Current.BeginInvoke(async () =>
                         {
-                            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.DeleteDriverPartialSuccessfully));
+                            await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.DeleteDriverPartialSuccessfully));
                         });
                     }
 
@@ -1033,7 +1033,7 @@ namespace PowerTools.Views.Pages
                 else
                 {
                     DriverResultKind = oldDriverResultKind;
-                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.DeleteDriverFailed));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.DeleteDriverFailed));
                 }
             }
         }
@@ -1049,7 +1049,7 @@ namespace PowerTools.Views.Pages
 
                 if (selectedDriverList.Count is 0)
                 {
-                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.SelectDriverEmpty));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.SelectDriverEmpty));
                     return;
                 }
 
@@ -1110,14 +1110,14 @@ namespace PowerTools.Views.Pages
                     {
                         MainWindow.Current.BeginInvoke(async () =>
                         {
-                            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ForceDeleteDriverAllSuccessfully));
+                            await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ForceDeleteDriverAllSuccessfully));
                         });
                     }
                     else
                     {
                         MainWindow.Current.BeginInvoke(async () =>
                         {
-                            await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ForceDeleteDriverPartialSuccessfully));
+                            await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ForceDeleteDriverPartialSuccessfully));
                         });
                     }
 
@@ -1143,7 +1143,7 @@ namespace PowerTools.Views.Pages
                 else
                 {
                     DriverResultKind = oldDriverResultKind;
-                    await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ForceDeleteDriverFailed));
+                    await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ForceDeleteDriverFailed));
                 }
             }
         }

@@ -1,7 +1,7 @@
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Models;
 using PowerTools.Services.Root;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.PInvoke.FirewallAPI;
 using PowerTools.WindowsAPI.PInvoke.Shlwapi;
@@ -672,7 +672,7 @@ namespace PowerTools.Views.Pages
                     return FirewallAPILibrary.NetworkIsolationSetAppContainerConfig(loopbackList.Count, sidAndAttributesArray) is 0;
                 });
 
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.LoopbackSetResult, result));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.LoopbackSetResult, result));
             }
         }
 

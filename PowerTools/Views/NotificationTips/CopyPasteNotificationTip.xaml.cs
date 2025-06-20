@@ -1,7 +1,7 @@
 using Microsoft.UI.Xaml.Controls;
 using System.ComponentModel;
 
-namespace PowerTools.Views.TeachingTips
+namespace PowerTools.Views.NotificationTips
 {
     /// <summary>
     /// 复制剪贴应用内通知

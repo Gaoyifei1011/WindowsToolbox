@@ -4,7 +4,7 @@ using PowerTools.Helpers.Root;
 using PowerTools.Models;
 using PowerTools.Services.Root;
 using PowerTools.Views.Dialogs;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.PInvoke.Kernel32;
 using System;
@@ -262,7 +262,7 @@ namespace PowerTools.Views.Pages
                 }
             });
 
-            await MainWindow.Current.ShowNotificationAsync(new QuickOperationTip(QuickOperationKind.Desktop, isCreatedSuccessfully));
+            await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.Desktop, isCreatedSuccessfully));
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace PowerTools.Views.Pages
             }
             finally
             {
-                await MainWindow.Current.ShowNotificationAsync(new QuickOperationTip(QuickOperationKind.StartScreen, isPinnedSuccessfully));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.StartScreen, isPinnedSuccessfully));
             }
         }
 
@@ -328,7 +328,7 @@ namespace PowerTools.Views.Pages
             }
             finally
             {
-                await MainWindow.Current.ShowNotificationAsync(new QuickOperationTip(QuickOperationKind.Taskbar, isPinnedSuccessfully));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.Taskbar, isPinnedSuccessfully));
             }
         }
 

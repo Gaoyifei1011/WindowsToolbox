@@ -3,7 +3,7 @@ using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Extensions.ShellMenu;
 using PowerTools.Services.Root;
 using PowerTools.Services.Shell;
-using PowerTools.Views.TeachingTips;
+using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using System;
 using System.Collections.Generic;
@@ -572,7 +572,7 @@ namespace PowerTools.Views.Pages
             // 菜单数据已发生更改，通知用户手动刷新
             if (lastUpdateTime < ShellMenuService.GetLastUpdateTime())
             {
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.ShellMenuNeedToRefreshData));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.ShellMenuNeedToRefreshData));
                 return;
             }
 
@@ -580,7 +580,7 @@ namespace PowerTools.Views.Pages
             if (string.IsNullOrEmpty(MenuTitleText))
             {
                 MenuTitleTextBox.Focus(FocusState.Programmatic);
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.MenuTitleEmpty));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.MenuTitleEmpty));
                 return;
             }
 
@@ -591,14 +591,14 @@ namespace PowerTools.Views.Pages
                     if (string.IsNullOrEmpty(LightThemeIconPath))
                     {
                         MenuLigthThemeIconBrowserButton.Focus(FocusState.Programmatic);
-                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.MenuLightThemeIconPathEmpty));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.MenuLightThemeIconPathEmpty));
                         return;
                     }
 
                     if (string.IsNullOrEmpty(DarkThemeIconPath))
                     {
                         MenuDarkThemeIconBrowserButton.Focus(FocusState.Programmatic);
-                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.MenuDarkThemeIconPathEmpty));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.MenuDarkThemeIconPathEmpty));
                         return;
                     }
                 }
@@ -607,7 +607,7 @@ namespace PowerTools.Views.Pages
                     if (string.IsNullOrEmpty(DefaultIconPath))
                     {
                         MenuDefaultIconBrowserButton.Focus(FocusState.Programmatic);
-                        await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.MenuDefaultIconPathEmpty));
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.MenuDefaultIconPathEmpty));
                         return;
                     }
                 }
@@ -616,14 +616,14 @@ namespace PowerTools.Views.Pages
             if (string.IsNullOrEmpty(MenuProgramPathText))
             {
                 MenuProgramBrowserButton.Focus(FocusState.Programmatic);
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.MenuProgramPathEmpty));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.MenuProgramPathEmpty));
                 return;
             }
 
             if ((Equals(SelectedFileMatchRule, FileMatchRuleList[1]) || Equals(SelectedFileMatchRule, FileMatchRuleList[2]) || Equals(SelectedFileMatchRule, FileMatchRuleList[3])) && string.IsNullOrEmpty(MenuFileMatchFormatText))
             {
                 MenuFileMatchFormatTextBox.Focus(FocusState.Programmatic);
-                await MainWindow.Current.ShowNotificationAsync(new OperationResultTip(OperationKind.MenuMatchRuleEmpty));
+                await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.MenuMatchRuleEmpty));
                 return;
             }
 
