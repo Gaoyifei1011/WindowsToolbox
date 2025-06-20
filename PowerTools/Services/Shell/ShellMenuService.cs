@@ -303,5 +303,22 @@ namespace PowerTools.Services.Shell
 
             return shellMenuItem;
         }
+
+        /// <summary>
+        /// 获取上次更新的时间
+        /// </summary>
+        public static DateTime GetLastUpdateTime()
+        {
+            int? lastUpdateTime = RegistryHelper.ReadRegistryKey<int?>(Registry.CurrentUser, "ShellMenu", "LastUpdateTime");
+            return lastUpdateTime.HasValue ? DateTimeOffset.FromUnixTimeSeconds(lastUpdateTime.Value).DateTime : DateTimeOffset.FromUnixTimeSeconds(0).DateTime;
+        }
+
+        /// <summary>
+        /// 更新上次更新的时间
+        /// </summary>
+        public static void UpdateLastUpdateTime()
+        {
+            RegistryHelper.SaveRegistryKey(Registry.CurrentUser, "ShellMenu", "LastUpdateTime", DateTimeOffset.Now.ToUnixTimeSeconds());
+        }
     }
 }
