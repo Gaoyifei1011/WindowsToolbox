@@ -416,7 +416,7 @@ namespace PowerTools.Views.Pages
             if (args.Parameter is StringModel stringItem)
             {
                 bool copyResult = CopyPasteHelper.CopyToClipboard(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
-                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.String, copyResult, false));
+                await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(copyResult));
             }
         }
 
@@ -428,7 +428,7 @@ namespace PowerTools.Views.Pages
             if (args.Parameter is FilePathModel filePath)
             {
                 bool copyResult = CopyPasteHelper.CopyToClipboard(string.Format("Key:{0}, FilePath:{1}", filePath.Key, filePath.AbsolutePath));
-                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.String, copyResult, false));
+                await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(copyResult));
             }
         }
 
@@ -681,9 +681,9 @@ namespace PowerTools.Views.Pages
                 {
                     copyStringBuilder.AppendLine(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
                 }
-                bool copyResult = CopyPasteHelper.CopyToClipboard(copyStringBuilder.ToString());
+                bool copyResult = CopyPasteHelper.CopyToClipboard(Convert.ToString(copyStringBuilder));
                 IsProcessing = false;
-                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, selectedStringList.Count));
+                await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(copyResult));
             }
             else
             {
@@ -705,9 +705,9 @@ namespace PowerTools.Views.Pages
                 {
                     copyFilePathBuilder.AppendLine(string.Format("Key:{0}, AbsolutePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
                 }
-                bool copyResult = CopyPasteHelper.CopyToClipboard(copyFilePathBuilder.ToString());
+                bool copyResult = CopyPasteHelper.CopyToClipboard(Convert.ToString(copyFilePathBuilder));
                 IsProcessing = false;
-                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.FilePath, copyResult, true, selectedFilePathList.Count));
+                await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(copyResult));
             }
             else
             {
@@ -775,9 +775,9 @@ namespace PowerTools.Views.Pages
                 {
                     copyStringBuilder.AppendLine(string.Format("Key:{0}, Content:{1}", stringItem.Key, stringItem.Content));
                 }
-                bool copyResult = CopyPasteHelper.CopyToClipboard(copyStringBuilder.ToString());
+                bool copyResult = CopyPasteHelper.CopyToClipboard(Convert.ToString(copyStringBuilder));
                 IsProcessing = false;
-                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, copyAllStringList.Count));
+                await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(copyResult));
             }
             else
             {
@@ -799,9 +799,9 @@ namespace PowerTools.Views.Pages
                 {
                     copyFilePathBuilder.AppendLine(string.Format("Key:{0}, AbsolutePath:{1}", filePathItem.Key, filePathItem.AbsolutePath));
                 }
-                bool copyResult = CopyPasteHelper.CopyToClipboard(copyFilePathBuilder.ToString());
+                bool copyResult = CopyPasteHelper.CopyToClipboard(Convert.ToString(copyFilePathBuilder));
                 IsProcessing = false;
-                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.String, copyResult, true, copyAllFilePathList.Count));
+                await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(copyResult));
             }
             else
             {

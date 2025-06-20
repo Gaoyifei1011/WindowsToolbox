@@ -145,7 +145,7 @@ namespace PowerTools.Views.Dialogs
                 contentDialogButtonClickDeferral.Complete();
             }
 
-            await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.AppInformation, copyResult));
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(copyResult));
         }
     }
 }

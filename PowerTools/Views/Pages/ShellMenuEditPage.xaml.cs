@@ -904,9 +904,9 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnFileMatchRuleClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is string tag)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> fileMatchRule)
             {
-                SelectedFileMatchRule = FileMatchRuleList[Convert.ToInt32(tag)];
+                SelectedFileMatchRule = fileMatchRule;
                 MenuFileMatchFormatText = string.Empty;
 
                 if (Equals(SelectedFileMatchRule, FileMatchRuleList[0]) || Equals(SelectedFileMatchRule, FileMatchRuleList[4]))

@@ -61,7 +61,7 @@ namespace PowerTools.Views.Dialogs
                 });
 
                 bool copyResult = CopyPasteHelper.CopyToClipboard(Convert.ToString(stringBuilder));
-                await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, false));
+                await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(copyResult));
             }
         }
 
@@ -106,7 +106,7 @@ namespace PowerTools.Views.Dialogs
                 contentDialogButtonClickDeferral.Complete();
             }
 
-            await MainWindow.Current.ShowNotificationAsync(new DataCopyTip(DataCopyKind.OperationFailed, copyResult, true, OperationFailedCollection.Count));
+            await MainWindow.Current.ShowNotificationAsync(new CopyPasteNotificationTip(copyResult));
         }
     }
 }

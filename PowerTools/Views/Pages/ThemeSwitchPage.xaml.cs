@@ -406,9 +406,9 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnSystemThemeStyleClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<ElementTheme, string> systemThemeStyle)
             {
-                SelectedSystemThemeStyle = SystemThemeStyleList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
+                SelectedSystemThemeStyle = systemThemeStyle;
                 int systemTheme = 0;
 
                 if (Equals(SelectedSystemThemeStyle, SystemThemeStyleList[0]))

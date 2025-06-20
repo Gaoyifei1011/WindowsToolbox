@@ -217,7 +217,7 @@
                                                 Click="{x:Bind OnSystemThemeStyleClicked}"
                                                 GroupName="SystemThemeStyleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedSystemThemeStyle.Key, SystemThemeStyleList[0].Key), Mode=OneWay}"
-                                                Tag="0"
+                                                Tag="{x:Bind SystemThemeStyleList[0]}"
                                                 Text="{x:Bind system:Convert.ToString(SystemThemeStyleList[0].Value)}" />
 
                                             <controls:RadioMenuFlyoutItem
@@ -226,7 +226,7 @@
                                                 Click="{x:Bind OnSystemThemeStyleClicked}"
                                                 GroupName="SystemThemeStyleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedSystemThemeStyle.Key, SystemThemeStyleList[1].Key), Mode=OneWay}"
-                                                Tag="1"
+                                                Tag="{x:Bind SystemThemeStyleList[1]}"
                                                 Text="{x:Bind system:Convert.ToString(SystemThemeStyleList[1].Value)}" />
                                         </MenuFlyout>
                                     </controls:DropDownButton.Flyout>
