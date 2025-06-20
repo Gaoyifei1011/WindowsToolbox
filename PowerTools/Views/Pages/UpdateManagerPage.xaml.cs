@@ -25,6 +25,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 using WUApiLib;
 
 // 抑制 CA1822，IDE0060 警告
@@ -37,6 +38,74 @@ namespace PowerTools.Views.Pages
     /// </summary>
     public sealed partial class UpdateManagerPage : Page, INotifyPropertyChanged
     {
+        private readonly string CurrentChannelString = ResourceService.UpdateManagerResource.GetString("CurrentChannel");
+        private readonly string CurrentConfigString = ResourceService.UpdateManagerResource.GetString("CurrentConfig");
+        private readonly string DCatFlightingProdString = ResourceService.UpdateManagerResource.GetString("DCatFlightingProd");
+        private readonly string DescriptionString = ResourceService.UpdateManagerResource.GetString("Description");
+        private readonly string DeviceEnteredWindowsInsiderString = ResourceService.UpdateManagerResource.GetString("DeviceEnteredWindowsInsider");
+        private readonly string DeviceProblemNumberString = ResourceService.UpdateManagerResource.GetString("DeviceProblemNumber");
+        private readonly string DownloadUpdateCanceledString = ResourceService.UpdateManagerResource.GetString("DownloadUpdateCanceled");
+        private readonly string DownloadUpdateCompletedString = ResourceService.UpdateManagerResource.GetString("DownloadUpdateCompleted");
+        private readonly string DownloadUpdateFailedWithCodeString = ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithCode");
+        private readonly string DownloadUpdateFailedWithInformationString = ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithInformation");
+        private readonly string DownloadUpdateProgressDownloadingString = ResourceService.UpdateManagerResource.GetString("DownloadUpdateProgressDownloading");
+        private readonly string DownloadUpdateProgressInitializingString = ResourceService.UpdateManagerResource.GetString("DownloadUpdateProgressInitializing");
+        private readonly string DownloadUpdateProgressVerifyingString = ResourceService.UpdateManagerResource.GetString("DownloadUpdateProgressVerifying");
+        private readonly string DriverClassString = ResourceService.UpdateManagerResource.GetString("DriverClass");
+        private readonly string DriverHardwareIDString = ResourceService.UpdateManagerResource.GetString("DriverHardwareID");
+        private readonly string DriverManufacturerString = ResourceService.UpdateManagerResource.GetString("DriverManufacturer");
+        private readonly string DriverModelString = ResourceService.UpdateManagerResource.GetString("DriverModel");
+        private readonly string DriverProviderString = ResourceService.UpdateManagerResource.GetString("DriverProvider");
+        private readonly string DriverVerDateString = ResourceService.UpdateManagerResource.GetString("DriverVerDate");
+        private readonly string InsiderBetaString = ResourceService.UpdateManagerResource.GetString("InsiderBeta");
+        private readonly string InsiderCanaryString = ResourceService.UpdateManagerResource.GetString("InsiderCanary");
+        private readonly string InsiderDevString = ResourceService.UpdateManagerResource.GetString("InsiderDev");
+        private readonly string InsiderReleasePreviewString = ResourceService.UpdateManagerResource.GetString("InsiderReleasePreview");
+        private readonly string InstallUpdateCanceledString = ResourceService.UpdateManagerResource.GetString("InstallUpdateCanceled");
+        private readonly string InstallUpdateCompletedNeedRebootString = ResourceService.UpdateManagerResource.GetString("InstallUpdateCompletedNeedReboot");
+        private readonly string InstallUpdateCompletedString = ResourceService.UpdateManagerResource.GetString("InstallUpdateCompleted");
+        private readonly string InstallUpdateFailedWithCodeString = ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithCode");
+        private readonly string InstallUpdateFailedWithInformationString = ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithInformation");
+        private readonly string InstallUpdateProgressString = ResourceService.UpdateManagerResource.GetString("InstallUpdateProgress");
+        private readonly string IsBetaString = ResourceService.UpdateManagerResource.GetString("IsBeta");
+        private readonly string IsMandatoryString = ResourceService.UpdateManagerResource.GetString("IsMandatory");
+        private readonly string LearnWindowsInsiderPreviewString = ResourceService.UpdateManagerResource.GetString("LearnWindowsInsiderPreview");
+        private readonly string MaxDownloadSizeString = ResourceService.UpdateManagerResource.GetString("MaxDownloadSize");
+        private readonly string MicrosoftUpdateString = ResourceService.UpdateManagerResource.GetString("MicrosoftUpdate");
+        private readonly string MinDownloadSizeString = ResourceService.UpdateManagerResource.GetString("MinDownloadSize");
+        private readonly string ModifyWindowsInsiderPreviewString = ResourceService.UpdateManagerResource.GetString("ModifyWindowsInsiderPreview");
+        private readonly string MsrcSeverityString = ResourceService.UpdateManagerResource.GetString("MsrcSeverity");
+        private readonly string NoString = ResourceService.UpdateManagerResource.GetString("No");
+        private readonly string OpenPowerToolsString = ResourceService.UpdateManagerResource.GetString("OpenPowerTools");
+        private readonly string RecommendedCpuSpeedString = ResourceService.UpdateManagerResource.GetString("RecommendedCpuSpeed");
+        private readonly string RecommendedHardDiskSpaceString = ResourceService.UpdateManagerResource.GetString("RecommendedHardDiskSpace");
+        private readonly string RecommendedMemoryString = ResourceService.UpdateManagerResource.GetString("RecommendedMemory");
+        private readonly string RestartPCString = ResourceService.UpdateManagerResource.GetString("RestartPC");
+        private readonly string ReleaseNotesString = ResourceService.UpdateManagerResource.GetString("ReleaseNotes");
+        private readonly string SupportedUrlString = ResourceService.UpdateManagerResource.GetString("SupportedUrl");
+        private readonly string UnknownString = ResourceService.UpdateManagerResource.GetString("Unknown");
+        private readonly string UninstallUpdateCanceledString = ResourceService.UpdateManagerResource.GetString("UninstallUpdateCanceled");
+        private readonly string UninstallUpdateCompletedNeedRebootString = ResourceService.UpdateManagerResource.GetString("UninstallUpdateCompletedNeedReboot");
+        private readonly string UninstallUpdateCompletedString = ResourceService.UpdateManagerResource.GetString("UninstallUpdateCompleted");
+        private readonly string UninstallUpdateFailedWithCodeString = ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithCode");
+        private readonly string UninstallUpdateFailedWithInformationString = ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithInformation");
+        private readonly string UninstallUpdateProgressString = ResourceService.UpdateManagerResource.GetString("UninstallUpdateProgress");
+        private readonly string UpdateAbortedString = ResourceService.UpdateManagerResource.GetString("UpdateAborted");
+        private readonly string UpdateCancelingString = ResourceService.UpdateManagerResource.GetString("UpdateCanceling");
+        private readonly string UpdateFailedString = ResourceService.UpdateManagerResource.GetString("UpdateFailed");
+        private readonly string UpdateInstalledString = ResourceService.UpdateManagerResource.GetString("UpdateInstalled");
+        private readonly string UpdateNameString = ResourceService.UpdateManagerResource.GetString("UpdateName");
+        private readonly string UpdateNotInstalledString = ResourceService.UpdateManagerResource.GetString("UpdateNotInstalled");
+        private readonly string UpdatePrepareInstallingString = ResourceService.UpdateManagerResource.GetString("UpdatePrepareInstalling");
+        private readonly string UpdatePrepareUninstallingString = ResourceService.UpdateManagerResource.GetString("UpdatePrepareUninstalling");
+        private readonly string UpdateSucceedString = ResourceService.UpdateManagerResource.GetString("UpdateSucceed");
+        private readonly string UpdateSucceedWithErrorsString = ResourceService.UpdateManagerResource.GetString("UpdateSucceedWithErrors");
+        private readonly string UpdateTypeDriverString = ResourceService.UpdateManagerResource.GetString("UpdateTypeDriver");
+        private readonly string UpdateTypeSoftwareString = ResourceService.UpdateManagerResource.GetString("UpdateTypeSoftware");
+        private readonly string WindowsInsiderConfigStatusString = ResourceService.UpdateManagerResource.GetString("WindowsInsiderConfigStatus");
+        private readonly string WindowsStoreString = ResourceService.UpdateManagerResource.GetString("WindowsStore");
+        private readonly string WindowsUpdateString = ResourceService.UpdateManagerResource.GetString("WindowsUpdate");
+        private readonly string YesString = ResourceService.UpdateManagerResource.GetString("Yes");
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private readonly UpdateSession updateSession = new();
         private readonly UpdateServiceManager updateServiceManager = new();
@@ -45,7 +114,7 @@ namespace PowerTools.Views.Pages
         private readonly Dictionary<string, IInstallationJob> uninstallationJobDict = [];
         private readonly Regex updateNumberRegex = new("""KB(\d)*""", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private bool isLoaded;
+        private bool isInitialized;
         private UpdateSearcher updateSearcher;
 
         private Microsoft.UI.Xaml.Controls.NavigationViewItem _selectedItem;
@@ -320,13 +389,7 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        private List<KeyValuePair<string, string>> UpdateSourceList { get; } =
-        [
-            new KeyValuePair<string,string>("Microsoft Update", ResourceService.UpdateManagerResource.GetString("MicrosoftUpdate")),
-            new KeyValuePair<string,string>("DCat Flighting Prod", ResourceService.UpdateManagerResource.GetString("DCatFlightingProd")),
-            new KeyValuePair<string,string>("Windows Store(DCat Prod)", ResourceService.UpdateManagerResource.GetString("WindowsStore")),
-            new KeyValuePair<string,string>("Windows Update", ResourceService.UpdateManagerResource.GetString("WindowsUpdate")),
-        ];
+        private List<KeyValuePair<string, string>> UpdateSourceList { get; } = [];
 
         private ObservableCollection<UpdateModel> AvailableUpdateCollection { get; } = [];
 
@@ -342,53 +405,127 @@ namespace PowerTools.Views.Pages
         {
             InitializeComponent();
             SelectedItem = UpdateManagerNavigationView.MenuItems[0] as Microsoft.UI.Xaml.Controls.NavigationViewItem;
+            UpdateSourceList.Add(new KeyValuePair<string, string>("Microsoft Update", MicrosoftUpdateString));
+            UpdateSourceList.Add(new KeyValuePair<string, string>("DCat Flighting Prod", DCatFlightingProdString));
+            UpdateSourceList.Add(new KeyValuePair<string, string>("Windows Store(DCat Prod)", WindowsStoreString));
+            UpdateSourceList.Add(new KeyValuePair<string, string>("Windows Update", WindowsUpdateString));
             SelectedUpdateSource = UpdateSourceList[0];
         }
 
-        #region 第一部分：XamlUICommand 命令调用时挂载的事件
+        #region 第一部分：重写父类事件
+
+        /// <summary>
+        /// 导航到该页面触发的事件
+        /// </summary>
+        protected override async void OnNavigatedTo(NavigationEventArgs args)
+        {
+            base.OnNavigatedTo(args);
+
+            if (!isInitialized)
+            {
+                isInitialized = true;
+
+                if (RuntimeHelper.IsElevated)
+                {
+                    IsExcludeDrivers = await Task.Run(() =>
+                    {
+                        try
+                        {
+                            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", true);
+                            int returnValue = Convert.ToInt32(registryKey.GetValue("ExcludeWUDriversInQualityUpdate"));
+                            return Convert.ToBoolean(returnValue);
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Warning, "Get exclude driver options failed", e);
+                            return false;
+                        }
+                    });
+                }
+                else
+                {
+                    return;
+                }
+
+                // 获取更新版本信息
+                string windowsUpdateVersion = string.Empty;
+                string wuapiDllVersion = string.Empty;
+
+                await Task.Run(() =>
+                {
+                    try
+                    {
+                        updateSession.ClientApplicationID = "PowerTools:" + Guid.NewGuid().ToString();
+                        updateSearcher = updateSession.CreateUpdateSearcher() as UpdateSearcher;
+                        updateSearcher.IgnoreDownloadPriority = true;
+                        WindowsUpdateAgentInfo windowsUpdateAgentInfo = new();
+                        object apiMajorVersion = windowsUpdateAgentInfo.GetInfo("ApiMajorVersion");
+                        object apiMinorVersion = windowsUpdateAgentInfo.GetInfo("ApiMinorVersion");
+                        object productVersionString = windowsUpdateAgentInfo.GetInfo("ProductVersionString");
+                        windowsUpdateVersion = string.Format("{0}.{1}", apiMajorVersion, apiMinorVersion);
+                        wuapiDllVersion = Convert.ToString(productVersionString);
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Get windows update information failed", e);
+                    }
+                });
+
+                WindowsUpdateVersion = windowsUpdateVersion;
+                WuapiDllVersion = wuapiDllVersion;
+
+                // 获取历史更新记录
+                List<UpdateModel> updateHistoryList = await Task.Run(GetUpdateHistoryList);
+
+                UpdateHistoryCollection.Clear();
+                foreach (UpdateModel updateHistoryItem in updateHistoryList)
+                {
+                    UpdateHistoryCollection.Add(updateHistoryItem);
+                }
+            }
+        }
+
+        #endregion 第一部分：重写父类事件
+
+        #region 第二部分：XamlUICommand 命令调用时挂载的事件
 
         /// <summary>
         /// 可用更新：取消更新
         /// </summary>
         private void OnAvailableCancelInstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is string updateID && !string.IsNullOrEmpty(updateID))
+            if (args.Parameter is UpdateModel availableUpdate)
             {
-                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                if (availableUpdate.IsUpdating)
                 {
-                    if (availableUpdateItem.UpdateID.Equals(updateID, StringComparison.OrdinalIgnoreCase) && availableUpdateItem.IsUpdating)
+                    availableUpdate.UpdateProgress = UpdateCancelingString;
+                    availableUpdate.IsUpdateCanceled = true;
+                    IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+                    IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+                    IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
+
+                    Task.Run(() =>
                     {
-                        availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdateCanceling");
-                        availableUpdateItem.IsUpdateCanceled = true;
-                        break;
-                    }
+                        try
+                        {
+                            if (downloadJobDict.TryGetValue(availableUpdate.UpdateID, out IDownloadJob downloadJob))
+                            {
+                                downloadJob.RequestAbort();
+                                downloadJobDict.Remove(availableUpdate.UpdateID);
+                            }
+
+                            if (installationJobDict.TryGetValue(availableUpdate.UpdateID, out IInstallationJob installationJob))
+                            {
+                                installationJob.RequestAbort();
+                                installationJobDict.Remove(availableUpdate.UpdateID);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            LogService.WriteLog(EventLevel.Error, "Cancel install update failed", e);
+                        }
+                    });
                 }
-
-                IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
-                IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
-                IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
-
-                Task.Run(() =>
-                {
-                    try
-                    {
-                        if (downloadJobDict.TryGetValue(updateID, out IDownloadJob downloadJob))
-                        {
-                            downloadJob.RequestAbort();
-                            downloadJobDict.Remove(updateID);
-                        }
-
-                        if (installationJobDict.TryGetValue(updateID, out IInstallationJob installationJob))
-                        {
-                            installationJob.RequestAbort();
-                            installationJobDict.Remove(updateID);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLevel.Error, "Cancel install update failed", e);
-                    }
-                });
             }
         }
 
@@ -397,17 +534,9 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnAvailableCheckClickExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter as UpdateModel is UpdateModel updateItem)
+            if (args.Parameter as UpdateModel is UpdateModel availableUpdate)
             {
-                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                {
-                    if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                    {
-                        availableUpdateItem.IsSelected = !availableUpdateItem.IsSelected;
-                        break;
-                    }
-                }
-
+                availableUpdate.IsSelected = !availableUpdate.IsSelected;
                 IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
                 IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
                 IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
@@ -419,36 +548,21 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnAvailableHideExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is UpdateModel updateItem)
+            if (args.Parameter is UpdateModel availableUpdate)
             {
-                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                {
-                    if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                    {
-                        availableUpdateItem.IsSelected = false;
-                        break;
-                    }
-                }
+                availableUpdate.IsSelected = false;
 
                 bool hideResult = await Task.Run(() =>
                 {
                     bool result = false;
 
                     // 隐藏更新（只有 Power Users 管理组的管理员和成员才能设置此属性的值）
-                    if (RuntimeHelper.IsElevated && !updateItem.IsUpdating)
+                    if (RuntimeHelper.IsElevated && !availableUpdate.IsUpdating)
                     {
                         try
                         {
-                            foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                            {
-                                if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    availableUpdateItem.UpdateInformation.IsHidden = true;
-                                    availableUpdateItem.UpdateInformation.Update.IsHidden = true;
-                                    break;
-                                }
-                            }
-
+                            availableUpdate.UpdateInformation.IsHidden = true;
+                            availableUpdate.UpdateInformation.Update.IsHidden = true;
                             result = true;
                         }
                         catch (Exception e)
@@ -465,17 +579,9 @@ namespace PowerTools.Views.Pages
                 {
                     try
                     {
-                        for (int index = 0; index < AvailableUpdateCollection.Count; index++)
-                        {
-                            if (AvailableUpdateCollection[index].UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                            {
-                                AvailableUpdateCollection[index].UpdateProgress = string.Empty;
-                                AvailableUpdateCollection.RemoveAt(index);
-                                break;
-                            }
-                        }
-
-                        HiddenUpdateCollection.Add(updateItem);
+                        availableUpdate.UpdateProgress = string.Empty;
+                        AvailableUpdateCollection.Remove(availableUpdate);
+                        HiddenUpdateCollection.Add(availableUpdate);
                     }
                     catch (Exception e)
                     {
@@ -495,22 +601,18 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnAvailableInstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is UpdateModel updateItem)
+            if (args.Parameter is UpdateModel availableUpdate)
             {
                 bool isUpdating = false;
 
-                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                if (!availableUpdate.IsUpdating)
                 {
-                    if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase) && !availableUpdateItem.IsUpdating)
-                    {
-                        isUpdating = true;
-                        availableUpdateItem.IsUpdating = true;
-                        availableUpdateItem.IsUpdateCanceled = false;
-                        availableUpdateItem.UpdatePercentage = 0;
-                        availableUpdateItem.IsUpdatePreparing = true;
-                        availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdatePrepareInstalling");
-                        break;
-                    }
+                    isUpdating = true;
+                    availableUpdate.IsUpdating = true;
+                    availableUpdate.IsUpdateCanceled = false;
+                    availableUpdate.UpdatePercentage = 0;
+                    availableUpdate.IsUpdatePreparing = true;
+                    availableUpdate.UpdateProgress = UpdatePrepareInstallingString;
                 }
 
                 if (isUpdating)
@@ -519,7 +621,7 @@ namespace PowerTools.Views.Pages
                     {
                         IsCheckUpdateEnabled = false;
                         bool updateResult = false;
-                        UpdateCollection updateCollection = new() { updateItem.UpdateInformation.Update };
+                        UpdateCollection updateCollection = new() { availableUpdate.UpdateInformation.Update };
 
                         // 先下载更新
                         IDownloadResult downloadResult = await Task.Run(() =>
@@ -534,13 +636,13 @@ namespace PowerTools.Views.Pages
 
                                 DownloadProgressChangedCallback downloadProgressChangedCallback = new();
                                 DownloadCompletedCallback downloadCompletedCallback = new();
-                                downloadProgressChangedCallback.DownloadProgressChanged += (sender, args) => OnDownloadProgressChanged(sender, args, updateItem);
+                                downloadProgressChangedCallback.DownloadProgressChanged += (sender, args) => OnDownloadProgressChanged(sender, args, availableUpdate);
                                 downloadCompletedCallback.DownloadCompleted += (sender, args) => downloadEvent.Set();
                                 downloadJob = updateDownloader.BeginDownload(downloadProgressChangedCallback, downloadCompletedCallback, null);
 
-                                if (!downloadJobDict.ContainsKey(updateItem.UpdateID))
+                                if (!downloadJobDict.ContainsKey(availableUpdate.UpdateID))
                                 {
-                                    downloadJobDict.Add(updateItem.UpdateID, downloadJob);
+                                    downloadJobDict.Add(availableUpdate.UpdateID, downloadJob);
                                 }
 
                                 downloadEvent.WaitOne();
@@ -559,70 +661,37 @@ namespace PowerTools.Views.Pages
                             // 更新下载成功
                             if (downloadResult.ResultCode is OperationResultCode.orcSucceeded)
                             {
-                                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                                {
-                                    if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        availableUpdateItem.UpdatePercentage = 50;
-                                        availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadUpdateCompleted");
-                                        break;
-                                    }
-                                }
+                                availableUpdate.UpdatePercentage = 50;
+                                availableUpdate.UpdateProgress = DownloadUpdateCompletedString;
                                 updateResult = true;
                             }
                             // 更新下载已取消
                             else if (downloadResult.ResultCode is OperationResultCode.orcAborted)
                             {
-                                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                                {
-                                    if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        availableUpdateItem.IsUpdateCanceled = false;
-                                        availableUpdateItem.IsUpdating = false;
-                                        availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadUpdateCanceled");
-                                    }
-                                }
+                                availableUpdate.IsUpdateCanceled = false;
+                                availableUpdate.IsUpdating = false;
+                                availableUpdate.UpdateProgress = DownloadUpdateCanceledString;
                             }
                             // 更新下载失败
                             else
                             {
-                                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                                {
-                                    if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        availableUpdateItem.IsUpdateCanceled = false;
-                                        availableUpdateItem.IsUpdating = false;
-                                        Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
-
-                                        availableUpdateItem.UpdateProgress = exception is not null
-                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithInformation"), exception.Message)
-                                            : string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithCode"), downloadResult.HResult);
-                                        break;
-                                    }
-                                }
+                                availableUpdate.IsUpdateCanceled = false;
+                                availableUpdate.IsUpdating = false;
+                                Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
+                                availableUpdate.UpdateProgress = exception is not null ? string.Format(DownloadUpdateFailedWithInformationString, exception.Message) : string.Format(DownloadUpdateFailedWithCodeString, downloadResult.HResult);
                             }
                         }
                         // 更新下载失败
                         else
                         {
-                            foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                            {
-                                if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    availableUpdateItem.IsUpdateCanceled = false;
-                                    availableUpdateItem.IsUpdating = false;
-                                    Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
-
-                                    availableUpdateItem.UpdateProgress = exception is not null
-                                        ? string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithInformation"), exception.Message)
-                                        : string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithCode"), downloadResult.HResult);
-                                    break;
-                                }
-                            }
+                            availableUpdate.IsUpdateCanceled = false;
+                            availableUpdate.IsUpdating = false;
+                            Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
+                            availableUpdate.UpdateProgress = exception is not null ? string.Format(DownloadUpdateFailedWithInformationString, exception.Message) : string.Format(DownloadUpdateFailedWithCodeString, downloadResult.HResult);
                         }
 
                         // 移除更新下载任务
-                        downloadJobDict.Remove(updateItem.UpdateID);
+                        downloadJobDict.Remove(availableUpdate.UpdateID);
 
                         // 保证更新下载成功后再进行安装更新
                         if (updateResult)
@@ -641,12 +710,12 @@ namespace PowerTools.Views.Pages
                                     InstallationCompletedCallback installationCompletedCallback = new();
                                     InstallationProgressChangedCallback installationProgressChangedCallback = new();
                                     installationCompletedCallback.InstallationCompleted += (sender, args) => installEvent.Set();
-                                    installationProgressChangedCallback.InstallationProgressChanged += (sender, args) => OnInstallationProgressChanged(sender, args, updateItem);
+                                    installationProgressChangedCallback.InstallationProgressChanged += (sender, args) => OnInstallationProgressChanged(sender, args, availableUpdate);
                                     installationJob = updateInstaller.BeginInstall(installationProgressChangedCallback, installationCompletedCallback, null);
 
-                                    if (!installationJobDict.ContainsKey(updateItem.UpdateID))
+                                    if (!installationJobDict.ContainsKey(availableUpdate.UpdateID))
                                     {
-                                        installationJobDict.Add(updateItem.UpdateID, installationJob);
+                                        installationJobDict.Add(availableUpdate.UpdateID, installationJob);
                                     }
 
                                     installEvent.WaitOne();
@@ -665,77 +734,42 @@ namespace PowerTools.Views.Pages
                                 // 更新安装成功
                                 if (installationResult.ResultCode is OperationResultCode.orcSucceeded)
                                 {
-                                    foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                                    {
-                                        if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                        {
-                                            availableUpdateItem.UpdatePercentage = 100;
-                                            availableUpdateItem.IsUpdateCanceled = true;
-                                            availableUpdateItem.UpdateProgress = installationResult.RebootRequired
-                                                ? ResourceService.UpdateManagerResource.GetString("InstallUpdateCompletedNeedReboot")
-                                                : ResourceService.UpdateManagerResource.GetString("InstallUpdateCompleted");
+                                    availableUpdate.UpdatePercentage = 0;
+                                    availableUpdate.IsUpdateCanceled = true;
+                                    availableUpdate.UpdateProgress = installationResult.RebootRequired ? InstallUpdateCompletedNeedRebootString : InstallUpdateCompletedString;
 
-                                            if (installationResult.RebootRequired && !IsUpdateCompletedNeedRebootPrompt)
-                                            {
-                                                IsUpdateCompletedNeedRebootPrompt = true;
-                                            }
-                                            break;
-                                        }
+                                    if (installationResult.RebootRequired && !IsUpdateCompletedNeedRebootPrompt)
+                                    {
+                                        IsUpdateCompletedNeedRebootPrompt = true;
                                     }
                                 }
                                 // 更新安装已取消
                                 else if (installationResult.ResultCode is OperationResultCode.orcAborted)
                                 {
-                                    foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                                    {
-                                        if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                        {
-                                            availableUpdateItem.IsUpdateCanceled = false;
-                                            availableUpdateItem.IsUpdating = false;
-                                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallUpdateCanceled");
-                                        }
-                                    }
+                                    availableUpdate.IsUpdateCanceled = false;
+                                    availableUpdate.IsUpdating = false;
+                                    availableUpdate.UpdateProgress = InstallUpdateCanceledString;
                                 }
                                 // 更新安装失败
                                 else
                                 {
-                                    foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                                    {
-                                        if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                        {
-                                            availableUpdateItem.IsUpdateCanceled = false;
-                                            availableUpdateItem.IsUpdating = false;
-                                            Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
-
-                                            availableUpdateItem.UpdateProgress = exception is not null
-                                                ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithInformation"), exception.Message)
-                                                : string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithCode"), installationResult.HResult);
-                                            break;
-                                        }
-                                    }
+                                    availableUpdate.IsUpdateCanceled = false;
+                                    availableUpdate.IsUpdating = false;
+                                    Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
+                                    availableUpdate.UpdateProgress = exception is not null ? string.Format(InstallUpdateFailedWithInformationString, exception.Message) : string.Format(InstallUpdateFailedWithCodeString, installationResult.HResult);
                                 }
                             }
                             // 更新安装失败
                             else
                             {
-                                foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                                {
-                                    if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        availableUpdateItem.IsUpdateCanceled = false;
-                                        availableUpdateItem.IsUpdating = false;
-                                        Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
-
-                                        availableUpdateItem.UpdateProgress = exception is not null
-                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithInformation"), exception.Message)
-                                            : string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithCode"), installationResult.HResult);
-                                        break;
-                                    }
-                                }
+                                availableUpdate.IsUpdateCanceled = false;
+                                availableUpdate.IsUpdating = false;
+                                Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
+                                availableUpdate.UpdateProgress = exception is not null ? string.Format(InstallUpdateFailedWithInformationString, exception.Message) : string.Format(InstallUpdateFailedWithCodeString, installationResult.HResult);
                             }
 
                             // 移除更新安装任务
-                            installationJobDict.Remove(updateItem.UpdateID);
+                            installationJobDict.Remove(availableUpdate.UpdateID);
                         }
 
                         // 当前更新的下载和安装所有步骤都已完成
@@ -767,46 +801,46 @@ namespace PowerTools.Views.Pages
                 string copyString = await Task.Run(() =>
                 {
                     StringBuilder copyInformationBuilder = new();
-                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("UpdateName"));
-                    copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.Title) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.UpdateInformation.Title);
-                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("Description"));
-                    copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.Description) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.UpdateInformation.Description);
-                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("IsBeta"));
-                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.IsBeta ? ResourceService.UpdateManagerResource.GetString("Yes") : ResourceService.UpdateManagerResource.GetString("No"));
-                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("IsMandatory"));
-                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.IsMandatory ? ResourceService.UpdateManagerResource.GetString("Yes") : ResourceService.UpdateManagerResource.GetString("No"));
-                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("MaxDownloadSize"));
+                    copyInformationBuilder.Append(UpdateNameString);
+                    copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.Title) ? UnknownString : updateItem.UpdateInformation.Title);
+                    copyInformationBuilder.Append(DescriptionString);
+                    copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.Description) ? UnknownString : updateItem.UpdateInformation.Description);
+                    copyInformationBuilder.Append(IsBetaString);
+                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.IsBeta ? YesString : NoString);
+                    copyInformationBuilder.Append(IsMandatoryString);
+                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.IsMandatory ? YesString : NoString);
+                    copyInformationBuilder.Append(MaxDownloadSizeString);
                     copyInformationBuilder.AppendLine(FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(updateItem.UpdateInformation.Update.MaxDownloadSize)));
-                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("MinDownloadSize"));
+                    copyInformationBuilder.Append(MinDownloadSizeString);
                     copyInformationBuilder.AppendLine(FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(updateItem.UpdateInformation.Update.MinDownloadSize)));
-                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("MsrcSeverity"));
-                    copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.MsrcSeverity) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.UpdateInformation.MsrcSeverity);
-                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("RecommendedCpuSpeed"));
-                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedCpuSpeed.Equals(0) ? ResourceService.UpdateManagerResource.GetString("Unknown") : string.Format("{0} MHz", updateItem.UpdateInformation.RecommendedCpuSpeed));
-                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("RecommendedHardDiskSpace"));
-                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedHardDiskSpace.Equals(0) ? ResourceService.UpdateManagerResource.GetString("Unknown") : string.Format("{0} MB", updateItem.UpdateInformation.RecommendedHardDiskSpace));
-                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("RecommendedMemory"));
-                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedMemory.Equals(0) ? ResourceService.UpdateManagerResource.GetString("Unknown") : string.Format("{0} MB", updateItem.UpdateInformation.RecommendedMemory));
-                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("ReleaseNotes"));
-                    copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.ReleaseNotes) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.UpdateInformation.ReleaseNotes);
-                    copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("SupportedUrl"));
+                    copyInformationBuilder.Append(MsrcSeverityString);
+                    copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.MsrcSeverity) ? UnknownString : updateItem.UpdateInformation.MsrcSeverity);
+                    copyInformationBuilder.Append(RecommendedCpuSpeedString);
+                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedCpuSpeed.Equals(0) ? UnknownString : string.Format("{0} MHz", updateItem.UpdateInformation.RecommendedCpuSpeed));
+                    copyInformationBuilder.Append(RecommendedHardDiskSpaceString);
+                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedHardDiskSpace.Equals(0) ? UnknownString : string.Format("{0} MB", updateItem.UpdateInformation.RecommendedHardDiskSpace));
+                    copyInformationBuilder.Append(RecommendedMemoryString);
+                    copyInformationBuilder.AppendLine(updateItem.UpdateInformation.RecommendedMemory.Equals(0) ? UnknownString : string.Format("{0} MB", updateItem.UpdateInformation.RecommendedMemory));
+                    copyInformationBuilder.Append(ReleaseNotesString);
+                    copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.ReleaseNotes) ? UnknownString : updateItem.UpdateInformation.ReleaseNotes);
+                    copyInformationBuilder.Append(SupportedUrlString);
                     copyInformationBuilder.AppendLine(updateItem.UpdateInformation.SupportURL);
 
                     if (updateItem.UpdateInformation.UpdateType is UpdateType.utDriver)
                     {
-                        copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DeviceProblemNumber"));
+                        copyInformationBuilder.Append(DeviceProblemNumberString);
                         copyInformationBuilder.AppendLine(Convert.ToString(updateItem.WindowsDriverInformation.DeviceProblemNumber));
-                        copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverClass"));
-                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverClass) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.WindowsDriverInformation.DriverClass);
-                        copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverHardwareID"));
-                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverHardwareID) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.WindowsDriverInformation.DriverHardwareID);
-                        copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverManufacturer"));
-                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverManufacturer) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.WindowsDriverInformation.DriverManufacturer);
-                        copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverModel"));
-                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverModel) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.WindowsDriverInformation.DriverModel);
-                        copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverProvider"));
-                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverProvider) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateItem.WindowsDriverInformation.DriverProvider);
-                        copyInformationBuilder.Append(ResourceService.UpdateManagerResource.GetString("DriverVerDate"));
+                        copyInformationBuilder.Append(DriverClassString);
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverClass) ? UnknownString : updateItem.WindowsDriverInformation.DriverClass);
+                        copyInformationBuilder.Append(DriverHardwareIDString);
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverHardwareID) ? UnknownString : updateItem.WindowsDriverInformation.DriverHardwareID);
+                        copyInformationBuilder.Append(DriverManufacturerString);
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverManufacturer) ? UnknownString : updateItem.WindowsDriverInformation.DriverManufacturer);
+                        copyInformationBuilder.Append(DriverModelString);
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverModel) ? UnknownString : updateItem.WindowsDriverInformation.DriverModel);
+                        copyInformationBuilder.Append(DriverProviderString);
+                        copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.WindowsDriverInformation.DriverProvider) ? UnknownString : updateItem.WindowsDriverInformation.DriverProvider);
+                        copyInformationBuilder.Append(DriverVerDateString);
                         copyInformationBuilder.AppendLine(updateItem.WindowsDriverInformation.DriverVerDate.ToString("yyyy/MM/dd"));
                     }
 
@@ -823,17 +857,9 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnHiddenCheckBoxClickExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter as UpdateModel is UpdateModel updateItem)
+            if (args.Parameter as UpdateModel is UpdateModel hiddenUpdate)
             {
-                foreach (UpdateModel hiddenUpdateItem in HiddenUpdateCollection)
-                {
-                    if (hiddenUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                    {
-                        hiddenUpdateItem.IsSelected = !hiddenUpdateItem.IsSelected;
-                        break;
-                    }
-                }
-
+                hiddenUpdate.IsSelected = !hiddenUpdate.IsSelected;
                 IsHiddenShowEnabled = HiddenUpdateCollection.Any(item => item.IsSelected && item.UpdateInformation.IsHidden);
             }
         }
@@ -843,36 +869,21 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnHiddenShowExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is UpdateModel updateItem)
+            if (args.Parameter is UpdateModel hiddenUpdate)
             {
-                foreach (UpdateModel hiddenUpdateItem in HiddenUpdateCollection)
-                {
-                    if (hiddenUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                    {
-                        hiddenUpdateItem.IsSelected = false;
-                        break;
-                    }
-                }
+                hiddenUpdate.IsSelected = false;
 
                 bool showResult = await Task.Run(() =>
                 {
                     bool result = false;
 
                     // 显示更新（只有 Power Users 管理组的管理员和成员才能设置此属性的值）
-                    if (RuntimeHelper.IsElevated && !updateItem.IsUpdating)
+                    if (RuntimeHelper.IsElevated && !hiddenUpdate.IsUpdating)
                     {
                         try
                         {
-                            foreach (UpdateModel hiddenUpdateItem in HiddenUpdateCollection)
-                            {
-                                if (hiddenUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    hiddenUpdateItem.UpdateInformation.IsHidden = false;
-                                    hiddenUpdateItem.UpdateInformation.Update.IsHidden = false;
-                                    break;
-                                }
-                            }
-
+                            hiddenUpdate.UpdateInformation.IsHidden = false;
+                            hiddenUpdate.UpdateInformation.Update.IsHidden = false;
                             result = true;
                         }
                         catch (Exception e)
@@ -889,17 +900,9 @@ namespace PowerTools.Views.Pages
                 {
                     try
                     {
-                        for (int index = 0; index < HiddenUpdateCollection.Count; index++)
-                        {
-                            if (HiddenUpdateCollection[index].UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                            {
-                                HiddenUpdateCollection[index].UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdateNotInstalled");
-                                HiddenUpdateCollection.RemoveAt(index);
-                                break;
-                            }
-                        }
-
-                        AvailableUpdateCollection.Add(updateItem);
+                        hiddenUpdate.UpdateProgress = UpdateNotInstalledString;
+                        HiddenUpdateCollection.Remove(hiddenUpdate);
+                        AvailableUpdateCollection.Add(hiddenUpdate);
                     }
                     catch (Exception e)
                     {
@@ -919,18 +922,10 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnInstalledCancelUninstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is string updateID && !string.IsNullOrEmpty(updateID))
+            if (args.Parameter is UpdateModel installedUpdate)
             {
-                foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
-                {
-                    if (installedUpdateItem.UpdateID.Equals(updateID, StringComparison.OrdinalIgnoreCase) && installedUpdateItem.IsUpdating)
-                    {
-                        installedUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdateCanceling");
-                        installedUpdateItem.IsUpdateCanceled = true;
-                        break;
-                    }
-                }
-
+                installedUpdate.UpdateProgress = UpdateCancelingString;
+                installedUpdate.IsUpdateCanceled = true;
                 IsInstalledUninstallEnabled = InstalledUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && item.UpdateInformation.IsUninstallable);
                 IsInstalledCancelInstallEnabled = InstalledUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled && item.UpdateInformation.IsUninstallable);
 
@@ -938,10 +933,10 @@ namespace PowerTools.Views.Pages
                 {
                     try
                     {
-                        if (uninstallationJobDict.TryGetValue(updateID, out IInstallationJob installationJob))
+                        if (uninstallationJobDict.TryGetValue(installedUpdate.UpdateID, out IInstallationJob installationJob))
                         {
                             installationJob.RequestAbort();
-                            uninstallationJobDict.Remove(updateID);
+                            uninstallationJobDict.Remove(installedUpdate.UpdateID);
                         }
                     }
                     catch (Exception e)
@@ -957,17 +952,9 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnInstalledCheckBoxClickExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter as UpdateModel is UpdateModel updateItem)
+            if (args.Parameter as UpdateModel is UpdateModel installedUpdate)
             {
-                foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
-                {
-                    if (installedUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                    {
-                        installedUpdateItem.IsSelected = !installedUpdateItem.IsSelected;
-                        break;
-                    }
-                }
-
+                installedUpdate.IsSelected = !installedUpdate.IsSelected;
                 IsInstalledUninstallEnabled = InstalledUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && item.UpdateInformation.IsUninstallable);
                 IsInstalledCancelInstallEnabled = InstalledUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled && item.UpdateInformation.IsUninstallable);
             }
@@ -978,21 +965,18 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnInstalledUninstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            if (args.Parameter is UpdateModel updateItem)
+            if (args.Parameter is UpdateModel installedUpdate)
             {
                 bool isUpdating = false;
 
-                foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
+                if (!installedUpdate.IsUpdating)
                 {
-                    if (installedUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                    {
-                        isUpdating = true;
-                        installedUpdateItem.IsUpdating = true;
-                        installedUpdateItem.IsUpdateCanceled = false;
-                        installedUpdateItem.UpdatePercentage = 0;
-                        installedUpdateItem.IsUpdatePreparing = true;
-                        installedUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdatePrepareUninstalling");
-                    }
+                    isUpdating = true;
+                    installedUpdate.IsUpdating = true;
+                    installedUpdate.IsUpdateCanceled = false;
+                    installedUpdate.UpdatePercentage = 0;
+                    installedUpdate.IsUpdatePreparing = true;
+                    installedUpdate.UpdateProgress = UpdatePrepareUninstallingString;
                 }
 
                 if (isUpdating)
@@ -1000,7 +984,7 @@ namespace PowerTools.Views.Pages
                     try
                     {
                         IsCheckUpdateEnabled = false;
-                        UpdateCollection updateCollection = new() { updateItem.UpdateInformation.Update };
+                        UpdateCollection updateCollection = new() { installedUpdate.UpdateInformation.Update };
 
                         // 卸载更新
                         IInstallationResult installationResult = await Task.Run(() =>
@@ -1016,12 +1000,12 @@ namespace PowerTools.Views.Pages
                                 InstallationCompletedCallback installationCompletedCallback = new();
                                 InstallationProgressChangedCallback installationProgressChangedCallback = new();
                                 installationCompletedCallback.InstallationCompleted += (sender, args) => uninstallEvent.Set();
-                                installationProgressChangedCallback.InstallationProgressChanged += (sender, args) => OnUninstallationProgressChanged(sender, args, updateItem);
+                                installationProgressChangedCallback.InstallationProgressChanged += (sender, args) => OnUninstallationProgressChanged(sender, args, installedUpdate);
                                 installationJob = updateInstaller.BeginUninstall(installationProgressChangedCallback, installationCompletedCallback, null);
 
-                                if (!uninstallationJobDict.ContainsKey(updateItem.UpdateID))
+                                if (!uninstallationJobDict.ContainsKey(installedUpdate.UpdateID))
                                 {
-                                    uninstallationJobDict.Add(updateItem.UpdateID, installationJob);
+                                    uninstallationJobDict.Add(installedUpdate.UpdateID, installationJob);
                                 }
 
                                 uninstallEvent.WaitOne();
@@ -1040,78 +1024,42 @@ namespace PowerTools.Views.Pages
                             // 更新卸载成功
                             if (installationResult.ResultCode is OperationResultCode.orcSucceeded)
                             {
-                                foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
-                                {
-                                    if (installedUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        installedUpdateItem.UpdatePercentage = 100;
-                                        installedUpdateItem.IsUpdateCanceled = true;
-                                        installedUpdateItem.UpdateProgress = installationResult.RebootRequired
-                                                   ? ResourceService.UpdateManagerResource.GetString("UninstallUpdateCompletedNeedReboot")
-                                                   : ResourceService.UpdateManagerResource.GetString("UninstallUpdateCompleted");
+                                installedUpdate.UpdatePercentage = 0;
+                                installedUpdate.IsUpdateCanceled = true;
+                                installedUpdate.UpdateProgress = installationResult.RebootRequired ? UninstallUpdateCompletedNeedRebootString : UninstallUpdateCompletedString;
 
-                                        if (installationResult.RebootRequired && !IsUpdateCompletedNeedRebootPrompt)
-                                        {
-                                            IsUpdateCompletedNeedRebootPrompt = true;
-                                        }
-                                        break;
-                                    }
+                                if (installationResult.RebootRequired && !IsUpdateCompletedNeedRebootPrompt)
+                                {
+                                    IsUpdateCompletedNeedRebootPrompt = true;
                                 }
                             }
                             // 更新卸载已取消
                             else if (installationResult.ResultCode is OperationResultCode.orcAborted)
                             {
-                                foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
-                                {
-                                    if (installedUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        installedUpdateItem.IsUpdateCanceled = false;
-                                        installedUpdateItem.IsUpdating = false;
-                                        installedUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UninstallUpdateCanceled");
-                                    }
-                                }
+                                installedUpdate.IsUpdateCanceled = false;
+                                installedUpdate.IsUpdating = false;
+                                installedUpdate.UpdateProgress = UninstallUpdateCanceledString;
                             }
                             // 更新卸载失败
                             else
                             {
-                                foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
-                                {
-                                    if (installedUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        installedUpdateItem.IsUpdateCanceled = false;
-                                        installedUpdateItem.IsUpdating = false;
-                                        Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
-
-                                        installedUpdateItem.UpdateProgress = exception is not null
-                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithInformation"), exception.Message)
-                                            : string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithCode"), installationResult.HResult);
-                                        break;
-                                    }
-                                }
+                                installedUpdate.IsUpdateCanceled = false;
+                                installedUpdate.IsUpdating = false;
+                                Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
+                                installedUpdate.UpdateProgress = exception is not null ? string.Format(UninstallUpdateFailedWithInformationString, exception.Message) : string.Format(UninstallUpdateFailedWithCodeString, installationResult.HResult);
                             }
                         }
                         // 更新卸载失败
                         else
                         {
-                            foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
-                            {
-                                if (installedUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    installedUpdateItem.IsUpdateCanceled = false;
-                                    installedUpdateItem.IsUpdating = false;
-                                    Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
-
-                                    installedUpdateItem.UpdateProgress = exception is not null
-                                        ? string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithInformation"), exception.Message)
-                                        : string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithCode"), installationResult.HResult);
-                                    break;
-                                }
-                            }
+                            installedUpdate.IsUpdateCanceled = false;
+                            installedUpdate.IsUpdating = false;
+                            Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
+                            installedUpdate.UpdateProgress = exception is not null ? string.Format(UninstallUpdateFailedWithInformationString, exception.Message) : string.Format(UninstallUpdateFailedWithCodeString, installationResult.HResult);
                         }
 
                         // 移除更新卸载任务
-                        uninstallationJobDict.Remove(updateItem.UpdateID);
-
+                        uninstallationJobDict.Remove(installedUpdate.UpdateID);
                         IsInstalledUninstallEnabled = InstalledUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && item.UpdateInformation.IsUninstallable);
                         IsInstalledCancelInstallEnabled = InstalledUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled && item.UpdateInformation.IsUninstallable);
 
@@ -1206,78 +1154,9 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        #endregion 第一部分：XamlUICommand 命令调用时挂载的事件
+        #endregion 第二部分：XamlUICommand 命令调用时挂载的事件
 
-        #region 第二部分：Windows 更新管理页面——挂载的事件
-
-        /// <summary>
-        /// 更新页面初始化触发的事件
-        /// </summary>
-        private async void OnLoaded(object sender, RoutedEventArgs args)
-        {
-            if (!isLoaded)
-            {
-                isLoaded = true;
-
-                if (RuntimeHelper.IsElevated)
-                {
-                    IsExcludeDrivers = await Task.Run(() =>
-                    {
-                        try
-                        {
-                            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate", true);
-                            int returnValue = Convert.ToInt32(registryKey.GetValue("ExcludeWUDriversInQualityUpdate"));
-                            return Convert.ToBoolean(returnValue);
-                        }
-                        catch (Exception e)
-                        {
-                            LogService.WriteLog(EventLevel.Warning, "Get exclude driver options failed", e);
-                            return false;
-                        }
-                    });
-                }
-                else
-                {
-                    return;
-                }
-
-                // 获取更新版本信息
-                string windowsUpdateVersion = string.Empty;
-                string wuapiDllVersion = string.Empty;
-
-                await Task.Run(() =>
-                {
-                    try
-                    {
-                        updateSession.ClientApplicationID = "PowerTools:" + Guid.NewGuid().ToString();
-                        updateSearcher = updateSession.CreateUpdateSearcher() as UpdateSearcher;
-                        updateSearcher.IgnoreDownloadPriority = true;
-                        WindowsUpdateAgentInfo windowsUpdateAgentInfo = new();
-                        object apiMajorVersion = windowsUpdateAgentInfo.GetInfo("ApiMajorVersion");
-                        object apiMinorVersion = windowsUpdateAgentInfo.GetInfo("ApiMinorVersion");
-                        object productVersionString = windowsUpdateAgentInfo.GetInfo("ProductVersionString");
-                        windowsUpdateVersion = string.Format("{0}.{1}", apiMajorVersion, apiMinorVersion);
-                        wuapiDllVersion = productVersionString.ToString();
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLevel.Error, "Get windows update information failed", e);
-                    }
-                });
-
-                WindowsUpdateVersion = windowsUpdateVersion;
-                WuapiDllVersion = wuapiDllVersion;
-
-                // 获取历史更新记录
-                List<UpdateModel> updateHistoryList = await Task.Run(GetUpdateHistoryList);
-
-                UpdateHistoryCollection.Clear();
-                foreach (UpdateModel updateHistoryItem in updateHistoryList)
-                {
-                    UpdateHistoryCollection.Add(updateHistoryItem);
-                }
-            }
-        }
+        #region 第三部分：Windows 更新管理页面——挂载的事件
 
         /// <summary>
         /// 检查更新
@@ -1356,7 +1235,7 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            if (args.InvokedItemContainer is Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem && !navigationViewItem.Equals(SelectedItem))
+            if (args.InvokedItemContainer is Microsoft.UI.Xaml.Controls.NavigationViewItem navigationViewItem && !Equals(navigationViewItem, SelectedItem))
             {
                 SelectedItem = navigationViewItem;
             }
@@ -1393,88 +1272,6 @@ namespace PowerTools.Views.Pages
         }
 
         /// <summary>
-        /// 可用更新：隐藏
-        /// </summary>
-        private async void OnAvailableHideClicked(object sender, RoutedEventArgs args)
-        {
-            List<UpdateModel> hideList = [.. AvailableUpdateCollection.Where(item => item.IsSelected)];
-
-            foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-            {
-                availableUpdateItem.IsSelected = false;
-            }
-
-            bool hideResult = await Task.Run(() =>
-            {
-                bool result = false;
-                if (RuntimeHelper.IsElevated)
-                {
-                    foreach (UpdateModel hideItem in hideList)
-                    {
-                        foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
-                        {
-                            if (availableUpdateItem.UpdateID.Equals(hideItem.UpdateID, StringComparison.OrdinalIgnoreCase))
-                            {
-                                if (!availableUpdateItem.IsUpdating)
-                                {
-                                    try
-                                    {
-                                        availableUpdateItem.UpdateInformation.IsHidden = true;
-                                        availableUpdateItem.UpdateInformation.Update.IsHidden = true;
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        LogService.WriteLog(EventLevel.Error, "Hide updates modify hidden property failed", e);
-                                        continue;
-                                    }
-                                }
-
-                                break;
-                            }
-                        }
-                    }
-
-                    result = true;
-                }
-
-                return result;
-            });
-
-            if (hideResult)
-            {
-                foreach (UpdateModel hideItem in hideList)
-                {
-                    try
-                    {
-                        if (hideItem.UpdateInformation.Update.IsHidden)
-                        {
-                            for (int index = 0; index < AvailableUpdateCollection.Count; index++)
-                            {
-                                if (AvailableUpdateCollection[index].UpdateID.Equals(hideItem.UpdateID))
-                                {
-                                    AvailableUpdateCollection[index].UpdateProgress = string.Empty;
-                                    AvailableUpdateCollection.RemoveAt(index);
-                                    break;
-                                }
-                            }
-
-                            HiddenUpdateCollection.Add(hideItem);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        LogService.WriteLog(EventLevel.Error, "Hide updates update UI failed", e);
-                    }
-                }
-
-                IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
-                IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
-                IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
-                IsHiddenShowEnabled = HiddenUpdateCollection.Any(item => item.IsSelected && item.UpdateInformation.IsHidden);
-            }
-        }
-
-        /// <summary>
         /// 可用更新：安装选定的更新
         /// </summary>
         private void OnAvailableInstallClicked(object sender, RoutedEventArgs args)
@@ -1494,13 +1291,13 @@ namespace PowerTools.Views.Pages
                     // 更新更新项的状态
                     foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                     {
-                        if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase) && !availableUpdateItem.IsUpdating)
+                        if (string.Equals(availableUpdateItem.UpdateID, installItem.UpdateID, StringComparison.OrdinalIgnoreCase) && !availableUpdateItem.IsUpdating)
                         {
                             availableUpdateItem.IsUpdating = true;
                             availableUpdateItem.IsUpdateCanceled = false;
                             availableUpdateItem.UpdatePercentage = 0;
                             availableUpdateItem.IsUpdatePreparing = true;
-                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdatePrepareInstalling");
+                            availableUpdateItem.UpdateProgress = UpdatePrepareInstallingString;
                             break;
                         }
                     }
@@ -1517,11 +1314,9 @@ namespace PowerTools.Views.Pages
                         try
                         {
                             AutoResetEvent downloadEvent = new(false);
-
                             IDownloadJob downloadJob = null;
                             UpdateDownloader updateDownloader = updateSession.CreateUpdateDownloader();
                             updateDownloader.Updates = updateCollection;
-
                             DownloadProgressChangedCallback downloadProgressChangedCallback = new();
                             DownloadCompletedCallback downloadCompletedCallback = new();
                             downloadProgressChangedCallback.DownloadProgressChanged += (sender, args) => OnDownloadProgressChanged(sender, args, installItem);
@@ -1551,10 +1346,10 @@ namespace PowerTools.Views.Pages
                                 {
                                     foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                                     {
-                                        if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                        if (string.Equals(availableUpdateItem.UpdateID, installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                         {
                                             availableUpdateItem.UpdatePercentage = 50;
-                                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadUpdateCompleted");
+                                            availableUpdateItem.UpdateProgress = DownloadUpdateCompletedString;
                                             break;
                                         }
                                     }
@@ -1565,11 +1360,11 @@ namespace PowerTools.Views.Pages
                                 {
                                     foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                                     {
-                                        if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                        if (string.Equals(availableUpdateItem.UpdateID, installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                         {
                                             availableUpdateItem.IsUpdateCanceled = false;
                                             availableUpdateItem.IsUpdating = false;
-                                            availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("DownloadUpdateCanceled");
+                                            availableUpdateItem.UpdateProgress = DownloadUpdateCanceledString;
                                         }
                                     }
                                 }
@@ -1578,15 +1373,12 @@ namespace PowerTools.Views.Pages
                                 {
                                     foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                                     {
-                                        if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                        if (string.Equals(availableUpdateItem.UpdateID, installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                         {
                                             availableUpdateItem.IsUpdateCanceled = false;
                                             availableUpdateItem.IsUpdating = false;
                                             Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
-
-                                            availableUpdateItem.UpdateProgress = exception is not null
-                                                ? string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithInformation"), exception.Message)
-                                                : string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithCode"), downloadResult.HResult);
+                                            availableUpdateItem.UpdateProgress = exception is not null ? string.Format(DownloadUpdateFailedWithInformationString, exception.Message) : string.Format(DownloadUpdateFailedWithCodeString, downloadResult.HResult);
                                             break;
                                         }
                                     }
@@ -1597,15 +1389,12 @@ namespace PowerTools.Views.Pages
                             {
                                 foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                                 {
-                                    if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                    if (string.Equals(availableUpdateItem.UpdateID, installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                     {
                                         availableUpdateItem.IsUpdateCanceled = false;
                                         availableUpdateItem.IsUpdating = false;
                                         Exception exception = Marshal.GetExceptionForHR(downloadResult.HResult);
-
-                                        availableUpdateItem.UpdateProgress = exception is not null
-                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithInformation"), exception.Message)
-                                            : string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateFailedWithCode"), downloadResult.HResult);
+                                        availableUpdateItem.UpdateProgress = exception is not null ? string.Format(DownloadUpdateFailedWithInformationString, exception.Message) : string.Format(DownloadUpdateFailedWithCodeString, downloadResult.HResult);
                                         break;
                                     }
                                 }
@@ -1627,7 +1416,6 @@ namespace PowerTools.Views.Pages
                             try
                             {
                                 AutoResetEvent installEvent = new(false);
-
                                 IInstallationJob installationJob = null;
                                 UpdateInstaller updateInstaller = updateSession.CreateUpdateInstaller() as UpdateInstaller;
                                 updateInstaller.Updates = updateCollection;
@@ -1661,13 +1449,11 @@ namespace PowerTools.Views.Pages
                                     {
                                         foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                                         {
-                                            if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                            if (string.Equals(availableUpdateItem.UpdateID, installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                             {
-                                                availableUpdateItem.UpdatePercentage = 100;
+                                                availableUpdateItem.UpdatePercentage = 0;
                                                 availableUpdateItem.IsUpdateCanceled = true;
-                                                availableUpdateItem.UpdateProgress = installationResult.RebootRequired
-                                                    ? ResourceService.UpdateManagerResource.GetString("InstallUpdateCompletedNeedReboot")
-                                                    : ResourceService.UpdateManagerResource.GetString("InstallUpdateCompleted");
+                                                availableUpdateItem.UpdateProgress = installationResult.RebootRequired ? InstallUpdateCompletedNeedRebootString : InstallUpdateCompletedString;
 
                                                 if (installationResult.RebootRequired && !IsUpdateCompletedNeedRebootPrompt)
                                                 {
@@ -1682,11 +1468,11 @@ namespace PowerTools.Views.Pages
                                     {
                                         foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                                         {
-                                            if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                            if (string.Equals(availableUpdateItem.UpdateID, installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                             {
                                                 availableUpdateItem.IsUpdateCanceled = false;
                                                 availableUpdateItem.IsUpdating = false;
-                                                availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("InstallUpdateCanceled");
+                                                availableUpdateItem.UpdateProgress = InstallUpdateCanceledString;
                                             }
                                         }
                                     }
@@ -1695,15 +1481,12 @@ namespace PowerTools.Views.Pages
                                     {
                                         foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                                         {
-                                            if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                            if (string.Equals(availableUpdateItem.UpdateID, installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                             {
                                                 availableUpdateItem.IsUpdateCanceled = false;
                                                 availableUpdateItem.IsUpdating = false;
                                                 Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
-
-                                                availableUpdateItem.UpdateProgress = exception is not null
-                                                    ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithInformation"), exception.Message)
-                                                    : string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithCode"), installationResult.HResult);
+                                                availableUpdateItem.UpdateProgress = exception is not null ? string.Format(InstallUpdateFailedWithInformationString, exception.Message) : string.Format(InstallUpdateFailedWithCodeString, installationResult.HResult);
                                                 break;
                                             }
                                         }
@@ -1714,15 +1497,12 @@ namespace PowerTools.Views.Pages
                                 {
                                     foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                                     {
-                                        if (availableUpdateItem.UpdateID.Equals(installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                        if (string.Equals(availableUpdateItem.UpdateID, installItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                         {
                                             availableUpdateItem.IsUpdateCanceled = false;
                                             availableUpdateItem.IsUpdating = false;
                                             Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
-
-                                            availableUpdateItem.UpdateProgress = exception is not null
-                                                ? string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithInformation"), exception.Message)
-                                                : string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateFailedWithCode"), installationResult.HResult);
+                                            availableUpdateItem.UpdateProgress = exception is not null ? string.Format(InstallUpdateFailedWithInformationString, exception.Message) : string.Format(InstallUpdateFailedWithCodeString, installationResult.HResult);
                                             break;
                                         }
                                     }
@@ -1761,6 +1541,88 @@ namespace PowerTools.Views.Pages
         }
 
         /// <summary>
+        /// 可用更新：隐藏
+        /// </summary>
+        private async void OnAvailableHideClicked(object sender, RoutedEventArgs args)
+        {
+            List<UpdateModel> hideList = [.. AvailableUpdateCollection.Where(item => item.IsSelected)];
+
+            foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+            {
+                availableUpdateItem.IsSelected = false;
+            }
+
+            bool hideResult = await Task.Run(() =>
+            {
+                bool result = false;
+                if (RuntimeHelper.IsElevated)
+                {
+                    foreach (UpdateModel hideItem in hideList)
+                    {
+                        foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
+                        {
+                            if (string.Equals(availableUpdateItem.UpdateID, hideItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                            {
+                                if (!availableUpdateItem.IsUpdating)
+                                {
+                                    try
+                                    {
+                                        availableUpdateItem.UpdateInformation.IsHidden = true;
+                                        availableUpdateItem.UpdateInformation.Update.IsHidden = true;
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        LogService.WriteLog(EventLevel.Error, "Hide updates modify hidden property failed", e);
+                                        continue;
+                                    }
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+                    result = true;
+                }
+
+                return result;
+            });
+
+            if (hideResult)
+            {
+                foreach (UpdateModel hideItem in hideList)
+                {
+                    try
+                    {
+                        if (hideItem.UpdateInformation.Update.IsHidden)
+                        {
+                            for (int index = 0; index < AvailableUpdateCollection.Count; index++)
+                            {
+                                if (string.Equals(AvailableUpdateCollection[index].UpdateID, hideItem.UpdateID))
+                                {
+                                    AvailableUpdateCollection[index].UpdateProgress = string.Empty;
+                                    AvailableUpdateCollection.RemoveAt(index);
+                                    break;
+                                }
+                            }
+
+                            HiddenUpdateCollection.Add(hideItem);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        LogService.WriteLog(EventLevel.Error, "Hide updates update UI failed", e);
+                    }
+                }
+
+                IsAvailableHideEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating && !item.UpdateInformation.IsHidden);
+                IsAvailableInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && !item.IsUpdating);
+                IsAvailableCancelInstallEnabled = AvailableUpdateCollection.Any(item => item.IsSelected && item.IsUpdating && !item.IsUpdateCanceled);
+                IsHiddenShowEnabled = HiddenUpdateCollection.Any(item => item.IsSelected && item.UpdateInformation.IsHidden);
+            }
+        }
+
+        /// <summary>
         /// 可用更新：取消安装选定的更新
         /// </summary>
         private void OnAvailableCancelInstallClicked(object sender, RoutedEventArgs args)
@@ -1776,9 +1638,9 @@ namespace PowerTools.Views.Pages
             {
                 foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                 {
-                    if (availableUpdateItem.UpdateID.Equals(cancelItem.UpdateID, StringComparison.OrdinalIgnoreCase) && availableUpdateItem.IsUpdating)
+                    if (string.Equals(availableUpdateItem.UpdateID, cancelItem.UpdateID, StringComparison.OrdinalIgnoreCase) && availableUpdateItem.IsUpdating)
                     {
-                        availableUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdateCanceling");
+                        availableUpdateItem.UpdateProgress = UpdateCancelingString;
                         availableUpdateItem.IsUpdateCanceled = true;
                         break;
                     }
@@ -1860,13 +1722,13 @@ namespace PowerTools.Views.Pages
                     // 更新卸载项的状态
                     foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
                     {
-                        if (installedUpdateItem.UpdateID.Equals(uninstallItem.UpdateID, StringComparison.OrdinalIgnoreCase) && !installedUpdateItem.IsUpdating)
+                        if (string.Equals(installedUpdateItem.UpdateID, uninstallItem.UpdateID, StringComparison.OrdinalIgnoreCase) && !installedUpdateItem.IsUpdating)
                         {
                             installedUpdateItem.IsUpdating = true;
                             installedUpdateItem.IsUpdateCanceled = false;
                             installedUpdateItem.UpdatePercentage = 0;
                             installedUpdateItem.IsUpdatePreparing = true;
-                            installedUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdatePrepareUninstalling");
+                            installedUpdateItem.UpdateProgress = UpdatePrepareUninstallingString;
                             break;
                         }
                     }
@@ -1916,13 +1778,11 @@ namespace PowerTools.Views.Pages
                                 {
                                     foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
                                     {
-                                        if (installedUpdateItem.UpdateID.Equals(uninstallItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                        if (string.Equals(installedUpdateItem.UpdateID, uninstallItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                         {
-                                            installedUpdateItem.UpdatePercentage = 100;
+                                            installedUpdateItem.UpdatePercentage = 0;
                                             installedUpdateItem.IsUpdateCanceled = true;
-                                            installedUpdateItem.UpdateProgress = installationResult.RebootRequired
-                                                  ? ResourceService.UpdateManagerResource.GetString("UninstallUpdateCompletedNeedReboot")
-                                                  : ResourceService.UpdateManagerResource.GetString("UninstallUpdateCompleted");
+                                            installedUpdateItem.UpdateProgress = installationResult.RebootRequired ? UninstallUpdateCompletedNeedRebootString : UninstallUpdateCompletedString;
 
                                             if (installationResult.RebootRequired && !IsUpdateCompletedNeedRebootPrompt)
                                             {
@@ -1937,11 +1797,11 @@ namespace PowerTools.Views.Pages
                                 {
                                     foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
                                     {
-                                        if (installedUpdateItem.UpdateID.Equals(uninstallItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                        if (string.Equals(installedUpdateItem.UpdateID, uninstallItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                         {
                                             installedUpdateItem.IsUpdateCanceled = false;
                                             installedUpdateItem.IsUpdating = false;
-                                            installedUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UninstallUpdateCanceled");
+                                            installedUpdateItem.UpdateProgress = UninstallUpdateCanceledString;
                                         }
                                     }
                                 }
@@ -1950,15 +1810,12 @@ namespace PowerTools.Views.Pages
                                 {
                                     foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
                                     {
-                                        if (installedUpdateItem.UpdateID.Equals(uninstallItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                        if (string.Equals(installedUpdateItem.UpdateID, uninstallItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                         {
                                             installedUpdateItem.IsUpdateCanceled = false;
                                             installedUpdateItem.IsUpdating = false;
                                             Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
-
-                                            installedUpdateItem.UpdateProgress = exception is not null
-                                                ? string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithInformation"), exception.Message)
-                                                : string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithCode"), installationResult.HResult);
+                                            installedUpdateItem.UpdateProgress = exception is not null ? string.Format(UninstallUpdateFailedWithInformationString, exception.Message) : string.Format(UninstallUpdateFailedWithCodeString, installationResult.HResult);
                                             break;
                                         }
                                     }
@@ -1969,15 +1826,12 @@ namespace PowerTools.Views.Pages
                             {
                                 foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
                                 {
-                                    if (installedUpdateItem.UpdateID.Equals(uninstallItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                                    if (string.Equals(installedUpdateItem.UpdateID, uninstallItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                                     {
                                         installedUpdateItem.IsUpdateCanceled = false;
                                         installedUpdateItem.IsUpdating = false;
                                         Exception exception = Marshal.GetExceptionForHR(installationResult.HResult);
-
-                                        installedUpdateItem.UpdateProgress = exception is not null
-                                            ? string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithInformation"), exception.Message)
-                                            : string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateFailedWithCode"), installationResult.HResult);
+                                        installedUpdateItem.UpdateProgress = exception is not null ? string.Format(UninstallUpdateFailedWithInformationString, exception.Message) : string.Format(UninstallUpdateFailedWithCodeString, installationResult.HResult);
                                         break;
                                     }
                                 }
@@ -2028,9 +1882,9 @@ namespace PowerTools.Views.Pages
             {
                 foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
                 {
-                    if (installedUpdateItem.UpdateID.Equals(cancelItem.UpdateID, StringComparison.OrdinalIgnoreCase) && installedUpdateItem.IsUpdating)
+                    if (string.Equals(installedUpdateItem.UpdateID, cancelItem.UpdateID, StringComparison.OrdinalIgnoreCase) && installedUpdateItem.IsUpdating)
                     {
-                        installedUpdateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdateCanceling");
+                        installedUpdateItem.UpdateProgress = UpdateCancelingString;
                         installedUpdateItem.IsUpdateCanceled = true;
                         break;
                     }
@@ -2104,7 +1958,7 @@ namespace PowerTools.Views.Pages
                     {
                         foreach (UpdateModel hiddenUpdateItem in HiddenUpdateCollection)
                         {
-                            if (hiddenUpdateItem.UpdateID.Equals(showItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                            if (string.Equals(hiddenUpdateItem.UpdateID, showItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                             {
                                 if (!showItem.IsUpdating)
                                 {
@@ -2141,9 +1995,9 @@ namespace PowerTools.Views.Pages
                         {
                             for (int index = 0; index < HiddenUpdateCollection.Count; index++)
                             {
-                                if (HiddenUpdateCollection[index].UpdateID.Equals(showItem.UpdateID))
+                                if (string.Equals(HiddenUpdateCollection[index].UpdateID, showItem.UpdateID))
                                 {
-                                    HiddenUpdateCollection[index].UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdateNotInstalled");
+                                    HiddenUpdateCollection[index].UpdateProgress = UpdateNotInstalledString;
                                     HiddenUpdateCollection.RemoveAt(index);
                                     break;
                                 }
@@ -2172,7 +2026,7 @@ namespace PowerTools.Views.Pages
         {
             Task.Run(() =>
             {
-                ShutdownHelper.Restart(ResourceService.UpdateManagerResource.GetString("RestartPC"), TimeSpan.FromSeconds(120));
+                ShutdownHelper.Restart(RestartPCString, TimeSpan.FromSeconds(120));
             });
         }
 
@@ -2181,13 +2035,13 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnHideNeedRebootPromptClicked(object sender, RoutedEventArgs args)
         {
-            if ((sender as MenuFlyoutItem).Tag is string needRebootPrompt && !string.IsNullOrEmpty(needRebootPrompt))
+            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is string needRebootPrompt && !string.IsNullOrEmpty(needRebootPrompt))
             {
-                if (needRebootPrompt.Equals("UpdateCompletedNeedReboot", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(needRebootPrompt, "UpdateCompletedNeedReboot", StringComparison.OrdinalIgnoreCase))
                 {
                     IsUpdateCompletedNeedRebootPrompt = false;
                 }
-                else if (needRebootPrompt.Equals("PreviewChannelChangedNeedReboot", StringComparison.OrdinalIgnoreCase))
+                else if (string.Equals(needRebootPrompt, "PreviewChannelChangedNeedReboot", StringComparison.OrdinalIgnoreCase))
                 {
                     IsPreviewChannelChangedNeedRebootPrompt = false;
                 }
@@ -2210,9 +2064,9 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnUpdateSourceSelectClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is not null)
+            if (sender is MenuFlyoutItem menuFlyoutItem && menuFlyoutItem.Tag is KeyValuePair<string, string> updateSource)
             {
-                SelectedUpdateSource = UpdateSourceList[Convert.ToInt32(menuFlyoutItem.Tag)];
+                SelectedUpdateSource = updateSource;
             }
         }
 
@@ -2301,7 +2155,7 @@ namespace PowerTools.Views.Pages
             {
                 ExitCustomPreviewChannel();
 
-                if (!previewChannel.Equals("ExitPreviewChannel", StringComparison.OrdinalIgnoreCase))
+                if (!string.Equals(previewChannel, "ExitPreviewChannel", StringComparison.OrdinalIgnoreCase))
                 {
                     EnterCustomPreviewChannel(previewChannel);
                 }
@@ -2311,9 +2165,9 @@ namespace PowerTools.Views.Pages
             }
         }
 
-        #endregion 第二部分：Windows 更新管理页面——挂载的事件
+        #endregion 第三部分：Windows 更新管理页面——挂载的事件
 
-        #region 第三部分：自定义事件
+        #region 第四部分：Windows 更新管理页面——自定义事件
 
         /// <summary>
         /// 下载更新中，进度变化时更新 UI 下载进度
@@ -2330,11 +2184,11 @@ namespace PowerTools.Views.Pages
                 {
                     foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                     {
-                        if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                        if (string.Equals(availableUpdateItem.UpdateID, updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                         {
                             availableUpdateItem.IsUpdatePreparing = false;
                             availableUpdateItem.UpdatePercentage = percentage / 2;
-                            availableUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateProgressInitializing"), percentage);
+                            availableUpdateItem.UpdateProgress = string.Format(DownloadUpdateProgressInitializingString, percentage);
                             break;
                         }
                     }
@@ -2347,11 +2201,11 @@ namespace PowerTools.Views.Pages
                 {
                     foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                     {
-                        if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                        if (string.Equals(availableUpdateItem.UpdateID, updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                         {
                             availableUpdateItem.IsUpdatePreparing = false;
                             availableUpdateItem.UpdatePercentage = percentage / 2;
-                            availableUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateProgressDownloading"), percentage);
+                            availableUpdateItem.UpdateProgress = string.Format(DownloadUpdateProgressDownloadingString, percentage);
                             break;
                         }
                     }
@@ -2363,11 +2217,11 @@ namespace PowerTools.Views.Pages
                 {
                     foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                     {
-                        if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                        if (string.Equals(availableUpdateItem.UpdateID, updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                         {
                             availableUpdateItem.IsUpdatePreparing = false;
                             availableUpdateItem.UpdatePercentage = percentage / 2;
-                            availableUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("DownloadUpdateProgressVerifying"), percentage);
+                            availableUpdateItem.UpdateProgress = string.Format(DownloadUpdateProgressVerifyingString, percentage);
                             break;
                         }
                     }
@@ -2387,10 +2241,10 @@ namespace PowerTools.Views.Pages
             {
                 foreach (UpdateModel availableUpdateItem in AvailableUpdateCollection)
                 {
-                    if (availableUpdateItem.UpdateID.Equals(updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(availableUpdateItem.UpdateID, updateItem.UpdateID, StringComparison.OrdinalIgnoreCase))
                     {
                         availableUpdateItem.UpdatePercentage = 50 + percentage / 2;
-                        availableUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("InstallUpdateProgress"), percentage);
+                        availableUpdateItem.UpdateProgress = string.Format(InstallUpdateProgressString, percentage);
                         break;
                     }
                 }
@@ -2409,17 +2263,17 @@ namespace PowerTools.Views.Pages
             {
                 foreach (UpdateModel installedUpdateItem in InstalledUpdateCollection)
                 {
-                    if (installedUpdateItem.UpdateID.Equals(updateItem.UpdateID))
+                    if (string.Equals(installedUpdateItem.UpdateID, updateItem.UpdateID))
                     {
                         installedUpdateItem.UpdatePercentage = percentage;
-                        installedUpdateItem.UpdateProgress = string.Format(ResourceService.UpdateManagerResource.GetString("UninstallUpdateProgress"), percentage);
+                        installedUpdateItem.UpdateProgress = string.Format(UninstallUpdateProgressString, percentage);
                         break;
                     }
                 }
             }, null);
         }
 
-        #endregion 第三部分：自定义事件
+        #endregion 第四部分：Windows 更新管理页面——自定义事件
 
         /// <summary>
         /// 检查更新
@@ -2443,7 +2297,7 @@ namespace PowerTools.Views.Pages
                 // 设置更新源
                 foreach (IUpdateService2 updateService in updateServiceManager.Services)
                 {
-                    if (updateService.Name.Equals(SelectedUpdateSource.Key, StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(updateService.Name, SelectedUpdateSource.Key, StringComparison.OrdinalIgnoreCase))
                     {
                         updateSearcher.ServiceID = updateService.ServiceID;
                         break;
@@ -2491,42 +2345,42 @@ namespace PowerTools.Views.Pages
                                 UpdateID = string.IsNullOrEmpty(update.Identity.UpdateID) ? Guid.NewGuid().ToString() : update.Identity.UpdateID,
                             };
 
-                            foreach (object item in update.CveIDs)
+                            foreach (object cveID in update.CveIDs)
                             {
-                                updateInformation.CveIDList.Add(item.ToString());
+                                updateInformation.CveIDList.Add(Convert.ToString(cveID));
                             }
 
-                            foreach (object item in update.MoreInfoUrls)
+                            foreach (object moreInfoUrl in update.MoreInfoUrls)
                             {
-                                updateInformation.KBArticleIDList.Add(item.ToString());
+                                updateInformation.KBArticleIDList.Add(Convert.ToString(moreInfoUrl));
                             }
 
-                            foreach (object item in update.MoreInfoUrls)
+                            foreach (object moreInfoUrl in update.MoreInfoUrls)
                             {
-                                updateInformation.MoreInfoList.Add(item.ToString());
+                                updateInformation.MoreInfoList.Add(Convert.ToString(moreInfoUrl));
                             }
 
-                            foreach (object item in update.Languages)
+                            foreach (object language in update.Languages)
                             {
-                                updateInformation.SupportedLanguageList.Add(item.ToString());
+                                updateInformation.SupportedLanguageList.Add(Convert.ToString(language));
                             }
 
                             UpdateModel updateItem = new()
                             {
                                 UpdateInformation = updateInformation,
-                                Description = string.IsNullOrEmpty(updateInformation.Description) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateInformation.Description,
-                                EulaText = string.IsNullOrEmpty(updateInformation.EulaText) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateInformation.EulaText,
-                                IsBeta = updateInformation.IsBeta ? ResourceService.UpdateManagerResource.GetString("Yes") : ResourceService.UpdateManagerResource.GetString("No"),
-                                IsMandatory = updateInformation.IsMandatory ? ResourceService.UpdateManagerResource.GetString("Yes") : ResourceService.UpdateManagerResource.GetString("No"),
+                                Description = string.IsNullOrEmpty(updateInformation.Description) ? UnknownString : updateInformation.Description,
+                                EulaText = string.IsNullOrEmpty(updateInformation.EulaText) ? UnknownString : updateInformation.EulaText,
+                                IsBeta = updateInformation.IsBeta ? YesString : NoString,
+                                IsMandatory = updateInformation.IsMandatory ? YesString : NoString,
                                 MaxDownloadSize = FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(updateInformation.Update.MaxDownloadSize)),
                                 MinDownloadSize = FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(updateInformation.Update.MinDownloadSize)),
-                                MsrcSeverity = string.IsNullOrEmpty(updateInformation.MsrcSeverity) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateInformation.MsrcSeverity,
-                                RecommendedCpuSpeed = updateInformation.RecommendedCpuSpeed.Equals(0) ? ResourceService.UpdateManagerResource.GetString("Unknown") : string.Format("{0} MHz", updateInformation.RecommendedCpuSpeed),
-                                RecommendedHardDiskSpace = updateInformation.RecommendedHardDiskSpace.Equals(0) ? ResourceService.UpdateManagerResource.GetString("Unknown") : string.Format("{0} MB", updateInformation.RecommendedHardDiskSpace),
-                                RecommendedMemory = updateInformation.RecommendedMemory.Equals(0) ? ResourceService.UpdateManagerResource.GetString("Unknown") : string.Format("{0} MB", updateInformation.RecommendedMemory),
-                                ReleaseNotes = string.IsNullOrEmpty(updateInformation.ReleaseNotes) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateInformation.ReleaseNotes,
+                                MsrcSeverity = string.IsNullOrEmpty(updateInformation.MsrcSeverity) ? UnknownString : updateInformation.MsrcSeverity,
+                                RecommendedCpuSpeed = updateInformation.RecommendedCpuSpeed.Equals(0) ? UnknownString : string.Format("{0} MHz", updateInformation.RecommendedCpuSpeed),
+                                RecommendedHardDiskSpace = updateInformation.RecommendedHardDiskSpace.Equals(0) ? UnknownString : string.Format("{0} MB", updateInformation.RecommendedHardDiskSpace),
+                                RecommendedMemory = updateInformation.RecommendedMemory.Equals(0) ? UnknownString : string.Format("{0} MB", updateInformation.RecommendedMemory),
+                                ReleaseNotes = string.IsNullOrEmpty(updateInformation.ReleaseNotes) ? UnknownString : updateInformation.ReleaseNotes,
                                 SupportURL = updateInformation.SupportURL,
-                                Title = string.IsNullOrEmpty(updateInformation.Title) ? ResourceService.UpdateManagerResource.GetString("Unknown") : updateInformation.Title,
+                                Title = string.IsNullOrEmpty(updateInformation.Title) ? UnknownString : updateInformation.Title,
                                 UpdateID = updateInformation.UpdateID,
                                 IsUpdating = false,
                                 UpdateProgress = string.Empty,
@@ -2546,11 +2400,11 @@ namespace PowerTools.Views.Pages
 
                             if (updateInformation.UpdateType is UpdateType.utSoftware)
                             {
-                                updateItem.UpdateType = ResourceService.UpdateManagerResource.GetString("UpdateTypeSoftware");
+                                updateItem.UpdateType = UpdateTypeSoftwareString;
                             }
                             else if (updateInformation.UpdateType is UpdateType.utDriver)
                             {
-                                updateItem.UpdateType = ResourceService.UpdateManagerResource.GetString("UpdateTypeDriver");
+                                updateItem.UpdateType = UpdateTypeDriverString;
                                 IWindowsDriverUpdate5 windowsDriverUpdate = update as IWindowsDriverUpdate5;
 
                                 if (windowsDriverUpdate is not null)
@@ -2569,17 +2423,17 @@ namespace PowerTools.Views.Pages
 
                                     updateItem.WindowsDriverInformation = windowsDriverInformation;
                                     updateItem.DeviceProblemNumber = Convert.ToString(windowsDriverInformation.DeviceProblemNumber);
-                                    updateItem.DriverClass = string.IsNullOrEmpty(windowsDriverInformation.DriverClass) ? ResourceService.UpdateManagerResource.GetString("Unknown") : windowsDriverInformation.DriverClass;
-                                    updateItem.DriverHardwareID = string.IsNullOrEmpty(windowsDriverInformation.DriverHardwareID) ? ResourceService.UpdateManagerResource.GetString("Unknown") : windowsDriverInformation.DriverHardwareID;
-                                    updateItem.DriverManufacturer = string.IsNullOrEmpty(windowsDriverInformation.DriverManufacturer) ? ResourceService.UpdateManagerResource.GetString("Unknown") : windowsDriverInformation.DriverManufacturer;
-                                    updateItem.DriverModel = string.IsNullOrEmpty(windowsDriverInformation.DriverModel) ? ResourceService.UpdateManagerResource.GetString("Unknown") : windowsDriverInformation.DriverModel;
-                                    updateItem.DriverProvider = string.IsNullOrEmpty(windowsDriverInformation.DriverProvider) ? ResourceService.UpdateManagerResource.GetString("Unknown") : windowsDriverInformation.DriverProvider;
+                                    updateItem.DriverClass = string.IsNullOrEmpty(windowsDriverInformation.DriverClass) ? UnknownString : windowsDriverInformation.DriverClass;
+                                    updateItem.DriverHardwareID = string.IsNullOrEmpty(windowsDriverInformation.DriverHardwareID) ? UnknownString : windowsDriverInformation.DriverHardwareID;
+                                    updateItem.DriverManufacturer = string.IsNullOrEmpty(windowsDriverInformation.DriverManufacturer) ? UnknownString : windowsDriverInformation.DriverManufacturer;
+                                    updateItem.DriverModel = string.IsNullOrEmpty(windowsDriverInformation.DriverModel) ? UnknownString : windowsDriverInformation.DriverModel;
+                                    updateItem.DriverProvider = string.IsNullOrEmpty(windowsDriverInformation.DriverProvider) ? UnknownString : windowsDriverInformation.DriverProvider;
                                     updateItem.DriverVerDate = windowsDriverInformation.DriverVerDate.ToString("yyyy/MM/dd");
                                 }
                             }
                             else
                             {
-                                updateItem.UpdateType = ResourceService.UpdateManagerResource.GetString("Unknown");
+                                updateItem.UpdateType = UnknownString;
                             }
 
                             updateItem.CveIDList.AddRange(updateInformation.CveIDList);
@@ -2596,13 +2450,13 @@ namespace PowerTools.Views.Pages
                             // 已安装的更新
                             else if (update.IsInstalled)
                             {
-                                updateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdateInstalled");
+                                updateItem.UpdateProgress = UpdateInstalledString;
                                 installedUpdateList.Add(updateItem);
                             }
                             // 可用更新
                             else
                             {
-                                updateItem.UpdateProgress = ResourceService.UpdateManagerResource.GetString("UpdateNotInstalled");
+                                updateItem.UpdateProgress = UpdateNotInstalledString;
                                 availableUpdateList.Add(updateItem);
                             }
                         }
@@ -2677,7 +2531,7 @@ namespace PowerTools.Views.Pages
                             UpdateID = !string.IsNullOrEmpty(updateHistoryEntry.UpdateIdentity.UpdateID) ? Guid.NewGuid().ToString() : updateHistoryEntry.UpdateIdentity.UpdateID
                         };
 
-                        UpdateModel updateItem = new()
+                        UpdateModel update = new()
                         {
                             UpdateHistoryInformation = updateHistoryInformation,
                             Date = updateHistoryInformation.Date.ToString("yyyy/MM/dd"),
@@ -2687,7 +2541,7 @@ namespace PowerTools.Views.Pages
                             UpdateID = updateHistoryInformation.UpdateID
                         };
 
-                        updateHistoryList.Add(updateItem);
+                        updateHistoryList.Add(update);
                     }
                 }
             }
@@ -2704,23 +2558,19 @@ namespace PowerTools.Views.Pages
             {
                 case OperationResultCode.orcAborted:
                     {
-                        return string.Format(ResourceService.UpdateManagerResource.GetString("UpdateAborted"), date.ToString("yyyy/MM/dd"), hResult);
+                        return string.Format(UpdateAbortedString, date.ToString("yyyy/MM/dd"), hResult);
                     }
                 case OperationResultCode.orcSucceeded:
                     {
-                        return string.Format(ResourceService.UpdateManagerResource.GetString("UpdateSucceed"), date.ToString("yyyy/MM/dd"));
-                    }
-                case OperationResultCode.orcSucceededWithErrors:
-                    {
-                        return string.Format(ResourceService.UpdateManagerResource.GetString("UpdateSucceedWithErrors"), date.ToString("yyyy/MM/dd"), hResult);
+                        return string.Format(UpdateSucceedString, date.ToString("yyyy/MM/dd"));
                     }
                 case OperationResultCode.orcFailed:
                     {
-                        return string.Format(ResourceService.UpdateManagerResource.GetString("UpdateFailed"), date.ToString("yyyy/MM/dd"), hResult);
+                        return string.Format(UpdateFailedString, date.ToString("yyyy/MM/dd"), hResult);
                     }
                 default:
                     {
-                        return ResourceService.UpdateManagerResource.GetString("Unknown");
+                        return UnknownString;
                     }
             }
         }
@@ -2781,28 +2631,28 @@ namespace PowerTools.Views.Pages
                 string channelLocalizedName = string.Empty;
                 int branchReadinessLevel = 0;
 
-                if (previewChannel.Equals("ReleasePreview", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(previewChannel, "ReleasePreview", StringComparison.OrdinalIgnoreCase))
                 {
                     channelName = "ReleasePreview";
-                    channelLocalizedName = ResourceService.UpdateManagerResource.GetString("InsiderReleasePreview");
+                    channelLocalizedName = InsiderReleasePreviewString;
                     branchReadinessLevel = 8;
                 }
-                else if (previewChannel.Equals("Beta", StringComparison.OrdinalIgnoreCase))
+                else if (string.Equals(previewChannel, "Beta", StringComparison.OrdinalIgnoreCase))
                 {
                     channelName = "Beta";
-                    channelLocalizedName = ResourceService.UpdateManagerResource.GetString("InsiderBeta");
+                    channelLocalizedName = InsiderBetaString;
                     branchReadinessLevel = 4;
                 }
-                else if (previewChannel.Equals("Dev", StringComparison.OrdinalIgnoreCase))
+                else if (string.Equals(previewChannel, "Dev", StringComparison.OrdinalIgnoreCase))
                 {
                     channelName = "Dev";
-                    channelLocalizedName = ResourceService.UpdateManagerResource.GetString("InsiderDev");
+                    channelLocalizedName = InsiderDevString;
                     branchReadinessLevel = 2;
                 }
-                else if (previewChannel.Equals("Canary", StringComparison.OrdinalIgnoreCase))
+                else if (string.Equals(previewChannel, "Canary", StringComparison.OrdinalIgnoreCase))
                 {
                     channelName = "CanaryChannel";
-                    channelLocalizedName = ResourceService.UpdateManagerResource.GetString("InsiderCanary");
+                    channelLocalizedName = InsiderCanaryString;
                 }
 
                 try
@@ -2822,15 +2672,7 @@ namespace PowerTools.Views.Pages
 
                     try
                     {
-                        string xaml = string.Format(stickyXaml,
-                            ResourceService.UpdateManagerResource.GetString("DeviceEnteredWindowsInsider"),
-                            ResourceService.UpdateManagerResource.GetString("ModifyWindowsInsiderPreview"),
-                            ResourceService.UpdateManagerResource.GetString("OpenWindowsToolbox"),
-                            ResourceService.UpdateManagerResource.GetString("CurrentConfig"),
-                            ResourceService.UpdateManagerResource.GetString("CurrentChannel"),
-                            channelLocalizedName,
-                            ResourceService.UpdateManagerResource.GetString("LearnWindowsInsiderPreview")
-                            );
+                        string xaml = string.Format(stickyXaml, DeviceEnteredWindowsInsiderString, ModifyWindowsInsiderPreviewString, OpenPowerToolsString, CurrentConfigString, CurrentChannelString, channelLocalizedName, LearnWindowsInsiderPreviewString);
                         RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Strings", "StickyXaml", xaml);
                     }
                     catch (Exception e)
@@ -2889,16 +2731,7 @@ namespace PowerTools.Views.Pages
 
                     try
                     {
-                        string message = string.Format(stickyMessage,
-                            ResourceService.UpdateManagerResource.GetString("WindowsInsiderConfigStatus"),
-                            ResourceService.UpdateManagerResource.GetString("DeviceEnteredWindowsInsider"),
-                            ResourceService.UpdateManagerResource.GetString("ModifyWindowsInsiderPreview"),
-                            ResourceService.UpdateManagerResource.GetString("OpenWindowsToolbox"),
-                            ResourceService.UpdateManagerResource.GetString("CurrentConfig"),
-                            ResourceService.UpdateManagerResource.GetString("CurrentChannel"),
-                            channelLocalizedName,
-                            ResourceService.UpdateManagerResource.GetString("LearnWindowsInsiderPreview")
-                            );
+                        string message = string.Format(stickyMessage, WindowsInsiderConfigStatusString, DeviceEnteredWindowsInsiderString, ModifyWindowsInsiderPreviewString, OpenPowerToolsString, CurrentConfigString, CurrentChannelString, channelLocalizedName, LearnWindowsInsiderPreviewString);
                         RegistryHelper.SaveRegistryKey(Registry.LocalMachine, @"SOFTWARE\Microsoft\WindowsSelfHost\UI\Strings", "StickyMessage", message);
                     }
                     catch (Exception e)
@@ -2955,6 +2788,11 @@ namespace PowerTools.Views.Pages
             {
                 LogService.WriteLog(EventLevel.Error, string.Format("Stop service {0} failed", serviceName), e);
             }
+        }
+
+        private bool GetUpdateState(bool param1, int param2)
+        {
+            return param1 && Convert.ToBoolean(param2);
         }
     }
 }
