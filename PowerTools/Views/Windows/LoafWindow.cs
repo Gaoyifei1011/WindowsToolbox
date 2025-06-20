@@ -179,7 +179,8 @@ namespace PowerTools.Views.Windows
 
                 // 屏蔽所有键盘按键
                 if (_blockAllKeys)
-                {                // 左 Windows 徽标键
+                {
+                    // 左 Windows 徽标键
                     if (kbdllHookStruct.vkCode is Keys.LWin)
                     {
                         return new IntPtr(1);
