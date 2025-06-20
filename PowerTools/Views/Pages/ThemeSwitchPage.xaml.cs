@@ -312,10 +312,10 @@ namespace PowerTools.Views.Pages
         {
             InitializeComponent();
 
-            SystemThemeStyleList.Add(new KeyValuePair<ElementTheme, string>(ElementTheme.Light, ResourceService.ThemeSwitchResource.GetString("Light")));
-            SystemThemeStyleList.Add(new KeyValuePair<ElementTheme, string>(ElementTheme.Dark, ResourceService.ThemeSwitchResource.GetString("Dark")));
-            AppThemeStyleList.Add(new KeyValuePair<ElementTheme, string>(ElementTheme.Light, ResourceService.ThemeSwitchResource.GetString("Light")));
-            AppThemeStyleList.Add(new KeyValuePair<ElementTheme, string>(ElementTheme.Dark, ResourceService.ThemeSwitchResource.GetString("Dark")));
+            SystemThemeStyleList.Add(new KeyValuePair<ElementTheme, string>(ElementTheme.Light, LightString));
+            SystemThemeStyleList.Add(new KeyValuePair<ElementTheme, string>(ElementTheme.Dark, DarkString));
+            AppThemeStyleList.Add(new KeyValuePair<ElementTheme, string>(ElementTheme.Light, LightString));
+            AppThemeStyleList.Add(new KeyValuePair<ElementTheme, string>(ElementTheme.Dark, DarkString));
             SelectedSystemThemeStyle = SystemThemeStyleList[0];
             SelectedAppThemeStyle = AppThemeStyleList[0];
 
