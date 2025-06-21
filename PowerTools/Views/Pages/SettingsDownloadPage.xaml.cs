@@ -73,9 +73,9 @@ namespace PowerTools.Views.Pages
         public SettingsDownloadPage()
         {
             InitializeComponent();
-            DoEngineModeList.Add(new KeyValuePair<string, string>(DownloadOptionsService.DoEngineModeList[2], DoEngineDoString));
+            DoEngineModeList.Add(new KeyValuePair<string, string>(DownloadOptionsService.DoEngineModeList[0], DoEngineDoString));
             DoEngineModeList.Add(new KeyValuePair<string, string>(DownloadOptionsService.DoEngineModeList[1], DoEngineBitsString));
-            DoEngineModeList.Add(new KeyValuePair<string, string>(DownloadOptionsService.DoEngineModeList[0], DoEngineAria2String));
+            DoEngineModeList.Add(new KeyValuePair<string, string>(DownloadOptionsService.DoEngineModeList[2], DoEngineAria2String));
             DoEngineMode = DoEngineModeList.Find(item => string.Equals(item.Key, DownloadOptionsService.DoEngineMode, StringComparison.OrdinalIgnoreCase));
         }
 
