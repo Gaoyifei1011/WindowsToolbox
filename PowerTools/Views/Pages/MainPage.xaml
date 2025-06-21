@@ -296,7 +296,7 @@
                     </ToolTipService.ToolTip>
                 </controls:NavigationViewItem>
 
-                <controls:NavigationViewItemSeparator />
+                <controls:NavigationViewItemSeparator Margin="0,0,6,0" />
 
                 <!--  休闲工具  -->
                 <controls:NavigationViewItem Tag="Relaxation">
