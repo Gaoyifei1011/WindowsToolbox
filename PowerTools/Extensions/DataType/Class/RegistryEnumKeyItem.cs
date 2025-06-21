@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PowerTools.Extensions.Registry
+namespace PowerTools.Extensions.DataType.Class
 {
     /// <summary>
     /// 注册表枚举遍历项

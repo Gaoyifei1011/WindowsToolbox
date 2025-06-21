@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PowerTools.Extensions.ShellMenu
+namespace PowerTools.Extensions.DataType.Class
 {
     /// <summary>
     /// 菜单项设置选项
