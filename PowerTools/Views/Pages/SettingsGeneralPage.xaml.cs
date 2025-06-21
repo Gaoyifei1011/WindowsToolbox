@@ -201,7 +201,6 @@ namespace PowerTools.Views.Pages
                 }
             }
 
-            // TODO：添加事件卸载
             AlwaysShowBackdropEnabled = IsAdvancedEffectsEnabled() && !string.Equals(Backdrop.Key, BackdropList[0].Key);
             SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
             System.Windows.Forms.Application.ApplicationExit += OnApplicationExit;
