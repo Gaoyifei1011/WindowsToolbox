@@ -810,9 +810,9 @@ namespace PowerTools.Views.Pages
                     copyInformationBuilder.Append(IsMandatoryString);
                     copyInformationBuilder.AppendLine(updateItem.UpdateInformation.IsMandatory ? YesString : NoString);
                     copyInformationBuilder.Append(MaxDownloadSizeString);
-                    copyInformationBuilder.AppendLine(FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(updateItem.UpdateInformation.Update.MaxDownloadSize)));
+                    copyInformationBuilder.AppendLine(VolumeSizeHelper.ConvertVolumeSizeToString(Convert.ToDouble(updateItem.UpdateInformation.Update.MaxDownloadSize)));
                     copyInformationBuilder.Append(MinDownloadSizeString);
-                    copyInformationBuilder.AppendLine(FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(updateItem.UpdateInformation.Update.MinDownloadSize)));
+                    copyInformationBuilder.AppendLine(VolumeSizeHelper.ConvertVolumeSizeToString(Convert.ToDouble(updateItem.UpdateInformation.Update.MinDownloadSize)));
                     copyInformationBuilder.Append(MsrcSeverityString);
                     copyInformationBuilder.AppendLine(string.IsNullOrEmpty(updateItem.UpdateInformation.MsrcSeverity) ? UnknownString : updateItem.UpdateInformation.MsrcSeverity);
                     copyInformationBuilder.Append(RecommendedCpuSpeedString);
@@ -2372,8 +2372,8 @@ namespace PowerTools.Views.Pages
                                 EulaText = string.IsNullOrEmpty(updateInformation.EulaText) ? UnknownString : updateInformation.EulaText,
                                 IsBeta = updateInformation.IsBeta ? YesString : NoString,
                                 IsMandatory = updateInformation.IsMandatory ? YesString : NoString,
-                                MaxDownloadSize = FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(updateInformation.Update.MaxDownloadSize)),
-                                MinDownloadSize = FileSizeHelper.ConvertFileSizeToString(Convert.ToDouble(updateInformation.Update.MinDownloadSize)),
+                                MaxDownloadSize = VolumeSizeHelper.ConvertVolumeSizeToString(Convert.ToDouble(updateInformation.Update.MaxDownloadSize)),
+                                MinDownloadSize = VolumeSizeHelper.ConvertVolumeSizeToString(Convert.ToDouble(updateInformation.Update.MinDownloadSize)),
                                 MsrcSeverity = string.IsNullOrEmpty(updateInformation.MsrcSeverity) ? UnknownString : updateInformation.MsrcSeverity,
                                 RecommendedCpuSpeed = updateInformation.RecommendedCpuSpeed is 0 ? UnknownString : string.Format("{0} MHz", updateInformation.RecommendedCpuSpeed),
                                 RecommendedHardDiskSpace = updateInformation.RecommendedHardDiskSpace is 0 ? UnknownString : string.Format("{0} MB", updateInformation.RecommendedHardDiskSpace),

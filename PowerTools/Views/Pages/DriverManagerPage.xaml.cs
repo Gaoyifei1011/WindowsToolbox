@@ -1623,7 +1623,7 @@ namespace PowerTools.Views.Pages
                         DriverManufacturer = pnpDriverInformationItem.ProviderName,
                         DriverDate = DateTime.Parse(pnpDriverInformationItem.DriverDate),
                         DriverVersion = new Version(pnpDriverInformationItem.DriverVersion),
-                        DriverSize = string.IsNullOrEmpty(driverLocation) ? "0B" : FileSizeHelper.ConvertFileSizeToString(GetFolderSize(Path.GetDirectoryName(driverLocation))),
+                        DriverSize = string.IsNullOrEmpty(driverLocation) ? "0B" : VolumeSizeHelper.ConvertVolumeSizeToString(GetFolderSize(Path.GetDirectoryName(driverLocation))),
                         DriverLocation = driverLocation,
                         DriverType = pnpDriverInformationItem.ClassName,
                         SignatureName = string.IsNullOrEmpty(pnpDriverInformationItem.SignerName) ? UnknownString : pnpDriverInformationItem.SignerName,
