@@ -196,6 +196,10 @@
                         </Style>
                     </ListView.ItemContainerStyle>
 
+                    <ItemsControl.ItemContainerTransitions>
+                        <TransitionCollection />
+                    </ItemsControl.ItemContainerTransitions>
+
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="model:StringModel">
                             <Grid
@@ -417,6 +421,10 @@
                         </Style>
                     </ListView.ItemContainerStyle>
 
+                    <ItemsControl.ItemContainerTransitions>
+                        <TransitionCollection />
+                    </ItemsControl.ItemContainerTransitions>
+
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="model:FilePathModel">
                             <Grid
@@ -599,6 +607,10 @@
                             <Setter Property="Padding" Value="0" />
                         </Style>
                     </ListView.ItemContainerStyle>
+
+                    <ItemsControl.ItemContainerTransitions>
+                        <TransitionCollection />
+                    </ItemsControl.ItemContainerTransitions>
 
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="model:EmbeddedDataModel">

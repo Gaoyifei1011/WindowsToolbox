@@ -269,6 +269,10 @@
                                             </Style>
                                         </ListView.ItemContainerStyle>
 
+                                        <ItemsControl.ItemContainerTransitions>
+                                            <TransitionCollection />
+                                        </ItemsControl.ItemContainerTransitions>
+
                                         <ListView.ItemTemplate>
                                             <DataTemplate x:DataType="model:ContextMenuItemModel">
                                                 <Grid Margin="0,1">
