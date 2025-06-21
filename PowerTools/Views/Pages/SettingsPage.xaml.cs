@@ -26,8 +26,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Navigation;
 
-// 抑制 CA1806，IDE0060 警告
-#pragma warning disable CA1806,IDE0060
+// 抑制 CA1806，CA1822，IDE0060 警告
+#pragma warning disable CA1806,CA1822,IDE0060
 
 namespace PowerTools.Views.Pages
 {

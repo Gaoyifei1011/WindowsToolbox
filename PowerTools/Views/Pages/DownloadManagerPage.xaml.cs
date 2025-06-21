@@ -536,7 +536,7 @@ namespace PowerTools.Views.Pages
         {
             if (sender is global::Windows.UI.Xaml.Controls.TextBox textBox)
             {
-                DownloadFileNameText = (sender as global::Windows.UI.Xaml.Controls.TextBox).Text;
+                DownloadFileNameText = textBox.Text;
                 IsPrimaryButtonEnabled = !string.IsNullOrEmpty(DownloadLinkText) && !string.IsNullOrEmpty(DownloadFileNameText) && !string.IsNullOrEmpty(DownloadFolderText);
             }
         }
