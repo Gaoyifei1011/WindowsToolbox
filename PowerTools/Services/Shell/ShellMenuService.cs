@@ -21,8 +21,6 @@ namespace PowerTools.Services.Shell
         // Stable Software\PowerTools\Personalize\ShellMenu
         private static readonly string shellMenuKey = @"Software\PowerTools\ShellMenu";
 
-        private static Guid FOLDERID_LocalAppData = new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091");
-
         public static DirectoryInfo ShellMenuConfigDirectory { get; private set; }
 
         /// <summary>
@@ -30,7 +28,7 @@ namespace PowerTools.Services.Shell
         /// </summary>
         public static void InitializeShellMenu()
         {
-            Shell32Library.SHGetKnownFolderPath(FOLDERID_LocalAppData, KNOWN_FOLDER_FLAG.KF_FLAG_FORCE_APP_DATA_REDIRECTION, IntPtr.Zero, out string localAppdataPath);
+            Shell32Library.SHGetKnownFolderPath(new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091"), KNOWN_FOLDER_FLAG.KF_FLAG_FORCE_APP_DATA_REDIRECTION, IntPtr.Zero, out string localAppdataPath);
 
             if (!string.IsNullOrEmpty(localAppdataPath))
             {
