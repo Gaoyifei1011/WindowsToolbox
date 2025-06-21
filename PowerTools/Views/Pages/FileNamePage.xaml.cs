@@ -626,7 +626,6 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnViewErrorInformationClicked(object sender, RoutedEventArgs args)
         {
-            // TODO：未完成
             await MainWindow.Current.ShowDialogAsync(new OperationFailedDialog(OperationFailedList));
         }
 

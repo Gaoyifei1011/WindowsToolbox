@@ -275,7 +275,7 @@ namespace PowerTools.Views.Pages
                     else
                     {
                         download.IsOperating = false;
-                        // TODO：显示删除失败通知
+                        await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.DeleteFileFailed));
                     }
                 }
                 else
@@ -310,7 +310,6 @@ namespace PowerTools.Views.Pages
             }
             else
             {
-                // TODO：显示文件失踪通知
                 await MainWindow.Current.ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.FileLost));
             }
         }
@@ -658,9 +657,16 @@ namespace PowerTools.Views.Pages
         /// <summary>
         /// 了解更多
         /// </summary>
-        private void OnLearnMoreClicked(object sender, RoutedEventArgs args)
+        private async void OnLearnMoreClicked(object sender, RoutedEventArgs args)
         {
-            //TODO：未完成
+            DownloadSplitView.IsPaneOpen = false;
+            await Task.Delay(300);
+            (MainWindow.Current.Content as MainPage).NavigateTo(typeof(SettingsPage));
+
+            if ((MainWindow.Current.Content as MainPage).GetFrameContent() is SettingsPage settingsPage)
+            {
+                settingsPage.ShowSettingsInstruction();
+            }
         }
 
         /// <summary>

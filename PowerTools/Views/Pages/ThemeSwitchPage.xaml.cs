@@ -31,7 +31,6 @@ using Windows.UI.Xaml.Navigation;
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
 
-// TODO:缺少 StartupTask 任务修改和提示，托盘程序双击打开主程序
 namespace PowerTools.Views.Pages
 {
     /// <summary>
