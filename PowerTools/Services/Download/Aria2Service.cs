@@ -64,7 +64,7 @@ namespace PowerTools.Services.Download
             //  发生异常时，使用默认的参数
             catch (Exception)
             {
-                // TODO:未完成
+                // TODO：未完成，添加异常处理
                 //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(InitializeAria2Conf), 1, e);
                 aria2Arguments = string.Format(defaultAria2Arguments, Process.GetCurrentProcess().Id);
             }

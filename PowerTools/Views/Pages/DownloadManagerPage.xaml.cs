@@ -129,19 +129,15 @@ namespace PowerTools.Views.Pages
         /// <summary>
         /// 导航到该页面触发的事件
         /// </summary>
-        protected override async void OnNavigatedTo(NavigationEventArgs args)
+        protected override void OnNavigatedTo(NavigationEventArgs args)
         {
             base.OnNavigatedTo(args);
 
             if (!isInitialized)
             {
                 isInitialized = true;
-
-                await Task.Run(() =>
-                {
-                    // TODO：添加全局卸载事件
-                    DownloadSchedulerService.DownloadProgress += OnDownloadProgress;
-                });
+                DownloadSchedulerService.DownloadProgress += OnDownloadProgress;
+                System.Windows.Forms.Application.ApplicationExit += OnApplicationExit;
             }
         }
 
@@ -685,7 +681,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception)
                 {
-                    // TODO：未完成
+                    // TODO：未完成，添加异常处理
                 }
             });
         }
@@ -844,6 +840,21 @@ namespace PowerTools.Views.Pages
                         }
                     }
                 }, null);
+            }
+        }
+
+        /// <summary>
+        /// 应用程序即将关闭时发生的事件
+        /// </summary>
+        private void OnApplicationExit(object sender, EventArgs args)
+        {
+            try
+            {
+                System.Windows.Forms.Application.ApplicationExit -= OnApplicationExit;
+                DownloadSchedulerService.DownloadProgress -= OnDownloadProgress;
+            }
+            catch (Exception)
+            {
             }
         }
 

@@ -204,6 +204,7 @@ namespace PowerTools.Views.Pages
             // TODO：添加事件卸载
             AlwaysShowBackdropEnabled = IsAdvancedEffectsEnabled() && !string.Equals(Backdrop.Key, BackdropList[0].Key);
             SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+            System.Windows.Forms.Application.ApplicationExit += OnApplicationExit;
         }
 
         #region 第一部分：XamlUICommand 命令调用时挂载的事件
@@ -378,6 +379,21 @@ namespace PowerTools.Views.Pages
                 AdvancedEffectsEnabled = isAdvancedEffectsEnabled;
                 AlwaysShowBackdropEnabled = isAdvancedEffectsEnabled && !string.Equals(Backdrop.Key, BackdropList[0].Key);
             }, null);
+        }
+
+        /// <summary>
+        /// 应用程序即将关闭时发生的事件
+        /// </summary>
+        private void OnApplicationExit(object sender, EventArgs args)
+        {
+            try
+            {
+                System.Windows.Forms.Application.ApplicationExit -= OnApplicationExit;
+                SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+            }
+            catch (Exception)
+            {
+            }
         }
 
         #endregion 第三部分：自定义事件
