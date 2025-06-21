@@ -1,16 +1,22 @@
 ﻿using PowerTools.Extensions.DataType.Class;
 using PowerTools.Extensions.DataType.Enums;
+using PowerTools.WindowsAPI.PInvoke.Shell32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
-using Windows.Data.Json;
-using Windows.Storage;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Linq;
+
+// 抑制 CA1806 警告
+#pragma warning disable CA1806
 
 namespace PowerTools.Services.Download
 {
@@ -19,9 +25,9 @@ namespace PowerTools.Services.Download
     /// </summary>
     public static class Aria2Service
     {
-        private static readonly string aria2FilePath = Path.Combine(Environment.CurrentDirectory, "Mile.Aria2.exe");
-        private static readonly string defaultAria2Arguments = "-c --enable-rpc=true --rpc-allow-origin-all=true --rpc-listen-all=true --rpc-listen-port=6300 --stop-with-process={0} -D";
-        private static readonly string rpcServerLink = "http://127.0.0.1:6300/rpc";
+        private static readonly string aria2FilePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Mile.Aria2.exe");
+        private static readonly string defaultAria2Arguments = "-c --enable-rpc=true --rpc-allow-origin-all=true --rpc-listen-all=true --rpc-listen-port=6600 --stop-with-process={0} -D";
+        private static readonly string rpcServerLink = "http://127.0.0.1:6600/rpc";
         private static string aria2Arguments;
         private static System.Timers.Timer aria2Timer;
 
@@ -29,7 +35,7 @@ namespace PowerTools.Services.Download
 
         private static Dictionary<string, string> Aria2DownloadDict { get; } = [];
 
-        public static string Aria2ConfPath { get; } = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Aria2.conf");
+        public static string Aria2ConfPath { get; private set; }
 
         public static event Action<DownloadProgress> DownloadProgress;
 
@@ -39,14 +45,17 @@ namespace PowerTools.Services.Download
         {
             try
             {
+                Shell32Library.SHGetKnownFolderPath(new("F1B32785-6FBA-4FCF-9D55-7B8E7F157091"), KNOWN_FOLDER_FLAG.KF_FLAG_FORCE_APP_DATA_REDIRECTION, IntPtr.Zero, out string localAppdataPath);
+                Aria2ConfPath = Path.Combine(localAppdataPath, "Aria2.conf");
+
                 // 原配置文件存在且新的配置文件不存在，拷贝到指定目录
                 if (!File.Exists(Aria2ConfPath))
                 {
-                    //byte[] mileAria2 = Strings.Resources.Aria2Conf;
-                    //FileStream fileStream = new(Aria2ConfPath, FileMode.Create);
-                    //fileStream.Write(mileAria2, 0, mileAria2.Length);
-                    //fileStream.Flush();
-                    //fileStream.Close();
+                    byte[] mileAria2 = Strings.Resources.Aria2Conf;
+                    FileStream fileStream = new(Aria2ConfPath, FileMode.Create);
+                    fileStream.Write(mileAria2, 0, mileAria2.Length);
+                    fileStream.Flush();
+                    fileStream.Close();
                 }
 
                 // 使用自定义的配置文件目录
@@ -55,6 +64,7 @@ namespace PowerTools.Services.Download
             //  发生异常时，使用默认的参数
             catch (Exception)
             {
+                // TODO:未完成
                 //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(InitializeAria2Conf), 1, e);
                 aria2Arguments = string.Format(defaultAria2Arguments, Process.GetCurrentProcess().Id);
             }
@@ -99,7 +109,8 @@ namespace PowerTools.Services.Download
                 try
                 {
                     aria2Timer?.Stop();
-                    aria2Timer.Dispose();
+                    aria2Timer?.Dispose();
+                    aria2Timer = null;
                     Aria2SemaphoreSlim?.Dispose();
                     Aria2SemaphoreSlim = null;
                 }
@@ -117,14 +128,21 @@ namespace PowerTools.Services.Download
         {
             try
             {
-                JsonObject versionObject = new()
-                {
-                    ["jsonrpc"] = JsonValue.CreateStringValue("2.0"),
-                    ["id"] = JsonValue.CreateStringValue(string.Empty),
-                    ["method"] = JsonValue.CreateStringValue("aria2.getVersion")
-                };
+                /*
+                <methodCall>
+                  <methodName>aria2.getVersion</methodName>
+                </methodCall>
+                 */
+                XmlDocument versionDocument = new();
+                XmlDeclaration xmlDeclaration = versionDocument.CreateXmlDeclaration("1.0", null, null);
+                versionDocument.AppendChild(xmlDeclaration);
+                XmlElement methodCallElement = versionDocument.CreateElement("methodCall");
+                versionDocument.AppendChild(methodCallElement);
+                XmlElement methodNameElement = versionDocument.CreateElement("methodName");
+                methodNameElement.InnerText = "aria2.getVersion";
+                methodCallElement.AppendChild(methodNameElement);
 
-                string versionString = versionObject.Stringify();
+                string versionString = versionDocument.OuterXml;
                 byte[] contentBytes = Encoding.UTF8.GetBytes(versionString);
                 StringContent stringContent = new(versionString);
                 stringContent.Headers.ContentLength = contentBytes.Length;
@@ -152,23 +170,87 @@ namespace PowerTools.Services.Download
                     // 判断下载进程是否存在
                     if (await IsAria2ExistedAsync())
                     {
-                        JsonObject jsonObject = new()
-                        {
-                            ["jsonrpc"] = JsonValue.CreateStringValue("2.0"),
-                            ["id"] = JsonValue.CreateStringValue(string.Empty),
-                            ["method"] = JsonValue.CreateStringValue("aria2.addUri"),
-                            ["params"] = new JsonArray()
-                            {
-                                new JsonArray() { JsonValue.CreateStringValue(url) },
-                                new JsonObject()
-                                {
-                                    ["dir"] = JsonValue.CreateStringValue(Path.GetDirectoryName(saveFilePath)),
-                                    ["out"] = JsonValue.CreateStringValue(Path.GetFileName(saveFilePath))
-                                }
-                            }
-                        };
+                        /*
+                        <methodCall>
+                         <methodName>aria2.addUri</methodName>
+                          <params>
+                            <param>
+                              <value>
+                                <array>
+                                  <data>
+                                    <value><string>url</string></value>
+                                  </data>
+                                </array>
+                              </value>
+                            </param>
+                            <param>
+                              <value>
+                                <struct>
+                                  <member>
+                                    <name>out</name>
+                                    <value><string>Path.GetFileName(saveFilePath)</string></value>
+                                  </member>
+                                  <member>
+                                    <name>dir</name>
+                                    <value><string>Path.GetDirectoryName(saveFilePath)</string></value>
+                                  </member>
+                                </struct>
+                              </value>
+                            </param>
+                          </params>
+                        </methodCall>
+                        */
+                        XmlDocument createDownloadElement = new();
+                        XmlDeclaration xmlDeclaration = createDownloadElement.CreateXmlDeclaration("1.0", null, null);
+                        createDownloadElement.AppendChild(xmlDeclaration);
+                        XmlElement methodCallElement = createDownloadElement.CreateElement("methodCall");
+                        createDownloadElement.AppendChild(methodCallElement);
+                        XmlElement methodNameElement = createDownloadElement.CreateElement("methodName");
+                        methodNameElement.InnerText = "aria2.addUri";
+                        methodCallElement.AppendChild(methodNameElement);
+                        XmlElement paramsElement = createDownloadElement.CreateElement("params");
+                        methodCallElement.AppendChild(paramsElement);
+                        XmlElement param1Element = createDownloadElement.CreateElement("param");
+                        paramsElement.AppendChild(param1Element);
+                        XmlElement value1Element = createDownloadElement.CreateElement("value");
+                        param1Element.AppendChild(value1Element);
+                        XmlElement arrayElement = createDownloadElement.CreateElement("array");
+                        value1Element.AppendChild(arrayElement);
+                        XmlElement dataElement = createDownloadElement.CreateElement("data");
+                        arrayElement.AppendChild(dataElement);
+                        XmlElement value2Element = createDownloadElement.CreateElement("value");
+                        dataElement.AppendChild(value2Element);
+                        XmlElement string1Element = createDownloadElement.CreateElement("string");
+                        string1Element.InnerText = url;
+                        value2Element.AppendChild(string1Element);
+                        XmlElement param2Element = createDownloadElement.CreateElement("param");
+                        paramsElement.AppendChild(param2Element);
+                        XmlElement value3Element = createDownloadElement.CreateElement("value");
+                        param2Element.AppendChild(value3Element);
+                        XmlElement structElement = createDownloadElement.CreateElement("struct");
+                        value3Element.AppendChild(structElement);
+                        XmlElement member1Element = createDownloadElement.CreateElement("member");
+                        structElement.AppendChild(member1Element);
+                        XmlElement name1Element = createDownloadElement.CreateElement("name");
+                        name1Element.InnerText = "out";
+                        member1Element.AppendChild(name1Element);
+                        XmlElement value4Element = createDownloadElement.CreateElement("value");
+                        member1Element.AppendChild(value4Element);
+                        XmlElement string2Element = createDownloadElement.CreateElement("string");
+                        string2Element.InnerText = Path.GetFileName(saveFilePath);
+                        value4Element.AppendChild(string2Element);
+                        XmlElement member2Element = createDownloadElement.CreateElement("member");
+                        structElement.AppendChild(member2Element);
+                        XmlElement name2Element = createDownloadElement.CreateElement("name");
+                        name2Element.InnerText = "dir";
+                        member2Element.AppendChild(name2Element);
+                        XmlElement value5Element = createDownloadElement.CreateElement("value");
+                        member2Element.AppendChild(value5Element);
+                        XmlElement string3Element = createDownloadElement.CreateElement("string");
+                        string3Element.InnerText = Path.GetDirectoryName(saveFilePath);
+                        value5Element.AppendChild(string3Element);
 
-                        string createDownloadString = jsonObject.Stringify();
+                        string createDownloadString = createDownloadElement.OuterXml;
                         byte[] contentBytes = Encoding.UTF8.GetBytes(createDownloadString);
                         StringContent stringContent = new(createDownloadString);
                         stringContent.Headers.ContentLength = contentBytes.Length;
@@ -179,38 +261,54 @@ namespace PowerTools.Services.Download
                         // 请求成功
                         if (response.IsSuccessStatusCode)
                         {
+                            /*
+                            <methodResponse>
+                             <params>
+                              <param>
+                               <value>
+                                <string>downloadID</string>
+                               </value>
+                              </param>
+                             </params>
+                            </methodResponse>
+                            */
                             string responseContent = await response.Content.ReadAsStringAsync();
-                            JsonObject resultObject = JsonObject.Parse(responseContent);
-                            string gid = resultObject.GetNamedString("result");
+                            XDocument responseDocument = XDocument.Parse(responseContent);
+                            XElement resultStringElement = responseDocument.Descendants("string").FirstOrDefault();
 
-                            Aria2SemaphoreSlim?.Wait();
-
-                            try
+                            if (resultStringElement is not null)
                             {
-                                if (!Aria2DownloadDict.ContainsKey(gid))
+                                string gid = resultStringElement.Value;
+
+                                Aria2SemaphoreSlim?.Wait();
+
+                                try
                                 {
-                                    Aria2DownloadDict.Add(gid, saveFilePath);
+                                    if (!Aria2DownloadDict.ContainsKey(gid))
+                                    {
+                                        Aria2DownloadDict.Add(gid, saveFilePath);
+                                    }
                                 }
-                            }
-                            catch (Exception)
-                            {
-                                return;
-                            }
-                            finally
-                            {
-                                Aria2SemaphoreSlim?.Release();
-                            }
+                                catch (Exception)
+                                {
+                                    return;
+                                }
+                                finally
+                                {
+                                    Aria2SemaphoreSlim?.Release();
+                                }
 
-                            DownloadProgress?.Invoke(new DownloadProgress()
-                            {
-                                DownloadID = gid,
-                                DownloadProgressState = DownloadProgressState.Queued,
-                                FileName = Path.GetFileName(saveFilePath),
-                                FilePath = saveFilePath,
-                                DownloadSpeed = 0,
-                                CompletedSize = 0,
-                                TotalSize = 0,
-                            });
+                                DownloadProgress?.Invoke(new DownloadProgress()
+                                {
+                                    DownloadID = gid,
+                                    DownloadProgressState = DownloadProgressState.Queued,
+                                    FileName = Path.GetFileName(saveFilePath),
+                                    FilePath = saveFilePath,
+                                    DownloadSpeed = 0,
+                                    CompletedSize = 0,
+                                    TotalSize = 0,
+                                });
+                            }
                         }
                     }
                 }
@@ -233,20 +331,39 @@ namespace PowerTools.Services.Download
                     // 判断下载进程是否存在
                     if (await IsAria2ExistedAsync())
                     {
-                        JsonObject jsonObject = new()
-                        {
-                            ["jsonrpc"] = JsonValue.CreateStringValue("2.0"),
-                            ["id"] = JsonValue.CreateStringValue(string.Empty),
-                            ["method"] = JsonValue.CreateStringValue("aria2.unpause"),
-                            ["params"] = new JsonArray()
-                            {
-                                JsonValue.CreateStringValue(downloadID),
-                            }
-                        };
+                        /*
+                         <methodCall>
+                           <methodName>aria2.unpause</methodName>
+                           <params>
+                             <param>
+                               <value>
+                                 <string>downloadID</string>
+                               </value>
+                             </param>
+                           </params>
+                         </methodCall>
+                         */
+                        XmlDocument continueDownloadElement = new();
+                        XmlDeclaration xmlDeclaration = continueDownloadElement.CreateXmlDeclaration("1.0", null, null);
+                        continueDownloadElement.AppendChild(xmlDeclaration);
+                        XmlElement methodCallElement = continueDownloadElement.CreateElement("methodCall");
+                        continueDownloadElement.AppendChild(methodCallElement);
+                        XmlElement methodNameElement = continueDownloadElement.CreateElement("methodName");
+                        methodNameElement.InnerText = "aria2.unpause";
+                        methodCallElement.AppendChild(methodNameElement);
+                        XmlElement paramsElement = continueDownloadElement.CreateElement("params");
+                        methodCallElement.AppendChild(paramsElement);
+                        XmlElement paramElement = continueDownloadElement.CreateElement("param");
+                        paramsElement.AppendChild(paramElement);
+                        XmlElement valueElement = continueDownloadElement.CreateElement("value");
+                        paramElement.AppendChild(valueElement);
+                        XmlElement stringElement = continueDownloadElement.CreateElement("string");
+                        stringElement.InnerText = downloadID;
+                        valueElement.AppendChild(stringElement);
 
-                        string pauseDownloadString = jsonObject.Stringify();
-                        byte[] contentBytes = Encoding.UTF8.GetBytes(pauseDownloadString);
-                        StringContent stringContent = new(pauseDownloadString);
+                        string continueString = continueDownloadElement.OuterXml;
+                        byte[] contentBytes = Encoding.UTF8.GetBytes(continueString);
+                        StringContent stringContent = new(continueString);
                         stringContent.Headers.ContentLength = contentBytes.Length;
                         stringContent.Headers.ContentType.CharSet = "utf-8";
                         HttpClient httpClient = new();
@@ -255,35 +372,51 @@ namespace PowerTools.Services.Download
                         // 请求成功
                         if (response.IsSuccessStatusCode)
                         {
+                            /*
+                            <methodResponse>
+                             <params>
+                              <param>
+                               <value>
+                                <string>downloadID</string>
+                               </value>
+                              </param>
+                             </params>
+                            </methodResponse>
+                            */
                             string responseContent = await response.Content.ReadAsStringAsync();
-                            JsonObject resultObject = JsonObject.Parse(responseContent);
-                            string gid = resultObject.GetNamedString("result");
+                            XDocument responseDocument = XDocument.Parse(responseContent);
+                            XElement resultStringElement = responseDocument.Descendants("string").FirstOrDefault();
 
-                            Aria2SemaphoreSlim?.Wait();
-
-                            try
+                            if (resultStringElement is not null)
                             {
-                                if (Aria2DownloadDict.TryGetValue(gid, out string saveFilePath))
+                                string gid = resultStringElement.Value;
+
+                                Aria2SemaphoreSlim?.Wait();
+
+                                try
                                 {
-                                    DownloadProgress?.Invoke(new DownloadProgress()
+                                    if (Aria2DownloadDict.TryGetValue(gid, out string saveFilePath))
                                     {
-                                        DownloadID = gid,
-                                        DownloadProgressState = DownloadProgressState.Queued,
-                                        FileName = Path.GetFileName(saveFilePath),
-                                        FilePath = saveFilePath,
-                                        DownloadSpeed = 0,
-                                        CompletedSize = 0,
-                                        TotalSize = 0,
-                                    });
+                                        DownloadProgress?.Invoke(new DownloadProgress()
+                                        {
+                                            DownloadID = gid,
+                                            DownloadProgressState = DownloadProgressState.Queued,
+                                            FileName = Path.GetFileName(saveFilePath),
+                                            FilePath = saveFilePath,
+                                            DownloadSpeed = 0,
+                                            CompletedSize = 0,
+                                            TotalSize = 0,
+                                        });
+                                    }
                                 }
-                            }
-                            catch (Exception)
-                            {
-                                return;
-                            }
-                            finally
-                            {
-                                Aria2SemaphoreSlim?.Release();
+                                catch (Exception)
+                                {
+                                    return;
+                                }
+                                finally
+                                {
+                                    Aria2SemaphoreSlim?.Release();
+                                }
                             }
                         }
                     }
@@ -307,18 +440,37 @@ namespace PowerTools.Services.Download
                     // 判断下载进程是否存在
                     if (await IsAria2ExistedAsync())
                     {
-                        JsonObject jsonObject = new()
-                        {
-                            ["jsonrpc"] = JsonValue.CreateStringValue("2.0"),
-                            ["id"] = JsonValue.CreateStringValue(string.Empty),
-                            ["method"] = JsonValue.CreateStringValue("aria2.forcePause"),
-                            ["params"] = new JsonArray()
-                            {
-                                JsonValue.CreateStringValue(downloadID),
-                            }
-                        };
+                        /*
+                        <methodCall>
+                          <methodName>aria2.forcePause</methodName>
+                          <params>
+                            <param>
+                              <value>
+                                <string>downloadID</string>
+                              </value>
+                            </param>
+                          </params>
+                        </methodCall>
+                        */
+                        XmlDocument pauseDownloadElement = new();
+                        XmlDeclaration xmlDeclaration = pauseDownloadElement.CreateXmlDeclaration("1.0", null, null);
+                        pauseDownloadElement.AppendChild(xmlDeclaration);
+                        XmlElement methodCallElement = pauseDownloadElement.CreateElement("methodCall");
+                        pauseDownloadElement.AppendChild(methodCallElement);
+                        XmlElement methodNameElement = pauseDownloadElement.CreateElement("methodName");
+                        methodNameElement.InnerText = "aria2.forcePause";
+                        methodCallElement.AppendChild(methodNameElement);
+                        XmlElement paramsElement = pauseDownloadElement.CreateElement("params");
+                        methodCallElement.AppendChild(paramsElement);
+                        XmlElement paramElement = pauseDownloadElement.CreateElement("param");
+                        paramsElement.AppendChild(paramElement);
+                        XmlElement valueElement = pauseDownloadElement.CreateElement("value");
+                        paramElement.AppendChild(valueElement);
+                        XmlElement stringElement = pauseDownloadElement.CreateElement("string");
+                        stringElement.InnerText = downloadID;
+                        valueElement.AppendChild(stringElement);
 
-                        string pauseDownloadString = jsonObject.Stringify();
+                        string pauseDownloadString = pauseDownloadElement.OuterXml;
                         byte[] contentBytes = Encoding.UTF8.GetBytes(pauseDownloadString);
                         StringContent stringContent = new(pauseDownloadString);
                         stringContent.Headers.ContentLength = contentBytes.Length;
@@ -329,22 +481,38 @@ namespace PowerTools.Services.Download
                         // 请求成功
                         if (response.IsSuccessStatusCode)
                         {
+                            /*
+                            <methodResponse>
+                              <params>
+                               <param>
+                                <value>
+                                 <string>downloadID</string>
+                                </value>
+                               </param>
+                              </params>
+                             </methodResponse>
+                             */
                             string responseContent = await response.Content.ReadAsStringAsync();
-                            JsonObject resultObject = JsonObject.Parse(responseContent);
-                            string gid = resultObject.GetNamedString("result");
+                            XDocument responseDocument = XDocument.Parse(responseContent);
+                            XElement resultStringElement = responseDocument.Descendants("string").FirstOrDefault();
 
-                            if (Aria2DownloadDict.TryGetValue(gid, out string saveFilePath))
+                            if (resultStringElement is not null)
                             {
-                                DownloadProgress?.Invoke(new DownloadProgress()
+                                string gid = resultStringElement.Value;
+
+                                if (Aria2DownloadDict.TryGetValue(gid, out string saveFilePath))
                                 {
-                                    DownloadID = gid,
-                                    DownloadProgressState = DownloadProgressState.Paused,
-                                    FileName = Path.GetFileName(saveFilePath),
-                                    FilePath = saveFilePath,
-                                    DownloadSpeed = 0,
-                                    CompletedSize = 0,
-                                    TotalSize = 0,
-                                });
+                                    DownloadProgress?.Invoke(new DownloadProgress()
+                                    {
+                                        DownloadID = gid,
+                                        DownloadProgressState = DownloadProgressState.Paused,
+                                        FileName = Path.GetFileName(saveFilePath),
+                                        FilePath = saveFilePath,
+                                        DownloadSpeed = 0,
+                                        CompletedSize = 0,
+                                        TotalSize = 0,
+                                    });
+                                }
                             }
                         }
                     }
@@ -368,18 +536,37 @@ namespace PowerTools.Services.Download
                     // 判断下载进程是否存在
                     if (await IsAria2ExistedAsync())
                     {
-                        JsonObject jsonObject = new()
-                        {
-                            ["jsonrpc"] = JsonValue.CreateStringValue("2.0"),
-                            ["id"] = JsonValue.CreateStringValue(string.Empty),
-                            ["method"] = JsonValue.CreateStringValue("aria2.forceRemove"),
-                            ["params"] = new JsonArray()
-                            {
-                                JsonValue.CreateStringValue(downloadID),
-                            }
-                        };
+                        /*
+                         <methodCall>
+                           <methodName>aria2.forceRemove</methodName>
+                           <params>
+                             <param>
+                               <value>
+                                 <string>downloadID</string>
+                               </value>
+                             </param>
+                           </params>
+                         </methodCall>
+                         */
+                        XmlDocument deleteDownloadElement = new();
+                        XmlDeclaration xmlDeclaration = deleteDownloadElement.CreateXmlDeclaration("1.0", null, null);
+                        deleteDownloadElement.AppendChild(xmlDeclaration);
+                        XmlElement methodCallElement = deleteDownloadElement.CreateElement("methodCall");
+                        deleteDownloadElement.AppendChild(methodCallElement);
+                        XmlElement methodNameElement = deleteDownloadElement.CreateElement("methodName");
+                        methodNameElement.InnerText = "aria2.forceRemove";
+                        methodCallElement.AppendChild(methodNameElement);
+                        XmlElement paramsElement = deleteDownloadElement.CreateElement("params");
+                        methodCallElement.AppendChild(paramsElement);
+                        XmlElement paramElement = deleteDownloadElement.CreateElement("param");
+                        paramsElement.AppendChild(paramElement);
+                        XmlElement valueElement = deleteDownloadElement.CreateElement("value");
+                        paramElement.AppendChild(valueElement);
+                        XmlElement stringElement = deleteDownloadElement.CreateElement("string");
+                        stringElement.InnerText = downloadID;
+                        valueElement.AppendChild(stringElement);
 
-                        string deleteDownloadString = jsonObject.Stringify();
+                        string deleteDownloadString = deleteDownloadElement.OuterXml;
                         byte[] contentBytes = Encoding.UTF8.GetBytes(deleteDownloadString);
                         StringContent stringContent = new(deleteDownloadString);
                         stringContent.Headers.ContentLength = contentBytes.Length;
@@ -390,38 +577,54 @@ namespace PowerTools.Services.Download
                         // 请求成功
                         if (response.IsSuccessStatusCode)
                         {
+                            /*
+                            <methodResponse>
+                             <params>
+                              <param>
+                               <value>
+                                <string>downloadID</string>
+                               </value>
+                              </param>
+                             </params>
+                            </methodResponse>
+                            */
                             string responseContent = await response.Content.ReadAsStringAsync();
-                            JsonObject resultObject = JsonObject.Parse(responseContent);
-                            string gid = resultObject.GetNamedString("result");
+                            XDocument responseDocument = XDocument.Parse(responseContent);
+                            XElement resultStringElement = responseDocument.Descendants("string").FirstOrDefault();
 
-                            Aria2SemaphoreSlim?.Wait();
-
-                            try
+                            if (resultStringElement is not null)
                             {
-                                if (Aria2DownloadDict.TryGetValue(gid, out string saveFilePath))
+                                string gid = resultStringElement.Value;
+
+                                Aria2SemaphoreSlim?.Wait();
+
+                                try
                                 {
-                                    Aria2DownloadDict.Remove(gid);
-                                    DownloadProgress?.Invoke(new DownloadProgress()
+                                    if (Aria2DownloadDict.TryGetValue(gid, out string saveFilePath))
                                     {
-                                        DownloadID = gid,
-                                        DownloadProgressState = DownloadProgressState.Deleted,
-                                        FileName = Path.GetFileName(saveFilePath),
-                                        FilePath = saveFilePath,
-                                        DownloadSpeed = 0,
-                                        CompletedSize = 0,
-                                        TotalSize = 0,
-                                    });
-                                }
+                                        Aria2DownloadDict.Remove(gid);
+                                        DownloadProgress?.Invoke(new DownloadProgress()
+                                        {
+                                            DownloadID = gid,
+                                            DownloadProgressState = DownloadProgressState.Deleted,
+                                            FileName = Path.GetFileName(saveFilePath),
+                                            FilePath = saveFilePath,
+                                            DownloadSpeed = 0,
+                                            CompletedSize = 0,
+                                            TotalSize = 0,
+                                        });
+                                    }
 
-                                await RemoveResultAsync();
-                            }
-                            catch (Exception)
-                            {
-                                return;
-                            }
-                            finally
-                            {
-                                Aria2SemaphoreSlim?.Release();
+                                    await RemoveResultAsync();
+                                }
+                                catch (Exception)
+                                {
+                                    return;
+                                }
+                                finally
+                                {
+                                    Aria2SemaphoreSlim?.Release();
+                                }
                             }
                         }
                     }
@@ -448,26 +651,43 @@ namespace PowerTools.Services.Download
             {
                 if (await IsAria2ExistedAsync())
                 {
-                    JsonObject jsonObject = new()
+                    XmlDocument tellStatusDocument = new();
+                    XmlDeclaration xmlDecl = tellStatusDocument.CreateXmlDeclaration("1.0", null, null);
+                    tellStatusDocument.AppendChild(xmlDecl);
+                    XmlElement methodCallElement = tellStatusDocument.CreateElement("methodCall");
+                    tellStatusDocument.AppendChild(methodCallElement);
+                    XmlElement methodNameElement = tellStatusDocument.CreateElement("methodName");
+                    methodNameElement.InnerText = "aria2.tellStatus";
+                    methodCallElement.AppendChild(methodNameElement);
+                    XmlElement paramsElement = tellStatusDocument.CreateElement("params");
+                    methodCallElement.AppendChild(paramsElement);
+                    XmlElement param1Element = tellStatusDocument.CreateElement("param");
+                    paramsElement.AppendChild(param1Element);
+                    XmlElement value1Element = tellStatusDocument.CreateElement("value");
+                    param1Element.AppendChild(value1Element);
+                    XmlElement string1Element = tellStatusDocument.CreateElement("string");
+                    string1Element.InnerText = downloadID;
+                    value1Element.AppendChild(string1Element);
+                    XmlElement param2Element = tellStatusDocument.CreateElement("param");
+                    paramsElement.AppendChild(param2Element);
+                    XmlElement value2Element = tellStatusDocument.CreateElement("value");
+                    param2Element.AppendChild(value2Element);
+                    XmlElement arrayElement = tellStatusDocument.CreateElement("array");
+                    value2Element.AppendChild(arrayElement);
+                    XmlElement dataElement = tellStatusDocument.CreateElement("data");
+                    arrayElement.AppendChild(dataElement);
+                    string[] fieldsArray = ["gid", "status", "totalLength", "completedLength", "downloadSpeed"];
+                    foreach (string field in fieldsArray)
                     {
-                        ["jsonrpc"] = JsonValue.CreateStringValue("2.0"),
-                        ["id"] = JsonValue.CreateStringValue(string.Empty),
-                        ["method"] = JsonValue.CreateStringValue("aria2.tellStatus"),
-                        ["params"] = new JsonArray()
-                        {
-                            JsonValue.CreateStringValue(downloadID),
-                            new JsonArray()
-                            {
-                                JsonValue.CreateStringValue("gid"),
-                                JsonValue.CreateStringValue("status"),
-                                JsonValue.CreateStringValue("totalLength"),
-                                JsonValue.CreateStringValue("completedLength"),
-                                JsonValue.CreateStringValue("downloadSpeed")
-                            }
-                        }
-                    };
+                        XmlElement value3Element = tellStatusDocument.CreateElement("value");
+                        dataElement.AppendChild(value3Element);
 
-                    string tellStatusString = jsonObject.Stringify();
+                        XmlElement string2Element = tellStatusDocument.CreateElement("string");
+                        string2Element.InnerText = field;
+                        value3Element.AppendChild(string2Element);
+                    }
+
+                    string tellStatusString = tellStatusDocument.OuterXml;
                     byte[] contentBytes = Encoding.UTF8.GetBytes(tellStatusString);
                     StringContent stringContent = new(tellStatusString);
                     stringContent.Headers.ContentLength = contentBytes.Length;
@@ -479,14 +699,54 @@ namespace PowerTools.Services.Download
                     if (response.IsSuccessStatusCode)
                     {
                         isTellStatusSuccessfully = true;
-
+                        /*
+                        <methodResponse>
+                         <params>
+                          <param>
+                           <value>
+                            <struct>
+                             <member>
+                              <name>completedLength</name>
+                              <value>
+                               <string>61849600</string>
+                              </value>
+                             </member>
+                             <member>
+                              <name>downloadSpeed</name>
+                              <value>
+                               <string>504017</string>
+                              </value>
+                             </member>
+                             <member>
+                              <name>gid</name>
+                              <value>
+                               <string>3a499d980f961675</string>
+                              </value>
+                             </member>
+                             <member>
+                              <name>status</name>
+                              <value>
+                               <string>active</string>
+                              </value>
+                             </member>
+                             <member>
+                              <name>totalLength</name>
+                              <value>
+                               <string>272726240</string>
+                              </value>
+                             </member>
+                            </struct>
+                           </value>
+                          </param>
+                         </params>
+                        </methodResponse>
+                        */
                         string responseContent = await response.Content.ReadAsStringAsync();
-                        JsonObject resultObject = JsonObject.Parse(responseContent);
-                        JsonObject downloadResultObject = resultObject.GetNamedObject("result");
-                        string status = downloadResultObject.GetNamedString("status");
-                        completedSize = Convert.ToDouble(downloadResultObject.GetNamedString("completedLength"));
-                        totalSize = Convert.ToDouble(downloadResultObject.GetNamedString("totalLength"));
-                        downloadSpeed = Convert.ToDouble(downloadResultObject.GetNamedString("downloadSpeed"));
+                        XDocument responseDocument = XDocument.Parse(responseContent);
+                        string status = GetValue(responseDocument, "status", "[Unknown]");
+                        completedSize = Convert.ToDouble(GetValue(responseDocument, "completedLength", "0"));
+                        totalSize = Convert.ToDouble(GetValue(responseDocument, "totalLength", "0"));
+                        downloadSpeed = Convert.ToDouble(GetValue(responseDocument, "downloadSpeed", "0"));
 
                         if (string.Equals(status, "active", StringComparison.OrdinalIgnoreCase))
                         {
@@ -584,14 +844,21 @@ namespace PowerTools.Services.Download
                     // 判断下载进程是否存在
                     if (await IsAria2ExistedAsync())
                     {
-                        JsonObject jsonObject = new()
-                        {
-                            ["jsonrpc"] = JsonValue.CreateStringValue("2.0"),
-                            ["id"] = JsonValue.CreateStringValue(string.Empty),
-                            ["method"] = JsonValue.CreateStringValue("aria2.purgeDownloadResult"),
-                        };
+                        /*
+                        <methodCall>
+                         <methodName>aria2.purgeDownloadResult</methodName>
+                        </methodCall>
+                        */
+                        XmlDocument removeResultDocument = new();
+                        XmlDeclaration xmlDeclaration = removeResultDocument.CreateXmlDeclaration("1.0", null, null);
+                        removeResultDocument.AppendChild(xmlDeclaration);
+                        XmlElement methodCallElement = removeResultDocument.CreateElement("methodCall");
+                        removeResultDocument.AppendChild(methodCallElement);
+                        XmlElement methodNameElement = removeResultDocument.CreateElement("methodName");
+                        methodNameElement.InnerText = "aria2.purgeDownloadResult";
+                        methodCallElement.AppendChild(methodNameElement);
 
-                        string removeResultString = jsonObject.Stringify();
+                        string removeResultString = removeResultDocument.OuterXml;
                         byte[] contentBytes = Encoding.UTF8.GetBytes(removeResultString);
                         StringContent stringContent = new(removeResultString);
                         stringContent.Headers.ContentLength = contentBytes.Length;
@@ -605,6 +872,11 @@ namespace PowerTools.Services.Download
                     //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(RemoveResultAsync), 1, e);
                 }
             });
+        }
+
+        private static string GetValue(XDocument xDocument, string name, string defaultValue)
+        {
+            return xDocument.Descendants("member").FirstOrDefault(item => string.Equals(item.Element("name")?.Value, name))?.Element("value")?.Element("string")?.Value ?? defaultValue;
         }
     }
 }
