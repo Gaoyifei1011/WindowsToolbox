@@ -116,6 +116,7 @@
             <!--  日志记录设置  -->
             <controls:Expander
                 Grid.Row="1"
+                Padding="0"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"

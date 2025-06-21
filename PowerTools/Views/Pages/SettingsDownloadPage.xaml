@@ -78,13 +78,25 @@
                     </TextBlock>
                 </StackPanel>
 
-                <DropDownButton
+                <controls:DropDownButton
                     Grid.Column="2"
                     Margin="6,0,0,0"
                     Content="{x:Bind rootservice:ResourceService.SettingsDownloadResource.GetString('ChangeFolder')}">
 
-                    <DropDownButton.Flyout>
+                    <controls:DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem
+                                Height="32"
+                                Padding="11,0"
+                                Click="{x:Bind OnDownloadChangeFolderClicked}"
+                                Tag="AppCache"
+                                Text="{x:Bind rootservice:ResourceService.SettingsDownloadResource.GetString('AppCacheFolder')}">
+
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xECAA;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+
                             <MenuFlyoutItem
                                 Height="32"
                                 Padding="11,0"
@@ -118,8 +130,8 @@
                                 Tag="Custom"
                                 Text="{x:Bind rootservice:ResourceService.SettingsDownloadResource.GetString('Custom')}" />
                         </MenuFlyout>
-                    </DropDownButton.Flyout>
-                </DropDownButton>
+                    </controls:DropDownButton.Flyout>
+                </controls:DropDownButton>
             </Grid>
 
             <!--  下载引擎方式设置  -->
@@ -181,12 +193,12 @@
                     Click="{x:Bind OnLearnDoEngineClicked}"
                     Content="{x:Bind rootservice:ResourceService.SettingsDownloadResource.GetString('LearnDoEngine')}" />
 
-                <DropDownButton
+                <controls:DropDownButton
                     Grid.Column="3"
                     VerticalAlignment="Center"
                     Content="{x:Bind DoEngineMode.Value, Mode=OneWay}">
 
-                    <DropDownButton.Flyout>
+                    <controls:DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <controls:RadioMenuFlyoutItem
                                 Height="32"
@@ -215,8 +227,8 @@
                                 Tag="{x:Bind DoEngineModeList[2]}"
                                 Text="{x:Bind DoEngineModeList[2].Value}" />
                         </MenuFlyout>
-                    </DropDownButton.Flyout>
-                </DropDownButton>
+                    </controls:DropDownButton.Flyout>
+                </controls:DropDownButton>
             </Grid>
 
             <!--  传递优化设置  -->
