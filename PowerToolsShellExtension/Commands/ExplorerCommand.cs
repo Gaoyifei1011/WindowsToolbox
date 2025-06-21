@@ -421,7 +421,7 @@ namespace PowerToolsShellExtension.Commands
         /// </summary>
         public int SetSite(IntPtr pUnkSite)
         {
-            return pUnkSite == IntPtr.Zero ? unchecked((int)0x80004002) : Marshal.QueryInterface(pUnkSite, IID_IUnknown, out site);
+            return pUnkSite.Equals(IntPtr.Zero) ? unchecked((int)0x80004002) : Marshal.QueryInterface(pUnkSite, IID_IUnknown, out site);
         }
 
         /// <summary>

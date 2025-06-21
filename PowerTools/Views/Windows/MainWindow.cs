@@ -641,7 +641,7 @@ namespace PowerTools.Views.Windows
                         {
                             // 移除标题栏的逻辑基本来自 Windows Terminal
                             // https://github.com/microsoft/terminal/blob/0ee2c74cd432eda153f3f3e77588164cde95044f/src/cascadia/WindowsTerminal/NonClientIslandWindow.cpp
-                            if (wParam == UIntPtr.Zero)
+                            if (wParam.Equals(UIntPtr.Zero))
                             {
                                 return IntPtr.Zero;
                             }
@@ -779,7 +779,7 @@ namespace PowerTools.Views.Windows
                         else if (sysCommand is SYSTEMCOMMAND.SC_KEYMENU)
                         {
                             // 禁用按 Alt 键会激活窗口菜单的行为，它使用户界面无法交互
-                            if (lParam == IntPtr.Zero)
+                            if (lParam.Equals(IntPtr.Zero))
                             {
                                 return IntPtr.Zero;
                             }
@@ -837,7 +837,7 @@ namespace PowerTools.Views.Windows
                 // 固定应用到任务栏完成提示窗口消息
                 case WindowMessage.WM_PINNOTIFY:
                     {
-                        if (wParam == new UIntPtr(1))
+                        if (wParam.Equals(new UIntPtr(1)))
                         {
                             BeginInvoke(async () =>
                             {
@@ -930,14 +930,14 @@ namespace PowerTools.Views.Windows
                         {
                             // 将 hover 状态通知 CaptionButtons。标题栏窗口拦截了 XAML Islands 中的标题栏
                             // 控件的鼠标消息，标题栏按钮的状态由我们手动控制。
-                            if (wParam == (UIntPtr)(uint)HITTEST.HTTOP || wParam == (UIntPtr)(uint)HITTEST.HTCAPTION)
+                            if (wParam.Equals((UIntPtr)(uint)HITTEST.HTTOP) || wParam.Equals((UIntPtr)(uint)HITTEST.HTCAPTION))
                             {
                                 mainPage.LeaveButtons();
 
                                 // 将 HTTOP 传给主窗口才能通过上边框调整窗口高度
                                 return User32Library.SendMessage(Handle, Msg, wParam, lParam);
                             }
-                            else if (wParam == (UIntPtr)(uint)HITTEST.HTMINBUTTON || wParam == (UIntPtr)(uint)HITTEST.HTMAXBUTTON || wParam == (UIntPtr)(uint)HITTEST.HTCLOSE)
+                            else if (wParam.Equals((UIntPtr)(uint)HITTEST.HTMINBUTTON) || wParam.Equals((UIntPtr)(uint)HITTEST.HTMAXBUTTON) || wParam.Equals((UIntPtr)(uint)HITTEST.HTCLOSE))
                             {
                                 if (wParam.ToUInt32() is (uint)HITTEST.HTMINBUTTON)
                                 {
@@ -1031,12 +1031,12 @@ namespace PowerTools.Views.Windows
                     {
                         // 手动处理标题栏上的点击。如果在标题栏按钮上，则通知 CaptionButtons，否则将消息传递
                         // 给主窗口。
-                        if (wParam == new UIntPtr((int)HITTEST.HTTOP) || wParam == new UIntPtr((int)HITTEST.HTCAPTION))
+                        if (wParam.Equals(new UIntPtr((int)HITTEST.HTTOP)) || wParam.Equals(new UIntPtr((int)HITTEST.HTCAPTION)))
                         {
                             // 将 HTTOP 传给主窗口才能通过上边框调整窗口高度
                             return User32Library.SendMessage(Handle, Msg, wParam, lParam);
                         }
-                        else if (wParam == new UIntPtr((int)HITTEST.HTMINBUTTON) || wParam == new UIntPtr((int)HITTEST.HTMAXBUTTON) || wParam == new UIntPtr((int)HITTEST.HTCLOSE))
+                        else if (wParam.Equals(new UIntPtr((int)HITTEST.HTMINBUTTON)) || wParam.Equals(new UIntPtr((int)HITTEST.HTMAXBUTTON)) || wParam.Equals(new UIntPtr((int)HITTEST.HTCLOSE)))
                         {
                             if (wParam.ToUInt32() is (uint)HITTEST.HTMINBUTTON)
                             {
@@ -1062,12 +1062,12 @@ namespace PowerTools.Views.Windows
                     {
                         // 手动处理标题栏上的点击。如果在标题栏按钮上，则通知 CaptionButtons，否则将消息传递
                         // 给主窗口。
-                        if (wParam == new UIntPtr((int)HITTEST.HTTOP) || wParam == new UIntPtr((int)HITTEST.HTCAPTION))
+                        if (wParam.Equals(new UIntPtr((int)HITTEST.HTTOP)) || wParam.Equals(new UIntPtr((int)HITTEST.HTCAPTION)))
                         {
                             // 将 HTTOP 传给主窗口才能通过上边框调整窗口高度
                             return User32Library.SendMessage(Handle, Msg, wParam, lParam);
                         }
-                        else if (wParam == new UIntPtr((int)HITTEST.HTMINBUTTON) || wParam == new UIntPtr((int)HITTEST.HTMAXBUTTON) || wParam == new UIntPtr((int)HITTEST.HTCLOSE))
+                        else if (wParam.Equals(new UIntPtr((int)HITTEST.HTMINBUTTON)) || wParam.Equals(new UIntPtr((int)HITTEST.HTMAXBUTTON)) || wParam.Equals(new UIntPtr((int)HITTEST.HTCLOSE)))
                         {
                             if (wParam.ToUInt32() is (uint)HITTEST.HTMINBUTTON)
                             {
@@ -1102,13 +1102,13 @@ namespace PowerTools.Views.Windows
                     {
                         // 处理鼠标在标题栏上释放。如果位于标题栏按钮上，则传递给 CaptionButtons，不在则将消息传递给主窗口
                         // 给主窗口。
-                        if (wParam == new UIntPtr((int)HITTEST.HTTOP) || wParam == new UIntPtr((int)HITTEST.HTCAPTION))
+                        if (wParam.Equals(new UIntPtr((int)HITTEST.HTTOP)) || wParam.Equals(new UIntPtr((int)HITTEST.HTCAPTION)))
                         {
                             // 在可拖拽区域或上边框释放左键，将此消息传递给主窗口
                             (Content as MainPage).ReleaseButtons();
                             return User32Library.SendMessage(Handle, Msg, wParam, lParam);
                         }
-                        else if (wParam == new UIntPtr((int)HITTEST.HTMINBUTTON) || wParam == new UIntPtr((int)HITTEST.HTMAXBUTTON) || wParam == new UIntPtr((int)HITTEST.HTCLOSE))
+                        else if (wParam.Equals(new UIntPtr((int)HITTEST.HTMINBUTTON)) || wParam.Equals(new UIntPtr((int)HITTEST.HTMAXBUTTON)) || wParam.Equals(new UIntPtr((int)HITTEST.HTCLOSE)))
                         {
                             if (wParam.ToUInt32() is (uint)HITTEST.HTMINBUTTON)
                             {

@@ -397,7 +397,7 @@ namespace PowerTools.Views.Pages
         {
             try
             {
-                if (NavigationItemList.Find(item => item.NavigationPage == navigationPageType) is NavigationModel navigationItem)
+                if (NavigationItemList.Find(item => Equals(item.NavigationPage, navigationPageType)) is NavigationModel navigationItem)
                 {
                     if (slideDirection.HasValue)
                     {

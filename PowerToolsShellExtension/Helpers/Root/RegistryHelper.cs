@@ -57,14 +57,14 @@ namespace PowerToolsShellExtension.Helpers.Root
                             {
                                 int regValue = data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
 
-                                value = typeof(T) == typeof(bool) || typeof(T) == typeof(bool?) ? (T)(object)Convert.ToBoolean(regValue) : (T)(object)regValue;
+                                value = Equals(typeof(T), typeof(bool)) || Equals(typeof(T), typeof(bool?)) ? (T)(object)Convert.ToBoolean(regValue) : (T)(object)regValue;
                             }
                             // 采用 big-endian 格式的 32 位数字
                             else if (kind is RegistryValueKind.REG_DWORD_BIG_ENDIAN)
                             {
                                 int regValue = data[3] | (data[2] << 8) | (data[1] << 16) | (data[0] << 24);
 
-                                value = typeof(T) == typeof(bool) || typeof(T) == typeof(bool?) ? (T)(object)Convert.ToBoolean(regValue) : (T)(object)value;
+                                value = Equals(typeof(T), typeof(bool)) || Equals(typeof(T), typeof(bool?)) ? (T)(object)Convert.ToBoolean(regValue) : (T)(object)value;
                             }
                             // 字符串序列
                             else if (kind is RegistryValueKind.REG_MULTI_SZ)

@@ -406,7 +406,7 @@ namespace PowerTools.Views.Backdrop
             {
                 POWERBROADCAST_SETTING setting = Marshal.PtrToStructure<POWERBROADCAST_SETTING>(lParam);
 
-                if (setting.PowerSetting == GUID_POWER_SAVING_STATUS)
+                if (Equals(setting.PowerSetting, GUID_POWER_SAVING_STATUS))
                 {
                     Kernel32Library.GetSystemPowerStatus(out SYSTEM_POWER_STATUS status);
                     isEnergySaverEnabled = Convert.ToBoolean(status.SystemStatusFlag);

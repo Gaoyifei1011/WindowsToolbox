@@ -411,7 +411,7 @@ namespace PowerTools.Views.Pages
         {
             try
             {
-                if (NavigationItemList.Find(item => item.NavigationPage == navigationPageType) is NavigationModel navigationItem)
+                if (NavigationItemList.Find(item => Equals(item.NavigationPage, navigationPageType)) is NavigationModel navigationItem)
                 {
                     // 如果点击的是子项，而父项没有展开，则自动展开父项中所有的子项
                     if (!string.IsNullOrEmpty(navigationItem.ParentTag))
@@ -452,7 +452,7 @@ namespace PowerTools.Views.Pages
                 // 在向后导航前，如果向后导航选中的是子项，而父项没有展开，则自动展开父项中所有的子项
                 try
                 {
-                    if (NavigationItemList.Find(item => item.NavigationPage == (MainNavigationView.Content as Frame).BackStack.Last().SourcePageType) is NavigationModel navigationItem && navigationItem.ParentTag is not null)
+                    if (NavigationItemList.Find(item => Equals(item.NavigationPage, (MainNavigationView.Content as Frame).BackStack.Last().SourcePageType)) is NavigationModel navigationItem && navigationItem.ParentTag is not null)
                     {
                         // 查找父项
                         NavigationModel parentNavigationItem = NavigationItemList.Find(item => string.Equals(item.NavigationTag, navigationItem.ParentTag, StringComparison.OrdinalIgnoreCase));
@@ -747,7 +747,7 @@ namespace PowerTools.Views.Pages
         {
             if (pressedButton is not null && pressedButton.HasValue)
             {
-                bool hoveringOnPressedButton = pressedButton.Value == button;
+                bool hoveringOnPressedButton = Equals(pressedButton.Value, button);
                 allInNormal = !hoveringOnPressedButton;
 
                 if (IsWindowMinimizeEnabled)
@@ -899,7 +899,7 @@ namespace PowerTools.Views.Pages
 
         private bool GetWindowMaximizeState(bool isWindowMaximized, bool isWindowMaximizeEnabled, string isReverse)
         {
-            return isWindowMaximizeEnabled && (isReverse == nameof(isReverse) ? Equals(isWindowMaximized, false) : isWindowMaximized);
+            return isWindowMaximizeEnabled && (string.Equals(isReverse, nameof(isReverse)) ? Equals(isWindowMaximized, false) : isWindowMaximized);
         }
     }
 }
