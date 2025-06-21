@@ -1,5 +1,8 @@
 ﻿namespace PowerTools.Extensions.DataType.Enums
 {
+    /// <summary>
+    /// 菜单项禁止启用原因类型
+    /// </summary>
     public enum BlockedClsidType
     {
         Unknown = 0,

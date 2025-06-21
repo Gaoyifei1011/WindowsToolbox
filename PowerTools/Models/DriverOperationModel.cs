@@ -8,6 +8,9 @@ namespace PowerTools.Models
     /// </summary>
     public class DriverOperationModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// 驱动操作是否正在进行中
+        /// </summary>
         private bool _isOperating;
 
         public bool IsOperating

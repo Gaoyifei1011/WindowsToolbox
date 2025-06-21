@@ -1,5 +1,8 @@
 ﻿namespace PowerTools.Extensions.DataType.Enums
 {
+    /// <summary>
+    /// 操作通知类型
+    /// </summary>
     public enum OperationKind
     {
         AddDriverAllSuccessfully = 0,

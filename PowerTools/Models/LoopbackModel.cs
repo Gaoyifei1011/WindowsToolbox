@@ -9,6 +9,9 @@ namespace PowerTools.Models
     /// </summary>
     public sealed class LoopbackModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// 网络回环项是否被选择
+        /// </summary>
         private bool _isSelected;
 
         public bool IsSelected

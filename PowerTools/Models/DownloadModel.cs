@@ -9,6 +9,9 @@ namespace PowerTools.Models
 {
     public sealed class DownloadModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// 下载操作是否正在进行中
+        /// </summary>
         private bool _isOperating;
 
         public bool IsOperating
@@ -25,6 +28,9 @@ namespace PowerTools.Models
             }
         }
 
+        /// <summary>
+        /// 文件图标
+        /// </summary>
         private ImageSource _iconImage;
 
         public ImageSource IconImage

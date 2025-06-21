@@ -8,6 +8,9 @@ namespace PowerTools.Models
     /// </summary>
     public class DriverModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// 驱动是否已经被选择
+        /// </summary>
         private bool _isSelected;
 
         public bool IsSelected

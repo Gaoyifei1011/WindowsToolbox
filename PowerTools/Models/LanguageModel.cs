@@ -4,12 +4,18 @@ using System.ComponentModel;
 namespace PowerTools.Models
 {
     /// <summary>
-    /// 语言模型
+    /// 语言数据模型
     /// </summary>
     public sealed partial class LanguageModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// 语言信息
+        /// </summary>
         public KeyValuePair<string, string> LangaugeInfo { get; set; }
 
+        /// <summary>
+        /// 语言项是否已经被选择
+        /// </summary>
         private bool _isChecked;
 
         public bool IsChecked
