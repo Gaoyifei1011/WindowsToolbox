@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -82,6 +84,7 @@ namespace ThemeSwitch.Views.Windows
             }
 
             SystemTrayService.RightClick += OnRightClick;
+            SystemTrayService.MouseDoubleClick += OnDoubleClick;
             timer.Elapsed += OnElapsed;
 
             Task.Run(() =>
@@ -176,6 +179,24 @@ namespace ThemeSwitch.Views.Windows
 
             Activate();
             (Content as ThemeSwitchTrayPage).ThemeSwitchFlyout.ShowAt(Content, options);
+        }
+
+        /// <summary>
+        /// 处理托盘鼠标右键双击事件
+        /// </summary>
+        private void OnDoubleClick(object sender, MouseEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    Process.Start("powertools:");
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, "Open main program failed", e);
+                }
+            });
         }
 
         /// <summary>
