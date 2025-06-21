@@ -190,7 +190,7 @@ namespace PowerTools.Views.Backdrop
                         backgroundElement.ActualThemeChanged -= OnActualThemeChanged;
                     }
 
-                    if (hPowerNotify != IntPtr.Zero)
+                    if (!hPowerNotify.Equals(IntPtr.Zero))
                     {
                         User32Library.UnregisterPowerSettingNotification(hPowerNotify);
                         hPowerNotify = IntPtr.Zero;

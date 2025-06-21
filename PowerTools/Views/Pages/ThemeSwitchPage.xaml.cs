@@ -512,7 +512,7 @@ namespace PowerTools.Views.Pages
 
                         foreach (Process process in processArray)
                         {
-                            if (process.Id is not 0 && process.MainWindowHandle != IntPtr.Zero)
+                            if (process.Id is not 0 && !process.MainWindowHandle.Equals(IntPtr.Zero))
                             {
                                 isExisted = true;
                                 string message = "Auto switch theme settings changed";
@@ -555,7 +555,7 @@ namespace PowerTools.Views.Pages
 
                     foreach (Process process in processArray)
                     {
-                        if (process.Id is not 0 && process.MainWindowHandle != IntPtr.Zero)
+                        if (process.Id is not 0 && !process.MainWindowHandle.Equals(IntPtr.Zero))
                         {
                             string message = "Auto switch theme settings changed";
 
@@ -600,7 +600,7 @@ namespace PowerTools.Views.Pages
 
                 foreach (Process process in processArray)
                 {
-                    if (process.Id is not 0 && process.MainWindowHandle != IntPtr.Zero)
+                    if (process.Id is not 0 && !process.MainWindowHandle.Equals(IntPtr.Zero))
                     {
                         string message = "Auto switch theme settings changed";
 
@@ -644,7 +644,7 @@ namespace PowerTools.Views.Pages
 
                 foreach (Process process in processArray)
                 {
-                    if (process.Id is not 0 && process.MainWindowHandle != IntPtr.Zero)
+                    if (process.Id is not 0 && !process.MainWindowHandle.Equals(IntPtr.Zero))
                     {
                         isExisted = true;
                         string message = "Auto switch theme settings changed";

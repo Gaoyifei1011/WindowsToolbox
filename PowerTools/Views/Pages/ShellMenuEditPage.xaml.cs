@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
+using PowerTools.Extensions.DataType.Class;
 using PowerTools.Extensions.DataType.Enums;
-using PowerTools.Extensions.ShellMenu;
 using PowerTools.Services.Root;
 using PowerTools.Services.Shell;
 using PowerTools.Views.NotificationTips;

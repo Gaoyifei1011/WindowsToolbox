@@ -1580,7 +1580,7 @@ namespace PowerTools.Views.Pages
                 List<SystemDriverInformation> systemDriverInformationList = [];
                 IntPtr deviceInfoSet = SetupapiLibrary.SetupDiGetClassDevs(Guid.Empty, null, IntPtr.Zero, DIGCF.DIGCF_ALLCLASSES);
 
-                if (deviceInfoSet != IntPtr.Zero)
+                if (!deviceInfoSet.Equals(IntPtr.Zero))
                 {
                     SP_DEVINFO_DATA deviceInfoData = new()
                     {

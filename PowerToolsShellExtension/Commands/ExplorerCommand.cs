@@ -163,7 +163,7 @@ namespace PowerToolsShellExtension.Commands
             if (FileShellMenuService.GetFileShellMenuValue() && shellMenuItem is not null)
             {
                 // Directory\Background
-                if (psiItemArray is null && site != IntPtr.Zero)
+                if (psiItemArray is null && !site.Equals(IntPtr.Zero))
                 {
                     string folderPath = string.Empty;
 
@@ -172,7 +172,7 @@ namespace PowerToolsShellExtension.Commands
                     WindowsAPI.ComTypes.IServiceProvider serviceProvider = ComInterfaceMarshaller<WindowsAPI.ComTypes.IServiceProvider>.ConvertToManaged((void*)serviceProviderPtr);
 
                     serviceProvider.QueryService(SID_SFolderView, typeof(IFolderView).GUID, out IntPtr folderViewPtr);
-                    if (folderViewPtr != IntPtr.Zero)
+                    if (!folderViewPtr.Equals(IntPtr.Zero))
                     {
                         IFolderView folderView = ComInterfaceMarshaller<IFolderView>.ConvertToManaged((void*)folderViewPtr);
                         folderView.GetFolder(typeof(IShellItem).GUID, out IntPtr iShellItemPtr);
@@ -256,7 +256,7 @@ namespace PowerToolsShellExtension.Commands
                     WindowsAPI.ComTypes.IServiceProvider serviceProvider = ComInterfaceMarshaller<WindowsAPI.ComTypes.IServiceProvider>.ConvertToManaged((void*)serviceProviderPtr);
 
                     serviceProvider.QueryService(SID_SFolderView, typeof(IFolderView).GUID, out IntPtr folderViewPtr);
-                    if (folderViewPtr != IntPtr.Zero)
+                    if (!folderViewPtr.Equals(IntPtr.Zero))
                     {
                         IFolderView folderView = ComInterfaceMarshaller<IFolderView>.ConvertToManaged((void*)folderViewPtr);
                         folderView.GetFolder(typeof(IShellItem).GUID, out IntPtr iShellItemPtr);
@@ -429,7 +429,7 @@ namespace PowerToolsShellExtension.Commands
         /// </summary>
         public int GetSite(in Guid riid, out IntPtr ppvSite)
         {
-            if (site != IntPtr.Zero)
+            if (!site.Equals(IntPtr.Zero))
             {
                 return Marshal.QueryInterface(site, IID_IUnknown, out ppvSite);
             }

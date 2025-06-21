@@ -18,7 +18,7 @@ namespace PowerTools.Extensions.PriExtract
 
         public UnknownSection(string sectionIdentifier, BinaryReader binaryReader)
         {
-            if (new string(binaryReader.ReadChars(16)) != sectionIdentifier)
+            if (!new string(binaryReader.ReadChars(16)).Equals(sectionIdentifier))
             {
                 throw new InvalidDataException("Unexpected section identifier.");
             }

@@ -46,7 +46,7 @@ namespace PowerTools.Views.Backdrop
             if (index is 0)
             {
                 BackdropHelper.PropertyValueStatics.CreateSingleArray(4, [Color.R / 255.0f, Color.G / 255.0f, Color.B / 255.0f, Color.A / 255.0f], out IntPtr ptr);
-                if (ptr != IntPtr.Zero)
+                if (!ptr.Equals(IntPtr.Zero))
                 {
                     source = ptr;
                     return 0;

@@ -144,7 +144,7 @@ namespace PowerTools.Views.Windows
             try
             {
                 bool unHookResult = true;
-                if (hHook != IntPtr.Zero)
+                if (!hHook.Equals(IntPtr.Zero))
                 {
                     unHookResult = User32Library.UnhookWindowsHookEx(hHook);
                 }

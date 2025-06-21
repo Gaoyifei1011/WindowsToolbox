@@ -395,7 +395,7 @@ namespace PowerTools.Views.Pages
 
                         INET_FIREWALL_AC_BINARIES inetBinaries = inetContainerItem.binaries;
                         string[] stringBinaries = null;
-                        if (inetBinaries.count != 0 && inetBinaries.binaries != IntPtr.Zero)
+                        if (inetBinaries.count is not 0 && !inetBinaries.binaries.Equals(IntPtr.Zero))
                         {
                             stringBinaries = new string[inetBinaries.count];
                             long num = inetBinaries.binaries.ToInt64();
@@ -411,7 +411,7 @@ namespace PowerTools.Views.Pages
                         try
                         {
                             byte revision = Marshal.ReadByte(inetContainerItem.appContainerSid, 0);
-                            if (revision is 1 && inetContainerItem.appContainerSid != IntPtr.Zero)
+                            if (revision is 1 && !inetContainerItem.appContainerSid.Equals(IntPtr.Zero))
                             {
                                 appContainerSid = new SecurityIdentifier(inetContainerItem.appContainerSid);
                             }
@@ -426,7 +426,7 @@ namespace PowerTools.Views.Pages
                         try
                         {
                             byte revision = Marshal.ReadByte(inetContainerItem.appContainerSid, 0);
-                            if (revision is 1 && inetContainerItem.userSid != IntPtr.Zero)
+                            if (revision is 1 && !inetContainerItem.userSid.Equals(IntPtr.Zero))
                             {
                                 SecurityIdentifier userSid = new(inetContainerItem.userSid);
                                 userAccountType = (NTAccount)userSid.Translate(typeof(NTAccount));

@@ -56,7 +56,7 @@ namespace PowerTools.Views.Backdrop
             {
                 BackdropHelper.PropertyValueStatics.CreateUInt32((uint)ExtendX, out IntPtr ptr);
 
-                if (ptr != IntPtr.Zero)
+                if (!ptr.Equals(IntPtr.Zero))
                 {
                     source = ptr;
                     return 0;
@@ -66,7 +66,7 @@ namespace PowerTools.Views.Backdrop
             {
                 BackdropHelper.PropertyValueStatics.CreateUInt32((uint)ExtendY, out IntPtr ptr);
 
-                if (ptr != IntPtr.Zero)
+                if (!ptr.Equals(IntPtr.Zero))
                 {
                     source = ptr;
                     return 0;

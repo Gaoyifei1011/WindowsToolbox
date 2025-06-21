@@ -23,7 +23,7 @@ namespace PowerTools.Extensions.PriExtract
 
         public HierarchicalSchemaSection(string sectionIdentifier, BinaryReader binaryReader, bool extendedVersion)
         {
-            if (new string(binaryReader.ReadChars(16)) != sectionIdentifier)
+            if (!string.Equals(new string(binaryReader.ReadChars(16)), sectionIdentifier))
             {
                 throw new InvalidDataException("Unexpected section identifier.");
             }
@@ -90,7 +90,7 @@ namespace PowerTools.Extensions.PriExtract
             UniqueName = binaryReader.ReadNullTerminatedString(Encoding.Unicode);
             Name = binaryReader.ReadNullTerminatedString(Encoding.Unicode);
 
-            if (UniqueName.Length != uniqueNameLength - 1 || Name.Length != nameLength - 1)
+            if (!UniqueName.Length.Equals(uniqueNameLength - 1) || !Name.Length.Equals(nameLength - 1))
             {
                 throw new InvalidDataException();
             }
@@ -216,7 +216,7 @@ namespace PowerTools.Extensions.PriExtract
                 {
                     if (scopeAndItemInfosList[i].IsScope)
                     {
-                        if (parent != index)
+                        if (!parent.Equals(index))
                         {
                             scopesArray[index].Parent = scopesArray[parent];
                         }

@@ -64,7 +64,7 @@ namespace PowerTools.Views.Backdrop
             {
                 BackdropHelper.PropertyValueStatics.CreateSingle(BlurAmount, out IntPtr ptr);
 
-                if (ptr != IntPtr.Zero)
+                if (!ptr.Equals(IntPtr.Zero))
                 {
                     source = ptr;
                     return 0;
@@ -74,7 +74,7 @@ namespace PowerTools.Views.Backdrop
             {
                 BackdropHelper.PropertyValueStatics.CreateUInt32((uint)Optimization, out IntPtr ptr);
 
-                if (ptr != IntPtr.Zero)
+                if (!ptr.Equals(IntPtr.Zero))
                 {
                     source = ptr;
                     return 0;
@@ -84,7 +84,7 @@ namespace PowerTools.Views.Backdrop
             {
                 BackdropHelper.PropertyValueStatics.CreateUInt32((uint)BorderMode, out IntPtr ptr);
 
-                if (ptr != IntPtr.Zero)
+                if (!ptr.Equals(IntPtr.Zero))
                 {
                     source = ptr;
                     return 0;

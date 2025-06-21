@@ -49,7 +49,7 @@ namespace PowerTools.Views.Backdrop
             if (index is 0)
             {
                 BackdropHelper.PropertyValueStatics.CreateSingle((float)CrossFade, out IntPtr ptr);
-                if (ptr != IntPtr.Zero)
+                if (!ptr.Equals(IntPtr.Zero))
                 {
                     source = ptr;
                     return 0;

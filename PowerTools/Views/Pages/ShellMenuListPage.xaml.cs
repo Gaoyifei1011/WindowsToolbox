@@ -1,5 +1,5 @@
-﻿using PowerTools.Extensions.DataType.Enums;
-using PowerTools.Extensions.ShellMenu;
+﻿using PowerTools.Extensions.DataType.Class;
+using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Models;
 using PowerTools.Services.Root;
 using PowerTools.Services.Shell;

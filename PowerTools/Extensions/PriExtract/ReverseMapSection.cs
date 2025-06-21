@@ -28,7 +28,7 @@ namespace PowerTools.Extensions.PriExtract
         {
             SectionIdentifier = sectionIdentifier;
 
-            if (new string(binaryReader.ReadChars(16)) != SectionIdentifier)
+            if (!string.Equals(new string(binaryReader.ReadChars(16)), sectionIdentifier))
             {
                 throw new InvalidDataException("Unexpected section identifier.");
             }
@@ -160,7 +160,7 @@ namespace PowerTools.Extensions.PriExtract
                 {
                     if (isScope)
                     {
-                        if (parent != index)
+                        if (!parent.Equals(index))
                         {
                             scopesArray[index].Parent = scopesArray[parent];
                         }

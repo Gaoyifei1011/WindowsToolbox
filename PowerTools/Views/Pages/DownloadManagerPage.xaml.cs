@@ -189,7 +189,7 @@ namespace PowerTools.Views.Pages
                             if (File.Exists(filePath))
                             {
                                 IntPtr pidlList = Shell32Library.ILCreateFromPath(filePath);
-                                if (pidlList != IntPtr.Zero)
+                                if (!pidlList.Equals(IntPtr.Zero))
                                 {
                                     Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, IntPtr.Zero, 0);
                                     Shell32Library.ILFree(pidlList);

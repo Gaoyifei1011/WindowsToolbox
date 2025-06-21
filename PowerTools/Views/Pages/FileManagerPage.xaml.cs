@@ -202,7 +202,7 @@ namespace PowerTools.Views.Pages
             {
                 NavigationModel navigationItem = NavigationItemList.Find(item => string.Equals(item.NavigationTag, tag, StringComparison.OrdinalIgnoreCase));
 
-                if (navigationItem.NavigationPage is not null && SelectedItem != navigationItem.NavigationItem)
+                if (navigationItem.NavigationPage is not null && !Equals(SelectedItem, navigationItem.NavigationItem))
                 {
                     int selectedIndex = sender.MenuItems.IndexOf(SelectedItem);
                     int invokedIndex = sender.MenuItems.IndexOf(navigationItem.NavigationItem);

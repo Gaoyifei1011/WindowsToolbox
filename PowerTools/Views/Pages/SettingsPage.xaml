@@ -360,7 +360,7 @@
                             Margin="16,10,16,10"
                             FontSize="15"
                             FontWeight="Normal"
-                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Download')}"
+                            Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('DownloadInstruction')}"
                             TextAlignment="Left" />
 
                         <TextBlock

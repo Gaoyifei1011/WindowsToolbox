@@ -47,7 +47,7 @@ namespace PowerTools.Views.Backdrop
 
             double opacityModifier = midPointMaxOpacity;
 
-            if (v != midPoint)
+            if (!v.Equals(midPoint))
             {
                 // Determine maximum suppression amount
                 double lowestMaxOpacity = midPointMaxOpacity;

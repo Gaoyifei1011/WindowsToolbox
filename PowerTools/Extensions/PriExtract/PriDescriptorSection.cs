@@ -32,7 +32,7 @@ namespace PowerTools.Extensions.PriExtract
 
         public PriDescriptorSection(string sectionIdentifier, BinaryReader binaryReader)
         {
-            if (new string(binaryReader.ReadChars(16)) != sectionIdentifier)
+            if (!string.Equals(new string(binaryReader.ReadChars(16)), sectionIdentifier))
             {
                 throw new InvalidDataException("Unexpected section identifier.");
             }

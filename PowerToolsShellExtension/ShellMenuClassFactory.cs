@@ -17,7 +17,7 @@ namespace PowerToolsShellExtension
 
         public unsafe int CreateInstance(IntPtr pUnkOuter, in Guid riid, out IntPtr ppvObject)
         {
-            if (pUnkOuter != IntPtr.Zero)
+            if (!pUnkOuter.Equals(IntPtr.Zero))
             {
                 ppvObject = IntPtr.Zero;
                 return unchecked((int)0x80040110);

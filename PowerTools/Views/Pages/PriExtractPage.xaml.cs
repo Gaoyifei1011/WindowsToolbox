@@ -456,7 +456,7 @@ namespace PowerTools.Views.Pages
                             File.WriteAllBytes(Path.Combine(openFolderDialog.SelectedPath, Path.GetFileName(embeddedData.Key)), embeddedData.EmbeddedData);
 
                             IntPtr pidlList = Shell32Library.ILCreateFromPath(Path.Combine(openFolderDialog.SelectedPath, Path.GetFileName(embeddedData.Key)));
-                            if (pidlList != IntPtr.Zero)
+                            if (!pidlList.Equals(IntPtr.Zero))
                             {
                                 Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, IntPtr.Zero, 0);
                                 Shell32Library.ILFree(pidlList);
@@ -1044,7 +1044,7 @@ namespace PowerTools.Views.Pages
                                             {
                                                 ByteSpan byteSpan = null;
 
-                                                if (candidate.DataItemSectionAndIndex != default)
+                                                if (!candidate.DataItemSectionAndIndex.Equals(default))
                                                 {
                                                     DataItemSection dataItemSection = sectionArray[candidate.DataItemSectionAndIndex.DataItemSection] as DataItemSection;
                                                     byteSpan = dataItemSection is not null ? dataItemSection.DataItemsList[candidate.DataItemSectionAndIndex.DataItemIndex] : candidate.Data;

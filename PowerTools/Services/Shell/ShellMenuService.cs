@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32;
-using PowerTools.Extensions.Registry;
-using PowerTools.Extensions.ShellMenu;
+using PowerTools.Extensions.DataType.Class;
 using PowerTools.Helpers.Root;
 using PowerTools.Services.Root;
 using PowerTools.WindowsAPI.PInvoke.Shell32;

@@ -26,7 +26,7 @@ namespace PowerTools.Extensions.PriExtract
 
         public ResourceMapSection(string sectionIdentifier, BinaryReader binaryReader, bool version2, ref object[] sectionList)
         {
-            if (new string(binaryReader.ReadChars(16)) != sectionIdentifier)
+            if (!string.Equals(new string(binaryReader.ReadChars(16)), sectionIdentifier))
             {
                 throw new InvalidDataException("Unexpected section identifier.");
             }
@@ -110,8 +110,10 @@ namespace PowerTools.Extensions.PriExtract
                     uint unknown2 = r.ReadUInt32();
                     string uniqueName = r.ReadNullTerminatedString(Encoding.Unicode);
 
-                    if (uniqueName.Length != stringDataLength - 1)
+                    if (!uniqueName.Length.Equals(stringDataLength - 1))
+                    {
                         throw new InvalidDataException();
+                    }
 
                     HierarchicalSchemaReference = new HierarchicalSchemaReference()
                     {
@@ -211,7 +213,7 @@ namespace PowerTools.Extensions.PriExtract
                     });
                 }
 
-                if (r.BaseStream.Position != r.BaseStream.Length)
+                if (!r.BaseStream.Position.Equals(r.BaseStream.Length))
                 {
                     throw new InvalidDataException();
                 }
