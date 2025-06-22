@@ -37,6 +37,7 @@ Reboot=Restart
 RebootTitle=Restart device prompt
 Restart=Application restart
 RestartContent=The app is about to restart, after the restart the app's data will be lost, make sure that your work has been saved in its entirety
+RunAsAdministrator=Run as administrator
 UnInstallDriverReboot=The driver has been uninstalled. Some changes need to be restarted to take effect. Do you need to restart the device?
 WinUI2Version=WinUI 2 Version:
 WindowsUIVersion=Windows UI version:
