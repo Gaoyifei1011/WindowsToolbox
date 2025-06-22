@@ -165,7 +165,7 @@ namespace PowerTools.Views.Pages
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs args)
         {
             args.Handled = true;
-            LogService.WriteLog(EventLevel.Warning, "Remove string", args.Exception);
+            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsPage), nameof(OnNavigationFailed), 1, args.Exception);
 
             try
             {

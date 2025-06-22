@@ -74,9 +74,9 @@ namespace ThemeSwitch.Services.Root
                          <ActivityId>Guid.NewGuid().ToString("B")</ActivityId>
                          <Data>
                           <Level>Convert.ToString(eventLevel)</Level>
-                          <NameSpace>ConsoleApp1</NameSpace>
-                          <Class>Program</Class>
-                          <Method>Main</Method>
+                          <NameSpace>nameSpaceName</NameSpace>
+                          <Class>className</Class>
+                          <Method>methodName</Method>
                           <Index>index</Index>
                           <HelpLink>string.IsNullOrEmpty(exception.HelpLink) ? unknown : exception.HelpLink.Replace('\r', ' ').Replace('\n', ' ')</HelpLink>
                           <Message>string.IsNullOrEmpty(exception.Message) ? unknown : exception.Message.Replace('\r', ' ').Replace('\n', ' ')</Message>
