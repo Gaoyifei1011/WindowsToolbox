@@ -47,7 +47,9 @@ namespace PowerTools.Views.Pages
         {
             { "Microsoft.UI.Xaml", new Uri("https://github.com/microsoft/microsoft-ui-xaml") },
             { "Microsoft.Windows.SDK.BuildTools", new Uri("https://aka.ms/WinSDKProjectURL") },
+            { "Microsoft.Windows.SDK.BuildTools.MSIX", new Uri("https://aka.ms/WinSDKProjectURL") },
             { "Microsoft.Windows.SDK.Contracts", new Uri("https://aka.ms/WinSDKProjectURL") },
+            { "Mile.Aria2", new Uri("https://github.com/ProjectMile/Mile.Aria2") },
             { "System.Private.Uri", new Uri("https://dot.net") }
         };
 
@@ -58,7 +60,8 @@ namespace PowerTools.Views.Pages
             { "Blinue", new Uri("https://github.com/Blinue") },
             { "cnbluefire", new Uri("https://github.com/cnbluefire") },
             { "MicaApps", new Uri("https://github.com/MicaApps") },
-            { "MouriNaruto" , new Uri("https://github.com/MouriNaruto") }
+            { "MouriNaruto" , new Uri("https://github.com/MouriNaruto") },
+            { "Osirisoo0O" , new Uri("https://github.com/Osirisoo0O") }
         };
 
         public event PropertyChangedEventHandler PropertyChanged;
