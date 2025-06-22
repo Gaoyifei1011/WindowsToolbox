@@ -3,9 +3,9 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.IO;
-using System.Reflection;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 
 // 抑制 CA1806 警告
 #pragma warning disable CA1806
@@ -17,10 +17,8 @@ namespace PowerTools.Services.Root
     /// </summary>
     public static class LogService
     {
-        private static readonly object logLock = new();
-        private static readonly string logName = Assembly.GetExecutingAssembly().GetName().Name;
         private static readonly string unknown = "unknown";
-
+        private static SemaphoreSlim logSemaphoreSlim = new(1, 1);
         private static bool isInitialized = false;
         private static DirectoryInfo logDirectory;
 
@@ -52,48 +50,101 @@ namespace PowerTools.Services.Root
         /// <summary>
         /// 写入日志
         /// </summary>
-        public static void WriteLog(EventLevel logLevel, string logContent, Exception exception)
+        public static void WriteLog(EventLevel eventLevel, string nameSpaceName, string className, string methodName, int index, Exception exception)
         {
-            if (isInitialized)
+            Task.Run(() =>
             {
-                Task.Run(() =>
+                if (logSemaphoreSlim is not null)
                 {
+                    logSemaphoreSlim?.Wait();
+
                     try
                     {
-                        StringBuilder exceptionBuilder = new();
-                        exceptionBuilder.Append("LogContent:");
-                        exceptionBuilder.AppendLine(logContent);
-                        exceptionBuilder.Append("HelpLink:");
-                        exceptionBuilder.AppendLine(string.IsNullOrEmpty(exception.HelpLink) ? unknown : exception.HelpLink.Replace('\r', ' ').Replace('\n', ' '));
-                        exceptionBuilder.Append("Message:");
-                        exceptionBuilder.AppendLine(string.IsNullOrEmpty(exception.Message) ? unknown : exception.Message.Replace('\r', ' ').Replace('\n', ' '));
-                        exceptionBuilder.Append("HResult:");
-                        exceptionBuilder.AppendLine(Convert.ToString(exception.HResult));
-                        exceptionBuilder.Append("Source:");
-                        exceptionBuilder.AppendLine(string.IsNullOrEmpty(exception.Source) ? unknown : exception.Source.Replace('\r', ' ').Replace('\n', ' '));
-                        exceptionBuilder.Append("StackTrace:");
-                        exceptionBuilder.AppendLine(string.IsNullOrEmpty(exception.StackTrace) ? unknown : exception.StackTrace.Replace('\r', ' ').Replace('\n', ' '));
-
-                        lock (logLock)
+                        if (!Directory.Exists(logDirectory.FullName))
                         {
-                            File.AppendAllText(
-                                Path.Combine(logDirectory.FullName, string.Format("{0}_{1}.log", logName, DateTime.Now.ToString("yyyy_MM_dd"))),
-                                string.Format("{0}\t{1}:{2}{3}{4}{5}",
-                                    DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                                    "LogType",
-                                    Convert.ToString(logLevel),
-                                    Environment.NewLine,
-                                    exceptionBuilder.ToString(),
-                                    Environment.NewLine)
-                                );
+                            Directory.CreateDirectory(logDirectory.FullName);
                         }
+
+                        string logFileName = string.Format("Logs-{0}-{1}-{2}-{3:D2}-{4}.xml", nameSpaceName, className, methodName, index, DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss.fff"));
+
+                        /*
+                        <LogRecord>
+                         <Session>Exception log session</Session>
+                         <Channel>Exception log channel</Channel>
+                         <ActivityId>Guid.NewGuid().ToString("B")</ActivityId>
+                         <Data>
+                          <Level>Convert.ToString(eventLevel)</Level>
+                          <NameSpace>ConsoleApp1</NameSpace>
+                          <Class>Program</Class>
+                          <Method>Main</Method>
+                          <Index>index</Index>
+                          <HelpLink>string.IsNullOrEmpty(exception.HelpLink) ? unknown : exception.HelpLink.Replace('\r', ' ').Replace('\n', ' ')</HelpLink>
+                          <Message>string.IsNullOrEmpty(exception.Message) ? unknown : exception.Message.Replace('\r', ' ').Replace('\n', ' ')</Message>
+                          <HResult>Convert.ToString(exception.HResult, 16).ToUpper()</HResult>
+                          <Source>string.IsNullOrEmpty(exception.Source) ? unknown : exception.Source.Replace('\r', ' ').Replace('\n', ' ')</Source>
+                          <StackTrace>string.IsNullOrEmpty(exception.StackTrace) ? unknown : exception.StackTrace.Replace('\r', ' ').Replace('\n', ' ')</StackTrace>
+                         </Data>
+                        </LogRecord>
+                        */
+                        XmlDocument xmlDocument = new();
+                        XmlDeclaration xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
+                        xmlDocument.AppendChild(xmlDeclaration);
+                        XmlElement logRecordElement = xmlDocument.CreateElement("LogRecord");
+                        xmlDocument.AppendChild(logRecordElement);
+                        XmlElement sessionElement = xmlDocument.CreateElement("Session");
+                        sessionElement.InnerText = "Exception log session";
+                        logRecordElement.AppendChild(sessionElement);
+                        XmlElement channelElement = xmlDocument.CreateElement("Channel");
+                        channelElement.InnerText = "Exception log channel";
+                        logRecordElement.AppendChild(channelElement);
+                        XmlElement activityIdElement = xmlDocument.CreateElement("ActivityId");
+                        activityIdElement.InnerText = Guid.NewGuid().ToString("B");
+                        logRecordElement.AppendChild(activityIdElement);
+                        XmlElement dataElement = xmlDocument.CreateElement("Data");
+                        logRecordElement.AppendChild(dataElement);
+                        XmlElement levelElement = xmlDocument.CreateElement("Level");
+                        levelElement.InnerText = Convert.ToString(eventLevel);
+                        dataElement.AppendChild(levelElement);
+                        XmlElement nameSpaceElement = xmlDocument.CreateElement("NameSpace");
+                        nameSpaceElement.InnerText = nameSpaceName;
+                        dataElement.AppendChild(nameSpaceElement);
+                        XmlElement classElement = xmlDocument.CreateElement("Class");
+                        classElement.InnerText = className;
+                        dataElement.AppendChild(classElement);
+                        XmlElement methodElement = xmlDocument.CreateElement("Method");
+                        methodElement.InnerText = methodName;
+                        dataElement.AppendChild(methodElement);
+                        XmlElement indexElement = xmlDocument.CreateElement("Index");
+                        indexElement.InnerText = Convert.ToString(index);
+                        dataElement.AppendChild(indexElement);
+                        XmlElement helpLinkElement = xmlDocument.CreateElement("HelpLink");
+                        helpLinkElement.InnerText = string.IsNullOrEmpty(exception.HelpLink) ? unknown : exception.HelpLink.Replace('\r', ' ').Replace('\n', ' ');
+                        dataElement.AppendChild(helpLinkElement);
+                        XmlElement messageElement = xmlDocument.CreateElement("Message");
+                        messageElement.InnerText = string.IsNullOrEmpty(exception.Message) ? unknown : exception.Message.Replace('\r', ' ').Replace('\n', ' ');
+                        dataElement.AppendChild(messageElement);
+                        XmlElement hResultElement = xmlDocument.CreateElement("HResult");
+                        hResultElement.InnerText = Convert.ToString(exception.HResult, 16).ToUpper();
+                        dataElement.AppendChild(hResultElement);
+                        XmlElement sourceElement = xmlDocument.CreateElement("Source");
+                        sourceElement.InnerText = string.IsNullOrEmpty(exception.Source) ? unknown : exception.Source.Replace('\r', ' ').Replace('\n', ' ');
+                        dataElement.AppendChild(sourceElement);
+
+                        XmlElement stackTraceElement = xmlDocument.CreateElement("StackTrace");
+                        stackTraceElement.InnerText = string.IsNullOrEmpty(exception.StackTrace) ? unknown : exception.StackTrace.Replace('\r', ' ').Replace('\n', ' ');
+                        dataElement.AppendChild(stackTraceElement);
+                        xmlDocument.Save(Path.Combine(logDirectory.FullName, logFileName));
                     }
                     catch (Exception)
                     {
                         return;
                     }
-                });
-            }
+                    finally
+                    {
+                        logSemaphoreSlim?.Release();
+                    }
+                }
+            });
         }
 
         /// <summary>
@@ -111,7 +162,7 @@ namespace PowerTools.Services.Root
                     }
                     catch (Exception e)
                     {
-                        WriteLog(EventLevel.Error, "Open log folder failed", e);
+                        WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LogService), nameof(OpenLogFolder), 1, e);
                     }
                 });
             }
@@ -126,7 +177,7 @@ namespace PowerTools.Services.Root
             {
                 try
                 {
-                    string[] logFiles = Directory.GetFiles(logDirectory.FullName, "*.log");
+                    string[] logFiles = Directory.GetFiles(logDirectory.FullName);
                     foreach (string logFile in logFiles)
                     {
                         File.Delete(logFile);
@@ -134,11 +185,21 @@ namespace PowerTools.Services.Root
 
                     return true;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LogService), nameof(ClearLogAsync), 1, e);
                     return false;
                 }
             });
+        }
+
+        /// <summary>
+        /// 关闭日志记录服务
+        /// </summary>
+        public static void CloseLog()
+        {
+            logSemaphoreSlim.Dispose();
+            logSemaphoreSlim = null;
         }
     }
 }
