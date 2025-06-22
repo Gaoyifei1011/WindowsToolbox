@@ -42,7 +42,7 @@ namespace PowerTools.Services.Shell
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Create Shell menu config folder failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuService), nameof(InitializeShellMenu), 1, e);
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace PowerTools.Services.Shell
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Delete default icon {0} failed", currentMenuItem.DefaultIconPath), e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuService), nameof(EnumRemoveMenuItem), 1, e);
                 }
             }
 
@@ -172,7 +172,7 @@ namespace PowerTools.Services.Shell
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Delete light theme icon {0} failed", currentMenuItem.LightThemeIconPath), e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuService), nameof(EnumRemoveMenuItem), 2, e);
                 }
             }
 
@@ -184,7 +184,7 @@ namespace PowerTools.Services.Shell
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Delete dark icon {0} failed", currentMenuItem.DarkThemeIconPath), e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuService), nameof(EnumRemoveMenuItem), 3, e);
                 }
             }
 
@@ -203,7 +203,7 @@ namespace PowerTools.Services.Shell
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Delete default icon path failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuService), nameof(EnumRemoveMenuItem), 4, e);
             }
 
             try
@@ -220,7 +220,7 @@ namespace PowerTools.Services.Shell
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Delete light icon path failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuService), nameof(EnumRemoveMenuItem), 5, e);
             }
 
             try
@@ -237,7 +237,7 @@ namespace PowerTools.Services.Shell
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Delete icon path failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuService), nameof(EnumRemoveMenuItem), 6, e);
             }
 
             // 获取子菜单项

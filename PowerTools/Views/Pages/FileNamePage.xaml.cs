@@ -241,7 +241,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Drop file in file name page failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileNamePage), nameof(OnDrop), 1, e);
             }
             finally
             {
@@ -270,7 +270,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileNamePage), nameof(OnDrop), 2, e);
                         continue;
                     }
                 }
@@ -519,7 +519,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", fileName), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileNamePage), nameof(OnSelectFileClicked), 1, e);
                             continue;
                         }
                     }
@@ -577,7 +577,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} directoryInfo information failed", openFolderDialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileNamePage), nameof(OnSelectFolderClicked), 1, e);
                         }
 
                         try
@@ -598,7 +598,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} information failed", openFolderDialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileNamePage), nameof(OnSelectFolderClicked), 2, e);
                         }
                     });
 
@@ -753,8 +753,9 @@ namespace PowerTools.Views.Pages
                             }
                             tempNewFileName = tempFileName + Path.GetExtension(oldAndNewNameItem.OriginalFileName);
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileNamePage), nameof(PreviewChangedFileName), 1, e);
                             tempNewFileName = oldAndNewNameItem.OriginalFileName;
                         }
                     }

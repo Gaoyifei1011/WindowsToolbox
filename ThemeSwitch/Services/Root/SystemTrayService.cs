@@ -63,7 +63,7 @@ namespace ThemeSwitch.Services.Root
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Warning, "Unregister system tray event failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(ThemeSwitch), nameof(SystemTrayService), nameof(CloseSystemTray), 1, e);
                 }
             }
         }

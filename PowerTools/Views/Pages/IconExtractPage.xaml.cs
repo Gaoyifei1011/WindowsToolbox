@@ -253,8 +253,9 @@ namespace PowerTools.Views.Pages
                     args.DragUIOverride.Caption = NoMultiFileString;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(IconExtractPage), nameof(OnDragOver), 1, e);
                 return;
             }
             finally
@@ -286,7 +287,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Warning, "Drop file in pri extract page failed", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(IconExtractPage), nameof(OnDrop), 1, e);
                     }
 
                     return null;
@@ -297,9 +298,9 @@ namespace PowerTools.Views.Pages
                     filePath = filesList[0].Path;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return;
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(IconExtractPage), nameof(OnDrop), 2, e);
             }
             finally
             {
@@ -353,7 +354,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, string.Format("Display {0} index {1} image failed", filePath, iconIndex), e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(IconExtractPage), nameof(OnSelectionChanged), 1, e);
                     }
                 }
             }
@@ -412,7 +413,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Display {0} index {1} image failed", filePath, iconIndex), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(IconExtractPage), nameof(OnIconSizeClicked), 1, e);
                         }
                     }
                 }
@@ -492,7 +493,7 @@ namespace PowerTools.Views.Pages
                                     catch (Exception e)
                                     {
                                         saveFailedCount++;
-                                        LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(openFolderDialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key)))), e);
+                                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(IconExtractPage), nameof(OnExportSelectedIconsClicked), 1, e);
                                     }
                                 }
                             }
@@ -562,7 +563,7 @@ namespace PowerTools.Views.Pages
                                     catch (Exception e)
                                     {
                                         saveFailedCount++;
-                                        LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", Path.Combine(openFolderDialog.SelectedPath, string.Format("{0} - {1} - {2}", Path.GetFileName(filePath), iconIndex, Convert.ToInt32(SelectedIconSize.Key)))), e);
+                                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(IconExtractPage), nameof(OnExportAllIconsClicked), 1, e);
                                     }
                                 }
                             }
@@ -628,7 +629,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Parse {0} file icons failed", filePath), e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(IconExtractPage), nameof(ParseIconFileAsync), 1, e);
                     return false;
                 }
             });
@@ -661,7 +662,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Display {0} icons failed", iconsList), e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(IconExtractPage), nameof(ParseIconFileAsync), 2, e);
                 }
             }
             else
@@ -715,7 +716,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format("Save icon {0} failed", destination), e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(IconExtractPage), nameof(SaveIcon), 1, e);
                 return false;
             }
         }

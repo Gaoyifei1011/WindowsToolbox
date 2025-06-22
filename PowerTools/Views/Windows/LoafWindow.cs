@@ -132,7 +132,7 @@ namespace PowerTools.Views.Windows
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Add keyboard hook failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LoafWindow), nameof(StartHook), 1, e);
             }
         }
 
@@ -156,7 +156,7 @@ namespace PowerTools.Views.Windows
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Remove keyboard hook failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LoafWindow), nameof(StopHook), 1, e);
             }
         }
 

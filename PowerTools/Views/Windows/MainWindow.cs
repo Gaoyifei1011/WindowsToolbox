@@ -26,6 +26,7 @@ using System.Drawing.Printing;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Windows.Foundation.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -247,15 +248,15 @@ namespace PowerTools.Views.Windows
             {
                 args.Cancel = true;
 
-                List<DownloadSchedulerModel> downloadSchedulerList = null;
+                int count = 0;
                 DownloadSchedulerService.DownloadSchedulerSemaphoreSlim?.Wait();
                 try
                 {
-                    //downloadSchedulerList = DownloadSchedulerService.GetDownloadSchedulerList();
+                    count = DownloadSchedulerService.DownloadSchedulerList.Count;
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Query download scheduler list failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(MainWindow), nameof(OnFormClosing), 1, e);
                 }
                 finally
                 {
@@ -263,7 +264,7 @@ namespace PowerTools.Views.Windows
                 }
 
                 // 下载队列存在任务时，弹出对话窗口确认是否要关闭窗口
-                if (downloadSchedulerList is not null && downloadSchedulerList.Count > 0)
+                if (count > 0)
                 {
                     Show();
 
@@ -1381,9 +1382,10 @@ namespace PowerTools.Views.Windows
                     contentDialog.XamlRoot = Content.XamlRoot;
                     dialogResult = await contentDialog.ShowAsync();
                 }
-                catch (Exception)
-                { }
-
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(MainWindow), nameof(ShowDialogAsync), 1, e);
+                }
                 isDialogOpening = false;
             }
 
@@ -1409,9 +1411,9 @@ namespace PowerTools.Views.Windows
                     await Task.Delay(300);
                     grid.Children.Remove(teachingTip);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return;
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(MainWindow), nameof(ShowNotificationAsync), 1, e);
                 }
             }
         }

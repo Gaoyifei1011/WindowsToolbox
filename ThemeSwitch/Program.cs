@@ -65,7 +65,7 @@ namespace ThemeSwitch
                 {
                     SystemTrayService.InitializeSystemTray(ThemeSwitchString, Application.ExecutablePath);
                     new ThemeSwitchApp();
-                    Application.Run(new ThemeSwitchWindow());
+                    Application.Run(new ThemeSwitchTrayWindow());
                 }
                 else
                 {
@@ -83,7 +83,7 @@ namespace ThemeSwitch
         /// </summary>
         private static void OnThreadException(object sender, ThreadExceptionEventArgs args)
         {
-            LogService.WriteLog(EventLevel.Warning, "Windows Forms Xaml Islands UI Exception", args.Exception);
+            LogService.WriteLog(EventLevel.Warning, nameof(ThemeSwitch), nameof(Program), nameof(OnThreadException), 1, args.Exception);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace ThemeSwitch
         /// </summary>
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
-            LogService.WriteLog(EventLevel.Warning, "Background thread Exception", args.ExceptionObject as Exception);
+            LogService.WriteLog(EventLevel.Warning, nameof(ThemeSwitch), nameof(Program), nameof(OnUnhandledException), 1, args.ExceptionObject as Exception);
         }
 
         /// <summary>

@@ -193,7 +193,7 @@ namespace PowerTools.Views.Pages
                     catch (Exception e)
                     {
                         isLoadWallpaperFailed = true;
-                        LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LoafPage), nameof(OnNavigatedTo), 1, e);
                     }
                 });
 
@@ -210,7 +210,7 @@ namespace PowerTools.Views.Pages
                     isLoadWallpaperFailed = true;
                     LoafImage = ActualTheme is ElementTheme.Light ? new(new Uri("ms-appx:///Assets/Images/LoafLightWallpaper.jpg")) : new(new Uri("ms-appx:///Assets/Images/LoafDarkWallpaper.jpg"));
                     LoadImageCompleted = true;
-                    LogService.WriteLog(EventLevel.Error, "Load bing wallpaper image failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LoafPage), nameof(OnNavigatedTo), 2, e);
                 }
             }
 
@@ -228,9 +228,9 @@ namespace PowerTools.Views.Pages
             {
                 ActualThemeChanged -= OnActualThemeChanged;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return;
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LoafPage), nameof(OnNavigatedFrom), 1, e);
             }
         }
 

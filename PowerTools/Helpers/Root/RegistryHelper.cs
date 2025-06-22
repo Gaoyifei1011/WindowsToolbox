@@ -62,7 +62,7 @@ namespace PowerTools.Helpers.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format("Read Registry rootKey {0} and key {1} value failed", rootKey, key), e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(RegistryHelper), nameof(ReadRegistryKey), 1, e);
             }
 
             return value;
@@ -115,7 +115,7 @@ namespace PowerTools.Helpers.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format("Save Registry rootKey {0} and key {1} value failed", rootKey, key), e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(RegistryHelper), nameof(SaveRegistryKey), 1, e);
                 return false;
             }
         }
@@ -147,7 +147,7 @@ namespace PowerTools.Helpers.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format("Remove registry rootkey {0} failed", rootKey), e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(RegistryHelper), nameof(RemoveRegistryKey), 1, e);
                 return false;
             }
         }
@@ -181,7 +181,7 @@ namespace PowerTools.Helpers.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format("Enumerate Registry rootKey {0} failed", rootKey), e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(RegistryHelper), nameof(EnumSubKey), 1, e);
             }
 
             return registryEnumKeyItem;
@@ -213,7 +213,7 @@ namespace PowerTools.Helpers.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format("Monitor Registry rootKey change {0} failed", rootKey), e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(RegistryHelper), nameof(MonitorRegistryValueChange), 1, e);
                 return false;
             }
         }

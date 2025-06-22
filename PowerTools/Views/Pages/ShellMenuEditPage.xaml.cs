@@ -515,7 +515,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Load default icon image {0} failed", DefaultIconPath), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuEditPage), nameof(OnNavigatedTo), 1, e);
                         }
                     }
 
@@ -534,7 +534,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Load light theme icon image {0} failed", LightThemeIconPath), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuEditPage), nameof(OnNavigatedTo), 2, e);
                         }
                     }
 
@@ -553,7 +553,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Load dark theme icon image {0} failed", DarkThemeIconPath), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuEditPage), nameof(OnNavigatedTo), 3, e);
                         }
                     }
                 }
@@ -667,7 +667,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Copy default icon {0} failed", DefaultIconPath), e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuEditPage), nameof(OnSaveClicked), 1, e);
                 }
             }
 
@@ -685,7 +685,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Copy light theme icon {0} failed", LightThemeIconPath), e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuEditPage), nameof(OnSaveClicked), 2, e);
                 }
             }
 
@@ -703,7 +703,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Copy dark theme icon {0} failed", DarkThemeIconPath), e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuEditPage), nameof(OnSaveClicked), 3, e);
                 }
             }
 
@@ -786,7 +786,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Set Default lightThemeIcon failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuEditPage), nameof(OnDefaultIconBrowserClicked), 1, e);
                 }
             }
             openFileDialog.Dispose();
@@ -821,7 +821,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Set light theme icon failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuEditPage), nameof(OnLightThemeIconBrowserClicked), 1, e);
                 }
             }
             openFileDialog.Dispose();
@@ -856,7 +856,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Set dark theme icon failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuEditPage), nameof(OnDarkThemeIconBrowserClicked), 1, e);
                 }
             }
             openFileDialog.Dispose();

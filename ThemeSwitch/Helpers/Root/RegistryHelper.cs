@@ -56,7 +56,7 @@ namespace ThemeSwitch.Helpers.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format("Read Registry rootKey {0} and key {1} value failed", rootKey, key), e);
+                LogService.WriteLog(EventLevel.Error, nameof(ThemeSwitch), nameof(RegistryHelper), nameof(ReadRegistryKey), 1, e);
             }
             return value;
         }
@@ -108,7 +108,7 @@ namespace ThemeSwitch.Helpers.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format("Save Registry rootKey {0} and key {1} value failed", rootKey, key), e);
+                LogService.WriteLog(EventLevel.Error, nameof(ThemeSwitch), nameof(RegistryHelper), nameof(SaveRegistryKey), 1, e);
                 return false;
             }
         }
@@ -141,7 +141,7 @@ namespace ThemeSwitch.Helpers.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format("Remove registry rootkey {0} failed", rootKey), e);
+                LogService.WriteLog(EventLevel.Error, nameof(ThemeSwitch), nameof(RegistryHelper), nameof(RemoveRegistryKey), 1, e);
                 return false;
             }
         }

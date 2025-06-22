@@ -1,4 +1,5 @@
 ﻿using PowerTools.Services.Root;
+using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.PInvoke.Shell32;
 using System;
 using System.ComponentModel;
@@ -83,7 +84,7 @@ namespace PowerTools.WindowsAPI.ComTypes
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "OpenFolderDialog(IFileOpenDialog) initialize failed.", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(OpenFolderDialog), nameof(ShowDialog), 1, e);
                 if (FileOpenDialog is not null)
                 {
                     Marshal.FinalReleaseComObject(FileOpenDialog);

@@ -166,9 +166,9 @@ namespace PowerTools.Views.Pages
                     args.DragUIOverride.Caption = NoMultiFileString;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return;
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileUnlockPage), nameof(OnDragOver), 1, e);
             }
             finally
             {
@@ -199,7 +199,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Warning, "Drop file in icon extract page failed", e);
+                        LogService.WriteLog(EventLevel.Warning, nameof(PowerTools), nameof(FileUnlockPage), nameof(OnDrop), 1, e);
                     }
 
                     return null;
@@ -210,9 +210,9 @@ namespace PowerTools.Views.Pages
                     filePath = filesList[0].Path;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return;
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileUnlockPage), nameof(OnDrop), 2, e);
             }
             finally
             {
@@ -246,7 +246,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, string.Format("Terminate process id {0} failed", processid), e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileUnlockPage), nameof(OnTerminateProcessExecuteRequested), 1, e);
                         return false;
                     }
                 });
@@ -307,7 +307,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, "Open terminate process path failed", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileUnlockPage), nameof(OnOpenProcessPathExecuteRequested), 1, e);
                     }
                 });
             }
@@ -330,7 +330,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open task manager failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileUnlockPage), nameof(OnOpenTaskManagerClicked), 1, e);
                 }
             });
         }
@@ -405,8 +405,9 @@ namespace PowerTools.Views.Pages
                                             Process process = Process.GetProcessById(processInfo[index].Process.dwProcessId);
                                             processList.Add(ValueTuple.Create(GetProcessUserName(process.Id), process));
                                         }
-                                        catch (Exception)
+                                        catch (Exception e)
                                         {
+                                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileUnlockPage), nameof(ParseFileAsync), 1, e);
                                             continue;
                                         }
                                     }
@@ -415,9 +416,9 @@ namespace PowerTools.Views.Pages
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    // TODO：未完成，添加异常处理
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileUnlockPage), nameof(ParseFileAsync), 2, e);
                 }
                 finally
                 {
@@ -457,8 +458,9 @@ namespace PowerTools.Views.Pages
                                 ProcessIcon = bitmapImage
                             });
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileUnlockPage), nameof(ParseFileAsync), 3, e);
                             continue;
                         }
                     }

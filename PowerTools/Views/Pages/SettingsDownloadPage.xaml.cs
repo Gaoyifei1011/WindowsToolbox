@@ -13,8 +13,6 @@ using System.Diagnostics.Tracing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Windows.Storage;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -94,7 +92,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open saved folder failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsAdvancedPage), nameof(OnDownloadOpenFolderClicked), 1, e);
                 }
             });
         }
@@ -159,9 +157,9 @@ namespace PowerTools.Views.Pages
                 {
                     Process.Start("ms-settings:delivery-optimization");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return;
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsAdvancedPage), nameof(OnOpenDeliveryOptimizationClicked), 1, e);
                 }
             });
         }
@@ -195,7 +193,7 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private void OnConfigurationClicked(object sender, RoutedEventArgs args)
         {
-            Task.Run(async () =>
+            Task.Run(() =>
             {
                 if (!File.Exists(Aria2Service.Aria2ConfPath))
                 {
@@ -204,11 +202,11 @@ namespace PowerTools.Views.Pages
 
                 try
                 {
-                    await Launcher.LaunchFileAsync(await StorageFile.GetFileFromPathAsync(Aria2Service.Aria2ConfPath));
+                    Process.Start(Aria2Service.Aria2ConfPath);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return;
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsAdvancedPage), nameof(OnConfigurationClicked), 1, e);
                 }
             });
         }

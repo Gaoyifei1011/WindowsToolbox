@@ -208,7 +208,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, "Open download file path failed", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadManagerPage), nameof(OnOpenFolderExecuteRequested), 1, e);
                     }
                 });
             }
@@ -260,6 +260,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadManagerPage), nameof(OnDeleteWithFileExecuteRequested), 1, e);
                             return ValueTuple.Create(false, e);
                         }
                     });
@@ -300,7 +301,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Warning, "Share file failed.", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadManagerPage), nameof(OnShareFileExecuteRequested), 1, e);
                     }
                 }
             }
@@ -414,7 +415,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open default download folder failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadManagerPage), nameof(OnOpenFolderClicked), 1, e);
                 }
             });
         }
@@ -506,7 +507,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Warning, "Parse download link file name failed", e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadManagerPage), nameof(OnDownloadLinkTextChanged), 1, e);
                             return string.Empty;
                         }
                     });
@@ -598,8 +599,9 @@ namespace PowerTools.Views.Pages
                             DownloadSchedulerService.CreateDownload(DownloadLinkText, filePath);
                             return true;
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadManagerPage), nameof(OnDownloadClicked), 1, e);
                             return false;
                         }
                     });
@@ -620,7 +622,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, "Open download file path failed", e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadManagerPage), nameof(OnDownloadClicked), 2, e);
                         }
                     });
                 }
@@ -679,9 +681,9 @@ namespace PowerTools.Views.Pages
                         Process.Start("ms-settings:network-status");
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    // TODO：未完成，添加异常处理
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadManagerPage), nameof(OnNetworkInternetClicked), 1, e);
                 }
             });
         }
@@ -786,9 +788,9 @@ namespace PowerTools.Views.Pages
                         thumbnailBitmap.Dispose();
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    // TODO：未完成，添加异常处理
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadManagerPage), nameof(OnDownloadProgress), 1, e);
                 }
 
                 synchronizationContext.Post((_) =>
@@ -811,9 +813,9 @@ namespace PowerTools.Views.Pages
                                     bitmapImage.SetSource(memoryStream.AsRandomAccessStream());
                                     downloadItem.IconImage = bitmapImage;
                                 }
-                                catch (Exception)
+                                catch (Exception e)
                                 {
-                                    // TODO：未完成，添加异常处理
+                                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadManagerPage), nameof(OnDownloadProgress), 2, e);
                                 }
                                 finally
                                 {
@@ -853,8 +855,9 @@ namespace PowerTools.Views.Pages
                 System.Windows.Forms.Application.ApplicationExit -= OnApplicationExit;
                 DownloadSchedulerService.DownloadProgress -= OnDownloadProgress;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadManagerPage), nameof(OnApplicationExit), 1, e);
             }
         }
 
@@ -870,9 +873,9 @@ namespace PowerTools.Views.Pages
                 args.Request.Data.Properties.Title = FileShareString;
                 args.Request.Data.SetStorageItems(fileList);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return;
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadManagerPage), nameof(OnDataRequested), 1, e);
             }
             finally
             {
@@ -919,8 +922,9 @@ namespace PowerTools.Views.Pages
                     return null;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadManagerPage), nameof(GetThumbnailBitmap), 1, e);
                 return null;
             }
         }

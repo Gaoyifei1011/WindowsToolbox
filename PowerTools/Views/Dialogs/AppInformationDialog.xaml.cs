@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -135,9 +136,9 @@ namespace PowerTools.Views.Dialogs
 
                 copyResult = CopyPasteHelper.CopyToClipboard(Convert.ToString(stringBuilder));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return;
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(AppInformationDialog), nameof(OnCopyAppInformationClicked), 1, e);
             }
             finally
             {

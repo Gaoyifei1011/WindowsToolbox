@@ -112,7 +112,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Restart explorer failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsAdvancedPage), nameof(OnRestartExplorerClicked), 1, e);
                 }
             });
 

@@ -66,7 +66,7 @@ namespace PowerTools.Services.Settings
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Get download saved folder failed.", e);
+                LogService.WriteLog(EventLevel.Warning, nameof(PowerTools), nameof(DownloadOptionsService), nameof(GetFolder), 1, e);
                 SetFolder(defaultDownloadFolder);
                 return defaultDownloadFolder;
             }

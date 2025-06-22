@@ -252,7 +252,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open system theme settings failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsGeneralPage), nameof(OnSystemThemeSettingsClicked), 1, e);
                 }
             });
         }
@@ -301,7 +301,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open system backdrop settings failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsGeneralPage), nameof(OnSystemBackdropSettingsClicked), 1, e);
                 }
             });
         }
@@ -319,7 +319,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open system language settings failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsGeneralPage), nameof(OnSystemLanguageSettingsClicked), 1, e);
                 }
             });
         }
@@ -390,8 +390,9 @@ namespace PowerTools.Views.Pages
                 System.Windows.Forms.Application.ApplicationExit -= OnApplicationExit;
                 SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsGeneralPage), nameof(OnApplicationExit), 1, e);
             }
         }
 

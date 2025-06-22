@@ -2,6 +2,7 @@
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Models;
 using PowerTools.Services.Root;
+using PowerTools.Views.Dialogs;
 using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.PInvoke.FirewallAPI;
@@ -138,7 +139,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, "Open package path failed", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ContextMenuManagerPage), nameof(OnOpenPackagePathExecuteRequested), 1, e);
                     }
                 });
             }
@@ -162,8 +163,9 @@ namespace PowerTools.Views.Pages
                             registryKey = Registry.LocalMachine.CreateSubKey(blockedKey, true);
                             blockedClsidType = BlockedClsidType.LocalMachine;
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ContextMenuManagerPage), nameof(OnCheckBoxClickExecuteRequested), 1, e);
                         }
                     }
                     else
@@ -173,8 +175,9 @@ namespace PowerTools.Views.Pages
                             registryKey = Registry.CurrentUser.CreateSubKey(blockedKey, true);
                             blockedClsidType = BlockedClsidType.CurrentUser;
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ContextMenuManagerPage), nameof(OnCheckBoxClickExecuteRequested), 2, e);
                         }
                     }
 
@@ -204,7 +207,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, "Update block result failed", e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ContextMenuManagerPage), nameof(OnCheckBoxClickExecuteRequested), 3, e);
                             registryKey.Close();
                             registryKey.Dispose();
                             return ValueTuple.Create(blockedClsidType, false);
@@ -341,7 +344,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Return context menu value to default in local machine failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ContextMenuManagerPage), nameof(OnRestoreDefaultClicked), 1, e);
                 }
 
                 try
@@ -361,7 +364,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Return context menu value to default in current user failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ContextMenuManagerPage), nameof(OnRestoreDefaultClicked), 2, e);
                 }
             });
 
@@ -512,7 +515,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Get com package clsidList info failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ContextMenuManagerPage), nameof(GetContextMenuAsync), 1, e);
                 }
 
                 return queryedContextMenuList;
@@ -538,8 +541,9 @@ namespace PowerTools.Views.Pages
                         }
                         contextMenuItem.PackageIcon = bitmapImage;
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ContextMenuManagerPage), nameof(GetContextMenuAsync), 2, e);
                         contextMenuItem.PackageIcon = emptyImage;
                     }
 
@@ -598,7 +602,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Get com package blocked clsid clsidList in local machine registry failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ContextMenuManagerPage), nameof(GetBlockedClsidList), 1, e);
             }
 
             try
@@ -623,7 +627,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Get com package blocked clsid clsidList in current user registry failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ContextMenuManagerPage), nameof(GetBlockedClsidList), 2, e);
             }
 
             return blockClsidList;
@@ -735,7 +739,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format("Get specified app info failed,location in {0}", packageInstalledLocation), e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ContextMenuManagerPage), nameof(GetAppInfo), 1, e);
                 return ValueTuple.Create(string.Empty, string.Empty, new List<Guid>());
             }
         }

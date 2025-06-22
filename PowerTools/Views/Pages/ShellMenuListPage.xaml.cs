@@ -159,9 +159,9 @@ namespace PowerTools.Views.Pages
             {
                 ActualThemeChanged -= OnActualThemeChanged;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return;
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuListPage), nameof(OnNavigatedFrom), 1, e);
             }
         }
 
@@ -447,7 +447,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, string.Format("Get program icon {0} failed", shellMenuItem.MenuProgramPathText), e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuListPage), nameof(EnumShellMenuItem), 1, e);
                     }
                 }
                 else
@@ -471,7 +471,7 @@ namespace PowerTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                LogService.WriteLog(EventLevel.Error, string.Format("Get light theme icon {0} failed", shellMenuItem.LightThemeIconPath), e);
+                                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuListPage), nameof(EnumShellMenuItem), 2, e);
                             }
                         }
                         // 深色主题图标
@@ -490,7 +490,7 @@ namespace PowerTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                LogService.WriteLog(EventLevel.Error, string.Format("Get dark theme icon {0} failed", shellMenuItem.DarkThemeIconPath), e);
+                                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuListPage), nameof(EnumShellMenuItem), 3, e);
                             }
                         }
                     }
@@ -512,7 +512,7 @@ namespace PowerTools.Views.Pages
                             }
                             catch (Exception e)
                             {
-                                LogService.WriteLog(EventLevel.Error, string.Format("Get default icon {0} failed", shellMenuItem.DefaultIconPath), e);
+                                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuListPage), nameof(EnumShellMenuItem), 4, e);
                             }
                         }
                     }
@@ -686,7 +686,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Get light theme icon {0} failed", shellMenuItem.LightThemeIconPath), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuListPage), nameof(EnumModifyShellMenuItemTheme), 1, e);
                         }
                     }
                 }
@@ -707,7 +707,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Get dark theme icon {0} failed", shellMenuItem.DarkThemeIconPath), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuListPage), nameof(EnumModifyShellMenuItemTheme), 2, e);
                         }
                     }
                 }

@@ -178,8 +178,9 @@ namespace PowerTools.Views.Pages
                     {
                         Process.Start(parameter);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LoopbackManagerPage), nameof(OnOpenWorkingDirectoryRequested), 1, e);
                     }
                 });
             }
@@ -200,8 +201,9 @@ namespace PowerTools.Views.Pages
                 {
                     Process.Start("https://learn.microsoft.com/previous-versions/windows/apps/hh780593(v=win.10)");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LoopbackManagerPage), nameof(OnLearnLoopbackClicked), 1, e);
                 }
             });
         }
@@ -418,7 +420,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, "Parse app container sid failed", e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LoopbackManagerPage), nameof(GetLoopbackDataAsync), 1, e);
                         }
 
                         NTAccount userAccountType = null;
@@ -434,7 +436,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, "Parse user sid failed", e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LoopbackManagerPage), nameof(GetLoopbackDataAsync), 2, e);
                         }
 
                         string logoFullPath = GetLogoInfo(inetContainerItem.workingDirectory);
@@ -457,8 +459,9 @@ namespace PowerTools.Views.Pages
 
                         loopbackList.Add(loopbackItem);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LoopbackManagerPage), nameof(GetLoopbackDataAsync), 3, e);
                         continue;
                     }
                 }
@@ -488,8 +491,9 @@ namespace PowerTools.Views.Pages
                         }
                         loopbackItem.AppIcon = bitmapImage;
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LoopbackManagerPage), nameof(GetLoopbackDataAsync), 4, e);
                         loopbackItem.AppIcon = emptyImage;
                     }
 
@@ -635,8 +639,9 @@ namespace PowerTools.Views.Pages
                         return true;
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LoopbackManagerPage), nameof(GetLoopbackEnabled), 1, e);
                     return false;
                 }
             }
@@ -728,8 +733,9 @@ namespace PowerTools.Views.Pages
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(LoopbackManagerPage), nameof(GetLogoInfo), 1, e);
             }
 
             return logoFullPath;

@@ -42,7 +42,7 @@ namespace PowerTools.Services.Download
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, "Initialize background intelligent transfer service failed", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(BitsService), nameof(Initialize), 1, e);
                     }
                 }, null, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
             }
@@ -109,9 +109,9 @@ namespace PowerTools.Services.Download
                         downloadJob.Resume();
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(BitsService), nameof(CreateDownload), 1, e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(BitsService), nameof(CreateDownload), 1, e);
                 }
             }, null, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
         }
@@ -193,7 +193,15 @@ namespace PowerTools.Services.Download
 
                         if (deleteResult is 0)
                         {
-                            downloadValue.backgroundCopyCallback.StatusChanged -= OnStatusChanged;
+                            try
+                            {
+                                downloadValue.backgroundCopyCallback.StatusChanged -= OnStatusChanged;
+                            }
+                            catch (Exception e)
+                            {
+                                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(BitsService), nameof(DeleteDownload), 1, e);
+                            }
+
                             BitsDict.Remove(downloadID);
                             DownloadProgress?.Invoke(new DownloadProgress()
                             {
@@ -262,9 +270,9 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(BitsService), nameof(OnStatusChanged), 1, e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(BitsService), nameof(OnStatusChanged), 1, e);
                 }
             }
             // 下载错误
@@ -275,7 +283,6 @@ namespace PowerTools.Services.Download
                 try
                 {
                     callback.StatusChanged -= OnStatusChanged;
-
                     lock (bitsLock)
                     {
                         if (BitsDict.TryGetValue(callback.DownloadID, out (string saveFilePath, IBackgroundCopyJob backgroundCopyJob, BackgroundCopyCallback backgroundCopyCallback) downloadValue))
@@ -293,9 +300,9 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(BitsService), nameof(OnStatusChanged), 2, e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(BitsService), nameof(OnStatusChanged), 2, e);
                 }
             }
         }

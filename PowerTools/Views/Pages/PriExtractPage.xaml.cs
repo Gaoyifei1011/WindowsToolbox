@@ -290,8 +290,9 @@ namespace PowerTools.Views.Pages
                     args.DragUIOverride.Caption = NoMultiFileString;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(PriExtractPage), nameof(OnDragOver), 1, e);
                 return;
             }
             finally
@@ -323,7 +324,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Warning, "Drop file in pri extract page failed", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(PriExtractPage), nameof(OnDrop), 1, e);
                     }
 
                     return null;
@@ -334,8 +335,9 @@ namespace PowerTools.Views.Pages
                     filePath = filesList[0].Path;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(PriExtractPage), nameof(OnDrop), 2, e);
                 return;
             }
             finally
@@ -464,7 +466,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", openFolderDialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(PriExtractPage), nameof(OnEmbeddedDataExecuteRequested), 1, e);
                         }
                     });
 
@@ -745,7 +747,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", openFolderDialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(PriExtractPage), nameof(OnExportSelectedEmbeddedDataClicked), 1, e);
                         }
 
                         openFolderDialog.Dispose();
@@ -840,7 +842,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Open saved embedded data folder {0} failed", openFolderDialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(PriExtractPage), nameof(OnExportAllEmbeddedDataClicked), 1, e);
                         }
                     });
                 }
@@ -1073,7 +1075,7 @@ namespace PowerTools.Views.Pages
                                                                     }
                                                                     catch (Exception e)
                                                                     {
-                                                                        LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate filePath(key:{0},AbsolutePath:{1}) failed", key, absolutePath), e);
+                                                                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(PriExtractPage), nameof(ParseResourceFileAsync), 1, e);
                                                                     }
                                                                 }
 
@@ -1099,7 +1101,7 @@ namespace PowerTools.Views.Pages
                                                                     }
                                                                     catch (Exception e)
                                                                     {
-                                                                        LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate string(key:{0},Content:{1}) failed", key, content), e);
+                                                                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(PriExtractPage), nameof(ParseResourceFileAsync), 2, e);
                                                                     }
                                                                 }
 
@@ -1126,7 +1128,7 @@ namespace PowerTools.Views.Pages
                                                                     }
                                                                     catch (Exception e)
                                                                     {
-                                                                        LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate filePath(key:{0},AbsolutePath:{1}) failed", key, absolutePath), e);
+                                                                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(PriExtractPage), nameof(ParseResourceFileAsync), 3, e);
                                                                     }
                                                                 }
 
@@ -1152,7 +1154,7 @@ namespace PowerTools.Views.Pages
                                                                     }
                                                                     catch (Exception e)
                                                                     {
-                                                                        LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate string(key:{0},Content:{1}) failed", key, content), e);
+                                                                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(PriExtractPage), nameof(ParseResourceFileAsync), 4, e);
                                                                     }
                                                                 }
 
@@ -1179,7 +1181,7 @@ namespace PowerTools.Views.Pages
                                                                     }
                                                                     catch (Exception e)
                                                                     {
-                                                                        LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate filePath(key:{0},AbsolutePath:{1}) failed", key, absolutePath), e);
+                                                                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(PriExtractPage), nameof(ParseResourceFileAsync), 5, e);
                                                                     }
                                                                 }
 
@@ -1205,7 +1207,7 @@ namespace PowerTools.Views.Pages
                                                                     }
                                                                     catch (Exception e)
                                                                     {
-                                                                        LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate string(key:{0},Content:{1}) failed", key, content), e);
+                                                                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(PriExtractPage), nameof(ParseResourceFileAsync), 6, e);
                                                                     }
                                                                 }
 
@@ -1229,7 +1231,7 @@ namespace PowerTools.Views.Pages
                                                                     }
                                                                     catch (Exception e)
                                                                     {
-                                                                        LogService.WriteLog(EventLevel.Error, string.Format("Save resourceCandidate embedded data(key:{0}) failed", key), e);
+                                                                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(PriExtractPage), nameof(ParseResourceFileAsync), 7, e);
                                                                     }
                                                                 }
 
@@ -1264,7 +1266,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Parse file {0} resources failed", filePath), e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(PriExtractPage), nameof(ParseResourceFileAsync), 8, e);
                     return false;
                 }
             });

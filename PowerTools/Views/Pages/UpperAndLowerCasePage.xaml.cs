@@ -132,7 +132,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Drop file in upper and lower case page failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(UpperAndLowerCasePage), nameof(OnDrop), 1, e);
             }
             finally
             {
@@ -161,7 +161,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(UpperAndLowerCasePage), nameof(OnDrop), 2, e);
                         continue;
                     }
                 }
@@ -340,18 +340,18 @@ namespace PowerTools.Views.Pages
         /// </summary>
         private async void OnSelectFileClicked(object sender, RoutedEventArgs args)
         {
-            OpenFileDialog dialog = new()
+            OpenFileDialog openFileDialog = new()
             {
                 Multiselect = true,
                 Title = SelectFileString
             };
-            if (dialog.ShowDialog() is DialogResult.OK)
+            if (openFileDialog.ShowDialog() is DialogResult.OK)
             {
                 List<OldAndNewNameModel> upperAndLowerCaseList = await Task.Run(() =>
                 {
                     List<OldAndNewNameModel> upperAndLowerCaseList = [];
 
-                    foreach (string fileName in dialog.FileNames)
+                    foreach (string fileName in openFileDialog.FileNames)
                     {
                         try
                         {
@@ -369,7 +369,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", fileName), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(UpperAndLowerCasePage), nameof(OnSelectFileClicked), 1, e);
                             continue;
                         }
                     }
@@ -377,12 +377,12 @@ namespace PowerTools.Views.Pages
                     return upperAndLowerCaseList;
                 });
 
-                dialog.Dispose();
+                openFileDialog.Dispose();
                 AddtoUpperAndLowerCasePage(upperAndLowerCaseList);
             }
             else
             {
-                dialog.Dispose();
+                openFileDialog.Dispose();
             }
         }
 
@@ -428,7 +428,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} directoryInfo information failed", openFolderDialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(UpperAndLowerCasePage), nameof(OnSelectFolderClicked), 1, e);
                         }
 
                         try
@@ -449,7 +449,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} fileInfo information failed", openFolderDialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(UpperAndLowerCasePage), nameof(OnSelectFolderClicked), 2, e);
                         }
                     });
 

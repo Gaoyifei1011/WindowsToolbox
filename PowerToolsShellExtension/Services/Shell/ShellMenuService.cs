@@ -5,6 +5,7 @@ using PowerToolsShellExtension.WindowsAPI.PInvoke.Shell32;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace PowerToolsShellExtension.Services.Shell
 {
@@ -39,8 +40,9 @@ namespace PowerToolsShellExtension.Services.Shell
                         ShellMenuConfigDirectory = Directory.CreateDirectory(shellMenuPath);
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    ExceptionAsVoidMarshaller.ConvertToUnmanaged(e);
                     return;
                 }
             }

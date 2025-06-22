@@ -31,7 +31,7 @@ namespace PowerTools
         /// </summary>
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs args)
         {
-            LogService.WriteLog(EventLevel.Warning, "Xaml islands UI Exception", args.Exception);
+            LogService.WriteLog(EventLevel.Warning, nameof(PowerTools), nameof(XamlIslandsApp), nameof(OnUnhandledException), 1, args.Exception);
         }
 
         /// <summary>
@@ -62,6 +62,7 @@ namespace PowerTools
                     windowXamlManager = null;
                     DownloadSchedulerService.TerminateDownload();
                     DownloadSchedulerService.CloseDownloadScheduler();
+                    LogService.CloseLog();
                     System.Windows.Forms.Application.Exit();
                 }
             }

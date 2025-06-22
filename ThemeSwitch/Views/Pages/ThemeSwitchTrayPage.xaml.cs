@@ -69,7 +69,7 @@ namespace ThemeSwitch.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open main program failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(ThemeSwitch), nameof(ThemeSwitchTrayPage), nameof(OnOpenMainProgramClicked), 1, e);
                 }
             });
         }
@@ -106,7 +106,7 @@ namespace ThemeSwitch.Views.Pages
         /// </summary>
         private void OnExitClicked(object sender, RoutedEventArgs args)
         {
-            ThemeSwitchWindow.Current?.Close();
+            ThemeSwitchTrayWindow.Current?.Close();
         }
 
         #endregion 第一部分：系统托盘页面——挂载的事件

@@ -1,9 +1,11 @@
 ﻿using PowerTools.Extensions.DataType.Class;
 using PowerTools.Extensions.DataType.Enums;
+using PowerTools.Services.Root;
 using PowerTools.WindowsAPI.PInvoke.Shell32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -62,10 +64,9 @@ namespace PowerTools.Services.Download
                 aria2Arguments = string.Format("--conf-path=\"{0}\" --stop-with-process={1} -D", Aria2ConfPath, Process.GetCurrentProcess().Id);
             }
             //  发生异常时，使用默认的参数
-            catch (Exception)
+            catch (Exception e)
             {
-                // TODO：未完成，添加异常处理
-                //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(InitializeAria2Conf), 1, e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(InitializeAria2Conf), 1, e);
                 aria2Arguments = string.Format(defaultAria2Arguments, Process.GetCurrentProcess().Id);
             }
         }
@@ -92,9 +93,9 @@ namespace PowerTools.Services.Download
                     aria2Timer.Elapsed += OnTimerElapsed;
                     aria2Timer.Start();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return;
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(Initialize), 1, e);
                 }
             });
         }
@@ -114,9 +115,9 @@ namespace PowerTools.Services.Download
                     Aria2SemaphoreSlim?.Dispose();
                     Aria2SemaphoreSlim = null;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return;
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(Release), 1, e);
                 }
             });
         }
@@ -134,7 +135,7 @@ namespace PowerTools.Services.Download
                 </methodCall>
                  */
                 XmlDocument versionDocument = new();
-                XmlDeclaration xmlDeclaration = versionDocument.CreateXmlDeclaration("1.0", null, null);
+                XmlDeclaration xmlDeclaration = versionDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
                 versionDocument.AppendChild(xmlDeclaration);
                 XmlElement methodCallElement = versionDocument.CreateElement("methodCall");
                 versionDocument.AppendChild(methodCallElement);
@@ -151,9 +152,9 @@ namespace PowerTools.Services.Download
                 HttpResponseMessage response = await httpClient.PostAsync(new Uri(rpcServerLink), stringContent);
                 return response.IsSuccessStatusCode;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(IsAria2ExistedAsync), 1, e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(IsAria2ExistedAsync), 1, e);
                 return false;
             }
         }
@@ -201,7 +202,7 @@ namespace PowerTools.Services.Download
                         </methodCall>
                         */
                         XmlDocument createDownloadElement = new();
-                        XmlDeclaration xmlDeclaration = createDownloadElement.CreateXmlDeclaration("1.0", null, null);
+                        XmlDeclaration xmlDeclaration = createDownloadElement.CreateXmlDeclaration("1.0", "UTF-8", null);
                         createDownloadElement.AppendChild(xmlDeclaration);
                         XmlElement methodCallElement = createDownloadElement.CreateElement("methodCall");
                         createDownloadElement.AppendChild(methodCallElement);
@@ -289,9 +290,9 @@ namespace PowerTools.Services.Download
                                         Aria2DownloadDict.Add(gid, saveFilePath);
                                     }
                                 }
-                                catch (Exception)
+                                catch (Exception e)
                                 {
-                                    return;
+                                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(CreateDownload), 1, e);
                                 }
                                 finally
                                 {
@@ -312,9 +313,9 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(CreateDownload), 1, e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(CreateDownload), 2, e);
                 }
             });
         }
@@ -344,7 +345,7 @@ namespace PowerTools.Services.Download
                          </methodCall>
                          */
                         XmlDocument continueDownloadElement = new();
-                        XmlDeclaration xmlDeclaration = continueDownloadElement.CreateXmlDeclaration("1.0", null, null);
+                        XmlDeclaration xmlDeclaration = continueDownloadElement.CreateXmlDeclaration("1.0", "UTF-8", null);
                         continueDownloadElement.AppendChild(xmlDeclaration);
                         XmlElement methodCallElement = continueDownloadElement.CreateElement("methodCall");
                         continueDownloadElement.AppendChild(methodCallElement);
@@ -409,9 +410,9 @@ namespace PowerTools.Services.Download
                                         });
                                     }
                                 }
-                                catch (Exception)
+                                catch (Exception e)
                                 {
-                                    return;
+                                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(ContinueDownload), 1, e);
                                 }
                                 finally
                                 {
@@ -421,9 +422,9 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(ContinueDownload), 1, e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(ContinueDownload), 2, e);
                 }
             });
         }
@@ -453,7 +454,7 @@ namespace PowerTools.Services.Download
                         </methodCall>
                         */
                         XmlDocument pauseDownloadElement = new();
-                        XmlDeclaration xmlDeclaration = pauseDownloadElement.CreateXmlDeclaration("1.0", null, null);
+                        XmlDeclaration xmlDeclaration = pauseDownloadElement.CreateXmlDeclaration("1.0", "UTF-8", null);
                         pauseDownloadElement.AppendChild(xmlDeclaration);
                         XmlElement methodCallElement = pauseDownloadElement.CreateElement("methodCall");
                         pauseDownloadElement.AppendChild(methodCallElement);
@@ -500,26 +501,39 @@ namespace PowerTools.Services.Download
                             {
                                 string gid = resultStringElement.Value;
 
-                                if (Aria2DownloadDict.TryGetValue(gid, out string saveFilePath))
+                                Aria2SemaphoreSlim?.Wait();
+
+                                try
                                 {
-                                    DownloadProgress?.Invoke(new DownloadProgress()
+                                    if (Aria2DownloadDict.TryGetValue(gid, out string saveFilePath))
                                     {
-                                        DownloadID = gid,
-                                        DownloadProgressState = DownloadProgressState.Paused,
-                                        FileName = Path.GetFileName(saveFilePath),
-                                        FilePath = saveFilePath,
-                                        DownloadSpeed = 0,
-                                        CompletedSize = 0,
-                                        TotalSize = 0,
-                                    });
+                                        DownloadProgress?.Invoke(new DownloadProgress()
+                                        {
+                                            DownloadID = gid,
+                                            DownloadProgressState = DownloadProgressState.Paused,
+                                            FileName = Path.GetFileName(saveFilePath),
+                                            FilePath = saveFilePath,
+                                            DownloadSpeed = 0,
+                                            CompletedSize = 0,
+                                            TotalSize = 0,
+                                        });
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(PauseDownload), 1, e);
+                                }
+                                finally
+                                {
+                                    Aria2SemaphoreSlim?.Release();
                                 }
                             }
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(PauseDownload), 1, e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(PauseDownload), 2, e);
                 }
             });
         }
@@ -549,7 +563,7 @@ namespace PowerTools.Services.Download
                          </methodCall>
                          */
                         XmlDocument deleteDownloadElement = new();
-                        XmlDeclaration xmlDeclaration = deleteDownloadElement.CreateXmlDeclaration("1.0", null, null);
+                        XmlDeclaration xmlDeclaration = deleteDownloadElement.CreateXmlDeclaration("1.0", "UTF-8", null);
                         deleteDownloadElement.AppendChild(xmlDeclaration);
                         XmlElement methodCallElement = deleteDownloadElement.CreateElement("methodCall");
                         deleteDownloadElement.AppendChild(methodCallElement);
@@ -617,9 +631,9 @@ namespace PowerTools.Services.Download
 
                                     await RemoveResultAsync();
                                 }
-                                catch (Exception)
+                                catch (Exception e)
                                 {
-                                    return;
+                                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(DeleteDownload), 1, e);
                                 }
                                 finally
                                 {
@@ -629,9 +643,9 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(DeleteDownload), 1, e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(DeleteDownload), 2, e);
                 }
             });
         }
@@ -652,7 +666,7 @@ namespace PowerTools.Services.Download
                 if (await IsAria2ExistedAsync())
                 {
                     XmlDocument tellStatusDocument = new();
-                    XmlDeclaration xmlDecl = tellStatusDocument.CreateXmlDeclaration("1.0", null, null);
+                    XmlDeclaration xmlDecl = tellStatusDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
                     tellStatusDocument.AppendChild(xmlDecl);
                     XmlElement methodCallElement = tellStatusDocument.CreateElement("methodCall");
                     tellStatusDocument.AppendChild(methodCallElement);
@@ -771,9 +785,9 @@ namespace PowerTools.Services.Download
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(TellStatusAsync), 1, e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(TellStatusAsync), 1, e);
             }
 
             return ValueTuple.Create(isTellStatusSuccessfully, downloadProgressState, completedSize, totalSize, downloadSpeed);
@@ -822,9 +836,9 @@ namespace PowerTools.Services.Download
 
                 await RemoveResultAsync();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return;
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(OnTimerElapsed), 1, e);
             }
             finally
             {
@@ -850,7 +864,7 @@ namespace PowerTools.Services.Download
                         </methodCall>
                         */
                         XmlDocument removeResultDocument = new();
-                        XmlDeclaration xmlDeclaration = removeResultDocument.CreateXmlDeclaration("1.0", null, null);
+                        XmlDeclaration xmlDeclaration = removeResultDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
                         removeResultDocument.AppendChild(xmlDeclaration);
                         XmlElement methodCallElement = removeResultDocument.CreateElement("methodCall");
                         removeResultDocument.AppendChild(methodCallElement);
@@ -867,9 +881,9 @@ namespace PowerTools.Services.Download
                         await httpClient.PostAsync(new Uri(rpcServerLink), stringContent);
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(Aria2Service), nameof(RemoveResultAsync), 1, e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(Aria2Service), nameof(RemoveResultAsync), 1, e);
                 }
             });
         }

@@ -26,7 +26,7 @@ namespace ThemeSwitch.Views.Windows
     /// <summary>
     /// 托盘程序辅助窗口
     /// </summary>
-    public class ThemeSwitchWindow : Form
+    public class ThemeSwitchTrayWindow : Form
     {
         private readonly string AppThemeString = ResourceService.ThemeSwitchTrayResource.GetString("AppTheme");
         private readonly string DarkString = ResourceService.ThemeSwitchTrayResource.GetString("Dark");
@@ -45,7 +45,7 @@ namespace ThemeSwitch.Views.Windows
 
         public UIElement Content { get; set; }
 
-        public static ThemeSwitchWindow Current { get; private set; }
+        public static ThemeSwitchTrayWindow Current { get; private set; }
 
         protected override CreateParams CreateParams
         {
@@ -58,7 +58,7 @@ namespace ThemeSwitch.Views.Windows
             }
         }
 
-        public ThemeSwitchWindow()
+        public ThemeSwitchTrayWindow()
         {
             AllowDrop = false;
             AutoScaleMode = AutoScaleMode.Font;
@@ -194,7 +194,7 @@ namespace ThemeSwitch.Views.Windows
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open main program failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(ThemeSwitch), nameof(ThemeSwitchTrayWindow), nameof(OnDoubleClick), 1, e);
                 }
             });
         }

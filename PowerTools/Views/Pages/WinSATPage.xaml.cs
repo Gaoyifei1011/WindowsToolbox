@@ -251,7 +251,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Run Windows system assessment tool failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(WinSATPage), nameof(OnRunAssesssmentClicked), 1, e);
                 cWinSATCallbacks = null;
                 progressDialog = null;
             }
@@ -270,7 +270,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open assessment log folder failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(WinSATPage), nameof(OnOpenAssessmentLogFolderClicked), 1, e);
                 }
             });
         }
@@ -288,7 +288,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open learn system assessment url failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(WinSATPage), nameof(OnLearnSystemAssessmentClicked), 1, e);
                 }
             });
         }
@@ -329,7 +329,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, "Windows system assessment tool state updated failed", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(WinSATPage), nameof(OnStatusUpdated), 1, e);
                         cWinSATCallbacks = null;
                         progressDialog = null;
                         IsNotRunningAssessment = true;
@@ -362,7 +362,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, "Windows system assessment tool state completed failed", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(WinSATPage), nameof(OnStatusUpdated), 2, e);
                         cWinSATCallbacks = null;
                         progressDialog = null;
                         IsNotRunningAssessment = true;
@@ -402,7 +402,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Query WinSAT score failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(WinSATPage), nameof(OnStatusUpdated), 3, e);
                 }
             });
 

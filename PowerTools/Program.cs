@@ -76,7 +76,7 @@ namespace PowerTools
         /// </summary>
         private static void OnThreadException(object sender, ThreadExceptionEventArgs args)
         {
-            LogService.WriteLog(EventLevel.Warning, "Windows Forms Xaml Islands UI Exception", args.Exception);
+            LogService.WriteLog(EventLevel.Warning, nameof(PowerTools), nameof(Program), nameof(OnThreadException), 1, args.Exception);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace PowerTools
         /// </summary>
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
-            LogService.WriteLog(EventLevel.Warning, "Background thread Exception", args.ExceptionObject as Exception);
+            LogService.WriteLog(EventLevel.Warning, nameof(PowerTools), nameof(Program), nameof(OnUnhandledException), 1, args.ExceptionObject as Exception);
         }
 
         /// <summary>

@@ -102,7 +102,7 @@ namespace PowerTools.Services.Download
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Create delivery optimization download failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DeliveryOptimizationService), nameof(CreateDownload), 1, e);
                 }
             }, null, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
         }
@@ -251,9 +251,9 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(DeliveryOptimizationService), nameof(OnStatusChanged), 1, e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DeliveryOptimizationService), nameof(OnStatusChanged), 1, e);
                 }
             }
 
@@ -283,9 +283,9 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //LogService.WriteLog(LoggingLevel.Error, nameof(GetStoreApp), nameof(DeliveryOptimizationService), nameof(OnStatusChanged), 2, e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DeliveryOptimizationService), nameof(OnStatusChanged), 2, e);
                 }
             }
         }

@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Tracing;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -113,9 +114,9 @@ namespace PowerTools.Views.Pages
                 // 导航到该项目对应的页面
                 ShellMenuFrame.Navigate(navigationPageType, parameter);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                // TODO：未完成，添加异常处理
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ShellMenuPage), nameof(NavigateTo), 1, e);
             }
         }
 

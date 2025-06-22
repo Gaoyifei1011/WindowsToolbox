@@ -180,7 +180,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Warning, "Drop file in extension name page failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ExtensionNamePage), nameof(OnDrop), 1, e);
             }
             finally
             {
@@ -212,7 +212,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ExtensionNamePage), nameof(OnDrop), 2, e);
                         continue;
                     }
                 }
@@ -445,7 +445,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", fileName), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ExtensionNamePage), nameof(OnSelectFileClicked), 1, e);
                             continue;
                         }
                     }
@@ -503,7 +503,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} information failed", openFolderDialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ExtensionNamePage), nameof(OnSelectFolderClicked), 1, e);
                         }
                     });
 

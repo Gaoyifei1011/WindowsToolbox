@@ -108,7 +108,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Simulate update timer update failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SimulateUpdatePage), nameof(OnElapsed), 1, e);
             }
         }
 

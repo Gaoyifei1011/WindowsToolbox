@@ -6,6 +6,7 @@ using PowerTools.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Tracing;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
@@ -96,9 +97,9 @@ namespace PowerTools.Views.Dialogs
 
                 copyResult = CopyPasteHelper.CopyToClipboard(Convert.ToString(stringBuilder));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return;
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(OperationFailedDialog), nameof(OnCopyOperationFailedClicked), 1, e);
             }
             finally
             {

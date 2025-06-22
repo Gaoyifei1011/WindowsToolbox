@@ -31,7 +31,7 @@ namespace ThemeSwitch
         /// </summary>
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs args)
         {
-            LogService.WriteLog(EventLevel.Warning, "Xaml islands UI Exception", args.Exception);
+            LogService.WriteLog(EventLevel.Warning, nameof(ThemeSwitch), nameof(ThemeSwitchApp), nameof(OnUnhandledException), 1, args.Exception);
         }
 
         /// <summary>
@@ -58,13 +58,14 @@ namespace ThemeSwitch
                 isDisposed = true;
                 if (disposing)
                 {
-                    if (ThemeSwitchWindow.Current is not null && !ThemeSwitchWindow.Current.IsDisposed)
+                    if (ThemeSwitchTrayWindow.Current is not null && !ThemeSwitchTrayWindow.Current.IsDisposed)
                     {
-                        ThemeSwitchWindow.Current?.Close();
+                        ThemeSwitchTrayWindow.Current?.Close();
                     }
 
                     SystemTrayService.CloseSystemTray();
                     windowXamlManager.Dispose();
+                    LogService.CloseLog();
                     windowXamlManager = null;
                     System.Windows.Forms.Application.Exit();
                 }

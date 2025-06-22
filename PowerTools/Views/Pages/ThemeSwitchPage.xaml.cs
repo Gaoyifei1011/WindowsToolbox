@@ -360,7 +360,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open system theme settings failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ThemeSwitchPage), nameof(OnOpenPersonalizeClicked), 1, e);
                 }
             });
         }
@@ -545,7 +545,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, "Open process name ThemeSwitch.exe failed", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ThemeSwitchPage), nameof(OnSaveClicked), 1, e);
                     }
                 }
                 else
@@ -677,7 +677,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Open process name ThemeSwitch.exe failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ThemeSwitchPage), nameof(OnSaveClicked), 2, e);
             }
         }
 
@@ -865,7 +865,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Load system wallpaper {0} failed", wallpaper), e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(ThemeSwitchPage), nameof(InitializeSystemThemeSettingsAsync), 1, e);
                 }
             }
             else

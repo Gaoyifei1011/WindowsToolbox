@@ -227,9 +227,9 @@ namespace PowerTools.Views.Pages
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return;
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileManagerPage), nameof(OnNavigated), 1, e);
             }
         }
 
@@ -254,7 +254,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Remove string", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileManagerPage), nameof(OnNavigationFailed), 1, e);
             }
         }
 
@@ -319,7 +319,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Remove string", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileManagerPage), nameof(NavigateTo), 1, e);
             }
         }
 

@@ -411,7 +411,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, "Open driver location failed", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DriverManagerPage), nameof(OnOpenFolderExecuteRequested), 1, e);
                     }
                 });
             }
@@ -605,7 +605,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open device management failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DriverManagerPage), nameof(OnOpenDeviceManagementClicked), 1, e);
                 }
             });
         }
@@ -1650,7 +1650,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Get Device information failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DriverManagerPage), nameof(GetDriverInformationList), 1, e);
             }
 
             return driverList;
@@ -1904,15 +1904,15 @@ namespace PowerTools.Views.Pages
                                 long fileSize = file.Length;
                                 Interlocked.Add(ref fileAllSize, fileSize);
                             }
-                            catch (Exception)
+                            catch (Exception e)
                             {
-                                return;
+                                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DriverManagerPage), nameof(GetFolderSize), 1, e);
                             }
                         });
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, string.Format("Get directory all file size {0} failed", directoryPath), e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DriverManagerPage), nameof(GetFolderSize), 2, e);
                     }
 
                     totalSize += fileAllSize;
@@ -1931,22 +1931,22 @@ namespace PowerTools.Views.Pages
                                 long folderSize = GetFolderSize(directory.FullName);
                                 Interlocked.Add(ref folderAllSize, folderSize);
                             }
-                            catch (Exception)
+                            catch (Exception e)
                             {
-                                return;
+                                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DriverManagerPage), nameof(GetFolderSize), 3, e);
                             }
                         });
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, string.Format("Get directory all sub directory size {0} failed", directoryPath), e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DriverManagerPage), nameof(GetFolderSize), 4, e);
                     }
 
                     totalSize += folderAllSize;
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, string.Format("Get directory information {0} failed", directoryPath), e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DriverManagerPage), nameof(GetFolderSize), 5, e);
                 }
             }
 

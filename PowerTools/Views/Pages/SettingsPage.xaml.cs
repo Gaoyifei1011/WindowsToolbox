@@ -153,9 +153,9 @@ namespace PowerTools.Views.Pages
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return;
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsGeneralPage), nameof(OnNavigated), 1, e);
             }
         }
 
@@ -180,7 +180,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Remove string", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsGeneralPage), nameof(OnNavigationFailed), 1, e);
             }
         }
 
@@ -257,7 +257,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Create desktop shortcut failed.", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsGeneralPage), nameof(OnPinToDesktopClicked), 1, e);
                     return false;
                 }
             });
@@ -292,7 +292,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Pin app to startscreen failed.", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsGeneralPage), nameof(OnPinToStartScreenClicked), 1, e);
             }
             finally
             {
@@ -324,7 +324,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Pin app to taskbar failed.", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsGeneralPage), nameof(OnPinToTaskbarClicked), 1, e);
             }
             finally
             {
@@ -347,7 +347,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, "Open app settings failed", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsGeneralPage), nameof(OnAppSettingsClicked), 1, e);
                     }
                 });
             }
@@ -381,9 +381,9 @@ namespace PowerTools.Views.Pages
                 {
                     Process.Start("ms-settings:troubleshoot");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return;
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsGeneralPage), nameof(OnTroubleShootClicked), 1, e);
                 }
             });
         }
@@ -410,7 +410,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Remove string", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsPage), nameof(NavigateTo), 1, e);
             }
         }
 

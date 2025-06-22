@@ -1,7 +1,9 @@
-﻿using PowerTools.Services.Root;
+﻿using PowerTools.Services.Download;
+using PowerTools.Services.Root;
 using System;
 using System.Diagnostics.Tracing;
 using System.Windows.Forms;
+using Windows.Foundation.Diagnostics;
 
 namespace PowerTools.Helpers.Root
 {
@@ -22,7 +24,7 @@ namespace PowerTools.Helpers.Root
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, "Copy text to clipboard failed", e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(CopyPasteHelper), nameof(CopyToClipboard), 1, e);
                 return false;
             }
         }

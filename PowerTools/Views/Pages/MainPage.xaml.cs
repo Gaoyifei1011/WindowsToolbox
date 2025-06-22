@@ -386,7 +386,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format(ResourceService.WindowResource.GetString("NavigationFailed"), args.SourcePageType.FullName), e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(MainPage), nameof(OnNavigated), 1, e);
             }
         }
 
@@ -396,7 +396,7 @@ namespace PowerTools.Views.Pages
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs args)
         {
             args.Handled = true;
-            LogService.WriteLog(EventLevel.Warning, string.Format(ResourceService.WindowResource.GetString("NavigationFailed"), args.SourcePageType.FullName), args.Exception);
+            LogService.WriteLog(EventLevel.Warning, nameof(PowerTools), nameof(LogService), nameof(OnNavigationFailed), 1, args.Exception);
             (global::Windows.UI.Xaml.Application.Current as XamlIslandsApp).Dispose();
         }
 
@@ -432,7 +432,7 @@ namespace PowerTools.Views.Pages
             }
             catch (Exception e)
             {
-                LogService.WriteLog(EventLevel.Error, string.Format(ResourceService.WindowResource.GetString("NavigationFailed"), navigationPageType.FullName), e);
+                LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(MainPage), nameof(NavigateTo), 1, e);
             }
         }
 
@@ -466,7 +466,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Navigation back failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(MainPage), nameof(NavigationFrom), 1, e);
                 }
 
                 (MainNavigationView.Content as Frame).GoBack();

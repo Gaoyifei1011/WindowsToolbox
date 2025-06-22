@@ -33,7 +33,7 @@ namespace PowerTools.Views.Dialogs
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open task manager failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(OpenStartupTaskFailedDialog), nameof(OnOpenTaskManagerClicked), 1, e);
                 }
             });
         }
@@ -52,7 +52,7 @@ namespace PowerTools.Views.Dialogs
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open group policy failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(OpenStartupTaskFailedDialog), nameof(OnOpenGroupPolicyClicked), 1, e);
                 }
             });
         }

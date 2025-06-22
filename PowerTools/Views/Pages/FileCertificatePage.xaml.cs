@@ -146,7 +146,7 @@ namespace PowerTools.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", storageItem.Path), e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileCertificatePage), nameof(OnDrop), 1, e);
                         continue;
                     }
                 }
@@ -267,7 +267,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read file {0} information failed", fileName), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileCertificatePage), nameof(OnSelectFileClicked), 1, e);
                             continue;
                         }
                     }
@@ -324,7 +324,7 @@ namespace PowerTools.Views.Pages
                         }
                         catch (Exception e)
                         {
-                            LogService.WriteLog(EventLevel.Error, string.Format("Read folder {0} fileInfo information failed", openFolderDialog.SelectedPath), e);
+                            LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(FileCertificatePage), nameof(OnSelectFolderClicked), 1, e);
                         }
 
                         return fileNameList;

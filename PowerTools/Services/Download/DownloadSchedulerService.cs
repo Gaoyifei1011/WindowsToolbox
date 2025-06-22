@@ -1,9 +1,11 @@
 ﻿using PowerTools.Extensions.DataType.Class;
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Models;
+using PowerTools.Services.Root;
 using PowerTools.Services.Settings;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Threading;
 
 namespace PowerTools.Services.Download
@@ -18,7 +20,7 @@ namespace PowerTools.Services.Download
 
         public static SemaphoreSlim DownloadSchedulerSemaphoreSlim { get; private set; } = new SemaphoreSlim(1, 1);
 
-        private static List<DownloadSchedulerModel> DownloadSchedulerList { get; } = [];
+        public static List<DownloadSchedulerModel> DownloadSchedulerList { get; } = [];
 
         public static event Action<DownloadSchedulerModel> DownloadProgress;
 
@@ -78,9 +80,9 @@ namespace PowerTools.Services.Download
                         DownloadSpeed = downloadScheduler.DownloadSpeed,
                     });
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return;
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadSchedulerService), nameof(OnDownloadProgress), 1, e);
                 }
                 finally
                 {
@@ -116,9 +118,9 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return;
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadSchedulerService), nameof(OnDownloadProgress), 2, e);
                 }
                 finally
                 {
@@ -151,9 +153,9 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return;
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadSchedulerService), nameof(OnDownloadProgress), 3, e);
                 }
                 finally
                 {
@@ -189,9 +191,9 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return;
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadSchedulerService), nameof(OnDownloadProgress), 4, e);
                 }
                 finally
                 {
@@ -228,9 +230,9 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return;
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadSchedulerService), nameof(OnDownloadProgress), 5, e);
                 }
                 finally
                 {
@@ -264,9 +266,9 @@ namespace PowerTools.Services.Download
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return;
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadSchedulerService), nameof(OnDownloadProgress), 6, e);
                 }
                 finally
                 {
@@ -320,20 +322,27 @@ namespace PowerTools.Services.Download
                 DownloadSchedulerSemaphoreSlim = null;
 
                 // 注销下载服务
-                if (string.Equals(doEngineMode, DownloadOptionsService.DoEngineModeList[0]))
+                try
                 {
-                    DeliveryOptimizationService.TerminateDownload();
-                    DeliveryOptimizationService.DownloadProgress -= OnDownloadProgress;
+                    if (string.Equals(doEngineMode, DownloadOptionsService.DoEngineModeList[0]))
+                    {
+                        DeliveryOptimizationService.TerminateDownload();
+                        DeliveryOptimizationService.DownloadProgress -= OnDownloadProgress;
+                    }
+                    else if (string.Equals(doEngineMode, DownloadOptionsService.DoEngineModeList[1]))
+                    {
+                        BitsService.TerminateDownload();
+                        BitsService.DownloadProgress -= OnDownloadProgress;
+                    }
+                    else if (string.Equals(doEngineMode, DownloadOptionsService.DoEngineModeList[2]))
+                    {
+                        Aria2Service.Release();
+                        Aria2Service.DownloadProgress -= OnDownloadProgress;
+                    }
                 }
-                else if (string.Equals(doEngineMode, DownloadOptionsService.DoEngineModeList[1]))
+                catch (Exception e)
                 {
-                    BitsService.TerminateDownload();
-                    BitsService.DownloadProgress -= OnDownloadProgress;
-                }
-                else if (string.Equals(doEngineMode, DownloadOptionsService.DoEngineModeList[2]))
-                {
-                    Aria2Service.Release();
-                    Aria2Service.DownloadProgress -= OnDownloadProgress;
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(DownloadSchedulerService), nameof(CloseDownloadScheduler), 1, e);
                 }
             }
         }

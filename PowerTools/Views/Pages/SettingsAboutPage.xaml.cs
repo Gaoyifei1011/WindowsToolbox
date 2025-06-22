@@ -83,7 +83,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open show release notes url failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsAboutPage), nameof(OnShowReleaseNotesClicked), 1, e);
                 }
             });
         }
@@ -109,7 +109,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open system information failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsAboutPage), nameof(OnSystemInformationClicked), 1, e);
                 }
             });
         }
@@ -135,7 +135,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open help translate url failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsAboutPage), nameof(OnHelpTranslateClicked), 1, e);
                 }
             });
         }
@@ -153,7 +153,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open project description url failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsAboutPage), nameof(OnProjectDescriptionClicked), 1, e);
                 }
             });
         }
@@ -171,7 +171,7 @@ namespace PowerTools.Views.Pages
                 }
                 catch (Exception e)
                 {
-                    LogService.WriteLog(EventLevel.Error, "Open send feedback url failed", e);
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsAboutPage), nameof(OnSendFeedbackClicked), 1, e);
                 }
             });
         }
@@ -226,21 +226,21 @@ namespace PowerTools.Views.Pages
                     // 捕捉因为网络失去链接获取信息时引发的异常
                     catch (COMException e)
                     {
-                        LogService.WriteLog(EventLevel.Informational, "Check update request failed", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsAboutPage), nameof(OnCheckUpdateClicked), 1, e);
                         return null;
                     }
 
                     // 捕捉因访问超时引发的异常
                     catch (TaskCanceledException e)
                     {
-                        LogService.WriteLog(EventLevel.Informational, "Check update request timeout", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsAboutPage), nameof(OnCheckUpdateClicked), 2, e);
                         return null;
                     }
 
                     // 其他异常
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Warning, "Check update request unknown exception", e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerTools), nameof(SettingsAboutPage), nameof(OnCheckUpdateClicked), 3, e);
                         return null;
                     }
                 });
