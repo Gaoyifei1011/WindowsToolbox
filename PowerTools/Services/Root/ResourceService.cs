@@ -1,8 +1,5 @@
-﻿using PowerTools.Views.Backdrop;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Resources;
-using Windows.UI.Xaml;
 
 namespace PowerTools.Services.Root
 {

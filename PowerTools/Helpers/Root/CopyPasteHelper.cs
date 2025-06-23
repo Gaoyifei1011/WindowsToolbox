@@ -1,9 +1,7 @@
-﻿using PowerTools.Services.Download;
-using PowerTools.Services.Root;
+﻿using PowerTools.Services.Root;
 using System;
 using System.Diagnostics.Tracing;
 using System.Windows.Forms;
-using Windows.Foundation.Diagnostics;
 
 namespace PowerTools.Helpers.Root
 {

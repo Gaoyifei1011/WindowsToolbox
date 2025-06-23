@@ -1,7 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Helpers.Root;
-using PowerTools.Models;
 using PowerTools.Services.Download;
 using PowerTools.Services.Root;
 using PowerTools.Services.Settings;
@@ -26,7 +25,6 @@ using System.Drawing.Printing;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Windows.Foundation.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;

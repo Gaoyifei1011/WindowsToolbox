@@ -2,7 +2,6 @@
 using PowerTools.Extensions.DataType.Enums;
 using PowerTools.Models;
 using PowerTools.Services.Root;
-using PowerTools.Views.Dialogs;
 using PowerTools.Views.NotificationTips;
 using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.PInvoke.FirewallAPI;

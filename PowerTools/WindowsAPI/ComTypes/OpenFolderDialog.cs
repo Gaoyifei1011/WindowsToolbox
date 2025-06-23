@@ -1,5 +1,4 @@
 ﻿using PowerTools.Services.Root;
-using PowerTools.Views.Windows;
 using PowerTools.WindowsAPI.PInvoke.Shell32;
 using System;
 using System.ComponentModel;
