@@ -190,7 +190,7 @@ namespace ThemeSwitch.Views.Windows
             {
                 try
                 {
-                    Process.Start("powertools:");
+                    Process.Start("powertoolbox:");
                 }
                 catch (Exception e)
                 {

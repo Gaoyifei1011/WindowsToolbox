@@ -1,0 +1,401 @@
+﻿<Page
+    x:Class="PowerToolbox.Views.Pages.FilePropertiesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:converter="using:PowerToolbox.Helpers.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:PowerToolbox.Models"
+    xmlns:rootservice="using:PowerToolbox.Services.Root"
+    AllowDrop="True"
+    NavigationCacheMode="Enabled"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <CornerRadius x:Key="ListViewItemCornerRadius">0</CornerRadius>
+            <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="Transparent" />
+            <SolidColorBrush x:Key="ListViewItemBackgroundPressed" Color="Transparent" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                            <StaticResource x:Key="HyperlinkButtonForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighConstract">
+                            <StaticResource x:Key="HyperlinkButtonForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Light">
+                            <StaticResource x:Key="HyperlinkButtonForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--  文件属性顶部控制栏  -->
+        <Grid Grid.Row="0" Margin="0,0,0,3">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.3*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" ColumnSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('ReadOnly')}"
+                        IsChecked="{x:Bind IsReadOnlyChecked, Mode=TwoWay}" />
+
+                    <CheckBox
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('Archive')}"
+                        IsChecked="{x:Bind IsArchiveChecked, Mode=TwoWay}" />
+
+                    <CheckBox
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('Hide')}"
+                        IsChecked="{x:Bind IsHideChecked, Mode=TwoWay}" />
+
+                    <CheckBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('System')}"
+                        IsChecked="{x:Bind IsSystemChecked, Mode=TwoWay}" />
+                </Grid>
+
+                <AppBarSeparator Grid.Column="1" Margin="10,0" />
+
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <CheckBox
+                        Grid.Row="0"
+                        Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('CreateDate')}"
+                        IsChecked="{x:Bind IsCreateDateChecked, Mode=TwoWay}"
+                        Tag="CreateDate"
+                        Unchecked="{x:Bind OnUnchecked}" />
+
+                    <CheckBox
+                        Grid.Row="1"
+                        Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('ModifyDate')}"
+                        IsChecked="{x:Bind IsModifyDateChecked, Mode=TwoWay}"
+                        Tag="ModifyDate"
+                        Unchecked="{x:Bind OnUnchecked}" />
+                </Grid>
+            </Grid>
+
+            <Grid
+                Grid.Column="1"
+                ColumnSpacing="5"
+                RowSpacing="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <DatePicker
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Date="{x:Bind CreateDate, Mode=OneWay}"
+                    DateChanged="{x:Bind OnDateChanged}"
+                    IsEnabled="{x:Bind IsCreateDateChecked, Mode=OneWay}"
+                    Style="{StaticResource DatePickerStyle}"
+                    Tag="CreateDate" />
+
+                <TimePicker
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    ClockIdentifier="24HourClock"
+                    IsEnabled="{x:Bind IsCreateDateChecked, Mode=OneWay}"
+                    Style="{StaticResource TimePickerStyle}"
+                    Time="{x:Bind CreateTime, Mode=OneWay}"
+                    TimeChanged="{x:Bind OnTimeChanged}" />
+
+                <DatePicker
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Date="{x:Bind ModifyDate, Mode=OneWay}"
+                    DateChanged="{x:Bind OnDateChanged}"
+                    IsEnabled="{x:Bind IsModifyDateChecked, Mode=OneWay}"
+                    Style="{StaticResource DatePickerStyle}"
+                    Tag="ModifyDate" />
+
+                <TimePicker
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    ClockIdentifier="24HourClock"
+                    IsEnabled="{x:Bind IsModifyDateChecked, Mode=OneWay}"
+                    Style="{StaticResource TimePickerStyle}"
+                    Time="{x:Bind ModifyTime, Mode=OneWay}" />
+            </Grid>
+        </Grid>
+
+        <!--  文件属性结果列表控件  -->
+        <Grid
+            Grid.Row="1"
+            Margin="0,0,0,3"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid
+                Grid.Row="0"
+                Height="35"
+                Padding="6,0,0,0"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,0,0,1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Name="FileNameHeaderText"
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('FileName')}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('FileName')}"
+                            Visibility="{x:Bind FileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="FilePropertiesHeaderText"
+                    Grid.Column="1"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('ChangedProperties')}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('ChangedProperties')}"
+                            Visibility="{x:Bind FilePropertiesHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+            </Grid>
+
+            <ListView
+                Grid.Row="1"
+                Margin="0,0,0,3"
+                IsItemClickEnabled="True"
+                ItemsSource="{x:Bind FilePropertiesCollection, Mode=OneWay}"
+                SelectionMode="None">
+
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="MinHeight" Value="0" />
+                        <Setter Property="Padding" Value="0" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+
+                <ItemsControl.ItemContainerTransitions>
+                    <TransitionCollection />
+                </ItemsControl.ItemContainerTransitions>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="model:OldAndNewPropertiesModel">
+                        <Grid
+                            Height="35"
+                            Padding="6,0,0,0"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="0,0,0,1">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Grid.Column="0"
+                                MinWidth="50"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Text="{x:Bind FileName, Mode=OneWay}"
+                                TextAlignment="Left"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap">
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Content="{x:Bind FilePath, Mode=OneWay}"
+                                        Placement="Mouse"
+                                        Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(FilePath), Mode=OneWay}" />
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+
+                            <TextBlock
+                                Grid.Column="1"
+                                MinWidth="50"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Text="{x:Bind FileProperties, Mode=OneWay}"
+                                TextAlignment="Left"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap">
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Content="{x:Bind FileProperties, Mode=OneWay}"
+                                        Placement="Mouse"
+                                        Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(FileProperties), Mode=OneWay}" />
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <TextBlock
+                Grid.Row="1"
+                Margin="0,10,0,0"
+                VerticalAlignment="Top"
+                Text="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('EmptyList')}"
+                TextAlignment="Center"
+                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FilePropertiesCollection.Count), Mode=OneWay}" />
+        </Grid>
+
+        <!--  文件属性名称底部控制栏  -->
+        <Grid
+            Grid.Row="2"
+            Margin="0,0,0,3"
+            ColumnSpacing="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Grid.Column="0"
+                Click="{x:Bind OnSelectFileClicked}"
+                Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('SelectFile')}" />
+
+            <Button
+                Grid.Column="1"
+                Click="{x:Bind OnSelectFolderClicked}"
+                Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('SelectFolder')}" />
+
+            <Button
+                Grid.Column="2"
+                Click="{x:Bind OnClearListClicked}"
+                Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('ClearList')}" />
+
+            <TextBlock
+                Grid.Column="3"
+                VerticalAlignment="Center"
+                Text="{x:Bind x:String.Format(TotalString, FilePropertiesCollection.Count), Mode=OneWay}"
+                TextAlignment="Center" />
+
+            <HyperlinkButton
+                Grid.Column="4"
+                Margin="0,0,10,0"
+                Click="{x:Bind OnViewErrorInformationClicked}"
+                Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('ViewErrorInformation')}"
+                Visibility="{x:Bind IsOperationFailed, Mode=OneWay}" />
+
+            <controls:ProgressRing
+                Grid.Column="5"
+                Width="25"
+                Height="25"
+                Margin="0,0,5,0"
+                VerticalAlignment="Center"
+                IsActive="True"
+                IsIndeterminate="True"
+                Visibility="{x:Bind IsModifyingNow, Mode=OneWay}" />
+
+            <TextBlock
+                Grid.Column="6"
+                Margin="0,0,5,0"
+                VerticalAlignment="Center"
+                Text="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('ModifyingNow')}"
+                Visibility="{x:Bind IsModifyingNow, Mode=OneWay}" />
+
+            <Button
+                Grid.Column="7"
+                Click="{x:Bind OnPreviewClicked}"
+                Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('Preview')}"
+                IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}" />
+
+            <Button
+                Grid.Column="8"
+                Click="{x:Bind OnModifyClicked}"
+                Content="{x:Bind rootservice:ResourceService.FilePropertiesResource.GetString('Modify')}"
+                IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}"
+                Style="{StaticResource AccentButtonStyle}" />
+        </Grid>
+    </Grid>
+</Page>

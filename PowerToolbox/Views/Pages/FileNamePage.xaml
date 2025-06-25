@@ -1,0 +1,482 @@
+﻿<Page
+    x:Class="PowerToolbox.Views.Pages.FileNamePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:converter="using:PowerToolbox.Helpers.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:PowerToolbox.Models"
+    xmlns:rootservice="using:PowerToolbox.Services.Root"
+    xmlns:system="using:System"
+    AllowDrop="True"
+    NavigationCacheMode="Enabled"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <CornerRadius x:Key="ListViewItemCornerRadius">0</CornerRadius>
+            <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="Transparent" />
+            <SolidColorBrush x:Key="ListViewItemBackgroundPressed" Color="Transparent" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                            <StaticResource x:Key="HyperlinkButtonForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighConstract">
+                            <StaticResource x:Key="HyperlinkButtonForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Light">
+                            <StaticResource x:Key="HyperlinkButtonForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                            <StaticResource x:Key="HyperlinkButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--  文件名称顶部控制栏  -->
+        <Grid Grid.Row="0" Margin="0,0,0,3">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Spacing="3">
+
+                <Grid ColumnSpacing="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('RenameRule')}" />
+                    <TextBox
+                        Grid.Column="1"
+                        Height="20"
+                        PlaceholderText="{x:Bind rootservice:ResourceService.FileNameResource.GetString('RenameRulePlaceHolderText')}"
+                        Tag="RenameRule"
+                        Text="{x:Bind RenameRule, Mode=OneWay}"
+                        TextChanged="{x:Bind OnTextChanged}" />
+                </Grid>
+
+                <Grid ColumnSpacing="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('StartNumber')}" />
+                    <TextBox
+                        Grid.Column="1"
+                        Height="20"
+                        PlaceholderText="{x:Bind rootservice:ResourceService.FileNameResource.GetString('StartNumberPlaceHolderText')}"
+                        Tag="StartNumber"
+                        Text="{x:Bind StartNumber, Mode=OneWay}"
+                        TextChanged="{x:Bind OnTextChanged}" />
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        Margin="0,0,5,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('NumberFormat')}" />
+
+                    <controls:DropDownButton Grid.Column="1" Content="{x:Bind SelectedNumberFormat.Value, Mode=OneWay}">
+
+                        <controls:DropDownButton.Flyout>
+                            <MenuFlyout Placement="Bottom">
+                                <controls:RadioMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
+                                    Click="{x:Bind OnNumberFormatClicked}"
+                                    GroupName="NumberFormatRadioGroup"
+                                    IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[0].Key), Mode=OneWay}"
+                                    Tag="{x:Bind NumberFormatList[0]}"
+                                    Text="{x:Bind system:Convert.ToString(NumberFormatList[0].Value)}" />
+
+                                <controls:RadioMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
+                                    Click="{x:Bind OnNumberFormatClicked}"
+                                    GroupName="NumberFormatRadioGroup"
+                                    IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[1].Key), Mode=OneWay}"
+                                    Tag="{x:Bind NumberFormatList[1]}"
+                                    Text="{x:Bind system:Convert.ToString(NumberFormatList[1].Value)}" />
+
+                                <controls:RadioMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
+                                    Click="{x:Bind OnNumberFormatClicked}"
+                                    GroupName="NumberFormatRadioGroup"
+                                    IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[2].Key), Mode=OneWay}"
+                                    Tag="{x:Bind NumberFormatList[2]}"
+                                    Text="{x:Bind system:Convert.ToString(NumberFormatList[2].Value)}" />
+
+                                <controls:RadioMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
+                                    Click="{x:Bind OnNumberFormatClicked}"
+                                    GroupName="NumberFormatRadioGroup"
+                                    IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[3].Key), Mode=OneWay}"
+                                    Tag="{x:Bind NumberFormatList[3]}"
+                                    Text="{x:Bind system:Convert.ToString(NumberFormatList[3].Value)}" />
+
+                                <controls:RadioMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
+                                    Click="{x:Bind OnNumberFormatClicked}"
+                                    GroupName="NumberFormatRadioGroup"
+                                    IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[4].Key), Mode=OneWay}"
+                                    Tag="{x:Bind NumberFormatList[4]}"
+                                    Text="{x:Bind system:Convert.ToString(NumberFormatList[4].Value)}" />
+
+                                <controls:RadioMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
+                                    Click="{x:Bind OnNumberFormatClicked}"
+                                    GroupName="NumberFormatRadioGroup"
+                                    IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[5].Key), Mode=OneWay}"
+                                    Tag="{x:Bind NumberFormatList[5]}"
+                                    Text="{x:Bind system:Convert.ToString(NumberFormatList[5].Value)}" />
+
+                                <controls:RadioMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
+                                    Click="{x:Bind OnNumberFormatClicked}"
+                                    GroupName="NumberFormatRadioGroup"
+                                    IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[6].Key), Mode=OneWay}"
+                                    Tag="{x:Bind NumberFormatList[6]}"
+                                    Text="{x:Bind system:Convert.ToString(NumberFormatList[6].Value)}" />
+
+                                <controls:RadioMenuFlyoutItem
+                                    Height="32"
+                                    Padding="11,0"
+                                    Click="{x:Bind OnNumberFormatClicked}"
+                                    GroupName="NumberFormatRadioGroup"
+                                    IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[7].Key), Mode=OneWay}"
+                                    Tag="{x:Bind NumberFormatList[7]}"
+                                    Text="{x:Bind system:Convert.ToString(NumberFormatList[7].Value)}" />
+                            </MenuFlyout>
+                        </controls:DropDownButton.Flyout>
+                    </controls:DropDownButton>
+
+                    <CheckBox
+                        Grid.Column="2"
+                        Margin="0,0,5,0"
+                        Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ChangeExtensionSimultaneously')}"
+                        IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
+                        Unchecked="{x:Bind OnUnchecked}" />
+
+                    <TextBox
+                        Grid.Column="3"
+                        IsEnabled="{x:Bind IsChecked, Mode=OneWay}"
+                        Tag="ExtensionName"
+                        Text="{x:Bind ExtensionName, Mode=OneWay}"
+                        TextChanged="{x:Bind OnTextChanged}" />
+                </Grid>
+            </StackPanel>
+
+            <AppBarSeparator Grid.Column="1" Margin="20,0" />
+
+            <StackPanel Grid.Column="2" Spacing="3">
+                <Grid ColumnSpacing="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('LookUpString')}" />
+                    <TextBox
+                        Grid.Column="1"
+                        Height="20"
+                        PlaceholderText="{x:Bind rootservice:ResourceService.FileNameResource.GetString('LookUpStringPlaceHolderText')}"
+                        Tag="LookUpString"
+                        Text="{x:Bind LookUpString, Mode=OneWay}"
+                        TextChanged="{x:Bind OnTextChanged}" />
+                </Grid>
+
+                <Grid ColumnSpacing="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ReplaceString')}" />
+                    <TextBox
+                        Grid.Column="1"
+                        Height="20"
+                        PlaceholderText="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ReplaceStringPlaceHolderText')}"
+                        Tag="ReplaceString"
+                        Text="{x:Bind ReplaceString, Mode=OneWay}"
+                        TextChanged="{x:Bind OnTextChanged}" />
+                </Grid>
+
+                <Button
+                    HorizontalAlignment="Stretch"
+                    Click="{x:Bind OnViewNameChangeExampleClicked}"
+                    Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ViewNameChangeExample')}" />
+            </StackPanel>
+        </Grid>
+
+        <!--  文件名称结果列表控件  -->
+        <Grid
+            Grid.Row="1"
+            Margin="0,0,0,3"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid
+                Grid.Row="0"
+                Height="35"
+                Padding="6,0,0,0"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,0,0,1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    x:Name="OriginalFileNameHeaderText"
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('OriginalFileName')}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('OriginalFileName')}"
+                            Visibility="{x:Bind OriginalFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+
+                <TextBlock
+                    x:Name="NewFileNameHeaderText"
+                    Grid.Column="1"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('NewFileName')}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            MaxWidth="9999"
+                            Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('NewFileName')}"
+                            Visibility="{x:Bind NewFileNameHeaderText.IsTextTrimmed, Mode=OneWay}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+            </Grid>
+
+            <ListView
+                Grid.Row="1"
+                Margin="0,0,0,3"
+                IsItemClickEnabled="True"
+                ItemsSource="{x:Bind FileNameCollection, Mode=OneWay}"
+                SelectionMode="None">
+
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="MinHeight" Value="0" />
+                        <Setter Property="Padding" Value="0" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+
+                <ItemsControl.ItemContainerTransitions>
+                    <TransitionCollection />
+                </ItemsControl.ItemContainerTransitions>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="model:OldAndNewNameModel">
+                        <Grid
+                            Height="35"
+                            Padding="6,0,0,0"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="0,0,0,1">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Grid.Column="0"
+                                MinWidth="50"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Text="{x:Bind OriginalFileName, Mode=OneWay}"
+                                TextAlignment="Left"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap">
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Content="{x:Bind OriginalFilePath, Mode=OneWay}"
+                                        Placement="Mouse"
+                                        Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(OriginalFilePath), Mode=OneWay}" />
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+
+                            <TextBlock
+                                Grid.Column="1"
+                                MinWidth="50"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Text="{x:Bind NewFileName, Mode=OneWay}"
+                                TextAlignment="Left"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap">
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip
+                                        MaxWidth="9999"
+                                        Content="{x:Bind NewFilePath, Mode=OneWay}"
+                                        Placement="Mouse"
+                                        Visibility="{x:Bind converter:ValueConverterHelper.StringToVisibilityConvert(NewFilePath), Mode=OneWay}" />
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <TextBlock
+                Grid.Row="1"
+                Margin="0,10,0,0"
+                VerticalAlignment="Top"
+                Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('EmptyList')}"
+                TextAlignment="Center"
+                Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityReverseConvert(FileNameCollection.Count), Mode=OneWay}" />
+        </Grid>
+
+        <!--  文件名称底部控制栏  -->
+        <Grid
+            Grid.Row="2"
+            Margin="0,0,0,3"
+            ColumnSpacing="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Grid.Column="0"
+                Click="{x:Bind OnSelectFileClicked}"
+                Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('SelectFile')}" />
+
+            <Button
+                Grid.Column="1"
+                Click="{x:Bind OnSelectFolderClicked}"
+                Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('SelectFolder')}" />
+
+            <Button
+                Grid.Column="2"
+                Click="{x:Bind OnClearListClicked}"
+                Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ClearList')}" />
+
+            <TextBlock
+                Grid.Column="3"
+                VerticalAlignment="Center"
+                Text="{x:Bind x:String.Format(TotalString, FileNameCollection.Count), Mode=OneWay}"
+                TextAlignment="Center" />
+
+            <HyperlinkButton
+                Grid.Column="4"
+                Margin="0,0,10,0"
+                Click="{x:Bind OnViewErrorInformationClicked}"
+                Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ViewErrorInformation')}"
+                Visibility="{x:Bind IsOperationFailed, Mode=OneWay}" />
+
+            <controls:ProgressRing
+                Grid.Column="5"
+                Width="25"
+                Height="25"
+                Margin="0,0,5,0"
+                VerticalAlignment="Center"
+                IsActive="True"
+                IsIndeterminate="True"
+                Visibility="{x:Bind IsModifyingNow, Mode=OneWay}" />
+
+            <TextBlock
+                Grid.Column="6"
+                Margin="0,0,5,0"
+                VerticalAlignment="Center"
+                Text="{x:Bind rootservice:ResourceService.FileNameResource.GetString('ModifyingNow')}"
+                Visibility="{x:Bind IsModifyingNow, Mode=OneWay}" />
+
+            <Button
+                Grid.Column="7"
+                Click="{x:Bind OnPreviewClicked}"
+                Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('Preview')}"
+                IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}" />
+
+            <Button
+                Grid.Column="8"
+                Click="{x:Bind OnModifyClicked}"
+                Content="{x:Bind rootservice:ResourceService.FileNameResource.GetString('Modify')}"
+                IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsModifyingNow), Mode=OneWay}"
+                Style="{StaticResource AccentButtonStyle}" />
+        </Grid>
+    </Grid>
+</Page>

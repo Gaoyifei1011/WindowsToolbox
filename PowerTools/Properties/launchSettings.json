@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "PowerTools": {
-      "commandName": "Project",
-      "nativeDebugging": true
-    }
-  }
-}

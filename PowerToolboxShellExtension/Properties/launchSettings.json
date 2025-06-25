@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PowerToolbox 右键菜单扩展": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

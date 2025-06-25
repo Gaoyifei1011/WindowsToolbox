@@ -1,8 +1,8 @@
 <div align=center>
-<img src="https://github.com/Gaoyifei1011/PowerTools/assets/49179966/8d58b720-9e84-468a-a680-ac90e4f78ae4" width="140" height="140"/>
+<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/8d58b720-9e84-468a-a680-ac90e4f78ae4" width="140" height="140"/>
 </div>
 
-# <p align="center">欢迎访问 PowerTools</p>
+# <p align="center">欢迎访问 PowerToolbox</p>
 
 ### 应用简介
 
@@ -34,22 +34,22 @@
 
 #### <p align="center">摸鱼页面</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerTools/assets/49179966/ee8f736e-fbf5-4fc3-9050-4fb0d5a08b74">
+<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/ee8f736e-fbf5-4fc3-9050-4fb0d5a08b74">
 </div>
 
 #### <p align="center">文件工具页面</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerTools/assets/49179966/95130de1-a57b-4c0d-b851-a21d2cd3b740">
+<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/95130de1-a57b-4c0d-b851-a21d2cd3b740">
 </div>
 
 #### <p align="center">图标提取页面</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerTools/assets/49179966/f9b3679d-e970-4f1e-8105-d26ebf4295b9">
+<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/f9b3679d-e970-4f1e-8105-d26ebf4295b9">
 </div>
 
 #### <p align="center">包资源索引提取页面</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerTools/assets/49179966/95130de1-a57b-4c0d-b851-a21d2cd3b740">
+<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/95130de1-a57b-4c0d-b851-a21d2cd3b740">
 </div>
 
 #### <p align="center">更新管理页面</p>
@@ -59,7 +59,7 @@
 
 #### <p align="center">系统评估页面</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerTools/assets/49179966/279ababe-5486-4311-9aa1-76c2be4aa8a5">
+<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/279ababe-5486-4311-9aa1-76c2be4aa8a5">
 </div>
 
 ------
@@ -98,14 +98,14 @@
 > * [Mile.Aria2](https://github.com/ProjectMile/Mile.Aria2)&emsp;
 > * [System.Private.Uri](https://dot.net)&emsp;
 
-[学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/PowerTools/blob/main/Description/StudyReferenceCode.md)&emsp;
+[学习过程中参考或使用的代码](https://github.com/Gaoyifei1011/PowerToolbox/blob/main/Description/StudyReferenceCode.md)&emsp;
 
 ------
 
 ### 下载与安装注意事项
 
 > * 该程序使用的是 Xaml Islands 构建的，建议您的系统版本为Windows 11（代号 22H2 / 内部版本号 22621）或更高版本，最低版本为Windows 11（代号 2004 / 内部版本号 19041）或更高版本。
-> * [Release](https://github.com/Gaoyifei1011/PowerTools/releases)页面的二进制安装文件已经打包成压缩包。请解压压缩包并使用Powershell管理员模式（必要情况下）运行install.ps1文件方可实现快速安装。
+> * [Release](https://github.com/Gaoyifei1011/PowerToolbox/releases)页面的二进制安装文件已经打包成压缩包。请解压压缩包并使用Powershell管理员模式（必要情况下）运行install.ps1文件方可实现快速安装。
 > * 自行下载项目源代码并编译。（请仔细阅读下面的项目编译步骤）
 
 ------
@@ -120,9 +120,9 @@
 #### <p align="center">编译步骤</p>
 
 > * 克隆项目并下载代码到本地
-> * 使用Visual Studio 2022打开PowerTools.sln文件，如果解决方案提示部分工具没有安装，请完成安装工具步骤后再次打开该解决方案。
+> * 使用Visual Studio 2022打开PowerToolbox.sln文件，如果解决方案提示部分工具没有安装，请完成安装工具步骤后再次打开该解决方案。
 > * 还原项目的Nuget包。
-> * 还原完成后，右键PowerToolsPackage，将该项目设为启动项目，并点击部署。
+> * 还原完成后，右键PowerToolboxPackage，将该项目设为启动项目，并点击部署。
 > * 部署完成后打开“开始”菜单即可运行应用。
 
 #### <p align="center">应用本地化</p>
@@ -133,8 +133,8 @@
 > * 打开项目主页面的README.md，在最上方的“语言选择”中添加您对应的语言。例如“英文”，注意该文字附带超链接。
 > * README_(对应的语言).md文件中添加的语言截图替换为您熟悉的语言的应用截图。
 > * 完成上面所述的翻译步骤，确保所有步骤能够顺利运行。
-> * 打开PowerToolsPackage打包项目，找到Package.appxmanifest文件，右键该文件，点击查看代码，找到Resources标签，根据模板添加相对应的语言，例如“<Resource Language="EN-US"/>”。
-> * 打开PowerTools项目的Strings文件夹，并创建您使用的语言，比如（English(United States)）文件名称为*.en-us.restext，具体可以参考表示语言(文化)代码与国家地区对照表）。
+> * 打开PowerToolboxPackage打包项目，找到Package.appxmanifest文件，右键该文件，点击查看代码，找到Resources标签，根据模板添加相对应的语言，例如“<Resource Language="EN-US"/>”。
+> * 打开PowerToolbox项目的Strings文件夹，并创建您使用的语言，比如（English(United States)）文件名称为*.en-us.restext，具体可以参考表示语言(文化)代码与国家地区对照表）。
 > * 打开子文件夹下的 restext 文件，对每一个名称进行翻译。
 > * 编译运行代码并测试您的语言，应用在初次打开的时候如果没有您使用的语言默认显示English(United States)，需要在设置中动态调整。
 > * 完成上述步骤后创建PR，然后将修改的内容提交到本项目，等待合并即可。
@@ -155,4 +155,4 @@
 ### 其他内容
 
 > * 该项目是基于MIT协议许可的开源项目，您可以修改、分发该项目或将副本与新副本合并。如果您使用了该项目，请勿用于非法用途，本开发者不会承担任何责任。
-> * [部分工具原型](https://github.com/Gaoyifei1011/PowerTools/blob/main/Description/RawApplicationDescription.md)&emsp;
+> * [部分工具原型](https://github.com/Gaoyifei1011/PowerToolbox/blob/main/Description/RawApplicationDescription.md)&emsp;

@@ -22,7 +22,7 @@ namespace ThemeSwitch
         private static string ThemeSwitchString;
 
         /// <summary>
-        /// PowerTools 托盘程序
+        /// PowerToolbox 托盘程序
         /// </summary>
         [STAThread]
         public static void Main()
@@ -31,7 +31,7 @@ namespace ThemeSwitch
             {
                 try
                 {
-                    Process.Start("powertools:");
+                    Process.Start("powertoolbox:");
                 }
                 catch (Exception)
                 { }

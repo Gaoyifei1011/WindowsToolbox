@@ -65,7 +65,7 @@ namespace ThemeSwitch.Views.Pages
             {
                 try
                 {
-                    Process.Start("powertools:");
+                    Process.Start("powertoolbox:");
                 }
                 catch (Exception e)
                 {
