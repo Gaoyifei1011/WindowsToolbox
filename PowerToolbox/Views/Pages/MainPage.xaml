@@ -777,7 +777,8 @@
                         <Setter Target="MainContent.Background" Value="Transparent" />
                     </VisualState.Setters>
                 </VisualState>
-
+            </VisualStateGroup>
+            <VisualStateGroup>
                 <VisualState x:Name="TitlebarTitleActivate">
                     <VisualState.Setters>
                         <Setter Target="TitleBarIcon.Opacity" Value="1" />

@@ -1170,7 +1170,6 @@ namespace PowerToolbox.Views.Windows
             if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[0]))
             {
                 VisualStateManager.GoToState(Content as MainPage, "BackgroundDefault", false);
-                (Content as MainPage).Background = null;
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[1]))
             {
