@@ -772,12 +772,9 @@
                         <Setter Target="MainContent.Background" Value="{ThemeResource DefaultBackgroundColorBrush}" />
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="BackgroundTransparent">
-                    <VisualState.Setters>
-                        <Setter Target="MainContent.Background" Value="Transparent" />
-                    </VisualState.Setters>
-                </VisualState>
+                <VisualState x:Name="BackgroundTransparent" />
             </VisualStateGroup>
+
             <VisualStateGroup>
                 <VisualState x:Name="TitlebarTitleActivate">
                     <VisualState.Setters>

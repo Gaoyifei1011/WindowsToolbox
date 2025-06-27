@@ -1173,22 +1173,27 @@ namespace PowerToolbox.Views.Windows
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[1]))
             {
+                VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 (Content as MainPage).Background = new MicaBrush(MicaKind.Base, Content as FrameworkElement, this, AlwaysShowBackdropService.AlwaysShowBackdropValue);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[2]))
             {
+                VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 (Content as MainPage).Background = new MicaBrush(MicaKind.BaseAlt, Content as FrameworkElement, this, AlwaysShowBackdropService.AlwaysShowBackdropValue);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[3]))
             {
+                VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 (Content as MainPage).Background = new DesktopAcrylicBrush(DesktopAcrylicKind.Default, Content as FrameworkElement, this, AlwaysShowBackdropService.AlwaysShowBackdropValue, true);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[4]))
             {
+                VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 (Content as MainPage).Background = new DesktopAcrylicBrush(DesktopAcrylicKind.Base, Content as FrameworkElement, this, AlwaysShowBackdropService.AlwaysShowBackdropValue, true);
             }
             else if (string.Equals(BackdropService.AppBackdrop, BackdropService.BackdropList[5]))
             {
+                VisualStateManager.GoToState(Content as MainPage, "BackgroundTransparent", false);
                 (Content as MainPage).Background = new DesktopAcrylicBrush(DesktopAcrylicKind.Thin, Content as FrameworkElement, this, AlwaysShowBackdropService.AlwaysShowBackdropValue, true);
             }
         }
