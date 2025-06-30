@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.Win32;
+using PowerToolbox.Extensions.DataType.Class;
 using PowerToolbox.Extensions.DataType.Enums;
 using PowerToolbox.Helpers.Root;
 using PowerToolbox.Models;
@@ -17,7 +18,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 
 // 抑制 CA1822，IDE0060 警告
 #pragma warning disable CA1822,IDE0060
@@ -211,7 +211,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 修改应用语言
         /// </summary>
-        private async void OnLanguageExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnLanguageExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (LanguageFlyout.IsOpen)
             {

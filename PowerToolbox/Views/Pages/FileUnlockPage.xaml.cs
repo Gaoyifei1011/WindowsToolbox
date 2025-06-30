@@ -1,4 +1,5 @@
 using Microsoft.UI.Xaml.Controls;
+using PowerToolbox.Extensions.DataType.Class;
 using PowerToolbox.Extensions.DataType.Enums;
 using PowerToolbox.Models;
 using PowerToolbox.Services.Root;
@@ -23,7 +24,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
@@ -232,7 +232,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 终止进程
         /// </summary>
-        private async void OnTerminateProcessExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnTerminateProcessExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is int processid && processid is not 0)
             {
@@ -271,7 +271,7 @@ namespace PowerToolbox.Views.Pages
         /// 打开本地目录
         /// </summary>
 
-        private void OnOpenProcessPathExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnOpenProcessPathExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is string filePath && !string.IsNullOrEmpty(filePath))
             {

@@ -2,6 +2,7 @@
     x:Class="PowerToolbox.Views.Pages.PriExtractPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:class="using:PowerToolbox.Extensions.DataType.Class"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:converter="using:PowerToolbox.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -20,10 +21,10 @@
         <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="Transparent" />
         <SolidColorBrush x:Key="ListViewItemBackgroundPressed" Color="Transparent" />
 
-        <XamlUICommand x:Name="LanguageCommand" ExecuteRequested="{x:Bind OnLanguageExecuteRequested}" />
-        <XamlUICommand x:Name="StringCommand" ExecuteRequested="{x:Bind OnStringExecuteRequested}" />
-        <XamlUICommand x:Name="FilePathCommand" ExecuteRequested="{x:Bind OnFilePathExecuteRequested}" />
-        <XamlUICommand x:Name="EmbeddedDataCommand" ExecuteRequested="{x:Bind OnEmbeddedDataExecuteRequested}" />
+        <class:ExecuteCommand x:Name="LanguageCommand" ExecuteRequested="{x:Bind OnLanguageExecuteRequested}" />
+        <class:ExecuteCommand x:Name="StringCommand" ExecuteRequested="{x:Bind OnStringExecuteRequested}" />
+        <class:ExecuteCommand x:Name="FilePathCommand" ExecuteRequested="{x:Bind OnFilePathExecuteRequested}" />
+        <class:ExecuteCommand x:Name="EmbeddedDataCommand" ExecuteRequested="{x:Bind OnEmbeddedDataExecuteRequested}" />
     </Page.Resources>
 
     <Grid>

@@ -1,4 +1,5 @@
 using Microsoft.UI.Xaml.Controls;
+using PowerToolbox.Extensions.DataType.Class;
 using PowerToolbox.Extensions.DataType.Enums;
 using PowerToolbox.Extensions.DataType.Methods;
 using PowerToolbox.Extensions.PriExtract;
@@ -25,7 +26,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
 #pragma warning disable CA1806,CA1822,IDE0060
@@ -362,7 +362,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 选择语言
         /// </summary>
-        private async void OnLanguageExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnLanguageExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (LanguageFlyout.IsOpen)
             {
@@ -413,7 +413,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 复制字符串到剪贴板
         /// </summary>
-        private async void OnStringExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnStringExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is StringModel stringItem)
             {
@@ -425,7 +425,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 复制文件路径到剪贴板
         /// </summary>
-        private async void OnFilePathExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnFilePathExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is FilePathModel filePath)
             {
@@ -437,7 +437,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 导出嵌入数据
         /// </summary>
-        private async void OnEmbeddedDataExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnEmbeddedDataExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is EmbeddedDataModel embeddedData)
             {
@@ -521,7 +521,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 字符串列表全选和全部不选
         /// </summary>
-        private void OnStringSelectTapped(object sender, TappedRoutedEventArgs args)
+        private void OnStringSelectTapped(object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs args)
         {
             if (!isStringAllSelect)
             {
@@ -546,7 +546,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 文件路径列表全选和全部不选
         /// </summary>
-        private void OnFilePathSelectTapped(object sender, TappedRoutedEventArgs args)
+        private void OnFilePathSelectTapped(object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs args)
         {
             if (!isFilePathAllSelect)
             {
@@ -571,7 +571,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 嵌入数据列表全选和全部不选
         /// </summary>
-        private void OnEmbeddedDataSelectTapped(object sender, TappedRoutedEventArgs args)
+        private void OnEmbeddedDataSelectTapped(object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs args)
         {
             if (!isEmbeddedDataAllSelect)
             {

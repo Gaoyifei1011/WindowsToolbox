@@ -1,3 +1,4 @@
+using PowerToolbox.Extensions.DataType.Class;
 using PowerToolbox.Extensions.DataType.Enums;
 using PowerToolbox.Helpers.Root;
 using PowerToolbox.Models;
@@ -29,7 +30,6 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -148,7 +148,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 继续下载当前任务
         /// </summary>
-        private void OnContinueExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnContinueExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is DownloadModel download && !string.IsNullOrEmpty(download.DownloadID))
             {
@@ -160,7 +160,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 暂停下载当前任务
         /// </summary>
-        private void OnPauseExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnPauseExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is DownloadModel download && !string.IsNullOrEmpty(download.DownloadID))
             {
@@ -172,7 +172,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 打开下载文件所属目录
         /// </summary>
-        private void OnOpenFolderExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnOpenFolderExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is string filePath)
             {
@@ -217,7 +217,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 删除当前任务
         /// </summary>
-        private void OnDeleteExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnDeleteExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is DownloadModel download && !string.IsNullOrEmpty(download.DownloadID))
             {
@@ -235,7 +235,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 删除下载（包括文件）
         /// </summary>
-        private async void OnDeleteWithFileExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnDeleteWithFileExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is DownloadModel download && !string.IsNullOrEmpty(download.DownloadID))
             {
@@ -285,7 +285,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 文件共享
         /// </summary>
-        private async void OnShareFileExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnShareFileExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is string filePath && File.Exists(filePath))
             {
@@ -314,7 +314,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 查看文件信息
         /// </summary>
-        private void OnFileInformationExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnFileInformationExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is string filePath && File.Exists(filePath))
             {
@@ -469,7 +469,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 浮出控件接受屏幕按键触发的事件
         /// </summary>
-        private void OnFlyoutKeyDown(object sender, KeyRoutedEventArgs args)
+        private void OnFlyoutKeyDown(object sender, global::Windows.UI.Xaml.Input.KeyRoutedEventArgs args)
         {
             if (args.Key is VirtualKey.Escape)
             {

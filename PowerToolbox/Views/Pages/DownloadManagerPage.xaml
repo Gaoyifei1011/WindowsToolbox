@@ -2,6 +2,7 @@
     x:Class="PowerToolbox.Views.Pages.DownloadManagerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:class="using:PowerToolbox.Extensions.DataType.Class"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:converter="using:PowerToolbox.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -18,13 +19,13 @@
         <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
         <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
 
-        <XamlUICommand x:Name="ContinueCommand" ExecuteRequested="{x:Bind OnContinueExecuteRequested}" />
-        <XamlUICommand x:Name="PauseCommand" ExecuteRequested="{x:Bind OnPauseExecuteRequested}" />
-        <XamlUICommand x:Name="OpenFolderCommand" ExecuteRequested="{x:Bind OnOpenFolderExecuteRequested}" />
-        <XamlUICommand x:Name="DeleteCommand" ExecuteRequested="{x:Bind OnDeleteExecuteRequested}" />
-        <XamlUICommand x:Name="DeleteWithFileCommand" ExecuteRequested="{x:Bind OnDeleteWithFileExecuteRequested}" />
-        <XamlUICommand x:Name="ShareFileCommand" ExecuteRequested="{x:Bind OnShareFileExecuteRequested}" />
-        <XamlUICommand x:Name="FileInformationCommand" ExecuteRequested="{x:Bind OnFileInformationExecuteRequested}" />
+        <class:ExecuteCommand x:Name="ContinueCommand" ExecuteRequested="{x:Bind OnContinueExecuteRequested}" />
+        <class:ExecuteCommand x:Name="PauseCommand" ExecuteRequested="{x:Bind OnPauseExecuteRequested}" />
+        <class:ExecuteCommand x:Name="OpenFolderCommand" ExecuteRequested="{x:Bind OnOpenFolderExecuteRequested}" />
+        <class:ExecuteCommand x:Name="DeleteCommand" ExecuteRequested="{x:Bind OnDeleteExecuteRequested}" />
+        <class:ExecuteCommand x:Name="DeleteWithFileCommand" ExecuteRequested="{x:Bind OnDeleteWithFileExecuteRequested}" />
+        <class:ExecuteCommand x:Name="ShareFileCommand" ExecuteRequested="{x:Bind OnShareFileExecuteRequested}" />
+        <class:ExecuteCommand x:Name="FileInformationCommand" ExecuteRequested="{x:Bind OnFileInformationExecuteRequested}" />
 
         <!--  添加下载任务浮出控件  -->
         <Flyout

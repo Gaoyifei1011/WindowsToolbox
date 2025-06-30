@@ -1,4 +1,5 @@
-﻿using PowerToolbox.Helpers.Root;
+﻿using PowerToolbox.Extensions.DataType.Class;
+using PowerToolbox.Helpers.Root;
 using PowerToolbox.Models;
 using PowerToolbox.Services.Root;
 using PowerToolbox.Views.NotificationTips;
@@ -10,7 +11,6 @@ using System.Diagnostics.Tracing;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 
 // 抑制 CA1822，IDE0060 警告
 #pragma warning disable CA1822,IDE0060
@@ -42,7 +42,7 @@ namespace PowerToolbox.Views.Dialogs
         /// <summary>
         /// 复制异常信息
         /// </summary>
-        private async void OnCopyExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnCopyExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is OperationFailedModel operationFailedItem)
             {

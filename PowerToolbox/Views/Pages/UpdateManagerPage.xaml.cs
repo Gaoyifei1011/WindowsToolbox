@@ -24,7 +24,6 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using WUApiLib;
 
@@ -492,7 +491,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 可用更新：取消更新
         /// </summary>
-        private void OnAvailableCancelInstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnAvailableCancelInstallExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is UpdateModel availableUpdate)
             {
@@ -532,7 +531,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 可用更新：修改可用更新项选中状态
         /// </summary>
-        private void OnAvailableCheckClickExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnAvailableCheckClickExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter as UpdateModel is UpdateModel availableUpdate)
             {
@@ -546,7 +545,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 可用更新：隐藏
         /// </summary>
-        private async void OnAvailableHideExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnAvailableHideExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is UpdateModel availableUpdate)
             {
@@ -599,7 +598,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 可用更新：安装
         /// </summary>
-        private async void OnAvailableInstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnAvailableInstallExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is UpdateModel availableUpdate)
             {
@@ -794,7 +793,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 更新历史记录，复制更新描述信息
         /// </summary>
-        private async void OnCopyInformationExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnCopyInformationExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is UpdateModel updateItem)
             {
@@ -855,7 +854,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 隐藏更新：修改隐藏更新项选中状态
         /// </summary>
-        private void OnHiddenCheckBoxClickExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnHiddenCheckBoxClickExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter as UpdateModel is UpdateModel hiddenUpdate)
             {
@@ -867,7 +866,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 隐藏更新：显示
         /// </summary>
-        private async void OnHiddenShowExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnHiddenShowExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is UpdateModel hiddenUpdate)
             {
@@ -920,7 +919,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 已安装更新：取消卸载更新
         /// </summary>
-        private void OnInstalledCancelUninstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnInstalledCancelUninstallExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is UpdateModel installedUpdate)
             {
@@ -950,7 +949,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 已安装更新：修改已安装更新项选中状态
         /// </summary>
-        private void OnInstalledCheckBoxClickExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnInstalledCheckBoxClickExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter as UpdateModel is UpdateModel installedUpdate)
             {
@@ -963,7 +962,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 已安装更新：卸载更新
         /// </summary>
-        private async void OnInstalledUninstallExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnInstalledUninstallExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is UpdateModel installedUpdate)
             {
@@ -1080,7 +1079,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 了解详细信息
         /// </summary>
-        private void OnLearnMoreExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnLearnMoreExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is string supportUrl && !string.IsNullOrEmpty(supportUrl))
             {
@@ -1101,7 +1100,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 更新历史记录：打开更新对应的受支持的链接
         /// </summary>
-        private void OnOpenSupportUrlExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnOpenSupportUrlExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is string supportUrl && !string.IsNullOrEmpty(supportUrl))
             {
@@ -1122,7 +1121,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 已安装更新：使用命令卸载更新
         /// </summary>
-        private void OnUninstallWithCmdExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnUninstallWithCmdExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is string title && !string.IsNullOrEmpty(title))
             {

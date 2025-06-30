@@ -1,3 +1,4 @@
+using PowerToolbox.Extensions.DataType.Class;
 using PowerToolbox.Extensions.DataType.Enums;
 using PowerToolbox.Models;
 using PowerToolbox.Services.Root;
@@ -20,7 +21,6 @@ using System.Threading.Tasks;
 using System.Xml;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -155,7 +155,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 点击复选框时使保存按钮处于可选状态
         /// </summary>
-        private void OnCheckBoxClickExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnCheckBoxClickExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (!IsSaved)
             {
@@ -168,7 +168,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 打开应用程序的工作目录
         /// </summary>
-        private void OnOpenWorkingDirectoryRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnOpenWorkingDirectoryRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is string parameter && !string.IsNullOrEmpty(parameter))
             {

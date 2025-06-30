@@ -27,7 +27,6 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 // 抑制 CA1806，CA1822，IDE0060 警告
@@ -391,7 +390,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 点击选中驱动项
         /// </summary>
-        private void OnCheckBoxExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnCheckBoxExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             DriverDescription = string.Format(DriverInformationString, DriverCollection.Count, DriverCollection.Count(item => item.IsSelected));
         }
@@ -399,7 +398,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 打开文件夹
         /// </summary>
-        private void OnOpenFolderExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnOpenFolderExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is string driverLocation)
             {
@@ -420,7 +419,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 删除驱动
         /// </summary>
-        private async void OnDeleteDriverExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnDeleteDriverExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (RuntimeHelper.IsElevated && args.Parameter is DriverModel driver && File.Exists(driver.DriverLocation))
             {
@@ -471,7 +470,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 强制删除驱动
         /// </summary>
-        private async void OnForceDeleteDriverExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private async void OnForceDeleteDriverExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (RuntimeHelper.IsElevated && args.Parameter is DriverModel driver && File.Exists(driver.DriverLocation))
             {
@@ -539,7 +538,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 删除任务
         /// </summary>
-        private void OnRemoveTaskExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void OnRemoveTaskExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is DriverOperationModel driverOperation)
             {
