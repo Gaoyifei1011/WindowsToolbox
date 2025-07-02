@@ -4,6 +4,12 @@
 
 # <p align="center">欢迎访问 PowerToolbox</p>
 
+<a href="https://apps.microsoft.com/detail/9MV67V21H386?referrer=appbadge&launch=true&mode=full">
+  <div align=center>
+    <img src="https://get.microsoft.com/images/zh-cn%20dark.svg" width="240"/>
+  </div>
+</a>
+
 ### 语言选择（Language selection）
 
 > * [简体中文](https://github.com/Gaoyifei1011/PowerToolbox/blob/main/Description/README_ZH-CN.md)&emsp;

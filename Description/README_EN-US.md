@@ -4,6 +4,12 @@
 
 # <p align="center">Welcome to PowerToolbox</p>
 
+<a href="https://apps.microsoft.com/detail/9MV67V21H386?referrer=appbadge&launch=true&mode=full">
+  <div align=center>
+    <img src="https://get.microsoft.com/images/en-us%20dark.svg" width="240"/>
+  </div>
+</a>
+
 ### Application brief introduction
 
 A toolbox that integrates multiple gadgets.
