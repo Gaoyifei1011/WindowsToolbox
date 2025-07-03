@@ -339,7 +339,7 @@ namespace PowerToolbox.Views.NotificationTips
             }
             else if (operationKind is OperationKind.IconExtract)
             {
-                IsSuccessOperation = false;
+                IsSuccessOperation = true;
                 OperationContent = failedItems is 0 ? string.Format(ResourceService.NotificationTipResource.GetString("IconExtractSuccessfully"), successItems) : string.Format(ResourceService.NotificationTipResource.GetString("IconExtractFailed"), successItems, failedItems);
             }
         }
