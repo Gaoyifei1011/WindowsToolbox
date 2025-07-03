@@ -35,6 +35,7 @@ ForceDeletingDriverSuccessfully=成功删除
 LearnPnpDriver=了解即插即用设备
 LoadingDriver=正在加载驱动信息中，请稍候...
 OpenFolder=打开文件夹
+Operating=正在操作中，请稍候...
 Refresh=刷新
 RemoveTask=移除任务
 RestartPC=计算机将于两分钟后重启，请在重启前保存好您个人的文件

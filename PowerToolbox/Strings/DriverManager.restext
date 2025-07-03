@@ -35,6 +35,7 @@ ForceDeletingDriverSuccessfully=Force delete successfully
 LearnPnpDriver=Learn Pnp Driver
 LoadingDriver=Loading driver information, please wait...
 OpenFolder=Open folder
+Operating=Operating now. Please wait...
 Refresh=Refresh
 RemoveTask=Remove task
 RestartPC=The computer will restart in two minutes, please save your personal files before restarting

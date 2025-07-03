@@ -9,6 +9,7 @@ NoOtherExtensionNameFile=只允许扩展名为".exe" 和 ".dll" 的文件
 NoPreviewResources=没有预览图标资源
 NoResources=文件 {0} 中没有任何图标资源
 NoSelectedFile=没有选择任何文件
+ParsingIcon=正在解析中，请稍候...
 PleaseSelectFile=请选择文件
 SaveIconFormat=保存的图标格式
 SaveIconSize=保存的图标大小

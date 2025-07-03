@@ -9,6 +9,7 @@ NoOtherExtensionNameFile=Only files with extensions ".exe" and ".dll" are allowe
 NoPreviewResources=No preview icon resources
 NoResources=File {0} does not have any icon resources
 NoSelectedFile=No file is selected
+ParsingIcon=Parsing now. Please wait...
 PleaseSelectFile=Please select file
 SaveIconFormat=Save icon format
 SaveIconSize=Save icon size
