@@ -41,7 +41,6 @@ namespace PowerToolbox.Views.Pages
         private readonly string NoMultiFileString = ResourceService.IconExtractResource.GetString("NoMultiFile");
         private readonly string NoResourcesString = ResourceService.IconExtractResource.GetString("NoResources");
         private readonly string NoSelectedFileString = ResourceService.IconExtractResource.GetString("NoSelectedFile");
-        private readonly string PleaseSelectFileString = ResourceService.IconExtractResource.GetString("PleaseSelectFile");
         private readonly string SelectFileString = ResourceService.IconExtractResource.GetString("SelectFile");
         private readonly string SelectFolderString = ResourceService.IconExtractResource.GetString("SelectFolder");
         private readonly object iconExtractLock = new();
@@ -60,6 +59,22 @@ namespace PowerToolbox.Views.Pages
                 {
                     _isSelected = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
+                }
+            }
+        }
+
+        private IconExtractResultKind _iconExtractResultKind = IconExtractResultKind.Welcome;
+
+        public IconExtractResultKind IconExtractResultKind
+        {
+            get { return _iconExtractResultKind; }
+
+            set
+            {
+                if (!Equals(_iconExtractResultKind, value))
+                {
+                    _iconExtractResultKind = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IconExtractResultKind)));
                 }
             }
         }
@@ -206,7 +221,6 @@ namespace PowerToolbox.Views.Pages
             IsSelected = false;
             IsImageEmpty = true;
             GetResults = NoSelectedFileString;
-            NoResources = PleaseSelectFileString;
         }
 
         #region 第一部分：重写父类事件
@@ -594,10 +608,12 @@ namespace PowerToolbox.Views.Pages
             }
 
             int iconsNum = 0;
-            List<IconModel> iconsList = [];
+            IconExtractResultKind = IconExtractResultKind.Parsing;
 
-            bool result = await Task.Run(() =>
+            List<IconModel> iconsList = await Task.Run(() =>
             {
+                List<IconModel> iconsList = [];
+
                 try
                 {
                     filePath = iconFilePath;
@@ -624,17 +640,16 @@ namespace PowerToolbox.Views.Pages
 
                         icon.Dispose();
                     }
-
-                    return true;
                 }
                 catch (Exception e)
                 {
                     LogService.WriteLog(EventLevel.Error, nameof(PowerToolbox), nameof(IconExtractPage), nameof(ParseIconFileAsync), 1, e);
-                    return false;
                 }
+
+                return iconsList;
             });
 
-            if (result)
+            if (iconsList.Count > 0)
             {
                 try
                 {
@@ -659,6 +674,8 @@ namespace PowerToolbox.Views.Pages
 
                         iconItem.IconMemoryStream.Dispose();
                     }
+
+                    IconExtractResultKind = IconExtractResultKind.Successfully;
                 }
                 catch (Exception e)
                 {
@@ -671,6 +688,7 @@ namespace PowerToolbox.Views.Pages
                 NoResources = string.Format(NoResourcesString, Path.GetFileName(filePath));
                 ImageSource = null;
                 IsImageEmpty = true;
+                IconExtractResultKind = IconExtractResultKind.Failed;
             }
         }
 
@@ -719,6 +737,14 @@ namespace PowerToolbox.Views.Pages
                 LogService.WriteLog(EventLevel.Error, nameof(PowerToolbox), nameof(IconExtractPage), nameof(SaveIcon), 1, e);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// 检查图标提取是否成功
+        /// </summary>
+        private Visibility CheckIconExtractState(IconExtractResultKind iconResultResultKind, IconExtractResultKind comparedIconExtractResultKind)
+        {
+            return Equals(iconResultResultKind, comparedIconExtractResultKind) ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

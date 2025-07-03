@@ -766,6 +766,7 @@
                                         <Setter Property="Padding" Value="0" />
                                         <Setter Property="MinHeight" Value="0" />
                                         <Setter Property="MinWidth" Value="260" />
+                                        <Setter Property="Background" Value="{ThemeResource MenuFlyoutPresenterBackground}" />
                                     </Style>
                                 </Flyout.FlyoutPresenterStyle>
 
@@ -822,8 +823,6 @@
                                 </MenuFlyout.MenuFlyoutPresenterStyle>
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
                                     GroupName="ResourceCandidateKindRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[0].Key), Mode=OneWay}"
@@ -831,8 +830,6 @@
                                     Text="{x:Bind system:Convert.ToString(ResourceCandidateKindList[0].Value)}" />
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
                                     GroupName="ResourceCandidateKindRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[1].Key), Mode=OneWay}"
@@ -840,8 +837,6 @@
                                     Text="{x:Bind system:Convert.ToString(ResourceCandidateKindList[1].Value)}" />
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnSelectedResourceCandidateKindClicked}"
                                     GroupName="ResourceCandidateKindRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedResourceCandidateKind.Key, ResourceCandidateKindList[2].Key), Mode=OneWay}"

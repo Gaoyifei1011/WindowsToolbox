@@ -118,8 +118,6 @@
                         <controls:DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[0].Key), Mode=OneWay}"
@@ -127,8 +125,6 @@
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[0].Value)}" />
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[1].Key), Mode=OneWay}"
@@ -136,8 +132,6 @@
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[1].Value)}" />
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[2].Key), Mode=OneWay}"
@@ -145,8 +139,6 @@
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[2].Value)}" />
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[3].Key), Mode=OneWay}"
@@ -154,8 +146,6 @@
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[3].Value)}" />
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[4].Key), Mode=OneWay}"
@@ -163,8 +153,6 @@
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[4].Value)}" />
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[5].Key), Mode=OneWay}"
@@ -172,8 +160,6 @@
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[5].Value)}" />
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[6].Key), Mode=OneWay}"
@@ -181,8 +167,6 @@
                                     Text="{x:Bind system:Convert.ToString(NumberFormatList[6].Value)}" />
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnNumberFormatClicked}"
                                     GroupName="NumberFormatRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(SelectedNumberFormat.Key, NumberFormatList[7].Key), Mode=OneWay}"

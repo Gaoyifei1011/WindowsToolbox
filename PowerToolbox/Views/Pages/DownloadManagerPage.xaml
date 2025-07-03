@@ -32,6 +32,7 @@
             x:Name="AddDownloadTaskFlyout"
             Closing="{x:Bind OnClosing}"
             Opening="{x:Bind OnOpening}">
+
             <Flyout.FlyoutPresenterStyle>
                 <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                     <Setter Property="Padding" Value="0" />
@@ -39,6 +40,7 @@
                     <Setter Property="MaxHeight" Value="9999" />
                     <Setter Property="Background" Value="Transparent" />
                     <Setter Property="Name" Value="DialogFlyout" />
+                    <Setter Property="Background" Value="{ThemeResource MenuFlyoutPresenterBackground}" />
                 </Style>
             </Flyout.FlyoutPresenterStyle>
 
@@ -688,8 +690,6 @@
                                         <Button.Flyout>
                                             <MenuFlyout Placement="Bottom">
                                                 <MenuFlyoutItem
-                                                    Height="32"
-                                                    Padding="11,0"
                                                     Command="{StaticResource DeleteCommand}"
                                                     CommandParameter="{x:Bind}"
                                                     Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('Delete')}"
@@ -701,8 +701,6 @@
                                                 </MenuFlyoutItem>
 
                                                 <MenuFlyoutItem
-                                                    Height="32"
-                                                    Padding="11,0"
                                                     Command="{StaticResource DeleteWithFileCommand}"
                                                     CommandParameter="{x:Bind}"
                                                     Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('DeleteWithFile')}"
@@ -716,8 +714,6 @@
                                                 <MenuFlyoutSeparator />
 
                                                 <MenuFlyoutItem
-                                                    Height="32"
-                                                    Padding="11,0"
                                                     Command="{StaticResource ShareFileCommand}"
                                                     CommandParameter="{x:Bind FilePath}"
                                                     Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('ShareFile')}">
@@ -728,8 +724,6 @@
                                                 </MenuFlyoutItem>
 
                                                 <MenuFlyoutItem
-                                                    Height="32"
-                                                    Padding="11,0"
                                                     Command="{StaticResource FileInformationCommand}"
                                                     CommandParameter="{x:Bind FilePath}"
                                                     Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('FileInformation')}">

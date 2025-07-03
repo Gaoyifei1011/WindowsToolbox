@@ -95,8 +95,6 @@
                     <controls:DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <controls:RadioMenuFlyoutItem
-                                Height="32"
-                                Padding="11,0"
                                 Click="{x:Bind OnThemeSelectClicked}"
                                 GroupName="ThemeRadioGroup"
                                 IsChecked="{x:Bind x:Object.Equals(Theme.Key, ThemeList[0].Key), Mode=OneWay}"
@@ -104,8 +102,6 @@
                                 Text="{x:Bind system:Convert.ToString(ThemeList[0].Value)}" />
 
                             <controls:RadioMenuFlyoutItem
-                                Height="32"
-                                Padding="11,0"
                                 Click="{x:Bind OnThemeSelectClicked}"
                                 GroupName="ThemeRadioGroup"
                                 IsChecked="{x:Bind x:Object.Equals(Theme.Key, ThemeList[1].Key), Mode=OneWay}"
@@ -113,8 +109,6 @@
                                 Text="{x:Bind system:Convert.ToString(ThemeList[1].Value)}" />
 
                             <controls:RadioMenuFlyoutItem
-                                Height="32"
-                                Padding="11,0"
                                 Click="{x:Bind OnThemeSelectClicked}"
                                 GroupName="ThemeRadioGroup"
                                 IsChecked="{x:Bind x:Object.Equals(Theme.Key, ThemeList[2].Key), Mode=OneWay}"
@@ -188,8 +182,6 @@
                     <controls:DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <controls:RadioMenuFlyoutItem
-                                Height="32"
-                                Padding="11,0"
                                 Click="{x:Bind OnBackdropSelectClicked}"
                                 GroupName="BackdropRadioGroup"
                                 IsChecked="{x:Bind x:Object.Equals(Backdrop.Key, BackdropList[0].Key), Mode=OneWay}"
@@ -198,14 +190,10 @@
 
                             <MenuFlyoutSubItem
                                 x:Name="MicaFlyoutItem"
-                                Height="32"
-                                Padding="11,0"
                                 x:Load="{x:Bind backdrop:MicaBrush.IsSupported}"
                                 Text="{x:Bind rootservice:ResourceService.SettingsGeneralResource.GetString('Mica')}">
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
                                     GroupName="BackdropRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(Backdrop.Key, BackdropList[1].Key), Mode=OneWay}"
@@ -213,8 +201,6 @@
                                     Text="{x:Bind system:Convert.ToString(BackdropList[1].Value)}" />
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
                                     GroupName="BackdropRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(Backdrop.Key, BackdropList[2].Key), Mode=OneWay}"
@@ -224,14 +210,10 @@
 
                             <MenuFlyoutSubItem
                                 x:Name="DesktopAcrylicFlyoutItem"
-                                Height="32"
-                                Padding="11,0,11,0"
                                 x:Load="{x:Bind backdrop:DesktopAcrylicBrush.IsSupported}"
                                 Text="{x:Bind rootservice:ResourceService.SettingsGeneralResource.GetString('DesktopAcrylic')}">
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
                                     GroupName="BackdropRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(Backdrop.Key, BackdropList[3].Key), Mode=OneWay}"
@@ -239,8 +221,6 @@
                                     Text="{x:Bind system:Convert.ToString(BackdropList[3].Value)}" />
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
                                     GroupName="BackdropRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(Backdrop.Key, BackdropList[4].Key), Mode=OneWay}"
@@ -248,8 +228,6 @@
                                     Text="{x:Bind system:Convert.ToString(BackdropList[4].Value)}" />
 
                                 <controls:RadioMenuFlyoutItem
-                                    Height="32"
-                                    Padding="11,0"
                                     Click="{x:Bind OnBackdropSelectClicked}"
                                     GroupName="BackdropRadioGroup"
                                     IsChecked="{x:Bind x:Object.Equals(Backdrop.Key, BackdropList[5].Key), Mode=OneWay}"
@@ -408,6 +386,7 @@
                                 <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                                     <Setter Property="Padding" Value="0" />
                                     <Setter Property="MinHeight" Value="0" />
+                                    <Setter Property="Background" Value="{ThemeResource MenuFlyoutPresenterBackground}" />
                                 </Style>
                             </Flyout.FlyoutPresenterStyle>
 
@@ -447,48 +426,6 @@
                         </Flyout>
                     </controls:DropDownButton.Flyout>
                 </controls:DropDownButton>
-            </Grid>
-
-            <Grid
-                Grid.Row="4"
-                Height="60"
-                Padding="16,0"
-                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                BorderThickness="1"
-                CornerRadius="{StaticResource ControlCornerRadius}">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <FontIcon
-                    Grid.Column="0"
-                    Margin="0,0,12,0"
-                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                    FontSize="16"
-                    Glyph="&#xE840;" />
-
-                <TextBlock
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource BodyTextBlockStyle}"
-                    Text="Test String" />
-
-                <Button Grid.Column="2" Content="Test Button" />
-
-                <ComboBox
-                    Grid.Column="3"
-                    VerticalAlignment="Center"
-                    PlaceholderText="Pick a color">
-                    <x:String>Blue</x:String>
-                    <x:String>Green</x:String>
-                    <x:String>Red</x:String>
-                    <x:String>Yellow</x:String>
-                </ComboBox>
             </Grid>
 
             <!--  窗口置顶设置  -->

@@ -121,14 +121,9 @@
 
                                 <AppBarButton.Flyout>
                                     <MenuFlyout Placement="Bottom">
-                                        <MenuFlyoutSubItem
-                                            Height="32"
-                                            Padding="11,0,11,0"
-                                            Text="{x:Bind rootservice:ResourceService.DriverManagerResource.GetString('SortWay')}">
+                                        <MenuFlyoutSubItem Text="{x:Bind rootservice:ResourceService.DriverManagerResource.GetString('SortWay')}">
 
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnSortWayClicked}"
                                                 GroupName="SortWayRadioGroup"
                                                 IsChecked="{x:Bind IsIncrease, Mode=OneWay}"
@@ -136,8 +131,6 @@
                                                 Text="{x:Bind rootservice:ResourceService.DriverManagerResource.GetString('SortIncrease')}" />
 
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnSortWayClicked}"
                                                 GroupName="SortWayRadioGroup"
                                                 IsChecked="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsIncrease), Mode=OneWay}"
@@ -145,14 +138,9 @@
                                                 Text="{x:Bind rootservice:ResourceService.DriverManagerResource.GetString('SortDecrease')}" />
                                         </MenuFlyoutSubItem>
 
-                                        <MenuFlyoutSubItem
-                                            Height="32"
-                                            Padding="11,0,11,0"
-                                            Text="{x:Bind rootservice:ResourceService.DriverManagerResource.GetString('SortRule')}">
+                                        <MenuFlyoutSubItem Text="{x:Bind rootservice:ResourceService.DriverManagerResource.GetString('SortRule')}">
 
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnSortRuleClicked}"
                                                 GroupName="SortRuleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.DeviceName), Mode=OneWay}"
@@ -160,8 +148,6 @@
                                                 Text="{x:Bind rootservice:ResourceService.DriverManagerResource.GetString('SortByDeviceName')}" />
 
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnSortRuleClicked}"
                                                 GroupName="SortRuleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.InfName), Mode=OneWay}"
@@ -169,8 +155,6 @@
                                                 Text="{x:Bind rootservice:ResourceService.DriverManagerResource.GetString('SortByInfName')}" />
 
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnSortRuleClicked}"
                                                 GroupName="SortRuleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.OEMInfName), Mode=OneWay}"
@@ -178,8 +162,6 @@
                                                 Text="{x:Bind rootservice:ResourceService.DriverManagerResource.GetString('SortByOEMInfName')}" />
 
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnSortRuleClicked}"
                                                 GroupName="SortRuleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.DeviceType), Mode=OneWay}"
@@ -187,8 +169,6 @@
                                                 Text="{x:Bind rootservice:ResourceService.DriverManagerResource.GetString('SortByDeviceType')}" />
 
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnSortRuleClicked}"
                                                 GroupName="SortRuleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.Manufacturer), Mode=OneWay}"
@@ -196,8 +176,6 @@
                                                 Text="{x:Bind rootservice:ResourceService.DriverManagerResource.GetString('SortByManufacturer')}" />
 
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnSortRuleClicked}"
                                                 GroupName="SortRuleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.Version), Mode=OneWay}"
@@ -205,8 +183,6 @@
                                                 Text="{x:Bind rootservice:ResourceService.DriverManagerResource.GetString('SortByVersion')}" />
 
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnSortRuleClicked}"
                                                 GroupName="SortRuleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedRule, enum:DriverSortRuleKind.Date), Mode=OneWay}"
@@ -332,6 +308,39 @@
                         Text="{x:Bind DriverFailedContent, Mode=OneWay}"
                         TextAlignment="Center"
                         Visibility="{x:Bind CheckDriverState(DriverResultKind, enum:DriverResultKind.Failed), Mode=OneWay}" />
+                </Grid>
+
+                <!--  正在操作中  -->
+                <Grid
+                    Grid.Row="3"
+                    Padding="40"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="{ThemeResource LayerFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    ColumnSpacing="10"
+                    CornerRadius="{StaticResource OverlayCornerRadius}"
+                    Visibility="{x:Bind CheckDriverState(DriverResultKind, enum:DriverResultKind.Operating), Mode=OneWay}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <controls:ProgressRing
+                        Grid.Column="0"
+                        Width="26"
+                        Height="26"
+                        IsActive="{x:Bind x:Object.Equals(DriverResultKind, enum:DriverResultKind.Operating), Mode=OneWay}" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Text="{x:Bind rootservice:ResourceService.DriverManagerResource.GetString('Operating')}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
                 </Grid>
 
                 <!--  驱动理结果展示项目控件  -->

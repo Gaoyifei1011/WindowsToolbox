@@ -86,8 +86,6 @@
                     <controls:DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <MenuFlyoutItem
-                                Height="32"
-                                Padding="11,0"
                                 Click="{x:Bind OnDownloadChangeFolderClicked}"
                                 Tag="AppCache"
                                 Text="{x:Bind rootservice:ResourceService.SettingsDownloadResource.GetString('AppCacheFolder')}">
@@ -98,8 +96,6 @@
                             </MenuFlyoutItem>
 
                             <MenuFlyoutItem
-                                Height="32"
-                                Padding="11,0"
                                 Click="{x:Bind OnDownloadChangeFolderClicked}"
                                 Tag="Download"
                                 Text="{x:Bind rootservice:ResourceService.SettingsDownloadResource.GetString('DownloadFolder')}">
@@ -110,8 +106,6 @@
                             </MenuFlyoutItem>
 
                             <MenuFlyoutItem
-                                Height="32"
-                                Padding="11,0"
                                 Click="{x:Bind OnDownloadChangeFolderClicked}"
                                 Tag="Desktop"
                                 Text="{x:Bind rootservice:ResourceService.SettingsDownloadResource.GetString('DesktopFolder')}">
@@ -124,8 +118,6 @@
                             <MenuFlyoutSeparator />
 
                             <MenuFlyoutItem
-                                Height="32"
-                                Padding="11,0"
                                 Click="{x:Bind OnDownloadChangeFolderClicked}"
                                 Tag="Custom"
                                 Text="{x:Bind rootservice:ResourceService.SettingsDownloadResource.GetString('Custom')}" />
@@ -201,8 +193,6 @@
                     <controls:DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <controls:RadioMenuFlyoutItem
-                                Height="32"
-                                Padding="11,0"
                                 Click="{x:Bind OnDoEngineModeSelectClicked}"
                                 GroupName="DoEngineModeModeRadioGroup"
                                 IsChecked="{x:Bind x:Object.Equals(DoEngineMode.Key, DoEngineModeList[0].Key), Mode=OneWay}"
@@ -210,8 +200,6 @@
                                 Text="{x:Bind DoEngineModeList[0].Value}" />
 
                             <controls:RadioMenuFlyoutItem
-                                Height="32"
-                                Padding="11,0"
                                 Click="{x:Bind OnDoEngineModeSelectClicked}"
                                 GroupName="DoEngineModeModeRadioGroup"
                                 IsChecked="{x:Bind x:Object.Equals(DoEngineMode.Key, DoEngineModeList[1].Key), Mode=OneWay}"
@@ -219,8 +207,6 @@
                                 Text="{x:Bind DoEngineModeList[1].Value}" />
 
                             <controls:RadioMenuFlyoutItem
-                                Height="32"
-                                Padding="11,0"
                                 Click="{x:Bind OnDoEngineModeSelectClicked}"
                                 GroupName="DoEngineModeModeRadioGroup"
                                 IsChecked="{x:Bind x:Object.Equals(DoEngineMode.Key, DoEngineModeList[2].Key), Mode=OneWay}"

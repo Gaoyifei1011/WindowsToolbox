@@ -170,8 +170,6 @@
                                     <controls:DropDownButton.Flyout>
                                         <MenuFlyout Placement="Bottom">
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnUpdateStyleClicked}"
                                                 GroupName="UpdateStyleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedUpdateStyle.Key, UpdateList[0].Key), Mode=OneWay}"
@@ -179,8 +177,6 @@
                                                 Text="{x:Bind system:Convert.ToString(UpdateList[0].Value)}" />
 
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnUpdateStyleClicked}"
                                                 GroupName="UpdateStyleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedUpdateStyle.Key, UpdateList[1].Key), Mode=OneWay}"

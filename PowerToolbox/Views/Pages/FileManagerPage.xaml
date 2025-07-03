@@ -411,6 +411,7 @@
                             Margin="16,0,16,0"
                             Orientation="Horizontal"
                             Spacing="5">
+
                             <Button
                                 Width="32"
                                 Height="32"

@@ -436,23 +436,23 @@ namespace PowerToolbox.Views.Pages
         /// </summary>
         private void OnAppThemeStyleClicked(object sender, RoutedEventArgs args)
         {
-            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is not null)
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<ElementTheme, string> appTheme)
             {
-                SelectedAppThemeStyle = AppThemeStyleList[Convert.ToInt32(radioMenuFlyoutItem.Tag)];
-                int appTheme = 0;
+                SelectedAppThemeStyle = appTheme;
+                int apptheme = 0;
 
                 if (Equals(SelectedAppThemeStyle, AppThemeStyleList[0]))
                 {
-                    appTheme = 1;
+                    apptheme = 1;
                 }
                 else if (Equals(SelectedSystemThemeStyle, SystemThemeStyleList[1]))
                 {
-                    appTheme = 0;
+                    apptheme = 0;
                 }
 
                 Task.Run(() =>
                 {
-                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", appTheme);
+                    RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", apptheme);
                     User32Library.SendMessageTimeout(new IntPtr(0xffff), WindowMessage.WM_SETTINGCHANGE, UIntPtr.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
                 });
             }

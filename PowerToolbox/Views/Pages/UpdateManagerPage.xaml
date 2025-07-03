@@ -3785,8 +3785,6 @@
                                         <controls:DropDownButton.Flyout>
                                             <MenuFlyout Placement="Bottom">
                                                 <controls:RadioMenuFlyoutItem
-                                                    Height="32"
-                                                    Padding="11,0"
                                                     Click="{x:Bind OnUpdateSourceSelectClicked}"
                                                     GroupName="UpdateSourceRadioGroup"
                                                     IsChecked="{x:Bind x:Object.Equals(SelectedUpdateSource.Key, UpdateSourceList[0].Key), Mode=OneWay}"
@@ -3794,8 +3792,6 @@
                                                     Text="{x:Bind system:Convert.ToString(UpdateSourceList[0].Value)}" />
 
                                                 <controls:RadioMenuFlyoutItem
-                                                    Height="32"
-                                                    Padding="11,0"
                                                     Click="{x:Bind OnUpdateSourceSelectClicked}"
                                                     GroupName="UpdateSourceRadioGroup"
                                                     IsChecked="{x:Bind x:Object.Equals(SelectedUpdateSource.Key, UpdateSourceList[1].Key), Mode=OneWay}"
@@ -3803,8 +3799,6 @@
                                                     Text="{x:Bind system:Convert.ToString(UpdateSourceList[1].Value)}" />
 
                                                 <controls:RadioMenuFlyoutItem
-                                                    Height="32"
-                                                    Padding="11,0"
                                                     Click="{x:Bind OnUpdateSourceSelectClicked}"
                                                     GroupName="UpdateSourceRadioGroup"
                                                     IsChecked="{x:Bind x:Object.Equals(SelectedUpdateSource.Key, UpdateSourceList[2].Key), Mode=OneWay}"
@@ -3812,8 +3806,6 @@
                                                     Text="{x:Bind system:Convert.ToString(UpdateSourceList[2].Value)}" />
 
                                                 <controls:RadioMenuFlyoutItem
-                                                    Height="32"
-                                                    Padding="11,0"
                                                     Click="{x:Bind OnUpdateSourceSelectClicked}"
                                                     GroupName="UpdateSourceRadioGroup"
                                                     IsChecked="{x:Bind x:Object.Equals(SelectedUpdateSource.Key, UpdateSourceList[3].Key), Mode=OneWay}"
@@ -3964,8 +3956,6 @@
                                             <controls:DropDownButton.Flyout>
                                                 <MenuFlyout Placement="Bottom">
                                                     <MenuFlyoutItem
-                                                        Height="32"
-                                                        Padding="11,0"
                                                         Click="{x:Bind OnPreviewChannelSelectClicked}"
                                                         Tag="ExitPreviewChannel"
                                                         Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ExitPreviewChannel')}" />
@@ -3973,29 +3963,21 @@
                                                     <MenuFlyoutSeparator />
 
                                                     <MenuFlyoutItem
-                                                        Height="32"
-                                                        Padding="11,0"
                                                         Click="{x:Bind OnPreviewChannelSelectClicked}"
                                                         Tag="ReleasePreview"
                                                         Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('InsiderReleasePreview')}" />
 
                                                     <MenuFlyoutItem
-                                                        Height="32"
-                                                        Padding="11,0"
                                                         Click="{x:Bind OnPreviewChannelSelectClicked}"
                                                         Tag="Beta"
                                                         Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('InsiderBeta')}" />
 
                                                     <MenuFlyoutItem
-                                                        Height="32"
-                                                        Padding="11,0"
                                                         Click="{x:Bind OnPreviewChannelSelectClicked}"
                                                         Tag="Dev"
                                                         Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('InsiderDev')}" />
 
                                                     <MenuFlyoutItem
-                                                        Height="32"
-                                                        Padding="11,0"
                                                         Click="{x:Bind OnPreviewChannelSelectClicked}"
                                                         Tag="Canary"
                                                         Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('InsiderCanary')}" />

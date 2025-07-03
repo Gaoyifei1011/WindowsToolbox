@@ -212,8 +212,6 @@
                                     <controls:DropDownButton.Flyout>
                                         <MenuFlyout Placement="Bottom">
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnSystemThemeStyleClicked}"
                                                 GroupName="SystemThemeStyleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedSystemThemeStyle.Key, SystemThemeStyleList[0].Key), Mode=OneWay}"
@@ -221,8 +219,6 @@
                                                 Text="{x:Bind system:Convert.ToString(SystemThemeStyleList[0].Value)}" />
 
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnSystemThemeStyleClicked}"
                                                 GroupName="SystemThemeStyleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedSystemThemeStyle.Key, SystemThemeStyleList[1].Key), Mode=OneWay}"
@@ -256,21 +252,17 @@
                                     <controls:DropDownButton.Flyout>
                                         <MenuFlyout Placement="Bottom">
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnAppThemeStyleClicked}"
                                                 GroupName="AppThemeStyleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedAppThemeStyle.Key, AppThemeStyleList[0].Key), Mode=OneWay}"
-                                                Tag="0"
+                                                Tag="{x:Bind AppThemeStyleList[0]}"
                                                 Text="{x:Bind system:Convert.ToString(AppThemeStyleList[0].Value)}" />
 
                                             <controls:RadioMenuFlyoutItem
-                                                Height="32"
-                                                Padding="11,0"
                                                 Click="{x:Bind OnAppThemeStyleClicked}"
                                                 GroupName="AppThemeStyleRadioGroup"
                                                 IsChecked="{x:Bind x:Object.Equals(SelectedAppThemeStyle.Key, AppThemeStyleList[1].Key), Mode=OneWay}"
-                                                Tag="1"
+                                                Tag="{x:Bind AppThemeStyleList[1]}"
                                                 Text="{x:Bind system:Convert.ToString(AppThemeStyleList[1].Value)}" />
                                         </MenuFlyout>
                                     </controls:DropDownButton.Flyout>
@@ -481,10 +473,12 @@
                                                 x:Name="SystemThemeSetTimeFlyout"
                                                 Placement="Bottom"
                                                 ShouldConstrainToRootBounds="False">
+
                                                 <Flyout.FlyoutPresenterStyle>
                                                     <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                                                         <Setter Property="Padding" Value="0" />
                                                         <Setter Property="MinWidth" Value="0" />
+                                                        <Setter Property="Background" Value="{ThemeResource MenuFlyoutPresenterBackground}" />
                                                     </Style>
                                                 </Flyout.FlyoutPresenterStyle>
 
@@ -687,10 +681,12 @@
                                                 x:Name="AppThemeSetTimeFlyout"
                                                 Placement="Bottom"
                                                 ShouldConstrainToRootBounds="False">
+
                                                 <Flyout.FlyoutPresenterStyle>
                                                     <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                                                         <Setter Property="Padding" Value="0" />
                                                         <Setter Property="MinWidth" Value="0" />
+                                                        <Setter Property="Background" Value="{ThemeResource MenuFlyoutPresenterBackground}" />
                                                     </Style>
                                                 </Flyout.FlyoutPresenterStyle>
 

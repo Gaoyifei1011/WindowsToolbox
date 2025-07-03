@@ -11,33 +11,21 @@
 
     <Page.Resources>
         <MenuFlyout x:Name="ThemeSwitchFlyout" x:FieldModifier="public">
-            <MenuFlyoutItem
-                Height="32"
-                Padding="11,0"
-                Click="{x:Bind OnOpenMainProgramClicked}"
-                Text="{x:Bind rootservice:ResourceService.ThemeSwitchTrayResource.GetString('OpenMainProgram')}">
+            <MenuFlyoutItem Click="{x:Bind OnOpenMainProgramClicked}" Text="{x:Bind rootservice:ResourceService.ThemeSwitchTrayResource.GetString('OpenMainProgram')}">
 
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE80F;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
 
-            <MenuFlyoutItem
-                Height="32"
-                Padding="11,0"
-                Click="{x:Bind OnSwitchSystemThemeClicked}"
-                Text="{x:Bind rootservice:ResourceService.ThemeSwitchTrayResource.GetString('SwitchSystemTheme')}">
+            <MenuFlyoutItem Click="{x:Bind OnSwitchSystemThemeClicked}" Text="{x:Bind rootservice:ResourceService.ThemeSwitchTrayResource.GetString('SwitchSystemTheme')}">
 
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE770;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
 
-            <MenuFlyoutItem
-                Height="32"
-                Padding="11,0"
-                Click="{x:Bind OnSwitchAppThemeClicked}"
-                Text="{x:Bind rootservice:ResourceService.ThemeSwitchTrayResource.GetString('SwitchAppTheme')}">
+            <MenuFlyoutItem Click="{x:Bind OnSwitchAppThemeClicked}" Text="{x:Bind rootservice:ResourceService.ThemeSwitchTrayResource.GetString('SwitchAppTheme')}">
 
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE71D;" />
@@ -46,11 +34,7 @@
 
             <MenuFlyoutSeparator />
 
-            <MenuFlyoutItem
-                Height="32"
-                Padding="11,0"
-                Click="{x:Bind OnExitClicked}"
-                Text="{x:Bind rootservice:ResourceService.ThemeSwitchTrayResource.GetString('Exit')}">
+            <MenuFlyoutItem Click="{x:Bind OnExitClicked}" Text="{x:Bind rootservice:ResourceService.ThemeSwitchTrayResource.GetString('Exit')}">
 
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE711;" />
