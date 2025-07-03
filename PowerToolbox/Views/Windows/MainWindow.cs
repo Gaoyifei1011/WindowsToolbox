@@ -228,11 +228,10 @@ namespace PowerToolbox.Views.Windows
         protected override void OnDpiChanged(DpiChangedEventArgs args)
         {
             base.OnDpiChanged(args);
+            MinimumSize = new Size(Convert.ToInt32(1024 * ((double)DeviceDpi) / 96), Convert.ToInt32(768 * ((double)DeviceDpi / 96)));
             Rectangle rectangle = args.SuggestedRectangle;
-
             UpdateFrameBorderThickness();
-            User32Library.SetWindowPos(Handle, IntPtr.Zero, rectangle.Left, rectangle.Top, rectangle.Right - rectangle.Left, rectangle.Bottom - rectangle.Top, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOACTIVATE
-            );
+            User32Library.SetWindowPos(Handle, IntPtr.Zero, rectangle.Left, rectangle.Top, rectangle.Right - rectangle.Left, rectangle.Bottom - rectangle.Top, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOACTIVATE);
         }
 
         /// <summary>
