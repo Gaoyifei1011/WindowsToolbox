@@ -38,34 +38,54 @@ A toolbox that integrates multiple gadgets.
 
 ### Screenshot of the app
 
-#### <p align="center">Loaf page</p>
+#### <p align="center">All tools——Home page</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/ed2e50f8-c7cf-4c08-ba06-38b52d9dd4ad">
+<img src="https://store-images.s-microsoft.com/image/apps.40641.13799120564539197.4112331c-fb23-4bff-b823-fe085d0bec13.7ea6ea66-af7c-49a2-ac00-bb681d7aeedb">
 </div>
 
-#### <p align="center">File tools page</p>
+#### <p align="center">Relax tools——Loaf</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/b8db2eab-7fd6-418b-918d-c1c30150072d">
+<img src="https://store-images.s-microsoft.com/image/apps.58724.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.9a170ac6-fb6b-4afc-a9ef-1aadc9825bb9">
 </div>
 
-#### <p align="center">Icon extract page</p>
+#### <p align="center">File tools——File manager</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/dff09e6f-a7ba-4240-a234-27b97d235222">
+<img src="https://store-images.s-microsoft.com/image/apps.58741.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.49671f8c-6eb4-459d-9770-9ee596d76800">
 </div>
 
-#### <p align="center">Pri extract page</p>
+#### <p align="center">Resource tools——Icon extract</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/c13681fe-17c2-4041-8d86-9d4ca78cc1bf">
+<img src="https://store-images.s-microsoft.com/image/apps.49843.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.6eddb3db-05b6-4cee-95ed-d0e12a13649f">
 </div>
 
-#### <p align="center">更新管理页面</p>
+#### <p align="center">Resource tools——Pri extract</p>
 <div align="center">
-<img src="https://github.com/user-attachments/assets/994ec02e-8704-41df-a938-027e4dd0115e">
+<img src="https://store-images.s-microsoft.com/image/apps.4379.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.a26f84c5-a2ed-4fbe-9c17-1c7b0e326279">
 </div>
 
-#### <p align="center">System assessment page</p>
+#### <p align="center">Personalization tools——Theme switch</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/072f3122-47d0-40b6-812e-6052a6e4416e">
+<img src="https://store-images.s-microsoft.com/image/apps.12852.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.279e9142-c0f4-48cc-8f38-717cd67706a5">
+</div>
+
+#### <p align="center">Personalization tools——Context menu manager</p>
+<div align="center">
+<img src="https://store-images.s-microsoft.com/image/apps.25080.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.86d75c1f-6827-4bf1-802b-4d1b0512a061">
+</div>
+
+#### <p align="center">System tools——Loopback manager</p>
+<div align="center">
+<img src="https://store-images.s-microsoft.com/image/apps.57297.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.91680ad4-c29b-4fae-9965-ec91738f19d6">
+</div>
+
+#### <p align="center">System tools——Driver manager</p>
+<div align="center">
+<img src="https://store-images.s-microsoft.com/image/apps.54655.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.02888b46-2c43-4fc1-b122-029e6cd3a5b8">
+</div>
+
+#### <p align="center">System tools——System assessment</p>
+<div align="center">
+<img src="https://store-images.s-microsoft.com/image/apps.59379.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.c5f33e83-555d-4589-b942-e4da2eb7873d">
 </div>
 
 ------

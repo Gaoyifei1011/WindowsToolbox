@@ -45,34 +45,54 @@
 
 ### 应用截图
 
-#### <p align="center">摸鱼页面</p>
+#### <p align="center">所有工具——主页面</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/ee8f736e-fbf5-4fc3-9050-4fb0d5a08b74">
+<img src="https://store-images.s-microsoft.com/image/apps.39715.13799120564539197.4112331c-fb23-4bff-b823-fe085d0bec13.ad921d55-22f3-47dd-b501-76cf36e6585f">
 </div>
 
-#### <p align="center">文件工具页面</p>
+#### <p align="center">休闲工具——摸鱼</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/95130de1-a57b-4c0d-b851-a21d2cd3b740">
+<img src="https://store-images.s-microsoft.com/image/apps.58724.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.9a170ac6-fb6b-4afc-a9ef-1aadc9825bb9">
 </div>
 
-#### <p align="center">图标提取页面</p>
+#### <p align="center">文件工具——文件管理</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/f9b3679d-e970-4f1e-8105-d26ebf4295b9">
+<img src="https://store-images.s-microsoft.com/image/apps.10516.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.0f787198-296b-492c-b3cd-72df8e8c1783">
 </div>
 
-#### <p align="center">包资源索引提取页面</p>
+#### <p align="center">资源工具——图标提取</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/95130de1-a57b-4c0d-b851-a21d2cd3b740">
+<img src="https://store-images.s-microsoft.com/image/apps.50893.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.274e28f4-5d1e-4ff4-be6b-f7a85ca4bc7a">
 </div>
 
-#### <p align="center">更新管理页面</p>
+#### <p align="center">资源工具——包资源索引提取</p>
 <div align="center">
-<img src="https://github.com/user-attachments/assets/53e14692-5ce1-42fb-a659-8870e972eb6b">
+<img src="https://store-images.s-microsoft.com/image/apps.38967.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.ccf6db88-e021-478d-8ccc-83ed1a062f1c">
 </div>
 
-#### <p align="center">系统评估页面</p>
+#### <p align="center">个性化工具——主题切换</p>
 <div align="center">
-<img src="https://github.com/Gaoyifei1011/PowerToolbox/assets/49179966/279ababe-5486-4311-9aa1-76c2be4aa8a5">
+<img src="https://store-images.s-microsoft.com/image/apps.36323.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.7b9ce2cc-7745-42fd-b586-36618114a2b8">
+</div>
+
+#### <p align="center">个性化工具——右键菜单管理</p>
+<div align="center">
+<img src="https://store-images.s-microsoft.com/image/apps.8182.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.702fdd4c-5bb4-4261-8840-e06421e52e31">
+</div>
+
+#### <p align="center">系统工具——网络回环管理</p>
+<div align="center">
+<img src="https://store-images.s-microsoft.com/image/apps.58801.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.395d70f7-e436-49c2-ab8a-f9ba7d52dc60">
+</div>
+
+#### <p align="center">系统工具——驱动管理</p>
+<div align="center">
+<img src="https://store-images.s-microsoft.com/image/apps.49713.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.98ac68fc-2c47-4bcf-8c45-15b8a96e4132">
+</div>
+
+#### <p align="center">系统工具——系统评估</p>
+<div align="center">
+<img src="https://store-images.s-microsoft.com/image/apps.59309.13799120564539197.6d703da1-2ac9-4466-b480-61551c901935.eede295c-0403-4bdb-b848-6d6d66432d17">
 </div>
 
 ------
