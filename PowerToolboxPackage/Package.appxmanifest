@@ -19,6 +19,7 @@
     Version="4.1.703.0" />
 
   <Properties>
+    <Description>ms-resource:PackageDescription</Description>
     <DisplayName>ms-resource:PackageDisplayName</DisplayName>
     <PublisherDisplayName>高怡飞</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>

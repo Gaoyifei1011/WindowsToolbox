@@ -2,6 +2,7 @@
   "AppDescription": "PowerToolbox",
   "AppDisplayName": "PowerToolbox",
   "AppShortDisplayName": "PowerToolbox",
+  "PackageDescription": "A toolbox that integrates multiple gadgets",
   "PackageDisplayName": "PowerToolbox",
   "ProtocolName": "PowerToolbox",
   "ThemeSwitchDisplayName": "Theme switch"

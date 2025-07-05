@@ -2,6 +2,7 @@
   "AppDescription": "PowerToolbox",
   "AppDisplayName": "PowerToolbox",
   "AppShortDisplayName": "PowerToolbox",
+  "PackageDescription": "一个集成了多个小工具的工具箱",
   "PackageDisplayName": "PowerToolbox",
   "ProtocolName": "PowerToolbox",
   "ThemeSwitchDisplayName": "主题切换"
