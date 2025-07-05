@@ -12,7 +12,7 @@
 
 ### Application brief introduction
 
-A toolbox that integrates multiple gadgets.
+A toolbox that integrates multiple gadgets
 
 ------
 
