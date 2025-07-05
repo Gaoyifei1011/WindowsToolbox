@@ -390,7 +390,7 @@ namespace PowerToolbox.Views.Backdrop
                 Color = convertedTintColor
             };
 
-            OpacityEffect TintColorWithoutAlphaOpacityEffect = new()
+            OpacityEffect tintColorWithoutAlphaOpacityEffect = new()
             {
                 Name = "TintColorWithoutAlphaOpacityEffect",
                 Opacity = convertedTintColor.A is 255 ? 1f : 0f,
@@ -418,7 +418,7 @@ namespace PowerToolbox.Views.Backdrop
                 {
                     hostBackdropLayerEffect,
                     tintColorOpacityEffect,
-                    TintColorWithoutAlphaOpacityEffect,
+                    tintColorWithoutAlphaOpacityEffect,
                     noiseEffect
                 }
             };
