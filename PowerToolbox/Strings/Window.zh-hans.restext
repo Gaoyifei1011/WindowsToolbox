@@ -7,6 +7,7 @@ File=文件工具
 FileCertificate=文件证书
 FileManager=文件管理
 FileUnlock=文件解锁
+Hosts=Hosts 文件编辑器
 IconExtract=图标提取
 Loaf=摸鱼
 LoopbackManager=网络回环管理

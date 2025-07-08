@@ -664,6 +664,28 @@
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
 
+                        <controls:NavigationViewItem Tag="Hosts">
+
+                            <controls:NavigationViewItem.Icon>
+                                <controls:ImageIcon Source="ms-appx:///Assets/ControlIcon/Hosts.png" />
+                            </controls:NavigationViewItem.Icon>
+
+                            <controls:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowHostsText"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('Hosts')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </controls:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('Hosts')}"
+                                    Visibility="{x:Bind WindowHostsText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
+                        </controls:NavigationViewItem>
+
                         <controls:NavigationViewItem Tag="DriverManager">
 
                             <controls:NavigationViewItem.Icon>

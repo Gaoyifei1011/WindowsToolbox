@@ -7,6 +7,7 @@ File=File tools
 FileCertificate=File certificate
 FileManager=File manager
 FileUnlock=File unlock
+Hosts=Hosts file editor
 IconExtract=Icon extract
 Loaf=Loaf
 LoopbackManager=Loopback manager
