@@ -203,6 +203,9 @@
     <EmbeddedResource Include="Strings\FileUnlock.en-us.restext" />
     <EmbeddedResource Include="Strings\FileUnlock.restext" />
     <EmbeddedResource Include="Strings\FileUnlock.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\Hosts.en-us.restext" />
+    <EmbeddedResource Include="Strings\Hosts.restext" />
+    <EmbeddedResource Include="Strings\Hosts.zh-hans.restext" />
     <EmbeddedResource Include="Strings\IconExtract.en-us.restext" />
     <EmbeddedResource Include="Strings\IconExtract.restext" />
     <EmbeddedResource Include="Strings\IconExtract.zh-hans.restext" />

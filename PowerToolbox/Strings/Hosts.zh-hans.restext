@@ -1,0 +1,8 @@
+﻿AddNewHost=添加条目
+Hosts=Hosts 文件编辑器
+OpenFile=打开 Hosts 文件
+Refresh=刷新
+UpdateDNSCache=更新 DNS 缓存
+SearchHostNamePHText=搜索 Hosts 文件内容
+SelectAll=全选
+SelectNone=全部不选
