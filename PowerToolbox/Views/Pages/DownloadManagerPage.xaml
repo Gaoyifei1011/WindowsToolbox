@@ -40,7 +40,6 @@
                     <Setter Property="MaxHeight" Value="9999" />
                     <Setter Property="Background" Value="Transparent" />
                     <Setter Property="Name" Value="DialogFlyout" />
-                    <Setter Property="Background" Value="{ThemeResource MenuFlyoutPresenterBackground}" />
                 </Style>
             </Flyout.FlyoutPresenterStyle>
 
