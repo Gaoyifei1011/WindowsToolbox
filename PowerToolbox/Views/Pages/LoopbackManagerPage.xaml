@@ -18,7 +18,7 @@
         <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
 
         <class:ExecuteCommand x:Name="CheckBoxClickCommand" ExecuteRequested="{x:Bind OnCheckBoxClickExecuteRequested}" />
-        <class:ExecuteCommand x:Name="OpenWorkingDirectoryCommand" ExecuteRequested="{x:Bind OnOpenWorkingDirectoryRequested}" />
+        <class:ExecuteCommand x:Name="OpenWorkingDirectoryCommand" ExecuteRequested="{x:Bind OnOpenWorkingDirectoryExecuteRequested}" />
     </Page.Resources>
 
     <Grid>
