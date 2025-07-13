@@ -346,41 +346,12 @@
 
                 <CommandBar.PrimaryCommands>
                     <AppBarButton
-                        Click="{x:Bind OnSelectAllClicked}"
-                        IsEnabled="{x:Bind GetIsLoading(HostsResultKind), Mode=OneWay}"
-                        Label="{x:Bind rootservice:ResourceService.HostsResource.GetString('SelectAll')}">
-
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE8B3;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-
-                    <AppBarButton
-                        Click="{x:Bind OnSelectNoneClicked}"
-                        IsEnabled="{x:Bind GetIsLoading(HostsResultKind), Mode=OneWay}"
-                        Label="{x:Bind rootservice:ResourceService.HostsResource.GetString('SelectNone')}">
-
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE8E6;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-
-                    <AppBarButton
                         Click="{x:Bind OnAddNewHostClicked}"
                         IsEnabled="{x:Bind GetIsLoading(HostsResultKind), Mode=OneWay}"
                         Label="{x:Bind rootservice:ResourceService.HostsResource.GetString('AddNewHost')}">
 
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xE710;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-                </CommandBar.PrimaryCommands>
-
-                <CommandBar.SecondaryCommands>
-                    <AppBarButton Click="{x:Bind OnOpenFileClicked}" Label="{x:Bind rootservice:ResourceService.HostsResource.GetString('OpenFile')}">
-
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE8A5;" />
                         </AppBarButton.Icon>
                     </AppBarButton>
 
@@ -391,6 +362,15 @@
 
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xE72C;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar.PrimaryCommands>
+
+                <CommandBar.SecondaryCommands>
+                    <AppBarButton Click="{x:Bind OnOpenFileClicked}" Label="{x:Bind rootservice:ResourceService.HostsResource.GetString('OpenFile')}">
+
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE8A5;" />
                         </AppBarButton.Icon>
                     </AppBarButton>
 
@@ -472,29 +452,12 @@
                         CornerRadius="{StaticResource ControlCornerRadius}">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <CheckBox
-                            Grid.Column="0"
-                            MinWidth="0"
-                            Margin="0,0,12,0"
-                            IsChecked="{x:Bind IsSelected, Mode=TwoWay}">
-
-                            <ToolTipService.ToolTip>
-                                <ToolTip MaxWidth="9999">
-                                    <Grid>
-                                        <TextBlock Text="{x:Bind rootservice:ResourceService.LoopbackManagerResource.GetString('Selected')}" Visibility="{x:Bind IsSelected, Mode=OneWay}" />
-                                        <TextBlock Text="{x:Bind rootservice:ResourceService.LoopbackManagerResource.GetString('UnSelected')}" Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsSelected), Mode=OneWay}" />
-                                    </Grid>
-                                </ToolTip>
-                            </ToolTipService.ToolTip>
-                        </CheckBox>
-
                         <StackPanel
-                            Grid.Column="1"
+                            Grid.Column="0"
                             Margin="0,10"
                             VerticalAlignment="Center"
                             Orientation="Vertical">
@@ -549,7 +512,7 @@
                             </ToolTipService.ToolTip>
                         </StackPanel>
 
-                        <CommandBar Grid.Column="2" VerticalAlignment="Center">
+                        <CommandBar Grid.Column="1" VerticalAlignment="Center">
                             <CommandBar.SecondaryCommands>
                                 <AppBarButton
                                     Command="{StaticResource EditCommand}"

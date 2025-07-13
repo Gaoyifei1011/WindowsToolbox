@@ -1,5 +1,6 @@
 ﻿using PowerToolbox.Extensions.DataType.Class;
 using PowerToolbox.Extensions.DataType.Enums;
+using PowerToolbox.Helpers.Root;
 using PowerToolbox.Models;
 using PowerToolbox.Services.Root;
 using PowerToolbox.Views.Windows;
@@ -38,6 +39,7 @@ namespace PowerToolbox.Views.Pages
         private readonly SynchronizationContext synchronizationContext = SynchronizationContext.Current;
         private bool isAllowClosed = false;
         private FileSystemWatcher fileSystemWatcher;
+        private HostsModel oldHostsItem;
 
         private HostsResultKind _hostsResultKind;
 
@@ -267,6 +269,8 @@ namespace PowerToolbox.Views.Pages
                 HostText = hosts.Hosts;
                 AnnotationText = hosts.Annotation;
                 IsAvailable = hosts.IsAvailable;
+                oldHostsItem = hosts;
+                IsPrimaryButtonEnabled = !string.IsNullOrEmpty(AddressText) && !string.IsNullOrEmpty(HostText);
 
                 EditHostFlyout.ShowAt(MainWindow.Current.Content, new()
                 {
@@ -281,6 +285,13 @@ namespace PowerToolbox.Views.Pages
         /// </summary>
         private void OnDeleteExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
+            if (args.Parameter is HostsModel hosts)
+            {
+                HostsList.Remove(hosts);
+                HostsCollection.Remove(hosts);
+
+                // TODO：未完成
+            }
         }
 
         #endregion 第二部分：ExecuteCommand 命令调用时挂载的事件
@@ -352,10 +363,54 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 添加 Hosts 文件条目内容
         /// </summary>
-        private void OnAddClicked(object sender, RoutedEventArgs args)
+        private async void OnAddClicked(object sender, RoutedEventArgs args)
         {
             isAllowClosed = true;
             AddNewHostFlyout.Hide();
+
+            bool isExisted = await Task.Run(() =>
+            {
+                if (RuntimeHelper.IsElevated)
+                {
+                    bool isExisted = false;
+
+                    foreach (HostsModel hostsItem in HostsCollection)
+                    {
+                        if (string.Equals(AddressText, hostsItem.Address, StringComparison.OrdinalIgnoreCase) && string.Equals(HostText, hostsItem.Hosts, StringComparison.OrdinalIgnoreCase))
+                        {
+                            isExisted = true;
+                            break;
+                        }
+                    }
+
+                    return isExisted;
+                }
+                else
+                {
+                    return false;
+                }
+            });
+
+            if (isExisted)
+            {
+                // TODO：显示通知
+                return;
+            }
+            else
+            {
+                bool isValid = await Task.Run(() =>
+                {
+                    bool isValid = true;
+
+                    // TODO：添加 IP 地址的格式检查
+                    return isValid;
+                });
+
+                if (isValid)
+                {
+                    // 保存信息
+                }
+            }
         }
 
         /// <summary>
@@ -365,6 +420,14 @@ namespace PowerToolbox.Views.Pages
         {
             isAllowClosed = true;
             EditHostFlyout.Hide();
+
+            Task.Run(() =>
+            {
+                if (RuntimeHelper.IsElevated)
+                {
+                    // TODO：未完成
+                }
+            });
         }
 
         /// <summary>
@@ -392,21 +455,18 @@ namespace PowerToolbox.Views.Pages
                 {
                     if (!string.IsNullOrEmpty(hostsItem.Address) && hostsItem.Address.Contains(SearchText))
                     {
-                        hostsItem.IsSelected = false;
                         HostsList.Add(hostsItem);
                         continue;
                     }
 
                     if (!string.IsNullOrEmpty(hostsItem.Hosts) && hostsItem.Hosts.Contains(SearchText))
                     {
-                        hostsItem.IsSelected = false;
                         HostsList.Add(hostsItem);
                         continue;
                     }
 
                     if (!string.IsNullOrEmpty(hostsItem.Annotation) && hostsItem.Annotation.Contains(SearchText))
                     {
-                        hostsItem.IsSelected = false;
                         HostsList.Add(hostsItem);
                         continue;
                     }
@@ -429,34 +489,11 @@ namespace PowerToolbox.Views.Pages
                 HostsCollection.Clear();
                 foreach (HostsModel hostsItem in HostsList)
                 {
-                    hostsItem.IsSelected = false;
                     HostsCollection.Add(hostsItem);
                 }
 
                 HostsResultKind = HostsCollection.Count is 0 ? HostsResultKind.Failed : HostsResultKind.Successfully;
                 HostsFailedContent = HostsCollection.Count is 0 ? HostsEmptyWithConditionDescriptionString : string.Empty;
-            }
-        }
-
-        /// <summary>
-        /// 全选
-        /// </summary>
-        private void OnSelectAllClicked(object sender, RoutedEventArgs args)
-        {
-            foreach (HostsModel hostsItem in HostsCollection)
-            {
-                hostsItem.IsSelected = true;
-            }
-        }
-
-        /// <summary>
-        /// 全部不选
-        /// </summary>
-        private void OnSelectNoneClicked(object sender, RoutedEventArgs args)
-        {
-            foreach (HostsModel hostsItem in HostsCollection)
-            {
-                hostsItem.IsSelected = false;
             }
         }
 
@@ -488,7 +525,15 @@ namespace PowerToolbox.Views.Pages
                 {
                     if (File.Exists(hostsPath))
                     {
-                        Process.Start(hostsPath);
+                        ProcessStartInfo processStartInfo = new()
+                        {
+                            FileName = "notepad.exe",
+                            Arguments = hostsPath,
+                            UseShellExecute = true,
+                            Verb = "runas"
+                        };
+
+                        Process.Start(processStartInfo);
                     }
                 }
                 catch (Exception e)
@@ -583,6 +628,7 @@ namespace PowerToolbox.Views.Pages
         /// </summary>
         private async Task GetHostsAsync()
         {
+            // TODO：未完成
             HostsResultKind = HostsResultKind.Loading;
             HostsList.Clear();
             HostsCollection.Clear();
@@ -625,7 +671,6 @@ namespace PowerToolbox.Views.Pages
                 Address = "TestAddress",
                 Annotation = "TestAnnotation",
                 Hosts = "TestHosts",
-                IsSelected = true,
                 IsAvailable = true,
                 IsAvailableString = AvailableString
             });
@@ -663,6 +708,7 @@ namespace PowerToolbox.Views.Pages
         /// </summary>
         private HostsModel ParseHostsLine(string line)
         {
+            // TODO：未完成
             string[] hostsLineArray = line.Split(' ');
 
             return new HostsModel();
