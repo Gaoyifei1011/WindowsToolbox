@@ -150,7 +150,7 @@ namespace PowerToolbox.Views.Pages
 
         #endregion 第一部分：重写父类事件
 
-        #region 第二部分：XamlUICommand 命令调用时挂载的事件
+        #region 第二部分：ExecuteCommand 命令调用时挂载的事件
 
         /// <summary>
         /// 点击复选框时使保存按钮处于可选状态
@@ -168,7 +168,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 打开应用程序的工作目录
         /// </summary>
-        private void OnOpenWorkingDirectoryRequested(object sender, ExecuteRequestedEventArgs args)
+        private void OnOpenWorkingDirectoryExecuteRequested(object sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter is string parameter && !string.IsNullOrEmpty(parameter))
             {
@@ -180,13 +180,13 @@ namespace PowerToolbox.Views.Pages
                     }
                     catch (Exception e)
                     {
-                        LogService.WriteLog(EventLevel.Error, nameof(PowerToolbox), nameof(LoopbackManagerPage), nameof(OnOpenWorkingDirectoryRequested), 1, e);
+                        LogService.WriteLog(EventLevel.Error, nameof(PowerToolbox), nameof(LoopbackManagerPage), nameof(OnOpenWorkingDirectoryExecuteRequested), 1, e);
                     }
                 });
             }
         }
 
-        #endregion 第二部分：XamlUICommand 命令调用时挂载的事件
+        #endregion 第二部分：ExecuteCommand 命令调用时挂载的事件
 
         #region 第三部分：网络回环管理页面——挂载的事件
 

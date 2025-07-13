@@ -227,7 +227,7 @@ namespace PowerToolbox.Views.Pages
 
         #endregion 第一部分：第一部分：重写父类事件
 
-        #region 第二部分：XamlUICommand 命令调用时挂载的事件
+        #region 第二部分：ExecuteCommand 命令调用时挂载的事件
 
         /// <summary>
         /// 终止进程
@@ -313,7 +313,7 @@ namespace PowerToolbox.Views.Pages
             }
         }
 
-        #endregion 第二部分：XamlUICommand 命令调用时挂载的事件
+        #endregion 第二部分：ExecuteCommand 命令调用时挂载的事件
 
         #region 第三部分：文件解锁页面——挂载的事件
 

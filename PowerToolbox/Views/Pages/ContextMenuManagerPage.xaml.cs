@@ -121,7 +121,7 @@ namespace PowerToolbox.Views.Pages
 
         #endregion 第一部分：重写父类事件
 
-        #region 第二部分：XamlUICommand 命令调用时挂载的事件
+        #region 第二部分：ExecuteCommand 命令调用时挂载的事件
 
         /// <summary>
         /// 打开应用包路径
@@ -234,7 +234,7 @@ namespace PowerToolbox.Views.Pages
             }
         }
 
-        #endregion 第二部分：XamlUICommand 命令调用时挂载的事件
+        #endregion 第二部分：ExecuteCommand 命令调用时挂载的事件
 
         #region 第三部分：右键菜单管理页面——挂载的事件
 

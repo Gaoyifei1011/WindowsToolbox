@@ -385,7 +385,7 @@ namespace PowerToolbox.Views.Pages
 
         #endregion 第一部分：重写父类事件
 
-        #region 第一部分：XamlUICommand 命令调用时挂载的事件
+        #region 第一部分：ExecuteCommand 命令调用时挂载的事件
 
         /// <summary>
         /// 点击选中驱动项
@@ -546,7 +546,7 @@ namespace PowerToolbox.Views.Pages
             }
         }
 
-        #endregion 第一部分：XamlUICommand 命令调用时挂载的事件
+        #endregion 第一部分：ExecuteCommand 命令调用时挂载的事件
 
         #region 第二部分：驱动管理页面——挂载的事件
 

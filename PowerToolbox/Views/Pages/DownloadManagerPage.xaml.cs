@@ -143,7 +143,7 @@ namespace PowerToolbox.Views.Pages
 
         #endregion 第一部分：重载父类事件
 
-        #region 第一部分：XamlUICommand 命令调用时挂载的事件
+        #region 第一部分：ExecuteCommand 命令调用时挂载的事件
 
         /// <summary>
         /// 继续下载当前任务
@@ -334,7 +334,7 @@ namespace PowerToolbox.Views.Pages
             }
         }
 
-        #endregion 第一部分：XamlUICommand 命令调用时挂载的事件
+        #endregion 第一部分：ExecuteCommand 命令调用时挂载的事件
 
         #region 第二部分：下载管理页面——挂载的事件
 
