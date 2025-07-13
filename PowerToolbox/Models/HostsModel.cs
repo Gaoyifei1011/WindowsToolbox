@@ -26,9 +26,12 @@ namespace PowerToolbox.Models
             }
         }
 
+        /// <summary>
+        /// 地址
+        /// </summary>
         private string _address;
 
-        public string AddRess
+        public string Address
         {
             get { return _address; }
 
@@ -37,11 +40,14 @@ namespace PowerToolbox.Models
                 if (!string.Equals(_address, value))
                 {
                     _address = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AddRess)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Address)));
                 }
             }
         }
 
+        /// <summary>
+        /// 主机信息
+        /// </summary>
         private string _hosts;
 
         public string Hosts
@@ -80,18 +86,37 @@ namespace PowerToolbox.Models
         /// <summary>
         /// 是否可用
         /// </summary>
-        private bool _isUseable;
+        private bool _isAvailable;
 
-        public bool IsUseable
+        public bool IsAvailable
         {
-            get { return _isUseable; }
+            get { return _isAvailable; }
 
             set
             {
-                if (!Equals(_isUseable, value))
+                if (!Equals(_isAvailable, value))
                 {
-                    _isUseable = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsUseable)));
+                    _isAvailable = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAvailable)));
+                }
+            }
+        }
+
+        /// <summary>
+        /// 是否可用
+        /// </summary>
+        private string _isAvailableString;
+
+        public string IsAvailableString
+        {
+            get { return _isAvailableString; }
+
+            set
+            {
+                if (!Equals(_isAvailableString, value))
+                {
+                    _isAvailableString = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsAvailableString)));
                 }
             }
         }
