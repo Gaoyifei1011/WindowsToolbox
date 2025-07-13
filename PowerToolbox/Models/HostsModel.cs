@@ -8,25 +8,6 @@ namespace PowerToolbox.Models
     public class HostsModel : INotifyPropertyChanged
     {
         /// <summary>
-        /// 主机项是否被选择
-        /// </summary>
-        private bool _isSelected;
-
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-
-            set
-            {
-                if (!Equals(_isSelected, value))
-                {
-                    _isSelected = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
-                }
-            }
-        }
-
-        /// <summary>
         /// 地址
         /// </summary>
         private string _address;
