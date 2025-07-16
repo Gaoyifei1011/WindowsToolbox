@@ -115,6 +115,7 @@
     <Content Include="Assets\ControlIcon\System.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\ThemeSwitch.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\UpdateManager.png" CopyToOutputDirectory="Always" />
+    <Content Include="Assets\ControlIcon\WinFR.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\ControlIcon\WinSAT.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Cover.png" CopyToOutputDirectory="Always" />
     <Content Include="Assets\Images\LoafDarkWallpaper.jpg" CopyToOutputDirectory="Always" />
@@ -264,6 +265,9 @@
     <EmbeddedResource Include="Strings\Window.en-us.restext" />
     <EmbeddedResource Include="Strings\Window.restext" />
     <EmbeddedResource Include="Strings\Window.zh-hans.restext" />
+    <EmbeddedResource Include="Strings\WinFR.en-us.restext" />
+    <EmbeddedResource Include="Strings\WinFR.restext" />
+    <EmbeddedResource Include="Strings\WinFR.zh-hans.restext" />
     <EmbeddedResource Include="Strings\WinSAT.en-us.restext" />
     <EmbeddedResource Include="Strings\WinSAT.restext" />
     <EmbeddedResource Include="Strings\WinSAT.zh-hans.restext" />
@@ -312,6 +316,7 @@
     <None Remove="Views\Pages\ThemeSwitch.xaml" />
     <None Remove="Views\Pages\UpdateManagerPage.xaml" />
     <None Remove="Views\Pages\UpperAndLowerCasePage.xaml" />
+    <None Remove="Views\Pages\WinFRPage.xaml" />
     <None Remove="Views\Pages\WinSATPage.xaml" />
     <None Remove="XamlIslandsApp.xaml" />
 
@@ -364,6 +369,7 @@
     <Page Include="Views\Pages\ThemeSwitchPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\UpdateManagerPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\UpperAndLowerCasePage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Views\Pages\WinFRPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Pages\WinSATPage.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
 
     <ProjectCapability Include="Uwp" />
