@@ -23,7 +23,6 @@ mono_crash.*
 [Rr]eleases/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
 bld/
 [Bb]in/
 [Oo]bj/
