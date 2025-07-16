@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace PowerToolbox.WindowsAPI.ComTypes
 {
     /// <summary>
-    /// 为当前会话中的 Windows.Launch) (通用启动协定激活指定的 Windows 应用商店应用。
+    /// 为当前会话中的 (Windows.Launch) 通用启动协定激活指定的 Windows 应用商店应用。
     /// </summary>
     [ComImport, Guid("2E941141-7F97-4756-BA1D-9DECDE894A3D"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IApplicationActivationManager
