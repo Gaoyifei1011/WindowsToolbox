@@ -153,6 +153,7 @@ namespace PowerToolbox.Views.Pages
             new KeyValuePair<string, Type>("Hosts",typeof(HostsPage)),
             new KeyValuePair<string, Type>("DriverManager",typeof(DriverManagerPage)),
             new KeyValuePair<string, Type>("UpdateManager",typeof(UpdateManagerPage)),
+            new KeyValuePair<string, Type>("WinFR",typeof(WinFRPage)),
             new KeyValuePair<string, Type>("WinSAT",typeof(WinSATPage)),
             new KeyValuePair<string, Type>("Settings",typeof(SettingsPage)),
         ];

@@ -730,6 +730,28 @@
                             </ToolTipService.ToolTip>
                         </controls:NavigationViewItem>
 
+                        <controls:NavigationViewItem Tag="WinFR">
+
+                            <controls:NavigationViewItem.Icon>
+                                <controls:ImageIcon Source="ms-appx:///Assets/ControlIcon/WinFR.png" />
+                            </controls:NavigationViewItem.Icon>
+
+                            <controls:NavigationViewItem.Content>
+                                <TextBlock
+                                    x:Name="WindowWinFRText"
+                                    Text="{x:Bind rootservice:ResourceService.WindowResource.GetString('WinFR')}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                            </controls:NavigationViewItem.Content>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip
+                                    MaxWidth="9999"
+                                    Content="{x:Bind rootservice:ResourceService.WindowResource.GetString('WinFR')}"
+                                    Visibility="{x:Bind WindowWinFRText.IsTextTrimmed, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
+                        </controls:NavigationViewItem>
+
                         <controls:NavigationViewItem Tag="WinSAT">
 
                             <controls:NavigationViewItem.Icon>
