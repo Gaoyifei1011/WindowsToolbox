@@ -137,6 +137,13 @@ namespace PowerToolbox.Views.Pages
             },
             new ControlItemModel()
             {
+                Title = ResourceService.AllToolsResource.GetString("WinFR"),
+                Description = ResourceService.AllToolsResource.GetString("WinFRDescription"),
+                ImagePath = "ms-appx:///Assets/ControlIcon/WinFR.png",
+                Tag = "WinFR"
+            },
+            new ControlItemModel()
+            {
                 Title = ResourceService.AllToolsResource.GetString("WinSAT"),
                 Description = ResourceService.AllToolsResource.GetString("WinSATDescription"),
                 ImagePath = "ms-appx:///Assets/ControlIcon/WinSAT.png",

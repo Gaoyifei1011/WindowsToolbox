@@ -34,5 +34,7 @@ ThemeSwitchDescription= Switch current Windows theme
 SystemTools=System tools
 UpdateManager=Update manager
 UpdateManagerDescription=Download and install operating system updates manually
+WinFR=File recovery
+WinFRDescription=Recover lost files on the device
 WinSAT=System assessment
 WinSATDescription=Benchmarking using system evaluation tools

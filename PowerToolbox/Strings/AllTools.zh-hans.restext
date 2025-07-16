@@ -34,5 +34,7 @@ ThemeSwitchDescription=切换当前 Windows 主题
 SystemTools=系统工具
 UpdateManager=更新管理
 UpdateManagerDescription=手动下载和安装操作系统更新
+WinFR=文件恢复
+WinFRDescription=恢复设备上丢失的文件
 WinSAT=系统评估
 WinSATDescription=使用系统评估工具进行基准测试
