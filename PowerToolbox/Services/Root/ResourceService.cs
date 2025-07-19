@@ -70,6 +70,8 @@ namespace PowerToolbox.Services.Root
 
         public static ResourceManager WindowResource { get; } = new("PowerToolbox.Strings.Window", CurrentAssembly);
 
+        public static ResourceManager WinFRResource { get; } = new("PowerToolbox.Strings.WinFR", CurrentAssembly);
+
         public static ResourceManager WinSATResource { get; } = new("PowerToolbox.Strings.WinSAT", CurrentAssembly);
     }
 }
