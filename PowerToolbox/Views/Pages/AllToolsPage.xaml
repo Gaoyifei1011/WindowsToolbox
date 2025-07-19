@@ -61,6 +61,7 @@
                         Orientation="Vertical"
                         Spacing="2">
                         <TextBlock
+                            x:Name="TitleText"
                             Style="{StaticResource BodyStrongTextBlockStyle}"
                             Text="{x:Bind Title}"
                             TextLineBounds="TrimToCapHeight"
@@ -69,7 +70,7 @@
                         <TextBlock
                             x:Name="DescriptionText"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            RelativePanel.Below="titleText"
+                            RelativePanel.Below="TitleText"
                             Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{x:Bind Description}"
                             TextTrimming="CharacterEllipsis">
