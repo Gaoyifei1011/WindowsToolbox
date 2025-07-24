@@ -160,6 +160,7 @@
             </Grid>
         </Flyout>
 
+        <!--  编辑 Hosts 条目浮出控件  -->
         <Flyout x:Name="EditHostFlyout" Closing="{x:Bind OnClosing}">
             <Flyout.FlyoutPresenterStyle>
                 <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
@@ -518,6 +519,7 @@
                             Grid.Column="1"
                             VerticalAlignment="Center"
                             Opening="{x:Bind controlshelper:CommandBarHelper.OnOpening}">
+
                             <CommandBar.SecondaryCommands>
                                 <AppBarButton
                                     Command="{StaticResource EditCommand}"

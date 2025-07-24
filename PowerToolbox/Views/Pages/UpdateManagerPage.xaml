@@ -39,6 +39,7 @@
     </Page.Resources>
 
     <Grid>
+        <!--  检查更新和更多选项  -->
         <StackPanel
             Margin="0,12,30,0"
             HorizontalAlignment="Right"

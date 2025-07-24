@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using Windows.UI.Xaml.Media;
 
 namespace PowerToolbox.Models
 {
@@ -23,6 +24,8 @@ namespace PowerToolbox.Models
                 }
             }
         }
+
+        public ImageSource DiskImage { get; set; }
 
         /// <summary>
         /// 驱动器名称
@@ -55,7 +58,7 @@ namespace PowerToolbox.Models
         public bool IsAvailableSpaceError { get; set; }
 
         /// <summary>
-        /// 磁盘信息
+        /// 驱动器信息
         /// </summary>
         public DriveInfo DriverInfo { get; set; }
 

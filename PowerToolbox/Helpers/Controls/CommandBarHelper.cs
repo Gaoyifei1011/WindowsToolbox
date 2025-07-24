@@ -21,7 +21,7 @@ namespace PowerToolbox.Helpers.Controls
                 if (MainWindow.Current.Content is not null && MainWindow.Current.Content.XamlRoot is not null)
                 {
                     await Task.Delay(10);
-                    // 窗口移动时，校对并纠正弹出窗口位置错误的问题
+                    // 窗口移动时，校对命令栏浮出菜单主题错误的问题
                     foreach (Popup popup in VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Current.Content.XamlRoot))
                     {
                         if (popup.Child is Grid grid && grid.Name is "OverflowContentRoot")
