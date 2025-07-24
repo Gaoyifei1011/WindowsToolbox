@@ -43,7 +43,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.Kernel32
         /// 如果在函数调用之前存在该对象，该函数将返回现有对象的句柄（其当前大小，而不是指定大小），GetLastError 返回 ERROR_ALREADY_EXISTS。
         /// 如果函数失败，则返回值 NULL。</returns>
         [DllImport(Kernel32, CharSet = CharSet.Unicode, EntryPoint = "CreateFileMappingW", PreserveSig = true, SetLastError = false)]
-        public static extern IntPtr CreateFileMapping(IntPtr hFile, IntPtr lpFileMappingAttributes, PAGE_PROTECTION flProtect, uint dwMaximumSizeHigh, uint dwMaximumSizeLow, string lpName);
+        public static extern nint CreateFileMapping(nint hFile, nint lpFileMappingAttributes, PAGE_PROTECTION flProtect, uint dwMaximumSizeHigh, uint dwMaximumSizeLow, string lpName);
 
         /// <summary>
         /// 获取当前进程的 应用程序用户模型 ID 。
@@ -77,7 +77,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.Kernel32
         /// </summary>
         /// <returns>返回值是当前进程的伪句柄。</returns>
         [DllImport(Kernel32, CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcess", PreserveSig = true, SetLastError = false)]
-        public static extern IntPtr GetCurrentProcess();
+        public static extern nint GetCurrentProcess();
 
         /// <summary>
         /// 检索调用线程的最后错误代码值。 最后一个错误代码按线程进行维护。 多个线程不会覆盖彼此的最后一个错误代码。
@@ -120,7 +120,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.Kernel32
         /// <param name="dwNumberOfBytesToMap">要映射到视图的文件映射的字节数。 所有字节必须位于 CreateFileMapping指定的最大大小内。 如果此参数为 0（零），则映射从指定的偏移量扩展到文件映射的末尾。</param>
         /// <returns>如果函数成功，则返回值为映射视图的起始地址。如果函数失败，则返回值 NULL。 </returns>
         [DllImport(Kernel32, CharSet = CharSet.Unicode, EntryPoint = "MapViewOfFile", PreserveSig = true, SetLastError = false)]
-        public static extern IntPtr MapViewOfFile(IntPtr hFileMappingObject, FileMapAccess dwDesiredAccess, uint dwFileOffsetHigh, uint dwFileOffsetLow, int dwNumberOfBytesToMap);
+        public static extern nint MapViewOfFile(nint hFileMappingObject, FileMapAccess dwDesiredAccess, uint dwFileOffsetHigh, uint dwFileOffsetLow, int dwNumberOfBytesToMap);
 
         /// <summary>
         /// 使应用程序能够通知系统它正在使用中，从而防止系统在应用程序运行时进入睡眠状态或关闭显示器。

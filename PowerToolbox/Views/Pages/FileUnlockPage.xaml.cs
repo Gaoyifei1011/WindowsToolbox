@@ -283,10 +283,10 @@ namespace PowerToolbox.Views.Pages
                         {
                             if (File.Exists(filePath))
                             {
-                                IntPtr pidlList = Shell32Library.ILCreateFromPath(filePath);
-                                if (pidlList != IntPtr.Zero)
+                                nint pidlList = Shell32Library.ILCreateFromPath(filePath);
+                                if (pidlList != nint.Zero)
                                 {
-                                    Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, IntPtr.Zero, 0);
+                                    Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, nint.Zero, 0);
                                     Shell32Library.ILFree(pidlList);
                                 }
                             }

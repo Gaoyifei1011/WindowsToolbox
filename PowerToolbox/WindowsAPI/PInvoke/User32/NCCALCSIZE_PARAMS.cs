@@ -20,6 +20,6 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <summary>
         /// 指向 WINDOWPOS 结构的指针，该结构包含移动窗口或调整窗口大小的操作中指定的大小和位置值。
         /// </summary>
-        public IntPtr lppos;
+        public nint lppos;
     }
 }

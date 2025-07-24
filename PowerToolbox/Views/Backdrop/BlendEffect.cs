@@ -44,19 +44,19 @@ namespace PowerToolbox.Views.Backdrop
             return 0;
         }
 
-        public int GetProperty(uint index, out IntPtr source)
+        public int GetProperty(uint index, out nint source)
         {
             if (index is 0)
             {
-                BackdropHelper.PropertyValueStatics.CreateUInt32((uint)Mode, out IntPtr ptr);
-                if (!ptr.Equals(IntPtr.Zero))
+                BackdropHelper.PropertyValueStatics.CreateUInt32((uint)Mode, out nint ptr);
+                if (!ptr.Equals(nint.Zero))
                 {
                     source = ptr;
                     return 0;
                 }
             }
 
-            source = IntPtr.Zero;
+            source = nint.Zero;
             return -2147483637;
         }
 

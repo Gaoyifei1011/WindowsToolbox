@@ -18,7 +18,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.Shell32
         /// <summary>
         /// 应用栏窗口的句柄。 并非所有邮件都使用此成员。 请参阅单个消息页，了解是否需要提供 hWind 值。
         /// </summary>
-        public IntPtr hWnd;
+        public nint hWnd;
 
         /// <summary>
         /// 应用程序定义的消息标识符。 应用程序对发送到 由 hWnd 成员标识的应用栏的通知消息使用指定的标识符。 发送 ABM_NEW 消息时使用此成员。

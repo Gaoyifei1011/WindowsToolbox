@@ -15,11 +15,11 @@ namespace PowerToolboxShellExtension
     {
         private readonly IExplorerCommand explorerCommand = new ExplorerCommand(ShellMenuService.RootShellMenuItem);
 
-        public unsafe int CreateInstance(IntPtr pUnkOuter, in Guid riid, out IntPtr ppvObject)
+        public unsafe int CreateInstance(nint pUnkOuter, in Guid riid, out nint ppvObject)
         {
-            if (!pUnkOuter.Equals(IntPtr.Zero))
+            if (!pUnkOuter.Equals(nint.Zero))
             {
-                ppvObject = IntPtr.Zero;
+                ppvObject = nint.Zero;
                 return unchecked((int)0x80040110);
             }
 

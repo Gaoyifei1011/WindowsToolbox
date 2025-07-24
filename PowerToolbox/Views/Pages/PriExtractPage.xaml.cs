@@ -240,7 +240,7 @@ namespace PowerToolbox.Views.Pages
             ResourceCandidateKindList.Add(new KeyValuePair<string, string>("FilePath", FilePathString));
             ResourceCandidateKindList.Add(new KeyValuePair<string, string>("EmbeddedData", EmbeddedDataString));
             SelectedResourceCandidateKind = ResourceCandidateKindList[0];
-            Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
+            Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, nint.Zero, out string downloadFolder);
             SelectedSaveFolder = downloadFolder;
         }
 
@@ -455,10 +455,10 @@ namespace PowerToolbox.Views.Pages
                         {
                             File.WriteAllBytes(Path.Combine(openFolderDialog.SelectedPath, Path.GetFileName(embeddedData.Key)), embeddedData.EmbeddedData);
 
-                            IntPtr pidlList = Shell32Library.ILCreateFromPath(Path.Combine(openFolderDialog.SelectedPath, Path.GetFileName(embeddedData.Key)));
-                            if (!pidlList.Equals(IntPtr.Zero))
+                            nint pidlList = Shell32Library.ILCreateFromPath(Path.Combine(openFolderDialog.SelectedPath, Path.GetFileName(embeddedData.Key)));
+                            if (!pidlList.Equals(nint.Zero))
                             {
-                                Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, IntPtr.Zero, 0);
+                                Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, nint.Zero, 0);
                                 Shell32Library.ILFree(pidlList);
                             }
                         }

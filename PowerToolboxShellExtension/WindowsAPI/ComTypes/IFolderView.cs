@@ -33,7 +33,7 @@ namespace PowerToolboxShellExtension.WindowsAPI.ComTypes
         /// <param name="ppv">此方法返回时，包含 riid 中请求的接口指针。 这通常是 IShellFolder 或相关的接口。 这也可以是具有单个元素的 IShellItemArray 。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetFolder(in Guid riid, out IntPtr ppv);
+        int GetFolder(in Guid riid, out nint ppv);
 
         /// <summary>
         /// 按索引获取文件夹视图中特定项的标识符。
@@ -42,7 +42,7 @@ namespace PowerToolboxShellExtension.WindowsAPI.ComTypes
         /// <param name="ppidl">指向包含项标识符信息的 PIDL 的指针的地址。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int Item(int iItemIndex, out IntPtr ppidl);
+        int Item(int iItemIndex, out nint ppidl);
 
         /// <summary>
         /// 获取文件夹中的项目数。 这可以是所有项的数目，也可以是一个子集，例如选定项的数目。
@@ -60,7 +60,7 @@ namespace PowerToolboxShellExtension.WindowsAPI.ComTypes
         /// <param name="riid">对用于表示文件夹的所需 IID 的引用。</param>
         /// <param name="ppv">此方法返回时，包含 riid 中请求的接口指针。 这通常是 IEnumIDList、 IDataObject 或 IShellItemArray。 如果发生错误，此值为 NULL。</param>
         [PreserveSig]
-        int Items(uint uFlags, in Guid riid, out IntPtr ppv);
+        int Items(uint uFlags, in Guid riid, out nint ppv);
 
         /// <summary>
         /// 获取文件夹视图中已使用 IFolderView：：SelectItem 中的SVSI_SELECTIONMARK标记的项的索引。
@@ -84,7 +84,7 @@ namespace PowerToolboxShellExtension.WindowsAPI.ComTypes
         /// <param name="ppt">指向结构的指针，该结构接收项左上角的位置。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetItemPosition(IntPtr pidl, out IntPtr ppt);
+        int GetItemPosition(nint pidl, out nint ppt);
 
         /// <summary>
         /// 获取一个 POINT 结构，该结构包含项的宽度 (x) 和高度 (y) 尺寸（包括周围的空白）。
@@ -92,7 +92,7 @@ namespace PowerToolboxShellExtension.WindowsAPI.ComTypes
         /// <param name="ppt">指向现有结构的指针，该结构要填充文件夹视图中项的当前大小调整维度。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetSpacing(out IntPtr ppt);
+        int GetSpacing(out nint ppt);
 
         /// <summary>
         /// 获取指向 POINT 结构的指针，其中包含项的默认宽度 (x) 和高度 (y) 度量值，包括周围的空白。
@@ -100,7 +100,7 @@ namespace PowerToolboxShellExtension.WindowsAPI.ComTypes
         /// <param name="ppt">指向现有结构的指针，该结构使用文件夹视图中项的默认大小调整维度填充。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetDefaultSpacing(out IntPtr ppt);
+        int GetDefaultSpacing(out nint ppt);
 
         /// <summary>
         /// 获取文件夹的自动排列模式的当前状态。
@@ -127,6 +127,6 @@ namespace PowerToolboxShellExtension.WindowsAPI.ComTypes
         /// <param name="dwFlags">_SVSIF常量之一，用于指定要应用的选择类型。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int SelectAndPositionItems(uint cidl, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] IntPtr[] apidl, IntPtr apt, uint dwFlags);
+        int SelectAndPositionItems(uint cidl, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] nint[] apidl, nint apt, uint dwFlags);
     }
 }

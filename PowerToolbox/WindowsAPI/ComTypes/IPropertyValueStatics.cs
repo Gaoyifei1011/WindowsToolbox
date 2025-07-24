@@ -16,7 +16,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateEmpty(out IntPtr propertyValue);
+        int CreateEmpty(out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 8 位布尔值。
@@ -25,7 +25,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateUInt8(byte value, out IntPtr propertyValue);
+        int CreateUInt8(byte value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的有符号 16 位整数值。
@@ -34,7 +34,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateInt16(short value, out IntPtr propertyValue);
+        int CreateInt16(short value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的无符号 16 位整数值。
@@ -43,7 +43,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateUInt16(ushort value, out IntPtr propertyValue);
+        int CreateUInt16(ushort value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的有符号 32 位整数值。
@@ -52,7 +52,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateInt32(int value, out IntPtr propertyValue);
+        int CreateInt32(int value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的无符号 32 位整数值。
@@ -61,7 +61,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateUInt32(uint value, out IntPtr propertyValue);
+        int CreateUInt32(uint value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的有符号 64 位整数值。
@@ -70,7 +70,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateInt64(long value, out IntPtr propertyValue);
+        int CreateInt64(long value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的无符号 64 位整数值。
@@ -79,7 +79,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateUInt64(ulong value, out IntPtr propertyValue);
+        int CreateUInt64(ulong value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 32 位浮点值。
@@ -88,7 +88,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateSingle(float value, out IntPtr propertyValue);
+        int CreateSingle(float value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 64 位浮点值。
@@ -97,7 +97,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateDouble(double value, out IntPtr propertyValue);
+        int CreateDouble(double value, out nint propertyValue);
 
         /// <summary>
         /// 创建包含指定 Unicode 字符的新 IPropertyValue 对象。
@@ -106,7 +106,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateChar16(char value, out IntPtr propertyValue);
+        int CreateChar16(char value, out nint propertyValue);
 
         /// <summary>
         ///
@@ -115,7 +115,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateBoolean(bool value, out IntPtr propertyValue);
+        int CreateBoolean(bool value, out nint propertyValue);
 
         /// <summary>
         /// 创建包含指定字符串值的新 IPropertyValue 对象。
@@ -124,7 +124,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateString([MarshalAs(UnmanagedType.HString)] string value, out IntPtr propertyValue);
+        int CreateString([MarshalAs(UnmanagedType.HString)] string value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 IInspectable 对象。
@@ -133,7 +133,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateInspectable([MarshalAs(UnmanagedType.IInspectable)] object value, out IntPtr propertyValue);
+        int CreateInspectable([MarshalAs(UnmanagedType.IInspectable)] object value, out nint propertyValue);
 
         /// <summary>
         /// 创建包含指定 GUID 值的新 IPropertyValue 对象。
@@ -142,7 +142,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateGuid(Guid value, out IntPtr propertyValue);
+        int CreateGuid(Guid value, out nint propertyValue);
 
         /// <summary>
         /// 创建包含指定 DateTime 值的新 IPropertyValue 对象。
@@ -151,7 +151,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateDateTime(DateTimeOffset value, out IntPtr propertyValue);
+        int CreateDateTime(DateTimeOffset value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 TimeSpan 值。
@@ -160,7 +160,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateTimeSpan(TimeSpan value, out IntPtr propertyValue);
+        int CreateTimeSpan(TimeSpan value, out nint propertyValue);
 
         /// <summary>
         /// 创建包含指定 Point 值的新 IPropertyValue 对象。
@@ -169,7 +169,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreatePoint(PointF value, out IntPtr propertyValue);
+        int CreatePoint(PointF value, out nint propertyValue);
 
         /// <summary>
         /// 创建包含指定 Size 值的新 IPropertyValue 对象。
@@ -178,7 +178,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateSize(SizeF value, out IntPtr propertyValue);
+        int CreateSize(SizeF value, out nint propertyValue);
 
         /// <summary>
         /// 创建包含指定 Rect 值的新 IPropertyValue 对象。
@@ -187,7 +187,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateRect(RectangleF value, out IntPtr propertyValue);
+        int CreateRect(RectangleF value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的无符号 8 位整数值数组。
@@ -197,7 +197,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateUInt8Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] byte[] value, out IntPtr propertyValue);
+        int CreateUInt8Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] byte[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的有符号 16 位整数值数组。
@@ -207,7 +207,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateInt16Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] short[] value, out IntPtr propertyValue);
+        int CreateInt16Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] short[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的无符号 16 位整数值数组。
@@ -217,7 +217,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateUInt16Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] ushort[] value, out IntPtr propertyValue);
+        int CreateUInt16Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] ushort[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的有符号 32 位整数值数组。
@@ -227,7 +227,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateInt32Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] int[] value, out IntPtr propertyValue);
+        int CreateInt32Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] int[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的无符号 32 位整数值数组。
@@ -237,7 +237,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateUInt32Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] uint[] value, out IntPtr propertyValue);
+        int CreateUInt32Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] uint[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的有符号 64 位整数值数组。
@@ -247,7 +247,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateInt64Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] long[] value, out IntPtr propertyValue);
+        int CreateInt64Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] long[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的无符号 64 位整数值数组。
@@ -257,7 +257,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateUInt64Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] ulong[] value, out IntPtr propertyValue);
+        int CreateUInt64Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] ulong[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 32 位浮点值数组。
@@ -267,7 +267,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateSingleArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] float[] value, out IntPtr propertyValue);
+        int CreateSingleArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] float[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 64 位浮点值数组。
@@ -277,7 +277,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateDoubleArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] double[] value, out IntPtr propertyValue);
+        int CreateDoubleArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] double[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 Unicode 字符数组。
@@ -287,7 +287,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateChar16Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] char[] value, out IntPtr propertyValue);
+        int CreateChar16Array(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] char[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 8 位布尔值数组。
@@ -297,7 +297,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateBooleanArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.Bool, SizeParamIndex = 0)] bool[] value, out IntPtr propertyValue);
+        int CreateBooleanArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.Bool, SizeParamIndex = 0)] bool[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的字符串值数组。
@@ -307,7 +307,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateStringArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0, ArraySubType = UnmanagedType.HString)] string[] value, out IntPtr propertyValue);
+        int CreateStringArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0, ArraySubType = UnmanagedType.HString)] string[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 IInspectable 对象数组。
@@ -317,7 +317,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateInspectableArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0, ArraySubType = UnmanagedType.IInspectable)] object[] value, out IntPtr propertyValue);
+        int CreateInspectableArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0, ArraySubType = UnmanagedType.IInspectable)] object[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 Guid 值数组。
@@ -327,7 +327,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateGuidArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] Guid[] value, out IntPtr propertyValue);
+        int CreateGuidArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] Guid[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 DateTime 值数组。
@@ -337,7 +337,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateDateTimeArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] DateTimeOffset[] value, out IntPtr propertyValue);
+        int CreateDateTimeArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] DateTimeOffset[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 TimeSpan 值数组。
@@ -347,7 +347,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateTimeSpanArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] TimeSpan[] value, out IntPtr propertyValue);
+        int CreateTimeSpanArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] TimeSpan[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 Point 值数组。
@@ -357,7 +357,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreatePointArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] PointF[] value, out IntPtr propertyValue);
+        int CreatePointArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] PointF[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 Size 值数组。
@@ -367,7 +367,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateSizeArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] SizeF[] value, out IntPtr propertyValue);
+        int CreateSizeArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] SizeF[] value, out nint propertyValue);
 
         /// <summary>
         /// 创建一个新的 IPropertyValue 对象，该对象包含指定的 Rect 值数组。
@@ -377,6 +377,6 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="propertyValue">指向新对象的指针，该对象将其 Type 属性设置为 PropertyType_Empty。 新对象中不存储任何值。 使用 IUnknown::QueryInterface 方法获取对象的 IPropertyValue 接口。</param>
         /// <returns>此方法可以返回其中一个值。S_OK 为已成功创建属性值，E_POINTER 为 NULL，E_OUTOFMEMORY 为无法创建 IPropertyValue 对象。</returns>
         [PreserveSig]
-        int CreateRectArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] RectangleF[] value, out IntPtr propertyValue);
+        int CreateRectArray(int valueLength, [In, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] RectangleF[] value, out nint propertyValue);
     }
 }

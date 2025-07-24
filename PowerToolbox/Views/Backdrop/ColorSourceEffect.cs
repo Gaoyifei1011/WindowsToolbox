@@ -41,19 +41,19 @@ namespace PowerToolbox.Views.Backdrop
             return 0;
         }
 
-        public int GetProperty(uint index, out IntPtr source)
+        public int GetProperty(uint index, out nint source)
         {
             if (index is 0)
             {
-                BackdropHelper.PropertyValueStatics.CreateSingleArray(4, [Color.R / 255.0f, Color.G / 255.0f, Color.B / 255.0f, Color.A / 255.0f], out IntPtr ptr);
-                if (!ptr.Equals(IntPtr.Zero))
+                BackdropHelper.PropertyValueStatics.CreateSingleArray(4, [Color.R / 255.0f, Color.G / 255.0f, Color.B / 255.0f, Color.A / 255.0f], out nint ptr);
+                if (!ptr.Equals(nint.Zero))
                 {
                     source = ptr;
                     return 0;
                 }
             }
 
-            source = IntPtr.Zero;
+            source = nint.Zero;
             return -2147483637;
         }
 

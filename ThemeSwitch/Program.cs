@@ -43,7 +43,7 @@ namespace ThemeSwitch
 
             foreach (Process process in processArray)
             {
-                if (process.Id is not 0 && !process.MainWindowHandle.Equals(IntPtr.Zero))
+                if (process.Id is not 0 && !process.MainWindowHandle.Equals(nint.Zero))
                 {
                     isExisted = true;
                     break;

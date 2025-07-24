@@ -24,7 +24,7 @@ namespace PowerToolboxShellExtension.Helpers.Root
             T value = default;
             try
             {
-                if (Advapi32Library.RegOpenKeyEx(ReservedKeyHandles.HKEY_CURRENT_USER, rootKey, 0, RegistryAccessRights.KEY_READ, out UIntPtr hKey) is 0)
+                if (Advapi32Library.RegOpenKeyEx(ReservedKeyHandles.HKEY_CURRENT_USER, rootKey, 0, RegistryAccessRights.KEY_READ, out nuint hKey) is 0)
                 {
                     int length = 0;
 
@@ -110,7 +110,7 @@ namespace PowerToolboxShellExtension.Helpers.Root
 
             try
             {
-                if (Advapi32Library.RegOpenKeyEx(ReservedKeyHandles.HKEY_CURRENT_USER, rootKey, 0, RegistryAccessRights.KEY_READ, out UIntPtr hKey) is 0)
+                if (Advapi32Library.RegOpenKeyEx(ReservedKeyHandles.HKEY_CURRENT_USER, rootKey, 0, RegistryAccessRights.KEY_READ, out nuint hKey) is 0)
                 {
                     // 添加当前项信息
                     registryEnumKeyItem.RootKey = rootKey;

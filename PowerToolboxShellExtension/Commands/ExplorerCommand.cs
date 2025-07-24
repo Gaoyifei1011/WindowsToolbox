@@ -25,7 +25,7 @@ namespace PowerToolboxShellExtension.Commands
     {
         private readonly Guid SID_SFolderView = new("CDE725B0-CCC9-4519-917E-325D72FAB4CE");
         private readonly Guid IID_IUnknown = new("00000000-0000-0000-C000-000000000046");
-        private IntPtr site = IntPtr.Zero;
+        private nint site = nint.Zero;
 
         [GeneratedRegex("""{files-split:'([\s\S]*?)'}""", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-us")]
         private static partial Regex MultiFileRegex { get; }
@@ -163,19 +163,19 @@ namespace PowerToolboxShellExtension.Commands
             if (FileShellMenuService.GetFileShellMenuValue() && shellMenuItem is not null)
             {
                 // Directory\Background
-                if (psiItemArray is null && !site.Equals(IntPtr.Zero))
+                if (psiItemArray is null && !site.Equals(nint.Zero))
                 {
                     string folderPath = string.Empty;
 
                     // 查询点击背景时对应的文件夹路径
-                    Marshal.QueryInterface(site, typeof(WindowsAPI.ComTypes.IServiceProvider).GUID, out IntPtr serviceProviderPtr);
+                    Marshal.QueryInterface(site, typeof(WindowsAPI.ComTypes.IServiceProvider).GUID, out nint serviceProviderPtr);
                     WindowsAPI.ComTypes.IServiceProvider serviceProvider = ComInterfaceMarshaller<WindowsAPI.ComTypes.IServiceProvider>.ConvertToManaged((void*)serviceProviderPtr);
 
-                    serviceProvider.QueryService(SID_SFolderView, typeof(IFolderView).GUID, out IntPtr folderViewPtr);
-                    if (!folderViewPtr.Equals(IntPtr.Zero))
+                    serviceProvider.QueryService(SID_SFolderView, typeof(IFolderView).GUID, out nint folderViewPtr);
+                    if (!folderViewPtr.Equals(nint.Zero))
                     {
                         IFolderView folderView = ComInterfaceMarshaller<IFolderView>.ConvertToManaged((void*)folderViewPtr);
-                        folderView.GetFolder(typeof(IShellItem).GUID, out IntPtr iShellItemPtr);
+                        folderView.GetFolder(typeof(IShellItem).GUID, out nint iShellItemPtr);
 
                         IShellItem shellItem = ComInterfaceMarshaller<IShellItem>.ConvertToManaged((void*)iShellItemPtr);
                         shellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out folderPath);
@@ -233,7 +233,7 @@ namespace PowerToolboxShellExtension.Commands
         /// <summary>
         /// 根菜单命令响应处理
         /// </summary>
-        public unsafe int Invoke(IShellItemArray psiItemArray, IntPtr pbc)
+        public unsafe int Invoke(IShellItemArray psiItemArray, nint pbc)
         {
             // 没有子菜单，该菜单可以直接调用命令
             if (shellMenuItem is not null && shellMenuItem.SubShellMenuItem.Count is 0)
@@ -252,14 +252,14 @@ namespace PowerToolboxShellExtension.Commands
                 // psiItemArray 为空，可能为背景。查询点击背景时对应的文件夹路径
                 if (psiItemArray is null)
                 {
-                    Marshal.QueryInterface(site, typeof(WindowsAPI.ComTypes.IServiceProvider).GUID, out IntPtr serviceProviderPtr);
+                    Marshal.QueryInterface(site, typeof(WindowsAPI.ComTypes.IServiceProvider).GUID, out nint serviceProviderPtr);
                     WindowsAPI.ComTypes.IServiceProvider serviceProvider = ComInterfaceMarshaller<WindowsAPI.ComTypes.IServiceProvider>.ConvertToManaged((void*)serviceProviderPtr);
 
-                    serviceProvider.QueryService(SID_SFolderView, typeof(IFolderView).GUID, out IntPtr folderViewPtr);
-                    if (!folderViewPtr.Equals(IntPtr.Zero))
+                    serviceProvider.QueryService(SID_SFolderView, typeof(IFolderView).GUID, out nint folderViewPtr);
+                    if (!folderViewPtr.Equals(nint.Zero))
                     {
                         IFolderView folderView = ComInterfaceMarshaller<IFolderView>.ConvertToManaged((void*)folderViewPtr);
-                        folderView.GetFolder(typeof(IShellItem).GUID, out IntPtr iShellItemPtr);
+                        folderView.GetFolder(typeof(IShellItem).GUID, out nint iShellItemPtr);
 
                         IShellItem shellItem = ComInterfaceMarshaller<IShellItem>.ConvertToManaged((void*)iShellItemPtr);
                         shellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out string filePath);
@@ -348,7 +348,7 @@ namespace PowerToolboxShellExtension.Commands
                     parameter = parameter.Replace(multiFolderMatchedStringList[index], folderString);
                 }
 
-                ShlwapiLibrary.IUnknown_GetWindow(site, out IntPtr hwnd);
+                ShlwapiLibrary.IUnknown_GetWindow(site, out nint hwnd);
                 if (!string.IsNullOrEmpty(selectedFilePath))
                 {
                     if (shellMenuItem.IsAlwaysRunAsAdministrator)
@@ -419,23 +419,23 @@ namespace PowerToolboxShellExtension.Commands
         /// <summary>
         /// 允许容器向对象传递指向其站点接口的指针。
         /// </summary>
-        public int SetSite(IntPtr pUnkSite)
+        public int SetSite(nint pUnkSite)
         {
-            return pUnkSite.Equals(IntPtr.Zero) ? unchecked((int)0x80004002) : Marshal.QueryInterface(pUnkSite, IID_IUnknown, out site);
+            return pUnkSite.Equals(nint.Zero) ? unchecked((int)0x80004002) : Marshal.QueryInterface(pUnkSite, IID_IUnknown, out site);
         }
 
         /// <summary>
         /// 检索使用 SetSite 传递的最新站点。
         /// </summary>
-        public int GetSite(in Guid riid, out IntPtr ppvSite)
+        public int GetSite(in Guid riid, out nint ppvSite)
         {
-            if (!site.Equals(IntPtr.Zero))
+            if (!site.Equals(nint.Zero))
             {
                 return Marshal.QueryInterface(site, IID_IUnknown, out ppvSite);
             }
             else
             {
-                ppvSite = IntPtr.Zero;
+                ppvSite = nint.Zero;
                 return unchecked((int)0x80004005);
             }
         }

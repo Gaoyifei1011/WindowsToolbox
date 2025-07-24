@@ -12,7 +12,7 @@ namespace ThemeSwitch.WindowsAPI.ComTypes
         /// <param name="parentWnd">要在其中托管 WinRT XAML 控件的父 UI 元素的窗口句柄。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int AttachToWindow(IntPtr parentWnd);
+        int AttachToWindow(nint parentWnd);
 
         /// <summary>
         /// 获取与当前 IDesktopWindowXamlSourceNative 实例关联的父 UI 元素的窗口句柄。
@@ -20,7 +20,7 @@ namespace ThemeSwitch.WindowsAPI.ComTypes
         /// <param name="hwnd">在输出时，此参数包含与当前 IDesktopWindowXamlSourceNative 实例关联的父 UI 元素的窗口句柄。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetWindowHandle(out IntPtr hwnd);
+        int GetWindowHandle(out nint hwnd);
 
         /// <summary>
         /// 使 WinRT XAML 框架能够处理托管 WinRT XAML 控件的 DesktopWindowXamlSource 对象的 Windows 消息。

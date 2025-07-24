@@ -12,7 +12,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <summary>
         /// 要用于绘制的显示 DC 的句柄。
         /// </summary>
-        public IntPtr hdc;
+        public nint hdc;
 
         /// <summary>
         /// 指示是否必须擦除背景。 如果应用程序应擦除背景，则此值为非零值。 如果创建窗口类时没有背景画笔，则应用程序负责擦除背景。 有关详细信息，请参阅 WNDCLASS 结构的 hbrBackground 成员的说明。

@@ -43,7 +43,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="source">此方法返回时，此参数将包含检索到的属性。</param>
         /// <returns>此方法返回 HRESULT 成功或错误代码。</returns>
         [PreserveSig]
-        int GetProperty(uint index, out IntPtr value);
+        int GetProperty(uint index, out nint value);
 
         /// <summary>
         /// 检索指定索引处的效果源。

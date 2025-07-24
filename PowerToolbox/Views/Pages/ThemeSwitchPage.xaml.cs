@@ -426,7 +426,7 @@ namespace PowerToolbox.Views.Pages
                 {
                     RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", systemTheme);
                     RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "ColorPrevalence", IsShowThemeColorInStartAndTaskbar);
-                    User32Library.SendMessageTimeout(new IntPtr(0xffff), WindowMessage.WM_SETTINGCHANGE, UIntPtr.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
+                    User32Library.SendMessageTimeout(new nint(0xffff), WindowMessage.WM_SETTINGCHANGE, nuint.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
                 });
             }
         }
@@ -453,7 +453,7 @@ namespace PowerToolbox.Views.Pages
                 Task.Run(() =>
                 {
                     RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", apptheme);
-                    User32Library.SendMessageTimeout(new IntPtr(0xffff), WindowMessage.WM_SETTINGCHANGE, UIntPtr.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
+                    User32Library.SendMessageTimeout(new nint(0xffff), WindowMessage.WM_SETTINGCHANGE, nuint.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
                 });
             }
         }
@@ -470,7 +470,7 @@ namespace PowerToolbox.Views.Pages
                 Task.Run(() =>
                 {
                     RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "ColorPrevalence", IsShowThemeColorInStartAndTaskbar);
-                    User32Library.SendMessageTimeout(new IntPtr(0xffff), WindowMessage.WM_SETTINGCHANGE, UIntPtr.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
+                    User32Library.SendMessageTimeout(new nint(0xffff), WindowMessage.WM_SETTINGCHANGE, nuint.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
                 });
             }
         }
@@ -511,21 +511,21 @@ namespace PowerToolbox.Views.Pages
 
                         foreach (Process process in processArray)
                         {
-                            if (process.Id is not 0 && !process.MainWindowHandle.Equals(IntPtr.Zero))
+                            if (process.Id is not 0 && !process.MainWindowHandle.Equals(nint.Zero))
                             {
                                 isExisted = true;
                                 string message = "Auto switch theme settings changed";
 
                                 COPYDATASTRUCT copyDataStruct = new()
                                 {
-                                    dwData = IntPtr.Zero,
+                                    dwData = nint.Zero,
                                     cbData = Encoding.Unicode.GetBytes(message).Length + 1,
                                     lpData = message,
                                 };
 
-                                IntPtr copyDataStructPtr = Marshal.AllocHGlobal(Marshal.SizeOf<COPYDATASTRUCT>());
+                                nint copyDataStructPtr = Marshal.AllocHGlobal(Marshal.SizeOf<COPYDATASTRUCT>());
                                 Marshal.StructureToPtr(copyDataStruct, copyDataStructPtr, false);
-                                User32Library.SendMessage(process.MainWindowHandle, WindowMessage.WM_COPYDATA, UIntPtr.Zero, copyDataStructPtr);
+                                User32Library.SendMessage(process.MainWindowHandle, WindowMessage.WM_COPYDATA, nuint.Zero, copyDataStructPtr);
                                 Marshal.FreeHGlobal(copyDataStructPtr);
                                 break;
                             }
@@ -554,20 +554,20 @@ namespace PowerToolbox.Views.Pages
 
                     foreach (Process process in processArray)
                     {
-                        if (process.Id is not 0 && !process.MainWindowHandle.Equals(IntPtr.Zero))
+                        if (process.Id is not 0 && !process.MainWindowHandle.Equals(nint.Zero))
                         {
                             string message = "Auto switch theme settings changed";
 
                             COPYDATASTRUCT copyDataStruct = new()
                             {
-                                dwData = IntPtr.Zero,
+                                dwData = nint.Zero,
                                 cbData = Encoding.Unicode.GetBytes(message).Length + 1,
                                 lpData = message,
                             };
 
-                            IntPtr copyDataStructPtr = Marshal.AllocHGlobal(Marshal.SizeOf<COPYDATASTRUCT>());
+                            nint copyDataStructPtr = Marshal.AllocHGlobal(Marshal.SizeOf<COPYDATASTRUCT>());
                             Marshal.StructureToPtr(copyDataStruct, copyDataStructPtr, false);
-                            User32Library.SendMessage(process.MainWindowHandle, WindowMessage.WM_COPYDATA, UIntPtr.Zero, copyDataStructPtr);
+                            User32Library.SendMessage(process.MainWindowHandle, WindowMessage.WM_COPYDATA, nuint.Zero, copyDataStructPtr);
                             Marshal.FreeHGlobal(copyDataStructPtr);
                             break;
                         }
@@ -599,20 +599,20 @@ namespace PowerToolbox.Views.Pages
 
                 foreach (Process process in processArray)
                 {
-                    if (process.Id is not 0 && !process.MainWindowHandle.Equals(IntPtr.Zero))
+                    if (process.Id is not 0 && !process.MainWindowHandle.Equals(nint.Zero))
                     {
                         string message = "Auto switch theme settings changed";
 
                         COPYDATASTRUCT copyDataStruct = new()
                         {
-                            dwData = IntPtr.Zero,
+                            dwData = nint.Zero,
                             cbData = Encoding.Unicode.GetBytes(message).Length + 1,
                             lpData = message,
                         };
 
-                        IntPtr copyDataStructPtr = Marshal.AllocHGlobal(Marshal.SizeOf<COPYDATASTRUCT>());
+                        nint copyDataStructPtr = Marshal.AllocHGlobal(Marshal.SizeOf<COPYDATASTRUCT>());
                         Marshal.StructureToPtr(copyDataStruct, copyDataStructPtr, false);
-                        User32Library.SendMessage(process.MainWindowHandle, WindowMessage.WM_COPYDATA, UIntPtr.Zero, copyDataStructPtr);
+                        User32Library.SendMessage(process.MainWindowHandle, WindowMessage.WM_COPYDATA, nuint.Zero, copyDataStructPtr);
                         Marshal.FreeHGlobal(copyDataStructPtr);
                         break;
                     }
@@ -643,21 +643,21 @@ namespace PowerToolbox.Views.Pages
 
                 foreach (Process process in processArray)
                 {
-                    if (process.Id is not 0 && !process.MainWindowHandle.Equals(IntPtr.Zero))
+                    if (process.Id is not 0 && !process.MainWindowHandle.Equals(nint.Zero))
                     {
                         isExisted = true;
                         string message = "Auto switch theme settings changed";
 
                         COPYDATASTRUCT copyDataStruct = new()
                         {
-                            dwData = IntPtr.Zero,
+                            dwData = nint.Zero,
                             cbData = Encoding.Unicode.GetBytes(message).Length + 1,
                             lpData = message,
                         };
 
-                        IntPtr copyDataStructPtr = Marshal.AllocHGlobal(Marshal.SizeOf<COPYDATASTRUCT>());
+                        nint copyDataStructPtr = Marshal.AllocHGlobal(Marshal.SizeOf<COPYDATASTRUCT>());
                         Marshal.StructureToPtr(copyDataStruct, copyDataStructPtr, false);
-                        User32Library.SendMessage(process.MainWindowHandle, WindowMessage.WM_COPYDATA, UIntPtr.Zero, copyDataStructPtr);
+                        User32Library.SendMessage(process.MainWindowHandle, WindowMessage.WM_COPYDATA, nuint.Zero, copyDataStructPtr);
                         Marshal.FreeHGlobal(copyDataStructPtr);
                         break;
                     }

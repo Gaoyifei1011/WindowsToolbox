@@ -60,8 +60,8 @@ namespace PowerToolbox.Services.Download
                     // 创建 IDoManager
                     doManager = (IDOManager)Activator.CreateInstance(Type.GetTypeFromCLSID(CLSID_DeliveryOptimization));
                     doManager.CreateDownload(out IDODownload doDownload);
-                    IntPtr pInterface = Marshal.GetComInterfaceForObject<object, IDODownload>(doDownload);
-                    Ole32Library.CoSetProxyBlanket(pInterface, uint.MaxValue, uint.MaxValue, unchecked((IntPtr)ulong.MaxValue), 0, 3, IntPtr.Zero, 32);
+                    nint pInterface = Marshal.GetComInterfaceForObject<object, IDODownload>(doDownload);
+                    Ole32Library.CoSetProxyBlanket(pInterface, uint.MaxValue, uint.MaxValue, unchecked((nint)ulong.MaxValue), 0, 3, nint.Zero, 32);
                     Marshal.Release(pInterface);
                     Marshal.FinalReleaseComObject(doManager);
 
@@ -98,7 +98,7 @@ namespace PowerToolbox.Services.Download
                         TotalSize = 0,
                     });
 
-                    doDownload.Start(IntPtr.Zero);
+                    doDownload.Start(nint.Zero);
                 }
                 catch (Exception e)
                 {
@@ -118,7 +118,7 @@ namespace PowerToolbox.Services.Download
                 {
                     if (DeliveryOptimizationDict.TryGetValue(downloadID, out (string saveFilePath, IDODownload doDownload, DODownloadStatusCallback doDownloadStatusCallback) downloadValue))
                     {
-                        int continueResult = downloadValue.doDownload.Start(IntPtr.Zero);
+                        int continueResult = downloadValue.doDownload.Start(nint.Zero);
 
                         if (continueResult is 0)
                         {

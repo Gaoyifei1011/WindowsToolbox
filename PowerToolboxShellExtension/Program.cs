@@ -22,7 +22,7 @@ namespace PowerToolboxShellExtension
         /// <param name="ppv">接收 riid 中请求的接口指针的指针变量的地址。 成功返回后，*ppv 包含请求的接口指针。 如果发生错误，接口指针为 NULL。</param>
         /// <returns>此函数可以返回标准返回值E_INVALIDARG、E_OUTOFMEMORY和E_UNEXPECTED，以及以下值。</returns>
         [UnmanagedCallersOnly(EntryPoint = "DllGetClassObject")]
-        public static unsafe int DllGetClassObject(Guid clsid, Guid riid, IntPtr* ppv)
+        public static unsafe int DllGetClassObject(Guid clsid, Guid riid, nint* ppv)
         {
             ComWrappersSupport.InitializeComWrappers();
             ShellMenuService.InitializeShellMenu();
@@ -30,7 +30,7 @@ namespace PowerToolboxShellExtension
             if (Equals(clsid, typeof(ExplorerCommand).GUID))
             {
                 ShellMenuClassFactory shellMenuClassFactory = new();
-                IntPtr pIUnknown = StrategyBasedComWrappers.GetOrCreateComInterfaceForObject(shellMenuClassFactory, CreateComInterfaceFlags.None);
+                nint pIUnknown = StrategyBasedComWrappers.GetOrCreateComInterfaceForObject(shellMenuClassFactory, CreateComInterfaceFlags.None);
                 return Marshal.QueryInterface(pIUnknown, in riid, out *ppv);
             }
             else

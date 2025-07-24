@@ -36,7 +36,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <returns>如果函数成功，则返回值是指定窗口的显示设备上下文的句柄。如果函数失败，则返回值为 NULL，指示没有可用的显示设备上下文。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "BeginPaint", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern IntPtr BeginPaint(IntPtr hwnd, out PAINTSTRUCT lpPaint);
+        public static extern nint BeginPaint(nint hwnd, out PAINTSTRUCT lpPaint);
 
         /// <summary>
         /// 将挂钩信息传递给当前挂钩链中的下一个挂钩过程。 挂钩过程可以在处理挂钩信息之前或之后调用此函数。
@@ -47,7 +47,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <param name="lParam">传递给当前挂钩过程的 lParam 值。 此参数的含义取决于与当前挂钩链关联的挂钩类型。</param>
         /// <returns>此值由链中的下一个挂钩过程返回。 当前挂钩过程还必须返回此值。 返回值的含义取决于挂钩类型。 有关详细信息，请参阅各个挂钩过程的说明。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "CallNextHookEx", PreserveSig = true, SetLastError = false)]
-        public static extern IntPtr CallNextHookEx(IntPtr idHook, int nCode, UIntPtr wParam, IntPtr lParam);
+        public static extern nint CallNextHookEx(nint idHook, int nCode, nuint wParam, nint lParam);
 
         /// <summary>
         /// 在用户界面特权隔离 (UIPI) 消息筛选器中添加或删除消息。
@@ -102,7 +102,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// </param>
         /// <returns>如果函数成功，则返回值是新窗口的句柄。如果函数失败，则返回值为 NULL。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "CreateWindowExW", PreserveSig = true, SetLastError = false)]
-        public static extern IntPtr CreateWindowEx(WindowExStyle dwExStyle, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, WindowStyle dwStyle, int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
+        public static extern nint CreateWindowEx(WindowExStyle dwExStyle, [MarshalAs(UnmanagedType.LPWStr)] string lpClassName, [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, WindowStyle dwStyle, int x, int y, int nWidth, int nHeight, nint hWndParent, nint hMenu, nint hInstance, nint lpParam);
 
         /// <summary>
         /// 调用默认窗口过程，为应用程序未处理的任何窗口消息提供默认处理。 此函数可确保处理每个消息。 DefWindowProc 使用窗口过程接收的相同参数调用。
@@ -113,7 +113,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <param name="lParam">其他消息信息。 此参数的内容取决于 Msg 参数的值。</param>
         /// <returns>返回值是消息处理的结果，取决于消息。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "DefWindowProcW", PreserveSig = true, SetLastError = false)]
-        public static extern IntPtr DefWindowProc(IntPtr hWnd, WindowMessage uMsg, UIntPtr wParam, IntPtr lParam);
+        public static extern nint DefWindowProc(nint hWnd, WindowMessage uMsg, nuint wParam, nint lParam);
 
         /// <summary>
         /// EndPaint 函数在指定窗口中标记绘制的结束。 每次调用 BeginPaint 函数都需要此函数，但仅在绘制完成后。
@@ -123,7 +123,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <returns>返回值始终为非零值。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "EndPaint", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool EndPaint(IntPtr hWnd, [In] ref PAINTSTRUCT lpPaint);
+        public static extern bool EndPaint(nint hWnd, [In] ref PAINTSTRUCT lpPaint);
 
         /// <summary>
         /// FillRect 函数使用指定的画笔填充矩形。 此函数包括左边框和上边框，但不包括矩形的右边框和下边框。
@@ -133,7 +133,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <param name="hbr">用于填充矩形的画笔的句柄。</param>
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "FillRect", PreserveSig = true, SetLastError = false)]
-        public static extern int FillRect(IntPtr hdc, RECT lprc, IntPtr hbr);
+        public static extern int FillRect(nint hdc, RECT lprc, nint hbr);
 
         /// <summary>
         /// 检索窗口工作区的坐标。 客户端坐标指定工作区的左上角和右下角。 由于客户端坐标相对于窗口工作区的左上角，因此左上角的坐标 (0,0) 。
@@ -143,7 +143,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "GetClientRect", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
+        public static extern bool GetClientRect(nint hWnd, out RECT lpRect);
 
         /// <summary>
         /// 检索指定虚拟键的状态。 状态指定键是向上、向下还是切换， (打开、关闭—每次按下键时交替) 。
@@ -164,7 +164,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// </summary>
         /// <returns>返回值是 Shell 桌面窗口的句柄。 如果没有 Shell 进程，则返回值为 NULL。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "GetShellWindow", PreserveSig = true, SetLastError = false)]
-        public static extern IntPtr GetShellWindow();
+        public static extern nint GetShellWindow();
 
         /// <summary>
         /// 检索指定的系统指标或系统配置设置，同时考虑提供的 DPI。
@@ -182,7 +182,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <param name="lpdwProcessId">指向接收进程标识符的变量的指针。 如果此参数不为 NULL， 则 GetWindowThreadProcessId 会将进程的标识符复制到变量;否则，它不会。 如果函数失败，则变量的值保持不变。</param>
         /// <returns>如果函数成功，则返回值是创建窗口的线程的标识符。 如果窗口句柄无效，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "GetWindowThreadProcessId", PreserveSig = true, SetLastError = false)]
-        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+        public static extern uint GetWindowThreadProcessId(nint hWnd, out uint lpdwProcessId);
 
         /// <summary>
         /// 检索指定窗口的边框的尺寸。 尺寸以相对于屏幕左上角的屏幕坐标提供。
@@ -192,7 +192,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "GetWindowRect", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+        public static extern bool GetWindowRect(nint hWnd, out RECT lpRect);
 
         /// <summary>
         /// 检索有关指定窗口的信息。 该函数还会检索 32 位 (DWORD) 值，该值位于指定偏移量处，并进入额外的窗口内存。
@@ -202,7 +202,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// </param>
         /// <returns>如果函数成功，则返回值是请求的值。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "GetWindowLongW", PreserveSig = true, SetLastError = false)]
-        public static extern int GetWindowLong(IntPtr hWnd, WindowLongIndexFlags nIndex);
+        public static extern int GetWindowLong(nint hWnd, WindowLongIndexFlags nIndex);
 
         /// <summary>
         /// 检索有关指定窗口的信息。 该函数还会检索 64 位 (DWORD) 值，该值位于指定偏移量处，并进入额外的窗口内存。
@@ -212,7 +212,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// </param>
         /// <returns>如果函数成功，则返回值是请求的值。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "GetWindowLongPtrW", PreserveSig = true, SetLastError = false)]
-        public static extern int GetWindowLongPtr(IntPtr hWnd, WindowLongIndexFlags nIndex);
+        public static extern int GetWindowLongPtr(nint hWnd, WindowLongIndexFlags nIndex);
 
         /// <summary>
         /// 确定指定窗口的可见性状态。
@@ -224,7 +224,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// </returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "IsWindowVisible", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool IsWindowVisible(IntPtr hWnd);
+        public static extern bool IsWindowVisible(nint hWnd);
 
         /// <summary>
         /// 确定窗口是否最大化。
@@ -233,7 +233,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <returns>如果窗口已缩放，则返回值为非零值。如果未缩放窗口，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "IsZoomed", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool IsZoomed(IntPtr hWnd);
+        public static extern bool IsZoomed(nint hWnd);
 
         /// <summary>
         /// 合成键击。 系统可以使用这种合成的击键来生成 WM_KEYUP 或 WM_KEYDOWN 消息。 键盘驱动程序的中断处理程序调用 keybd_event 函数。
@@ -243,7 +243,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <param name="dwFlags">控制函数操作的各个方面。 此参数可使用以下一个或多个值。</param>
         /// <param name="dwExtraInfo">与键笔划关联的附加值。</param>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "keybd_event", PreserveSig = true, SetLastError = false)]
-        public static extern void keybd_event(Keys bVk, byte bScan, KEYEVENTFLAGS dwFlags, UIntPtr dwExtraInfo);
+        public static extern void keybd_event(Keys bVk, byte bScan, KEYEVENTFLAGS dwFlags, nuint dwExtraInfo);
 
         /// <summary>
         /// 锁定工作站的显示器。 锁定工作站可防止未经授权的使用。
@@ -263,7 +263,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <returns>如果函数成功，则返回值的低序字是添加到每个源点的水平坐标以计算每个目标点的水平坐标的像素数。 (除此之外，如果正对 hWndFrom 和 hWndTo 之一进行镜像，则每个生成的水平坐标乘以 -1.) 高序字是添加到每个源点垂直坐标的像素数，以便计算每个目标点的垂直坐标。
         /// 如果函数失败，则返回值为零。 在调用此方法之前调用 SetLastError ，以将错误返回值与合法的“0”返回值区分开来。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "MapWindowPoints", PreserveSig = true, SetLastError = false)]
-        public static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, ref Point lpPoints, uint cPoints);
+        public static extern int MapWindowPoints(nint hWndFrom, nint hWndTo, ref Point lpPoints, uint cPoints);
 
         /// <summary>
         /// 更改指定窗口的位置和尺寸。 对于顶级窗口，位置和尺寸是相对于屏幕左上角的。 对于子窗口，它们相对于父窗口工作区的左上角。
@@ -277,7 +277,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "MoveWindow", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool MoveWindow(IntPtr hWnd, int x, int y, int width, int height, bool bRepaint);
+        public static extern bool MoveWindow(nint hWnd, int x, int y, int width, int height, bool bRepaint);
 
         /// <summary>
         /// Places (在与创建指定窗口的线程关联的消息队列中发布) 消息，并在不等待线程处理消息的情况下返回 。
@@ -290,7 +290,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "PostMessage", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool PostMessage(IntPtr hWnd, WindowMessage Msg, UIntPtr wparam, IntPtr lparam);
+        public static extern bool PostMessage(nint hWnd, WindowMessage Msg, nuint wparam, nint lparam);
 
         /// <summary>
         /// PtInRect 函数确定指定的点是否位于指定的矩形内。 如果点位于左侧或顶部，或者位于所有四个边内，则点位于矩形内。 右侧或底部的点被视为矩形外部的点。
@@ -317,7 +317,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <param name="lParam">其他特定于消息的信息。</param>
         /// <returns>如果函数成功，则返回值为非零。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "PostThreadMessage", PreserveSig = true, SetLastError = false)]
-        public static extern bool PostThreadMessage(uint idThread, WindowMessage Msg, UIntPtr wParam, IntPtr lParam);
+        public static extern bool PostThreadMessage(uint idThread, WindowMessage Msg, nuint wParam, nint lParam);
 
         /// <summary>
         /// 创建从指定文件中提取的图标的句柄数组。
@@ -334,7 +334,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// 如果 phicon 参数为 NULL 并且此函数成功，则返回值是文件中的图标数。 如果函数失败，则返回值为 0。如果 phicon 参数不为 NULL 且函数成功，则返回值是提取的图标数。 否则，如果未找到该文件，则返回值0xFFFFFFFF。
         /// </returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "PrivateExtractIconsW", PreserveSig = true, SetLastError = false)]
-        public static extern int PrivateExtractIcons([MarshalAs(UnmanagedType.LPWStr)] string lpszFile, int nIconIndex, int cxIcon, int cyIcon, [Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] IntPtr[] phicon, [Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] int[] piconid, int nIcons, int flags);
+        public static extern int PrivateExtractIcons([MarshalAs(UnmanagedType.LPWStr)] string lpszFile, int nIconIndex, int cxIcon, int cyIcon, [Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] nint[] phicon, [Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] int[] piconid, int nIcons, int flags);
 
         /// <summary>
         /// 注册一个窗口类，以便在调用 CreateWindow 或 CreateWindowEx 函数时使用。
@@ -366,7 +366,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// </param>
         /// <returns>返回用于取消注册电源通知的通知句柄。 如果函数失败，则返回值为 NULL。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", PreserveSig = true, SetLastError = false)]
-        public static extern IntPtr RegisterPowerSettingNotification(IntPtr hRecipient, in Guid PowerSettingGuid, uint Flags);
+        public static extern nint RegisterPowerSettingNotification(nint hRecipient, in Guid PowerSettingGuid, uint Flags);
 
         /// <summary>
         /// 将指定的消息发送到一个或多个窗口。
@@ -386,7 +386,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// 如果函数失败或超时，则返回值为 0。 请注意，函数并不总是在失败时调用 setLastError 。 如果失败的原因对你很重要，请先调用 SetLastError（ERROR_SUCCESS），然后再调用 SendMessageTimeout。 如果函数返回 0，GetLastError 返回ERROR_SUCCESS，则将其视为泛型故障。
         /// </returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SendMessageTimeoutW", PreserveSig = true, SetLastError = false)]
-        public static extern int SendMessageTimeout(IntPtr hWnd, WindowMessage Msg, UIntPtr wParam, IntPtr lParam, SMTO fuFlags, uint uTimeout, out IntPtr result);
+        public static extern int SendMessageTimeout(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, SMTO fuFlags, uint uTimeout, out nint result);
 
         /// <summary>
         /// 设置分层窗口的不透明度和透明度颜色键。
@@ -401,7 +401,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。 要获得更多的错误信息，请调用 GetLastError。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetLayeredWindowAttributes", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetLayeredWindowAttributes(IntPtr hWnd, int crKey, int alpha, LWA dwFlags);
+        public static extern bool SetLayeredWindowAttributes(nint hWnd, int crKey, int alpha, LWA dwFlags);
 
         /// <summary>
         /// 将指定的消息发送到窗口或窗口。SendMessage 函数调用指定窗口的窗口过程，在窗口过程处理消息之前不会返回。
@@ -416,7 +416,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <param name="lParam">其他的消息特定信息。</param>
         /// <returns>返回值指定消息处理的结果;这取决于发送的消息。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SendMessageW", PreserveSig = true, SetLastError = false)]
-        public static extern IntPtr SendMessage(IntPtr hWnd, WindowMessage wMsg, UIntPtr wParam, IntPtr lParam);
+        public static extern nint SendMessage(nint hWnd, WindowMessage wMsg, nuint wParam, nint lParam);
 
         /// <summary>
         /// 将鼠标捕获设置为属于当前线程的指定窗口。 当鼠标悬停在捕获窗口上时，或者在鼠标悬停在捕获窗口上且按钮仍然向下的情况下按下鼠标按钮时，SetCapture 将捕获鼠标输入。 一次只会有一个窗口捕获鼠标。
@@ -425,7 +425,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <param name="hWnd">当前线程中窗口的句柄，用于捕获鼠标。</param>
         /// <returns>返回值是以前捕获了鼠标的窗口的句柄。 如果没有此类窗口，则返回值为 NULL。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetCapture", PreserveSig = true, SetLastError = false)]
-        public static extern IntPtr SetCapture(IntPtr hWnd);
+        public static extern nint SetCapture(nint hWnd);
 
         /// <summary>
         /// 更改指定窗口的属性。 该函数还将指定偏移量处的32位（long类型）值设置到额外的窗口内存中。
@@ -435,7 +435,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <param name="newProc">新事件处理函数（回调函数）</param>
         /// <returns>如果函数成功，则返回值是指定 32 位整数的上一个值。如果函数失败，则返回值为零。 </returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongW", PreserveSig = true, SetLastError = false)]
-        public static extern IntPtr SetWindowLong(IntPtr hWnd, WindowLongIndexFlags nIndex, IntPtr dwNewLong);
+        public static extern nint SetWindowLong(nint hWnd, WindowLongIndexFlags nIndex, nint dwNewLong);
 
         /// <summary>
         /// 更改指定窗口的属性。 该函数还将指定偏移量处的64位（long类型）值设置到额外的窗口内存中。
@@ -445,7 +445,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <param name="newProc">新事件处理函数（回调函数）</param>
         /// <returns>如果函数成功，则返回值是指定偏移量的上一个值。如果函数失败，则返回值为零。 </returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongPtrW", PreserveSig = true, SetLastError = false)]
-        public static extern IntPtr SetWindowLongPtr(IntPtr hWnd, WindowLongIndexFlags nIndex, IntPtr dwNewLong);
+        public static extern nint SetWindowLongPtr(nint hWnd, WindowLongIndexFlags nIndex, nint dwNewLong);
 
         /// <summary>
         /// 更改子窗口、弹出窗口或顶级窗口的大小、位置和 Z 顺序。 这些窗口根据屏幕上的外观进行排序。 最上面的窗口接收最高排名，是 Z 顺序中的第一个窗口。
@@ -460,7 +460,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。 </returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowPos", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
+        public static extern bool SetWindowPos(nint hWnd, nint hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
 
         /// <summary>
         /// 将应用程序定义的挂钩过程安装到挂钩链中。 你将安装挂钩过程来监视系统的某些类型的事件。 这些事件与特定线程或与调用线程位于同一桌面中的所有线程相关联。
@@ -471,7 +471,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <param name="dwThreadId">要与挂钩过程关联的线程的标识符。 对于桌面应用，如果此参数为零，则挂钩过程与调用线程在同一桌面中运行的所有现有线程相关联。 对于 Windows 应用商店应用，请参阅“备注”部分。</param>
         /// <returns>如果函数成功，则返回值是挂钩过程的句柄。如果函数失败，则返回值为 NULL。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "SetWindowsHookExW", PreserveSig = true, SetLastError = false)]
-        public static extern IntPtr SetWindowsHookEx(HOOKTYPE idHook, HOOKPROC lpfn, IntPtr hMod, int dwThreadId);
+        public static extern nint SetWindowsHookEx(HOOKTYPE idHook, HOOKPROC lpfn, nint hMod, int dwThreadId);
 
         /// <summary>
         /// 当在指定时间内鼠标指针离开窗口或将鼠标悬停在窗口上时，发布消息。
@@ -489,7 +489,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "UnhookWindowsHookEx", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool UnhookWindowsHookEx(IntPtr idHook);
+        public static extern bool UnhookWindowsHookEx(nint idHook);
 
         /// <summary>
         /// 检索包含指定点的窗口的句柄。
@@ -497,7 +497,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <param name="Point">要检查的点。</param>
         /// <returns>返回值是包含点的窗口的句柄。 如果给定点不存在窗口，则返回值为 NULL。 如果点位于静态文本控件上，则返回值是静态文本控件下窗口的句柄。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "WindowFromPoint", PreserveSig = true, SetLastError = false)]
-        public static extern IntPtr WindowFromPoint(Point Point);
+        public static extern nint WindowFromPoint(Point Point);
 
         /// <summary>
         /// 取消注册电源设置通知。
@@ -506,6 +506,6 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <returns>如果该函数成功，则返回值为非零值。如果函数失败，则返回值为零。</returns>
         [DllImport(User32, CharSet = CharSet.Unicode, EntryPoint = "UnregisterPowerSettingNotification", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool UnregisterPowerSettingNotification(IntPtr handle);
+        public static extern bool UnregisterPowerSettingNotification(nint handle);
     }
 }

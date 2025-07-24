@@ -21,7 +21,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.Dwmapi
         /// <param name="pMarInset">指向 MARGINS 结构的指针，该结构描述在将帧扩展到工作区时要使用的边距。</param>
         /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [DllImport(Dwmapi, CharSet = CharSet.Unicode, EntryPoint = "DwmExtendFrameIntoClientArea", PreserveSig = true, SetLastError = false)]
-        public static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref Margins pMarInset);
+        public static extern int DwmExtendFrameIntoClientArea(nint hwnd, ref Margins pMarInset);
 
         /// <summary>
         /// 检索应用于窗口的指定桌面窗口管理器（DWM）属性的当前值。 有关编程指南和代码示例，请参阅 控制非客户端区域呈现。
@@ -32,6 +32,6 @@ namespace PowerToolbox.WindowsAPI.PInvoke.Dwmapi
         /// <param name="cbAttribute">通过 pvAttribute 参数接收的属性值的大小（以字节为单位）。 检索到的值的类型及其大小（以字节为单位）取决于 dwAttribute 参数的值。</param>
         /// <returns>如果函数成功，则返回 S_OK。 否则，它将返回 HRESULT错误代码。</returns>
         [DllImport(Dwmapi, CharSet = CharSet.Unicode, EntryPoint = "DwmGetWindowAttribute", PreserveSig = true, SetLastError = false)]
-        public static extern int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE dwAttribute, out IntPtr pvAttribute, int cbAttribute);
+        public static extern int DwmGetWindowAttribute(nint hwnd, DWMWINDOWATTRIBUTE dwAttribute, out nint pvAttribute, int cbAttribute);
     }
 }

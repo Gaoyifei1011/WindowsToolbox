@@ -184,10 +184,10 @@ namespace PowerToolbox.Views.Pages
                         {
                             if (File.Exists(filePath))
                             {
-                                IntPtr pidlList = Shell32Library.ILCreateFromPath(filePath);
-                                if (!pidlList.Equals(IntPtr.Zero))
+                                nint pidlList = Shell32Library.ILCreateFromPath(filePath);
+                                if (!pidlList.Equals(nint.Zero))
                                 {
-                                    Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, IntPtr.Zero, 0);
+                                    Shell32Library.SHOpenFolderAndSelectItems(pidlList, 0, nint.Zero, 0);
                                     Shell32Library.ILFree(pidlList);
                                 }
                             }
@@ -327,7 +327,7 @@ namespace PowerToolbox.Views.Pages
                         lpFile = filePath,
                         nShow = 5,
                         fMask = ShellExecuteMaskFlags.SEE_MASK_INVOKEIDLIST,
-                        hwnd = IntPtr.Zero
+                        hwnd = nint.Zero
                     };
                     Shell32Library.ShellExecuteEx(ref info);
                 });
@@ -410,7 +410,7 @@ namespace PowerToolbox.Views.Pages
             {
                 try
                 {
-                    Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, IntPtr.Zero, out string downloadFolder);
+                    Shell32Library.SHGetKnownFolderPath(new("374DE290-123F-4565-9164-39C4925E467B"), KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, nint.Zero, out string downloadFolder);
                     Process.Start(downloadFolder);
                 }
                 catch (Exception e)
@@ -896,7 +896,7 @@ namespace PowerToolbox.Views.Pages
 
                 if (result is 0)
                 {
-                    result = ((IShellItemImageFactory)shellItem).GetImage(new Size(256, 256), SIIGBF.SIIGBF_RESIZETOFIT, out IntPtr hBitmap);
+                    result = ((IShellItemImageFactory)shellItem).GetImage(new Size(256, 256), SIIGBF.SIIGBF_RESIZETOFIT, out nint hBitmap);
                     Marshal.ReleaseComObject(shellItem);
 
                     if (result is 0)
