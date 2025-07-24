@@ -37,22 +37,22 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <summary>
         /// 包含类的窗口过程的实例的句柄。
         /// </summary>
-        public nint hInstance;
+        public IntPtr hInstance;
 
         /// <summary>
         /// 类图标的句柄。 此成员必须是图标资源的句柄。 如果此成员 NULL，则系统提供默认图标。
         /// </summary>
-        public nint hIcon;
+        public IntPtr hIcon;
 
         /// <summary>
         /// 类游标的句柄。 此成员必须是游标资源的句柄。 如果此成员 NULL，则每当鼠标移动到应用程序的窗口中时，应用程序都必须显式设置光标形状。
         /// </summary>
-        public nint hCursor;
+        public IntPtr hCursor;
 
         /// <summary>
         /// 类背景画笔的句柄。 此成员可以是用于绘制背景的画笔的句柄，也可以是颜色值。 颜色值必须是以下标准系统颜色之一（值 1 必须添加到所选颜色中）。
         /// </summary>
-        public nint hbrBackground;
+        public IntPtr hbrBackground;
 
         /// <summary>
         /// 指向以 null 结尾的字符串的指针，该字符串指定类菜单的资源名称，因为名称显示在资源文件中。 如果使用整数来标识菜单，请使用 MAKEINTRESOURCE 宏。 如果此成员 NULL，则属于此类的窗口没有默认菜单。
@@ -69,6 +69,6 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <summary>
         /// 与窗口类关联的小图标的句柄。 如果此成员 NULL，系统将搜索由 hIcon 成员指定的图标资源，以获取要用作小图标的相应大小的图标。
         /// </summary>
-        public nint hIconSm;
+        public IntPtr hIconSm;
     }
 }

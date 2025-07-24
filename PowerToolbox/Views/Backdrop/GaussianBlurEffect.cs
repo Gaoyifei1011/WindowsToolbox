@@ -58,13 +58,13 @@ namespace PowerToolbox.Views.Backdrop
             return 0;
         }
 
-        public int GetProperty(uint index, out nint source)
+        public int GetProperty(uint index, out IntPtr source)
         {
             if (index is 0)
             {
-                BackdropHelper.PropertyValueStatics.CreateSingle(BlurAmount, out nint ptr);
+                BackdropHelper.PropertyValueStatics.CreateSingle(BlurAmount, out IntPtr ptr);
 
-                if (!ptr.Equals(nint.Zero))
+                if (!ptr.Equals(IntPtr.Zero))
                 {
                     source = ptr;
                     return 0;
@@ -72,9 +72,9 @@ namespace PowerToolbox.Views.Backdrop
             }
             else if (index is 1)
             {
-                BackdropHelper.PropertyValueStatics.CreateUInt32((uint)Optimization, out nint ptr);
+                BackdropHelper.PropertyValueStatics.CreateUInt32((uint)Optimization, out IntPtr ptr);
 
-                if (!ptr.Equals(nint.Zero))
+                if (!ptr.Equals(IntPtr.Zero))
                 {
                     source = ptr;
                     return 0;
@@ -82,16 +82,16 @@ namespace PowerToolbox.Views.Backdrop
             }
             else if (index is 2)
             {
-                BackdropHelper.PropertyValueStatics.CreateUInt32((uint)BorderMode, out nint ptr);
+                BackdropHelper.PropertyValueStatics.CreateUInt32((uint)BorderMode, out IntPtr ptr);
 
-                if (!ptr.Equals(nint.Zero))
+                if (!ptr.Equals(IntPtr.Zero))
                 {
                     source = ptr;
                     return 0;
                 }
             }
 
-            source = nint.Zero;
+            source = IntPtr.Zero;
             return -2147483637;
         }
 

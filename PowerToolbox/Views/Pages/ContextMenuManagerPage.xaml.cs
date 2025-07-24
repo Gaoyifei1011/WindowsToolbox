@@ -487,7 +487,7 @@ namespace PowerToolbox.Views.Pages
                                     {
                                         if (inetContainerItem.displayName.Contains(packageFullName))
                                         {
-                                            ShlwapiLibrary.SHLoadIndirectString(inetContainerItem.displayName, displayNameBuilder, displayNameBuilder.Capacity, nint.Zero);
+                                            ShlwapiLibrary.SHLoadIndirectString(inetContainerItem.displayName, displayNameBuilder, displayNameBuilder.Capacity, IntPtr.Zero);
                                         }
                                     }
 
@@ -748,7 +748,7 @@ namespace PowerToolbox.Views.Pages
         /// </summary>
         private List<INET_FIREWALL_APP_CONTAINER> GetAppContainerList()
         {
-            nint arrayValue = nint.Zero;
+            IntPtr arrayValue = IntPtr.Zero;
             uint size = 0;
             List<INET_FIREWALL_APP_CONTAINER> inetContainerList = [];
 
@@ -756,7 +756,7 @@ namespace PowerToolbox.Views.Pages
             GCHandle handle_ppACs = GCHandle.Alloc(arrayValue, GCHandleType.Pinned);
             FirewallAPILibrary.NetworkIsolationEnumAppContainers(NETISO_FLAG.NETISO_FLAG_MAX, out size, out arrayValue);
 
-            nint pACs = arrayValue;
+            IntPtr pACs = arrayValue;
 
             int structSize = Marshal.SizeOf<INET_FIREWALL_APP_CONTAINER>();
 
@@ -765,7 +765,7 @@ namespace PowerToolbox.Views.Pages
                 INET_FIREWALL_APP_CONTAINER container = Marshal.PtrToStructure<INET_FIREWALL_APP_CONTAINER>(arrayValue);
 
                 inetContainerList.Add(container);
-                arrayValue = new nint((long)arrayValue + structSize);
+                arrayValue = new IntPtr((long)arrayValue + structSize);
             }
 
             handle_pdwCntPublicACs.Free();

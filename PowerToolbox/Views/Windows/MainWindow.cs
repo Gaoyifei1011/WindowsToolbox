@@ -41,9 +41,9 @@ namespace PowerToolbox.Views.Windows
     /// </summary>
     public class MainWindow : Form
     {
-        private readonly nint hwndTitleBar;
-        private readonly nint hwndXamlIsland;
-        private readonly nint hwndMaximizeButton;
+        private readonly IntPtr hwndTitleBar;
+        private readonly IntPtr hwndXamlIsland;
+        private readonly IntPtr hwndMaximizeButton;
         private readonly int AUTO_HIDE_TASKBAR_HEIGHT = 2;
         private readonly int lightTintColor = ColorTranslator.ToWin32(Color.FromArgb(243, 243, 243));
         private readonly int darkTintColor = ColorTranslator.ToWin32(Color.FromArgb(32, 32, 32));
@@ -92,7 +92,7 @@ namespace PowerToolbox.Views.Windows
             RightToLeftLayout = LanguageService.RightToLeft is RightToLeft.Yes;
 
             windowClassProc = new SUBCLASSPROC(OnWindowSubClassProc);
-            Comctl32Library.SetWindowSubclass(Handle, windowClassProc, 0, nint.Zero);
+            Comctl32Library.SetWindowSubclass(Handle, windowClassProc, 0, IntPtr.Zero);
 
             // 注册标题栏窗口类
             TitleBarWndProc = new WNDPROC(OnTitleBarWndProc);
@@ -100,16 +100,16 @@ namespace PowerToolbox.Views.Windows
             {
                 cbSize = Marshal.SizeOf<WNDCLASSEX>(),
                 style = WNDCLASS_STYLES.CS_DBLCLKS,
-                hbrBackground = nint.Zero,
+                hbrBackground = IntPtr.Zero,
                 cbClsExtra = 0,
                 cbWndExtra = 0,
                 hInstance = Process.GetCurrentProcess().Handle,
-                hIcon = nint.Zero,
+                hIcon = IntPtr.Zero,
                 hCursor = Cursors.Arrow.Handle,
                 lpszMenuName = null,
                 lpszClassName = "DesktopWindowTitleBarArea",
                 lpfnWndProc = TitleBarWndProc,
-                hIconSm = nint.Zero
+                hIconSm = IntPtr.Zero
             };
             User32Library.RegisterClassEx(ref wcex);
 
@@ -124,7 +124,7 @@ namespace PowerToolbox.Views.Windows
 
             // 1. 刷新窗口边框
             // 2. 防止窗口显示时背景闪烁: https://stackoverflow.com/questions/69715610/how-to-initialize-the-background-color-of-win32-app-to-something-other-than-whit
-            User32Library.SetWindowPos(Handle, nint.Zero, 0, 0, 0, 0, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_FRAMECHANGED | SetWindowPosFlags.SWP_NOACTIVATE | SetWindowPosFlags.SWP_NOCOPYBITS);
+            User32Library.SetWindowPos(Handle, IntPtr.Zero, 0, 0, 0, 0, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_FRAMECHANGED | SetWindowPosFlags.SWP_NOACTIVATE | SetWindowPosFlags.SWP_NOCOPYBITS);
 
             // 创建标题栏窗口，它是主窗口的子窗口。将它置于 XAML Islands 窗口之上以防止鼠标事件被吞掉
             // 出于未知的原因，必须添加 WS_EX_LAYERED 样式才能发挥作用，见
@@ -136,7 +136,7 @@ namespace PowerToolbox.Views.Windows
             {
                 windowExStyle |= WindowExStyle.WS_EX_LAYOUTRTL;
             }
-            hwndTitleBar = User32Library.CreateWindowEx(windowExStyle, "DesktopWindowTitleBarArea", string.Empty, WindowStyle.WS_CHILD | WindowStyle.WS_MINIMIZEBOX | WindowStyle.WS_MAXIMIZEBOX, 0, 0, 0, 0, Handle, nint.Zero, Process.GetCurrentProcess().Handle, nint.Zero);
+            hwndTitleBar = User32Library.CreateWindowEx(windowExStyle, "DesktopWindowTitleBarArea", string.Empty, WindowStyle.WS_CHILD | WindowStyle.WS_MINIMIZEBOX | WindowStyle.WS_MAXIMIZEBOX, 0, 0, 0, 0, Handle, IntPtr.Zero, Process.GetCurrentProcess().Handle, IntPtr.Zero);
             User32Library.SetLayeredWindowAttributes(hwndTitleBar, 0, 255, LWA.LWA_ALPHA);
 
             if (Environment.Version.Build >= 22000)
@@ -148,7 +148,7 @@ namespace PowerToolbox.Views.Windows
                 {
                     windowExStyle |= WindowExStyle.WS_EX_LAYOUTRTL;
                 }
-                hwndMaximizeButton = User32Library.CreateWindowEx(windowExStyle, "Button", string.Empty, WindowStyle.WS_VISIBLE | WindowStyle.WS_CHILD | WindowStyle.WS_DISABLED | (WindowStyle)0x0000000B, 0, 0, 0, 0, hwndTitleBar, nint.Zero, Process.GetCurrentProcess().Handle, nint.Zero);
+                hwndMaximizeButton = User32Library.CreateWindowEx(windowExStyle, "Button", string.Empty, WindowStyle.WS_VISIBLE | WindowStyle.WS_CHILD | WindowStyle.WS_DISABLED | (WindowStyle)0x0000000B, 0, 0, 0, 0, hwndTitleBar, IntPtr.Zero, Process.GetCurrentProcess().Handle, IntPtr.Zero);
             }
 
             (Content as MainPage).IsWindowMinimizeEnabled = MinimizeBox;
@@ -176,8 +176,8 @@ namespace PowerToolbox.Views.Windows
             BackdropService.PropertyChanged += OnServicePropertyChanged;
             TopMostService.PropertyChanged += OnServicePropertyChanged;
 
-            (Window.Current.CoreWindow as object as ICoreWindowInterop).GetWindowHandle(out nint coreWindowhandle);
-            User32Library.SetWindowPos(coreWindowhandle, nint.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOOWNERZORDER);
+            (Window.Current.CoreWindow as object as ICoreWindowInterop).GetWindowHandle(out IntPtr coreWindowhandle);
+            User32Library.SetWindowPos(coreWindowhandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOOWNERZORDER);
         }
 
         #region 第一部分：窗口类内置需要重载的事件
@@ -231,7 +231,7 @@ namespace PowerToolbox.Views.Windows
             MinimumSize = new Size(Convert.ToInt32(1024 * ((double)DeviceDpi) / 96), Convert.ToInt32(768 * ((double)DeviceDpi / 96)));
             Rectangle rectangle = args.SuggestedRectangle;
             UpdateFrameBorderThickness();
-            User32Library.SetWindowPos(Handle, nint.Zero, rectangle.Left, rectangle.Top, rectangle.Right - rectangle.Left, rectangle.Bottom - rectangle.Top, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOACTIVATE);
+            User32Library.SetWindowPos(Handle, IntPtr.Zero, rectangle.Left, rectangle.Top, rectangle.Right - rectangle.Left, rectangle.Bottom - rectangle.Top, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOACTIVATE);
         }
 
         /// <summary>
@@ -388,8 +388,8 @@ namespace PowerToolbox.Views.Windows
             }
 
             // 修改 CoreWindow 窗口的大小
-            (Window.Current.CoreWindow as object as ICoreWindowInterop).GetWindowHandle(out nint coreWindowhandle);
-            User32Library.SetWindowPos(coreWindowhandle, nint.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOOWNERZORDER);
+            (Window.Current.CoreWindow as object as ICoreWindowInterop).GetWindowHandle(out IntPtr coreWindowhandle);
+            User32Library.SetWindowPos(coreWindowhandle, IntPtr.Zero, 0, 0, Size.Width, Size.Height, SetWindowPosFlags.SWP_NOOWNERZORDER);
         }
 
         /// <summary>
@@ -457,7 +457,7 @@ namespace PowerToolbox.Views.Windows
         /// <summary>
         /// 应用主窗口消息处理
         /// </summary>
-        private nint OnWindowSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
+        private IntPtr OnWindowSubClassProc(IntPtr hWnd, WindowMessage Msg, UIntPtr wParam, IntPtr lParam, uint uIdSubclass, IntPtr dwRefData)
         {
             switch (Msg)
             {
@@ -490,20 +490,20 @@ namespace PowerToolbox.Views.Windows
                             int topBorderHeight = GetTopBorderHeight();
 
                             // SWP_NOZORDER 确保 XAML Islands 窗口始终在标题栏窗口下方，否则主窗口在调整大小时会闪烁
-                            User32Library.SetWindowPos(hwndXamlIsland, nint.Zero, 0, topBorderHeight, width, height - topBorderHeight, SetWindowPosFlags.SWP_NOACTIVATE | SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_SHOWWINDOW);
+                            User32Library.SetWindowPos(hwndXamlIsland, IntPtr.Zero, 0, topBorderHeight, width, height - topBorderHeight, SetWindowPosFlags.SWP_NOACTIVATE | SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_SHOWWINDOW);
                         }
                         ResizeTitleBarWindow();
-                        return nint.Zero;
+                        return IntPtr.Zero;
                     }
                 // 重绘窗口时对应的窗口消息
                 case WindowMessage.WM_PAINT:
                     {
                         if (Environment.Version.Build < 22621)
                         {
-                            nint hdc = User32Library.BeginPaint(Handle, out PAINTSTRUCT ps);
-                            if (hdc.Equals(nint.Zero))
+                            IntPtr hdc = User32Library.BeginPaint(Handle, out PAINTSTRUCT ps);
+                            if (hdc.Equals(IntPtr.Zero))
                             {
-                                return nint.Zero;
+                                return IntPtr.Zero;
                             }
 
                             int topBorderHeight = Environment.Version.Build >= 22000 ? 0 : GetTopBorderHeight();
@@ -514,7 +514,7 @@ namespace PowerToolbox.Views.Windows
                                 RECT rcTopBorder = ps.rcPaint;
                                 rcTopBorder.bottom = topBorderHeight;
 
-                                nint hBrush = Gdi32Library.GetStockObject(StockObject.BLACK_BRUSH);
+                                IntPtr hBrush = Gdi32Library.GetStockObject(StockObject.BLACK_BRUSH);
                                 User32Library.FillRect(hdc, rcTopBorder, hBrush);
                             }
 
@@ -528,7 +528,7 @@ namespace PowerToolbox.Views.Windows
                                 if (Content is not null)
                                 {
                                     bool isDarkBrush = (Content as FrameworkElement).ActualTheme is ElementTheme.Dark;
-                                    nint backgroundBrush = Gdi32Library.CreateSolidBrush(isDarkBrush ? darkTintColor : lightTintColor);
+                                    IntPtr backgroundBrush = Gdi32Library.CreateSolidBrush(isDarkBrush ? darkTintColor : lightTintColor);
 
                                     if (!Equals(isDarkBrush, isDarkTheme))
                                     {
@@ -546,8 +546,8 @@ namespace PowerToolbox.Views.Windows
                                             cbSize = (uint)Marshal.SizeOf<BP_PAINTPARAMS>(),
                                             dwFlags = BPPF.BPPF_NOCLIP | BPPF.BPPF_ERASE
                                         };
-                                        nint buf = UxthemeLibrary.BeginBufferedPaint(hdc, ref rcRest, BP_BUFFERFORMAT.BPBF_TOPDOWNDIB, ref bp_PaintParams, out nint opaqueDc);
-                                        if (!Equals(buf, nint.Zero) && !Equals(opaqueDc, nint.Zero))
+                                        IntPtr buf = UxthemeLibrary.BeginBufferedPaint(hdc, ref rcRest, BP_BUFFERFORMAT.BPBF_TOPDOWNDIB, ref bp_PaintParams, out IntPtr opaqueDc);
+                                        if (!Equals(buf, IntPtr.Zero) && !Equals(opaqueDc, IntPtr.Zero))
                                         {
                                             User32Library.FillRect(opaqueDc, rcRest, backgroundBrush);
                                             RECT rect = new();
@@ -562,7 +562,7 @@ namespace PowerToolbox.Views.Windows
                                 }
                             }
                             User32Library.EndPaint(Handle, ref ps);
-                            return nint.Zero;
+                            return IntPtr.Zero;
                         }
 
                         break;
@@ -627,7 +627,7 @@ namespace PowerToolbox.Views.Windows
                                 break;
                             }
 
-                            return nint.Zero;
+                            return IntPtr.Zero;
                         }
 
                         break;
@@ -639,18 +639,18 @@ namespace PowerToolbox.Views.Windows
                         {
                             // 移除标题栏的逻辑基本来自 Windows Terminal
                             // https://github.com/microsoft/terminal/blob/0ee2c74cd432eda153f3f3e77588164cde95044f/src/cascadia/WindowsTerminal/NonClientIslandWindow.cpp
-                            if (wParam.Equals(nuint.Zero))
+                            if (wParam.Equals(UIntPtr.Zero))
                             {
-                                return nint.Zero;
+                                return IntPtr.Zero;
                             }
 
                             // 保存原始上边框位置
                             int originalTop = Marshal.PtrToStructure<NCCALCSIZE_PARAMS>(lParam).rgrc[0].top;
 
                             // 应用默认边框
-                            nint result = Comctl32Library.DefSubclassProc(Handle, WindowMessage.WM_NCCALCSIZE, wParam, lParam);
+                            IntPtr result = Comctl32Library.DefSubclassProc(Handle, WindowMessage.WM_NCCALCSIZE, wParam, lParam);
 
-                            if (!Equals(result, nint.Zero))
+                            if (!Equals(result, IntPtr.Zero))
                             {
                                 return result;
                             }
@@ -675,9 +675,9 @@ namespace PowerToolbox.Views.Windows
                                     cbSize = Marshal.SizeOf<APPBARDATA>()
                                 };
 
-                                nint appbarResult = Shell32Library.SHAppBarMessage(ABM.ABM_GETSTATE, ref appbarData);
+                                IntPtr appbarResult = Shell32Library.SHAppBarMessage(ABM.ABM_GETSTATE, ref appbarData);
 
-                                if (!Equals(appbarResult, nint.Zero))
+                                if (!Equals(appbarResult, IntPtr.Zero))
                                 {
                                     if (HasAutoHideTaskbar(screen, ABE.Top))
                                     {
@@ -706,7 +706,7 @@ namespace PowerToolbox.Views.Windows
 
                             // 如果在 WM_SIZE 中处理会导致窗口闪烁
                             UpdateFrameMargins();
-                            return nint.Zero;
+                            return IntPtr.Zero;
                         }
                         else
                         {
@@ -720,9 +720,9 @@ namespace PowerToolbox.Views.Windows
                         if (ExtendsContentIntoTitleBar)
                         {
                             // 让 OS 处理左右下三边，由于我们移除了标题栏，上边框会被视为客户区
-                            nint result = Comctl32Library.DefSubclassProc(Handle, WindowMessage.WM_NCHITTEST, nuint.Zero, lParam);
+                            IntPtr result = Comctl32Library.DefSubclassProc(Handle, WindowMessage.WM_NCHITTEST, UIntPtr.Zero, lParam);
 
-                            if (!Equals(result, (nint)HITTEST.HTCLIENT))
+                            if (!Equals(result, (IntPtr)HITTEST.HTCLIENT))
                             {
                                 return result;
                             }
@@ -733,11 +733,11 @@ namespace PowerToolbox.Views.Windows
                                 User32Library.GetWindowRect(Handle, out RECT rcWindow);
                                 if (Cursor.Position.Y < rcWindow.top + GetResizeHandleHeight())
                                 {
-                                    return (nint)HITTEST.HTTOP;
+                                    return (IntPtr)HITTEST.HTTOP;
                                 }
                             }
 
-                            return (nint)HITTEST.HTCAPTION;
+                            return (IntPtr)HITTEST.HTCAPTION;
                         }
 
                         break;
@@ -755,7 +755,7 @@ namespace PowerToolbox.Views.Windows
                                 desktopWindowXamlSource.NavigateFocus(new XamlSourceFocusNavigationRequest(reason));
                             }
 
-                            return nint.Zero;
+                            return IntPtr.Zero;
                         }
                         break;
                     }
@@ -772,14 +772,14 @@ namespace PowerToolbox.Views.Windows
                                 ShowMode = FlyoutShowMode.Standard
                             };
                             (Content as MainPage).TitlebarMenuFlyout.ShowAt(null, options);
-                            return nint.Zero;
+                            return IntPtr.Zero;
                         }
                         else if (sysCommand is SYSTEMCOMMAND.SC_KEYMENU)
                         {
                             // 禁用按 Alt 键会激活窗口菜单的行为，它使用户界面无法交互
-                            if (lParam.Equals(nint.Zero))
+                            if (lParam.Equals(IntPtr.Zero))
                             {
-                                return nint.Zero;
+                                return IntPtr.Zero;
                             }
 
                             if (lParam.ToInt32() is (int)Keys.Space)
@@ -792,7 +792,7 @@ namespace PowerToolbox.Views.Windows
                                 (Content as MainPage).TitlebarMenuFlyout.ShowAt(null, options);
                             }
 
-                            return nint.Zero;
+                            return IntPtr.Zero;
                         }
 
                         break;
@@ -801,7 +801,7 @@ namespace PowerToolbox.Views.Windows
                 case WindowMessage.WM_MENUCHAR:
                     {
                         // 防止按 Alt+Key 时发出铃声
-                        return new nint((0 & 0xffff) | ((1 & 0xffff) << 16));
+                        return new IntPtr((0 & 0xffff) | ((1 & 0xffff) << 16));
                     }
                 // 提升权限时允许应用接收拖放消息
                 case WindowMessage.WM_DROPFILES:
@@ -835,7 +835,7 @@ namespace PowerToolbox.Views.Windows
                 // 固定应用到任务栏完成提示窗口消息
                 case WindowMessage.WM_PINNOTIFY:
                     {
-                        if (wParam.Equals(new nuint(1)))
+                        if (wParam.Equals(new UIntPtr(1)))
                         {
                             BeginInvoke(async () =>
                             {
@@ -851,7 +851,7 @@ namespace PowerToolbox.Views.Windows
         /// <summary>
         /// 应用拖拽区域窗口消息处理
         /// </summary>
-        private nint OnTitleBarWndProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam)
+        private IntPtr OnTitleBarWndProc(IntPtr hWnd, WindowMessage Msg, UIntPtr wParam, IntPtr lParam)
         {
             switch (Msg)
             {
@@ -859,25 +859,25 @@ namespace PowerToolbox.Views.Windows
                 case WindowMessage.WM_CTLCOLORBTN:
                     {
                         // 使原生按钮控件透明，虽然整个标题栏窗口都是不可见的
-                        return nint.Zero;
+                        return IntPtr.Zero;
                     }
                 // 确定窗口坐标位置对应的消息
                 case WindowMessage.WM_NCHITTEST:
                     {
                         Point cursorPos = new((int)LOWORD((uint)lParam.ToInt32()), (int)HIWORD((uint)lParam.ToInt32()));
-                        User32Library.MapWindowPoints(nint.Zero, hwndTitleBar, ref cursorPos, 2);
+                        User32Library.MapWindowPoints(IntPtr.Zero, hwndTitleBar, ref cursorPos, 2);
                         User32Library.GetClientRect(hwndTitleBar, out RECT titleBarClientRect);
                         if (!User32Library.PtInRect(ref titleBarClientRect, cursorPos))
                         {
                             // 先检查鼠标是否在窗口内。在标题栏按钮上按下鼠标时我们会捕获光标，从而收到 WM_MOUSEMOVE 和 WM_LBUTTONUP 消息。
                             // 它们使用 WM_NCHITTEST 测试鼠标位于哪个区域
-                            return new nint((int)HITTEST.HTNOWHERE);
+                            return new IntPtr((int)HITTEST.HTNOWHERE);
                         }
 
                         if (!User32Library.IsZoomed(Handle) && cursorPos.Y + GetTopBorderHeight() < GetResizeHandleHeight())
                         {
                             // 鼠标位于上边框
-                            return new nint((int)HITTEST.HTTOP);
+                            return new IntPtr((int)HITTEST.HTTOP);
                         }
 
                         // 标题栏按钮的宽度和高度
@@ -889,36 +889,36 @@ namespace PowerToolbox.Views.Windows
                         if (cursorPos.Y >= buttonHeightInPixels)
                         {
                             // 鼠标位于标题按钮下方，如果标题栏很宽，这里也可以拖动
-                            return new nint((int)HITTEST.HTCAPTION);
+                            return new IntPtr((int)HITTEST.HTCAPTION);
                         }
 
                         // 从右向左检查鼠标是否位于某个标题栏按钮上
                         long cursorToRight = titleBarClientRect.right - cursorPos.X;
                         if (cursorToRight < buttonWidthInPixels)
                         {
-                            return new nint((int)HITTEST.HTCLOSE);
+                            return new IntPtr((int)HITTEST.HTCLOSE);
                         }
                         else if (cursorToRight < buttonWidthInPixels * 2)
                         {
                             // 支持 Win11 的贴靠布局
-                            return MaximizeBox ? new nint((int)HITTEST.HTMAXBUTTON) : new nint((int)HITTEST.HTCLIENT);
+                            return MaximizeBox ? new IntPtr((int)HITTEST.HTMAXBUTTON) : new IntPtr((int)HITTEST.HTCLIENT);
                         }
                         else if (cursorToRight < buttonWidthInPixels * 3)
                         {
-                            return MinimizeBox ? new nint((int)HITTEST.HTMINBUTTON) : new nint((int)HITTEST.HTCLIENT);
+                            return MinimizeBox ? new IntPtr((int)HITTEST.HTMINBUTTON) : new IntPtr((int)HITTEST.HTCLIENT);
                         }
                         else
                         {
                             // 不在任何标题栏按钮上则在可拖拽区域
-                            return new nint((int)HITTEST.HTCAPTION);
+                            return new IntPtr((int)HITTEST.HTCAPTION);
                         }
                     }
                 // 窗口鼠标在工作区移动时收到的窗口消息
                 case WindowMessage.WM_MOUSEMOVE:
                     {
                         Point cursorPos = new((int)LOWORD((uint)lParam.ToInt32()), (int)HIWORD((uint)lParam.ToInt32()));
-                        User32Library.MapWindowPoints(hwndTitleBar, nint.Zero, ref cursorPos, 2);
-                        wParam = (nuint)(uint)User32Library.SendMessage(hwndTitleBar, WindowMessage.WM_NCHITTEST, nuint.Zero, new nint(MakeLParam(cursorPos.X, cursorPos.Y)));
+                        User32Library.MapWindowPoints(hwndTitleBar, IntPtr.Zero, ref cursorPos, 2);
+                        wParam = (UIntPtr)(uint)User32Library.SendMessage(hwndTitleBar, WindowMessage.WM_NCHITTEST, UIntPtr.Zero, new IntPtr(MakeLParam(cursorPos.X, cursorPos.Y)));
                         goto case WindowMessage.WM_NCMOUSEMOVE;
                     }
                 // 窗口鼠标在非工作区移动时收到的窗口消息
@@ -928,14 +928,14 @@ namespace PowerToolbox.Views.Windows
                         {
                             // 将 hover 状态通知 CaptionButtons。标题栏窗口拦截了 XAML Islands 中的标题栏
                             // 控件的鼠标消息，标题栏按钮的状态由我们手动控制。
-                            if (wParam.Equals((nuint)(uint)HITTEST.HTTOP) || wParam.Equals((nuint)(uint)HITTEST.HTCAPTION))
+                            if (wParam.Equals((UIntPtr)(uint)HITTEST.HTTOP) || wParam.Equals((UIntPtr)(uint)HITTEST.HTCAPTION))
                             {
                                 mainPage.LeaveButtons();
 
                                 // 将 HTTOP 传给主窗口才能通过上边框调整窗口高度
                                 return User32Library.SendMessage(Handle, Msg, wParam, lParam);
                             }
-                            else if (wParam.Equals((nuint)(uint)HITTEST.HTMINBUTTON) || wParam.Equals((nuint)(uint)HITTEST.HTMAXBUTTON) || wParam.Equals((nuint)(uint)HITTEST.HTCLOSE))
+                            else if (wParam.Equals((UIntPtr)(uint)HITTEST.HTMINBUTTON) || wParam.Equals((UIntPtr)(uint)HITTEST.HTMAXBUTTON) || wParam.Equals((UIntPtr)(uint)HITTEST.HTCLOSE))
                             {
                                 if (wParam.ToUInt32() is (uint)HITTEST.HTMINBUTTON)
                                 {
@@ -981,7 +981,7 @@ namespace PowerToolbox.Views.Windows
                         // 到 WM_NCMOUSELEAVE，但此时鼠标并没有离开标题栏按钮
                         Point cursorPos = new((int)LOWORD((uint)lParam.ToInt32()), (int)HIWORD((uint)lParam.ToInt32()));
                         // 先检查鼠标是否在主窗口上，如果正在显示文字提示，会返回 _hwndTitleBar
-                        nint hwndUnderCursor = User32Library.WindowFromPoint(cursorPos);
+                        IntPtr hwndUnderCursor = User32Library.WindowFromPoint(cursorPos);
                         if (!Equals(hwndUnderCursor, Handle) && !Equals(hwndUnderCursor, hwndTitleBar))
                         {
                             (Content as MainPage).LeaveButtons();
@@ -989,8 +989,8 @@ namespace PowerToolbox.Views.Windows
                         else
                         {
                             // 然后检查鼠标在标题栏上的位置
-                            nint hit = User32Library.SendMessage(hwndTitleBar, WindowMessage.WM_NCHITTEST, nuint.Zero, new nint(MakeLParam(cursorPos.X, cursorPos.Y)));
-                            if (!Equals(hit, new nint((int)HITTEST.HTMINBUTTON)) && !Equals(hit, new nint((int)HITTEST.HTMAXBUTTON)) && !Equals(hit, new nint((int)HITTEST.HTCLOSE)))
+                            IntPtr hit = User32Library.SendMessage(hwndTitleBar, WindowMessage.WM_NCHITTEST, UIntPtr.Zero, new IntPtr(MakeLParam(cursorPos.X, cursorPos.Y)));
+                            if (!Equals(hit, new IntPtr((int)HITTEST.HTMINBUTTON)) && !Equals(hit, new IntPtr((int)HITTEST.HTMAXBUTTON)) && !Equals(hit, new IntPtr((int)HITTEST.HTCLOSE)))
                             {
                                 (Content as MainPage).LeaveButtons();
                             }
@@ -1006,7 +1006,7 @@ namespace PowerToolbox.Views.Windows
                         // 比如：鼠标在关闭按钮上停留了一段时间，系统会显示文字提示，这时按下左键，便会收到 WM_NCMOUSELEAVE，但此时鼠标并没有离开标题栏按钮
                         Point cursorPos = new((int)LOWORD((uint)lParam.ToInt32()), (int)HIWORD((uint)lParam.ToInt32()));
                         // 先检查鼠标是否在主窗口上，如果正在显示文字提示，会返回 _hwndTitleBar
-                        nint hwndUnderCursor = User32Library.WindowFromPoint(cursorPos);
+                        IntPtr hwndUnderCursor = User32Library.WindowFromPoint(cursorPos);
                         if (!Equals(hwndUnderCursor, Handle) && !Equals(hwndUnderCursor, hwndTitleBar))
                         {
                             (Content as MainPage).LeaveButtons();
@@ -1014,8 +1014,8 @@ namespace PowerToolbox.Views.Windows
                         else
                         {
                             // 然后检查鼠标在标题栏上的位置
-                            nint hit = User32Library.SendMessage(hwndTitleBar, WindowMessage.WM_NCHITTEST, nuint.Zero, new nint(MakeLParam(cursorPos.X, cursorPos.Y)));
-                            if (!Equals(hit, new nint((int)HITTEST.HTMINBUTTON)) && !Equals(hit, new nint((int)HITTEST.HTMAXBUTTON)) && !Equals(hit, new nint((int)HITTEST.HTCLOSE)))
+                            IntPtr hit = User32Library.SendMessage(hwndTitleBar, WindowMessage.WM_NCHITTEST, UIntPtr.Zero, new IntPtr(MakeLParam(cursorPos.X, cursorPos.Y)));
+                            if (!Equals(hit, new IntPtr((int)HITTEST.HTMINBUTTON)) && !Equals(hit, new IntPtr((int)HITTEST.HTMAXBUTTON)) && !Equals(hit, new IntPtr((int)HITTEST.HTCLOSE)))
                             {
                                 (Content as MainPage).LeaveButtons();
                             }
@@ -1029,12 +1029,12 @@ namespace PowerToolbox.Views.Windows
                     {
                         // 手动处理标题栏上的点击。如果在标题栏按钮上，则通知 CaptionButtons，否则将消息传递
                         // 给主窗口。
-                        if (wParam.Equals(new nuint((int)HITTEST.HTTOP)) || wParam.Equals(new nuint((int)HITTEST.HTCAPTION)))
+                        if (wParam.Equals(new UIntPtr((int)HITTEST.HTTOP)) || wParam.Equals(new UIntPtr((int)HITTEST.HTCAPTION)))
                         {
                             // 将 HTTOP 传给主窗口才能通过上边框调整窗口高度
                             return User32Library.SendMessage(Handle, Msg, wParam, lParam);
                         }
-                        else if (wParam.Equals(new nuint((int)HITTEST.HTMINBUTTON)) || wParam.Equals(new nuint((int)HITTEST.HTMAXBUTTON)) || wParam.Equals(new nuint((int)HITTEST.HTCLOSE)))
+                        else if (wParam.Equals(new UIntPtr((int)HITTEST.HTMINBUTTON)) || wParam.Equals(new UIntPtr((int)HITTEST.HTMAXBUTTON)) || wParam.Equals(new UIntPtr((int)HITTEST.HTCLOSE)))
                         {
                             if (wParam.ToUInt32() is (uint)HITTEST.HTMINBUTTON)
                             {
@@ -1053,19 +1053,19 @@ namespace PowerToolbox.Views.Windows
                             // 便不会再收到 NC 族消息，这就是为什么我们要处理 WM_MOUSEMOVE 和 WM_LBUTTONUP
                             User32Library.SetCapture(hwndTitleBar);
                         }
-                        return nint.Zero;
+                        return IntPtr.Zero;
                     }
                 // 处理非客户区左键双击的窗口消息
                 case WindowMessage.WM_NCLBUTTONDBLCLK:
                     {
                         // 手动处理标题栏上的点击。如果在标题栏按钮上，则通知 CaptionButtons，否则将消息传递
                         // 给主窗口。
-                        if (wParam.Equals(new nuint((int)HITTEST.HTTOP)) || wParam.Equals(new nuint((int)HITTEST.HTCAPTION)))
+                        if (wParam.Equals(new UIntPtr((int)HITTEST.HTTOP)) || wParam.Equals(new UIntPtr((int)HITTEST.HTCAPTION)))
                         {
                             // 将 HTTOP 传给主窗口才能通过上边框调整窗口高度
                             return User32Library.SendMessage(Handle, Msg, wParam, lParam);
                         }
-                        else if (wParam.Equals(new nuint((int)HITTEST.HTMINBUTTON)) || wParam.Equals(new nuint((int)HITTEST.HTMAXBUTTON)) || wParam.Equals(new nuint((int)HITTEST.HTCLOSE)))
+                        else if (wParam.Equals(new UIntPtr((int)HITTEST.HTMINBUTTON)) || wParam.Equals(new UIntPtr((int)HITTEST.HTMAXBUTTON)) || wParam.Equals(new UIntPtr((int)HITTEST.HTCLOSE)))
                         {
                             if (wParam.ToUInt32() is (uint)HITTEST.HTMINBUTTON)
                             {
@@ -1084,15 +1084,15 @@ namespace PowerToolbox.Views.Windows
                             // 便不会再收到 NC 族消息，这就是为什么我们要处理 WM_MOUSEMOVE 和 WM_LBUTTONUP
                             User32Library.SetCapture(hwndTitleBar);
                         }
-                        return nint.Zero;
+                        return IntPtr.Zero;
                     }
                 // 处理客户区左键释放的窗口消息
                 case WindowMessage.WM_LBUTTONUP:
                     {
                         User32Library.ReleaseCapture();
                         Point cursorPos = new((int)LOWORD((uint)lParam.ToInt32()), (int)HIWORD((uint)lParam.ToInt32()));
-                        User32Library.MapWindowPoints(hwndTitleBar, nint.Zero, ref cursorPos, 2);
-                        wParam = (nuint)(uint)User32Library.SendMessage(hwndTitleBar, WindowMessage.WM_NCHITTEST, nuint.Zero, new nint(MakeLParam(cursorPos.X, cursorPos.Y)));
+                        User32Library.MapWindowPoints(hwndTitleBar, IntPtr.Zero, ref cursorPos, 2);
+                        wParam = (UIntPtr)(uint)User32Library.SendMessage(hwndTitleBar, WindowMessage.WM_NCHITTEST, UIntPtr.Zero, new IntPtr(MakeLParam(cursorPos.X, cursorPos.Y)));
                         goto case WindowMessage.WM_NCLBUTTONUP;
                     }
                 // 处理非客户区左键释放的窗口消息
@@ -1100,13 +1100,13 @@ namespace PowerToolbox.Views.Windows
                     {
                         // 处理鼠标在标题栏上释放。如果位于标题栏按钮上，则传递给 CaptionButtons，不在则将消息传递给主窗口
                         // 给主窗口。
-                        if (wParam.Equals(new nuint((int)HITTEST.HTTOP)) || wParam.Equals(new nuint((int)HITTEST.HTCAPTION)))
+                        if (wParam.Equals(new UIntPtr((int)HITTEST.HTTOP)) || wParam.Equals(new UIntPtr((int)HITTEST.HTCAPTION)))
                         {
                             // 在可拖拽区域或上边框释放左键，将此消息传递给主窗口
                             (Content as MainPage).ReleaseButtons();
                             return User32Library.SendMessage(Handle, Msg, wParam, lParam);
                         }
-                        else if (wParam.Equals(new nuint((int)HITTEST.HTMINBUTTON)) || wParam.Equals(new nuint((int)HITTEST.HTMAXBUTTON)) || wParam.Equals(new nuint((int)HITTEST.HTCLOSE)))
+                        else if (wParam.Equals(new UIntPtr((int)HITTEST.HTMINBUTTON)) || wParam.Equals(new UIntPtr((int)HITTEST.HTMAXBUTTON)) || wParam.Equals(new UIntPtr((int)HITTEST.HTCLOSE)))
                         {
                             if (wParam.ToUInt32() is (uint)HITTEST.HTMINBUTTON)
                             {
@@ -1122,7 +1122,7 @@ namespace PowerToolbox.Views.Windows
                             }
                             (Content as MainPage).ReleaseButtons();
                         }
-                        return nint.Zero;
+                        return IntPtr.Zero;
                     }
                 // 处理非客户区右键按下的窗口消息
                 case WindowMessage.WM_NCRBUTTONDOWN:
@@ -1230,17 +1230,17 @@ namespace PowerToolbox.Views.Windows
         /// <summary>
         /// 获取窗口属性
         /// </summary>
-        private static int GetWindowLongAuto(nint hWnd, WindowLongIndexFlags nIndex)
+        private static int GetWindowLongAuto(IntPtr hWnd, WindowLongIndexFlags nIndex)
         {
-            return nint.Size is 8 ? User32Library.GetWindowLongPtr(hWnd, nIndex) : User32Library.GetWindowLong(hWnd, nIndex);
+            return IntPtr.Size is 8 ? User32Library.GetWindowLongPtr(hWnd, nIndex) : User32Library.GetWindowLong(hWnd, nIndex);
         }
 
         /// <summary>
         /// 更改窗口属性
         /// </summary>
-        private static nint SetWindowLongAuto(nint hWnd, WindowLongIndexFlags nIndex, nint dwNewLong)
+        private static IntPtr SetWindowLongAuto(IntPtr hWnd, WindowLongIndexFlags nIndex, IntPtr dwNewLong)
         {
-            return nint.Size is 8 ? User32Library.SetWindowLongPtr(hWnd, nIndex, dwNewLong) : User32Library.SetWindowLong(hWnd, nIndex, dwNewLong);
+            return IntPtr.Size is 8 ? User32Library.SetWindowLongPtr(hWnd, nIndex, dwNewLong) : User32Library.SetWindowLong(hWnd, nIndex, dwNewLong);
         }
 
         /// <summary>
@@ -1251,7 +1251,7 @@ namespace PowerToolbox.Views.Windows
             // Win10 中窗口边框始终只有一个像素宽，Win11 中的窗口边框宽度和 DPI 缩放有关
             if (Environment.Version.Build >= 22000)
             {
-                DwmapiLibrary.DwmGetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_VISIBLE_FRAME_BORDER_THICKNESS, out nint value, sizeof(uint));
+                DwmapiLibrary.DwmGetWindowAttribute(Handle, DWMWINDOWATTRIBUTE.DWMWA_VISIBLE_FRAME_BORDER_THICKNESS, out IntPtr value, sizeof(uint));
                 nativeTopBorderHeight = value.ToInt32();
             }
         }
@@ -1293,7 +1293,7 @@ namespace PowerToolbox.Views.Windows
         /// </summary>
         private void ResizeTitleBarWindow()
         {
-            if (ExtendsContentIntoTitleBar && !Equals(hwndTitleBar, nint.Zero))
+            if (ExtendsContentIntoTitleBar && !Equals(hwndTitleBar, IntPtr.Zero))
             {
                 // 获取标题栏的边框矩形
                 Grid titleBar = (Content as MainPage).AppTitlebar;
@@ -1305,9 +1305,9 @@ namespace PowerToolbox.Views.Windows
 
                 // 将标题栏窗口置于 XAML Islands 窗口上方
                 int titleBarWidth = (int)Math.Ceiling(rect.Width * dpiScale);
-                User32Library.SetWindowPos(hwndTitleBar, nint.Zero, (int)Math.Floor(rect.X * dpiScale), Convert.ToInt32(Math.Floor(rect.Y * dpiScale)) + GetTopBorderHeight(), titleBarWidth, (int)Math.Floor(rect.Height * dpiScale + 1), SetWindowPosFlags.SWP_SHOWWINDOW);
+                User32Library.SetWindowPos(hwndTitleBar, IntPtr.Zero, (int)Math.Floor(rect.X * dpiScale), Convert.ToInt32(Math.Floor(rect.Y * dpiScale)) + GetTopBorderHeight(), titleBarWidth, (int)Math.Floor(rect.Height * dpiScale + 1), SetWindowPosFlags.SWP_SHOWWINDOW);
 
-                if (!Equals(hwndMaximizeButton, nint.Zero))
+                if (!Equals(hwndMaximizeButton, IntPtr.Zero))
                 {
                     double captionButtonHeightInDips = (Content as MainPage).CaptionButtons.Height;
                     int captionButtonHeightInPixels = (int)Math.Ceiling(captionButtonHeightInDips * dpiScale);
@@ -1316,7 +1316,7 @@ namespace PowerToolbox.Views.Windows
 
                 // 设置标题栏窗口的最大化样式，这样才能展示正确的文字提示
                 WindowStyle style = (WindowStyle)GetWindowLongAuto(hwndTitleBar, WindowLongIndexFlags.GWL_STYLE);
-                SetWindowLongAuto(hwndTitleBar, WindowLongIndexFlags.GWL_STYLE, (nint)(User32Library.IsZoomed(Handle) ? style | WindowStyle.WS_MAXIMIZE : style & ~WindowStyle.WS_MAXIMIZE));
+                SetWindowLongAuto(hwndTitleBar, WindowLongIndexFlags.GWL_STYLE, (IntPtr)(User32Library.IsZoomed(Handle) ? style | WindowStyle.WS_MAXIMIZE : style & ~WindowStyle.WS_MAXIMIZE));
             }
         }
 
@@ -1345,8 +1345,8 @@ namespace PowerToolbox.Views.Windows
                 }
             };
 
-            nint hTaskbar = Shell32Library.SHAppBarMessage(ABM.ABM_GETAUTOHIDEBAREX, ref appbarData);
-            return !hTaskbar.Equals(nint.Zero);
+            IntPtr hTaskbar = Shell32Library.SHAppBarMessage(ABM.ABM_GETAUTOHIDEBAREX, ref appbarData);
+            return !hTaskbar.Equals(IntPtr.Zero);
         }
 
         private int MakeLParam(int LoWord, int HiWord)

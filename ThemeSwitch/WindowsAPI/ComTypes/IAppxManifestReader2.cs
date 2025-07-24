@@ -16,7 +16,7 @@ namespace ThemeSwitch.WindowsAPI.ComTypes
         /// <param name="packageId">包标识符。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetPackageId(out nint packageId);
+        int GetPackageId(out IntPtr packageId);
 
         /// <summary>
         /// 获取清单中定义的包的属性。
@@ -24,7 +24,7 @@ namespace ThemeSwitch.WindowsAPI.ComTypes
         /// <param name="packageProperties">包的属性，如清单所述。</param>
         /// <returns>如果该方法成功，则返回 S_OK。</returns>
         [PreserveSig]
-        int GetProperties(out nint packageProperties);
+        int GetProperties(out IntPtr packageProperties);
 
         /// <summary>
         /// 获取循环访问清单中定义的依赖项的枚举器。
@@ -32,7 +32,7 @@ namespace ThemeSwitch.WindowsAPI.ComTypes
         /// <param name="dependencies">循环访问依赖项的枚举器。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetPackageDependencies(out nint dependencies);
+        int GetPackageDependencies(out IntPtr dependencies);
 
         /// <summary>
         /// 获取包请求的功能列表。
@@ -48,7 +48,7 @@ namespace ThemeSwitch.WindowsAPI.ComTypes
         /// <param name="resources">循环访问资源的枚举器。</param>
         /// <returns>如果方法成功，则返回 S_OK。</returns>
         [PreserveSig]
-        int GetResources(out nint resources);
+        int GetResources(out IntPtr resources);
 
         /// <summary>
         /// 获取循环访问清单中定义的设备功能的枚举器。
@@ -56,7 +56,7 @@ namespace ThemeSwitch.WindowsAPI.ComTypes
         /// <param name="deviceCapabilities">循环访问设备功能的枚举器。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetDeviceCapabilities(out nint deviceCapabilities);
+        int GetDeviceCapabilities(out IntPtr deviceCapabilities);
 
         /// <summary>
         /// 获取包清单中定义的指定先决条件。
@@ -73,7 +73,7 @@ namespace ThemeSwitch.WindowsAPI.ComTypes
         /// <param name="applications">循环访问应用程序的枚举器。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int GetApplications(out nint applications);
+        int GetApplications(out IntPtr applications);
 
         /// <summary>
         /// 获取由清单读取者分析和读取的原始 XML。

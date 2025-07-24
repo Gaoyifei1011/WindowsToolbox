@@ -18,7 +18,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="pvResevered">保留。 设置为 NULL。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int StartProgressDialog(nint hwndParent, [MarshalAs(UnmanagedType.IUnknown)] object punkEnableModless, PROGDLG dwFlags, nint pvResevered);
+        int StartProgressDialog(IntPtr hwndParent, [MarshalAs(UnmanagedType.IUnknown)] object punkEnableModless, PROGDLG dwFlags, IntPtr pvResevered);
 
         /// <summary>
         /// 停止进度对话框并将其从屏幕中删除。
@@ -42,7 +42,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="idAnimation">AVI 资源标识符。 若要创建此值，请使用 MAKEINTRESOURCE 宏。 控件从 hInstAnimation 指定的模块加载 AVI 资源。</param>
         /// <returns>如果成功，则返回 S_OK ，否则返回错误值。 在 Windows Vista 及更高版本中， 始终返回 S_OK。</returns>
         [PreserveSig]
-        int SetAnimation(nint hInstAnimation, uint idAnimation);
+        int SetAnimation(IntPtr hInstAnimation, uint idAnimation);
 
         /// <summary>
         /// 检查用户是否已取消操作。
@@ -81,7 +81,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="pvResevered">保留。 设置为 NULL。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int SetLine(uint dwLineNum, [MarshalAs(UnmanagedType.LPWStr)] string pwzString, [MarshalAs(UnmanagedType.VariantBool)] bool fCompactPath, nint pvResevered);
+        int SetLine(uint dwLineNum, [MarshalAs(UnmanagedType.LPWStr)] string pwzString, [MarshalAs(UnmanagedType.VariantBool)] bool fCompactPath, IntPtr pvResevered);
 
         /// <summary>
         /// 设置在用户取消操作时要显示的消息。
@@ -90,7 +90,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
         /// <param name="pvResevered">保留。 设置为 NULL。</param>
         /// <returns>如果该方法成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [PreserveSig]
-        int SetCancelMsg([MarshalAs(UnmanagedType.LPWStr)] string pwzCancelMsg, nint pvResevered);
+        int SetCancelMsg([MarshalAs(UnmanagedType.LPWStr)] string pwzCancelMsg, IntPtr pvResevered);
 
         /// <summary>
         /// 将进度对话框计时器重置为零。

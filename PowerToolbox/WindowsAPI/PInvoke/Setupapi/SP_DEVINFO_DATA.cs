@@ -28,6 +28,6 @@ namespace PowerToolbox.WindowsAPI.PInvoke.Setupapi
         /// <summary>
         /// 保留。 仅限内部使用。
         /// </summary>
-        public nint Reserved;
+        public IntPtr Reserved;
     }
 }

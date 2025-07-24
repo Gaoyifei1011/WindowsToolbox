@@ -29,14 +29,14 @@ namespace PowerToolbox.WindowsAPI.PInvoke.Uxtheme
         /// 在调用 BeginBufferedPaint 之前，应用程序应在调用线程上调用 BufferedPaintInit，并在线程终止之前调用 BufferedPaintUnInit。 调用 BufferedPaintInit 失败可能会导致性能下降，因为每个缓冲的绘制操作的内部数据都会被初始化和销毁。
         /// </returns>
         [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "BeginBufferedPaint", PreserveSig = true, SetLastError = false)]
-        public static extern nint BeginBufferedPaint(nint hdcTarget, ref RECT prcTarget, BP_BUFFERFORMAT dwFormat, ref BP_PAINTPARAMS pPaintParams, out nint phdc);
+        public static extern IntPtr BeginBufferedPaint(IntPtr hdcTarget, ref RECT prcTarget, BP_BUFFERFORMAT dwFormat, ref BP_PAINTPARAMS pPaintParams, out IntPtr phdc);
 
         /// <summary>
         /// 初始化当前线程的缓冲绘制。
         /// </summary>
         /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "BufferedPaintInit", PreserveSig = true, SetLastError = false)]
-        public static extern nint BufferedPaintInit();
+        public static extern IntPtr BufferedPaintInit();
 
         /// <summary>
         /// 将 alpha 设置为给定矩形中的指定值。 alpha 控制与缓冲区混合到目标设备上下文 (DC) 时应用的透明度。
@@ -46,7 +46,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.Uxtheme
         /// <param name="alpha">要设置的 alpha 值。 alpha 值的范围可以是零 (完全透明) 到 255 (完全不透明) 。</param>
         /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "BufferedPaintInit", PreserveSig = true, SetLastError = false)]
-        public static extern int BufferedPaintSetAlpha(nint hBufferedPaint, ref RECT prc, byte alpha);
+        public static extern int BufferedPaintSetAlpha(IntPtr hBufferedPaint, ref RECT prc, byte alpha);
 
         /// <summary>
         /// 完成缓冲绘制操作并释放关联的缓冲绘制句柄。
@@ -56,7 +56,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.Uxtheme
         /// <returns>如果此函数成功，则返回 S_OK。 否则，将返回 HRESULT 错误代码。</returns>
         [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "EndBufferedPaint", PreserveSig = true, SetLastError = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern int EndBufferedPaint(nint hBufferedPaint, bool fUpdateTarget);
+        public static extern int EndBufferedPaint(IntPtr hBufferedPaint, bool fUpdateTarget);
 
         /// <summary>
         /// 设置 win32 右键菜单的样式
@@ -74,7 +74,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.Uxtheme
         /// <param name="cbAttribute">指定 pvAttribute指向的数据的大小（以字节为单位）。</param>
         /// <returns>如果此函数成功，则返回 S_OK。 否则，它将返回 HRESULT 错误代码。</returns>
         [DllImport(Uxtheme, CharSet = CharSet.Unicode, EntryPoint = "SetWindowThemeAttribute", PreserveSig = true, SetLastError = false)]
-        public static extern int SetWindowThemeAttribute(nint hWnd, WINDOWTHEMEATTRIBUTETYPE eAttribute, ref WTA_OPTIONS pvAttribute, uint cbAttribute);
+        public static extern int SetWindowThemeAttribute(IntPtr hWnd, WINDOWTHEMEATTRIBUTETYPE eAttribute, ref WTA_OPTIONS pvAttribute, uint cbAttribute);
 
         /// <summary>
         /// 刷新右键菜单样式

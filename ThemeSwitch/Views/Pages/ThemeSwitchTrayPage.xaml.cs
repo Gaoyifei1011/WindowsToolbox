@@ -84,7 +84,7 @@ namespace ThemeSwitch.Views.Pages
                 ElementTheme systemTheme = GetSystemTheme();
                 RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", systemTheme is ElementTheme.Light ? 0 : 1);
                 RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "ColorPrevalence", AutoThemeSwitchService.IsShowColorInDarkThemeValue && systemTheme is ElementTheme.Light ? 1 : 0);
-                User32Library.SendMessageTimeout(new nint(0xffff), WindowMessage.WM_SETTINGCHANGE, nuint.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
+                User32Library.SendMessageTimeout(new IntPtr(0xffff), WindowMessage.WM_SETTINGCHANGE, UIntPtr.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
             });
         }
 
@@ -97,7 +97,7 @@ namespace ThemeSwitch.Views.Pages
             {
                 ElementTheme appTheme = GetAppTheme();
                 RegistryHelper.SaveRegistryKey(Registry.CurrentUser, @"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", appTheme is ElementTheme.Light ? 0 : 1);
-                User32Library.SendMessageTimeout(new nint(0xffff), WindowMessage.WM_SETTINGCHANGE, nuint.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
+                User32Library.SendMessageTimeout(new IntPtr(0xffff), WindowMessage.WM_SETTINGCHANGE, UIntPtr.Zero, Marshal.StringToHGlobalUni("ImmersiveColorSet"), SMTO.SMTO_ABORTIFHUNG, 50, out _);
             });
         }
 

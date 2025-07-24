@@ -71,7 +71,7 @@ namespace PowerToolbox.WindowsAPI.ComTypes
                     }
 
                     FileOpenDialog.GetResult(out IShellItem pItem);
-                    pItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out nint pszString);
+                    pItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out IntPtr pszString);
                     SelectedPath = Marshal.PtrToStringUni(pszString);
                     Marshal.ReleaseComObject(pItem);
                     return DialogResult.OK;

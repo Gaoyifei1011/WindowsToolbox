@@ -12,5 +12,5 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
     /// <param name="lParam">其他消息信息。 此参数通常名为 lParam。lParam 参数的内容取决于 uMsg 参数的值。</param>
     /// <returns>返回值是消息处理的结果，取决于发送的消息。</returns>
     [UnmanagedFunctionPointer(CallingConvention.Winapi)]
-    public delegate nint WNDPROC(nint hWnd, WindowMessage uMsg, nuint wParam, nint lParam);
+    public delegate IntPtr WNDPROC(IntPtr hWnd, WindowMessage uMsg, UIntPtr wParam, IntPtr lParam);
 }

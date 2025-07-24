@@ -30,7 +30,7 @@ namespace PowerToolbox.Views.Backdrop
         private bool isActivated = true;
         private bool isEnergySaverEnabled;
         private bool useMicaBrush;
-        private nint hPowerNotify;
+        private IntPtr hPowerNotify;
         private SUBCLASSPROC formSubClassProc;
 
         private readonly float micaBaseLightTintOpacity = 0.5f;
@@ -140,7 +140,7 @@ namespace PowerToolbox.Views.Backdrop
                 }
 
                 formSubClassProc = new SUBCLASSPROC(OnFormSubClassProc);
-                Comctl32Library.SetWindowSubclass(formRoot.Handle, formSubClassProc, 0, nint.Zero);
+                Comctl32Library.SetWindowSubclass(formRoot.Handle, formSubClassProc, 0, IntPtr.Zero);
 
                 hPowerNotify = User32Library.RegisterPowerSettingNotification(formRoot.Handle, GUID_POWER_SAVING_STATUS, 0);
                 UpdateBrush();
@@ -167,10 +167,10 @@ namespace PowerToolbox.Views.Backdrop
                     backgroundElement.ActualThemeChanged -= OnActualThemeChanged;
                 }
 
-                if (!hPowerNotify.Equals(nint.Zero))
+                if (!hPowerNotify.Equals(IntPtr.Zero))
                 {
                     User32Library.UnregisterPowerSettingNotification(hPowerNotify);
-                    hPowerNotify = nint.Zero;
+                    hPowerNotify = IntPtr.Zero;
                 }
 
                 Comctl32Library.RemoveWindowSubclass(formRoot.Handle, formSubClassProc, 0);
@@ -399,7 +399,7 @@ namespace PowerToolbox.Views.Backdrop
         /// <summary>
         /// 应用主窗口消息处理
         /// </summary>
-        private nint OnFormSubClassProc(nint hWnd, WindowMessage Msg, nuint wParam, nint lParam, uint uIdSubclass, nint dwRefData)
+        private IntPtr OnFormSubClassProc(IntPtr hWnd, WindowMessage Msg, UIntPtr wParam, IntPtr lParam, uint uIdSubclass, IntPtr dwRefData)
         {
             // 设备节电模式的状态发生更改时触发的消息
             if (Msg is WindowMessage.WM_POWERBROADCAST && (int)wParam is PBT_POWERSETTINGCHANGE)

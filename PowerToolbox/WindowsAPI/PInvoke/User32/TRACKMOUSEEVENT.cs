@@ -22,7 +22,7 @@ namespace PowerToolbox.WindowsAPI.PInvoke.User32
         /// <summary>
         /// 要跟踪的窗口的句柄。
         /// </summary>
-        public nint hwndTrack;
+        public IntPtr hwndTrack;
 
         /// <summary>
         /// 如果在 dwFlags（以毫秒为单位）指定了TME_HOVER，则悬停超时。 可以 HOVER_DEFAULT，这意味着使用系统默认悬停超时。

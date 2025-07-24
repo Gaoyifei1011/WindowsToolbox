@@ -390,21 +390,21 @@ namespace PowerToolbox.Views.Pages
                         bool isEnabled = GetLoopbackEnabled(inetContainerItem.appContainerSid, inetLoopbackEnabledList);
 
                         StringBuilder displayNameBuilder = new(1024);
-                        ShlwapiLibrary.SHLoadIndirectString(inetContainerItem.displayName, displayNameBuilder, displayNameBuilder.Capacity, nint.Zero);
+                        ShlwapiLibrary.SHLoadIndirectString(inetContainerItem.displayName, displayNameBuilder, displayNameBuilder.Capacity, IntPtr.Zero);
 
                         StringBuilder descriptionBuilder = new(1024);
-                        ShlwapiLibrary.SHLoadIndirectString(inetContainerItem.description, descriptionBuilder, descriptionBuilder.Capacity, nint.Zero);
+                        ShlwapiLibrary.SHLoadIndirectString(inetContainerItem.description, descriptionBuilder, descriptionBuilder.Capacity, IntPtr.Zero);
 
                         INET_FIREWALL_AC_BINARIES inetBinaries = inetContainerItem.binaries;
                         string[] stringBinaries = null;
-                        if (inetBinaries.count is not 0 && !inetBinaries.binaries.Equals(nint.Zero))
+                        if (inetBinaries.count is not 0 && !inetBinaries.binaries.Equals(IntPtr.Zero))
                         {
                             stringBinaries = new string[inetBinaries.count];
                             long num = inetBinaries.binaries.ToInt64();
                             for (int i = 0; i < inetBinaries.count; i++)
                             {
-                                stringBinaries[i] = Marshal.PtrToStringUni(Marshal.Readnint((nint)num));
-                                num += nint.Size;
+                                stringBinaries[i] = Marshal.PtrToStringUni(Marshal.ReadIntPtr((IntPtr)num));
+                                num += IntPtr.Size;
                             }
                         }
 
@@ -413,7 +413,7 @@ namespace PowerToolbox.Views.Pages
                         try
                         {
                             byte revision = Marshal.ReadByte(inetContainerItem.appContainerSid, 0);
-                            if (revision is 1 && !inetContainerItem.appContainerSid.Equals(nint.Zero))
+                            if (revision is 1 && !inetContainerItem.appContainerSid.Equals(IntPtr.Zero))
                             {
                                 appContainerSid = new SecurityIdentifier(inetContainerItem.appContainerSid);
                             }
@@ -428,7 +428,7 @@ namespace PowerToolbox.Views.Pages
                         try
                         {
                             byte revision = Marshal.ReadByte(inetContainerItem.appContainerSid, 0);
-                            if (revision is 1 && !inetContainerItem.userSid.Equals(nint.Zero))
+                            if (revision is 1 && !inetContainerItem.userSid.Equals(IntPtr.Zero))
                             {
                                 SecurityIdentifier userSid = new(inetContainerItem.userSid);
                                 userAccountType = (NTAccount)userSid.Translate(typeof(NTAccount));
@@ -559,7 +559,7 @@ namespace PowerToolbox.Views.Pages
         /// </summary>
         private List<INET_FIREWALL_APP_CONTAINER> GetLoopbackList()
         {
-            nint arrayValue = nint.Zero;
+            IntPtr arrayValue = IntPtr.Zero;
             uint size = 0;
             List<INET_FIREWALL_APP_CONTAINER> inetContainerList = [];
 
@@ -567,7 +567,7 @@ namespace PowerToolbox.Views.Pages
             GCHandle handle_ppACs = GCHandle.Alloc(arrayValue, GCHandleType.Pinned);
             FirewallAPILibrary.NetworkIsolationEnumAppContainers(NETISO_FLAG.NETISO_FLAG_MAX, out size, out arrayValue);
 
-            nint pACs = arrayValue;
+            IntPtr pACs = arrayValue;
 
             int structSize = Marshal.SizeOf<INET_FIREWALL_APP_CONTAINER>();
 
@@ -576,7 +576,7 @@ namespace PowerToolbox.Views.Pages
                 INET_FIREWALL_APP_CONTAINER container = Marshal.PtrToStructure<INET_FIREWALL_APP_CONTAINER>(arrayValue);
 
                 inetContainerList.Add(container);
-                arrayValue = new nint((long)arrayValue + structSize);
+                arrayValue = new IntPtr((long)arrayValue + structSize);
             }
 
             handle_pdwCntPublicACs.Free();
@@ -591,7 +591,7 @@ namespace PowerToolbox.Views.Pages
         /// </summary>
         private List<SID_AND_ATTRIBUTES> GetLoopbackEnabledList()
         {
-            nint arrayValue = nint.Zero;
+            IntPtr arrayValue = IntPtr.Zero;
             uint size = 0;
             List<SID_AND_ATTRIBUTES> inetContainerConfigList = [];
 
@@ -604,7 +604,7 @@ namespace PowerToolbox.Views.Pages
             {
                 SID_AND_ATTRIBUTES cur = Marshal.PtrToStructure<SID_AND_ATTRIBUTES>(arrayValue);
                 inetContainerConfigList.Add(cur);
-                arrayValue = new nint((long)arrayValue + structSize);
+                arrayValue = new IntPtr((long)arrayValue + structSize);
             }
 
             handle_pdwCntPublicACs.Free();
@@ -616,7 +616,7 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 检查应用网络回环是否已开启
         /// </summary>
-        private bool GetLoopbackEnabled(nint appContainerSid, List<SID_AND_ATTRIBUTES> loopbackEnabledList)
+        private bool GetLoopbackEnabled(IntPtr appContainerSid, List<SID_AND_ATTRIBUTES> loopbackEnabledList)
         {
             foreach (SID_AND_ATTRIBUTES sidItem in loopbackEnabledList)
             {
