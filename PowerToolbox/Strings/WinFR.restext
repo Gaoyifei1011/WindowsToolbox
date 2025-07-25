@@ -1,1 +1,22 @@
-﻿
+﻿DuplicatedFileOption=Duplicated file option
+DuplicatedFileOptionDescription=Operations that are executed when encountering duplicate files
+ExtensiveMode=Extensive mode
+FileStoragePath=File storage path
+KeepBoth=Keep both
+LearnWinFR=Learn file recovery
+LogFileSaveFolder=Log file save folder
+NeverOverride=Never override old file
+NTFSMode=NTFS mode
+OpenFolder=Open folder
+Override=Override old file
+Recovery=Recovery
+RecoveryMode=Recovery mode
+RecoverySettings=Recovery settings
+RegularMode=Regular mode
+SaveFolder=Save folder
+SegmentMode=Segment mode
+SelectDisk=Please select the disk you want to restore
+SelectFolder=Select folder
+SignatureMode=Signature mode
+UseCustomLogFolder=Use custom log folder
+WinFR=File recovery
