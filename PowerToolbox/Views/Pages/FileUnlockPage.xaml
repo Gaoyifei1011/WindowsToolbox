@@ -15,18 +15,6 @@
 
     <Page.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Default">
-                    <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="CardBackgroundFillColorDefaultBrush" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="HighConstract">
-                    <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Light">
-                    <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="CardBackgroundFillColorDefaultBrush" />
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
-
             <SolidColorBrush x:Key="HyperlinkButtonBackgroundPointerOver" Color="Transparent" />
             <SolidColorBrush x:Key="HyperlinkButtonBackgroundPressed" Color="Transparent" />
 
@@ -123,6 +111,7 @@
                 IsOpen="True"
                 Message="{x:Bind StateInfoText, Mode=OneWay}"
                 Severity="{x:Bind ResultSeverity, Mode=OneWay}">
+
 
                 <controls:InfoBar.ActionButton>
                     <Button
