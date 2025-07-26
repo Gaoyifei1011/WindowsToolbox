@@ -20,8 +20,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
-// 抑制 IDE0060 警告
-#pragma warning disable IDE0060
+// 抑制 CA1822，IDE0060 警告
+#pragma warning disable CA1822,IDE0060
 
 namespace PowerToolbox.Views.Pages
 {
@@ -44,6 +44,22 @@ namespace PowerToolbox.Views.Pages
 
         private ImageSource SystemDriveSource;
         private ImageSource StandardDriveSource;
+
+        private string _restoreContent;
+
+        public string RestoreContent
+        {
+            get { return _restoreContent; }
+
+            set
+            {
+                if (!string.Equals(_restoreContent, value))
+                {
+                    _restoreContent = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RestoreContent)));
+                }
+            }
+        }
 
         private string _saveFolder;
 
@@ -73,22 +89,6 @@ namespace PowerToolbox.Views.Pages
                 {
                     _selectedRecoveryMode = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedRecoveryMode)));
-                }
-            }
-        }
-
-        private KeyValuePair<string, string> _selectedDuplicatedFileOption;
-
-        public KeyValuePair<string, string> SelectedDuplicatedFileOption
-        {
-            get { return _selectedDuplicatedFileOption; }
-
-            set
-            {
-                if (!Equals(_selectedDuplicatedFileOption, value))
-                {
-                    _selectedDuplicatedFileOption = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedDuplicatedFileOption)));
                 }
             }
         }
@@ -125,9 +125,299 @@ namespace PowerToolbox.Views.Pages
             }
         }
 
+        private bool _ntfsRestoreFromRecyclebin;
+
+        public bool NTFSRestoreFromRecyclebin
+        {
+            get { return _ntfsRestoreFromRecyclebin; }
+
+            set
+            {
+                if (!Equals(_ntfsRestoreFromRecyclebin, value))
+                {
+                    _ntfsRestoreFromRecyclebin = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NTFSRestoreFromRecyclebin)));
+                }
+            }
+        }
+
+        private bool _ntfsRestoreSystemFile;
+
+        public bool NTFSRestoreSystemFile
+        {
+            get { return _ntfsRestoreSystemFile; }
+
+            set
+            {
+                if (!Equals(_ntfsRestoreSystemFile, value))
+                {
+                    _ntfsRestoreSystemFile = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NTFSRestoreSystemFile)));
+                }
+            }
+        }
+
+        private KeyValuePair<string, string> _selectedNTFSDuplicatedFileOption;
+
+        public KeyValuePair<string, string> SelectedNTFSDuplicatedFileOption
+        {
+            get { return _selectedNTFSDuplicatedFileOption; }
+
+            set
+            {
+                if (!Equals(_selectedNTFSDuplicatedFileOption, value))
+                {
+                    _selectedNTFSDuplicatedFileOption = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedNTFSDuplicatedFileOption)));
+                }
+            }
+        }
+
+        private bool _ntfsRestoreNonMainDataStream;
+
+        public bool NTFSRestoreNonMainDataStream
+        {
+            get { return _ntfsRestoreNonMainDataStream; }
+
+            set
+            {
+                if (!Equals(_ntfsRestoreNonMainDataStream, value))
+                {
+                    _ntfsRestoreNonMainDataStream = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NTFSRestoreNonMainDataStream)));
+                }
+            }
+        }
+
+        private bool _ntfsUseCustomFileFilterType;
+
+        public bool NTFSUseCustomFileFilterType
+        {
+            get { return _ntfsUseCustomFileFilterType; }
+
+            set
+            {
+                if (!Equals(_ntfsUseCustomFileFilterType, value))
+                {
+                    _ntfsUseCustomFileFilterType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NTFSUseCustomFileFilterType)));
+                }
+            }
+        }
+
+        private string _ntfsCustomFileFilterType;
+
+        public string NTFSCustomFileFilterType
+        {
+            get { return _ntfsCustomFileFilterType; }
+
+            set
+            {
+                if (!Equals(_ntfsCustomFileFilterType, value))
+                {
+                    _ntfsCustomFileFilterType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NTFSCustomFileFilterType)));
+                }
+            }
+        }
+
+        private bool _segmentRestoreFromRecyclebin;
+
+        public bool SegmentRestoreFromRecyclebin
+        {
+            get { return _segmentRestoreFromRecyclebin; }
+
+            set
+            {
+                if (!Equals(_segmentRestoreFromRecyclebin, value))
+                {
+                    _segmentRestoreFromRecyclebin = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SegmentRestoreFromRecyclebin)));
+                }
+            }
+        }
+
+        private bool _segmentRestoreSystemFile;
+
+        public bool SegmentRestoreSystemFile
+        {
+            get { return _segmentRestoreSystemFile; }
+
+            set
+            {
+                if (!Equals(_segmentRestoreSystemFile, value))
+                {
+                    _segmentRestoreSystemFile = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SegmentRestoreSystemFile)));
+                }
+            }
+        }
+
+        private KeyValuePair<string, string> _selectedSegmentDuplicatedFileOption;
+
+        public KeyValuePair<string, string> SelectedSegmentDuplicatedFileOption
+        {
+            get { return _selectedSegmentDuplicatedFileOption; }
+
+            set
+            {
+                if (!Equals(_selectedSegmentDuplicatedFileOption, value))
+                {
+                    _selectedSegmentDuplicatedFileOption = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSegmentDuplicatedFileOption)));
+                }
+            }
+        }
+
+        private bool _segmentRestoreNonMainDataStream;
+
+        public bool SegmentRestoreNonMainDataStream
+        {
+            get { return _segmentRestoreNonMainDataStream; }
+
+            set
+            {
+                if (!Equals(_segmentRestoreNonMainDataStream, value))
+                {
+                    _segmentRestoreNonMainDataStream = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SegmentRestoreNonMainDataStream)));
+                }
+            }
+        }
+
+        private bool _segmentUseCustomFileFilterType;
+
+        public bool SegmentUseCustomFileFilterType
+        {
+            get { return _segmentUseCustomFileFilterType; }
+
+            set
+            {
+                if (!Equals(_segmentUseCustomFileFilterType, value))
+                {
+                    _segmentUseCustomFileFilterType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SegmentUseCustomFileFilterType)));
+                }
+            }
+        }
+
+        private string _segmentCustomFileFilterType;
+
+        public string SegmentCustomFileFilterType
+        {
+            get { return _segmentCustomFileFilterType; }
+
+            set
+            {
+                if (!Equals(_segmentCustomFileFilterType, value))
+                {
+                    _segmentCustomFileFilterType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SegmentCustomFileFilterType)));
+                }
+            }
+        }
+
+        private int _segmentSourceDeviceNumberSectors;
+
+        public int SegmentSourceDeviceNumberSectors
+        {
+            get { return _segmentSourceDeviceNumberSectors; }
+
+            set
+            {
+                if (!Equals(_segmentSourceDeviceNumberSectors, value))
+                {
+                    _segmentSourceDeviceNumberSectors = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SegmentSourceDeviceNumberSectors)));
+                }
+            }
+        }
+
+        private int _segmentSourceDeviceClusterSize;
+
+        public int SegmentSourceDeviceClusterSize
+        {
+            get { return _segmentSourceDeviceClusterSize; }
+
+            set
+            {
+                if (!Equals(_segmentSourceDeviceClusterSize, value))
+                {
+                    _segmentSourceDeviceClusterSize = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SegmentSourceDeviceClusterSize)));
+                }
+            }
+        }
+
+        private bool _signatureUseRestoreSpecificExtensionGroups;
+
+        public bool SignatureUseRestoreSpecificExtensionGroups
+        {
+            get { return _signatureUseRestoreSpecificExtensionGroups; }
+
+            set
+            {
+                if (!Equals(_signatureUseRestoreSpecificExtensionGroups, value))
+                {
+                    _signatureUseRestoreSpecificExtensionGroups = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SignatureUseRestoreSpecificExtensionGroups)));
+                }
+            }
+        }
+
+        private string _signatureRestoreSpecificExtensionGroupsType;
+
+        public string SignatureRestoreSpecificExtensionGroupsType
+        {
+            get { return _signatureRestoreSpecificExtensionGroupsType; }
+
+            set
+            {
+                if (!Equals(_signatureRestoreSpecificExtensionGroupsType, value))
+                {
+                    _signatureRestoreSpecificExtensionGroupsType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SignatureRestoreSpecificExtensionGroupsType)));
+                }
+            }
+        }
+
+        private int _signatureSourceDeviceNumberSectors;
+
+        public int SignatureSourceDeviceNumberSectors
+        {
+            get { return _signatureSourceDeviceNumberSectors; }
+
+            set
+            {
+                if (!Equals(_signatureSourceDeviceNumberSectors, value))
+                {
+                    _signatureSourceDeviceNumberSectors = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SignatureSourceDeviceNumberSectors)));
+                }
+            }
+        }
+
+        private int _signatureSourceDeviceClusterSize;
+
+        public int SignatureSourceDeviceClusterSize
+        {
+            get { return _signatureSourceDeviceClusterSize; }
+
+            set
+            {
+                if (!Equals(_signatureSourceDeviceClusterSize, value))
+                {
+                    _signatureSourceDeviceClusterSize = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SignatureSourceDeviceClusterSize)));
+                }
+            }
+        }
+
         private List<KeyValuePair<string, string>> RecoveryModeList { get; } = [];
 
-        private List<KeyValuePair<string, string>> DuplicatedFileOptionList { get; } = [];
+        private List<KeyValuePair<string, string>> NTFSDuplicatedFileOptionList { get; } = [];
+
+        private List<KeyValuePair<string, string>> SegmentDuplicatedFileOptionList { get; } = [];
 
         public ObservableCollection<DriveModel> DriveCollection { get; } = [];
 
@@ -143,10 +433,15 @@ namespace PowerToolbox.Views.Pages
             RecoveryModeList.Add(new KeyValuePair<string, string>("Signature", SignatureModeString));
             SelectedRecoveryMode = RecoveryModeList[0];
 
-            DuplicatedFileOptionList.Add(new KeyValuePair<string, string>("Override", OverrideString));
-            DuplicatedFileOptionList.Add(new KeyValuePair<string, string>("NeverOverride", NeverOverrideString));
-            DuplicatedFileOptionList.Add(new KeyValuePair<string, string>("KeepBoth", KeepBothString));
-            SelectedDuplicatedFileOption = DuplicatedFileOptionList[0];
+            NTFSDuplicatedFileOptionList.Add(new KeyValuePair<string, string>("Override", OverrideString));
+            NTFSDuplicatedFileOptionList.Add(new KeyValuePair<string, string>("NeverOverride", NeverOverrideString));
+            NTFSDuplicatedFileOptionList.Add(new KeyValuePair<string, string>("KeepBoth", KeepBothString));
+            SelectedNTFSDuplicatedFileOption = NTFSDuplicatedFileOptionList[0];
+
+            SegmentDuplicatedFileOptionList.Add(new KeyValuePair<string, string>("Override", OverrideString));
+            SegmentDuplicatedFileOptionList.Add(new KeyValuePair<string, string>("NeverOverride", NeverOverrideString));
+            SegmentDuplicatedFileOptionList.Add(new KeyValuePair<string, string>("KeepBoth", KeepBothString));
+            SelectedSegmentDuplicatedFileOption = SegmentDuplicatedFileOptionList[0];
         }
 
         #region 第一部分：重写父类事件
@@ -213,6 +508,25 @@ namespace PowerToolbox.Views.Pages
         #endregion 第一部分：重写父类事件
 
         #region 第二部分：文件恢复页面——挂载的事件
+
+        /// <summary>
+        /// 刷新磁盘数据
+        /// </summary>
+        private async void OnRefreshClicked(object sender, RoutedEventArgs args)
+        {
+            await GetDriverInfoAsync();
+        }
+
+        /// <summary>
+        /// 恢复文件内容
+        /// </summary>
+        private void OnRestoreContentTextChanged(object sender, RoutedEventArgs args)
+        {
+            if (sender is global::Windows.UI.Xaml.Controls.TextBox textBox)
+            {
+                RestoreContent = textBox.Text;
+            }
+        }
 
         /// <summary>
         /// 开始恢复
@@ -287,14 +601,6 @@ namespace PowerToolbox.Views.Pages
             }
         }
 
-        private void OnDuplicatedFileOptionClicked(object sender, RoutedEventArgs args)
-        {
-            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> duplicatedFileOption)
-            {
-                SelectedDuplicatedFileOption = duplicatedFileOption;
-            }
-        }
-
         /// <summary>
         /// 使用自定义日志文件目录
         /// </summary>
@@ -306,6 +612,252 @@ namespace PowerToolbox.Views.Pages
             }
         }
 
+        /// <summary>
+        /// 是否从回收站中恢复未删除的文件
+        /// </summary>
+        private void OnNTFSRestoreFromRecyclebinToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                NTFSRestoreFromRecyclebin = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 恢复系统文件
+        /// </summary>
+        private void OnNTFSRestoreSystemFileToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                NTFSRestoreSystemFile = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 重复文件选项
+        /// </summary>
+        private void OnNTFSDuplicatedFileOptionClicked(object sender, RoutedEventArgs args)
+        {
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> ntfsDuplicatedFileOption)
+            {
+                SelectedNTFSDuplicatedFileOption = ntfsDuplicatedFileOption;
+            }
+        }
+
+        /// <summary>
+        /// 恢复没有主数据流的文件
+        /// </summary>
+        private void OnNTFSRestoreNonMainDataStreamToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                NTFSRestoreNonMainDataStream = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 自定义文件筛选类型
+        /// </summary>
+        private void OnNTFSUseCustomFileFilterTypeToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                NTFSUseCustomFileFilterType = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 文件筛选类型
+        /// </summary>
+        private void OnNTFSCustomFileFilterTypeTextChanged(object sender, TextChangedEventArgs args)
+        {
+            if (sender is global::Windows.UI.Xaml.Controls.TextBox textBox)
+            {
+                NTFSCustomFileFilterType = textBox.Text;
+            }
+        }
+
+        /// <summary>
+        /// 是否从回收站中恢复未删除的文件
+        /// </summary>
+        private void OnSegmentRestoreFromRecyclebinToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                SegmentRestoreFromRecyclebin = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 恢复系统文件
+        /// </summary>
+        private void OnSegmentRestoreSystemFileToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                SegmentRestoreSystemFile = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 重复文件选项
+        /// </summary>
+        private void OnSegmentDuplicatedFileOptionClicked(object sender, RoutedEventArgs args)
+        {
+            if (sender is RadioMenuFlyoutItem radioMenuFlyoutItem && radioMenuFlyoutItem.Tag is KeyValuePair<string, string> ntfsDuplicatedFileOption)
+            {
+                SelectedSegmentDuplicatedFileOption = ntfsDuplicatedFileOption;
+            }
+        }
+
+        /// <summary>
+        /// 恢复没有主数据流的文件
+        /// </summary>
+        private void OnSegmentRestoreNonMainDataStreamToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                SegmentRestoreNonMainDataStream = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 自定义文件筛选类型
+        /// </summary>
+        private void OnSegmentUseCustomFileFilterTypeToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                SegmentUseCustomFileFilterType = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 文件筛选类型
+        /// </summary>
+        private void OnSegmentCustomFileFilterTypeTextChanged(object sender, TextChangedEventArgs args)
+        {
+            if (sender is global::Windows.UI.Xaml.Controls.TextBox textBox)
+            {
+                SegmentCustomFileFilterType = textBox.Text;
+            }
+        }
+
+        /// <summary>
+        /// 修改源设备扇区数
+        /// </summary>
+        private void OnSegmentSourceDeviceNumberSectorsValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN)
+            {
+                try
+                {
+                    SegmentSourceDeviceNumberSectors = Math.Abs(Convert.ToInt32(args.NewValue));
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerToolbox), nameof(WinFRPage), nameof(OnSegmentSourceDeviceNumberSectorsValueChanged), 1, e);
+                    SegmentSourceDeviceNumberSectors = 0;
+                }
+            }
+            else
+            {
+                SegmentSourceDeviceNumberSectors = 0;
+            }
+        }
+
+        /// <summary>
+        /// 修改源设备群集大小
+        /// </summary>
+        private void OnSegmentSourceDeviceClusterSizeValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN)
+            {
+                try
+                {
+                    SegmentSourceDeviceClusterSize = Math.Abs(Convert.ToInt32(args.NewValue));
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerToolbox), nameof(WinFRPage), nameof(OnSegmentSourceDeviceClusterSizeValueChanged), 1, e);
+                    SegmentSourceDeviceClusterSize = 0;
+                }
+            }
+            else
+            {
+                SegmentSourceDeviceClusterSize = 0;
+            }
+        }
+
+        /// <summary>
+        /// 恢复特定扩展组
+        /// </summary>
+        private void OnSignatureUseRestoreSpecificExtensionGroupsToggled(object sender, RoutedEventArgs args)
+        {
+            if (sender is ToggleSwitch toggleSwitch)
+            {
+                SignatureUseRestoreSpecificExtensionGroups = toggleSwitch.IsOn;
+            }
+        }
+
+        /// <summary>
+        /// 修改特定扩展组类型
+        /// </summary>
+        private void OnSignatureRestoreSpecificExtensionGroupsTypeTextChanged(object sender, TextChangedEventArgs args)
+        {
+            if (sender is global::Windows.UI.Xaml.Controls.TextBox textBox)
+            {
+                SignatureRestoreSpecificExtensionGroupsType = textBox.Text;
+            }
+        }
+
+        /// <summary>
+        /// 修改源设备扇区数
+        /// </summary>
+        private void OnSignatureSourceDeviceNumberSectorsValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN)
+            {
+                try
+                {
+                    SignatureSourceDeviceNumberSectors = Math.Abs(Convert.ToInt32(args.NewValue));
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerToolbox), nameof(WinFRPage), nameof(OnSignatureSourceDeviceNumberSectorsValueChanged), 1, e);
+                    SignatureSourceDeviceNumberSectors = 0;
+                }
+            }
+            else
+            {
+                SignatureSourceDeviceNumberSectors = 0;
+            }
+        }
+
+        /// <summary>
+        /// 修改源设备群集大小
+        /// </summary>
+        private void OnSignatureSourceDeviceClusterSizeValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            if (args.NewValue is not double.NaN)
+            {
+                try
+                {
+                    SignatureSourceDeviceClusterSize = Math.Abs(Convert.ToInt32(args.NewValue));
+                }
+                catch (Exception e)
+                {
+                    LogService.WriteLog(EventLevel.Error, nameof(PowerToolbox), nameof(WinFRPage), nameof(OnSignatureSourceDeviceClusterSizeValueChanged), 1, e);
+                    SignatureSourceDeviceClusterSize = 0;
+                }
+            }
+            else
+            {
+                SignatureSourceDeviceClusterSize = 0;
+            }
+        }
+
         #endregion 第二部分：文件恢复页面——挂载的事件
 
         /// <summary>
@@ -314,9 +866,9 @@ namespace PowerToolbox.Views.Pages
         /// TODO：未完成
         private async Task GetDriverInfoAsync()
         {
-            List<DriverModel> driverList = await Task.Run(() =>
+            List<DriveModel> driveList = await Task.Run(() =>
             {
-                List<DriverModel> driverList = [];
+                List<DriveModel> driveList = [];
                 DriveInfo[] driverInfoArray = DriveInfo.GetDrives();
 
                 foreach (DriveInfo driveInfo in driverInfoArray)
@@ -327,253 +879,29 @@ namespace PowerToolbox.Views.Pages
                         Name = driveInfo.Name,
                         Space = driveInfo.TotalFreeSpace.ToString(),
                         IsSytemDrive = false,
+                        DiskImage = StandardDriveSource,
                         DriveUsedPercentage = driveInfo.AvailableFreeSpace / driveInfo.TotalSize
                     };
+
+                    driveList.Add(driveItem);
                 }
 
-                return driverList;
+                return driveList;
             });
 
             DriveCollection.Clear();
-            DriveCollection.Add(new DriveModel()
+            foreach (DriveModel driveItem in driveList)
             {
-                IsSelected = false,
-                Name = "本地磁盘 (C:)",
-                DriveUsedPercentage = 30.4,
-                IsSytemDrive = true,
-                DiskImage = SystemDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "194 GB 可用，共 279 GB"
-            });
+                DriveCollection.Add(driveItem);
+            }
+        }
 
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "新加卷 (D:)",
-                DriveUsedPercentage = 82.7,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "32.6 GB 可用，共 185 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
-
-            DriveCollection.Add(new DriveModel()
-            {
-                IsSelected = false,
-                Name = "本地磁盘 (E:)",
-                DriveUsedPercentage = 24.5,
-                IsSytemDrive = false,
-                DiskImage = StandardDriveSource,
-                IsAvailableSpaceError = false,
-                IsAvailableSpaceWarning = false,
-                Space = "88.9 GB 可用，共 118 GB"
-            });
+        /// <summary>
+        /// 获取恢复模式
+        /// </summary>
+        private Visibility GetRecoveryMode(string recoveryMode, string comparedRecoveryMode)
+        {
+            return string.Equals(recoveryMode, comparedRecoveryMode) ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

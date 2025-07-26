@@ -9,12 +9,13 @@
     xmlns:model="using:PowerToolbox.Models"
     xmlns:rootservice="using:PowerToolbox.Services.Root"
     xmlns:system="using:System"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <TextBlock
@@ -31,7 +32,7 @@
             VerticalScrollBarVisibility="Auto"
             VerticalScrollMode="Auto">
 
-            <Grid>
+            <Grid Margin="0,0,0,30">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -41,22 +42,53 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <TextBlock
+                <Grid
                     Grid.Row="0"
-                    Margin="32,3,32,3"
-                    FontSize="14"
-                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SelectDisk')}" />
+                    Height=" 48"
+                    Margin="30,3,30,0"
+                    Padding="16,0,16,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="4,4,0,0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <FontIcon
+                        Grid.Column="0"
+                        Margin="0,0,12,0"
+                        FontSize="16"
+                        Glyph="&#xEDA2;" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('DiskSelect')}" />
+
+                    <Button
+                        Grid.Column="2"
+                        Click="{x:Bind OnRefreshClicked}"
+                        Content="{x:Bind rootservice:ResourceService.WinFRResource.GetString('Refresh')}" />
+                </Grid>
 
                 <!--  驱动器信息网格列表  -->
                 <Grid
-                    Grid.Row="1"
+                    Grid.Row="2"
                     MaxHeight="280"
                     Margin="30,0,30,3"
                     Padding="4,2,0,2"
-                    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="{StaticResource ControlCornerRadius}">
+                    BorderThickness="1,0,1,1"
+                    CornerRadius="0,0,4,4"
+                    Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(DriveCollection.Count), Mode=OneWay}">
 
                     <GridView
                         Padding="0,0,4,0"
@@ -157,7 +189,7 @@
 
                 <!--  驱动器恢复设置  -->
                 <controls:Expander
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Margin="30,0,30,3"
                     Padding="0"
                     HorizontalAlignment="Stretch"
@@ -206,6 +238,36 @@
 
                     <controls:Expander.Content>
                         <StackPanel Padding="0">
+                            <!--  恢复内容  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('RestoreContent')}" />
+
+                                <TextBox
+                                    Grid.Column="1"
+                                    MinWidth="240"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind RestoreContent, Mode=OneWay}"
+                                    TextChanged="{x:Bind OnRestoreContentTextChanged}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
                             <!--  保存的文件夹  -->
                             <Grid
                                 Height="52"
@@ -324,73 +386,6 @@
 
                             <MenuFlyoutSeparator />
 
-                            <!--  重复文件选项  -->
-                            <Grid
-                                Height="52"
-                                Padding="44,0,16,0"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Orientation="Vertical">
-
-                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('DuplicatedFileOption')}" />
-
-                                    <TextBlock
-                                        x:Name="DuplicatedFileOptionDescription"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('DuplicatedFileOptionDescription')}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap">
-
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip
-                                                MaxWidth="9999"
-                                                Content="{x:Bind rootservice:ResourceService.WinFRResource.GetString('DuplicatedFileOptionDescription')}"
-                                                Visibility="{x:Bind DuplicatedFileOptionDescription.IsTextTrimmed, Mode=OneWay}" />
-                                        </ToolTipService.ToolTip>
-                                    </TextBlock>
-                                </StackPanel>
-
-                                <controls:DropDownButton Grid.Column="1" Content="{x:Bind SelectedDuplicatedFileOption.Value, Mode=OneWay}">
-
-                                    <controls:DropDownButton.Flyout>
-                                        <MenuFlyout Placement="Bottom">
-                                            <controls:RadioMenuFlyoutItem
-                                                Click="{x:Bind OnDuplicatedFileOptionClicked}"
-                                                GroupName="DuplicatedFileOptionRadioGroup"
-                                                IsChecked="{x:Bind x:Object.Equals(SelectedDuplicatedFileOption.Key, DuplicatedFileOptionList[0].Key), Mode=OneWay}"
-                                                Tag="{x:Bind DuplicatedFileOptionList[0]}"
-                                                Text="{x:Bind system:Convert.ToString(DuplicatedFileOptionList[0].Value)}" />
-
-                                            <controls:RadioMenuFlyoutItem
-                                                Click="{x:Bind OnDuplicatedFileOptionClicked}"
-                                                GroupName="DuplicatedFileOptionRadioGroup"
-                                                IsChecked="{x:Bind x:Object.Equals(SelectedDuplicatedFileOption.Key, DuplicatedFileOptionList[1].Key), Mode=OneWay}"
-                                                Tag="{x:Bind DuplicatedFileOptionList[1]}"
-                                                Text="{x:Bind system:Convert.ToString(DuplicatedFileOptionList[1].Value)}" />
-
-                                            <controls:RadioMenuFlyoutItem
-                                                Click="{x:Bind OnDuplicatedFileOptionClicked}"
-                                                GroupName="DuplicatedFileOptionRadioGroup"
-                                                IsChecked="{x:Bind x:Object.Equals(SelectedDuplicatedFileOption.Key, DuplicatedFileOptionList[2].Key), Mode=OneWay}"
-                                                Tag="{x:Bind DuplicatedFileOptionList[2]}"
-                                                Text="{x:Bind system:Convert.ToString(DuplicatedFileOptionList[2].Value)}" />
-                                        </MenuFlyout>
-                                    </controls:DropDownButton.Flyout>
-                                </controls:DropDownButton>
-                            </Grid>
-
-                            <MenuFlyoutSeparator />
-
                             <!--  使用自定义日志文件目录  -->
                             <Grid
                                 Height="52"
@@ -472,6 +467,739 @@
                                     Grid.Column="1"
                                     Click="{x:Bind OnSelectFolderClicked}"
                                     Content="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SelectFolder')}" />
+                            </Grid>
+                        </StackPanel>
+                    </controls:Expander.Content>
+                </controls:Expander>
+
+                <!--  NTFS 模式恢复选项  -->
+                <controls:Expander
+                    Grid.Row="4"
+                    Margin="30,0,30,3"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    IsExpanded="True"
+                    Visibility="{x:Bind GetRecoveryMode(SelectedRecoveryMode.Key, RecoveryModeList[2].Key), Mode=OneWay}">
+
+                    <controls:Expander.Header>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon
+                                Grid.Column="0"
+                                Margin="0,0,12,0"
+                                FontSize="16"
+                                Glyph="&#xE71D;" />
+
+                            <TextBlock
+                                Grid.Column="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('NTFSModeRecoveryOptions')}" />
+                        </Grid>
+                    </controls:Expander.Header>
+
+                    <controls:Expander.Content>
+                        <StackPanel Padding="0">
+                            <!--  从回收站中恢复删除的文件  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('NTFSRestoreFromRecyclebin')}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    MinWidth="0"
+                                    Margin="10,-2,-10,0"
+                                    IsOn="{x:Bind NTFSRestoreFromRecyclebin, Mode=OneWay}"
+                                    OffContent=""
+                                    OnContent=""
+                                    Toggled="{x:Bind OnNTFSRestoreFromRecyclebinToggled}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
+                            <!--  恢复系统文件  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('NTFSRestoreSystemFile')}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    MinWidth="0"
+                                    Margin="10,-2,-10,0"
+                                    IsOn="{x:Bind NTFSRestoreSystemFile, Mode=OneWay}"
+                                    OffContent=""
+                                    OnContent=""
+                                    Toggled="{x:Bind OnNTFSRestoreSystemFileToggled}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
+                            <!--  重复文件选项  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Orientation="Vertical">
+
+                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('NTFSDuplicatedFileOption')}" />
+
+                                    <TextBlock
+                                        x:Name="NTFSDuplicatedFileOptionDescription"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('NTFSDuplicatedFileOptionDescription')}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="NoWrap">
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip
+                                                MaxWidth="9999"
+                                                Content="{x:Bind rootservice:ResourceService.WinFRResource.GetString('NTFSDuplicatedFileOptionDescription')}"
+                                                Visibility="{x:Bind NTFSDuplicatedFileOptionDescription.IsTextTrimmed, Mode=OneWay}" />
+                                        </ToolTipService.ToolTip>
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <controls:DropDownButton Grid.Column="1" Content="{x:Bind SelectedNTFSDuplicatedFileOption.Value, Mode=OneWay}">
+
+                                    <controls:DropDownButton.Flyout>
+                                        <MenuFlyout Placement="Bottom">
+                                            <controls:RadioMenuFlyoutItem
+                                                Click="{x:Bind OnNTFSDuplicatedFileOptionClicked}"
+                                                GroupName="NTFSDuplicatedFileOptionRadioGroup"
+                                                IsChecked="{x:Bind x:Object.Equals(SelectedNTFSDuplicatedFileOption.Key, NTFSDuplicatedFileOptionList[0].Key), Mode=OneWay}"
+                                                Tag="{x:Bind NTFSDuplicatedFileOptionList[0]}"
+                                                Text="{x:Bind system:Convert.ToString(NTFSDuplicatedFileOptionList[0].Value)}" />
+
+                                            <controls:RadioMenuFlyoutItem
+                                                Click="{x:Bind OnNTFSDuplicatedFileOptionClicked}"
+                                                GroupName="NTFSDuplicatedFileOptionRadioGroup"
+                                                IsChecked="{x:Bind x:Object.Equals(SelectedNTFSDuplicatedFileOption.Key, NTFSDuplicatedFileOptionList[1].Key), Mode=OneWay}"
+                                                Tag="{x:Bind NTFSDuplicatedFileOptionList[1]}"
+                                                Text="{x:Bind system:Convert.ToString(NTFSDuplicatedFileOptionList[1].Value)}" />
+
+                                            <controls:RadioMenuFlyoutItem
+                                                Click="{x:Bind OnNTFSDuplicatedFileOptionClicked}"
+                                                GroupName="NTFSDuplicatedFileOptionRadioGroup"
+                                                IsChecked="{x:Bind x:Object.Equals(SelectedNTFSDuplicatedFileOption.Key, NTFSDuplicatedFileOptionList[2].Key), Mode=OneWay}"
+                                                Tag="{x:Bind NTFSDuplicatedFileOptionList[2]}"
+                                                Text="{x:Bind system:Convert.ToString(NTFSDuplicatedFileOptionList[2].Value)}" />
+                                        </MenuFlyout>
+                                    </controls:DropDownButton.Flyout>
+                                </controls:DropDownButton>
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
+                            <!--  恢复没有主数据流的文件  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('NTFSRestoreNonMainDataStream')}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    MinWidth="0"
+                                    Margin="10,-2,-10,0"
+                                    IsOn="{x:Bind NTFSRestoreNonMainDataStream, Mode=OneWay}"
+                                    OffContent=""
+                                    OnContent=""
+                                    Toggled="{x:Bind OnNTFSRestoreNonMainDataStreamToggled}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
+                            <!--  自定义文件筛选类型  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('NTFSUseCustomFileFilterType')}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    MinWidth="0"
+                                    Margin="10,-2,-10,0"
+                                    IsOn="{x:Bind NTFSUseCustomFileFilterType, Mode=OneWay}"
+                                    OffContent=""
+                                    OnContent=""
+                                    Toggled="{x:Bind OnNTFSUseCustomFileFilterTypeToggled}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator Visibility="{x:Bind NTFSUseCustomFileFilterType, Mode=OneWay}" />
+
+                            <!--  文件筛选类型  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Visibility="{x:Bind NTFSUseCustomFileFilterType, Mode=OneWay}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('NTFSCustomFileFilterType')}" />
+
+                                <TextBox
+                                    Grid.Column="1"
+                                    MinWidth="240"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind NTFSCustomFileFilterType, Mode=OneWay}"
+                                    TextChanged="{x:Bind OnNTFSCustomFileFilterTypeTextChanged}" />
+                            </Grid>
+                        </StackPanel>
+                    </controls:Expander.Content>
+                </controls:Expander>
+
+                <!--  段模式恢复选项  -->
+                <controls:Expander
+                    Grid.Row="4"
+                    Margin="30,0,30,3"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    IsExpanded="True"
+                    Visibility="{x:Bind GetRecoveryMode(SelectedRecoveryMode.Key, RecoveryModeList[3].Key), Mode=OneWay}">
+
+                    <controls:Expander.Header>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon
+                                Grid.Column="0"
+                                Margin="0,0,12,0"
+                                FontSize="16"
+                                Glyph="&#xE71D;" />
+
+                            <TextBlock
+                                Grid.Column="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SegmentModeRecoveryOptions')}" />
+                        </Grid>
+                    </controls:Expander.Header>
+
+                    <controls:Expander.Content>
+                        <StackPanel Padding="0">
+                            <!--  从回收站中恢复删除的文件  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SegmentRestoreFromRecyclebin')}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    MinWidth="0"
+                                    Margin="10,-2,-10,0"
+                                    IsOn="{x:Bind SegmentRestoreFromRecyclebin, Mode=OneWay}"
+                                    OffContent=""
+                                    OnContent=""
+                                    Toggled="{x:Bind OnSegmentRestoreFromRecyclebinToggled}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
+                            <!--  恢复系统文件  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SegmentRestoreSystemFile')}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    MinWidth="0"
+                                    Margin="10,-2,-10,0"
+                                    IsOn="{x:Bind SegmentRestoreSystemFile, Mode=OneWay}"
+                                    OffContent=""
+                                    OnContent=""
+                                    Toggled="{x:Bind OnSegmentRestoreSystemFileToggled}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
+                            <!--  重复文件选项  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Orientation="Vertical">
+
+                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SegmentDuplicatedFileOption')}" />
+
+                                    <TextBlock
+                                        x:Name="SegmentDuplicatedFileOptionDescription"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SegmentDuplicatedFileOptionDescription')}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="NoWrap">
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip
+                                                MaxWidth="9999"
+                                                Content="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SegmentDuplicatedFileOptionDescription')}"
+                                                Visibility="{x:Bind SegmentDuplicatedFileOptionDescription.IsTextTrimmed, Mode=OneWay}" />
+                                        </ToolTipService.ToolTip>
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <controls:DropDownButton Grid.Column="1" Content="{x:Bind SelectedSegmentDuplicatedFileOption.Value, Mode=OneWay}">
+
+                                    <controls:DropDownButton.Flyout>
+                                        <MenuFlyout Placement="Bottom">
+                                            <controls:RadioMenuFlyoutItem
+                                                Click="{x:Bind OnSegmentDuplicatedFileOptionClicked}"
+                                                GroupName="SegmentDuplicatedFileOptionRadioGroup"
+                                                IsChecked="{x:Bind x:Object.Equals(SelectedSegmentDuplicatedFileOption.Key, SegmentDuplicatedFileOptionList[0].Key), Mode=OneWay}"
+                                                Tag="{x:Bind SegmentDuplicatedFileOptionList[0]}"
+                                                Text="{x:Bind system:Convert.ToString(SegmentDuplicatedFileOptionList[0].Value)}" />
+
+                                            <controls:RadioMenuFlyoutItem
+                                                Click="{x:Bind OnSegmentDuplicatedFileOptionClicked}"
+                                                GroupName="SegmentDuplicatedFileOptionRadioGroup"
+                                                IsChecked="{x:Bind x:Object.Equals(SelectedSegmentDuplicatedFileOption.Key, SegmentDuplicatedFileOptionList[1].Key), Mode=OneWay}"
+                                                Tag="{x:Bind SegmentDuplicatedFileOptionList[1]}"
+                                                Text="{x:Bind system:Convert.ToString(SegmentDuplicatedFileOptionList[1].Value)}" />
+
+                                            <controls:RadioMenuFlyoutItem
+                                                Click="{x:Bind OnSegmentDuplicatedFileOptionClicked}"
+                                                GroupName="SegmentDuplicatedFileOptionRadioGroup"
+                                                IsChecked="{x:Bind x:Object.Equals(SelectedSegmentDuplicatedFileOption.Key, SegmentDuplicatedFileOptionList[2].Key), Mode=OneWay}"
+                                                Tag="{x:Bind SegmentDuplicatedFileOptionList[2]}"
+                                                Text="{x:Bind system:Convert.ToString(SegmentDuplicatedFileOptionList[2].Value)}" />
+                                        </MenuFlyout>
+                                    </controls:DropDownButton.Flyout>
+                                </controls:DropDownButton>
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
+                            <!--  恢复没有主数据流的文件  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SegmentRestoreNonMainDataStream')}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    MinWidth="0"
+                                    Margin="10,-2,-10,0"
+                                    IsOn="{x:Bind SegmentRestoreNonMainDataStream, Mode=OneWay}"
+                                    OffContent=""
+                                    OnContent=""
+                                    Toggled="{x:Bind OnSegmentRestoreNonMainDataStreamToggled}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
+                            <!--  自定义文件筛选类型  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SegmentUseCustomFileFilterType')}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    MinWidth="0"
+                                    Margin="10,-2,-10,0"
+                                    IsOn="{x:Bind SegmentUseCustomFileFilterType, Mode=OneWay}"
+                                    OffContent=""
+                                    OnContent=""
+                                    Toggled="{x:Bind OnSegmentUseCustomFileFilterTypeToggled}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator Visibility="{x:Bind SegmentUseCustomFileFilterType, Mode=OneWay}" />
+
+                            <!--  文件筛选类型  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Visibility="{x:Bind SegmentUseCustomFileFilterType, Mode=OneWay}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SegmentCustomFileFilterType')}" />
+
+                                <TextBox
+                                    Grid.Column="1"
+                                    MinWidth="240"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind SegmentCustomFileFilterType, Mode=OneWay}"
+                                    TextChanged="{x:Bind OnSegmentCustomFileFilterTypeTextChanged}" />
+                            </Grid>
+
+                            <!--  源设备扇区数  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SegmentSourceDeviceNumberSectors')}" />
+
+                                <controls:NumberBox
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    LargeChange="1"
+                                    SmallChange="1"
+                                    SpinButtonPlacementMode="Inline"
+                                    ValueChanged="{x:Bind OnSegmentSourceDeviceNumberSectorsValueChanged}"
+                                    Value="{x:Bind SegmentSourceDeviceNumberSectors, Mode=OneWay}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
+                            <!--  源设备群集大小  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SegmentSourceDeviceClusterSize')}" />
+
+                                <controls:NumberBox
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    LargeChange="1"
+                                    SmallChange="1"
+                                    SpinButtonPlacementMode="Inline"
+                                    ValueChanged="{x:Bind OnSegmentSourceDeviceClusterSizeValueChanged}"
+                                    Value="{x:Bind SegmentSourceDeviceClusterSize, Mode=OneWay}" />
+                            </Grid>
+                        </StackPanel>
+                    </controls:Expander.Content>
+                </controls:Expander>
+
+                <!--  签名模式恢复选项  -->
+                <controls:Expander
+                    Grid.Row="4"
+                    Margin="30,0,30,3"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    IsExpanded="True"
+                    Visibility="{x:Bind GetRecoveryMode(SelectedRecoveryMode.Key, RecoveryModeList[4].Key), Mode=OneWay}">
+
+                    <controls:Expander.Header>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <FontIcon
+                                Grid.Column="0"
+                                Margin="0,0,12,0"
+                                FontSize="16"
+                                Glyph="&#xE71D;" />
+
+                            <TextBlock
+                                Grid.Column="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SignatureModeRecoveryOptions')}" />
+                        </Grid>
+                    </controls:Expander.Header>
+
+                    <controls:Expander.Content>
+                        <StackPanel Padding="0">
+                            <!--  恢复特定扩展组  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SignatureUseRestoreSpecificExtensionGroups')}" />
+
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    MinWidth="0"
+                                    Margin="10,-2,-10,0"
+                                    IsOn="{x:Bind SignatureUseRestoreSpecificExtensionGroups, Mode=OneWay}"
+                                    OffContent=""
+                                    OnContent=""
+                                    Toggled="{x:Bind OnSignatureUseRestoreSpecificExtensionGroupsToggled}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator Visibility="{x:Bind SignatureUseRestoreSpecificExtensionGroups, Mode=OneWay}" />
+
+                            <!--  恢复特定扩展组类型  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Visibility="{x:Bind SignatureUseRestoreSpecificExtensionGroups, Mode=OneWay}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SignatureRestoreSpecificExtensionGroupsType')}" />
+
+                                <TextBox
+                                    Grid.Column="1"
+                                    MinWidth="240"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind SignatureRestoreSpecificExtensionGroupsType, Mode=OneWay}"
+                                    TextChanged="{x:Bind OnSignatureRestoreSpecificExtensionGroupsTypeTextChanged}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
+                            <!--  源设备扇区数  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SignatureSourceDeviceNumberSectors')}" />
+
+                                <controls:NumberBox
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    LargeChange="1"
+                                    SmallChange="1"
+                                    SpinButtonPlacementMode="Inline"
+                                    ValueChanged="{x:Bind OnSignatureSourceDeviceNumberSectorsValueChanged}"
+                                    Value="{x:Bind SignatureSourceDeviceNumberSectors, Mode=OneWay}" />
+                            </Grid>
+
+                            <MenuFlyoutSeparator />
+
+                            <!--  源设备群集大小  -->
+                            <Grid
+                                Height="52"
+                                Padding="44,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SignatureSourceDeviceClusterSize')}" />
+
+                                <controls:NumberBox
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    LargeChange="1"
+                                    SmallChange="1"
+                                    SpinButtonPlacementMode="Inline"
+                                    ValueChanged="{x:Bind OnSignatureSourceDeviceClusterSizeValueChanged}"
+                                    Value="{x:Bind SignatureSourceDeviceClusterSize, Mode=OneWay}" />
                             </Grid>
                         </StackPanel>
                     </controls:Expander.Content>
