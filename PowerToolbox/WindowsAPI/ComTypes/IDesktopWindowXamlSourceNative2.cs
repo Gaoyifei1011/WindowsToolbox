@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace PowerToolbox.WindowsAPI.ComTypes
 {
-    [ComImport, Guid("e3dcd8c7-3057-4692-99c3-7b7720afda31"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid("E3DCD8C7-3057-4692-99C3-7B7720AFDA31"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IDesktopWindowXamlSourceNative2
     {
         /// <summary>
