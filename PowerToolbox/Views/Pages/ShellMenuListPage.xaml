@@ -9,6 +9,7 @@
     xmlns:model="using:PowerToolbox.Models"
     xmlns:rootservice="using:PowerToolbox.Services.Root"
     xmlns:system="using:System"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <ScrollViewer

@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rootservice="using:PowerToolbox.Services.Root"
     xmlns:system="using:System"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Grid>
