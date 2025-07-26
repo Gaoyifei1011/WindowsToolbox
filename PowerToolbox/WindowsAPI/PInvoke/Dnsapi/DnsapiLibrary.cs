@@ -1,5 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 
+// 抑制 CA1401 警告
+#pragma warning disable CA1401
+
 namespace PowerToolbox.WindowsAPI.PInvoke.Dnsapi
 {
     /// <summary>
