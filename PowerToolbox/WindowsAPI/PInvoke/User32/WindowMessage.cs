@@ -2720,10 +2720,6 @@
         /// </summary>
         WM_USER = 0x0400,
 
-        WM_PINMESSAGE = 0x040A,
-
-        WM_PINNOTIFY = 0x040B,
-
         /// <summary>
         /// 用于定义专用消息，通常为 WM_APP+x 形式的专用消息，其中 x 是整数值。
         /// </summary>
