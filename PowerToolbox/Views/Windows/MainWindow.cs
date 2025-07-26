@@ -167,7 +167,6 @@ namespace PowerToolbox.Views.Windows
             {
                 User32Library.ChangeWindowMessageFilter(WindowMessage.WM_DROPFILES, ChangeFilterFlags.MSGFLT_ADD);
                 User32Library.ChangeWindowMessageFilter(WindowMessage.WM_COPYGLOBALDATA, ChangeFilterFlags.MSGFLT_ADD);
-                User32Library.ChangeWindowMessageFilter(WindowMessage.WM_PINNOTIFY, ChangeFilterFlags.MSGFLT_ADD);
                 Shell32Library.DragAcceptFiles(Handle, true);
             }
 
@@ -274,7 +273,6 @@ namespace PowerToolbox.Views.Windows
                         {
                             User32Library.ChangeWindowMessageFilter(WindowMessage.WM_DROPFILES, ChangeFilterFlags.MSGFLT_REMOVE);
                             User32Library.ChangeWindowMessageFilter(WindowMessage.WM_COPYGLOBALDATA, ChangeFilterFlags.MSGFLT_REMOVE);
-                            User32Library.ChangeWindowMessageFilter(WindowMessage.WM_PINNOTIFY, ChangeFilterFlags.MSGFLT_REMOVE);
                         }
 
                         desktopWindowXamlSource.TakeFocusRequested -= OnTakeFocusRequested;
@@ -301,7 +299,6 @@ namespace PowerToolbox.Views.Windows
                     {
                         User32Library.ChangeWindowMessageFilter(WindowMessage.WM_DROPFILES, ChangeFilterFlags.MSGFLT_REMOVE);
                         User32Library.ChangeWindowMessageFilter(WindowMessage.WM_COPYGLOBALDATA, ChangeFilterFlags.MSGFLT_REMOVE);
-                        User32Library.ChangeWindowMessageFilter(WindowMessage.WM_PINNOTIFY, ChangeFilterFlags.MSGFLT_REMOVE);
                     }
 
                     desktopWindowXamlSource.TakeFocusRequested -= OnTakeFocusRequested;
@@ -518,7 +515,6 @@ namespace PowerToolbox.Views.Windows
                                 User32Library.FillRect(hdc, rcTopBorder, hBrush);
                             }
 
-                            // 绘制客户区，它会在调整窗口尺寸时短暂可见
                             // 绘制客户区，它会在调整窗口尺寸时短暂可见
                             if (ps.rcPaint.bottom > topBorderHeight)
                             {
@@ -830,18 +826,6 @@ namespace PowerToolbox.Views.Windows
                             });
                         });
 
-                        break;
-                    }
-                // 固定应用到任务栏完成提示窗口消息
-                case WindowMessage.WM_PINNOTIFY:
-                    {
-                        if (wParam.Equals(new UIntPtr(1)))
-                        {
-                            BeginInvoke(async () =>
-                            {
-                                await ShowNotificationAsync(new OperationResultNotificationTip(OperationKind.Taskbar, true));
-                            });
-                        }
                         break;
                     }
             }
