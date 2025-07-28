@@ -127,7 +127,7 @@
                     IsExpanded="True">
 
                     <controls:Expander.Header>
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -661,7 +661,7 @@
                     IsExpanded="True">
 
                     <controls:Expander.Header>
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -792,7 +792,7 @@
                     IsExpanded="True">
 
                     <controls:Expander.Header>
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />

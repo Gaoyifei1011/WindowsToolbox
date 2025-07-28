@@ -128,7 +128,7 @@
                     IsExpanded="True">
 
                     <controls:Expander.Header>
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -307,7 +307,7 @@
                     </controls:Expander.Content>
                 </controls:Expander>
 
-                <!--  摸鱼控制栏  -->
+                <!--  小提示  -->
                 <controls:Expander
                     Grid.Row="3"
                     Margin="30,0,30,3"
@@ -318,7 +318,7 @@
                     IsExpanded="True">
 
                     <controls:Expander.Header>
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />

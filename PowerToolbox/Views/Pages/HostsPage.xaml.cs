@@ -19,7 +19,6 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // 抑制 CA1822，IDE0060 警告

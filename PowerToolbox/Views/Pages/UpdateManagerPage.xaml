@@ -367,11 +367,7 @@
                                         IsExpanded="False">
 
                                         <controls:Expander.Header>
-                                            <Grid
-                                                Height="60"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Center">
-
+                                            <Grid Height="60">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="*" />
@@ -1429,11 +1425,7 @@
                                         IsExpanded="False">
 
                                         <controls:Expander.Header>
-                                            <Grid
-                                                Height="60"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Center">
-
+                                            <Grid Height="60">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="*" />
@@ -2500,10 +2492,7 @@
                                         IsExpanded="False">
 
                                         <controls:Expander.Header>
-                                            <Grid
-                                                Height="60"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Center">
+                                            <Grid Height="60">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="*" />
