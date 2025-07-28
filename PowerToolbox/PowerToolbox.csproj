@@ -275,6 +275,7 @@
     <None Remove="Assets\PowerToolbox.ico" CopyToOutputDirectory="Never" />
     <None Remove="Styles\XamlIslands\Button.xaml" />
     <None Remove="Styles\XamlIslands\DateTimePicker.xaml" />
+    <None Remove="Styles\XamlIslands\InfoBar.xaml" />
     <None Remove="Styles\XamlIslands\NavigationView.xaml" />
     <None Remove="Styles\XamlIslands\TimePicker.xaml" />
     <None Remove="Views\Dialogs\AppInformationDialog.xaml" />
@@ -328,6 +329,7 @@
 
     <Page Include="Styles\XamlIslands\Button.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\DateTimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
+    <Page Include="Styles\XamlIslands\InfoBar.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\NavigationView.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Styles\XamlIslands\TimePicker.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
     <Page Include="Views\Dialogs\AppInformationDialog.xaml" XamlRuntime="$(DefaultXamlRuntime)" />
