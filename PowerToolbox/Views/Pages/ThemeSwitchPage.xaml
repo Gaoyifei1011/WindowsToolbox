@@ -120,23 +120,8 @@
                     IsOpen="{x:Bind IsThemeSwitchNotificationEnabled, Mode=OneWay}"
                     Message="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('StartupTaskNotEnabled')}"
                     Severity="Warning"
+                    Style="{StaticResource InfoBarStyle}"
                     Visibility="{x:Bind IsThemeSwitchNotificationEnabled, Mode=OneWay}">
-
-                    <controls:InfoBar.Resources>
-                        <ResourceDictionary>
-                            <ResourceDictionary.ThemeDictionaries>
-                                <ResourceDictionary x:Key="Default">
-                                    <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="CardBackgroundFillColorDefaultBrush" />
-                                </ResourceDictionary>
-                                <ResourceDictionary x:Key="HighConstract">
-                                    <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
-                                </ResourceDictionary>
-                                <ResourceDictionary x:Key="Light">
-                                    <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="CardBackgroundFillColorDefaultBrush" />
-                                </ResourceDictionary>
-                            </ResourceDictionary.ThemeDictionaries>
-                        </ResourceDictionary>
-                    </controls:InfoBar.Resources>
 
                     <controls:InfoBar.ActionButton>
                         <Button

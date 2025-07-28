@@ -508,24 +508,8 @@
             IsIconVisible="True"
             IsOpen="True"
             Message="{x:Bind ResultMessage, Mode=OneWay}"
-            Severity="{x:Bind ResultServerity, Mode=OneWay}">
-
-            <controls:InfoBar.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Key="Default">
-                            <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="CardBackgroundFillColorDefaultBrush" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighConstract">
-                            <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="SystemColorWindowColorBrush" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Light">
-                            <StaticResource x:Key="InfoBarInformationalSeverityBackgroundBrush" ResourceKey="CardBackgroundFillColorDefaultBrush" />
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
-                </ResourceDictionary>
-            </controls:InfoBar.Resources>
-        </controls:InfoBar>
+            Severity="{x:Bind ResultServerity, Mode=OneWay}"
+            Style="{StaticResource InfoBarStyle}" />
 
         <!--  系统评估控制栏  -->
         <Grid
