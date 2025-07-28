@@ -21,8 +21,8 @@
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
                     <LinearGradientBrush x:Key="BackgroundGradient" StartPoint="0.4,-0.2" EndPoint="0.9,1.3">
-                        <GradientStop Offset="0.2" Color="#a1c4fd" />
-                        <GradientStop Offset="1.2" Color="#c2e9fb" />
+                        <GradientStop Offset="0.2" Color="#A1C4FD" />
+                        <GradientStop Offset="1.2" Color="#C2E9FB" />
                     </LinearGradientBrush>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
@@ -123,26 +123,6 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-
-                <Grid.Resources>
-                    <ResourceDictionary>
-                        <ResourceDictionary.ThemeDictionaries>
-                            <ResourceDictionary x:Key="Default">
-                                <LinearGradientBrush x:Key="BackgroundGradient" StartPoint="1,-0.4" EndPoint="1,1.3">
-                                    <GradientStop Offset="0.2" Color="#5753C9" />
-                                    <GradientStop Offset="0.6" Color="#3D4E81" />
-                                    <GradientStop Offset="1.2" Color="#010516" />
-                                </LinearGradientBrush>
-                            </ResourceDictionary>
-                            <ResourceDictionary x:Key="Light">
-                                <LinearGradientBrush x:Key="BackgroundGradient" StartPoint="0.4,-0.2" EndPoint="0.9,1.3">
-                                    <GradientStop Offset="0.2" Color="#a1c4fd" />
-                                    <GradientStop Offset="1.2" Color="#c2e9fb" />
-                                </LinearGradientBrush>
-                            </ResourceDictionary>
-                        </ResourceDictionary.ThemeDictionaries>
-                    </ResourceDictionary>
-                </Grid.Resources>
 
                 <Grid Height="360" Background="{ThemeResource BackgroundGradient}">
                     <Viewbox
