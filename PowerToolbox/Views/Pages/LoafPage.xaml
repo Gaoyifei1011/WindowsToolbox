@@ -338,7 +338,7 @@
                     </controls:Expander.Header>
 
                     <controls:Expander.Content>
-                        <StackPanel Margin="0">
+                        <StackPanel>
                             <TextBlock
                                 Margin="44,10,16,5"
                                 FontSize="14"
