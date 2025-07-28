@@ -201,13 +201,6 @@
                 FontSize="22"
                 Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('AllTools')}" />
 
-            <TextBlock
-                Margin="0,6"
-                VerticalAlignment="Center"
-                FontSize="18"
-                Style="{StaticResource BodyTextBlockStyle}"
-                Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('RelaxTools')}" />
-
             <GridView
                 IsItemClickEnabled="True"
                 IsSwipeEnabled="False"
@@ -222,14 +215,16 @@
                         <Setter Property="Margin" Value="0,0,12,12" />
                     </Style>
                 </GridView.ItemContainerStyle>
-            </GridView>
 
-            <TextBlock
-                Margin="0,0,0,6"
-                VerticalAlignment="Center"
-                FontSize="18"
-                Style="{StaticResource BodyTextBlockStyle}"
-                Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('FileTools')}" />
+                <GridView.Header>
+                    <TextBlock
+                        Margin="0,6"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('RelaxTools')}" />
+                </GridView.Header>
+            </GridView>
 
             <GridView
                 IsItemClickEnabled="True"
@@ -245,14 +240,16 @@
                         <Setter Property="Margin" Value="0,0,12,12" />
                     </Style>
                 </GridView.ItemContainerStyle>
-            </GridView>
 
-            <TextBlock
-                Margin="0,0,0,6"
-                VerticalAlignment="Center"
-                FontSize="18"
-                Style="{StaticResource BodyTextBlockStyle}"
-                Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('ResourceTools')}" />
+                <GridView.Header>
+                    <TextBlock
+                        Margin="0,0,0,6"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('FileTools')}" />
+                </GridView.Header>
+            </GridView>
 
             <GridView
                 IsItemClickEnabled="True"
@@ -268,14 +265,16 @@
                         <Setter Property="Margin" Value="0,0,12,12" />
                     </Style>
                 </GridView.ItemContainerStyle>
-            </GridView>
 
-            <TextBlock
-                Margin="0,0,0,6"
-                VerticalAlignment="Center"
-                FontSize="18"
-                Style="{StaticResource BodyTextBlockStyle}"
-                Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('PersonalizeTools')}" />
+                <GridView.Header>
+                    <TextBlock
+                        Margin="0,0,0,6"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('ResourceTools')}" />
+                </GridView.Header>
+            </GridView>
 
             <GridView
                 IsItemClickEnabled="True"
@@ -291,14 +290,16 @@
                         <Setter Property="Margin" Value="0,0,12,12" />
                     </Style>
                 </GridView.ItemContainerStyle>
-            </GridView>
 
-            <TextBlock
-                Margin="0,0,0,6"
-                VerticalAlignment="Center"
-                FontSize="18"
-                Style="{StaticResource BodyTextBlockStyle}"
-                Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('SystemTools')}" />
+                <GridView.Header>
+                    <TextBlock
+                        Margin="0,0,0,6"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('PersonalizeTools')}" />
+                </GridView.Header>
+            </GridView>
 
             <GridView
                 IsItemClickEnabled="True"
@@ -314,6 +315,15 @@
                         <Setter Property="Margin" Value="0,0,12,12" />
                     </Style>
                 </GridView.ItemContainerStyle>
+
+                <GridView.Header>
+                    <TextBlock
+                        Margin="0,0,0,6"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind rootservice:ResourceService.AllToolsResource.GetString('SystemTools')}" />
+                </GridView.Header>
             </GridView>
         </StackPanel>
     </ScrollViewer>
