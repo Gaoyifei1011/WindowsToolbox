@@ -32,11 +32,19 @@ namespace PowerToolbox.Views.Pages
     {
         private bool isInitialized;
         private readonly string DriveImagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SystemX86), "Imageres.dll");
+        private readonly string AfterFormatDiskString = ResourceService.WinFRResource.GetString("AfterFormatDisk");
+        private readonly string AnyString = ResourceService.WinFRResource.GetString("Any");
+        private readonly string DamagedDiskString = ResourceService.WinFRResource.GetString("DamagedDisk");
+        private readonly string DeleteSometimeAgoString = ResourceService.WinFRResource.GetString("DeleteSometimeAgo");
         private readonly string ExtensiveModeString = ResourceService.WinFRResource.GetString("ExtensiveMode");
+        private readonly string FATString = ResourceService.WinFRResource.GetString("FAT");
         private readonly string KeepBothString = ResourceService.WinFRResource.GetString("KeepBoth");
         private readonly string NeverOverrideString = ResourceService.WinFRResource.GetString("NeverOverride");
+        private readonly string NTFSString = ResourceService.WinFRResource.GetString("NTFS");
         private readonly string NTFSModeString = ResourceService.WinFRResource.GetString("NTFSMode");
         private readonly string OverrideString = ResourceService.WinFRResource.GetString("Override");
+        private readonly string RecentDeleteString = ResourceService.WinFRResource.GetString("RecentDelete");
+        private readonly string RecommendedModeString = ResourceService.WinFRResource.GetString("RecommendedMode");
         private readonly string RegularModeString = ResourceService.WinFRResource.GetString("RegularMode");
         private readonly string SegmentModeString = ResourceService.WinFRResource.GetString("SegmentMode");
         private readonly string SelectFolderString = ResourceService.WinFRResource.GetString("SelectFolder");
@@ -419,6 +427,8 @@ namespace PowerToolbox.Views.Pages
 
         private List<KeyValuePair<string, string>> SegmentDuplicatedFileOptionList { get; } = [];
 
+        public List<RecoveryModeSuggestionModel> RecoveryModeSuggestionList { get; } = [];
+
         public ObservableCollection<DriveModel> DriveCollection { get; } = [];
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -426,6 +436,7 @@ namespace PowerToolbox.Views.Pages
         public WinFRPage()
         {
             InitializeComponent();
+
             RecoveryModeList.Add(new KeyValuePair<string, string>("RegularMode", RegularModeString));
             RecoveryModeList.Add(new KeyValuePair<string, string>("ExtensiveMode", ExtensiveModeString));
             RecoveryModeList.Add(new KeyValuePair<string, string>("NTFSModeMode", NTFSModeString));
@@ -442,6 +453,41 @@ namespace PowerToolbox.Views.Pages
             SegmentDuplicatedFileOptionList.Add(new KeyValuePair<string, string>("NeverOverride", NeverOverrideString));
             SegmentDuplicatedFileOptionList.Add(new KeyValuePair<string, string>("KeepBoth", KeepBothString));
             SelectedSegmentDuplicatedFileOption = SegmentDuplicatedFileOptionList[0];
+
+            RecoveryModeSuggestionList.Add(new RecoveryModeSuggestionModel()
+            {
+                FileSystem = NTFSString,
+                Circumstances = RecentDeleteString,
+                RecommendedMode = RegularModeString
+            });
+
+            RecoveryModeSuggestionList.Add(new RecoveryModeSuggestionModel()
+            {
+                FileSystem = NTFSString,
+                Circumstances = DeleteSometimeAgoString,
+                RecommendedMode = ExtensiveModeString
+            });
+
+            RecoveryModeSuggestionList.Add(new RecoveryModeSuggestionModel()
+            {
+                FileSystem = NTFSString,
+                Circumstances = AfterFormatDiskString,
+                RecommendedMode = ExtensiveModeString
+            });
+
+            RecoveryModeSuggestionList.Add(new RecoveryModeSuggestionModel()
+            {
+                FileSystem = NTFSString,
+                Circumstances = DamagedDiskString,
+                RecommendedMode = ExtensiveModeString
+            });
+
+            RecoveryModeSuggestionList.Add(new RecoveryModeSuggestionModel()
+            {
+                FileSystem = NTFSString,
+                Circumstances = AnyString,
+                RecommendedMode = ExtensiveModeString
+            });
         }
 
         #region 第一部分：重写父类事件
@@ -533,6 +579,14 @@ namespace PowerToolbox.Views.Pages
         /// </summary>
         /// TODO：未完成
         private void OnRecoveryClicked(Microsoft.UI.Xaml.Controls.SplitButton sender, Microsoft.UI.Xaml.Controls.SplitButtonClickEventArgs args)
+        {
+        }
+
+        /// <summary>
+        /// 复制恢复命令
+        /// </summary>
+        /// TODO：未完成
+        private void OnCopyWinFRCommandClicked(object sender, RoutedEventArgs args)
         {
         }
 
