@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Controls;
+using PowerToolbox.Helpers.Root;
 using PowerToolbox.Models;
 using PowerToolbox.Services.Root;
 using PowerToolbox.WindowsAPI.ComTypes;
@@ -36,6 +37,7 @@ namespace PowerToolbox.Views.Pages
         private readonly string AnyString = ResourceService.WinFRResource.GetString("Any");
         private readonly string DamagedDiskString = ResourceService.WinFRResource.GetString("DamagedDisk");
         private readonly string DeleteSometimeAgoString = ResourceService.WinFRResource.GetString("DeleteSometimeAgo");
+        private readonly string DiskSpaceString = ResourceService.WinFRResource.GetString("DiskSpace");
         private readonly string ExtensiveModeString = ResourceService.WinFRResource.GetString("ExtensiveMode");
         private readonly string FATString = ResourceService.WinFRResource.GetString("FAT");
         private readonly string KeepBothString = ResourceService.WinFRResource.GetString("KeepBoth");
@@ -44,7 +46,6 @@ namespace PowerToolbox.Views.Pages
         private readonly string NTFSModeString = ResourceService.WinFRResource.GetString("NTFSMode");
         private readonly string OverrideString = ResourceService.WinFRResource.GetString("Override");
         private readonly string RecentDeleteString = ResourceService.WinFRResource.GetString("RecentDelete");
-        private readonly string RecommendedModeString = ResourceService.WinFRResource.GetString("RecommendedMode");
         private readonly string RegularModeString = ResourceService.WinFRResource.GetString("RegularMode");
         private readonly string SegmentModeString = ResourceService.WinFRResource.GetString("SegmentMode");
         private readonly string SelectFolderString = ResourceService.WinFRResource.GetString("SelectFolder");
@@ -52,6 +53,38 @@ namespace PowerToolbox.Views.Pages
 
         private ImageSource SystemDriveSource;
         private ImageSource StandardDriveSource;
+
+        private bool _isDriveLoadCompleted;
+
+        public bool IsDriveLoadCompleted
+        {
+            get { return _isDriveLoadCompleted; }
+
+            set
+            {
+                if (!Equals(_isDriveLoadCompleted, value))
+                {
+                    _isDriveLoadCompleted = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsDriveLoadCompleted)));
+                }
+            }
+        }
+
+        private DriveModel _selectedItem;
+
+        public DriveModel SelectedItem
+        {
+            get { return _selectedItem; }
+
+            set
+            {
+                if (!Equals(_selectedItem, value))
+                {
+                    _selectedItem = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedItem)));
+                }
+            }
+        }
 
         private string _restoreContent;
 
@@ -125,7 +158,7 @@ namespace PowerToolbox.Views.Pages
 
             set
             {
-                if (!Equals(_logSaveFolder, value))
+                if (!string.Equals(_logSaveFolder, value))
                 {
                     _logSaveFolder = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LogSaveFolder)));
@@ -221,7 +254,7 @@ namespace PowerToolbox.Views.Pages
 
             set
             {
-                if (!Equals(_ntfsCustomFileFilterType, value))
+                if (!string.Equals(_ntfsCustomFileFilterType, value))
                 {
                     _ntfsCustomFileFilterType = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NTFSCustomFileFilterType)));
@@ -317,7 +350,7 @@ namespace PowerToolbox.Views.Pages
 
             set
             {
-                if (!Equals(_segmentCustomFileFilterType, value))
+                if (!string.Equals(_segmentCustomFileFilterType, value))
                 {
                     _segmentCustomFileFilterType = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SegmentCustomFileFilterType)));
@@ -381,7 +414,7 @@ namespace PowerToolbox.Views.Pages
 
             set
             {
-                if (!Equals(_signatureRestoreSpecificExtensionGroupsType, value))
+                if (!string.Equals(_signatureRestoreSpecificExtensionGroupsType, value))
                 {
                     _signatureRestoreSpecificExtensionGroupsType = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SignatureRestoreSpecificExtensionGroupsType)));
@@ -484,7 +517,7 @@ namespace PowerToolbox.Views.Pages
 
             RecoveryModeSuggestionList.Add(new RecoveryModeSuggestionModel()
             {
-                FileSystem = NTFSString,
+                FileSystem = FATString,
                 Circumstances = AnyString,
                 RecommendedMode = ExtensiveModeString
             });
@@ -561,6 +594,17 @@ namespace PowerToolbox.Views.Pages
         private async void OnRefreshClicked(object sender, RoutedEventArgs args)
         {
             await GetDriverInfoAsync();
+        }
+
+        /// <summary>
+        /// 驱动器信息网格列表选中项发生改变时触发的事件
+        /// </summary>
+        private void OnSelectionChanged(object sender, SelectionChangedEventArgs args)
+        {
+            if (sender is GridView gridView && gridView.SelectedItem is DriveModel driveItem)
+            {
+                SelectedItem = driveItem;
+            }
         }
 
         /// <summary>
@@ -917,9 +961,10 @@ namespace PowerToolbox.Views.Pages
         /// <summary>
         /// 获取驱动器信息
         /// </summary>
-        /// TODO：未完成
         private async Task GetDriverInfoAsync()
         {
+            IsDriveLoadCompleted = false;
+
             List<DriveModel> driveList = await Task.Run(() =>
             {
                 List<DriveModel> driveList = [];
@@ -927,15 +972,31 @@ namespace PowerToolbox.Views.Pages
 
                 foreach (DriveInfo driveInfo in driverInfoArray)
                 {
+                    double driveUsedPercentage = (driveInfo.TotalFreeSpace * 100 / driveInfo.TotalSize);
+
                     DriveModel driveItem = new()
                     {
                         IsSelected = false,
-                        Name = driveInfo.Name,
-                        Space = driveInfo.TotalFreeSpace.ToString(),
-                        IsSytemDrive = false,
-                        DiskImage = StandardDriveSource,
-                        DriveUsedPercentage = driveInfo.AvailableFreeSpace / driveInfo.TotalSize
+                        Name = string.Format("{0} ({1})", driveInfo.VolumeLabel, driveInfo.Name.TrimEnd('\\')),
+                        Space = string.Format(DiskSpaceString, VolumeSizeHelper.ConvertVolumeSizeToString(driveInfo.TotalFreeSpace), VolumeSizeHelper.ConvertVolumeSizeToString(driveInfo.TotalSize)),
+                        DriveUsedPercentage = driveUsedPercentage,
+                        IsAvailableSpaceWarning = driveUsedPercentage > 90,
+                        IsAvailableSpaceError = driveUsedPercentage > 95,
+                        DriverInfo = driveInfo
                     };
+
+                    bool isSystemDrive = string.Equals(driveInfo.RootDirectory.FullName, Path.GetPathRoot(Environment.SystemDirectory));
+
+                    if (isSystemDrive)
+                    {
+                        driveItem.DiskImage = SystemDriveSource;
+                        driveItem.IsSytemDrive = true;
+                    }
+                    else
+                    {
+                        driveItem.DiskImage = StandardDriveSource;
+                        driveItem.IsSytemDrive = false;
+                    }
 
                     driveList.Add(driveItem);
                 }
@@ -943,11 +1004,14 @@ namespace PowerToolbox.Views.Pages
                 return driveList;
             });
 
+            SelectedItem = null;
             DriveCollection.Clear();
             foreach (DriveModel driveItem in driveList)
             {
                 DriveCollection.Add(driveItem);
             }
+
+            IsDriveLoadCompleted = true;
         }
 
         /// <summary>
