@@ -74,7 +74,7 @@
                         Grid.Column="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('DiskSelect')}" />
+                        Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SelectRecoveryDisk')}" />
 
                     <Button
                         Grid.Column="2"
@@ -82,7 +82,6 @@
                         Content="{x:Bind rootservice:ResourceService.WinFRResource.GetString('Refresh')}" />
                 </Grid>
 
-                <!--  驱动器信息网格列表  -->
                 <Grid
                     Grid.Row="1"
                     MaxHeight="280"
@@ -94,10 +93,37 @@
                     CornerRadius="0,0,4,4"
                     Visibility="{x:Bind converter:ValueConverterHelper.IntToVisibilityConvert(DriveCollection.Count), Mode=OneWay}">
 
+                    <!--  加载磁盘信息文本提示  -->
+                    <Grid
+                        Height="150"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        ColumnSpacing="5"
+                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsDriveLoadCompleted), Mode=OneWay}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <controls:ProgressRing
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            IsActive="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsDriveLoadCompleted), Mode=OneWay}" />
+
+                        <TextBlock
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('LoadingDisk')}" />
+                    </Grid>
+
+                    <!--  驱动器信息网格列表  -->
                     <GridView
                         Padding="0,0,4,0"
                         ItemsSource="{x:Bind DriveCollection}"
-                        SelectionMode="Single">
+                        SelectionChanged="{x:Bind OnSelectionChanged}"
+                        SelectionMode="Single"
+                        Visibility="{x:Bind IsDriveLoadCompleted, Mode=OneWay}">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="model:DriveModel">
                                 <Grid
@@ -168,6 +194,31 @@
                                             </ToolTipService.ToolTip>
                                         </TextBlock>
                                     </StackPanel>
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip MaxWidth="9999">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('DiskType')}" />
+
+                                                <TextBlock
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    Text="{x:Bind system:Convert.ToString(DriverInfo.DriveFormat)}" />
+                                            </Grid>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
 
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup x:Name="LayoutVisualStates">
@@ -1540,6 +1591,121 @@
                         <StackPanel>
                             <TextBlock
                                 Margin="44,10,16,10"
+                                FontSize="15"
+                                FontWeight="Normal"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SaveFolderInstruction')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Margin="44,0,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('SaveFolderContent')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <MenuFlyoutSeparator Margin="0,4,0,0" />
+
+                            <TextBlock
+                                Margin="44,6,16,10"
+                                FontSize="15"
+                                FontWeight="Normal"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('ReocveryModeInstruction')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Margin="44,0,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('ReocveryModeContent1')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Margin="44,0,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('ReocveryModeContent2')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Margin="44,0,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('ReocveryModeContent3')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <MenuFlyoutSeparator Margin="0,4,0,0" />
+
+                            <TextBlock
+                                Margin="44,6,16,10"
+                                FontSize="15"
+                                FontWeight="Normal"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('RestoreContentInstruction')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Margin="44,0,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('RestoreContent1')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Margin="44,0,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                IsTextSelectionEnabled="True"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('RestoreContent2')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Margin="44,0,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                IsTextSelectionEnabled="True"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('RestoreContent3')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Margin="44,0,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                IsTextSelectionEnabled="True"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('RestoreContent4')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Margin="44,0,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                IsTextSelectionEnabled="True"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('RestoreContent5')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <TextBlock
+                                Margin="44,0,16,5"
+                                FontSize="14"
+                                FontWeight="Normal"
+                                IsTextSelectionEnabled="True"
+                                Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('RestoreContent6')}"
+                                TextAlignment="Justify"
+                                TextWrapping="Wrap" />
+
+                            <MenuFlyoutSeparator Margin="0,4,0,0" />
+
+                            <TextBlock
+                                Margin="44,6,16,10"
                                 FontSize="15"
                                 FontWeight="Normal"
                                 Text="{x:Bind rootservice:ResourceService.WinFRResource.GetString('FileFilterTypeInstruction')}"
