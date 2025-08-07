@@ -1,12 +1,10 @@
 ﻿using Microsoft.UI.Xaml.Controls;
-using PowerToolbox.Extensions.DataType.Enums;
 using PowerToolbox.Helpers.Root;
 using PowerToolbox.Services.Download;
 using PowerToolbox.Services.Root;
 using PowerToolbox.Services.Settings;
 using PowerToolbox.Views.Backdrop;
 using PowerToolbox.Views.Dialogs;
-using PowerToolbox.Views.NotificationTips;
 using PowerToolbox.Views.Pages;
 using PowerToolbox.WindowsAPI.ComTypes;
 using PowerToolbox.WindowsAPI.PInvoke.Comctl32;
