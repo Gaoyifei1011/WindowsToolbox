@@ -735,8 +735,12 @@
                         HorizontalAlignment="Stretch"
                         Click="{x:Bind OnSelectSaveFolderClicked}"
                         Content="{x:Bind rootservice:ResourceService.PriExtractResource.GetString('SelectSaveFolder')}"
-                        IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}"
-                        ToolTipService.ToolTip="{x:Bind x:String.Format(SelectedFolderString, SelectedSaveFolder), Mode=OneWay}" />
+                        IsEnabled="{x:Bind IsExtractSaveSamely, Mode=OneWay}">
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip MaxWidth="9999" Content="{x:Bind x:String.Format(SelectedFolderString, SelectedSaveFolder), Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </Button>
 
                     <MenuFlyoutSeparator Margin="5,3" />
 

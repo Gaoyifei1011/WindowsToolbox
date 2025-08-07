@@ -12,11 +12,6 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Page.Resources>
-        <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
-        <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
-    </Page.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -53,8 +48,7 @@
             <CommandBar
                 Grid.Column="2"
                 VerticalAlignment="Center"
-                DefaultLabelPosition="Right"
-                Opening="{x:Bind controlshelper:CommandBarHelper.OnOpening}">
+                DefaultLabelPosition="Right">
 
                 <CommandBar.PrimaryCommands>
                     <AppBarButton

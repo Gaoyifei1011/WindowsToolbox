@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:class="using:PowerToolbox.Extensions.DataType.Class"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
-    xmlns:controlshelper="using:PowerToolbox.Helpers.Controls"
     xmlns:converter="using:PowerToolbox.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enum="using:PowerToolbox.Extensions.DataType.Enums"
@@ -17,9 +16,6 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
-        <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
-
         <class:ExecuteCommand x:Name="ContinueCommand" ExecuteRequested="{x:Bind OnContinueExecuteRequested}" />
         <class:ExecuteCommand x:Name="PauseCommand" ExecuteRequested="{x:Bind OnPauseExecuteRequested}" />
         <class:ExecuteCommand x:Name="OpenFolderCommand" ExecuteRequested="{x:Bind OnOpenFolderExecuteRequested}" />
@@ -133,12 +129,15 @@
                                             Height="32"
                                             Padding="0"
                                             Click="{x:Bind OnSelectFolderClicked}"
-                                            CornerRadius="{StaticResource ControlCornerRadius}"
-                                            ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('SelectFolder')}">
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
 
                                             <Button.Content>
                                                 <FontIcon FontSize="14" Glyph="&#xE8B7;" />
                                             </Button.Content>
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('SelectFolder')}" />
+                                            </ToolTipService.ToolTip>
                                         </Button>
                                     </Grid>
                                 </StackPanel>
@@ -217,6 +216,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
                     <FontIcon
@@ -249,8 +249,7 @@
                     <CommandBar
                         Grid.Column="4"
                         VerticalAlignment="Center"
-                        DefaultLabelPosition="Right"
-                        Opening="{x:Bind controlshelper:CommandBarHelper.OnOpening}">
+                        DefaultLabelPosition="Right">
 
                         <CommandBar.PrimaryCommands>
                             <AppBarButton Click="{x:Bind OnAddTaskClicked}" Label="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('AddTask')}">
@@ -279,42 +278,69 @@
                                 </AppBarButton.Icon>
                             </AppBarButton>
                         </CommandBar.PrimaryCommands>
-
-                        <CommandBar.SecondaryCommands>
-                            <AppBarButton
-                                Click="{x:Bind OnDeleteDownloadClicked}"
-                                IsEnabled="{x:Bind system:Convert.ToBoolean(DownloadCollection.Count), Mode=OneWay}"
-                                Label="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('DeleteDownload')}">
-                                <AppBarButton.Icon>
-                                    <FontIcon Glyph="&#xE74D;" />
-                                </AppBarButton.Icon>
-                            </AppBarButton>
-
-                            <AppBarButton
-                                Click="{x:Bind OnOpenFolderClicked}"
-                                Label="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('OpenFolder')}"
-                                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('OpenFolderToolTip')}">
-
-                                <AppBarButton.Icon>
-                                    <FontIcon Glyph="&#xE8B7;" />
-                                </AppBarButton.Icon>
-                            </AppBarButton>
-
-                            <AppBarButton Click="{x:Bind OnUseInstructionClicked}" Label="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('UseInstruction')}">
-                                <AppBarButton.Icon>
-                                    <FontIcon Glyph="&#xE946;" />
-                                </AppBarButton.Icon>
-                            </AppBarButton>
-
-                            <AppBarSeparator />
-
-                            <AppBarButton Click="{x:Bind OnDownloadSettingsClicked}" Label="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('DownloadSettings')}">
-                                <AppBarButton.Icon>
-                                    <FontIcon Glyph="&#xE713;" />
-                                </AppBarButton.Icon>
-                            </AppBarButton>
-                        </CommandBar.SecondaryCommands>
                     </CommandBar>
+
+                    <Button
+                        Grid.Column="5"
+                        MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+                        Margin="-6,0,0,0"
+                        Padding="{ThemeResource CommandBarMoreButtonMargin}"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource CommandBarForeground}"
+                        IsAccessKeyScope="True"
+                        Style="{ThemeResource EllipsisButton}">
+
+                        <Button.Content>
+                            <FontIcon
+                                Height="{ThemeResource AppBarExpandButtonCircleDiameter}"
+                                VerticalAlignment="Center"
+                                FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                FontSize="20"
+                                Glyph="&#xE712;" />
+                        </Button.Content>
+
+                        <Button.Flyout>
+                            <MenuFlyout Placement="Bottom">
+                                <MenuFlyoutItem
+                                    Click="{x:Bind OnDeleteDownloadClicked}"
+                                    IsEnabled="{x:Bind system:Convert.ToBoolean(DownloadCollection.Count), Mode=OneWay}"
+                                    Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('DeleteDownload')}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE74D;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+
+                                <MenuFlyoutItem Click="{x:Bind OnOpenFolderClicked}" Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('OpenFolder')}">
+
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8B7;" />
+                                    </MenuFlyoutItem.Icon>
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('OpenFolderToolTip')}" />
+                                    </ToolTipService.ToolTip>
+                                </MenuFlyoutItem>
+
+                                <MenuFlyoutItem Click="{x:Bind OnUseInstructionClicked}" Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('UseInstruction')}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE946;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+
+                                <MenuFlyoutSeparator />
+
+                                <MenuFlyoutItem Click="{x:Bind OnDownloadSettingsClicked}" Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('DownloadSettings')}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE713;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Button.Flyout>
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('ViewMore')}" />
+                        </ToolTipService.ToolTip>
+                    </Button>
                 </Grid>
 
                 <!--  下载内容空提示栏  -->
@@ -610,12 +636,15 @@
                                         CommandParameter="{x:Bind}"
                                         CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsOperating), Mode=OneWay}"
-                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('Continue')}"
                                         Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckDownloadProgressState(DownloadProgressState, enum:DownloadProgressState.Paused, x:False), Mode=OneWay}">
 
                                         <Button.Content>
                                             <FontIcon FontSize="14" Glyph="&#xE768;" />
                                         </Button.Content>
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('Continue')}" />
+                                        </ToolTipService.ToolTip>
                                     </Button>
 
                                     <Button
@@ -627,12 +656,15 @@
                                         CommandParameter="{x:Bind}"
                                         CornerRadius="{StaticResource ControlCornerRadius}"
                                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsOperating), Mode=OneWay}"
-                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('Pause')}"
                                         Visibility="{x:Bind converter:ValueCheckConverterHelper.CheckDownloadingState(DownloadProgressState), Mode=OneWay}">
 
                                         <Button.Content>
                                             <FontIcon FontSize="14" Glyph="&#xE769;" />
                                         </Button.Content>
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('Pause')}" />
+                                        </ToolTipService.ToolTip>
                                     </Button>
 
                                     <Button
@@ -667,12 +699,15 @@
                                         Command="{StaticResource OpenFolderCommand}"
                                         CommandParameter="{x:Bind FilePath}"
                                         CornerRadius="{StaticResource ControlCornerRadius}"
-                                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsOperating), Mode=OneWay}"
-                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('OpenFolder')}">
+                                        IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsOperating), Mode=OneWay}">
 
                                         <Button.Content>
                                             <FontIcon FontSize="14" Glyph="&#xEC50;" />
                                         </Button.Content>
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('OpenFolder')}" />
+                                        </ToolTipService.ToolTip>
                                     </Button>
 
                                     <Button
@@ -680,8 +715,7 @@
                                         Height="32"
                                         Margin="5,0,0,0"
                                         Padding="0"
-                                        CornerRadius="{StaticResource ControlCornerRadius}"
-                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('ViewMore')}">
+                                        CornerRadius="{StaticResource ControlCornerRadius}">
 
                                         <Button.Content>
                                             <FontIcon FontSize="14" Glyph="&#xE712;" />
@@ -692,23 +726,29 @@
                                                 <MenuFlyoutItem
                                                     Command="{StaticResource DeleteCommand}"
                                                     CommandParameter="{x:Bind}"
-                                                    Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('Delete')}"
-                                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('DeleteToolTip')}">
+                                                    Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('Delete')}">
 
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon Glyph="&#xE74D;" />
                                                     </MenuFlyoutItem.Icon>
+
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('DeleteToolTip')}" />
+                                                    </ToolTipService.ToolTip>
                                                 </MenuFlyoutItem>
 
                                                 <MenuFlyoutItem
                                                     Command="{StaticResource DeleteWithFileCommand}"
                                                     CommandParameter="{x:Bind}"
-                                                    Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('DeleteWithFile')}"
-                                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('DeleteWithFileToolTip')}">
+                                                    Text="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('DeleteWithFile')}">
 
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon Glyph="&#xE74D;" />
                                                     </MenuFlyoutItem.Icon>
+
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('DeleteWithFileToolTip')}" />
+                                                    </ToolTipService.ToolTip>
                                                 </MenuFlyoutItem>
 
                                                 <MenuFlyoutSeparator />
@@ -734,6 +774,10 @@
                                                 </MenuFlyoutItem>
                                             </MenuFlyout>
                                         </Button.Flyout>
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('ViewMore')}" />
+                                        </ToolTipService.ToolTip>
                                     </Button>
                                 </StackPanel>
                             </Grid>
@@ -784,8 +828,7 @@
                         VerticalAlignment="Center"
                         Click="{x:Bind OnCloseClicked}"
                         Style="{StaticResource AlternateCloseButtonStyle}"
-                        Tag="{x:Bind DownloadSplitView}"
-                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('Close')}">
+                        Tag="{x:Bind DownloadSplitView}">
 
                         <Button.Content>
                             <FontIcon
@@ -793,6 +836,10 @@
                                 FontSize="16"
                                 Glyph="&#xE711;" />
                         </Button.Content>
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.DownloadManagerResource.GetString('Close')}" />
+                        </ToolTipService.ToolTip>
                     </Button>
                 </Grid>
 

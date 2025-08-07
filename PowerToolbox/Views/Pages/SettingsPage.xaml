@@ -170,8 +170,7 @@
                     Margin="0,10,30,0"
                     Padding="0"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.SettingsResource.GetString('ViewMore')}">
+                    VerticalAlignment="Top">
 
                     <Button.Content>
                         <FontIcon FontSize="16" Glyph="&#xE712;" />
@@ -179,14 +178,15 @@
 
                     <Button.Flyout>
                         <MenuFlyout Placement="Bottom">
-                            <MenuFlyoutItem
-                                Click="{x:Bind OnRestartAppsClicked}"
-                                Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('RestartApp')}"
-                                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.SettingsResource.GetString('RestartAppToolTip')}">
+                            <MenuFlyoutItem Click="{x:Bind OnRestartAppsClicked}" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('RestartApp')}">
 
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE895;" />
                                 </MenuFlyoutItem.Icon>
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('RestartAppToolTip')}" />
+                                </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
 
                             <MenuFlyoutItem Click="{x:Bind OnSettingsInstructionClicked}" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('SettingsInstruction')}">
@@ -208,37 +208,44 @@
 
                             <MenuFlyoutSeparator />
 
-                            <MenuFlyoutItem
-                                Click="{x:Bind OnPinToDesktopClicked}"
-                                Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('PinToDesktop')}"
-                                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.SettingsResource.GetString('PinToDesktopToolTip')}">
+                            <MenuFlyoutItem Click="{x:Bind OnPinToDesktopClicked}" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('PinToDesktop')}">
 
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE70A;" />
                                 </MenuFlyoutItem.Icon>
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('PinToDesktopToolTip')}" />
+                                </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
 
-                            <MenuFlyoutItem
-                                Click="{x:Bind OnPinToStartScreenClicked}"
-                                Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('PinToStartScreen')}"
-                                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.SettingsResource.GetString('PinToStartScreenToolTip')}">
+                            <MenuFlyoutItem Click="{x:Bind OnPinToStartScreenClicked}" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('PinToStartScreen')}">
 
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE8FC;" />
                                 </MenuFlyoutItem.Icon>
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('PinToStartScreenToolTip')}" />
+                                </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
 
-                            <MenuFlyoutItem
-                                Click="{x:Bind OnPinToTaskbarClicked}"
-                                Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('PinToTaskbar')}"
-                                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.SettingsResource.GetString('PinToTaskbarToolTip')}">
+                            <MenuFlyoutItem Click="{x:Bind OnPinToTaskbarClicked}" Text="{x:Bind rootservice:ResourceService.SettingsResource.GetString('PinToTaskbar')}">
 
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE75B;" />
                                 </MenuFlyoutItem.Icon>
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('PinToTaskbarToolTip')}" />
+                                </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
                         </MenuFlyout>
                     </Button.Flyout>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('ViewMore')}" />
+                    </ToolTipService.ToolTip>
                 </Button>
             </Grid>
         </SplitView.Content>
@@ -284,8 +291,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Click="{x:Bind OnCloseClicked}"
-                        Style="{StaticResource AlternateCloseButtonStyle}"
-                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Close')}">
+                        Style="{StaticResource AlternateCloseButtonStyle}">
 
                         <Button.Content>
                             <FontIcon
@@ -293,6 +299,10 @@
                                 FontSize="16"
                                 Glyph="&#xE711;" />
                         </Button.Content>
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.SettingsResource.GetString('Close')}" />
+                        </ToolTipService.ToolTip>
                     </Button>
                 </Grid>
 

@@ -255,8 +255,12 @@
                                     ClockIdentifier="24HourClock"
                                     Style="{StaticResource TimePickerStyle}"
                                     Time="{x:Bind DurationTime, Mode=OneWay}"
-                                    TimeChanged="{x:Bind OnTimeChanged}"
-                                    ToolTipService.ToolTip="{x:Bind x:String.Format(LoafTimeString, DurationTime.Hours, DurationTime.Minutes), Mode=OneWay}" />
+                                    TimeChanged="{x:Bind OnTimeChanged}">
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip MaxWidth="9999" Content="{x:Bind x:String.Format(LoafTimeString, DurationTime.Hours, DurationTime.Minutes), Mode=OneWay}" />
+                                    </ToolTipService.ToolTip>
+                                </TimePicker>
                             </Grid>
 
                             <MenuFlyoutSeparator />

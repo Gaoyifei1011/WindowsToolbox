@@ -4,8 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:class="using:PowerToolbox.Extensions.DataType.Class"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
-    xmlns:controlshelper="using:PowerToolbox.Helpers.Controls"
-    xmlns:converter="using:PowerToolbox.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enum="using:PowerToolbox.Extensions.DataType.Enums"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -15,9 +13,6 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
-        <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
-
         <class:ExecuteCommand x:Name="EditCommand" ExecuteRequested="{x:Bind OnEditExecuteRequested}" />
         <class:ExecuteCommand x:Name="DeleteCommand" ExecuteRequested="{x:Bind OnDeleteExecuteRequested}" />
 
@@ -330,6 +325,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <AutoSuggestBox
@@ -345,8 +341,7 @@
             <CommandBar
                 Grid.Column="1"
                 VerticalAlignment="Center"
-                DefaultLabelPosition="Right"
-                Opening="{x:Bind controlshelper:CommandBarHelper.OnOpening}">
+                DefaultLabelPosition="Right">
 
                 <CommandBar.PrimaryCommands>
                     <AppBarButton
@@ -369,22 +364,48 @@
                         </AppBarButton.Icon>
                     </AppBarButton>
                 </CommandBar.PrimaryCommands>
-
-                <CommandBar.SecondaryCommands>
-                    <AppBarButton Click="{x:Bind OnOpenFileClicked}" Label="{x:Bind rootservice:ResourceService.HostsResource.GetString('OpenFile')}">
-
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE8A5;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-
-                    <AppBarButton Click="{x:Bind OnUpdateDNSCacheClicked}" Label="{x:Bind rootservice:ResourceService.HostsResource.GetString('UpdateDNSCache')}">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE895;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-                </CommandBar.SecondaryCommands>
             </CommandBar>
+
+            <Button
+                Grid.Column="2"
+                MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+                Margin="-6,0,0,0"
+                Padding="{ThemeResource CommandBarMoreButtonMargin}"
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource CommandBarForeground}"
+                IsAccessKeyScope="True"
+                Style="{ThemeResource EllipsisButton}">
+
+                <Button.Content>
+                    <FontIcon
+                        Height="{ThemeResource AppBarExpandButtonCircleDiameter}"
+                        VerticalAlignment="Center"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                        FontSize="20"
+                        Glyph="&#xE712;" />
+                </Button.Content>
+
+                <Button.Flyout>
+                    <MenuFlyout Placement="Bottom">
+                        <MenuFlyoutItem Click="{x:Bind OnOpenFileClicked}" Text="{x:Bind rootservice:ResourceService.HostsResource.GetString('OpenFile')}">
+
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8A5;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+
+                        <MenuFlyoutItem Click="{x:Bind OnUpdateDNSCacheClicked}" Text="{x:Bind rootservice:ResourceService.HostsResource.GetString('UpdateDNSCache')}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE895;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+
+                <ToolTipService.ToolTip>
+                    <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.HostsResource.GetString('ViewMore')}" />
+                </ToolTipService.ToolTip>
+            </Button>
         </Grid>
 
         <!--  Hosts 文件编辑器状态显示栏  -->
@@ -516,33 +537,53 @@
                             </ToolTipService.ToolTip>
                         </StackPanel>
 
-                        <CommandBar
+                        <Button
                             Grid.Column="1"
+                            MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+                            Margin="-6,0,0,0"
+                            Padding="{ThemeResource CommandBarMoreButtonMargin}"
                             VerticalAlignment="Center"
-                            Opening="{x:Bind controlshelper:CommandBarHelper.OnOpening}">
+                            Foreground="{ThemeResource CommandBarForeground}"
+                            IsAccessKeyScope="True"
+                            Style="{ThemeResource EllipsisButton}">
 
-                            <CommandBar.SecondaryCommands>
-                                <AppBarButton
-                                    Command="{StaticResource EditCommand}"
-                                    CommandParameter="{x:Bind}"
-                                    Label="{x:Bind rootservice:ResourceService.HostsResource.GetString('Edit')}">
+                            <Button.Content>
+                                <FontIcon
+                                    Height="{ThemeResource AppBarExpandButtonCircleDiameter}"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                    FontSize="20"
+                                    Glyph="&#xE712;" />
+                            </Button.Content>
 
-                                    <AppBarButton.Icon>
-                                        <FontIcon Glyph="&#xE70F;" />
-                                    </AppBarButton.Icon>
-                                </AppBarButton>
+                            <Button.Flyout>
+                                <MenuFlyout Placement="Bottom">
+                                    <MenuFlyoutItem
+                                        Command="{StaticResource EditCommand}"
+                                        CommandParameter="{x:Bind}"
+                                        Text="{x:Bind rootservice:ResourceService.HostsResource.GetString('Edit')}">
 
-                                <AppBarButton
-                                    Command="{StaticResource DeleteCommand}"
-                                    CommandParameter="{x:Bind}"
-                                    Label="{x:Bind rootservice:ResourceService.HostsResource.GetString('Delete')}">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE70F;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
 
-                                    <AppBarButton.Icon>
-                                        <FontIcon Glyph="&#xE74D;" />
-                                    </AppBarButton.Icon>
-                                </AppBarButton>
-                            </CommandBar.SecondaryCommands>
-                        </CommandBar>
+                                    <MenuFlyoutItem
+                                        Command="{StaticResource DeleteCommand}"
+                                        CommandParameter="{x:Bind}"
+                                        Text="{x:Bind rootservice:ResourceService.HostsResource.GetString('Delete')}">
+
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE74D;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout>
+                            </Button.Flyout>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.HostsResource.GetString('ViewMore')}" />
+                            </ToolTipService.ToolTip>
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

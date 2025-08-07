@@ -176,8 +176,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Click="{x:Bind OnCloseClicked}"
-                        Style="{StaticResource AlternateCloseButtonStyle}"
-                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileManagerResource.GetString('Close')}">
+                        Style="{StaticResource AlternateCloseButtonStyle}">
 
                         <Button.Content>
                             <FontIcon
@@ -185,6 +184,10 @@
                                 FontSize="16"
                                 Glyph="&#xE711;" />
                         </Button.Content>
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.FileManagerResource.GetString('Close')}" />
+                        </ToolTipService.ToolTip>
                     </Button>
                 </Grid>
 
@@ -417,12 +420,15 @@
                                 Height="32"
                                 Padding="0"
                                 Click="{x:Bind OnForwardNavigateClicked}"
-                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileManagerResource.GetString('ForwardNavigate')}">
+                                CornerRadius="{StaticResource ControlCornerRadius}">
 
                                 <Button.Content>
                                     <FontIcon FontSize="16" Glyph="&#xE76B;" />
                                 </Button.Content>
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.FileManagerResource.GetString('ForwardNavigate')}" />
+                                </ToolTipService.ToolTip>
                             </Button>
 
                             <Button
@@ -430,12 +436,15 @@
                                 Height="32"
                                 Padding="0"
                                 Click="{x:Bind OnNextNavigateClicked}"
-                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileManagerResource.GetString('NextNavigate')}">
+                                CornerRadius="{StaticResource ControlCornerRadius}">
 
                                 <Button.Content>
                                     <FontIcon FontSize="16" Glyph="&#xE76C;" />
                                 </Button.Content>
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.FileManagerResource.GetString('NextNavigate')}" />
+                                </ToolTipService.ToolTip>
                             </Button>
                         </StackPanel>
                     </Grid>

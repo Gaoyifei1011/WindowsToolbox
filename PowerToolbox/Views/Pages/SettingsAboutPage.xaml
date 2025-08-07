@@ -56,13 +56,15 @@
                             FontSize="15"
                             Text="{x:Bind rootservice:ResourceService.SettingsAboutResource.GetString('Developer')}" />
 
-                        <TextBlock
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.SettingsAboutResource.GetString('SettingsAbout/DeveloperNameToolTip')}">
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center">
+
                             <Hyperlink NavigateUri="https://github.com/Gaoyifei1011" UnderlineStyle="None">
                                 <Run Text="{x:Bind rootservice:ResourceService.SettingsAboutResource.GetString('DeveloperName')}" />
                             </Hyperlink>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.SettingsAboutResource.GetString('SettingsAbout/DeveloperNameToolTip')}" />
+                            </ToolTipService.ToolTip>
                         </TextBlock>
                     </StackPanel>
 

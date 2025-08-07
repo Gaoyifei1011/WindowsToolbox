@@ -15,9 +15,6 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
-        <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
-
         <class:ExecuteCommand x:Name="CheckBoxClickCommand" ExecuteRequested="{x:Bind OnCheckBoxClickExecuteRequested}" />
         <class:ExecuteCommand x:Name="OpenWorkingDirectoryCommand" ExecuteRequested="{x:Bind OnOpenWorkingDirectoryExecuteRequested}" />
     </Page.Resources>
@@ -58,6 +55,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <AutoSuggestBox
@@ -73,8 +71,7 @@
             <CommandBar
                 Grid.Column="1"
                 VerticalAlignment="Center"
-                DefaultLabelPosition="Right"
-                Opening="{x:Bind controlshelper:CommandBarHelper.OnOpening}">
+                DefaultLabelPosition="Right">
 
                 <CommandBar.PrimaryCommands>
                     <AppBarButton
@@ -107,35 +104,61 @@
                         </AppBarButton.Icon>
                     </AppBarButton>
                 </CommandBar.PrimaryCommands>
-
-                <CommandBar.SecondaryCommands>
-                    <AppBarButton
-                        Click="{x:Bind OnResetClicked}"
-                        IsEnabled="{x:Bind GetIsLoading(LoopbackResultKind), Mode=OneWay}"
-                        Label="{x:Bind rootservice:ResourceService.LoopbackManagerResource.GetString('Reset')}">
-
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE777;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-
-                    <AppBarButton
-                        Click="{x:Bind OnRefreshClicked}"
-                        IsEnabled="{x:Bind GetIsLoading(LoopbackResultKind), Mode=OneWay}"
-                        Label="{x:Bind rootservice:ResourceService.LoopbackManagerResource.GetString('Refresh')}">
-
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE72C;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-
-                    <AppBarButton Click="{x:Bind OnLearnLoopbackClicked}" Label="{x:Bind rootservice:ResourceService.LoopbackManagerResource.GetString('LearnLoopback')}">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE890;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-                </CommandBar.SecondaryCommands>
             </CommandBar>
+
+            <Button
+                Grid.Column="2"
+                MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+                Margin="-6,0,0,0"
+                Padding="{ThemeResource CommandBarMoreButtonMargin}"
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource CommandBarForeground}"
+                IsAccessKeyScope="True"
+                Style="{ThemeResource EllipsisButton}">
+
+                <Button.Content>
+                    <FontIcon
+                        Height="{ThemeResource AppBarExpandButtonCircleDiameter}"
+                        VerticalAlignment="Center"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                        FontSize="20"
+                        Glyph="&#xE712;" />
+                </Button.Content>
+
+                <Button.Flyout>
+                    <MenuFlyout Placement="Bottom">
+                        <MenuFlyoutItem
+                            Click="{x:Bind OnResetClicked}"
+                            IsEnabled="{x:Bind GetIsLoading(LoopbackResultKind), Mode=OneWay}"
+                            Text="{x:Bind rootservice:ResourceService.LoopbackManagerResource.GetString('Reset')}">
+
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE777;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+
+                        <MenuFlyoutItem
+                            Click="{x:Bind OnRefreshClicked}"
+                            IsEnabled="{x:Bind GetIsLoading(LoopbackResultKind), Mode=OneWay}"
+                            Text="{x:Bind rootservice:ResourceService.LoopbackManagerResource.GetString('Refresh')}">
+
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE72C;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+
+                        <MenuFlyoutItem Click="{x:Bind OnLearnLoopbackClicked}" Text="{x:Bind rootservice:ResourceService.LoopbackManagerResource.GetString('LearnLoopback')}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE890;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+
+                <ToolTipService.ToolTip>
+                    <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.LoopbackManagerResource.GetString('ViewMore')}" />
+                </ToolTipService.ToolTip>
+            </Button>
         </Grid>
 
         <!--  网络回环管理状态显示栏  -->
@@ -294,12 +317,15 @@
                                     Padding="0"
                                     Command="{StaticResource OpenWorkingDirectoryCommand}"
                                     CommandParameter="{x:Bind WorkingDirectory}"
-                                    CornerRadius="{StaticResource ControlCornerRadius}"
-                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.LoopbackManagerResource.GetString('OpenWorkingDirectory')}">
+                                    CornerRadius="{StaticResource ControlCornerRadius}">
 
                                     <Button.Content>
                                         <FontIcon FontSize="14" Glyph="&#xE8B7;" />
                                     </Button.Content>
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.LoopbackManagerResource.GetString('OpenWorkingDirectory')}" />
+                                    </ToolTipService.ToolTip>
                                 </Button>
                             </Grid>
                         </controls:Expander.Header>

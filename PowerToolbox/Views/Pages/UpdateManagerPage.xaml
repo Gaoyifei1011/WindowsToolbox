@@ -20,8 +20,6 @@
         <CornerRadius x:Key="ListViewItemCornerRadius">0</CornerRadius>
         <SolidColorBrush x:Key="ListViewItemBackgroundPointerOver" Color="Transparent" />
         <SolidColorBrush x:Key="ListViewItemBackgroundPressed" Color="Transparent" />
-        <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
-        <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
 
         <class:ExecuteCommand x:Name="AvailableCancelInstallCommand" ExecuteRequested="{x:Bind OnAvailableCancelInstallExecuteRequested}" />
         <class:ExecuteCommand x:Name="AvailableCheckBoxClickCommand" ExecuteRequested="{x:Bind OnAvailableCheckClickExecuteRequested}" />
@@ -76,8 +74,7 @@
                 Height="34"
                 Padding="0"
                 HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMore')}">
+                VerticalAlignment="Center">
 
                 <Button.Content>
                     <FontIcon FontSize="16" Glyph="&#xE712;" />
@@ -99,14 +96,15 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
 
-                        <MenuFlyoutItem
-                            Click="{x:Bind OnWIPSettingsClicked}"
-                            Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('WIPSettings')}"
-                            ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('WIPSettingsToolTip')}">
+                        <MenuFlyoutItem Click="{x:Bind OnWIPSettingsClicked}" Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('WIPSettings')}">
 
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8A1;" />
                             </MenuFlyoutItem.Icon>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('WIPSettingsToolTip')}" />
+                            </ToolTipService.ToolTip>
                         </MenuFlyoutItem>
 
                         <MenuFlyoutItem Click="{x:Bind OnWindowsUpdateInformationClicked}" Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('WindowsUpdateInformation')}">
@@ -133,6 +131,10 @@
                         </StackPanel>
                     </Flyout>
                 </FlyoutBase.AttachedFlyout>
+
+                <ToolTipService.ToolTip>
+                    <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMore')}" />
+                </ToolTipService.ToolTip>
             </Button>
         </StackPanel>
 
@@ -234,6 +236,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
                         <FontIcon
@@ -250,8 +253,7 @@
                         <CommandBar
                             Grid.Column="2"
                             VerticalAlignment="Center"
-                            DefaultLabelPosition="Right"
-                            Opening="{x:Bind controlshelper:CommandBarHelper.OnOpening}">
+                            DefaultLabelPosition="Right">
 
                             <CommandBar.PrimaryCommands>
                                 <AppBarButton
@@ -277,39 +279,74 @@
                                 <AppBarButton
                                     Click="{x:Bind OnAvailableInstallClicked}"
                                     IsEnabled="{x:Bind GetUpdateState(IsAvailableInstallEnabled, AvailableUpdateCollection.Count), Mode=OneWay}"
-                                    Label="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Install')}"
-                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('InstallSelectedUpdate')}">
+                                    Label="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Install')}">
 
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE896;" />
                                     </AppBarButton.Icon>
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('InstallSelectedUpdate')}" />
+                                    </ToolTipService.ToolTip>
                                 </AppBarButton>
                             </CommandBar.PrimaryCommands>
-
-                            <CommandBar.SecondaryCommands>
-                                <AppBarButton
-                                    Click="{x:Bind OnAvailableHideClicked}"
-                                    IsEnabled="{x:Bind GetUpdateState(IsAvailableHideEnabled, AvailableUpdateCollection.Count), Mode=OneWay}"
-                                    Label="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Hide')}"
-                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('HideSelectedUpdate')}">
-
-                                    <AppBarButton.Icon>
-                                        <FontIcon Glyph="&#xED1A;" />
-                                    </AppBarButton.Icon>
-                                </AppBarButton>
-
-                                <AppBarButton
-                                    Click="{x:Bind OnAvailableCancelInstallClicked}"
-                                    IsEnabled="{x:Bind GetUpdateState(IsAvailableCancelInstallEnabled, AvailableUpdateCollection.Count), Mode=OneWay}"
-                                    Label="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Cancel')}"
-                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('CancelInstallSelectedUpdate')}">
-
-                                    <AppBarButton.Icon>
-                                        <FontIcon Glyph="&#xE711;" />
-                                    </AppBarButton.Icon>
-                                </AppBarButton>
-                            </CommandBar.SecondaryCommands>
                         </CommandBar>
+
+                        <Button
+                            Grid.Column="3"
+                            MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+                            Margin="-6,0,0,0"
+                            Padding="{ThemeResource CommandBarMoreButtonMargin}"
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource CommandBarForeground}"
+                            IsAccessKeyScope="True"
+                            Style="{ThemeResource EllipsisButton}">
+
+                            <Button.Content>
+                                <FontIcon
+                                    Height="{ThemeResource AppBarExpandButtonCircleDiameter}"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                    FontSize="20"
+                                    Glyph="&#xE712;" />
+                            </Button.Content>
+
+                            <Button.Flyout>
+                                <MenuFlyout Placement="Bottom">
+                                    <MenuFlyoutItem
+                                        Click="{x:Bind OnAvailableHideClicked}"
+                                        IsEnabled="{x:Bind GetUpdateState(IsAvailableHideEnabled, AvailableUpdateCollection.Count), Mode=OneWay}"
+                                        Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Hide')}">
+
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xED1A;" />
+                                        </MenuFlyoutItem.Icon>
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('HideSelectedUpdate')}" />
+                                        </ToolTipService.ToolTip>
+                                    </MenuFlyoutItem>
+
+                                    <MenuFlyoutItem
+                                        Click="{x:Bind OnAvailableCancelInstallClicked}"
+                                        IsEnabled="{x:Bind GetUpdateState(IsAvailableCancelInstallEnabled, AvailableUpdateCollection.Count), Mode=OneWay}"
+                                        Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Cancel')}">
+
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE711;" />
+                                        </MenuFlyoutItem.Icon>
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('CancelInstallSelectedUpdate')}" />
+                                        </ToolTipService.ToolTip>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout>
+                            </Button.Flyout>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMore')}" />
+                            </ToolTipService.ToolTip>
+                        </Button>
                     </Grid>
 
                     <!--  可用更新列表控件  -->
@@ -463,8 +500,12 @@
                                                         CommandParameter="{x:Bind}"
                                                         Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Install')}"
                                                         CornerRadius="0"
-                                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('InstallCurrentUpdate')}"
-                                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsUpdating), Mode=OneWay}" />
+                                                        Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsUpdating), Mode=OneWay}">
+
+                                                        <ToolTipService.ToolTip>
+                                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('InstallCurrentUpdate')}" />
+                                                        </ToolTipService.ToolTip>
+                                                    </Button>
 
                                                     <Button
                                                         VerticalAlignment="Stretch"
@@ -475,15 +516,18 @@
                                                         Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Cancel')}"
                                                         CornerRadius="0"
                                                         IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsUpdateCanceled), Mode=OneWay}"
-                                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('CancelInstallCurrentUpdate')}"
-                                                        Visibility="{x:Bind IsUpdating, Mode=OneWay}" />
+                                                        Visibility="{x:Bind IsUpdating, Mode=OneWay}">
+
+                                                        <ToolTipService.ToolTip>
+                                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('CancelInstallCurrentUpdate')}" />
+                                                        </ToolTipService.ToolTip>
+                                                    </Button>
 
                                                     <Button
                                                         Width="35"
                                                         VerticalAlignment="Stretch"
                                                         BorderThickness="0"
-                                                        CornerRadius="0"
-                                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMore')}">
+                                                        CornerRadius="0">
 
                                                         <Button.Content>
                                                             <controls:AnimatedIcon
@@ -540,6 +584,10 @@
                                                                 </MenuFlyoutItem>
                                                             </MenuFlyout>
                                                         </Button.Flyout>
+
+                                                        <ToolTipService.ToolTip>
+                                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMore')}" />
+                                                        </ToolTipService.ToolTip>
                                                     </Button>
                                                 </StackPanel>
                                             </Grid>
@@ -1303,6 +1351,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
                         <FontIcon
@@ -1319,8 +1368,7 @@
                         <CommandBar
                             Grid.Column="2"
                             VerticalAlignment="Center"
-                            DefaultLabelPosition="Right"
-                            Opening="{x:Bind controlshelper:CommandBarHelper.OnOpening}">
+                            DefaultLabelPosition="Right">
 
                             <CommandBar.PrimaryCommands>
                                 <AppBarButton
@@ -1346,28 +1394,60 @@
                                 <AppBarButton
                                     Click="{x:Bind OnInstalledUninstallClicked}"
                                     IsEnabled="{x:Bind GetUpdateState(IsInstalledUninstallEnabled, InstalledUpdateCollection.Count), Mode=OneWay}"
-                                    Label="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Uninstall')}"
-                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('UninstallSelectedUpdate')}">
+                                    Label="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Uninstall')}">
 
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE74D;" />
                                     </AppBarButton.Icon>
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('UninstallSelectedUpdate')}" />
+                                    </ToolTipService.ToolTip>
                                 </AppBarButton>
                             </CommandBar.PrimaryCommands>
-
-                            <CommandBar.SecondaryCommands>
-                                <AppBarButton
-                                    Click="{x:Bind OnInstalledCancelUninstallClicked}"
-                                    IsEnabled="{x:Bind GetUpdateState(IsInstalledCancelInstallEnabled, InstalledUpdateCollection.Count), Mode=OneWay}"
-                                    Label="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Cancel')}"
-                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('CancelUninstallSelectedUpdate')}">
-
-                                    <AppBarButton.Icon>
-                                        <FontIcon Glyph="&#xE711;" />
-                                    </AppBarButton.Icon>
-                                </AppBarButton>
-                            </CommandBar.SecondaryCommands>
                         </CommandBar>
+
+                        <Button
+                            Grid.Column="3"
+                            MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+                            Margin="-6,0,0,0"
+                            Padding="{ThemeResource CommandBarMoreButtonMargin}"
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource CommandBarForeground}"
+                            IsAccessKeyScope="True"
+                            Style="{ThemeResource EllipsisButton}">
+
+                            <Button.Content>
+                                <FontIcon
+                                    Height="{ThemeResource AppBarExpandButtonCircleDiameter}"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                    FontSize="20"
+                                    Glyph="&#xE712;" />
+                            </Button.Content>
+
+                            <Button.Flyout>
+                                <MenuFlyout Placement="Bottom">
+                                    <MenuFlyoutItem
+                                        Click="{x:Bind OnInstalledCancelUninstallClicked}"
+                                        IsEnabled="{x:Bind GetUpdateState(IsInstalledCancelInstallEnabled, InstalledUpdateCollection.Count), Mode=OneWay}"
+                                        Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Cancel')}">
+
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE711;" />
+                                        </MenuFlyoutItem.Icon>
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('CancelUninstallSelectedUpdate')}" />
+                                        </ToolTipService.ToolTip>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout>
+                            </Button.Flyout>
+
+                            <ToolTipService.ToolTip>
+                                <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMore')}" />
+                            </ToolTipService.ToolTip>
+                        </Button>
                     </Grid>
 
                     <!--  已安装更新列表控件  -->
@@ -1511,8 +1591,12 @@
                                                                 CommandParameter="{x:Bind}"
                                                                 Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Uninstall')}"
                                                                 CornerRadius="0"
-                                                                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('UninstallCurrentUpdate')}"
-                                                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsUpdating), Mode=OneWay}" />
+                                                                Visibility="{x:Bind converter:ValueConverterHelper.BooleanToVisibilityReverseConvert(IsUpdating), Mode=OneWay}">
+
+                                                                <ToolTipService.ToolTip>
+                                                                    <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('UninstallCurrentUpdate')}" />
+                                                                </ToolTipService.ToolTip>
+                                                            </Button>
 
                                                             <Button
                                                                 VerticalAlignment="Stretch"
@@ -1523,8 +1607,12 @@
                                                                 Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Cancel')}"
                                                                 CornerRadius="0"
                                                                 IsEnabled="{x:Bind converter:ValueConverterHelper.BooleanReverseConvert(IsUpdateCanceled), Mode=OneWay}"
-                                                                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('CancelUninstallCurrentUpdate')}"
-                                                                Visibility="{x:Bind IsUpdating, Mode=OneWay}" />
+                                                                Visibility="{x:Bind IsUpdating, Mode=OneWay}">
+
+                                                                <ToolTipService.ToolTip>
+                                                                    <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('CancelUninstallCurrentUpdate')}" />
+                                                                </ToolTipService.ToolTip>
+                                                            </Button>
                                                         </Grid>
                                                     </ContentControl>
 
@@ -1532,8 +1620,7 @@
                                                         Width="35"
                                                         VerticalAlignment="Stretch"
                                                         BorderThickness="0"
-                                                        CornerRadius="0"
-                                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMoreOptions')}">
+                                                        CornerRadius="0">
 
                                                         <Button.Content>
                                                             <controls:AnimatedIcon
@@ -1589,6 +1676,10 @@
                                                                 </MenuFlyoutItem>
                                                             </MenuFlyout>
                                                         </Button.Flyout>
+
+                                                        <ToolTipService.ToolTip>
+                                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMoreOptions')}" />
+                                                        </ToolTipService.ToolTip>
                                                     </Button>
                                                 </StackPanel>
                                             </Grid>
@@ -2399,8 +2490,7 @@
                             Grid.Column="2"
                             VerticalAlignment="Center"
                             DefaultLabelPosition="Right"
-                            IsEnabled="{x:Bind system:Convert.ToBoolean(HiddenUpdateCollection.Count), Mode=OneWay}"
-                            Opening="{x:Bind controlshelper:CommandBarHelper.OnOpening}">
+                            IsEnabled="{x:Bind system:Convert.ToBoolean(HiddenUpdateCollection.Count), Mode=OneWay}">
 
                             <CommandBar.PrimaryCommands>
                                 <AppBarButton
@@ -2426,12 +2516,15 @@
                                 <AppBarButton
                                     Click="{x:Bind OnHiddenShowClicked}"
                                     IsEnabled="{x:Bind GetUpdateState( IsHiddenShowEnabled, HiddenUpdateCollection.Count), Mode=OneWay}"
-                                    Label="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Show')}"
-                                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ShowSelectedUpdate')}">
+                                    Label="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Show')}">
 
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE890;" />
                                     </AppBarButton.Icon>
+
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ShowSelectedUpdate')}" />
+                                    </ToolTipService.ToolTip>
                                 </AppBarButton>
                             </CommandBar.PrimaryCommands>
                         </CommandBar>
@@ -2552,15 +2645,18 @@
                                                         Command="{StaticResource HiddenShowCommand}"
                                                         CommandParameter="{x:Bind}"
                                                         Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Show')}"
-                                                        CornerRadius="0"
-                                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ShowCurrentUpdate')}" />
+                                                        CornerRadius="0">
+
+                                                        <ToolTipService.ToolTip>
+                                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ShowCurrentUpdate')}" />
+                                                        </ToolTipService.ToolTip>
+                                                    </Button>
 
                                                     <Button
                                                         Width="35"
                                                         VerticalAlignment="Stretch"
                                                         BorderThickness="0"
-                                                        CornerRadius="0"
-                                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMoreOptions')}">
+                                                        CornerRadius="0">
 
                                                         <Button.Content>
                                                             <controls:AnimatedIcon
@@ -2594,6 +2690,10 @@
                                                                     Text="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('OpenSupportUrl')}" />
                                                             </MenuFlyout>
                                                         </Button.Flyout>
+
+                                                        <ToolTipService.ToolTip>
+                                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMoreOptions')}" />
+                                                        </ToolTipService.ToolTip>
                                                     </Button>
                                                 </StackPanel>
                                             </Grid>
@@ -3518,15 +3618,18 @@
                                         BorderThickness="0,0,1,0"
                                         Click="{x:Bind OnRebootClicked}"
                                         Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Reboot')}"
-                                        CornerRadius="0"
-                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('RebootFinishUpdate')}" />
+                                        CornerRadius="0">
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('RebootFinishUpdate')}" />
+                                        </ToolTipService.ToolTip>
+                                    </Button>
 
                                     <Button
                                         Width="35"
                                         VerticalAlignment="Stretch"
                                         BorderThickness="0"
-                                        CornerRadius="0"
-                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMoreOptions')}">
+                                        CornerRadius="0">
 
                                         <Button.Content>
                                             <controls:AnimatedIcon
@@ -3558,6 +3661,10 @@
                                                 </MenuFlyoutItem>
                                             </MenuFlyout>
                                         </Button.Flyout>
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMoreOptions')}" />
+                                        </ToolTipService.ToolTip>
                                     </Button>
                                 </StackPanel>
                             </Button>
@@ -3596,15 +3703,18 @@
                                         BorderThickness="0,0,1,0"
                                         Click="{x:Bind OnRebootClicked}"
                                         Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('Reboot')}"
-                                        CornerRadius="0"
-                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('RebootFinishChange')}" />
+                                        CornerRadius="0">
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('RebootFinishChange')}" />
+                                        </ToolTipService.ToolTip>
+                                    </Button>
 
                                     <Button
                                         Width="35"
                                         VerticalAlignment="Stretch"
                                         BorderThickness="0"
-                                        CornerRadius="0"
-                                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMoreOptions')}">
+                                        CornerRadius="0">
 
                                         <Button.Content>
                                             <controls:AnimatedIcon
@@ -3636,6 +3746,10 @@
                                                 </MenuFlyoutItem>
                                             </MenuFlyout>
                                         </Button.Flyout>
+
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.UpdateManagerResource.GetString('ViewMoreOptions')}" />
+                                        </ToolTipService.ToolTip>
                                     </Button>
                                 </StackPanel>
                             </Button>

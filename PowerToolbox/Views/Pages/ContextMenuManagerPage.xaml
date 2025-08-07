@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:class="using:PowerToolbox.Extensions.DataType.Class"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
-    xmlns:controlshelper="using:PowerToolbox.Helpers.Controls"
     xmlns:converter="using:PowerToolbox.Helpers.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enum="using:PowerToolbox.Extensions.DataType.Enums"
@@ -15,9 +14,6 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
-        <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
-
         <class:ExecuteCommand x:Name="CheckBoxClickCommand" ExecuteRequested="{x:Bind OnCheckBoxClickExecuteRequested}" />
         <class:ExecuteCommand x:Name="OpenPackagePathCommand" ExecuteRequested="{x:Bind OnOpenPackagePathExecuteRequested}" />
     </Page.Resources>
@@ -59,6 +55,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
                     <AutoSuggestBox
@@ -74,8 +71,7 @@
                     <CommandBar
                         Grid.Column="1"
                         VerticalAlignment="Center"
-                        DefaultLabelPosition="Right"
-                        Opening="{x:Bind controlshelper:CommandBarHelper.OnOpening}">
+                        DefaultLabelPosition="Right">
 
                         <CommandBar.PrimaryCommands>
                             <AppBarButton
@@ -98,15 +94,41 @@
                                 </AppBarButton.Icon>
                             </AppBarButton>
                         </CommandBar.PrimaryCommands>
-
-                        <CommandBar.SecondaryCommands>
-                            <AppBarButton Click="{x:Bind OnUseInstructionClicked}" Label="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('UseInstruction')}">
-                                <AppBarButton.Icon>
-                                    <FontIcon Glyph="&#xE946;" />
-                                </AppBarButton.Icon>
-                            </AppBarButton>
-                        </CommandBar.SecondaryCommands>
                     </CommandBar>
+
+                    <Button
+                        Grid.Column="2"
+                        MinHeight="{ThemeResource AppBarThemeCompactHeight}"
+                        Margin="-6,0,0,0"
+                        Padding="{ThemeResource CommandBarMoreButtonMargin}"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource CommandBarForeground}"
+                        IsAccessKeyScope="True"
+                        Style="{ThemeResource EllipsisButton}">
+
+                        <Button.Content>
+                            <FontIcon
+                                Height="{ThemeResource AppBarExpandButtonCircleDiameter}"
+                                VerticalAlignment="Center"
+                                FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                FontSize="20"
+                                Glyph="&#xE712;" />
+                        </Button.Content>
+
+                        <Button.Flyout>
+                            <MenuFlyout Placement="Bottom">
+                                <MenuFlyoutItem Click="{x:Bind OnUseInstructionClicked}" Text="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('UseInstruction')}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE946;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Button.Flyout>
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('ViewMore')}" />
+                        </ToolTipService.ToolTip>
+                    </Button>
                 </Grid>
 
                 <!--  右键菜单状态显示栏  -->
@@ -247,12 +269,15 @@
                                             Padding="0"
                                             Command="{StaticResource OpenPackagePathCommand}"
                                             CommandParameter="{x:Bind PackagePath}"
-                                            CornerRadius="{StaticResource ControlCornerRadius}"
-                                            ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('OpenPackagePath')}">
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
 
                                             <Button.Content>
                                                 <FontIcon FontSize="14" Glyph="&#xE8B7;" />
                                             </Button.Content>
+
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('OpenPackagePath')}" />
+                                            </ToolTipService.ToolTip>
                                         </Button>
                                     </Grid>
                                 </controls:Expander.Header>
@@ -357,8 +382,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Click="{x:Bind OnCloseClicked}"
-                        Style="{StaticResource AlternateCloseButtonStyle}"
-                        ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('Close')}">
+                        Style="{StaticResource AlternateCloseButtonStyle}">
 
                         <Button.Content>
                             <FontIcon
@@ -366,6 +390,10 @@
                                 FontSize="16"
                                 Glyph="&#xE711;" />
                         </Button.Content>
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.ContextMenuManagerResource.GetString('Close')}" />
+                        </ToolTipService.ToolTip>
                     </Button>
                 </Grid>
 

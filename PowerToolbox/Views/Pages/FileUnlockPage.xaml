@@ -48,8 +48,7 @@
                     Height="34"
                     Padding="0"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('ViewMore')}">
+                    VerticalAlignment="Center">
 
                     <Button.Content>
                         <FontIcon FontSize="16" Glyph="&#xE712;" />
@@ -65,6 +64,10 @@
                             </MenuFlyoutItem>
                         </MenuFlyout>
                     </Button.Flyout>
+
+                    <ToolTipService.ToolTip>
+                        <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.FileUnlockResource.GetString('ViewMore')}" />
+                    </ToolTipService.ToolTip>
                 </Button>
             </Grid>
 

@@ -171,8 +171,12 @@
                                 HorizontalAlignment="Stretch"
                                 Click="{x:Bind OnClearMenuClicked}"
                                 Content="{x:Bind rootservice:ResourceService.ShellMenuListResource.GetString('ClearMenu')}"
-                                IsEnabled="{x:Bind system:Convert.ToBoolean(ShellMenuItemCollection.Count), Mode=OneWay}"
-                                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.ShellMenuListResource.GetString('ClearMenuToolTip')}" />
+                                IsEnabled="{x:Bind system:Convert.ToBoolean(ShellMenuItemCollection.Count), Mode=OneWay}">
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.ShellMenuListResource.GetString('ClearMenuToolTip')}" />
+                                </ToolTipService.ToolTip>
+                            </Button>
 
                             <Button
                                 HorizontalAlignment="Stretch"

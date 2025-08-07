@@ -339,8 +339,7 @@
                             <controls:SplitButton
                                 Grid.Column="2"
                                 Click="{x:Bind OnSaveClicked}"
-                                Content="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('Save')}"
-                                ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('SaveToolTip')}">
+                                Content="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('Save')}">
 
                                 <controls:SplitButton.Flyout>
                                     <MenuFlyout Placement="Bottom">
@@ -351,6 +350,10 @@
                                         </MenuFlyoutItem>
                                     </MenuFlyout>
                                 </controls:SplitButton.Flyout>
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('SaveToolTip')}" />
+                                </ToolTipService.ToolTip>
                             </controls:SplitButton>
                         </Grid>
                     </controls:Expander.Header>
@@ -511,8 +514,7 @@
                                                             VerticalAlignment="Center"
                                                             Click="{x:Bind OnCloseFlyoutClicked}"
                                                             Style="{StaticResource AlternateCloseButtonStyle}"
-                                                            Tag="SystemThemeSetTimeFlyout"
-                                                            ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('CloseFlyout')}">
+                                                            Tag="SystemThemeSetTimeFlyout">
 
                                                             <Button.Content>
                                                                 <FontIcon
@@ -520,6 +522,10 @@
                                                                     FontSize="16"
                                                                     Glyph="&#xE711;" />
                                                             </Button.Content>
+
+                                                            <ToolTipService.ToolTip>
+                                                                <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('CloseFlyout')}" />
+                                                            </ToolTipService.ToolTip>
                                                         </Button>
                                                     </Grid>
 
@@ -719,8 +725,7 @@
                                                             VerticalAlignment="Center"
                                                             Click="{x:Bind OnCloseFlyoutClicked}"
                                                             Style="{StaticResource AlternateCloseButtonStyle}"
-                                                            Tag="AppThemeSetTimeFlyout"
-                                                            ToolTipService.ToolTip="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('CloseFlyout')}">
+                                                            Tag="AppThemeSetTimeFlyout">
 
                                                             <Button.Content>
                                                                 <FontIcon
@@ -728,6 +733,10 @@
                                                                     FontSize="16"
                                                                     Glyph="&#xE711;" />
                                                             </Button.Content>
+
+                                                            <ToolTipService.ToolTip>
+                                                                <ToolTip MaxWidth="9999" Content="{x:Bind rootservice:ResourceService.ThemeSwitchResource.GetString('CloseFlyout')}" />
+                                                            </ToolTipService.ToolTip>
                                                         </Button>
                                                     </Grid>
 
